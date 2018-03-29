@@ -76,7 +76,7 @@ struct Vector2
 	inline static Vector2 Right() { return Vector2(1, 0); }
 	inline static Vector2 Left() { return Vector2::Right() * -1; }
 	inline static Vector2 Up() { return Vector2(0, 1); }
-	inline static Vector2 Down() { return Vector2::Left() * -1; }
+	inline static Vector2 Down() { return Vector2::Up() * -1; }
 };
 
 inline Vector2 operator*(float scalar, const Vector2& vec) { return Vector2(vec) * scalar; }
