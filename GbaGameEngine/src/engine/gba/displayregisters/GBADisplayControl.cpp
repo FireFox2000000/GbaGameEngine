@@ -1,22 +1,16 @@
 #include "GBADisplayControl.h"
-#include "../../base/Typedefs.h"
 #include "../memory/GBAMemoryLocations.h"
 
 // http://www.coranac.com/tonc/text/video.htm#tbl-reg-dispcnt
 
-#define REG_DISPCNT (*(vu32*)IO_REGISTERS)
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 160
 
+vu32& GBA::DisplayControl::s_REG_DISPCNT = (*(vu32*)IO_REGISTERS);
+
 void GBA::DisplayControl::SetDisplayOptions(int params)
 {
-	REG_DISPCNT = params;
-}
-
-GBA::DisplayOptions::VideoMode GBA::DisplayControl::GetVideoMode()
-{
-	// Video mode is the first 3 bits
-	return DisplayOptions::VideoMode(REG_DISPCNT & BITS_INDEXED_U32(3, 0));
+	s_REG_DISPCNT = params;
 }
 
 Vector2 GBA::DisplayControl::GetScreenResolution()

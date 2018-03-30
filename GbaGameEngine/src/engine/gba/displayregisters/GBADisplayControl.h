@@ -1,6 +1,7 @@
 #pragma once
 #include "../../math/Vector2.h"
 #include "../../base/Macros.h"
+#include "../../base/Typedefs.h"
 
 // http://www.coranac.com/tonc/text/video.htm
 
@@ -28,15 +29,22 @@ namespace GBA
 			Sprites = BIT(0xC)
 		};
 
-		//static int SpriteMapping1D = BIT(6);
+		enum SpriteMappingMode
+		{
+			MappingMode2D = 0,
+			MappingMode1D = BIT(6)
+		};
 	}
 
 	class DisplayControl
 	{
+		static vu32& s_REG_DISPCNT;
+
 	public:		
 		static void SetDisplayOptions(int params);
-
-		static DisplayOptions::VideoMode GetVideoMode();
 		static Vector2 GetScreenResolution();
+
+		inline static DisplayOptions::VideoMode GetVideoMode() { return DisplayOptions::VideoMode(s_REG_DISPCNT & BITS_INDEXED_U32(3, 0)); }
+		inline static DisplayOptions::SpriteMappingMode GetSpriteMappingMode() { return DisplayOptions::SpriteMappingMode(s_REG_DISPCNT & BIT(6)); }
 	};
 }
