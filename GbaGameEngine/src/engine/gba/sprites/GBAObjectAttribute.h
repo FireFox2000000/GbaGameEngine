@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Typedefs.h"
-#include "../../Macros.h"
+#include "../../base/Typedefs.h"
+#include "../../base/Macros.h"
 #include "../../math/Vector2.h"
 
 namespace GBA

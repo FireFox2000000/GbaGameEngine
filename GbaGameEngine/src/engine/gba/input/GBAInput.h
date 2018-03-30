@@ -1,5 +1,5 @@
-#include "../../Typedefs.h"
-#include "../../Macros.h"
+#include "../../base/Typedefs.h"
+#include "../../base/Macros.h"
 
 #pragma once
 
