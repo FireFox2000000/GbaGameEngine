@@ -2,6 +2,8 @@
 #include "../../math/Vector2.h"
 #include "../../base/Macros.h"
 
+// http://www.coranac.com/tonc/text/video.htm
+
 namespace GBA
 {
 	namespace DisplayOptions

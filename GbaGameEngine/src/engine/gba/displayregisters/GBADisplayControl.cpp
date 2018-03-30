@@ -16,7 +16,7 @@ void GBA::DisplayControl::SetDisplayOptions(int params)
 GBA::DisplayOptions::VideoMode GBA::DisplayControl::GetVideoMode()
 {
 	// Video mode is the first 3 bits
-	return DisplayOptions::VideoMode(REG_DISPCNT & SHIFTED_BITMASK(0x7, 0));
+	return DisplayOptions::VideoMode(REG_DISPCNT & BITS_INDEXED_U32(3, 0));
 }
 
 Vector2 GBA::DisplayControl::GetScreenResolution()

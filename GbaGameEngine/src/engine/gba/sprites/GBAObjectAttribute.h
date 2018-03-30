@@ -3,6 +3,8 @@
 #include "../../base/Macros.h"
 #include "../../math/Vector2.h"
 
+// http://www.coranac.com/tonc/text/regobj.htm#tbl-obj-size
+
 namespace GBA
 {
 	namespace Attributes
@@ -68,12 +70,12 @@ namespace GBA
 
 		enum Attribute0_Masks : u16
 		{
-			YCoord		= SHIFTED_BITMASK(0xFF, sc_A0_YCOORD_BITINDEX),		// 0-7
-			ObjMode		= SHIFTED_BITMASK(0x3, sc_A0_OBJMODE_BITINDEX),		// 8-9
-			GfxMode		= SHIFTED_BITMASK(0x3, sc_A0_GFXMODE_BITINDEX),				// A-B
-			Mosaic		= SHIFTED_BITMASK(0x1, sc_A0_MOSAIC_BITINDEX),				// C
-			ColourMode	= SHIFTED_BITMASK(0x1, sc_A0_COLOURMODE_BITINDEX),				// D 	
-			Shape		= SHIFTED_BITMASK(0x3, sc_A0_SHAPE_BITINDEX),				// E-F
+			YCoord		= BITS_INDEXED_U32(8, sc_A0_YCOORD_BITINDEX),// 0-7
+			ObjMode		= BITS_INDEXED_U32(2, sc_A0_OBJMODE_BITINDEX),		// 8-9
+			GfxMode		= BITS_INDEXED_U32(2, sc_A0_GFXMODE_BITINDEX),				// A-B
+			Mosaic		= BITS_INDEXED_U32(1, sc_A0_MOSAIC_BITINDEX),				// C
+			ColourMode	= BITS_INDEXED_U32(1, sc_A0_COLOURMODE_BITINDEX),				// D 	
+			Shape		= BITS_INDEXED_U32(2, sc_A0_SHAPE_BITINDEX),				// E-F
 
 			A0_Count = 6
 		};
@@ -86,11 +88,11 @@ namespace GBA
 
 		enum Attribute1_Masks : u16
 		{
-			XCoord			= SHIFTED_BITMASK(0x1FF, sc_A1_XCOORD_BITINDEX),	// 0-8
-			AffineIndex		= SHIFTED_BITMASK(0x1F, sc_A1_AFFINEINDEX_BITINDEX),	// 9-D: Used only if Affine flag is set
-			HorizontalFlip	= SHIFTED_BITMASK(0x1, sc_A1_HORIZONTALFLIP_BITINDEX),	// C: Used only if Affine flag is clear
-			VerticalFlip	= SHIFTED_BITMASK(0x1, sc_A1_VERTICALFLIP_BITINDEX),	// D: Used only if Affine flag is clear
-			SizeMode		= SHIFTED_BITMASK(0x3, sc_A1_SIZEMODE_BITINDEX),	// E-F
+			XCoord			= BITS_INDEXED_U32(9, sc_A1_XCOORD_BITINDEX),	// 0-8
+			AffineIndex		= BITS_INDEXED_U32(5, sc_A1_AFFINEINDEX_BITINDEX),	// 9-D: Used only if Affine flag is set
+			HorizontalFlip	= BITS_INDEXED_U32(1, sc_A1_HORIZONTALFLIP_BITINDEX),	// C: Used only if Affine flag is clear
+			VerticalFlip	= BITS_INDEXED_U32(1, sc_A1_VERTICALFLIP_BITINDEX),	// D: Used only if Affine flag is clear
+			SizeMode		= BITS_INDEXED_U32(2, sc_A1_SIZEMODE_BITINDEX),	// E-F
 
 			A1_Count = 5
 		};
@@ -101,9 +103,9 @@ namespace GBA
 
 		enum Attribute2_Masks : u16
 		{
-			TileId			= SHIFTED_BITMASK(0x3FF, sc_A2_TILEID_BITINDEX),	// 0-9
-			Priority		= SHIFTED_BITMASK(0x3, sc_A2_PRIORITY_BITINDEX),	// A-B 
-			PaletteBank		= SHIFTED_BITMASK(0xF, sc_A2_PALETTEBANK_BITINDEX),	// C-F: Only used when the colour mode is set to FourBitsPerPixel
+			TileId			= BITS_INDEXED_U32(10, sc_A2_TILEID_BITINDEX),	// 0-9
+			Priority		= BITS_INDEXED_U32(2, sc_A2_PRIORITY_BITINDEX),	// A-B 
+			PaletteBank		= BITS_INDEXED_U32(4, sc_A2_PALETTEBANK_BITINDEX),	// C-F: Only used when the colour mode is set to FourBitsPerPixel
 
 			A2_Count = 3
 		};

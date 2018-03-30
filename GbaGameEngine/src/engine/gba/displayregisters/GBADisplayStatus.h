@@ -1,14 +1,18 @@
 #pragma once
+#include "../../base/Typedefs.h"
 #include "../../base/Macros.h"
+
+// http://www.coranac.com/tonc/text/video.htm
 
 namespace GBA
 {
 	class DisplayStatus
 	{
-		static bool IsBitSet(int bitIndex);
+		static bool IsStatusBitSet(int bitIndex);
 	public:
-		inline static bool GetVBlankStatus() { return IsBitSet(BIT(0)); }
-		inline static bool GetHBlankStatus() { return IsBitSet(BIT(1)); }
+		inline static bool InVBlank() { return IsStatusBitSet(BIT(0)); }
+		inline static bool InHBlank() { return IsStatusBitSet(BIT(1)); }
+		static u16 VCount();
 	};
 }
 
