@@ -59,12 +59,12 @@ namespace GBA
 		u16 m_attributeTwo;
 		u16 padding;
 
-		static const int sc_A0_YCOORD_BITINDEX = 0x0;
-		static const int sc_A0_OBJMODE_BITINDEX = 0x8;
-		static const int sc_A0_GFXMODE_BITINDEX = 0xA;
-		static const int sc_A0_MOSAIC_BITINDEX = 0xC;
-		static const int sc_A0_COLOURMODE_BITINDEX = 0xD;
-		static const int sc_A0_SHAPE_BITINDEX = 0xE;
+		static const u32 sc_A0_YCOORD_BITINDEX = 0x0;
+		static const u32 sc_A0_OBJMODE_BITINDEX = 0x8;
+		static const u32 sc_A0_GFXMODE_BITINDEX = 0xA;
+		static const u32 sc_A0_MOSAIC_BITINDEX = 0xC;
+		static const u32 sc_A0_COLOURMODE_BITINDEX = 0xD;
+		static const u32 sc_A0_SHAPE_BITINDEX = 0xE;
 
 		enum Attribute0_Masks : u16
 		{
@@ -78,11 +78,11 @@ namespace GBA
 			A0_Count = 6
 		};
 
-		static const int sc_A1_XCOORD_BITINDEX = 0x0;
-		static const int sc_A1_AFFINEINDEX_BITINDEX = 0x9;
-		static const int sc_A1_HORIZONTALFLIP_BITINDEX = 0xC;
-		static const int sc_A1_VERTICALFLIP_BITINDEX = 0xD;
-		static const int sc_A1_SIZEMODE_BITINDEX = 0xE;
+		static const u32 sc_A1_XCOORD_BITINDEX = 0x0;
+		static const u32 sc_A1_AFFINEINDEX_BITINDEX = 0x9;
+		static const u32 sc_A1_HORIZONTALFLIP_BITINDEX = 0xC;
+		static const u32 sc_A1_VERTICALFLIP_BITINDEX = 0xD;
+		static const u32 sc_A1_SIZEMODE_BITINDEX = 0xE;
 
 		enum Attribute1_Masks : u16
 		{
@@ -95,9 +95,9 @@ namespace GBA
 			A1_Count = 5
 		};
 
-		static const int sc_A2_TILEID_BITINDEX = 0x0;
-		static const int sc_A2_PRIORITY_BITINDEX = 0xA;
-		static const int sc_A2_PALETTEBANK_BITINDEX = 0xC;
+		static const u32 sc_A2_TILEID_BITINDEX = 0x0;
+		static const u32 sc_A2_PRIORITY_BITINDEX = 0xA;
+		static const u32 sc_A2_PALETTEBANK_BITINDEX = 0xC;
 
 		enum Attribute2_Masks : u16
 		{

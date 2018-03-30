@@ -8,8 +8,13 @@ int main()
 {
 	using namespace GBA;
 
-	// Initialisation
-	Graphics::SetDisplayParameters(IO_Mode0_Tile | IO_OAM);
+	{
+		// Initialisation
+
+		using namespace GraphicsParams;	
+		Graphics::AddDisplayParameters(Mode0 | Sprites);
+	}
+
 	Input::Update();
 
 	while (1)
@@ -24,9 +29,9 @@ int main()
 		ObjectAttribute objAttr = ObjectAttribute();
 		objAttr.SetShape(Attributes::Shape::Wide);
 
-		Colour col;
-		u16 rgb15 = col.RGB15();
-		UNUSED(rgb15);
+		Colour16 col = Colour16(31, 31, 31);
+		u16 rgb16 = col.RGB16();
+		UNUSED(rgb16);
 	}
 
 	return 0;

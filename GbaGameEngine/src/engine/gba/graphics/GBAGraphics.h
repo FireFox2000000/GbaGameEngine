@@ -1,27 +1,38 @@
 #pragma once
+#include "../../math/Vector2.h"
+#include "../../base/Macros.h"
+
 namespace GBA
 {
-	enum GraphicsDisplayParams
+	namespace GraphicsParams
 	{
-		IO_Mode0_Tile = 0x0,
-		IO_Mode1_Tile = 0x1,
-		IO_Mode2_Tile = 0x2,
+		enum VideoMode
+		{
+			Mode0 = 0x0,	// Tile mode
+			Mode1 = 0x1,	// Tile mode
+			Mode2 = 0x2,	// Tile mode
 
-		IO_Mode3_Bitmap = 0x3,
-		IO_Mode4_Bitmap = 0x4,
-		IO_Mode5_Bitmap = 0x5,
+			Mode3 = 0x3,	// Bitmap mode
+			Mode4 = 0x4,	// Bitmap mode
+			Mode5 = 0x5		// Bitmap mode
+		};
 
-		IO_Background0 = 0x100,
-		IO_Background1 = 0x200,
-		IO_Background2 = 0x400,
-		IO_Background3 = 0x800,
-
-		IO_OAM = 0x1000,
-	};
+		enum ObjectRendering
+		{
+			Background0 = BIT(8),
+			Background1 = BIT(9),
+			Background2 = BIT(0xA),
+			Background3 = BIT(0xB),
+			Sprites = BIT(0xC)
+		};
+	}
 
 	class Graphics
 	{
-	public:
-		static void SetDisplayParameters(int params);
+	public:		
+		static void AddDisplayParameters(int params);
+
+		static GraphicsParams::VideoMode GetVideoMode();
+		static Vector2 GetScreenResolution();
 	};
 }

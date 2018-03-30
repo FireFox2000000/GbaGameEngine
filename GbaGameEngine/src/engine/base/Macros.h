@@ -8,3 +8,8 @@
 
 #define BIT(index) (1 << index)
 #define SHIFTED_BITMASK(bits, index) (bits << index)	// Shift a full bitmask along to a specific index
+
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
+#define ROUND(x) ((int)((x) + 0.5f))
