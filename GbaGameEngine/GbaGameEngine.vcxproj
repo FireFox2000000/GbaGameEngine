@@ -94,17 +94,19 @@
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\gba\displayregisters\GBADisplayStatus.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
+    <ClCompile Include="src\engine\gba\displayregisters\GBADisplayControl.cpp" />
     <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\sprites\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\input\GBAInput.cpp" />
     <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\main.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\gba\displayregisters\GBADisplayStatus.h" />
     <ClInclude Include="src\engine\base\colour\Colour.h" />
     <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h" />
-    <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
+    <ClInclude Include="src\engine\gba\displayregisters\GBADisplayControl.h" />
     <ClInclude Include="src\engine\gba\sprites\GBAObjectAttribute.h" />
     <ClInclude Include="src\engine\base\Macros.h" />
     <ClInclude Include="src\engine\base\Typedefs.h" />

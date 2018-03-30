@@ -1,7 +1,7 @@
 #include "engine\math\Vector2.h"
 #include "engine\gba\input\GBAInput.h"
 #include "engine\gba\sprites\GBAObjectAttribute.h"
-#include "engine\gba\graphics\GBAGraphics.h"
+#include "engine\gba\displayregisters\GBADisplayControl.h"
 #include "engine\base\colour\Colour.h"
 
 int main()
@@ -11,8 +11,8 @@ int main()
 	{
 		// Initialisation
 
-		using namespace GraphicsParams;	
-		Graphics::AddDisplayParameters(Mode0 | Sprites);
+		using namespace DisplayOptions;	
+		DisplayControl::SetDisplayOptions(Mode0 | Sprites);
 	}
 
 	Input::Update();

@@ -4,7 +4,7 @@
 
 namespace GBA
 {
-	namespace GraphicsParams
+	namespace DisplayOptions
 	{
 		enum VideoMode
 		{
@@ -25,14 +25,16 @@ namespace GBA
 			Background3 = BIT(0xB),
 			Sprites = BIT(0xC)
 		};
+
+		//static int SpriteMapping1D = BIT(6);
 	}
 
-	class Graphics
+	class DisplayControl
 	{
 	public:		
-		static void AddDisplayParameters(int params);
+		static void SetDisplayOptions(int params);
 
-		static GraphicsParams::VideoMode GetVideoMode();
+		static DisplayOptions::VideoMode GetVideoMode();
 		static Vector2 GetScreenResolution();
 	};
 }

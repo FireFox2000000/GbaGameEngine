@@ -30,10 +30,13 @@
     <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\sprites\GBAObjectAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp">
+    <ClCompile Include="src\engine\base\colour\Colour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\base\colour\Colour.cpp">
+    <ClCompile Include="src\engine\gba\displayregisters\GBADisplayControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gba\displayregisters\GBADisplayStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,10 +59,13 @@
     <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h">
+    <ClInclude Include="src\engine\base\colour\Colour.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\base\colour\Colour.h">
+    <ClInclude Include="src\engine\gba\displayregisters\GBADisplayControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\displayregisters\GBADisplayStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

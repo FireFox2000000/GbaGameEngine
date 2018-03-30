@@ -7,8 +7,8 @@
 #define EWRAM_CODE __attribute__((section(".ewram"), long_call))
 #define IWRAM_CODE __attribute__((section(".iwram"), long_call))
 
-#define IO_REGISTER (0x4000000)
-#define IO_REGISTER_END (0x040003FF)
+#define IO_REGISTERS (0x4000000)
+#define IO_REGISTERS_END (0x040003FF)
 
 #define COLOUR_PALETTE_RAM (0x05000000)
 #define COLOUR_PALETTE_RAM_END (0x050003FF)
