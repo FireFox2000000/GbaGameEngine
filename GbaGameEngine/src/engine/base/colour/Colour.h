@@ -14,7 +14,7 @@ public:
 
 //////////////////////////////////////////////////////////
 
-typedef u16 rbg16;
+typedef u16 rgb16;
 
 struct Colour16 : Colour
 {
@@ -22,6 +22,7 @@ public:
 	Colour16();
 	Colour16(u8 r, u8 g, u8 b);		// Values of 0-31 per colour
 
-	inline rbg16 RGB16() const { return ((r)+((g) << 5) + ((b) << 10)); }
+	inline static rgb16 RGB16(u8 r, u8 g, u8 b) { return ((r)+((g) << 5) + ((b) << 10)); }
+	inline rgb16 RGB16() const { return Colour16::RGB16(r, g, b); }	
 };
 
