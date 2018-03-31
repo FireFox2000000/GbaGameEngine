@@ -1,6 +1,6 @@
 #pragma once
-#include "../../base/Typedefs.h"
-#include "../../base/Macros.h"
+#include "../../../base/Typedefs.h"
+#include "../../../base/Macros.h"
 
 // http://www.coranac.com/tonc/text/video.htm
 

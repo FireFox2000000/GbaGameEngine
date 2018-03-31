@@ -1,5 +1,5 @@
 #include "GBADisplayControl.h"
-#include "../memory/GBAMemoryLocations.h"
+#include "../../memory/GBAMemoryLocations.h"
 
 // http://www.coranac.com/tonc/text/video.htm#tbl-reg-dispcnt
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "../../math/Vector2.h"
-#include "../../base/Macros.h"
-#include "../../base/Typedefs.h"
+#include "../../../math/Vector2.h"
+#include "../../../base/Macros.h"
+#include "../../../base/Typedefs.h"
 
 // http://www.coranac.com/tonc/text/video.htm
 

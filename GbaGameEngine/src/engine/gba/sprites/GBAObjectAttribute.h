@@ -103,7 +103,7 @@ namespace GBA
 
 		enum Attribute2_Masks : u16
 		{
-			TileId			= BITS_INDEXED_U32(10, sc_A2_TILEID_BITINDEX),	// 0-9
+			BaseTileIndex	= BITS_INDEXED_U32(10, sc_A2_TILEID_BITINDEX),	// 0-9
 			Priority		= BITS_INDEXED_U32(2, sc_A2_PRIORITY_BITINDEX),	// A-B 
 			PaletteBank		= BITS_INDEXED_U32(4, sc_A2_PALETTEBANK_BITINDEX),	// C-F: Only used when the colour mode is set to FourBitsPerPixel
 
@@ -131,6 +131,7 @@ namespace GBA
 		inline void SetShape(Attributes::Shape shape)					{ SetAttribute(SHIFTED_BITMASK((int)shape, sc_A0_SHAPE_BITINDEX), Shape); }
 		inline void SetSizeMode(Attributes::SizeMode sizeMode)			{ SetAttribute(SHIFTED_BITMASK((int)sizeMode, sc_A1_SIZEMODE_BITINDEX), SizeMode); }
 		inline void SetPriority(Attributes::Priority layerNum)			{ SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
+		inline void SetBaseTileIndex(u32 index)							{ SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
 
 		void SetMosaic(bool enabled);
 		void SetFlippedHorizontal(bool flipped);

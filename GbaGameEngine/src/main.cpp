@@ -1,8 +1,8 @@
 #include "engine\math\Vector2.h"
 #include "engine\gba\input\GBAInput.h"
 #include "engine\gba\sprites\GBAObjectAttribute.h"
-#include "engine\gba\displayregisters\GBADisplayControl.h"
-#include "engine\gba\displayregisters\GBADisplayStatus.h"
+#include "engine\gba\graphics\displayregisters\GBADisplayControl.h"
+#include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
 #include "engine\base\colour\Colour.h"
 
 #define VBLANK_SCNLNE_START 160
@@ -16,7 +16,7 @@ int main()
 	// Initialisation
 	{		
 		using namespace DisplayOptions;	
-		DisplayControl::SetDisplayOptions(Mode0 | Sprites);
+		DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 		Input::Update();
 	}
 
