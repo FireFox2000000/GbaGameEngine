@@ -4,7 +4,7 @@
 #include "engine\gba\graphics\displayregisters\GBADisplayControl.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
 #include "engine\base\colour\Colour.h"
-#include "engine\gba\graphics\tiles\GBAPalette.h"
+#include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 
 #define VBLANK_SCNLNE_START 160
 
@@ -27,7 +27,7 @@ int main()
 			Colour::Blue().RGB16(),	// Blue
 		};
 
-		Palette::LoadSpritePalette(0, colourPalette0);
+		PaletteBank::LoadSpritePalette(0, colourPalette0);
 	}
 
 	// Update loop

@@ -39,7 +39,7 @@
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\tiles\GBAPalette.cpp">
+    <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\tiles\GBAPalette.h">
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -132,6 +132,7 @@ namespace GBA
 		inline void SetSizeMode(Attributes::SizeMode sizeMode)			{ SetAttribute(SHIFTED_BITMASK((int)sizeMode, sc_A1_SIZEMODE_BITINDEX), SizeMode); }
 		inline void SetPriority(Attributes::Priority layerNum)			{ SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
 		inline void SetBaseTileIndex(u32 index)							{ SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
+		inline void SetPaletteIndex(u8 index)							{ SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_PALETTEBANK_BITINDEX), PaletteBank); }
 
 		void SetMosaic(bool enabled);
 		void SetFlippedHorizontal(bool flipped);

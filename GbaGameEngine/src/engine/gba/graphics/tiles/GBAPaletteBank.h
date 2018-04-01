@@ -11,7 +11,7 @@ namespace GBA
 	typedef std::array<rgb16, 16> ColourPalette16;
 	typedef std::array<rgb16, 256> ColourPalette256;
 
-	class Palette
+	class PaletteBank
 	{
 		static vu16* s_BackgroundPalettes;
 		static vu16* s_SpritePalettes;

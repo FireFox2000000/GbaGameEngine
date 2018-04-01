@@ -94,7 +94,7 @@
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\gba\graphics\tiles\GBAPalette.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.cpp" />
@@ -104,7 +104,7 @@
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\gba\graphics\tiles\GBAPalette.h" />
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
     <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.h" />
     <ClInclude Include="src\engine\base\colour\Colour.h" />
     <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h" />
