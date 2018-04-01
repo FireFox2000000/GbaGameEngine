@@ -63,12 +63,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>
     </NMakeIncludeSearchPath>
+    <NMakeAssemblySearchPath>
+    </NMakeAssemblySearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
@@ -77,7 +80,8 @@
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -94,6 +98,7 @@
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\gba\graphics\tiles\GBATileBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
@@ -104,6 +109,9 @@
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\stl\Nullptr.h" />
+    <ClInclude Include="src\engine\base\stl\FixedArray.h" />
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
     <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.h" />
     <ClInclude Include="src\engine\base\colour\Colour.h" />

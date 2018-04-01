@@ -7,7 +7,7 @@ namespace GBA
 {
 	namespace Buttons
 	{
-		enum Button : u32
+		enum Button
 		{
 			A = BIT(0),
 			B = BIT(1),

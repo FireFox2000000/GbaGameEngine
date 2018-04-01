@@ -5,6 +5,7 @@
 #include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
 #include "engine\base\colour\Colour.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
+#include "engine\base\stl\FixedArray.h"
 
 #define VBLANK_SCNLNE_START 160
 
@@ -20,14 +21,16 @@ int main()
 		DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 		Input::Update();
 
-		ColourPalette16 colourPalette0 {
-			0,	// Transparent...?
-			Colour::White().RGB16(),	// White
-			Colour::Red().RGB16(),	// Magenta
-			Colour::Blue().RGB16(),	// Blue
-		};
-
-		PaletteBank::LoadSpritePalette(0, colourPalette0);
+		ColourPalette16 colourPalette0;
+		UNUSED(colourPalette0);
+		//{
+		//	0,	// Transparent
+		//	Colour::White().RGB16(),	// White
+		//	Colour::Red().RGB16(),	// Magenta
+		//	Colour::Blue().RGB16(),	// Blue
+		//};
+		
+		//PaletteBank::LoadSpritePalette(0, colourPalette0);
 	}
 
 	// Update loop

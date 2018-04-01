@@ -1,6 +1,7 @@
 #pragma once
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
+#include "stl\Nullptr.h"
 
 // Data alignment
 #define ALIGN(n) __attribute__((aligned(n)))
@@ -15,3 +16,5 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #define ROUND(x) ((int)((x) + 0.5f))
+
+#define NULL nullptr

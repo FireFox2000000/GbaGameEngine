@@ -9,35 +9,35 @@ namespace GBA
 {
 	namespace Attributes
 	{
-		enum class ObjectMode
+		enum ObjectMode
 		{
-			Normal,					
-			Affine,					
-			Hidden,					
-			AffineDoubleRendering	
+			ObjNormal,					
+			ObjAffine,					
+			ObjHidden,					
+			ObjAffineDoubleRendering	
 		};
 
-		enum class GfxMode
+		enum GfxMode
 		{
-			Normal,		
-			AlphaBlend,	
-			WindowMask	
+			GfxNormal,		
+			GfxAlphaBlend,	
+			GfxWindowMask	
 		};
 
-		enum class ColourMode
+		enum ColourMode
 		{
 			FourBitsPerPixel,
 			EightBitsPerPixel
 		};
 
-		enum class Shape
+		enum Shape
 		{
 			Square,
 			Wide,	
-			Tall,	
+			Tall
 		};
 
-		enum class SizeMode
+		enum SizeMode
 		{
 			Form0,
 			Form1,
@@ -45,7 +45,7 @@ namespace GBA
 			Form3
 		};
 
-		enum class Priority
+		enum Priority
 		{
 			Layer0,
 			Layer1,
@@ -68,7 +68,7 @@ namespace GBA
 		static const u32 sc_A0_COLOURMODE_BITINDEX = 0xD;
 		static const u32 sc_A0_SHAPE_BITINDEX = 0xE;
 
-		enum Attribute0_Masks : u16
+		enum Attribute0_Masks
 		{
 			YCoord		= BITS_INDEXED_U32(8, sc_A0_YCOORD_BITINDEX),// 0-7
 			ObjMode		= BITS_INDEXED_U32(2, sc_A0_OBJMODE_BITINDEX),		// 8-9
@@ -86,7 +86,7 @@ namespace GBA
 		static const u32 sc_A1_VERTICALFLIP_BITINDEX = 0xD;
 		static const u32 sc_A1_SIZEMODE_BITINDEX = 0xE;
 
-		enum Attribute1_Masks : u16
+		enum Attribute1_Masks
 		{
 			XCoord			= BITS_INDEXED_U32(9, sc_A1_XCOORD_BITINDEX),	// 0-8
 			AffineIndex		= BITS_INDEXED_U32(5, sc_A1_AFFINEINDEX_BITINDEX),	// 9-D: Used only if Affine flag is set
@@ -101,7 +101,7 @@ namespace GBA
 		static const u32 sc_A2_PRIORITY_BITINDEX = 0xA;
 		static const u32 sc_A2_PALETTEBANK_BITINDEX = 0xC;
 
-		enum Attribute2_Masks : u16
+		enum Attribute2_Masks
 		{
 			BaseTileIndex	= BITS_INDEXED_U32(10, sc_A2_TILEID_BITINDEX),	// 0-9
 			Priority		= BITS_INDEXED_U32(2, sc_A2_PRIORITY_BITINDEX),	// A-B 

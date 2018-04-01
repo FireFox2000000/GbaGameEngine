@@ -5,12 +5,12 @@
 const u8 c_BlockCount4bbp = 16;
 const u8 c_ColourCount4bbp = 16;
 
-vu16* GBA::PaletteBank::s_BackgroundPalettes = ((vu16*)COLOUR_PALETTE_RAM);			// 512 colours
-vu16* GBA::PaletteBank::s_SpritePalettes = ((vu16*)(COLOUR_PALETTE_RAM + 0x200));	// 512 colours
+vu16* GBA::PaletteBank::s_BackgroundPalettes = (reinterpret_cast<vu16*>(COLOUR_PALETTE_RAM));			// 512 colours
+vu16* GBA::PaletteBank::s_SpritePalettes = (reinterpret_cast<vu16*>((COLOUR_PALETTE_RAM + 0x200)));	// 512 colours
 
 GBA::PaletteBlock16 * GBA::PaletteBank::GetPaletteBlock(vu16 * paletteLocation, u8 index)
 {
-	return index < c_BlockCount4bbp ? paletteLocation + index : nullptr;
+	return index < c_BlockCount4bbp ? paletteLocation + index : NULL;
 }
 
 void GBA::PaletteBank::LoadSpritePalette(u8 blockIndex, const ColourPalette16 & palette)

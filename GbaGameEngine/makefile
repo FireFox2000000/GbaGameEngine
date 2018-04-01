@@ -4,8 +4,8 @@ SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 DEPDIR := dep
-CPPFLAGS := -Wall -Wextra -pedantic -std=c++11
-LDFLAGS := 
+CPPFLAGS := -Wall -pedantic -fno-exceptions #-w
+LDFLAGS := -lm
 
 # Recursively search through subdirectories of subdirectories to find files
 rfilesearch = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rfilesearch,$d/,$2))

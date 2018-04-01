@@ -1,15 +1,16 @@
 #pragma once
+
 #include "../../../base/Typedefs.h"
 #include "../../../base/colour/Colour.h"
-#include <array>
+#include "../../../base/stl/FixedArray.h"
 
 namespace GBA
 {
 	typedef vu16 PaletteBlock16;		// 4bbp
 	typedef vu16 PaletteBlock256;		// 8bbp
 
-	typedef std::array<rgb16, 16> ColourPalette16;
-	typedef std::array<rgb16, 256> ColourPalette256;
+	typedef FixedArray<rgb16, 16> ColourPalette16;
+	typedef FixedArray<rgb16, 256> ColourPalette256;
 
 	class PaletteBank
 	{
@@ -23,12 +24,12 @@ namespace GBA
 		static PaletteBlock256 * GetBackgroundPalette() { return GetPaletteBlock(s_BackgroundPalettes, 0); }
 		static PaletteBlock256 * GetSpritePalette() { return GetPaletteBlock(s_SpritePalettes, 0); }
 
-		template<std::size_t SIZE>
-		static void LoadPalette(vu16* block, const std::array<rgb16, SIZE>& palette)
+		template<u32 SIZE>
+		static void LoadPalette(vu16* block, const FixedArray<rgb16, SIZE>& palette)
 		{
 			if (block)
 			{
-				for (std::size_t i = 0; i < palette.size(); ++i)
+				for (u32 i = 0; i < palette.Length(); ++i)
 				{
 					SetPaletteColour(block, i, palette[i]);
 				}
@@ -40,4 +41,3 @@ namespace GBA
 		static void LoadSpritePalette(const ColourPalette256& palette);
 	};
 }
-
