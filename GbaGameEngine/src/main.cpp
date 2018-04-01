@@ -20,10 +20,12 @@ int main()
 		DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 		Input::Update();
 
-		ColourPalette16 colourPalette0;
-		colourPalette0[1] = Colour16::RGB16(0x1F, 0x1F, 0x1F);
-		colourPalette0[2] = Colour16::RGB16(0x1F, 0x00, 0x1F);
-		colourPalette0[3] = Colour16::RGB16(0x00, 0x0A, 0x1F);
+		ColourPalette16 colourPalette0 {
+			0,	// Transparent...?
+			Colour::White().RGB16(),	// White
+			Colour::Red().RGB16(),	// Magenta
+			Colour::Blue().RGB16(),	// Blue
+		};
 
 		Palette::LoadSpritePalette(0, colourPalette0);
 	}
