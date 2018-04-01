@@ -8,11 +8,11 @@ Colour::Colour()
 {
 }
 
-Colour::Colour(u8 r, u8 g, u8 b) : Colour(r, g, b, 1)
+Colour::Colour(float r, float g, float b) : Colour(r, g, b, 1)
 {
 }
 
-Colour::Colour(u8 r, u8 g, u8 b, u8 a)
+Colour::Colour(float r, float g, float b, float a)
 	: r(r)
 	, g(g)
 	, b(b)
