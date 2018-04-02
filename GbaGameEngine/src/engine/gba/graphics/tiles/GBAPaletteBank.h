@@ -11,32 +11,26 @@ namespace GBA
 
 	class PaletteBank
 	{
-		typedef FixedArray<volatile rgb16, 16> vColourPalette16;
-		typedef FixedArray<volatile rgb16, 256> vColourPalette256;
-		typedef FixedArray<vColourPalette16, 16> vColourPalette16x16;
+		typedef FixedArray<ColourPalette16, 16> ColourPalette16x16;
 
-		static vColourPalette16x16* s_BackgroundPalette16Groups;
-		static vColourPalette256* s_FullBackgroundPalette;
-		static vColourPalette16x16* s_SpritePalette16Groups;
-		static vColourPalette256* s_FullSpritePalette;
+		static volatile ColourPalette16x16* s_BackgroundPalette16Groups;
+		static volatile ColourPalette16x16* s_SpritePalette16Groups;
+		static volatile ColourPalette256* s_FullBackgroundPalette;	
+		static volatile ColourPalette256* s_FullSpritePalette;
 
 		template<u32 SIZE>
-		static void LoadPalette(FixedArray<volatile rgb16, SIZE>* blockPtr, const FixedArray<rgb16, SIZE>& palette)
+		static void LoadPalette(volatile FixedArray<rgb16, SIZE>* block, const FixedArray<rgb16, SIZE>& palette)
 		{
-			if (blockPtr)
+			if (block)
 			{
-				FixedArray<volatile rgb16, SIZE>& block = *blockPtr;
-				for (u32 i = 0; i < palette.Length(); ++i)
-				{
-					block[i] = palette[i];
-				}
+				*block = palette;
 			}
 		}
 
 	public:
 		static void LoadBackgroundPalette(u8 blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
 		static void LoadBackgroundPalette(const ColourPalette256& palette) { LoadPalette(s_FullBackgroundPalette, palette); }
-
+		
 		static void LoadSpritePalette(u8 blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
 		static void LoadSpritePalette(const ColourPalette256& palette) { LoadPalette(s_FullSpritePalette, palette); }
 	};

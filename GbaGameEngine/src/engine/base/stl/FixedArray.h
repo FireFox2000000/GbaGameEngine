@@ -9,15 +9,29 @@ class FixedArray
 
 public:
 	FixedArray();
+	FixedArray(const FixedArray<T, size> & that);
 	~FixedArray();
 
-	T & operator[](u32 index);
-	const T & operator[](u32 index) const;
+	void operator = (const FixedArray<T, size>& that) volatile
+	{
+		for (u32 i = 0; i < size; ++i)
+		{
+			this->buffer[i] = that.buffer[i];
+		}
+	}
 
-	T * At(u32 index);
-	const T * At(u32 index) const;
-	u32 Length() const;
+	inline T & operator[](u32 index);
+	inline T * At(u32 index);
+
+	inline const T & operator[](u32 index) const;
+	inline const T * At(u32 index) const;
+	inline u32 Length() const;
+
+	inline volatile T & operator[](u32 index) volatile;
+	inline volatile T * At(u32 index) volatile;
+	inline u32 Length() volatile;
 };
+
 
 template<class T, u32 size>
 FixedArray<T, size>::FixedArray()
@@ -30,31 +44,52 @@ FixedArray<T, size>::FixedArray()
 }
 
 template<class T, u32 size>
+inline FixedArray<T, size>::FixedArray(const FixedArray<T, size>& that)
+{
+	*this = that;
+}
+
+template<class T, u32 size>
 FixedArray<T, size>::~FixedArray()
 {
 }
 
 template<class T, u32 size>
-T& FixedArray<T, size>::operator[](u32 index) {
+inline T& FixedArray<T, size>::operator[](u32 index) {
 	return buffer[index];
 }
 
 template<class T, u32 size>
-const T& FixedArray<T, size>::operator[](u32 index) const {
+inline volatile T& FixedArray<T, size>::operator[](u32 index) volatile {
 	return buffer[index];
 }
 
 template<class T, u32 size>
-T* FixedArray<T, size>::At(u32 index) {
+inline const T& FixedArray<T, size>::operator[](u32 index) const {
+	return buffer[index];
+}
+
+template<class T, u32 size>
+inline T* FixedArray<T, size>::At(u32 index) {
 	return index < Length() ? &buffer[index] : NULL;
 }
 
 template<class T, u32 size>
-const T* FixedArray<T, size>::At(u32 index) const {
+inline volatile T* FixedArray<T, size>::At(u32 index) volatile {
 	return index < Length() ? &buffer[index] : NULL;
 }
 
 template<class T, u32 size>
-u32 FixedArray<T, size>::Length() const {
+inline const T* FixedArray<T, size>::At(u32 index) const {
+	return index < Length() ? &buffer[index] : NULL;
+}
+
+template<class T, u32 size>
+inline u32 FixedArray<T, size>::Length() const {
+	return size;
+}
+
+template<class T, u32 size>
+inline u32 FixedArray<T, size>::Length() volatile {
 	return size;
 }

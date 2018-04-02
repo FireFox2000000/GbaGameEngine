@@ -4,7 +4,7 @@ SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 DEPDIR := dep
-CPPFLAGS := -Wall -pedantic -fno-exceptions #-w
+CPPFLAGS := -Wall -pedantic -fno-exceptions -O3 #-w
 LDFLAGS := -lm
 
 # Recursively search through subdirectories of subdirectories to find files
