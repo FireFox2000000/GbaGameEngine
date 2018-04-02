@@ -6,38 +6,38 @@
 
 namespace GBA
 {
-	typedef vu16 PaletteBlock16;		// 4bbp
-	typedef vu16 PaletteBlock256;		// 8bbp
-
 	typedef FixedArray<rgb16, 16> ColourPalette16;
 	typedef FixedArray<rgb16, 256> ColourPalette256;
 
 	class PaletteBank
 	{
-		static vu16* s_BackgroundPalettes;
-		static vu16* s_SpritePalettes;
+		typedef FixedArray<volatile rgb16, 16> vColourPalette16;
+		typedef FixedArray<volatile rgb16, 256> vColourPalette256;
+		typedef FixedArray<vColourPalette16, 16> vColourPalette16x16;
 
-		static PaletteBlock16 * GetPaletteBlock(vu16* paletteLocation, u8 index);
-		inline static void SetPaletteColour(vu16* palette, u8 colourIndex, rgb16 colour) { palette[colourIndex] = colour; }		// No need to check if colour index is less than 256 because we're passing in a u8		
-
-		static PaletteBlock16 * GetSpritePaletteBlock(u8 index) { return GetPaletteBlock(s_SpritePalettes, index); }
-		static PaletteBlock256 * GetBackgroundPalette() { return GetPaletteBlock(s_BackgroundPalettes, 0); }
-		static PaletteBlock256 * GetSpritePalette() { return GetPaletteBlock(s_SpritePalettes, 0); }
+		static vColourPalette16x16* s_BackgroundPalette16Groups;
+		static vColourPalette256* s_FullBackgroundPalette;
+		static vColourPalette16x16* s_SpritePalette16Groups;
+		static vColourPalette256* s_FullSpritePalette;
 
 		template<u32 SIZE>
-		static void LoadPalette(vu16* block, const FixedArray<rgb16, SIZE>& palette)
+		static void LoadPalette(FixedArray<volatile rgb16, SIZE>* blockPtr, const FixedArray<rgb16, SIZE>& palette)
 		{
-			if (block)
+			if (blockPtr)
 			{
+				FixedArray<volatile rgb16, SIZE>& block = *blockPtr;
 				for (u32 i = 0; i < palette.Length(); ++i)
 				{
-					SetPaletteColour(block, i, palette[i]);
+					block[i] = palette[i];
 				}
 			}
 		}
 
 	public:
-		static void LoadSpritePalette(u8 blockIndex, const ColourPalette16& palette);
-		static void LoadSpritePalette(const ColourPalette256& palette);
+		static void LoadBackgroundPalette(u8 blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
+		static void LoadBackgroundPalette(const ColourPalette256& palette) { LoadPalette(s_FullBackgroundPalette, palette); }
+
+		static void LoadSpritePalette(u8 blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
+		static void LoadSpritePalette(const ColourPalette256& palette) { LoadPalette(s_FullSpritePalette, palette); }
 	};
 }

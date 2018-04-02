@@ -1,5 +1,5 @@
 #include "Vector2.h"
-#include "math.h"
+#include <math.h>
 
 float Vector2::Magnitude()
 {

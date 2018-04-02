@@ -27,7 +27,7 @@ int main()
 		colourPalette0[2] = Colour::Red().RGB16();	// Magenta
 		colourPalette0[3] = Colour::Blue().RGB16();	// Blue
 		
-		PaletteBank::LoadSpritePalette(0, colourPalette0);
+		PaletteBank::LoadSpritePalette(1, colourPalette0);
 	}
 
 	// Update loop
