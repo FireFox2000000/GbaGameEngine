@@ -12,11 +12,6 @@ struct Vector2
 	inline Vector2(const Vector2& that) { *this = that; }
 	
 	// Operator overloads
-	inline void operator = (const Vector2& vec)
-	{
-		x = vec.x;
-		y = vec.y;
-	}
 	inline bool operator == (const Vector2& vec)
 	{
 		return x == vec.x && y == vec.y;
