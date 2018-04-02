@@ -22,15 +22,12 @@ int main()
 		Input::Update();
 
 		ColourPalette16 colourPalette0;
-		UNUSED(colourPalette0);
-		//{
-		//	0,	// Transparent
-		//	Colour::White().RGB16(),	// White
-		//	Colour::Red().RGB16(),	// Magenta
-		//	Colour::Blue().RGB16(),	// Blue
-		//};
+		colourPalette0[0] = 0;	// Transparent
+		colourPalette0[1] = Colour::White().RGB16();	// White
+		colourPalette0[2] = Colour::Red().RGB16();	// Magenta
+		colourPalette0[3] = Colour::Blue().RGB16();	// Blue
 		
-		//PaletteBank::LoadSpritePalette(0, colourPalette0);
+		PaletteBank::LoadSpritePalette(0, colourPalette0);
 	}
 
 	// Update loop
