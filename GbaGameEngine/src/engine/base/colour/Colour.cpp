@@ -1,14 +1,20 @@
 #include "Colour.h"
 
+const Colour Colour::White = Colour(Colour::RGB_MAX, Colour::RGB_MAX, Colour::RGB_MAX);
+const Colour Colour::Black = Colour(0, 0, 0);
+const Colour Colour::Red = Colour(Colour::RGB_MAX, 0, 0);
+const Colour Colour::Green = Colour(0, Colour::RGB_MAX, 0);
+const Colour Colour::Blue = Colour(0, 0, Colour::RGB_MAX);
+
 Colour::Colour()
-	: r(1)
-	, g(1)
-	, b(1)
-	, a(1)
+	: r(Colour::RGB_MAX)
+	, g(Colour::RGB_MAX)
+	, b(Colour::RGB_MAX)
+	, a(Colour::RGB_MAX)
 {
 }
 
-Colour::Colour(float r, float g, float b, float a)
+Colour::Colour(u8 r, u8 g, u8 b, u8 a)
 	: r(r)
 	, g(g)
 	, b(b)
@@ -16,11 +22,11 @@ Colour::Colour(float r, float g, float b, float a)
 {
 }
 
-Colour::Colour(float r, float g, float b) 
+Colour::Colour(u8 r, u8 g, u8 b) 
 	: r(r)
 	, g(g)
 	, b(b)
-	, a(1)
+	, a(Colour::RGB_MAX)
 {
 }
 

@@ -23,9 +23,9 @@ int main()
 
 		ColourPalette16 colourPalette0;
 		colourPalette0[0] = 0;	// Transparent
-		colourPalette0[1] = Colour::White().RGB16();	// White
-		colourPalette0[2] = Colour::Red().RGB16();	// Magenta
-		colourPalette0[3] = Colour::Blue().RGB16();	// Blue
+		colourPalette0[1] = Colour::White.RGB16();
+		colourPalette0[2] = Colour::Red.RGB16();
+		colourPalette0[3] = Colour::Blue.RGB16();
 		
 		PaletteBank::LoadSpritePalette(1, colourPalette0);
 	}
