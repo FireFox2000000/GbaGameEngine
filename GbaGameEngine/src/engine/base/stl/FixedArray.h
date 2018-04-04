@@ -16,7 +16,7 @@ public:
 	{
 		for (u32 i = 0; i < size; ++i)
 		{
-			this->buffer[i] = that.buffer[i];
+			buffer[i] = that.buffer[i];
 		}
 	}
 
