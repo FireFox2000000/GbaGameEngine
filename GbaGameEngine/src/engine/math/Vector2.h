@@ -45,13 +45,13 @@ struct Vector2
 		return *this;
 	}
 
-	inline Vector2 operator+(const Vector2& vec) { return Vector2(*this) += vec; }
-	inline Vector2 operator-(const Vector2& vec) { return Vector2(*this) -= vec; }
-	inline Vector2 operator*(float scalar) { return Vector2(*this) *= scalar; }
-	inline Vector2 operator/(float scalar) { return Vector2(*this) /= scalar; }
+	inline Vector2 operator+(const Vector2& vec) const { return Vector2(*this) += vec; }
+	inline Vector2 operator-(const Vector2& vec) const { return Vector2(*this) -= vec; }
+	inline Vector2 operator*(float scalar) const { return Vector2(*this) *= scalar; }
+	inline Vector2 operator/(float scalar) const { return Vector2(*this) /= scalar; }
 
-	inline Vector2 operator*(int scalar) { return Vector2(*this) * (float)scalar; }
-	inline Vector2 operator/(int scalar) { return Vector2(*this) / (float)scalar; }
+	inline Vector2 operator*(int scalar) const { return Vector2(*this) * (float)scalar; }
+	inline Vector2 operator/(int scalar) const { return Vector2(*this) / (float)scalar; }
 	
 	// Regular functions
 	float Magnitude();
@@ -67,11 +67,11 @@ struct Vector2
 	static float Determinant(Vector2 u, Vector2 v);
 	static Vector2 PointToVector(Vector2 pointA, Vector2 pointB);
 
-	inline static Vector2 Zero() { return Vector2(0, 0); }
-	inline static Vector2 Right() { return Vector2(1, 0); }
-	inline static Vector2 Left() { return Vector2::Right() * -1; }
-	inline static Vector2 Up() { return Vector2(0, 1); }
-	inline static Vector2 Down() { return Vector2::Up() * -1; }
+	const static Vector2 Zero;
+	const static Vector2 Right;
+	const static Vector2 Left;
+	const static Vector2 Up;
+	const static Vector2 Down;
 };
 
 inline Vector2 operator*(float scalar, const Vector2& vec) { return Vector2(vec) * scalar; }
