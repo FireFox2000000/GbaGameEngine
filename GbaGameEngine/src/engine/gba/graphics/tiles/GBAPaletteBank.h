@@ -2,7 +2,7 @@
 
 #include "../../../base/Typedefs.h"
 #include "../../../base/colour/Colour.h"
-#include "../../../base/stl/FixedArray.h"
+#include "../../../base/core/stl/FixedArray.h"
 
 namespace GBA
 {

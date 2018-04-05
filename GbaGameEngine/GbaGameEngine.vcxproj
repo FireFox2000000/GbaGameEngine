@@ -109,8 +109,9 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\stl\Nullptr.h" />
-    <ClInclude Include="src\engine\base\stl\FixedArray.h" />
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\Memory.h" />
+    <ClInclude Include="src\engine\base\core\Nullptr.h" />
+    <ClInclude Include="src\engine\base\core\stl\FixedArray.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
     <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.h" />

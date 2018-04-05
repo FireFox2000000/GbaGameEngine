@@ -1,7 +1,7 @@
 #pragma once
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
-#include "stl\Nullptr.h"
+#include "core\Nullptr.h"
 
 // Data alignment
 #define ALIGN(n) __attribute__((aligned(n)))
