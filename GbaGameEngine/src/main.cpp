@@ -5,7 +5,7 @@
 #include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
 #include "engine\base\colour\Colour.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
-#include "engine\base\core\stl\FixedArray.h"
+#include "engine\base\core\stl\Array.h"
 
 #define VBLANK_SCNLNE_START 160
 

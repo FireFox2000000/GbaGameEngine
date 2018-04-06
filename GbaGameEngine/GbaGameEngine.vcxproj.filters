@@ -80,13 +80,13 @@
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\base\core\stl\FixedArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\Memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\base\core\Nullptr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\base\core\stl\Array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

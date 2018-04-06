@@ -2,16 +2,16 @@
 
 #include "../../../base/Typedefs.h"
 #include "../../../base/colour/Colour.h"
-#include "../../../base/core/stl/FixedArray.h"
+#include "../../../base/core/stl/Array.h"
 
 namespace GBA
 {
-	typedef FixedArray<rgb16, 16> ColourPalette16;
-	typedef FixedArray<rgb16, 256> ColourPalette256;
+	typedef Array<rgb16, 16> ColourPalette16;
+	typedef Array<rgb16, 256> ColourPalette256;
 
 	class PaletteBank
 	{
-		typedef FixedArray<ColourPalette16, 16> ColourPalette16x16;
+		typedef Array<ColourPalette16, 16> ColourPalette16x16;
 
 		static volatile ColourPalette16x16* s_BackgroundPalette16Groups;
 		static volatile ColourPalette16x16* s_SpritePalette16Groups;
@@ -19,7 +19,7 @@ namespace GBA
 		static volatile ColourPalette256* s_FullSpritePalette;
 
 		template<u32 SIZE>
-		static void LoadPalette(volatile FixedArray<rgb16, SIZE>* block, const FixedArray<rgb16, SIZE>& palette)
+		static void LoadPalette(volatile Array<rgb16, SIZE>* block, const Array<rgb16, SIZE>& palette)
 		{
 			if (block)
 			{
