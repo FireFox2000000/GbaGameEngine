@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PRAGMA_ONCE_GBADISPLAY_STATUS_H
+#define PRAGMA_ONCE_GBADISPLAY_STATUS_H
+
 #include "../../../base/Typedefs.h"
 #include "../../../base/Macros.h"
 
@@ -19,3 +21,4 @@ namespace GBA
 	};
 }
 
+#endif

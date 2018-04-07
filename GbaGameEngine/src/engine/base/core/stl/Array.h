@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PRAGMA_ONCE_ARRAY_H
+#define PRAGMA_ONCE_ARRAY_H
+
 #include "../../Typedefs.h"
 #include "../../Macros.h"
 #include "../Memory.h"
@@ -57,3 +59,5 @@ Array<T, size>::Array()
 		m_buffer[i] = T();
 	}
 }
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PRAGMA_ONCE_GBADISPLAY_CONTROL_H
+#define PRAGMA_ONCE_GBADISPLAY_CONTROL_H
+
 #include "../../../math/Vector2.h"
 #include "../../../base/Macros.h"
 #include "../../../base/Typedefs.h"
@@ -48,3 +50,5 @@ namespace GBA
 		inline static DisplayOptions::SpriteMappingMode GetSpriteMappingMode() { return DisplayOptions::SpriteMappingMode(s_REG_DISPCNT & BIT(6)); }
 	};
 }
+
+#endif

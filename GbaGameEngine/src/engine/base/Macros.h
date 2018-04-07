@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PRAGMA_ONCE_MACROS_H
+#define PRAGMA_ONCE_MACROS_H
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
 #include "core\Nullptr.h"
@@ -18,3 +19,5 @@
 #define ROUND(x) ((int)((x) + 0.5f))
 
 #define NULL nullptr
+
+#endif

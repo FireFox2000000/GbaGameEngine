@@ -1,6 +1,7 @@
-#pragma once
-
 // https://stackoverflow.com/questions/24433436/compile-error-nullptr-undeclared-identifier
+
+#ifndef PRAGMA_ONCE_NULLPTR_H
+#define PRAGMA_ONCE_NULLPTR_H
 
 const // It is a const object...
 class nullptr_t
@@ -22,3 +23,5 @@ private:
 	void operator&() const;  // Can't take address of nullptr
 
 } nullptr = {};
+
+#endif

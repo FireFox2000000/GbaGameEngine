@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PRAGMA_ONCE_GBAOBJECT_ATTRIBUTE_H
+#define PRAGMA_ONCE_GBAOBJECT_ATTRIBUTE_H
+
 #include "../../base/Typedefs.h"
 #include "../../base/Macros.h"
 #include "../../math/Vector2.h"
@@ -140,3 +142,5 @@ namespace GBA
 
 	} ALIGN(4);
 }
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PRAGMA_ONCE_COLOUR_H
+#define PRAGMA_ONCE_COLOUR_H
+
 #include "../Typedefs.h"
 #include "../Macros.h"
 
@@ -29,3 +31,5 @@ public:
 	const static Colour Green;
 	const static Colour Blue;
 };
+
+#endif

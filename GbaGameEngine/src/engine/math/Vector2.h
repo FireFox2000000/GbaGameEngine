@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PRAGMA_ONCE_VECTOR2_H
+#define PRAGMA_ONCE_VECTOR2_H
 
 struct Vector2
 {
@@ -79,3 +80,5 @@ inline Vector2 operator/(float scalar, const Vector2& vec) { return Vector2(vec)
 
 inline Vector2 operator*(int scalar, const Vector2& vec) { return Vector2(vec) * (float)scalar; }
 inline Vector2 operator/(int scalar, const Vector2& vec) { return Vector2(vec) / (float)scalar; }
+
+#endif

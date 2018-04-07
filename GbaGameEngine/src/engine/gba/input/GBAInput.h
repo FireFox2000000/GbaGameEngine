@@ -1,7 +1,8 @@
+#ifndef PRAGMA_ONCE_GBAINPUT_H
+#define PRAGMA_ONCE_GBAINPUT_H
+
 #include "../../base/Typedefs.h"
 #include "../../base/Macros.h"
-
-#pragma once
 
 namespace GBA
 {
@@ -37,3 +38,5 @@ namespace GBA
 		inline static bool GetKeyUp(Buttons::Button key) { return (m_previousInput & key) && !GetKey(key); }
 	};
 }
+
+#endif
