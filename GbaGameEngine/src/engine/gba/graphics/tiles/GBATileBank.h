@@ -1,3 +1,5 @@
+#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBATILEBANK_H
+#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBATILEBANK_H
 
 #include "../../../base/Typedefs.h"
 #include "../../../base/core/stl/Array.h"
@@ -35,3 +37,5 @@ namespace GBA
 	//	static void LoadTiles(const std::vector<u16>& pixelMap, TileBlockGroups tileBlock, u32 startTileIndex);
 	//};
 }
+
+#endif

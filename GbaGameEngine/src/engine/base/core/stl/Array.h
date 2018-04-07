@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_ARRAY_H
-#define PRAGMA_ONCE_ARRAY_H
+#ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_STL_ARRAY_H
+#define PRAGMA_ONCE_ENGINE_BASE_CORE_STL_ARRAY_H
 
 #include "../../Typedefs.h"
 #include "../../Macros.h"

@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_GBAINPUT_H
-#define PRAGMA_ONCE_GBAINPUT_H
+#ifndef PRAGMA_ONCE_ENGINE_GBA_INPUT_GBAINPUT_H
+#define PRAGMA_ONCE_ENGINE_GBA_INPUT_GBAINPUT_H
 
 #include "../../base/Typedefs.h"
 #include "../../base/Macros.h"

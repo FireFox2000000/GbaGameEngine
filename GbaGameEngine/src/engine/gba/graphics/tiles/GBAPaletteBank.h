@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_GBAPALETTE_BANK_H
-#define PRAGMA_ONCE_GBAPALETTE_BANK_H
+#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
+#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
 
 #include "../../../base/Typedefs.h"
 #include "../../../base/colour/Colour.h"

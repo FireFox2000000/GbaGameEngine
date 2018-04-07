@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_COLOUR_H
-#define PRAGMA_ONCE_COLOUR_H
+#ifndef PRAGMA_ONCE_ENGINE_BASE_COLOUR_COLOUR_H
+#define PRAGMA_ONCE_ENGINE_BASE_COLOUR_COLOUR_H
 
 #include "../Typedefs.h"
 #include "../Macros.h"

@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_TYPEDEFS_H
-#define PRAGMA_ONCE_TYPEDEFS_H
+#ifndef PRAGMA_ONCE_ENGINE_BASE_TYPEDEFS_H
+#define PRAGMA_ONCE_ENGINE_BASE_TYPEDEFS_H
 
 typedef unsigned char u8;
 typedef unsigned short u16;

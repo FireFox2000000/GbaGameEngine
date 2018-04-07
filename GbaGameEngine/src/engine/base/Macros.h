@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_MACROS_H
-#define PRAGMA_ONCE_MACROS_H
+#ifndef PRAGMA_ONCE_ENGINE_BASE_MACROS_H
+#define PRAGMA_ONCE_ENGINE_BASE_MACROS_H
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
 #include "core\Nullptr.h"

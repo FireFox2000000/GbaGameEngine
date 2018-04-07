@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_MEMORY_H
-#define PRAGMA_ONCE_MEMORY_H
+#ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_MEMORY_H
+#define PRAGMA_ONCE_ENGINE_BASE_CORE_MEMORY_H
 
 #include "string.h"
 #include "../Typedefs.h"
