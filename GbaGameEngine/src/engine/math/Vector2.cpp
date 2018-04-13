@@ -1,5 +1,5 @@
 #include "Vector2.h"
-#include <math.h>
+#include <cmath>
 
 const Vector2 Vector2::Zero = Vector2(0, 0);
 const Vector2 Vector2::Right = Vector2(1, 0);

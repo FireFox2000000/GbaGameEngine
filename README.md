@@ -1,6 +1,7 @@
 # Devkit
 Requires a GBA devkit installation for compliation\
 This project specifically uses DevKit Advance Release 5 Beta 3, which can be downloaded at http://devkitadv.sourceforge.net/
+Also may require addition C++ libraries which can be downloaded at https://sourceforge.net/projects/devkitadv/files/Windows/
 
 # Compiling with Visual Studio
 The Visual Studio .sln should open into a makefile project\

@@ -1,5 +1,6 @@
 TARGET := TestGba
 CC := gcc
+CXX := g++
 SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
@@ -34,12 +35,12 @@ $(BINDIR)\$(TARGET).gba: $(BINDIR)\$(TARGET).elf
 
 # Pre-GBA compiled binary
 $(BINDIR)\$(TARGET).elf: $(OBJFILES)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 	
 -include $(DEPFILES) 
 
 %.d: %.cpp
-	@$(CC) $(CPPFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	@$(CXX) $(CPPFLAGS) $< -MM -MT $(@:.d=.o) >$@
 	
 clean : 
 	$(RMCMD) $(CLEANFILES)
