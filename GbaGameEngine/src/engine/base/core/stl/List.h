@@ -69,7 +69,10 @@ public:
 
 	bool Reserve(u32 size)
 	{
-		return GrowTo(size);
+		if (size > Capacity())
+			return GrowTo(size);
+		else
+			return true; // ???
 	}
 
 	T* AddNew()
