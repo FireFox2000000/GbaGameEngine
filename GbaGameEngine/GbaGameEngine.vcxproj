@@ -98,6 +98,7 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\math\Math.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBATileBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp" />
@@ -109,7 +110,9 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\math\Math.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\Memory.h" />
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\List.h" />
     <ClInclude Include="src\engine\base\core\Nullptr.h" />
     <ClInclude Include="src\engine\base\core\stl\Array.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h" />
