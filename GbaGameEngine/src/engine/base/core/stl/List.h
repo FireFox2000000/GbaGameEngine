@@ -75,6 +75,22 @@ public:
 			return true; // ???
 	}
 
+	/*
+	// C++11 Parameter Pack version
+	template <typename... ConstructorArgs>
+	T* AddNew(ConstructorArgs... args)
+	{
+	if (Count() >= Capacity())
+	{
+	if (!GrowTo(Capacity() * 2))
+	return NULL;
+	}
+
+	T& item = Get(m_count++);
+	item = T(args ...);
+	return &item;
+	}*/
+
 	T* AddNew()
 	{
 		if (Count() >= Capacity())
@@ -101,7 +117,25 @@ public:
 		return &newItem;
 	}
 
-	// EnumerableT implement begin and end iterators
+	T* InsertAt(u32 index, const T& item)
+	{
+		if (Count() >= Capacity())
+		{
+			if (!GrowTo(Capacity() * 2))
+				return NULL;
+		}
+
+		u32 length = 1;
+		u32 endPosition = index + length;
+		MoveMemory(m_container + endPosition, m_container + index, sizeof(T) * (Count() - endPosition + length));
+		++m_count;
+
+		T* newItem = &Get(index);
+		new(newItem) T(item);
+		return newItem;
+	}
+
+	// EnumerableT must implement begin and end iterators
 	template<typename EnumerableT>
 	bool InsertRange(u32 index, const EnumerableT& items)
 	{
@@ -128,30 +162,13 @@ public:
 		typename EnumerableT::const_iterator itBegin = items.begin();
 		for (u32 i = 0; i < length; ++i)
 		{
-			T& newItem = Get(i + index);
-			new(&newItem) T(*(itBegin + i));
-
+			T* newItem = &Get(i + index);
+			new(newItem) T(*(itBegin + i));
 		}
 
 		m_count += length;
 		return true;
 	}
-
-	/*
-	// C++11 Parameter Pack version
-	template <typename... ConstructorArgs>
-	T* AddNew(ConstructorArgs... args)
-	{
-	if (Count() >= Capacity())
-	{
-	if (!GrowTo(Capacity() * 2))
-	return NULL;
-	}
-
-	T& item = Get(m_count++);
-	item = T(args ...);
-	return &item;
-	}*/
 
 	bool RemoveRange(u32 index, u32 length)
 	{
