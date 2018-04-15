@@ -101,6 +101,42 @@ public:
 		return &newItem;
 	}
 
+	// EnumerableT implement begin and end iterators
+	template<typename EnumerableT>
+	bool InsertRange(u32 index, const EnumerableT& items)
+	{
+		if (index > Count())
+			return false;
+
+		u32 length = u32(items.end() - items.begin());
+		u32 totalSizeRequired = Count() + length;
+		if (totalSizeRequired >= Capacity())
+		{
+			u32 newSize = Capacity();
+			do
+			{
+				newSize *= 2;
+			} while (newSize < totalSizeRequired);
+
+			if (!GrowTo(newSize))
+				return false;
+		}
+
+		u32 endPosition = index + length;
+		MoveMemory(m_container + endPosition, m_container + index, sizeof(T) * (Count() - endPosition + length));
+
+		typename EnumerableT::const_iterator itBegin = items.begin();
+		for (u32 i = 0; i < length; ++i)
+		{
+			T& newItem = Get(i + index);
+			new(&newItem) T(*(itBegin + i));
+
+		}
+
+		m_count += length;
+		return true;
+	}
+
 	/*
 	// C++11 Parameter Pack version
 	template <typename... ConstructorArgs>
@@ -117,31 +153,36 @@ public:
 	return &item;
 	}*/
 
-	void RemoveRange(u32 position, u32 length)
+	bool RemoveRange(u32 index, u32 length)
 	{
-		if (length > 0 && position + length <= Count())
+		if (length > 0 && index + length <= Count())
 		{
-			u32 endPosition = position + length;
-			for (u32 i = position; i < endPosition; ++i)
+			u32 endPosition = index + length;
+			for (u32 i = index; i < endPosition; ++i)
 			{
 				Get(i).~T();
 			}
 
-			MoveMemory(m_container + position, m_container + endPosition, sizeof(T) * (Count() - endPosition));
+			MoveMemory(m_container + index, m_container + endPosition, sizeof(T) * (Count() - endPosition));
 			m_count -= length;
+			return true;
 		}
+		else
+			return false;
 	}
 
-	void RemoveAt(u32 position)
+	bool RemoveAt(u32 index)
 	{
-		RemoveRange(position, 1);
+		return RemoveRange(index, 1);
 	}
 
-	void Remove(T* item)
+	bool Remove(T* item)
 	{
-		int position = int(item - m_container);
-		if (position >= 0)
-			RemoveAt(position);
+		int index = int(item - m_container);
+		if (index >= 0)
+			return RemoveAt(index);
+		else
+			return false;
 	}
 };
 
