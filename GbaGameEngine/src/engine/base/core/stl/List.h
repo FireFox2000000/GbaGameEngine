@@ -17,11 +17,11 @@ class List
 
 	bool GrowTo(u32 size)
 	{
-		T* newContainer = New<T>(size);
+		T* newContainer = MAllocType<T>(size);
 		if (newContainer)
 		{
 			MemCopy(m_container, newContainer, sizeof(T) * MIN(Count(), size));
-			Delete(m_container);
+			SafeFree(m_container);
 
 			m_container = newContainer;
 			m_capacity = size;
@@ -40,7 +40,7 @@ public:
 
 	List(u32 initialCapacity = 1) : m_capacity(MAX(initialCapacity, u32(1))), m_count(0)
 	{
-		m_container = New<T>(m_capacity);
+		m_container = MAllocType<T>(m_capacity);
 	}
 
 	~List()
@@ -49,7 +49,7 @@ public:
 		{
 			it->~T();
 		}
-		Delete(m_container);
+		SafeFree(m_container);
 	}
 
 	inline u32 Count() { return m_count; }

@@ -8,13 +8,13 @@
 #include "../Macros.h"
 
 template<typename T>
-inline static T* New(u32 count)
+inline static T* MAllocType(u32 count)
 {
 	return (T*)malloc(sizeof(T) * count);
 }
 
 template<typename T>
-inline static T* NewAligned(u32 alignment, u32 count)
+inline static T* MemAlignedType(u32 alignment, u32 count)
 {
 	return (T*)memalign(alignment, sizeof(T) * count);
 }
@@ -25,7 +25,7 @@ inline static void MemCopy(const void* src, void* dest, u32 size)
 	std::memcpy(dest, src, size);
 }
 
-inline static void Delete(void* ptr)
+inline static void SafeFree(void* ptr)
 {
 	if (ptr != NULL) std::free(ptr);
 }
