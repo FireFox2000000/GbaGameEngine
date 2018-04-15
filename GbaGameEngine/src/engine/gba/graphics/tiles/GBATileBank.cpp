@@ -1,23 +1,33 @@
-/*#include "GBATileBank.h"
+#include "GBATileBank.h"
 #define TILE_MEM (0x06000000)
 
 namespace GBA
 {
-	tVRam* TileBank::s_VRam = reinterpret_cast<tVRam*>(TILE_MEM);
+	TileBank::TileVRam* TileBank::s_VRam = reinterpret_cast<TileVRam*>(TILE_MEM);
+	TileBank::TileVRam8* TileBank::s_VRam8 = reinterpret_cast<TileVRam8*>(TILE_MEM);
 
-	void TileBank::LoadTiles(const std::vector<u16>& pixelMap, TileBlockGroups tileBlockGroup, u32 startTileIndex)
+	bool TileBank::LoadTiles(const List<u16>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
-		tTileBlock& tileBlock = *(EditTileBlock(tileBlockGroup));
-		std::size_t tileCount = pixelMap.size() / 16;	// 4 pixels for each u16, total of 64 pixels needed for a tile
+		CharBlock& tileBlock = *(EditTileBlock(tileBlockGroup));	
+		volatile u16 *tileMem = (u16*)&tileBlock[startTileIndex];	
 
-		for (std::size_t tileIndex = 0; tileIndex < tileCount; ++tileIndex)
+		if ((void*)(tileMem + pixelMap.Count()) <= (void*)s_VRam->end())
 		{
-			tTile4bpp& tile = tileBlock[startTileIndex + tileIndex];
-			for (int pixelIndex = 0; pixelIndex < 16; pixelIndex += 2)
+			for (u32 i = 0; i < pixelMap.Count(); ++i)
 			{
-				int pixelMapIndex = tileIndex * pixelIndex;
-				tile[pixelIndex] = (pixelMap[pixelMapIndex] << 16) + pixelMap[pixelMapIndex + 1];
+				tileMem[i] = pixelMap[i];
 			}
+			return true;
 		}
+		
+		return false; // NOT ENOUGH SPACE, OUT OF VRAM!
 	}
-}*/
+
+	bool TileBank::LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId)
+	{
+		if (tileId < CharBlock::Count())
+			return LoadTiles(pixelMap, SpriteLower, tileId);
+		else
+			return LoadTiles(pixelMap, SpriteHigher, tileId - CharBlock::Count());
+	}
+}

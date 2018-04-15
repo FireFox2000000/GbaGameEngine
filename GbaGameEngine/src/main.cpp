@@ -1,11 +1,12 @@
-#include "engine\math\Vector2.h"
+#include "engine\base\colour\Colour.h"
+#include "engine\base\core\stl\List.h"
 #include "engine\gba\input\GBAInput.h"
 #include "engine\gba\sprites\GBAObjectAttribute.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayControl.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
-#include "engine\base\colour\Colour.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
-#include "engine\base\core\stl\Array.h"
+#include "engine\gba\graphics\tiles\GBATileBank.h"
+#include "engine\math\Vector2.h"
 
 #define VBLANK_SCNLNE_START 160
 
@@ -27,7 +28,15 @@ int main()
 		colourPalette0[2] = Colour::Red.RGB16();
 		colourPalette0[3] = Colour::Blue.RGB16();
 		
-		PaletteBank::LoadSpritePalette(1, colourPalette0);
+		PaletteBank::LoadSpritePalette(0, colourPalette0);
+
+		tSpriteData tileData0;
+		for (int i = 0; i < 64; ++i)		// Fills 4 tiles, 64 / 16
+		{
+			tileData0.Add(0x3212);
+		}
+
+		TileBank::LoadSpriteTiles(tileData0, 1021);
 	}
 
 	// Update loop

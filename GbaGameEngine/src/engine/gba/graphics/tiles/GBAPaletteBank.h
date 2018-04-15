@@ -9,6 +9,7 @@ namespace GBA
 {
 	typedef Array<rgb16, 16> ColourPalette16;
 	typedef Array<rgb16, 256> ColourPalette256;
+	typedef u8 tPaletteBlockId;
 
 	class PaletteBank
 	{
@@ -29,10 +30,10 @@ namespace GBA
 		}
 
 	public:
-		static void LoadBackgroundPalette(u8 blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
+		static void LoadBackgroundPalette(tPaletteBlockId blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
 		static void LoadBackgroundPalette(const ColourPalette256& palette) { LoadPalette(s_FullBackgroundPalette, palette); }
 		
-		static void LoadSpritePalette(u8 blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
+		static void LoadSpritePalette(tPaletteBlockId blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
 		static void LoadSpritePalette(const ColourPalette256& palette) { LoadPalette(s_FullSpritePalette, palette); }
 	};
 }

@@ -1,6 +1,7 @@
 #ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_MEMORY_H
 #define PRAGMA_ONCE_ENGINE_BASE_CORE_MEMORY_H
 
+#include <new>
 #include <cstring>
 #include <cstdlib>
 #include <malloc.h>
