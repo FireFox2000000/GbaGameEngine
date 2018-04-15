@@ -34,6 +34,23 @@ class List
 		return false;
 	}
 
+	T* AddUninitialisedItemAt(u32 index)
+	{
+		if (Count() >= Capacity())
+		{
+			if (!GrowTo(Capacity() * 2))
+				return NULL;
+		}
+
+		u32 length = 1;
+		u32 endPosition = index + length;
+		MoveMemory(m_container + endPosition, m_container + index, sizeof(T) * (Count() - endPosition + length));
+		++m_count;
+
+		T* newItem = &Get(index);
+		return newItem;
+	}
+
 public:
 	typedef T* iterator;
 	typedef const T* const_iterator;
@@ -91,48 +108,28 @@ public:
 	return &item;
 	}*/
 
-	T* AddNew()
-	{
-		if (Count() >= Capacity())
-		{
-			if (!GrowTo(Capacity() * 2))
-				return NULL;
-		}
-
-		T& item = Get(m_count++);
-		new(&item) T();
-		return &item;
-	}
-
-	T* AddCopy(const T& item)
-	{
-		if (Count() >= Capacity())
-		{
-			if (!GrowTo(Capacity() * 2))
-				return NULL;
-		}
-
-		T& newItem = Get(m_count++);
-		new(&newItem) T(item);
-		return &newItem;
-	}
-
 	T* InsertAt(u32 index, const T& item)
 	{
-		if (Count() >= Capacity())
-		{
-			if (!GrowTo(Capacity() * 2))
-				return NULL;
-		}
-
-		u32 length = 1;
-		u32 endPosition = index + length;
-		MoveMemory(m_container + endPosition, m_container + index, sizeof(T) * (Count() - endPosition + length));
-		++m_count;
-
-		T* newItem = &Get(index);
+		T* newItem = AddUninitialisedItemAt(index);
 		new(newItem) T(item);
 		return newItem;
+	}
+
+	T* InsertNewAt(u32 index)
+	{
+		T* newItem = AddUninitialisedItemAt(index);
+		new(newItem) T();
+		return newItem;
+	}
+
+	T* AddNew()
+	{
+		return InsertNewAt(Count());
+	}
+
+	T* Add(const T& item)
+	{
+		return InsertAt(Count(), item);
 	}
 
 	// EnumerableT must implement begin and end iterators
