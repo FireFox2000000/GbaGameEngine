@@ -17,6 +17,7 @@ class Array
 public:
 	typedef T* iterator;
 	typedef const T* const_iterator;
+	typedef volatile T* volatile_iterator;
 
 	Array()
 	{
@@ -34,9 +35,11 @@ public:
 
 	iterator begin() { return &Get(0); }
 	const_iterator begin() const { return &Get(0); }
+	volatile_iterator begin() volatile { return &Get(0); }
 
 	iterator end() { return &Get(Count()); }
 	const_iterator end() const { return &Get(Count()); }
+	volatile_iterator end() volatile { return &Get(Count()); }
 
 	inline T & operator[](u32 index) { return Get(index); }
 	inline const T & operator[](u32 index) const { return Get(index); }

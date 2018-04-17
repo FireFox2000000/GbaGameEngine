@@ -36,11 +36,11 @@ namespace GBA
 		typedef Array<CharBlock, BlockGroupCount> TileVRam;
 		typedef Array<CharBlock8, BlockGroupCount> TileVRam8;
 
-		static TileVRam * s_VRam;
-		static TileVRam8 * s_VRam8;
+		static volatile TileVRam & s_VRam;
+		static volatile TileVRam8 & s_VRam8;
 	
-		static CharBlock* EditTileBlock(TileBlockGroups group) { return &((*s_VRam)[int(group)]); }
-		static CharBlock8* EditTileBlock8(TileBlockGroups group) { return &((*s_VRam8)[int(group)]); }
+		static volatile CharBlock* EditTileBlock(TileBlockGroups group) { return &(s_VRam[int(group)]); }
+		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_VRam8[int(group)]); }
 
 		static bool LoadTiles(const List<u16>& pixelMap, TileBlockGroups tileBlock, u16 startTileIndex);
 	

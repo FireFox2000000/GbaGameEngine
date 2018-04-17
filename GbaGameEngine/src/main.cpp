@@ -36,7 +36,7 @@ int main()
 			tileData0.Add(0x3212);
 		}
 
-		TileBank::LoadSpriteTiles(tileData0, 1021);
+		TileBank::LoadSpriteTiles(tileData0, 1020);
 	}
 
 	// Update loop

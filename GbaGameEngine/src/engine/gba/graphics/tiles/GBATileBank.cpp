@@ -3,15 +3,15 @@
 
 namespace GBA
 {
-	TileBank::TileVRam* TileBank::s_VRam = reinterpret_cast<TileVRam*>(TILE_MEM);
-	TileBank::TileVRam8* TileBank::s_VRam8 = reinterpret_cast<TileVRam8*>(TILE_MEM);
+	volatile TileBank::TileVRam& TileBank::s_VRam = *reinterpret_cast<volatile TileVRam*>(TILE_MEM);
+	volatile TileBank::TileVRam8& TileBank::s_VRam8 = *reinterpret_cast<volatile TileVRam8*>(TILE_MEM);
 
 	bool TileBank::LoadTiles(const List<u16>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
-		CharBlock& tileBlock = *(EditTileBlock(tileBlockGroup));	
-		volatile u16 *tileMem = (u16*)&tileBlock[startTileIndex];	
+		volatile CharBlock* tileBlock = EditTileBlock(tileBlockGroup);	
+		vu16 *tileMem = reinterpret_cast<vu16*>(tileBlock->At(startTileIndex));
 
-		if ((void*)(tileMem + pixelMap.Count()) <= (void*)s_VRam->end())
+		if ((void*)(tileMem + pixelMap.Count()) <= (void*)s_VRam.end())
 		{
 			for (u32 i = 0; i < pixelMap.Count(); ++i)
 			{
