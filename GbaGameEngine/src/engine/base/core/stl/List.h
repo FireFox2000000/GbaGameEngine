@@ -92,6 +92,11 @@ public:
 			return true; // ???
 	}
 
+	inline int IndexOf(T* item)
+	{
+		return int(item - begin());
+	}
+
 	/*
 	// C++11 Parameter Pack version
 	template <typename... ConstructorArgs>
@@ -192,7 +197,7 @@ public:
 
 	bool Remove(T* item)
 	{
-		int index = int(item - m_container);
+		int index = IndexOf(item);
 		if (index >= 0)
 			return RemoveAt(index);
 		else

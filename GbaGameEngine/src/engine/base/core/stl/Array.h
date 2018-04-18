@@ -57,6 +57,11 @@ public:
 			m_buffer[i] = that.m_buffer[i];
 		}
 	}
+
+	inline int IndexOf(T* item)
+	{
+		return int(item - begin());
+	}
 };
 
 #endif
