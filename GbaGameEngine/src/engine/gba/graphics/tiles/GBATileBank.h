@@ -33,14 +33,14 @@ namespace GBA
 		typedef Array<tPixelIndex8bppX4, 16> Tile8;
 		typedef Array<Tile, CharBlockSize> CharBlock;
 		typedef Array<Tile8, CharBlock8Size> CharBlock8;
-		typedef Array<CharBlock, BlockGroupCount> TileVRam;
-		typedef Array<CharBlock8, BlockGroupCount> TileVRam8;
+		typedef Array<CharBlock, BlockGroupCount> CharBlockPool;
+		typedef Array<CharBlock8, BlockGroupCount> CharBlockPool8;
 
-		static volatile TileVRam & s_VRam;
-		static volatile TileVRam8 & s_VRam8;
+		static volatile CharBlockPool & s_charBlockPool;
+		static volatile CharBlockPool8 & s_charBlockPool8;
 	
-		static volatile CharBlock* EditTileBlock(TileBlockGroups group) { return &(s_VRam[int(group)]); }
-		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_VRam8[int(group)]); }
+		static volatile CharBlock* EditTileBlock(TileBlockGroups group) { return &(s_charBlockPool[int(group)]); }
+		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_charBlockPool8[int(group)]); }
 
 		static bool LoadTiles(const List<u16>& pixelMap, TileBlockGroups tileBlock, u16 startTileIndex);
 	

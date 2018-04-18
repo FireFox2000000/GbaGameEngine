@@ -104,7 +104,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.cpp" />
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\sprites\GBAObjectAttribute.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\input\GBAInput.cpp" />
     <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\main.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
@@ -121,7 +121,7 @@ make</NMakeBuildCommandLine>
     <ClInclude Include="src\engine\base\colour\Colour.h" />
     <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h" />
     <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.h" />
-    <ClInclude Include="src\engine\gba\sprites\GBAObjectAttribute.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.h" />
     <ClInclude Include="src\engine\base\Macros.h" />
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\gba\input\GBAInput.h" />

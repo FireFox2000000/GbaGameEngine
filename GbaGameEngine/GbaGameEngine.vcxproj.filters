@@ -27,9 +27,6 @@
     <ClCompile Include="src\engine\gba\input\GBAInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\sprites\GBAObjectAttribute.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\base\colour\Colour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,15 +45,15 @@
     <ClCompile Include="src\engine\math\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\Vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\gba\input\GBAInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\sprites\GBAObjectAttribute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\base\Macros.h">
@@ -96,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\math\Math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

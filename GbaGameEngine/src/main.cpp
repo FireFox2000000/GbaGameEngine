@@ -1,7 +1,7 @@
 #include "engine\base\colour\Colour.h"
 #include "engine\base\core\stl\List.h"
 #include "engine\gba\input\GBAInput.h"
-#include "engine\gba\sprites\GBAObjectAttribute.h"
+#include "engine\gba\graphics\sprites\GBAObjectAttribute.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayControl.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
