@@ -5,8 +5,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <malloc.h>
-#include "../Typedefs.h"
-#include "../Macros.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/Macros.h"
 
 template<typename T>
 inline static T* MAllocType(u32 count)

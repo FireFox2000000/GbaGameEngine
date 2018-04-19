@@ -1,8 +1,8 @@
 #ifndef PRAGMA_ONCE_ENGINE_BASE_COLOUR_COLOUR_H
 #define PRAGMA_ONCE_ENGINE_BASE_COLOUR_COLOUR_H
 
-#include "../Typedefs.h"
-#include "../Macros.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/Macros.h"
 
 typedef u16 rgb16;
 

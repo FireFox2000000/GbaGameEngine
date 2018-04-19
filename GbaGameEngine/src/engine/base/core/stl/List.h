@@ -1,9 +1,9 @@
 #ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_STL_LIST_H
 #define PRAGMA_ONCE_ENGINE_BASE_CORE_STL_LIST_H
 
-#include "../../Typedefs.h"
-#include "../../Macros.h"
-#include "../Memory.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/Macros.h"
+#include "engine/base/core/Memory.h"
 
 template<class T>
 class List

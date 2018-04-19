@@ -1,9 +1,9 @@
 #ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_DISPLAYREGISTERS_GBADISPLAYCONTROL_H
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_DISPLAYREGISTERS_GBADISPLAYCONTROL_H
 
-#include "../../../math/Vector2.h"
-#include "../../../base/Macros.h"
-#include "../../../base/Typedefs.h"
+#include "engine/math/Vector2.h"
+#include "engine/base/Macros.h"
+#include "engine/base/Typedefs.h"
 
 // http://www.coranac.com/tonc/text/video.htm
 

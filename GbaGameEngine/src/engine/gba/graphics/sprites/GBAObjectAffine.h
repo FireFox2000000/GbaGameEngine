@@ -1,8 +1,8 @@
 #ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_SPRITES_GBAOBJECTAFFINE_H
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_SPRITES_GBAOBJECTAFFINE_H
 
-#include "../../../base/Typedefs.h"
-#include "../../../base/Macros.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/Macros.h"
 
 namespace GBA
 {

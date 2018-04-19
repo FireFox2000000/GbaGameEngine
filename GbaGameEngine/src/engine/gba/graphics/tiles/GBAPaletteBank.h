@@ -1,9 +1,9 @@
 #ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
 
-#include "../../../base/Typedefs.h"
-#include "../../../base/colour/Colour.h"
-#include "../../../base/core/stl/Array.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/colour/Colour.h"
+#include "engine/base/core/stl/Array.h"
 
 namespace GBA
 {

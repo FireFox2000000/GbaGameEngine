@@ -1,9 +1,9 @@
 #ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBATILEBANK_H
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBATILEBANK_H
 
-#include "../../../base/Typedefs.h"
-#include "../../../base/core/stl/Array.h"
-#include "../../../base/core/stl/List.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/core/stl/Array.h"
+#include "engine/base/core/stl/List.h"
 
 namespace GBA
 {

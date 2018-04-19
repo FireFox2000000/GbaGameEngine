@@ -1,9 +1,9 @@
 #ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_SPRITES_GBAOBJECTATTRIBUTE_H
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_SPRITES_GBAOBJECTATTRIBUTE_H
 
-#include "../../../base/Typedefs.h"
-#include "../../../base/Macros.h"
-#include "../../../math/Vector2.h"
+#include "engine/base/Typedefs.h"
+#include "engine/base/Macros.h"
+#include "engine/math/Vector2.h"
 
 // http://www.coranac.com/tonc/text/regobj.htm#tbl-obj-size
 
