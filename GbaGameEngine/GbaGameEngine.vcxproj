@@ -100,20 +100,20 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\gba\graphics\sprites\GBAObjectAffine.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAffine.cpp" />
     <ClCompile Include="src\engine\math\Math.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBATileBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
     <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\input\GBAInput.cpp" />
     <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\main.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\gba\graphics\sprites\GBAObjectAffine.h" />
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAffine.h" />
     <ClInclude Include="src\engine\math\Math.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\Memory.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\List.h" />
@@ -125,7 +125,7 @@ make</NMakeBuildCommandLine>
     <ClInclude Include="src\engine\base\colour\Colour.h" />
     <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h" />
     <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.h" />
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAttribute.h" />
     <ClInclude Include="src\engine\base\Macros.h" />
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\gba\input\GBAInput.h" />

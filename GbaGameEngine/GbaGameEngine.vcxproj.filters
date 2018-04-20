@@ -45,10 +45,10 @@
     <ClCompile Include="src\engine\math\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.cpp">
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAffine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\sprites\GBAObjectAffine.cpp">
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,10 +98,10 @@
     <ClInclude Include="src\engine\math\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\sprites\GBAObjectAttribute.h">
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAffine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\sprites\GBAObjectAffine.h">
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAttribute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
