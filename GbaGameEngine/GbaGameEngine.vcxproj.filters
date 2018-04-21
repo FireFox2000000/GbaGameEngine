@@ -51,6 +51,9 @@
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\Vector2.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAttribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

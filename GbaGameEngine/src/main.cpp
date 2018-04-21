@@ -1,12 +1,11 @@
 #include "engine\base\colour\Colour.h"
 #include "engine\base\core\stl\List.h"
 #include "engine\gba\input\GBAInput.h"
-#include "engine\gba\graphics\oam\GBAObjectAttribute.h"
-#include "engine\gba\graphics\oam\GBAObjectAffine.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayControl.h"
 #include "engine\gba\graphics\displayregisters\GBADisplayStatus.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
+#include "engine\gba\graphics\oam\GBAOAMManager.h"
 #include "engine\math\Vector2.h"
 
 #define VBLANK_SCNLNE_START 160
@@ -23,7 +22,7 @@ int main()
 		DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 		Input::Update();
 
-		ColourPalette16 colourPalette0;
+		ColourPalette16 colourPalette0(0);
 		colourPalette0[0] = 0;	// Transparent
 		colourPalette0[1] = Colour::White.RGB16();
 		colourPalette0[2] = Colour::Red.RGB16();
@@ -37,7 +36,13 @@ int main()
 			tileData0.Add(0x3212);
 		}
 
-		TileBank::LoadSpriteTiles(tileData0, 1020);
+		TileBank::LoadSpriteTiles(tileData0, 4);
+
+		OAMManager* oamManager = OAMManager::GetCurrent();
+		ObjectAttribute* objectHandle = oamManager->ReserveObject();
+		objectHandle->SetPaletteIndex(0);
+		objectHandle->SetBaseTileIndex(4);
+		objectHandle->SetSizeMode(Attributes::Form1);
 	}
 
 	// Update loop

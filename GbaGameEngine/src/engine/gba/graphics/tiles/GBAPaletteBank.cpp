@@ -1,6 +1,6 @@
 #include "GBAPaletteBank.h"
-#include "../../memory/GBAMemoryLocations.h"
-#include "../../../base/Macros.h"
+#include "engine/gba/memory/GBAMemoryLocations.h"
+#include "engine/base/Macros.h"
 
 const u8 c_BlockCount4bbp = 16;
 const u8 c_ColourCount4bbp = 16;

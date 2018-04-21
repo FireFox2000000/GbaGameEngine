@@ -21,10 +21,13 @@ public:
 
 	Array()
 	{
-		// Default initialisation. Do it the hard way cause we don't have C++11. Woo.
+	}
+
+	Array(const T& initialValue)
+	{
 		for (u32 i = 0; i < Count(); ++i)
 		{
-			m_buffer[i] = T(); // Todo, maybe use this instead?- new (&(m_buffer[i])) T();
+			m_buffer[i] = T(initialValue);	// Todo, maybe use this instead?- new (&(m_buffer[i])) T();
 		}
 	}
 
@@ -59,6 +62,11 @@ public:
 	}
 
 	inline int IndexOf(T* item)
+	{
+		return int(item - begin());
+	}
+
+	inline int IndexOf(T* item) volatile
 	{
 		return int(item - begin());
 	}

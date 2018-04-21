@@ -17,7 +17,7 @@ namespace GBA
 	public:
 		inline static bool InVBlank() { return IsStatusBitSet(BIT(0)); }
 		inline static bool InHBlank() { return IsStatusBitSet(BIT(1)); }
-		inline static u16 VCount() { return s_REG_VCOUNT; }
+		inline static vu16 VCount() { return s_REG_VCOUNT; }
 	};
 }
 

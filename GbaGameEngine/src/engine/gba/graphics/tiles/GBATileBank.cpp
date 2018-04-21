@@ -1,10 +1,10 @@
 #include "GBATileBank.h"
-#define TILE_MEM (0x06000000)
+#include "engine/gba/memory/GBAMemoryLocations.h"
 
 namespace GBA
 {
-	volatile TileBank::CharBlockPool& TileBank::s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(TILE_MEM);
-	volatile TileBank::CharBlockPool8& TileBank::s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(TILE_MEM);
+	volatile TileBank::CharBlockPool& TileBank::s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(VRAM);
+	volatile TileBank::CharBlockPool8& TileBank::s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(VRAM);
 
 	bool TileBank::LoadTiles(const List<u16>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
