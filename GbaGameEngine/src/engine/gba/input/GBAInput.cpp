@@ -1,5 +1,5 @@
 #include "GBAInput.h"
-#define KEYS (*(u32*)0x04000130)
+#define KEYS (*(volatile u32*)0x04000130)
 
 u32 GBA::Input::m_previousInput = 0;
 u32 GBA::Input::m_currentInput = 0;

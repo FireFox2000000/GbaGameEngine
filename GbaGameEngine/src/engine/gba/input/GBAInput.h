@@ -8,7 +8,7 @@ namespace GBA
 {
 	namespace Buttons
 	{
-		enum Button
+		enum Enum
 		{
 			A = BIT(0),
 			B = BIT(1),
@@ -30,12 +30,14 @@ namespace GBA
 		static u32 m_previousInput;
 		static u32 m_currentInput;
 
+		inline static bool GetKey(Buttons::Enum key, const u32 inputChannel) { return !(inputChannel & key); }
+
 	public:
 		static void Update();
 
-		inline static bool GetKey(Buttons::Button key) { return (m_currentInput & key); }
-		inline static bool GetKeyDown(Buttons::Button key) { return !(m_previousInput & key) && GetKey(key); }
-		inline static bool GetKeyUp(Buttons::Button key) { return (m_previousInput & key) && !GetKey(key); }
+		inline static bool GetKey(Buttons::Enum key) { return GetKey(key, m_currentInput); }
+		inline static bool GetKeyDown(Buttons::Enum key) { return !GetKey(key, m_previousInput) && GetKey(key); }
+		inline static bool GetKeyUp(Buttons::Enum key) { return GetKey(key, m_previousInput) && !GetKey(key); }
 	};
 }
 
