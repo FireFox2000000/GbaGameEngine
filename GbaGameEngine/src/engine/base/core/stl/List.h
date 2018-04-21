@@ -116,15 +116,13 @@ public:
 	T* InsertAt(u32 index, const T& item)
 	{
 		T* newItem = AddUninitialisedItemAt(index);
-		new(newItem) T(item);
-		return newItem;
+		return new(newItem) T(item);
 	}
 
 	T* InsertNewAt(u32 index)
 	{
 		T* newItem = AddUninitialisedItemAt(index);
-		new(newItem) T();
-		return newItem;
+		return new(newItem) T();
 	}
 
 	T* AddNew()

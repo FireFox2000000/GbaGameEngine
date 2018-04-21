@@ -7,6 +7,8 @@
 #include "engine\gba\graphics\tiles\GBATileBank.h"
 #include "engine\gba\graphics\oam\GBAOAMManager.h"
 #include "engine\math\Vector2.h"
+#include "engine\gameobject\GameObject.h"
+#include "engine\rendering\SpriteRenderer.h"
 
 #define VBLANK_SCNLNE_START 160
 
@@ -16,7 +18,14 @@ int main()
 {
 	using namespace GBA;
 
-	// Initialisation
+	List<GameObject> gameObjects;
+	List<SpriteRenderer> renderList;
+
+	GameObject* testObject = gameObjects.AddNew();
+	SpriteRenderer* testRenderer = renderList.Add(SpriteRenderer(testObject));
+	UNUSED(testRenderer);
+
+	// Test Initialisation
 	{		
 		using namespace DisplayOptions;	
 		DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
@@ -37,12 +46,6 @@ int main()
 		}
 
 		TileBank::LoadSpriteTiles(tileData0, 4);
-
-		OAMManager* oamManager = OAMManager::GetCurrent();
-		vObjectAttribute* objectHandle = oamManager->ReserveObject();
-		objectHandle->SetPaletteIndex(0);
-		objectHandle->SetBaseTileIndex(4);
-		objectHandle->SetSizeMode(Attributes::Form1);
 	}
 
 	// Update loop
@@ -51,11 +54,19 @@ int main()
 		// General update
 		Input::Update();
 
+		for (List<GameObject>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
+		{
+			it->Update();
+		}
+
 		// Main update
 		WaitForVSync();
 
 		// Render
-
+		for (List<SpriteRenderer>::iterator it = renderList.begin(); it != renderList.end(); ++it)
+		{
+			it->Render();
+		}
 	}
 
 	return 0;
