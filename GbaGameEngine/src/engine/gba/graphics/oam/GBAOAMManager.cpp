@@ -18,7 +18,7 @@ namespace GBA
 	{
 	}
 
-	ObjectAttribute * OAMManager::ReserveObject()
+	vObjectAttribute * OAMManager::ReserveObject()
 	{
 		u32 searchIndexStart = m_objAttrEnabledSearchIndex;
 
@@ -40,7 +40,7 @@ namespace GBA
 		return NULL;
 	}
 
-	void OAMManager::Release(ObjectAttribute * objAttr)
+	void OAMManager::Release(vObjectAttribute * objAttr)
 	{
 		u32 releaseIndex = s_objectAttrPool.IndexOf(objAttr);
 		m_objAttrEnabledTracker[releaseIndex] = false;

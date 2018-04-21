@@ -112,33 +112,33 @@ namespace GBA
 			A2_Count = 3
 		};
 
-		inline void SetExplicitAttribute(int value, u16 attributeMask, u16& attribute) { attribute = (attribute & ~attributeMask) | (value & attributeMask); }
-		inline void SetAttribute(int value, Attribute0_Masks attributeMask) { SetExplicitAttribute(value, attributeMask, m_attributeZero); }
-		inline void SetAttribute(int value, Attribute1_Masks attributeMask) { SetExplicitAttribute(value, attributeMask, m_attributeOne); }
-		inline void SetAttribute(int value, Attribute2_Masks attributeMask) { SetExplicitAttribute(value, attributeMask, m_attributeTwo); }
+		inline void SetExplicitAttribute(int value, u16 attributeMask, vu16& attribute) volatile { attribute = (attribute & ~attributeMask) | (value & attributeMask); }
+		inline void SetAttribute(int value, Attribute0_Masks attributeMask) volatile { SetExplicitAttribute(value, attributeMask, m_attributeZero); }
+		inline void SetAttribute(int value, Attribute1_Masks attributeMask) volatile { SetExplicitAttribute(value, attributeMask, m_attributeOne); }
+		inline void SetAttribute(int value, Attribute2_Masks attributeMask) volatile { SetExplicitAttribute(value, attributeMask, m_attributeTwo); }
 
 	public:
 		inline ObjectAttribute() : m_attributeZero(0), m_attributeOne(0), m_attributeTwo(0) {}
-		inline void Reset() { m_attributeZero = m_attributeOne = m_attributeTwo = 0; }
+		inline void Reset() volatile { m_attributeZero = m_attributeOne = m_attributeTwo = 0; }
 
-		inline void SetPosition(const Vector2& position)	// Top-left of the sprite
+		inline void SetPosition(const Vector2& position) volatile	// Top-left of the sprite
 		{
-			SetAttribute(int(position.x + 0.5f), XCoord);
-			SetAttribute(int(position.y + 0.5f), YCoord);
+			SetAttribute(ROUND(position.x), XCoord);
+			SetAttribute(ROUND(position.y), YCoord);
 		}
 
-		inline void SetObjectMode(Attributes::ObjectMode objectMode)	{ SetAttribute(SHIFTED_BITMASK((int)objectMode, sc_A0_OBJMODE_BITINDEX), ObjMode); }
-		inline void SetGfxMode(Attributes::GfxMode gfxMode)				{ SetAttribute(SHIFTED_BITMASK((int)gfxMode, sc_A0_GFXMODE_BITINDEX), GfxMode); }
-		inline void SetColourMode(Attributes::ColourMode colourMode)	{ SetAttribute(SHIFTED_BITMASK((int)colourMode, sc_A0_COLOURMODE_BITINDEX), ColourMode); }
-		inline void SetShape(Attributes::Shape shape)					{ SetAttribute(SHIFTED_BITMASK((int)shape, sc_A0_SHAPE_BITINDEX), Shape); }
-		inline void SetSizeMode(Attributes::SizeMode sizeMode)			{ SetAttribute(SHIFTED_BITMASK((int)sizeMode, sc_A1_SIZEMODE_BITINDEX), SizeMode); }
-		inline void SetPriority(Attributes::Priority layerNum)			{ SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
-		inline void SetBaseTileIndex(u32 index)							{ SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
-		inline void SetPaletteIndex(u8 index)							{ SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_PALETTEBANK_BITINDEX), PaletteBank); }
+		inline void SetObjectMode(Attributes::ObjectMode objectMode)	volatile { SetAttribute(SHIFTED_BITMASK((int)objectMode, sc_A0_OBJMODE_BITINDEX), ObjMode); }
+		inline void SetGfxMode(Attributes::GfxMode gfxMode)				volatile { SetAttribute(SHIFTED_BITMASK((int)gfxMode, sc_A0_GFXMODE_BITINDEX), GfxMode); }
+		inline void SetColourMode(Attributes::ColourMode colourMode)	volatile { SetAttribute(SHIFTED_BITMASK((int)colourMode, sc_A0_COLOURMODE_BITINDEX), ColourMode); }
+		inline void SetShape(Attributes::Shape shape)					volatile { SetAttribute(SHIFTED_BITMASK((int)shape, sc_A0_SHAPE_BITINDEX), Shape); }
+		inline void SetSizeMode(Attributes::SizeMode sizeMode)			volatile { SetAttribute(SHIFTED_BITMASK((int)sizeMode, sc_A1_SIZEMODE_BITINDEX), SizeMode); }
+		inline void SetPriority(Attributes::Priority layerNum)			volatile { SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
+		inline void SetBaseTileIndex(u32 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
+		inline void SetPaletteIndex(u8 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_PALETTEBANK_BITINDEX), PaletteBank); }
 
-		void SetMosaic(bool enabled);
-		void SetFlippedHorizontal(bool flipped);
-		void SetFlippedVertical(bool flipped);
+		void SetMosaic(bool enabled) volatile;
+		void SetFlippedHorizontal(bool flipped) volatile;
+		void SetFlippedVertical(bool flipped) volatile;
 
 	} ALIGN(4);
 }

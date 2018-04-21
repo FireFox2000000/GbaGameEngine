@@ -7,15 +7,18 @@
 
 namespace GBA
 {
+	typedef volatile ObjectAttribute vObjectAttribute;
+	typedef volatile ObjectAffine vObjectAffine;
+
 	class OAMManager
 	{
 	public:
 		static const int OBJ_ATTR_COUNT = 128;
 		static const int OBJ_AFFINE_COUNT = 32;
-
+		
 	private:
-		typedef Array<ObjectAttribute, OBJ_ATTR_COUNT> ObjAttrPool;
-		typedef Array<ObjectAffine, OBJ_AFFINE_COUNT> ObjAffinePool;
+		typedef Array<vObjectAttribute, OBJ_ATTR_COUNT> ObjAttrPool;
+		typedef Array<vObjectAffine, OBJ_AFFINE_COUNT> ObjAffinePool;
 
 		static ObjAttrPool& s_objectAttrPool;
 		static ObjAffinePool& s_objectAffinePool;
@@ -34,8 +37,8 @@ namespace GBA
 			return &instance;
 		}
 
-		ObjectAttribute * ReserveObject();
-		void Release(ObjectAttribute* objAttr);
+		vObjectAttribute * ReserveObject();
+		void Release(vObjectAttribute* objAttr);
 	};
 }
 

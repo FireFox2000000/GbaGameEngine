@@ -39,7 +39,7 @@ int main()
 		TileBank::LoadSpriteTiles(tileData0, 4);
 
 		OAMManager* oamManager = OAMManager::GetCurrent();
-		ObjectAttribute* objectHandle = oamManager->ReserveObject();
+		vObjectAttribute* objectHandle = oamManager->ReserveObject();
 		objectHandle->SetPaletteIndex(0);
 		objectHandle->SetBaseTileIndex(4);
 		objectHandle->SetSizeMode(Attributes::Form1);
