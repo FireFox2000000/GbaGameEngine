@@ -1,13 +1,15 @@
 #include "SpriteRenderer.h"
 
+#include "engine\assets\Sprite.h"
 #include "engine\base\Macros.h"
 #include "engine\gba\graphics\oam\GBAOAMManager.h"
 #include "engine\gameobject\GameObject.h"
-
+#include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
 
 SpriteRenderer::SpriteRenderer(GameObject* gameObject)
 	: Renderer(gameObject)
 	, m_attributeHandle(NULL)
+	, m_sprite(NULL)
 {
 	m_oamManager = GBA::OAMManager::GetCurrent();
 }
@@ -18,27 +20,33 @@ SpriteRenderer::~SpriteRenderer()
 		m_oamManager->Release(m_attributeHandle);
 }
 
-void SpriteRenderer::SetSprite()
+void SpriteRenderer::SetSprite(Sprite* sprite)
 {
-	// TODO: Calculate sprite offset
-	m_centerToCornerSizeOffset = Vector2::Zero;
+	using namespace GBA::Attributes;
+
+	if (sprite)
+	{
+		m_centerToCornerSizeOffset = GBA::AttributeFunctions::GetPixelSize(sprite->shape, sprite->sizeMode) / -2;
+	}
+
+	m_sprite = sprite;
 }
 
 void SpriteRenderer::Render()
 {
 	using namespace GBA;
 
-	bool needToRender = true;	// True
-	if (needToRender)
+	bool wantRender = m_sprite && m_sprite->isLoaded;
+	if (wantRender)
 	{
 		if (!m_attributeHandle)
 		{
 			m_attributeHandle = m_oamManager->ReserveObject();
 
-			// TODO: Initialise based on actual sprite data
-			m_attributeHandle->SetPaletteIndex(0);
-			m_attributeHandle->SetBaseTileIndex(4);
-			m_attributeHandle->SetSizeMode(Attributes::Form1);
+			m_attributeHandle->SetPaletteIndex(m_sprite->paletteId);
+			m_attributeHandle->SetTileIndex(m_sprite->tileIndex);
+			m_attributeHandle->SetShape(m_sprite->shape);
+			m_attributeHandle->SetSizeMode(m_sprite->sizeMode);
 		}
 
 		Vector2 position = m_gameObject->GetPosition2();

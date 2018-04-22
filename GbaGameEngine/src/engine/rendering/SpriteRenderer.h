@@ -13,18 +13,20 @@ namespace GBA
 }
 
 class GameObject;
+class Sprite;
 
 class SpriteRenderer : public Renderer
 {
 	GBA::vObjectAttribute* m_attributeHandle;
 	GBA::OAMManager* m_oamManager;
 	Vector2 m_centerToCornerSizeOffset;
+	Sprite* m_sprite;
 
 public:
 	SpriteRenderer(GameObject* gameObject);
 	~SpriteRenderer();
 
-	void SetSprite();
+	void SetSprite(Sprite* sprite);
 	void Render();
 };
 

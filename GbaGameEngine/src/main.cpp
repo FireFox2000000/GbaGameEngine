@@ -1,3 +1,4 @@
+#include "engine\assets\Sprite.h"
 #include "engine\base\colour\Colour.h"
 #include "engine\base\core\stl\List.h"
 #include "engine\gba\input\GBAInput.h"
@@ -23,8 +24,8 @@ int main()
 
 	GameObject* testObject = gameObjects.AddNew();
 	SpriteRenderer* testRenderer = renderList.Add(SpriteRenderer(testObject));
-	UNUSED(testRenderer);
-
+	Sprite testSprite;
+	
 	// Test Initialisation
 	{		
 		using namespace DisplayOptions;	
@@ -37,7 +38,8 @@ int main()
 		colourPalette0[2] = Colour::Red.RGB16();
 		colourPalette0[3] = Colour::Blue.RGB16();
 		
-		PaletteBank::LoadSpritePalette(0, colourPalette0);
+		tPaletteBlockId testPaletteId = 0;
+		PaletteBank::LoadSpritePalette(testPaletteId, colourPalette0);
 
 		tSpriteData tileData0;
 		for (int i = 0; i < 64; ++i)		// Fills 4 tiles, 64 / 16
@@ -45,7 +47,11 @@ int main()
 			tileData0.Add(0x3212);
 		}
 
-		TileBank::LoadSpriteTiles(tileData0, 4);
+		tTileId tileIndex = 4;
+		TileBank::LoadSpriteTiles(tileData0, tileIndex);
+
+		testSprite.Init(Attributes::Wide, Attributes::Form1, testPaletteId, tileIndex);
+		testRenderer->SetSprite(&testSprite);
 	}
 
 	// Update loop
@@ -63,9 +69,9 @@ int main()
 		WaitForVSync();
 
 		// Render
-		for (List<SpriteRenderer>::iterator it = renderList.begin(); it != renderList.end(); ++it)
+		for (u32 i = 0; i < renderList.Count(); ++i)
 		{
-			it->Render();
+			renderList[i].Render();
 		}
 	}
 

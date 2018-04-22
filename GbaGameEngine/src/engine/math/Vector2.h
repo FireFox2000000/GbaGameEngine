@@ -53,6 +53,8 @@ struct Vector2
 
 	inline Vector2 operator*(int scalar) const { return Vector2(*this) * (float)scalar; }
 	inline Vector2 operator/(int scalar) const { return Vector2(*this) / (float)scalar; }
+	inline Vector2 operator*(double scalar) const { return Vector2(*this) *= scalar; }
+	inline Vector2 operator/(double scalar) const { return Vector2(*this) /= scalar; }
 	
 	// Regular functions
 	float Magnitude();
@@ -80,5 +82,8 @@ inline Vector2 operator/(float scalar, const Vector2& vec) { return Vector2(vec)
 
 inline Vector2 operator*(int scalar, const Vector2& vec) { return Vector2(vec) * (float)scalar; }
 inline Vector2 operator/(int scalar, const Vector2& vec) { return Vector2(vec) / (float)scalar; }
+
+inline Vector2 operator*(double scalar, const Vector2& vec) { return Vector2(vec) * scalar; }
+inline Vector2 operator/(double scalar, const Vector2& vec) { return Vector2(vec) / scalar; }
 
 #endif

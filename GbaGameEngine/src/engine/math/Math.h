@@ -1,5 +1,6 @@
 #ifndef PRAGMA_ONCE_ENGINE_MATH_MATH_H
 #define PRAGMA_ONCE_ENGINE_MATH_MATH_H
+#include <cmath>
 
 namespace Math
 {

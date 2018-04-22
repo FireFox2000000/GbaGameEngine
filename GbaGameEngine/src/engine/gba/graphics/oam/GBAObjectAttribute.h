@@ -133,7 +133,7 @@ namespace GBA
 		inline void SetShape(Attributes::Shape shape)					volatile { SetAttribute(SHIFTED_BITMASK((int)shape, sc_A0_SHAPE_BITINDEX), Shape); }
 		inline void SetSizeMode(Attributes::SizeMode sizeMode)			volatile { SetAttribute(SHIFTED_BITMASK((int)sizeMode, sc_A1_SIZEMODE_BITINDEX), SizeMode); }
 		inline void SetPriority(Attributes::Priority layerNum)			volatile { SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
-		inline void SetBaseTileIndex(u32 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
+		inline void SetTileIndex(u32 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
 		inline void SetPaletteIndex(u8 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_PALETTEBANK_BITINDEX), PaletteBank); }
 
 		void SetMosaic(bool enabled) volatile;
