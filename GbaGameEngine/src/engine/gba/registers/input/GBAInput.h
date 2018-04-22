@@ -27,6 +27,7 @@ namespace GBA
 
 	class Input
 	{
+		static vu32& s_REG_KEYINPUT;
 		static u32 m_previousInput;
 		static u32 m_currentInput;
 
