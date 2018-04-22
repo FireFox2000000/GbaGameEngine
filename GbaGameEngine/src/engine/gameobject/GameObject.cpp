@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "engine\base\Macros.h"
-#include "engine\gba\input\GBAInput.h"
+#include "engine\gba\registers\input\GBAInput.h"
 
 GameObject::GameObject()
 {

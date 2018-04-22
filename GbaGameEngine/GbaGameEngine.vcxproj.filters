@@ -24,16 +24,7 @@
     <ClCompile Include="src\engine\math\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\input\GBAInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\base\colour\Colour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp">
@@ -72,12 +63,18 @@
     <ClCompile Include="src\engine\screen\Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\gba\registers\display\GBADisplayControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gba\registers\display\GBADisplayStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\input\GBAInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\base\Macros.h">
@@ -90,12 +87,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\base\colour\Colour.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\displayregisters\GBADisplayStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h">
@@ -150,6 +141,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\registers\display\GBADisplayControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\registers\display\GBADisplayStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\registers\input\GBAInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
