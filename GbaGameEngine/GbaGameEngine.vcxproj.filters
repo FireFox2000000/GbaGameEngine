@@ -149,5 +149,8 @@
     <ClInclude Include="src\engine\screen\Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBATileConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

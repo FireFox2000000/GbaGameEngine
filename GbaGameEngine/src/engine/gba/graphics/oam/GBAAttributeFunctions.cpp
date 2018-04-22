@@ -1,5 +1,6 @@
 #include "GBAAttributeFunctions.h"
 #include "engine/math/Math.h"
+#include "engine\gba\graphics\tiles\GBATileConfig.h"
 
 Vector2 GetSquareShape(GBA::Attributes::SizeMode sizeMode)
 {
@@ -80,7 +81,5 @@ Vector2 GBA::AttributeFunctions::GetTileSize(Attributes::Shape shape, Attributes
 
 Vector2 GBA::AttributeFunctions::GetPixelSize(Attributes::Shape shape, Attributes::SizeMode sizeMode)
 {
-	const int c_pixelsPerTile = 8;
-
-	return GetTileSize(shape, sizeMode) * c_pixelsPerTile;
+	return GetTileSize(shape, sizeMode) * TileConfig::PIXELS_SQRROOT_PER_TILE;
 }

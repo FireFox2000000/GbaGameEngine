@@ -4,6 +4,7 @@
 #include "engine\base\Macros.h"
 #include "engine\gba\graphics\oam\GBAOAMManager.h"
 #include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
+#include "engine\gba\graphics\tiles\GBATileConfig.h"
 #include "engine\gameobject\GameObject.h"
 #include "engine\gameobject\Camera.h"
 #include "engine\screen\Screen.h"
@@ -55,12 +56,11 @@ namespace GBA
 			}
 
 			Vector2 position = m_gameObject->GetPosition2();
-			position -= camera->GetPosition2();				// Convert world space to relative camera space	
-			position.y *= -1;								// Correct for screen space starting from the top
-			// Todo, use proper converter to convert units to pixels
-			position *= 8;									// Camera position units to pixel units, 8 pixels per tile/unit
-			position += Screen::GetResolution() / 2.f;		// Convert to screen space
-			position += m_centerToCornerSizeOffset;			// Offset by sprite size to render from the center
+			position -= camera->GetPosition2();					// Convert world space to relative camera space	
+			position.y *= -1;									// Correct for screen space starting from the top
+			position *= TileConfig::PIXELS_SQRROOT_PER_TILE;		// Camera position units to pixel units, 8 pixels per tile/unit
+			position += Screen::GetResolution() / 2.f;			// Convert to screen space
+			position += m_centerToCornerSizeOffset;				// Offset by sprite size to render from the center
 
 			m_attributeHandle->SetPosition(position);
 		}

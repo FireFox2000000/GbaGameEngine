@@ -120,6 +120,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBATileConfig.h" />
     <ClInclude Include="src\engine\screen\Screen.h" />
     <ClInclude Include="src\engine\gameobject\Camera.h" />
     <ClInclude Include="src\engine\assets\GBASprite.h" />
