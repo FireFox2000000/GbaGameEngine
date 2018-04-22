@@ -41,10 +41,11 @@ namespace GBA
 	class DisplayControl
 	{
 		static vu32& s_REG_DISPCNT;
+		static Vector2 m_screenResolution;
 
 	public:		
 		static void SetDisplayOptions(int params);
-		static Vector2 GetScreenResolution();
+		static inline Vector2 GetScreenResolution() { return m_screenResolution; }
 
 		inline static DisplayOptions::VideoMode GetVideoMode() { return DisplayOptions::VideoMode(s_REG_DISPCNT & BITS_INDEXED_U32(3, 0)); }
 		inline static DisplayOptions::SpriteMappingMode GetSpriteMappingMode() { return DisplayOptions::SpriteMappingMode(s_REG_DISPCNT & BIT(6)); }
