@@ -2,6 +2,7 @@
 #define PRAGMA_ONCE_ENGINE_RENDERING_RENDERER_H
 
 class GameObject;
+class Camera;
 
 class Renderer
 {
@@ -12,7 +13,7 @@ public:
 	Renderer(GameObject* gameObject);
 	virtual ~Renderer() {};
 
-	virtual void Render() {};
+	virtual void Render(Camera* camera) {};
 };
 
 #endif

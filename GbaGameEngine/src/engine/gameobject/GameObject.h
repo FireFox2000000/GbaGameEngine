@@ -6,12 +6,6 @@
 // TODO: replace with transformation matrix
 // Component system
 
-namespace GBA
-{
-	class ObjectAttribute;
-	typedef volatile ObjectAttribute vObjectAttribute;
-}
-
 class GameObject
 {
 	Vector2 m_localPosition;	

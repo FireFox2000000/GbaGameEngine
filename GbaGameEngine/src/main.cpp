@@ -1,4 +1,4 @@
-#include "engine\assets\Sprite.h"
+#include "engine\assets\GBASprite.h"
 #include "engine\base\colour\Colour.h"
 #include "engine\base\core\stl\List.h"
 #include "engine\gba\input\GBAInput.h"
@@ -9,7 +9,8 @@
 #include "engine\gba\graphics\oam\GBAOAMManager.h"
 #include "engine\math\Vector2.h"
 #include "engine\gameobject\GameObject.h"
-#include "engine\rendering\SpriteRenderer.h"
+#include "engine\gameobject\Camera.h"
+#include "engine\rendering\GBASpriteRenderer.h"
 
 #define VBLANK_SCNLNE_START 160
 
@@ -19,6 +20,7 @@ int main()
 {
 	using namespace GBA;
 
+	Camera mainCamera;
 	List<GameObject> gameObjects;
 	List<SpriteRenderer> renderList;
 
@@ -71,7 +73,7 @@ int main()
 		// Render
 		for (u32 i = 0; i < renderList.Count(); ++i)
 		{
-			renderList[i].Render();
+			renderList[i].Render(&mainCamera);
 		}
 	}
 

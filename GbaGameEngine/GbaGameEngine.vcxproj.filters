@@ -60,10 +60,16 @@
     <ClCompile Include="src\engine\rendering\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\rendering\SpriteRenderer.cpp">
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp">
+    <ClCompile Include="src\engine\rendering\GBASpriteRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gameobject\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\screen\Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,13 +134,19 @@
     <ClInclude Include="src\engine\rendering\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\rendering\SpriteRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\assets\Sprite.h">
+    <ClInclude Include="src\engine\assets\GBASprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\rendering\GBASpriteRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gameobject\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\screen\Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,27 +13,28 @@ GameObject::~GameObject()
 void GameObject::Update()
 {
 	using namespace GBA;
+	float moveSpeed = 0.3f;
 
 	Vector2 position = GetPosition2();
 
 	if (Input::GetKey(Buttons::Left))
 	{
-		position.x -= 1;
+		position.x -= moveSpeed;
 	}
 	
 	if (Input::GetKey(Buttons::Right))
 	{
-		position.x += 1;
+		position.x += moveSpeed;
 	}
 
 	if (Input::GetKey(Buttons::Up))
 	{
-		position.y += 1;
+		position.y += moveSpeed;
 	}
 
 	if (Input::GetKey(Buttons::Down))
 	{
-		position.y -= 1;
+		position.y -= moveSpeed;
 	}
 
 	SetPosition(position);
