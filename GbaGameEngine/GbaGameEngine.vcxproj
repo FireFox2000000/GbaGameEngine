@@ -100,6 +100,9 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\Scene0.cpp" />
+    <ClCompile Include="src\engine\scene\SceneManager.cpp" />
+    <ClCompile Include="src\engine\scene\Scene.cpp" />
     <ClCompile Include="src\engine\screen\Screen.cpp" />
     <ClCompile Include="src\engine\gameobject\Camera.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp" />
@@ -120,6 +123,9 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\game\Scene0.h" />
+    <ClInclude Include="src\engine\scene\SceneManager.h" />
+    <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileConfig.h" />
     <ClInclude Include="src\engine\screen\Screen.h" />
