@@ -201,6 +201,11 @@ public:
 		else
 			return false;
 	}
+
+	bool Clear()
+	{
+		return RemoveRange(0, Count());
+	}
 };
 
 #endif

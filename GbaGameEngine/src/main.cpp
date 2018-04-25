@@ -2,7 +2,7 @@
 #include "engine\gba\registers\input\GBAInput.h"
 #include "engine\scene\SceneManager.h"
 
-#include "game\Scene0.h"
+#include "game\scenes\Scene0.h"
 
 #define VBLANK_SCNLNE_START 160
 

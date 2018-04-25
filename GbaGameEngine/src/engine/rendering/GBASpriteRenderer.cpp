@@ -55,10 +55,10 @@ namespace GBA
 				m_attributeHandle->SetSizeMode(m_sprite->sizeMode);
 			}
 
-			Vector2 position = m_gameObject->GetPosition2();
+			Vector2 position = GetGameObject()->GetPosition2();
 			position -= camera->GetPosition2();					// Convert world space to relative camera space	
 			position.y *= -1;									// Correct for screen space starting from the top
-			position *= TileConfig::PIXELS_SQRROOT_PER_TILE;		// Camera position units to pixel units, 8 pixels per tile/unit
+			position *= TileConfig::PIXELS_SQRROOT_PER_TILE;	// Camera position units to pixel units, 8 pixels per tile/unit
 			position += Screen::GetResolution() / 2.f;			// Convert to screen space
 			position += m_centerToCornerSizeOffset;				// Offset by sprite size to render from the center
 

@@ -100,7 +100,10 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\Scene0.cpp" />
+    <ClCompile Include="src\game\scripts\MovementTest.cpp" />
+    <ClCompile Include="src\engine\component\MonoBehaviour.cpp" />
+    <ClCompile Include="src\engine\component\GameObjectComponent.cpp" />
+    <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
     <ClCompile Include="src\engine\screen\Screen.cpp" />
@@ -123,7 +126,10 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\game\Scene0.h" />
+    <ClInclude Include="src\game\scripts\MovementTest.h" />
+    <ClInclude Include="src\engine\component\MonoBehaviour.h" />
+    <ClInclude Include="src\engine\component\GameObjectComponent.h" />
+    <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\registers\RegisterMap.h" />

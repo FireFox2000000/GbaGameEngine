@@ -3,6 +3,9 @@
 #include "engine\gba\registers\display\GBADisplayControl.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
+#include "engine\rendering\GBASpriteRenderer.h"
+
+#include "game\scripts\MovementTest.h"
 
 Scene0::Scene0()
 {
@@ -10,7 +13,9 @@ Scene0::Scene0()
 	using namespace GBA::DisplayOptions;
 
 	GameObject* testObject = gameObjects.AddNew();
-	SpriteRenderer* testRenderer = renderList.Add(SpriteRenderer(testObject));
+	testObject->AddComponent<MovementTest>();
+	SpriteRenderer* testRenderer = testObject->AddComponent<SpriteRenderer>();
+	renderList.Add(testRenderer);
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
@@ -47,21 +52,4 @@ Scene0::Scene0()
 
 Scene0::~Scene0()
 {
-}
-
-void Scene0::Update()
-{
-	for (List<GameObject>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
-	{
-		it->Update();
-	}
-
-}
-
-void Scene0::Render()
-{
-	for (u32 i = 0; i < renderList.Count(); ++i)
-	{
-		renderList[i].Render(&mainCamera);
-	}
 }

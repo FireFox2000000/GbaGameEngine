@@ -1,14 +1,13 @@
 #ifndef PRAGMA_ONCE_ENGINE_RENDERING_RENDERER_H
 #define PRAGMA_ONCE_ENGINE_RENDERING_RENDERER_H
 
+#include "engine/component/GameObjectComponent.h"
+
 class GameObject;
 class Camera;
 
-class Renderer
+class Renderer : public GameObjectComponent
 {
-protected:
-	GameObject* m_gameObject;
-
 public:
 	Renderer(GameObject* gameObject);
 	virtual ~Renderer() {};

@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "engine\base\Macros.h"
 #include "engine\gba\registers\input\GBAInput.h"
+#include "engine\component\GameObjectComponent.h"
 
 GameObject::GameObject()
 {
@@ -8,34 +9,16 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+	for (u32 i = 0; i < m_components.Count(); ++i)
+	{
+		delete m_components[i];
+	}
 }
 
 void GameObject::Update()
 {
-	using namespace GBA;
-	float moveSpeed = 0.3f;
-
-	Vector2 position = GetPosition2();
-
-	if (Input::GetKey(Buttons::Left))
+	for (u32 i = 0; i < m_monoBehaviourComponents.Count(); ++i)
 	{
-		position.x -= moveSpeed;
+		m_monoBehaviourComponents[i]->Update();
 	}
-	
-	if (Input::GetKey(Buttons::Right))
-	{
-		position.x += moveSpeed;
-	}
-
-	if (Input::GetKey(Buttons::Up))
-	{
-		position.y += moveSpeed;
-	}
-
-	if (Input::GetKey(Buttons::Down))
-	{
-		position.y -= moveSpeed;
-	}
-
-	SetPosition(position);
 }

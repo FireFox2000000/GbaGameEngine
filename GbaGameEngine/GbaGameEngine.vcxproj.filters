@@ -78,7 +78,16 @@
     <ClCompile Include="src\engine\scene\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Scene0.cpp">
+    <ClCompile Include="src\engine\component\GameObjectComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\component\MonoBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scenes\Scene0.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\MovementTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,7 +179,16 @@
     <ClInclude Include="src\engine\scene\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\Scene0.h">
+    <ClInclude Include="src\engine\component\GameObjectComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\component\MonoBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\Scene0.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\MovementTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

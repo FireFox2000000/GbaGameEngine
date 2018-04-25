@@ -19,7 +19,7 @@ namespace GBA
 		GBA::OAMManager* m_oamManager;	
 		GBA::Sprite* m_sprite;
 
-	public:
+	public:	
 		SpriteRenderer(GameObject* gameObject);
 		~SpriteRenderer();
 
