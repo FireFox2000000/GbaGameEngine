@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -35,12 +36,12 @@ namespace GbaConversionTools
         static void Main(string[] args)
         {
             // Todo, remove hardcoded filenames
-            string filename = "Shantae.bmp";
-            string outputfile = "ShantaeBitmap.h";
-            
+            string inputPath = "Shantae.bmp";     
+            string outputPath = Path.GetFileNameWithoutExtension(inputPath) + ".h";
+
             try
             {
-                Bitmap bitmap = new Bitmap(filename);
+                Bitmap bitmap = new Bitmap(inputPath);
                 if (bitmap.PixelFormat != System.Drawing.Imaging.PixelFormat.Format4bppIndexed)
                 {
                     throw new Exception("Tool currently only supports 4bpp formats");
@@ -49,11 +50,13 @@ namespace GbaConversionTools
                 StringBuilder sb = new StringBuilder();
                 Size size = bitmap.Size;
                 ColorPalette palette = bitmap.Palette;
-
+                string namespaceName = Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath));
                 int hexCount = 0;
 
-                sb.AppendFormat("u8 width = {0}, height = {1}; \n\n", size.Width, size.Height);
-                sb.Append("const u16 spriteData[] = {\n\t");
+                string namespaceTabs = "\t";
+                sb.Append("namespace " + namespaceName + "\n{\n");
+                sb.AppendFormat(namespaceTabs + "const u8 width = {0}, height = {1}; \n\n", size.Width, size.Height);
+                sb.Append(namespaceTabs + "const u16 spriteData[] = {\n\t" + namespaceTabs);
 
                 // Write all palette indicies
                 for (int y = 0; y < size.Height; ++y)
@@ -70,19 +73,19 @@ namespace GbaConversionTools
                             int index = ColorToPaletteIndex(palette, color);
                             hexNum += (UInt16)index;
                         }
-                        
+
                         sb.AppendFormat("0x{0:X4}, ", hexNum);
                         if ((hexCount + 1) % c_hexValueWrapCount == 0)
                         {
-                            sb.Append("\n\t");
+                            sb.Append("\n\t" + namespaceTabs);
                         }
                         ++hexCount;
                     }
                 }
-                sb.Append("\n};\n\n");
+                sb.Append("\n" + namespaceTabs + "};\n\n");
 
                 // Write palette
-                sb.Append("const u16 palette[] = {\n\t");
+                sb.Append(namespaceTabs + "const u16 palette[] = {\n\t" + namespaceTabs);
                 for (int i = 0; i < palette.Entries.Length; ++i)
                 {
                     Color color = palette.Entries[i];
@@ -91,13 +94,14 @@ namespace GbaConversionTools
                     sb.AppendFormat("0x{0:X4}, ", rbgColor);
                     if ((i + 1) % c_hexValueWrapCount == 0)
                     {
-                        sb.Append("\n\t");
+                        sb.Append("\n\t" + namespaceTabs);
                     }
                 }
-                sb.Append("\n};\n");
+                sb.Append("\n" + namespaceTabs + "};\n");
+                sb.Append("}\n");
 
                 Console.WriteLine(sb);
-                System.IO.File.WriteAllText(outputfile, sb.ToString());
+                File.WriteAllText(outputPath, sb.ToString());
             }
             catch (Exception e)
             {
