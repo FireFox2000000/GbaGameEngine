@@ -56,7 +56,8 @@ namespace GbaConversionTools
                 string namespaceTabs = "\t";
                 sb.Append("namespace " + namespaceName + "\n{\n");
                 sb.AppendFormat(namespaceTabs + "const u8 width = {0}, height = {1}; \n\n", size.Width, size.Height);
-                sb.Append(namespaceTabs + "const u16 spriteData[] = {\n\t" + namespaceTabs);
+                sb.AppendFormat(namespaceTabs + "const u32 dataLength = {0};\n", size.Width * size.Height / 4);
+                sb.Append(namespaceTabs + "const u16 data[] = {\n\t" + namespaceTabs);
 
                 // Write all palette indicies
                 for (int y = 0; y < size.Height; ++y)
@@ -85,6 +86,7 @@ namespace GbaConversionTools
                 sb.Append("\n" + namespaceTabs + "};\n\n");
 
                 // Write palette
+                sb.AppendFormat(namespaceTabs + "const u8 paletteLength = {0};\n", palette.Entries.Length);
                 sb.Append(namespaceTabs + "const u16 palette[] = {\n\t" + namespaceTabs);
                 for (int i = 0; i < palette.Entries.Length; ++i)
                 {
