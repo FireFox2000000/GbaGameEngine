@@ -4,6 +4,9 @@
 *.elf
 *.gba
 
+# GBA Tool output testing
+bin/
+
 # User-specific files
 *.suo
 *.user
@@ -27,6 +30,11 @@ ipch/
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
 
+#.Net
+*TemporaryGeneratedFile*
+*FileListAbsolute.txt
+
+*.exe
 *.obj
 *.dll
 *.ilk
