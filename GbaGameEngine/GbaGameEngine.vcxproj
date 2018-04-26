@@ -126,6 +126,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\engine\component\MonoBehaviour.h" />
     <ClInclude Include="src\engine\component\GameObjectComponent.h" />

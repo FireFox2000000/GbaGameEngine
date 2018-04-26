@@ -11,7 +11,7 @@ MovementTest::MovementTest(GameObject * gameObject)
 void MovementTest::Update()
 {
 	using namespace GBA;
-	float moveSpeed = 0.3f;
+	float moveSpeed = 0.2f;
 
 	Vector2 position = GetGameObject()->GetPosition2();
 
