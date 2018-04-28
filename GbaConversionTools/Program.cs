@@ -18,7 +18,7 @@ namespace GbaConversionTools
         static void Main(string[] args)
         {
             // Todo, remove hardcoded filenames
-            string inputPath = "Shantae.bmp";
+            string inputPath = "Shantae.png";
 
             try
             {

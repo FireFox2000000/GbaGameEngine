@@ -3,6 +3,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections.Generic;
 
 namespace GbaConversionTools.Tools
 {
@@ -17,10 +18,6 @@ namespace GbaConversionTools.Tools
         {
             Bitmap bitmap = new Bitmap(inputPath);
             string outputPath = Path.GetFileNameWithoutExtension(inputPath) + ".h";
-            if (bitmap.PixelFormat != System.Drawing.Imaging.PixelFormat.Format4bppIndexed)
-            {
-                throw new Exception("Tool currently only supports 4bpp formats");
-            }
 
             StringBuilder sb = new StringBuilder();
             Size size = bitmap.Size;
@@ -29,14 +26,25 @@ namespace GbaConversionTools.Tools
                 throw new Exception("Size not compatible with GBA tiles. Width and height of pixels must be multiples of 8.");
             }
 
-            ColorPalette palette = bitmap.Palette;
+            Color[] preProcessedPalette = GeneratePreprocessedPalette(bitmap);
+
+            if (preProcessedPalette.Length > 256)
+            {
+                throw new Exception("Palette length out of range for the GBA");
+            }
+
+            if (preProcessedPalette.Length > 16)
+            {
+                throw new Exception("Palette length out of range for 4bbp format");
+            }
+
             string namespaceName = Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath));
             int hexCount = 0;
 
             sb.Append("namespace " + namespaceName + "\n{\n");
 
-            WriteHeader(bitmap, sb);
-            WritePalette(bitmap, sb);
+            WriteHeader(bitmap, preProcessedPalette, sb);
+            WritePalette(preProcessedPalette, sb);
             
             sb.Append(namespaceTabs + "const u16 data[] = {\n\t" + namespaceTabs);
 
@@ -62,7 +70,7 @@ namespace GbaConversionTools.Tools
                                 if (i > 0)
                                     hexNum <<= 4;
                                 Color color = bitmap.GetPixel(x + 3 - i + tileXOffset, y + tileYOffset);
-                                int index = ColorToPaletteIndex(palette, color);
+                                int index = ColorToPaletteIndex(preProcessedPalette, color);
                                 hexNum += (UInt16)index;
                             }
                             sb.AppendFormat("0x{0:X4}, ", hexNum);
@@ -82,24 +90,50 @@ namespace GbaConversionTools.Tools
             File.WriteAllText(outputPath, sb.ToString());
         }
 
-        void WriteHeader(Bitmap bitmap, StringBuilder sb)
+        Color[] GeneratePreprocessedPalette(Bitmap bitmap)
+        {
+            List<Color> palette = new List<Color>();
+            palette.Add(Color.FromArgb(0));     // Always make transparent the first index
+
+            for (int y = 0; y < bitmap.Height; ++y)
+            {
+                for (int x = 0; x < bitmap.Width; ++x)
+                {
+                    Color color = bitmap.GetPixel(x, y);
+                    bool foundInPalette = false;
+
+                    foreach (Color palColor in palette)
+                    {
+                        if (color == palColor)
+                        {
+                            foundInPalette = true;
+                            break;
+                        }
+                    }
+
+                    if (!foundInPalette)
+                        palette.Add(color);
+                }
+            }
+
+            return palette.ToArray();
+        }
+
+        void WriteHeader(Bitmap bitmap, Color[] palette, StringBuilder sb)
         {
             Size size = bitmap.Size;
-            ColorPalette palette = bitmap.Palette;
 
             sb.AppendFormat(namespaceTabs + "const u8 width = {0}, height = {1}; \n", size.Width, size.Height);
-            sb.AppendFormat(namespaceTabs + "const u8 paletteLength = {0};\n", palette.Entries.Length);
+            sb.AppendFormat(namespaceTabs + "const u8 paletteLength = {0};\n", palette.Length);
             sb.AppendFormat(namespaceTabs + "const u32 dataLength = {0};\n\n", size.Width * size.Height / 4);
         }
 
-        void WritePalette(Bitmap bitmap, StringBuilder sb)
+        void WritePalette(Color[] palette, StringBuilder sb)
         {
-            ColorPalette palette = bitmap.Palette;
-
             sb.Append(namespaceTabs + "const u16 palette[] = {\n\t" + namespaceTabs);
-            for (int i = 0; i < palette.Entries.Length; ++i)
+            for (int i = 0; i < palette.Length; ++i)
             {
-                Color color = palette.Entries[i];
+                Color color = palette[i];
                 UInt16 rbgColor = (UInt16)(ScaleToRgb16(color.R) + (ScaleToRgb16(color.G) << 5) + (ScaleToRgb16(color.B) << 10));
 
                 sb.AppendFormat("0x{0:X4}, ", rbgColor);
@@ -111,11 +145,11 @@ namespace GbaConversionTools.Tools
             sb.Append("\n" + namespaceTabs + "};\n\n");
         }
 
-        int ColorToPaletteIndex(ColorPalette palette, Color color)
+        int ColorToPaletteIndex(Color[] palette, Color color)
         {
-            for (int i = 0; i < palette.Entries.Length; ++i)
+            for (int i = 0; i < palette.Length; ++i)
             {
-                if (color == palette.Entries[i])
+                if (color == palette[i])
                     return i;
             }
 
