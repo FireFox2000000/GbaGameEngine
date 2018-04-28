@@ -34,6 +34,11 @@ public:
 	Array(const Array<T, SIZE> & that) { *this = that; }
 	~Array() {}
 
+	const T* GetContainer() const
+	{
+		return &m_buffer;
+	}
+
 	static inline u32 Count() { return SIZE; }
 
 	iterator begin() { return &Get(0); }

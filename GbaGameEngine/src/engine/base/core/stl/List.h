@@ -69,6 +69,11 @@ public:
 		SafeFree(m_container);
 	}
 
+	const T* GetContainer() const
+	{
+		return m_container;
+	}
+
 	inline u32 Count() { return m_count; }
 	inline u32 Count() const { return m_count; }
 
