@@ -2,84 +2,38 @@
 #include "engine/math/Math.h"
 #include "engine\gba\graphics\tiles\GBATileConfig.h"
 
-Vector2 GetSquareShape(GBA::Attributes::SizeMode sizeMode)
-{
-	return Vector2(1, 1) * pow(2.f, sizeMode);
-}
-
-Vector2 GetWideShape(GBA::Attributes::SizeMode sizeMode)
-{
-	using namespace GBA::Attributes;
-
-	switch(sizeMode)
-	{
-	case(Form0):
-		return Vector2(2, 1);
-
-	case (Form1):
-		return Vector2(4, 1);
-
-	case (Form2):
-		return Vector2(4, 2);
-
-	case(Form3):
-		return Vector2(8, 4);
-
-	default:
-		break;
-	}
-
-	return Vector2::Zero;
-}
-
-Vector2 GetTallShape(GBA::Attributes::SizeMode sizeMode)
-{
-	using namespace GBA::Attributes;
-
-	switch (sizeMode)
-	{
-	case(Form0):
-		return Vector2(1, 2);
-
-	case (Form1):
-		return Vector2(1, 4);
-
-	case (Form2):
-		return Vector2(2, 4);
-
-	case(Form3):
-		return Vector2(4, 8);
-
-	default:
-		break;
-	}
-
-	return Vector2::Zero;
-}
+const u8 c_SIZEMAP_COUNT = GBA::Attributes::ShapeCount * GBA::Attributes::SizeCount;
+const Vector2 c_SIZEMAP[c_SIZEMAP_COUNT] = {
+	Vector2(1, 1),	Vector2(2, 2),	Vector2(4, 4),	Vector2(8, 8),
+	Vector2(2, 1),	Vector2(4, 1),	Vector2(4, 2),	Vector2(8, 4),
+	Vector2(1, 2),	Vector2(1, 4),	Vector2(2, 4),	Vector2(4, 8),
+};
 
 Vector2 GBA::AttributeFunctions::GetTileSize(Attributes::Shape shape, Attributes::SizeMode sizeMode)
 {
-	using namespace Attributes;
-
-	switch (shape)
-	{
-	case(Square):
-		return GetSquareShape(sizeMode);
-
-	case(Wide):
-		return GetWideShape(sizeMode);
-
-	case(Tall):
-		return GetTallShape(sizeMode);
-
-	default:
-		break;
-	}
-
-	return Vector2::Zero;
+	return c_SIZEMAP[shape * Attributes::SizeCount + sizeMode];
 }
 
 Vector2 GBA::AttributeFunctions::GetPixelSize(Attributes::Shape shape, Attributes::SizeMode sizeMode)
 {
 	return GetTileSize(shape, sizeMode) * TileConfig::PIXELS_SQRROOT_PER_TILE;
+}
+
+void GBA::AttributeFunctions::GetSizeAttributesFromTileSize(const Vector2 & tileSize, Attributes::Shape & out_shape, Attributes::SizeMode & out_sizeMode)
+{
+	for (u8 i = 0; i < c_SIZEMAP_COUNT; ++i)
+	{
+		if (c_SIZEMAP[i] == tileSize)
+		{
+			out_shape = Attributes::Shape(i / Attributes::SizeCount);
+			out_sizeMode = Attributes::SizeMode(i % Attributes::SizeCount);
+			return;
+		}
+	}
+}
+
+void GBA::AttributeFunctions::GetSizeAttributesFromPixelSize(const Vector2& pixelSize, Attributes::Shape & out_shape, Attributes::SizeMode & out_sizeMode)
+{
+	const Vector2 tileSize = pixelSize / GBA::TileConfig::PIXELS_SQRROOT_PER_TILE;
+	GetSizeAttributesFromTileSize(tileSize, out_shape, out_sizeMode);
 }

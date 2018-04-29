@@ -36,7 +36,9 @@ namespace GBA
 		{
 			Square,
 			Wide,	
-			Tall
+			Tall,
+
+			ShapeCount
 		};
 
 		enum SizeMode
@@ -44,7 +46,9 @@ namespace GBA
 			Form0,
 			Form1,
 			Form2,
-			Form3
+			Form3,
+
+			SizeCount
 		};
 
 		enum Priority
