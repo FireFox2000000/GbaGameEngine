@@ -16,6 +16,8 @@ void Scene::Update()
 	{
 		it->Update();
 	}
+
+	mainCamera.Update();
 }
 
 void Scene::Render()

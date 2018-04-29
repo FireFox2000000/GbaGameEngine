@@ -16,17 +16,22 @@ Scene0::Scene0()
 	GameObject* testObject = gameObjects.AddNew();
 	testObject->AddComponent<MovementTest>();
 	SpriteRenderer* testRenderer = testObject->AddComponent<SpriteRenderer>();
+
+	GameObject* testBackgroundObject = gameObjects.AddNew();
+	SpriteRenderer* testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
+
 	renderList.Add(testRenderer);
-
+	renderList.Add(testBackgroundRenderer);
+	
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
-
+	
 	ColourPalette16 shantaePalette(0);
 	for (u32 i = 0; i < Shantae::paletteLength; ++i)
 	{
 		shantaePalette[i] = Shantae::palette[i];
 	}
 
-	tPaletteBlockId testPaletteId = 0;
+	tPaletteBlockId testPaletteId = 1;
 	PaletteBank::LoadSpritePalette(testPaletteId, shantaePalette);
 
 	tSpriteData tileData0;
@@ -41,6 +46,7 @@ Scene0::Scene0()
 
 	testSprite.Init(Attributes::Tall, Attributes::Form3, testPaletteId, tileIndex);
 	testRenderer->SetSprite(&testSprite);
+	testBackgroundRenderer->SetSprite(&testSprite);
 }
 
 Scene0::~Scene0()
