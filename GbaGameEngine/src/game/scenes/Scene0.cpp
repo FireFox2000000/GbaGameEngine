@@ -4,7 +4,7 @@
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
 #include "engine\rendering\GBASpriteRenderer.h"
-#include "game\blobdata\Shantae.h"
+#include "engine\assets\GBASpriteLoader.h"
 
 #include "game\scripts\MovementTest.h"
 
@@ -24,29 +24,12 @@ Scene0::Scene0()
 	renderList.Add(testBackgroundRenderer);
 	
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
-	
-	ColourPalette16 shantaePalette(0);
-	for (u32 i = 0; i < Shantae::paletteLength; ++i)
-	{
-		shantaePalette[i] = Shantae::palette[i];
-	}
 
-	tPaletteBlockId testPaletteId = 1;
-	PaletteBank::LoadSpritePalette(testPaletteId, shantaePalette);
+	SpriteLoader* spriteLoader = SpriteLoader::GetCurrent();
+	Sprite* shantae = spriteLoader->Load(SpriteAtlus::Shantae);
 
-	tSpriteData tileData0;
-	tileData0.Reserve(Shantae::dataLength);
-	for (u32 i = 0; i < Shantae::dataLength; ++i)
-	{
-		tileData0.Add(Shantae::data[i]);
-	}
-
-	tTileId tileIndex = 4;
-	TileBank::LoadSpriteTiles(tileData0, tileIndex);
-
-	testSprite.Init(Attributes::Tall, Attributes::Form3, testPaletteId, tileIndex);
-	testRenderer->SetSprite(&testSprite);
-	testBackgroundRenderer->SetSprite(&testSprite);
+	testRenderer->SetSprite(shantae);
+	testBackgroundRenderer->SetSprite(shantae);
 }
 
 Scene0::~Scene0()

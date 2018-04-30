@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "engine\rendering\Renderer.h"
+#include "engine\assets\GBASpriteLoader.h"
 
 Scene::Scene()
 {
@@ -8,6 +9,9 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	using namespace GBA;
+	SpriteLoader* spriteLoader = SpriteLoader::GetCurrent();
+	spriteLoader->Clear();
 }
 
 void Scene::Update()

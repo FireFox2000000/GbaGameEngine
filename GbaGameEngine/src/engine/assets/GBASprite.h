@@ -9,6 +9,8 @@ namespace GBA
 {
 	struct Sprite
 	{
+		friend class SpriteLoader;
+
 		GBA::Attributes::Shape shape;
 		GBA::Attributes::SizeMode sizeMode;
 		GBA::tTileId tileIndex;
@@ -22,16 +24,6 @@ namespace GBA
 			, paletteId(0)
 			, isLoaded(false)
 		{}
-
-		// Temp method, probably replace when a proper sprite loader is created
-		void Init(GBA::Attributes::Shape shape, GBA::Attributes::SizeMode sizeMode, GBA::tPaletteBlockId palette, GBA::tTileId tileIndex)
-		{
-			this->shape = shape;
-			this->sizeMode = sizeMode;
-			this->paletteId = palette;
-			this->tileIndex = tileIndex;
-			isLoaded = true;
-		}
 	};
 }
 

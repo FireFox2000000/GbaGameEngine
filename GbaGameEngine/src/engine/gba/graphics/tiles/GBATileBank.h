@@ -25,6 +25,8 @@ namespace GBA
 	
 	class TileBank
 	{
+		friend class SpriteLoader;
+
 		static const int CharBlockSize = 512;
 		static const int CharBlock8Size = 256;
 

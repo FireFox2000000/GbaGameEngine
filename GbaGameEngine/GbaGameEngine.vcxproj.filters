@@ -90,6 +90,9 @@
     <ClCompile Include="src\game\scripts\MovementTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\assets\GBASpriteLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\Vector2.h">
@@ -192,6 +195,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\assets\GBASpriteLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

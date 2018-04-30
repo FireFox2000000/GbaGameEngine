@@ -100,6 +100,7 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\assets\GBASpriteLoader.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\engine\component\MonoBehaviour.cpp" />
     <ClCompile Include="src\engine\component\GameObjectComponent.cpp" />
@@ -126,6 +127,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\assets\GBASpriteLoader.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\engine\component\MonoBehaviour.h" />

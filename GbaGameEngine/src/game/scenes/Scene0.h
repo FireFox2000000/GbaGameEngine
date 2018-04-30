@@ -6,8 +6,6 @@
 
 class Scene0 : public Scene
 {
-	GBA::Sprite testSprite;
-
 public:
 	Scene0();
 	~Scene0();
