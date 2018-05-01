@@ -31,7 +31,7 @@ namespace GBA
 
 		if (sprite)
 		{
-			m_centerToCornerSizeOffset = AttributeFunctions::GetPixelSize(sprite->shape, sprite->sizeMode) / -2;
+			m_centerToCornerSizeOffset = AttributeFunctions::GetPixelSize(sprite->GetShape(), sprite->GetSizeMode()) / -2;
 		}
 
 		m_sprite = sprite;
@@ -42,17 +42,17 @@ namespace GBA
 		if (camera->GetProjection() != Projection::Orthographic)
 			return;		// Unhandled, todo
 
-		bool wantRender = m_sprite && m_sprite->isLoaded;
+		bool wantRender = m_sprite && m_sprite->GetIsLoaded();
 		if (wantRender)
 		{
 			if (!m_attributeHandle)
 			{
 				m_attributeHandle = m_oamManager->ReserveObject();
 
-				m_attributeHandle->SetPaletteIndex(m_sprite->paletteId);
-				m_attributeHandle->SetTileIndex(m_sprite->tileIndex);
-				m_attributeHandle->SetShape(m_sprite->shape);
-				m_attributeHandle->SetSizeMode(m_sprite->sizeMode);
+				m_attributeHandle->SetPaletteIndex(m_sprite->GetPaletteIndex());
+				m_attributeHandle->SetTileIndex(m_sprite->GetTileIndex());
+				m_attributeHandle->SetShape(m_sprite->GetShape());
+				m_attributeHandle->SetSizeMode(m_sprite->GetSizeMode());
 			}
 
 			Vector2 position = GetGameObject()->GetPosition2();

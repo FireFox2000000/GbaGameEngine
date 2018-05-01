@@ -4,6 +4,7 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
+#include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 
 // Remember to #include the sprite data in GBASpriteLoader.cpp
@@ -29,9 +30,10 @@ namespace GBA
 	{
 		struct SpriteData
 		{
-			u8 width, height;
+			Attributes::Shape shape;
+			Attributes::SizeMode size;
 			u8 paletteLength;
-			u32 dataLength;
+			u32 pixelMapLength;
 			const u16* palette;
 			const u16* pixelMapData;
 

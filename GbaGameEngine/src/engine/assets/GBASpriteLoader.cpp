@@ -10,15 +10,14 @@ namespace GBA
 		: m_paletteRefTracker(0)
 	{
 #define SPRITE_ATLUS_ENTRY(Namespace) \
-		{																						\
-			SpriteData* data = m_spriteData.AddNew();											\
-			data->width = Namespace::width;														\
-			data->height = Namespace::height;													\
-			data->paletteLength = sizeof(Namespace::palette) / sizeof(*Namespace::palette);		\
-			data->dataLength = sizeof(Namespace::data) / sizeof(*Namespace::data);				\
-			data->palette = Namespace::palette;													\
-			data->pixelMapData = Namespace::data;												\
-			data->paletteIndex = -1;															\
+		{																																		\
+			SpriteData* data = m_spriteData.AddNew();																							\
+			data->paletteLength = sizeof(Namespace::palette) / sizeof(*Namespace::palette);														\
+			data->pixelMapLength = sizeof(Namespace::data) / sizeof(*Namespace::data);															\
+			data->palette = Namespace::palette;																									\
+			data->pixelMapData = Namespace::data;																								\
+			AttributeFunctions::GetSizeAttributesFromPixelSize(Vector2(Namespace::width, Namespace::height), data->shape, data->size);			\
+			data->paletteIndex = -1;																											\
 		}
 
 		SPRITE_ATLUS_LIST
@@ -64,21 +63,17 @@ namespace GBA
 			// Set tiles
 			tTileId tileIndex = 4;	// TODO
 			{
-				TileBank::LoadTiles(data.pixelMapData, data.dataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
+				TileBank::LoadTiles(data.pixelMapData, data.pixelMapLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
 				//TileBank::LoadSpriteTiles(tileData, tileIndex);
 			}
 
 			// Set sprite attributes
 			{
-				Attributes::Shape shape;
-				Attributes::SizeMode size;
-				AttributeFunctions::GetSizeAttributesFromPixelSize(Vector2(data.width, data.height), shape, size);
-
-				sprite->shape = shape;
-				sprite->sizeMode = size;
-				sprite->paletteId = paletteId;
-				sprite->tileIndex = tileIndex;
-				sprite->isLoaded = true;
+				sprite->m_shape = data.shape;
+				sprite->m_sizeMode = data.size;
+				sprite->m_paletteId = paletteId;
+				sprite->m_tileIndex = tileIndex;
+				sprite->m_isLoaded = true;
 			}
 
 			return sprite;
@@ -88,7 +83,7 @@ namespace GBA
 
 	void SpriteLoader::Dispose(Sprite * sprite)
 	{
-		--m_paletteRefTracker[sprite->paletteId];
+		--m_paletteRefTracker[sprite->GetPaletteIndex()];
 		m_spriteList.Remove(sprite);
 	}
 
