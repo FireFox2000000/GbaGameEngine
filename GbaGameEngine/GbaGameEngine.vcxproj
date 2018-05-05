@@ -100,7 +100,10 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\assets\GBASpriteLoader.cpp" />
+    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\assets\sprite\Sprite.cpp" />
+    <ClCompile Include="src\engine\assets\sprite\SpriteLibrary.cpp" />
+    <ClCompile Include="src\engine\assets\sprite\SpriteAtlus_gba.cpp" />
+    <ClCompile Include="src\engine\assets\sprite\SpriteLoader.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\engine\component\MonoBehaviour.cpp" />
     <ClCompile Include="src\engine\component\GameObjectComponent.cpp" />
@@ -110,7 +113,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\screen\Screen.cpp" />
     <ClCompile Include="src\engine\gameobject\Camera.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp" />
-    <ClCompile Include="src\engine\rendering\GBASpriteRenderer.cpp" />
+    <ClCompile Include="src\engine\rendering\SpriteRenderer_gba.cpp" />
     <ClCompile Include="src\engine\rendering\Renderer.cpp" />
     <ClCompile Include="src\engine\gameobject\GameObject.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp" />
@@ -127,7 +130,10 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\assets\GBASpriteLoader.h" />
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae_Idle.h" />
+    <ClInclude Include="src\engine\assets\sprite\SpriteLibrary.h" />
+    <ClInclude Include="src\engine\assets\sprite\SpriteAtlus.h" />
+    <ClInclude Include="src\engine\assets\sprite\SpriteLoader.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\engine\component\MonoBehaviour.h" />
@@ -139,9 +145,9 @@ make</NMakeBuildCommandLine>
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileConfig.h" />
     <ClInclude Include="src\engine\screen\Screen.h" />
     <ClInclude Include="src\engine\gameobject\Camera.h" />
-    <ClInclude Include="src\engine\assets\GBASprite.h" />
+    <ClInclude Include="src\engine\assets\sprite\Sprite.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h" />
-    <ClInclude Include="src\engine\rendering\GBASpriteRenderer.h" />
+    <ClInclude Include="src\engine\rendering\SpriteRenderer.h" />
     <ClInclude Include="src\engine\rendering\Renderer.h" />
     <ClInclude Include="src\engine\gameobject\GameObject.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h" />

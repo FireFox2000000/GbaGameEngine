@@ -54,9 +54,6 @@
     <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\rendering\GBASpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\gameobject\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,7 +87,19 @@
     <ClCompile Include="src\game\scripts\MovementTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\assets\GBASpriteLoader.cpp">
+    <ClCompile Include="src\engine\rendering\SpriteRenderer_gba.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\assets\sprite\SpriteAtlus_gba.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\assets\sprite\SpriteLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\assets\sprite\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\assets\sprite\SpriteLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,12 +158,6 @@
     <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\assets\GBASprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\rendering\GBASpriteRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\gameobject\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -197,7 +200,22 @@
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\assets\GBASpriteLoader.h">
+    <ClInclude Include="src\engine\rendering\SpriteRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\assets\sprite\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\assets\sprite\SpriteAtlus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\assets\sprite\SpriteLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae_Idle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\assets\sprite\SpriteLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

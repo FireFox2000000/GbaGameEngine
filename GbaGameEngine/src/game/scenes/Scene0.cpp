@@ -3,8 +3,8 @@
 #include "engine\gba\registers\display\GBADisplayControl.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
-#include "engine\rendering\GBASpriteRenderer.h"
-#include "engine\assets\GBASpriteLoader.h"
+#include "engine\rendering\SpriteRenderer.h"
+#include "engine\assets\sprite\SpriteLoader.h"
 
 #include "game\scripts\MovementTest.h"
 
@@ -12,6 +12,8 @@ Scene0::Scene0()
 {
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
+
+	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	GameObject* testObject = gameObjects.AddNew();
 	testObject->AddComponent<MovementTest>();
@@ -22,11 +24,10 @@ Scene0::Scene0()
 
 	renderList.Add(testRenderer);
 	renderList.Add(testBackgroundRenderer);
-	
-	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	SpriteLoader* spriteLoader = SpriteLoader::GetCurrent();
-	Sprite* shantae = spriteLoader->Load(SpriteAtlus::Shantae);
+	Sprite* shantae = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 6);
+	spriteLoader->Load(*shantae);
 
 	testRenderer->SetSprite(shantae);
 	testBackgroundRenderer->SetSprite(shantae);

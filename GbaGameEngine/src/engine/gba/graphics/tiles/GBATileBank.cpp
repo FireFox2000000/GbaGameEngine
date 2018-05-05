@@ -15,7 +15,7 @@ namespace GBA
 		{
 			for (u32 i = 0; i < pixelMapSize; ++i)
 			{
-				tileMem[i] = pixelMap[i];
+				tileMem[i] = *(pixelMap + i);
 			}
 			return true;
 		}
