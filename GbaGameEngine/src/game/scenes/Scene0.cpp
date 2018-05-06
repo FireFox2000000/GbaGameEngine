@@ -26,11 +26,13 @@ Scene0::Scene0()
 	renderList.Add(testBackgroundRenderer);
 
 	SpriteLoader* spriteLoader = SpriteLoader::GetCurrent();
-	Sprite* shantae = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 6);
-	spriteLoader->Load(*shantae);
+	Sprite* shantae0 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+	Sprite* shantae6 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 6);
+	spriteLoader->Load(*shantae0);
+	spriteLoader->Load(*shantae6);
 
-	testRenderer->SetSprite(shantae);
-	testBackgroundRenderer->SetSprite(shantae);
+	testRenderer->SetSprite(shantae6);
+	testBackgroundRenderer->SetSprite(shantae0);
 }
 
 Scene0::~Scene0()

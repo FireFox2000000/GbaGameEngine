@@ -2,7 +2,10 @@
 #include "engine\assets\sprite\Sprite.h"
 #include "engine\assets\sprite\SpriteAtlus.h"
 #include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
-#include "engine/gba/graphics/tiles/GBAPaletteBank.h"
+#include "engine\gba\graphics\tiles\GBAPaletteBank.h"
+#include "engine\gba\graphics\tiles\GBATileConfig.h"
+
+static u16 cumulativeTileIndex = 1;
 
 SpriteLoader::SpriteLoader()
 	: m_paletteRefTracker(0)
@@ -20,7 +23,7 @@ void SpriteLoader::Load(Sprite& out_sprite)
 	// Load palette
 	SpriteAtlus* atlus = out_sprite.EditAtlus();
 	tPaletteIndex paletteId = 0;
-	if (out_sprite.GetPaletteIndex() != INVALID_PALETTE_INDEX)
+	if (out_sprite.GetPaletteIndex() == INVALID_PALETTE_INDEX)
 	{
 		while (paletteId < m_paletteRefTracker.Count() && m_paletteRefTracker[paletteId] > 0)
 			++paletteId;
@@ -46,10 +49,10 @@ void SpriteLoader::Load(Sprite& out_sprite)
 	++m_paletteRefTracker[paletteId];
 
 	// Set tiles
-	tTileId tileIndex = 4;	// TODO
+	tTileId tileIndex = cumulativeTileIndex;	// TODO
 	{
 		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
-																								//TileBank::LoadSpriteTiles(tileData, tileIndex);
+		cumulativeTileIndex += out_sprite.m_pixelMapDataLength * 4 / GBA::TileConfig::PIXELS_PER_TILE;
 	}
 
 	// Set sprite attributes
