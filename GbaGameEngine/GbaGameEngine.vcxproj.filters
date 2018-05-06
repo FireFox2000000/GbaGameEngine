@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
+    <None Include="makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\math\Vector2.cpp">
@@ -125,7 +125,7 @@
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\Memory.h">
+    <ClInclude Include="src\engine\base\core\Memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\base\core\Nullptr.h">
@@ -134,7 +134,7 @@
     <ClInclude Include="src\engine\base\core\stl\Array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\List.h">
+    <ClInclude Include="src\engine\base\core\stl\List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\math\Math.h">
@@ -176,7 +176,7 @@
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\registers\RegisterMap.h">
+    <ClInclude Include="src\engine\gba\registers\RegisterMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\scene\Scene.h">
@@ -197,7 +197,7 @@
     <ClInclude Include="src\game\scripts\MovementTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h">
+    <ClInclude Include="src\game\blobdata\Shantae.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\rendering\SpriteRenderer.h">
@@ -212,13 +212,13 @@
     <ClInclude Include="src\engine\assets\sprite\SpriteLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae_Idle.h">
+    <ClInclude Include="src\game\blobdata\Shantae_Idle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\assets\sprite\SpriteLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\colour\Palette.h">
+    <ClInclude Include="src\engine\base\colour\Palette.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
