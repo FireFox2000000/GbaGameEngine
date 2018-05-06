@@ -96,10 +96,10 @@
     <ClCompile Include="src\engine\assets\sprite\SpriteLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\assets\sprite\Sprite.cpp">
+    <ClCompile Include="src\engine\assets\sprite\Sprite_gba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\assets\sprite\SpriteLoader.cpp">
+    <ClCompile Include="src\engine\assets\sprite\SpriteLoader_gba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -216,6 +216,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\assets\sprite\SpriteLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\colour\Palette.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

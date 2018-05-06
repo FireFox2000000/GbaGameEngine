@@ -3,13 +3,13 @@
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/colour/Colour.h"
+#include "engine/base/colour/Palette.h"
 #include "engine/base/core/stl/Array.h"
 
 namespace GBA
 {
 	typedef Array<rgb16, 16> ColourPalette16;
 	typedef Array<rgb16, 256> ColourPalette256;
-	typedef u8 tPaletteBlockId;
 
 	class PaletteBank
 	{
@@ -30,10 +30,10 @@ namespace GBA
 		}
 
 	public:
-		static void LoadBackgroundPalette(tPaletteBlockId blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
+		static void LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
 		static void LoadBackgroundPalette(const ColourPalette256& palette) { LoadPalette(s_FullBackgroundPalette, palette); }
 		
-		static void LoadSpritePalette(tPaletteBlockId blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
+		static void LoadSpritePalette(tPaletteIndex blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
 		static void LoadSpritePalette(const ColourPalette256& palette) { LoadPalette(s_FullSpritePalette, palette); }
 	};
 }

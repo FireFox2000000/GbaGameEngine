@@ -36,7 +36,7 @@ public:
 	inline GBA::Attributes::Shape GetShape() const { return m_shape; }
 	inline GBA::Attributes::SizeMode GetSizeMode() const { return m_sizeMode; }
 	inline GBA::tTileId GetTileIndex() const { return m_tileIndex; }
-	GBA::tPaletteBlockId GetPaletteIndex() const;
+	tPaletteIndex GetPaletteIndex() const;
 	inline const SpriteAtlus* GetAtlus() const { return m_atlus; }
 	bool GetIsLoaded() const;
 };

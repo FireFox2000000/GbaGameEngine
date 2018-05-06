@@ -100,10 +100,10 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\assets\sprite\Sprite.cpp" />
+    <ClCompile Include="src\engine\assets\sprite\Sprite_gba.cpp" />
     <ClCompile Include="src\engine\assets\sprite\SpriteLibrary.cpp" />
     <ClCompile Include="src\engine\assets\sprite\SpriteAtlus_gba.cpp" />
-    <ClCompile Include="src\engine\assets\sprite\SpriteLoader.cpp" />
+    <ClCompile Include="src\engine\assets\sprite\SpriteLoader_gba.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\engine\component\MonoBehaviour.cpp" />
     <ClCompile Include="src\engine\component\GameObjectComponent.cpp" />
@@ -130,6 +130,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\colour\Palette.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae_Idle.h" />
     <ClInclude Include="src\engine\assets\sprite\SpriteLibrary.h" />
     <ClInclude Include="src\engine\assets\sprite\SpriteAtlus.h" />

@@ -2,6 +2,7 @@
 #include "engine\assets\sprite\Sprite.h"
 #include "engine\assets\sprite\SpriteAtlus.h"
 #include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
+#include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 
 SpriteLoader::SpriteLoader()
 	: m_paletteRefTracker(0)
@@ -18,8 +19,8 @@ void SpriteLoader::Load(Sprite& out_sprite)
 
 	// Load palette
 	SpriteAtlus* atlus = out_sprite.EditAtlus();
-	tPaletteBlockId paletteId = 0;
-	if (out_sprite.GetPaletteIndex() < 16)
+	tPaletteIndex paletteId = 0;
+	if (out_sprite.GetPaletteIndex() != INVALID_PALETTE_INDEX)
 	{
 		while (paletteId < m_paletteRefTracker.Count() && m_paletteRefTracker[paletteId] > 0)
 			++paletteId;
