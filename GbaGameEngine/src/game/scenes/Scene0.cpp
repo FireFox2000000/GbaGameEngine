@@ -3,7 +3,7 @@
 #include "engine\gba\registers\display\GBADisplayControl.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
-#include "engine\rendering\SpriteRenderer.h"
+#include "engine\render\SpriteRenderer.h"
 #include "engine\assets\sprite\SpriteLoader.h"
 
 #include "game\scripts\MovementTest.h"

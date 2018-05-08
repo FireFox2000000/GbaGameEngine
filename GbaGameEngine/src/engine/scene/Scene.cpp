@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "engine\rendering\Renderer.h"
+#include "engine\render\Renderer.h"
 #include "engine\assets\sprite\SpriteLoader.h"
 
 Scene::Scene()
