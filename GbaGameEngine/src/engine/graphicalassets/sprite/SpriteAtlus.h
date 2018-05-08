@@ -1,8 +1,8 @@
-#ifndef PRAGMA_ONCE_ENGINE_ASSETS_SPRITE_SPRITEATLUS_H
-#define PRAGMA_ONCE_ENGINE_ASSETS_SPRITE_SPRITEATLUS_H
+#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEATLUS_H
+#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEATLUS_H
 
 #include "engine/base/core/stl/List.h"
-#include "engine/assets/sprite/Sprite.h"
+#include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/base/colour/Palette.h"
 
 class SpriteAtlus

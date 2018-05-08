@@ -4,7 +4,7 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
-#include "GBATileConfig.h"
+#include "engine/graphicalassets/tile/Tile.h"
 
 namespace GBA
 {
@@ -20,7 +20,6 @@ namespace GBA
 		BlockGroupCount
 	};
 
-	typedef u16 tTileId;
 	typedef List<u16> tSpriteData;
 	
 	class TileBank
@@ -28,12 +27,9 @@ namespace GBA
 		static const int CharBlockSize = 512;
 		static const int CharBlock8Size = 256;
 
-		typedef u32 tPixelIndex4bppX8;
-		typedef u32 tPixelIndex8bppX4;
-		typedef Array<tPixelIndex4bppX8, TileConfig::PIXELS_PER_TILE / 8> Tile;	// Tiles are 8x8 pixels. 32 bits = 4 bytes, 4 bytes * 2 pixels per byte * 8 rows = 1 tile
-		typedef Array<tPixelIndex8bppX4, TileConfig::PIXELS_PER_TILE / 4> Tile8;
-		typedef Array<Tile, CharBlockSize> CharBlock;
-		typedef Array<Tile8, CharBlock8Size> CharBlock8;
+		
+		typedef Array<Tile::Tile, CharBlockSize> CharBlock;
+		typedef Array<Tile::Tile8, CharBlock8Size> CharBlock8;
 		typedef Array<CharBlock, BlockGroupCount> CharBlockPool;
 		typedef Array<CharBlock8, BlockGroupCount> CharBlockPool8;
 

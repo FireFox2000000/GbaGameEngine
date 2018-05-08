@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "engine\assets\sprite\SpriteAtlus.h"
+#include "engine\graphicalassets\sprite\SpriteAtlus.h"
 #include "engine/base/colour/Palette.h"
 
 tPaletteIndex Sprite::GetPaletteIndex() const

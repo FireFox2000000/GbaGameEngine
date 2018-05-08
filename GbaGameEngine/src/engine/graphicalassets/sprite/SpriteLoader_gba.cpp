@@ -1,9 +1,10 @@
 #include "SpriteLoader.h"
-#include "engine\assets\sprite\Sprite.h"
-#include "engine\assets\sprite\SpriteAtlus.h"
+#include "engine\graphicalassets\sprite\Sprite.h"
+#include "engine\graphicalassets\sprite\SpriteAtlus.h"
 #include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
-#include "engine\gba\graphics\tiles\GBATileConfig.h"
+#include "engine\gba\graphics\tiles\GBATileBank.h"
+#include "engine\graphicalassets\tile\Tile.h"
 
 static u16 cumulativeTileIndex = 1;
 
@@ -52,7 +53,7 @@ void SpriteLoader::Load(Sprite& out_sprite)
 	tTileId tileIndex = cumulativeTileIndex;	// TODO
 	{
 		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
-		cumulativeTileIndex += out_sprite.m_pixelMapDataLength * 4 / GBA::TileConfig::PIXELS_PER_TILE;
+		cumulativeTileIndex += out_sprite.m_pixelMapDataLength * 4 / Tile::PIXELS_PER_TILE;
 	}
 
 	// Set sprite attributes

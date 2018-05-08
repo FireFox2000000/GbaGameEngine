@@ -4,7 +4,7 @@
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
 #include "engine\render\SpriteRenderer.h"
-#include "engine\assets\sprite\SpriteLoader.h"
+#include "engine\graphicalassets\sprite\SpriteLoader.h"
 
 #include "game\scripts\MovementTest.h"
 
