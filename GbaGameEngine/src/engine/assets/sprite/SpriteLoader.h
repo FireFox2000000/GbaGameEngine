@@ -4,8 +4,8 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
+#include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
-#include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 
 class Sprite;
 
@@ -25,7 +25,7 @@ class SpriteLoader
 
 	List<SpriteData> m_spriteData;
 	List<Sprite> m_spriteList;
-	Array<u32, sizeof(GBA::ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
+	Array<u32, sizeof(ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
 
 	SpriteLoader();
 

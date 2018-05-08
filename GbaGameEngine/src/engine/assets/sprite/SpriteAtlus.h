@@ -10,8 +10,8 @@ class SpriteAtlus
 	friend class SpriteLoader;
 	friend class SpriteLibrary;
 
-	u8 m_paletteLength;
 	const u16* m_palette;
+	u8 m_paletteLength;
 	List<Sprite> m_sprites;
 
 	bool m_isPaletteLoaded;

@@ -2,15 +2,10 @@
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
 
 #include "engine/base/Typedefs.h"
-#include "engine/base/colour/Colour.h"
 #include "engine/base/colour/Palette.h"
-#include "engine/base/core/stl/Array.h"
 
 namespace GBA
 {
-	typedef Array<rgb16, 16> ColourPalette16;
-	typedef Array<rgb16, 256> ColourPalette256;
-
 	class PaletteBank
 	{
 		typedef Array<ColourPalette16, 16> ColourPalette16x16;
