@@ -75,6 +75,24 @@ public:
 	{
 		return int(item - begin());
 	}
+
+	int IndexOf(const T& item) const
+	{
+		for (u32 i = 0; i < Count(); ++i)
+		{
+			if (item == Get(i));
+			{
+				return (int)i;
+			}
+		}
+
+		return -1;
+	}
+
+	inline bool Contains(const T& item) const
+	{
+		return IndexOf(item) >= 0;
+	}
 };
 
 #endif
