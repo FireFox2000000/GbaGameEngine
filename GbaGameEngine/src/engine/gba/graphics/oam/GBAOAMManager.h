@@ -2,8 +2,21 @@
 #define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAOAMMANAGER_H
 
 #include "engine/base/core/stl/Array.h"
+#include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/oam/GBAObjectAffine.h"
+
+class Sprite;
+class Engine;
+
+namespace GBA
+{
+	struct OAMSpriteRenderProperties
+	{
+		Vector2 screenPosition;
+		Sprite* sprite;
+	};
+}
 
 namespace GBA
 {
@@ -26,19 +39,28 @@ namespace GBA
 		Array<bool, OBJ_ATTR_COUNT> m_objAttrEnabledTracker;
 		u32 m_objAttrEnabledSearchIndex;
 
-		OAMManager();
+		List<OAMSpriteRenderProperties> m_masterSpriteRenderList;
+		Array<List<Sprite*>, 2> m_spriteRenderBuffers;
+		int m_currentSpriteBufferIndex;
+
+		void FlipRenderBuffer();
+		List<Sprite*>& GetCurrentSpriteBuffer();
+		List<Sprite*>& GetPreviousSpriteBuffer();
+
+		void UnloadUnusedSprites(Engine* engine);
+		void LoadNewSprites(Engine* engine);
+		void TransferRenderListIntoMemory();
 
 	public:	
-		~OAMManager();
 
-		static OAMManager* GetCurrent()
-		{
-			static OAMManager instance;
-			return &instance;
-		}
+		OAMManager();
+		~OAMManager();
 
 		vObjectAttribute * ReserveObject();
 		void Release(vObjectAttribute* objAttr);
+
+		void DoMasterRender(Engine* engine);
+		void AddToRenderList(const OAMSpriteRenderProperties& spriteRenderProperties);
 	};
 }
 

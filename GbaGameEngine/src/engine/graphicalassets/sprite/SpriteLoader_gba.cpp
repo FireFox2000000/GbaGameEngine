@@ -98,6 +98,10 @@ void SpriteLoader::Load(Sprite& out_sprite)
 		// Set sprite attributes
 		out_sprite.m_tileIndex = tileIndex;
 	}
+	else
+	{
+		--m_paletteRefTracker[paletteId];
+	}
 }
 
 void SpriteLoader::Unload(Sprite * sprite)
@@ -119,6 +123,7 @@ void SpriteLoader::Unload(Sprite * sprite)
 	--m_paletteRefTracker[sprite->GetPaletteIndex()];
 	if (m_paletteRefTracker[sprite->GetPaletteIndex()] <= 0)
 	{
+		// Free it so it can be reused
 		SpriteAtlus* atlus = sprite->m_atlus;
 		atlus->m_paletteIndex = INVALID_PALETTE_INDEX;
 	}

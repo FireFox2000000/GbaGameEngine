@@ -17,24 +17,25 @@ Scene0::Scene0(Engine* engine)
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	GameObject* testObject = gameObjects.AddNew();
-	testObject->AddComponent<MovementTest>();
-	SpriteRenderer* testRenderer = testObject->AddComponent<SpriteRenderer>();
+	{
+		GameObject* testObject = gameObjects.AddNew();
+		testObject->AddComponent<MovementTest>();
+		SpriteRenderer* testRenderer = testObject->AddComponent<SpriteRenderer>();
 
-	GameObject* testBackgroundObject = gameObjects.AddNew();
-	SpriteRenderer* testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
+		Sprite* shantae6 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 6);
+		testRenderer->SetSprite(shantae6);
+		renderList.Add(testRenderer);
+	}
 
-	renderList.Add(testRenderer);
-	renderList.Add(testBackgroundRenderer);
+	{
+		GameObject* testBackgroundObject = gameObjects.AddNew();
+		SpriteRenderer* testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
 
-	SpriteLoader* spriteLoader = engine->GetSpriteLoader();
-	Sprite* shantae0 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 0);
-	Sprite* shantae6 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 6);
-	spriteLoader->Load(*shantae0);
-	spriteLoader->Load(*shantae6);
+		Sprite* shantae0 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+		testBackgroundRenderer->SetSprite(shantae0);
 
-	testRenderer->SetSprite(shantae6);
-	testBackgroundRenderer->SetSprite(shantae0);
+		renderList.Add(testBackgroundRenderer);
+	}
 }
 
 Scene0::~Scene0()

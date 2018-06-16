@@ -14,6 +14,7 @@ int main()
 	Engine engine;
 	Scene0 scene0(&engine);
 	SceneManager sceneManager(&scene0);
+	GBA::OAMManager* oamManager = engine.GetOAMManager();
 
 	// Test Initialisation		
 	GBA::Input::Update();
@@ -25,12 +26,13 @@ int main()
 		GBA::Input::Update();
 
 		sceneManager.UpdateScene(&engine);
+		sceneManager.RenderScene(&engine);
 
 		// Main update
 		WaitForVSync();
 
-		// Render
-		sceneManager.RenderScene(&engine);
+		// Real Render
+		oamManager->DoMasterRender(&engine);
 	}
 
 	return 0;
