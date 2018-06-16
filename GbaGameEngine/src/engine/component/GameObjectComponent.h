@@ -2,6 +2,7 @@
 #define PRAGMA_ONCE_ENGINE_COMPONENT_GAMEOBJECTCOMPONENT_H
 
 class GameObject;
+class Engine;
 class GameObjectComponent
 {
 	GameObject* m_gameObject;

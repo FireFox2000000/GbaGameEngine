@@ -1,3 +1,4 @@
+#include "engine/engine/engine.h"
 #include "engine\gba\registers\display\GBADisplayStatus.h"
 #include "engine\gba\registers\input\GBAInput.h"
 #include "engine\scene\SceneManager.h"
@@ -10,7 +11,8 @@ static void WaitForVSync();
 
 int main()
 {
-	Scene0 scene0;
+	Engine engine;
+	Scene0 scene0(&engine);
 	SceneManager sceneManager(&scene0);
 
 	// Test Initialisation		
@@ -22,13 +24,13 @@ int main()
 		// General update
 		GBA::Input::Update();
 
-		sceneManager.UpdateScene();
+		sceneManager.UpdateScene(&engine);
 
 		// Main update
 		WaitForVSync();
 
 		// Render
-		sceneManager.RenderScene();
+		sceneManager.RenderScene(&engine);
 	}
 
 	return 0;

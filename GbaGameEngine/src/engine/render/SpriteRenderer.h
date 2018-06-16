@@ -20,14 +20,13 @@ class SpriteRenderer : public Renderer
 	Sprite* m_sprite;
 
 	GBA::vObjectAttribute* m_attributeHandle;
-	GBA::OAMManager* m_oamManager;	
 
 public:	
 	SpriteRenderer(GameObject* gameObject);
 	~SpriteRenderer();
 
 	void SetSprite(Sprite* sprite);
-	void Render(Camera* camera);
+	void Render(Engine* engine, Camera* camera);
 };
 
 #endif

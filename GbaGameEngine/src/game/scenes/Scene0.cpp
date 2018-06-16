@@ -1,5 +1,6 @@
 #include "Scene0.h"
 #include "engine\base\colour\Colour.h"
+#include "engine/engine/engine.h"
 #include "engine\gba\registers\display\GBADisplayControl.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
@@ -8,7 +9,8 @@
 
 #include "game\scripts\MovementTest.h"
 
-Scene0::Scene0()
+Scene0::Scene0(Engine* engine)
+	: Scene(engine)
 {
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
@@ -25,7 +27,7 @@ Scene0::Scene0()
 	renderList.Add(testRenderer);
 	renderList.Add(testBackgroundRenderer);
 
-	SpriteLoader* spriteLoader = SpriteLoader::GetCurrent();
+	SpriteLoader* spriteLoader = engine->GetSpriteLoader();
 	Sprite* shantae0 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 0);
 	Sprite* shantae6 = m_spriteLib.GetSprite(SpriteAtlusID::Shantae_Idle, 6);
 	spriteLoader->Load(*shantae0);

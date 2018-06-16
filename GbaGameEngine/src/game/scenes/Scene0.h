@@ -9,7 +9,7 @@ class Scene0 : public Scene
 	SpriteLibrary m_spriteLib;
 
 public:
-	Scene0();
+	Scene0(Engine* engine);
 	~Scene0();
 };
 

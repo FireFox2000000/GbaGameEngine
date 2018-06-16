@@ -11,8 +11,8 @@ public:
 	SceneManager(Scene* initialScene);
 	~SceneManager();
 
-	inline void UpdateScene() { m_current->Update(); }
-	inline void RenderScene() { m_current->Render(); }
+	inline void UpdateScene(Engine* engine) { m_current->Update(engine); }
+	inline void RenderScene(Engine* engine) { m_current->Render(engine); }
 
 };
 

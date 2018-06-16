@@ -8,7 +8,7 @@ MovementTest::MovementTest(GameObject * gameObject)
 {
 }
 
-void MovementTest::Update()
+void MovementTest::Update(Engine* engine)
 {
 	using namespace GBA;
 	float moveSpeed = 0.2f;

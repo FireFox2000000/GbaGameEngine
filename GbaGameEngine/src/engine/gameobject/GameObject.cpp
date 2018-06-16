@@ -15,10 +15,10 @@ GameObject::~GameObject()
 	}
 }
 
-void GameObject::Update()
+void GameObject::Update(Engine* engine)
 {
 	for (u32 i = 0; i < m_monoBehaviourComponents.Count(); ++i)
 	{
-		m_monoBehaviourComponents[i]->Update();
+		m_monoBehaviourComponents[i]->Update(engine);
 	}
 }

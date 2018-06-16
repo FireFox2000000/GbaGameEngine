@@ -8,6 +8,8 @@
 // TODO: replace with transformation matrix
 // Component system
 
+class Engine;
+
 class GameObject
 {
 	Vector2 m_localPosition;	
@@ -21,7 +23,7 @@ public:
 	inline Vector2 GetPosition2() { return m_localPosition; }
 	inline void SetPosition(const Vector2& position) { m_localPosition = position; }
 
-	void Update();
+	void Update(Engine* engine);
 
 	template <class T>
 	T* AddComponent()

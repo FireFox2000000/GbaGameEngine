@@ -5,6 +5,7 @@
 
 class GameObject;
 class Camera;
+class Engine;
 
 class Renderer : public GameObjectComponent
 {
@@ -12,7 +13,7 @@ public:
 	Renderer(GameObject* gameObject);
 	virtual ~Renderer() {};
 
-	virtual void Render(Camera* camera) {};
+	virtual void Render(Engine* engine, Camera* camera) {};
 };
 
 #endif

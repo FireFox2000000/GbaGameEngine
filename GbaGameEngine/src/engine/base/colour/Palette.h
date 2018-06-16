@@ -6,7 +6,7 @@
 #include "engine/base/colour/Colour.h"
 
 typedef u8 tPaletteIndex;
-const static u8 INVALID_PALETTE_INDEX = 0xFFFF;
+const static u8 INVALID_PALETTE_INDEX = 255;
 
 typedef Array<rgb16, 16> ColourPalette16;
 typedef Array<rgb16, 256> ColourPalette256;

@@ -6,12 +6,13 @@
 #include "engine\base\core\stl\List.h"
 
 class Renderer;
+class Engine;
 class Scene
 {
 	friend class SceneManager;
 
-	void Update();
-	void Render();
+	void Update(Engine* engine);
+	void Render(Engine* engine);
 
 protected:
 	Camera mainCamera;
@@ -19,7 +20,7 @@ protected:
 	List<Renderer*> renderList;
 
 public:
-	Scene();
+	Scene(Engine* engine);
 	virtual ~Scene();
 };
 

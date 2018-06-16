@@ -24,18 +24,11 @@ class SpriteLoader
 	Array<u32, sizeof(ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
 	Array<TileReferenceState, MAX_SPRITE_TILES> m_tileRefTracker;
 
-	SpriteLoader();
-
 	tTileId FindNextFreeTileSpace(u8 tileCount);
 
 public:
+	SpriteLoader();
 	~SpriteLoader();
-
-	static SpriteLoader* GetCurrent()
-	{
-		static SpriteLoader instance;
-		return &instance;
-	}
 
 	void Load(Sprite& out_sprite);
 	void Unload(Sprite* sprite);

@@ -2,6 +2,7 @@
 
 #include "engine\graphicalassets\sprite\Sprite.h"
 #include "engine\base\Macros.h"
+#include "engine\engine\engine.h"
 #include "engine\gba\graphics\oam\GBAOAMManager.h"
 #include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
 #include "engine\graphicalassets\tile\Tile.h"
@@ -14,13 +15,10 @@ SpriteRenderer::SpriteRenderer(GameObject* gameObject)
 	, m_sprite(NULL)
 	, m_attributeHandle(NULL)
 {
-	m_oamManager = GBA::OAMManager::GetCurrent();
 }
 
 SpriteRenderer::~SpriteRenderer()
 {
-	if (m_attributeHandle)
-		m_oamManager->Release(m_attributeHandle);
 }
 
 void SpriteRenderer::SetSprite(Sprite* sprite)
@@ -35,7 +33,7 @@ void SpriteRenderer::SetSprite(Sprite* sprite)
 	m_sprite = sprite;
 }
 
-void SpriteRenderer::Render(Camera* camera)
+void SpriteRenderer::Render(Engine* engine, Camera* camera)
 {
 	if (camera->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
@@ -45,7 +43,7 @@ void SpriteRenderer::Render(Camera* camera)
 	{
 		if (!m_attributeHandle)
 		{
-			m_attributeHandle = m_oamManager->ReserveObject();
+			m_attributeHandle = engine->GetOAMManager()->ReserveObject();
 
 			m_attributeHandle->SetPaletteIndex(m_sprite->GetPaletteIndex());
 			m_attributeHandle->SetTileIndex(m_sprite->GetTileIndex());
@@ -64,6 +62,6 @@ void SpriteRenderer::Render(Camera* camera)
 	}
 	else if (m_attributeHandle)
 	{
-		m_oamManager->Release(m_attributeHandle);
+		engine->GetOAMManager()->Release(m_attributeHandle);
 	}
 }

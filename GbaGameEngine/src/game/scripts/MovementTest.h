@@ -9,7 +9,7 @@ public:
 	MovementTest(GameObject* gameObject);
 	~MovementTest() {};
 
-	void Update();
+	void Update(Engine* engine);
 };
 
 #endif

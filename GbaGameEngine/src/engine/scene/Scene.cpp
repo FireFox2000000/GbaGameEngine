@@ -2,32 +2,29 @@
 #include "engine\render\Renderer.h"
 #include "engine\graphicalassets\sprite\SpriteLoader.h"
 
-Scene::Scene()
+Scene::Scene(Engine* engine)
 {
 }
 
 
 Scene::~Scene()
 {
-	using namespace GBA;
-	SpriteLoader* spriteLoader = SpriteLoader::GetCurrent();
-	spriteLoader->Clear();
 }
 
-void Scene::Update()
+void Scene::Update(Engine* engine)
 {
 	for (List<GameObject>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
-		it->Update();
+		it->Update(engine);
 	}
 
-	mainCamera.Update();
+	mainCamera.Update(engine);
 }
 
-void Scene::Render()
+void Scene::Render(Engine* engine)
 {
 	for (u32 i = 0; i < renderList.Count(); ++i)
 	{
-		renderList[i]->Render(&mainCamera);
+		renderList[i]->Render(engine, &mainCamera);
 	}
 }

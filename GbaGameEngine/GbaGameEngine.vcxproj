@@ -66,7 +66,8 @@
     <NMakeBuildCommandLine>set path=E:\devkitadv-r5-beta-3\bin;%PATH%
 make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>make all</NMakeReBuildCommandLine>
+    <NMakeReBuildCommandLine>make clean &amp;&amp; set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>
     </NMakeIncludeSearchPath>
@@ -84,7 +85,8 @@ make</NMakeBuildCommandLine>
     <NMakeBuildCommandLine>set path=E:\devkitadv-r5-beta-3\bin;%PATH%
 make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>make all</NMakeReBuildCommandLine>
+    <NMakeReBuildCommandLine>make clean &amp;&amp; set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
   </PropertyGroup>
@@ -100,6 +102,7 @@ make</NMakeBuildCommandLine>
     <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\Sprite_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteLibrary.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
@@ -130,6 +133,7 @@ make</NMakeBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\colour\Palette.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae_Idle.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteLibrary.h" />
