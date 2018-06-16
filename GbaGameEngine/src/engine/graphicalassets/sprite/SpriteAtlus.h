@@ -3,7 +3,6 @@
 
 #include "engine/base/core/stl/List.h"
 #include "engine/graphicalassets/sprite/Sprite.h"
-#include "engine/base/colour/Palette.h"
 
 class SpriteAtlus
 {
@@ -14,14 +13,13 @@ class SpriteAtlus
 	u8 m_paletteLength;
 	List<Sprite> m_sprites;
 
-	bool m_isPaletteLoaded;
 	tPaletteIndex m_paletteIndex;
 
 public:
 	SpriteAtlus();
 	~SpriteAtlus();
 
-	inline bool IsPaletteLoaded() { return m_isPaletteLoaded; }
+	bool IsPaletteLoaded();
 	inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
 };
 

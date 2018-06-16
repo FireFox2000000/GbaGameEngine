@@ -40,7 +40,7 @@ void SpriteRenderer::Render(Camera* camera)
 	if (camera->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
 
-	bool wantRender = m_sprite && m_sprite->GetIsLoaded();
+	bool wantRender = m_sprite && m_sprite->IsLoaded();
 	if (wantRender)
 	{
 		if (!m_attributeHandle)

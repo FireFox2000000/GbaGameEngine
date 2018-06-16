@@ -6,28 +6,27 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
+#include "engine/graphicalassets/tile/Tile.h"
 
 class Sprite;
 
 class SpriteLoader
 {
-	struct SpriteData
-	{
-		GBA::Attributes::Shape shape;
-		GBA::Attributes::SizeMode size;
-		u8 paletteLength;
-		u32 pixelMapLength;
-		const u16* palette;
-		const u16* pixelMapData;
+	static const u32 MAX_SPRITE_TILES = 1024;
 
-		int paletteIndex;
+	enum TileReferenceState
+	{
+		Unused,
+		Used,
+		Continue
 	};
 
-	List<SpriteData> m_spriteData;
-	List<Sprite> m_spriteList;
 	Array<u32, sizeof(ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
+	Array<TileReferenceState, MAX_SPRITE_TILES> m_tileRefTracker;
 
 	SpriteLoader();
+
+	tTileId FindNextFreeTileSpace(u8 tileCount);
 
 public:
 	~SpriteLoader();
@@ -39,7 +38,7 @@ public:
 	}
 
 	void Load(Sprite& out_sprite);
-	void Dispose(Sprite* sprite);
+	void Unload(Sprite* sprite);
 	void Clear();
 };
 

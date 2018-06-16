@@ -4,12 +4,10 @@
 #include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
 #include "engine\gba\graphics\tiles\GBAPaletteBank.h"
 #include "engine\gba\graphics\tiles\GBATileBank.h"
-#include "engine\graphicalassets\tile\Tile.h"
-
-static u16 cumulativeTileIndex = 1;
 
 SpriteLoader::SpriteLoader()
 	: m_paletteRefTracker(0)
+	, m_tileRefTracker(Unused)
 {
 }
 
@@ -17,14 +15,44 @@ SpriteLoader::~SpriteLoader()
 {
 }
 
+tTileId SpriteLoader::FindNextFreeTileSpace(u8 tileCount)
+{
+	tTileId tileIndex = tileCount;		// We start from offset of a whole tile because tile 0 is reserved for disabled tiles
+
+	while (tTileId(tileIndex + tileCount) < m_tileRefTracker.Count())
+	{
+		bool tileSpaceValid = true;
+
+		for (u8 i = tileIndex; i < tileIndex + tileCount; ++i)		// Check that the space for the tile actually exists
+		{
+			if (m_tileRefTracker[i] != Unused)
+			{
+				tileSpaceValid = false;
+				break;
+			}
+		}
+
+		if (tileSpaceValid)
+			return tileIndex;
+		else
+			tileIndex += tileCount;	// Align to the size to prevent fragmentation
+	}
+
+	return INVALID_TILE_ID;
+}
+
 void SpriteLoader::Load(Sprite& out_sprite)
 {
 	using namespace GBA;
 
+	if (out_sprite.IsLoaded())
+		return;
+
 	// Load palette
 	SpriteAtlus* atlus = out_sprite.EditAtlus();
 	tPaletteIndex paletteId = 0;
-	if (out_sprite.GetPaletteIndex() == INVALID_PALETTE_INDEX)
+
+	if (!out_sprite.m_atlus->IsPaletteLoaded())
 	{
 		while (paletteId < m_paletteRefTracker.Count() && m_paletteRefTracker[paletteId] > 0)
 			++paletteId;
@@ -40,33 +68,60 @@ void SpriteLoader::Load(Sprite& out_sprite)
 		}
 		PaletteBank::LoadSpritePalette(paletteId, palette);
 		atlus->m_paletteIndex = paletteId;
-		atlus->m_isPaletteLoaded = true;
 	}
 	else
 	{
 		paletteId = out_sprite.GetPaletteIndex();
 	}
 
-	++m_paletteRefTracker[paletteId];
-
 	// Set tiles
-	tTileId tileIndex = cumulativeTileIndex;	// TODO
+	u8 tileCount = out_sprite.m_pixelMapDataLength * 4 / Tile::PIXELS_PER_TILE;
+	
+	tTileId tileIndex = FindNextFreeTileSpace(tileCount);
 	{
 		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
-		cumulativeTileIndex += out_sprite.m_pixelMapDataLength * 4 / Tile::PIXELS_PER_TILE;
+	}
+
+	++m_paletteRefTracker[paletteId];
+	m_tileRefTracker[tileIndex] = Used;
+
+	if (tileIndex != INVALID_TILE_ID)
+	{
+		m_tileRefTracker[tileIndex] = Used;
+		for (int i = tileIndex + 1; i < tileIndex + tileCount - 1; ++i)
+		{
+			m_tileRefTracker[i] = Continue;
+		}
 	}
 
 	// Set sprite attributes
 	{
 		out_sprite.m_tileIndex = tileIndex;
-		out_sprite.m_tilesLoaded = true;
 	}
 }
 
-void SpriteLoader::Dispose(Sprite * sprite)
+void SpriteLoader::Unload(Sprite * sprite)
 {
+	if (!sprite->IsLoaded())
+		return;
+
+	// Remove tile references
+	tTileId index = sprite->m_tileIndex;
+	m_tileRefTracker[index++] = Unused;
+
+	while (index < m_tileRefTracker.Count() && m_tileRefTracker[index] == Continue)
+	{
+		m_tileRefTracker[index] = Unused;
+	}
+	sprite->m_tileIndex = INVALID_TILE_ID;
+
+	// Decrease palette references
 	--m_paletteRefTracker[sprite->GetPaletteIndex()];
-	m_spriteList.Remove(sprite);
+	if (m_paletteRefTracker[sprite->GetPaletteIndex()] <= 0)
+	{
+		SpriteAtlus* atlus = sprite->m_atlus;
+		atlus->m_paletteIndex = INVALID_PALETTE_INDEX;
+	}
 }
 
 void SpriteLoader::Clear()
@@ -75,6 +130,4 @@ void SpriteLoader::Clear()
 	{
 		m_paletteRefTracker[i] = 0;
 	}
-
-	m_spriteList.Clear();
 }
