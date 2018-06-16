@@ -19,6 +19,8 @@
 
 #define ROUND(x) (Math::Round(x))
 
-#define NULL nullptr
+#ifndef NULL
+#	define NULL nullptr
+#endif
 
 #endif
