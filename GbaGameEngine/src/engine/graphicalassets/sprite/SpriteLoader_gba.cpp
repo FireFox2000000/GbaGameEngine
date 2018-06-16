@@ -74,28 +74,28 @@ void SpriteLoader::Load(Sprite& out_sprite)
 		paletteId = out_sprite.GetPaletteIndex();
 	}
 
+	++m_paletteRefTracker[paletteId];
+
 	// Set tiles
 	u8 tileCount = out_sprite.m_pixelMapDataLength * 4 / Tile::PIXELS_PER_TILE;
 	
 	tTileId tileIndex = FindNextFreeTileSpace(tileCount);
-	{
-		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
-	}
-
-	++m_paletteRefTracker[paletteId];
-	m_tileRefTracker[tileIndex] = Used;
-
 	if (tileIndex != INVALID_TILE_ID)
 	{
-		m_tileRefTracker[tileIndex] = Used;
-		for (int i = tileIndex + 1; i < tileIndex + tileCount - 1; ++i)
-		{
-			m_tileRefTracker[i] = Continue;
-		}
-	}
+		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
 
-	// Set sprite attributes
-	{
+		m_tileRefTracker[tileIndex] = Used;
+
+		if (tileIndex != INVALID_TILE_ID)
+		{
+			m_tileRefTracker[tileIndex] = Used;
+			for (int i = tileIndex + 1; i < tileIndex + tileCount - 1; ++i)
+			{
+				m_tileRefTracker[i] = Continue;
+			}
+		}
+
+		// Set sprite attributes
 		out_sprite.m_tileIndex = tileIndex;
 	}
 }
