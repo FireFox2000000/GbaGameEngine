@@ -18,6 +18,6 @@ namespace Math
 	inline int Round(T x) {
 		return (int)((x) + 0.5f);
 	}
-};
+}
 
 #endif
