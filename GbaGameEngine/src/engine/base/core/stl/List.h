@@ -60,10 +60,10 @@ public:
 		m_container = MAllocType<T>(m_capacity);
 	}
 
-	List(const List<T>& list) : List<T>()
+	List(const List<T>& that) : List<T>()
 	{
-		Reserve(list.Capacity());
-		for (List<T>::const_iterator it = list.begin(); it != list.end(); ++it)
+		Reserve(that.Capacity());
+		for (List<T>::const_iterator it = that.begin(); it != that.end(); ++it)
 		{
 			Add(*it);
 		}
