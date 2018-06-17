@@ -13,7 +13,7 @@ namespace GBA
 {
 	struct OAMSpriteRenderProperties
 	{
-		Vector2 screenPosition;
+		ObjectAttribute oamProperties;
 		Sprite* sprite;
 	};
 }

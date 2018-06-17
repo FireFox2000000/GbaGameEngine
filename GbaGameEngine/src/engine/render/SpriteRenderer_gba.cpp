@@ -42,6 +42,7 @@ void SpriteRenderer::Render(Engine* engine, Camera* camera)
 
 	GBA::OAMManager* oamManager = engine->GetOAMManager();
 	GBA::OAMSpriteRenderProperties renderProperties;
+	GBA::ObjectAttribute oamProperties;
 
 	Vector2 position = GetGameObject()->GetPosition2();
 	position -= camera->GetPosition2();					// Convert world space to relative camera space	
@@ -50,8 +51,10 @@ void SpriteRenderer::Render(Engine* engine, Camera* camera)
 	position += Screen::GetResolution() / 2.f;			// Convert to screen space
 	position += m_centerToCornerSizeOffset;				// Offset by sprite size to render from the center
 
+	oamProperties.SetPosition(position);
+
 	renderProperties.sprite = m_sprite;
-	renderProperties.screenPosition = position;
+	renderProperties.oamProperties = oamProperties;
 
 	oamManager->AddToRenderList(renderProperties);
 }

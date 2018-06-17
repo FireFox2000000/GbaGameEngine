@@ -98,13 +98,19 @@ namespace GBA
 			if (i < m_masterSpriteRenderList.Count())
 			{
 				OAMSpriteRenderProperties& spriteProperties = m_masterSpriteRenderList[i];
-				Sprite* sprite = spriteProperties.sprite;
+				const Sprite* sprite = spriteProperties.sprite;
+				const ObjectAttribute& oamProperties = spriteProperties.oamProperties;
 
-				oamSpriteHandle.SetPaletteIndex(sprite->GetPaletteIndex());
-				oamSpriteHandle.SetTileIndex(sprite->GetTileIndex());
+				// Clone current properties. This allows flags like flipping to be more easily decided by the renderer
+				oamSpriteHandle.m_attributeZero = oamProperties.m_attributeZero;
+				oamSpriteHandle.m_attributeOne = oamProperties.m_attributeOne;
+				oamSpriteHandle.m_attributeTwo = oamProperties.m_attributeTwo;
+
+				// Set sprite specific properties
 				oamSpriteHandle.SetShape(sprite->GetShape());
 				oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());
-				oamSpriteHandle.SetPosition(spriteProperties.screenPosition);
+				oamSpriteHandle.SetPaletteIndex(sprite->GetPaletteIndex());
+				oamSpriteHandle.SetTileIndex(sprite->GetTileIndex());				
 			}
 		}
 

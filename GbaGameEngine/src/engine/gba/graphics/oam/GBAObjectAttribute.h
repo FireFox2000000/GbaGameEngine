@@ -62,6 +62,8 @@ namespace GBA
 
 	class ObjectAttribute
 	{
+		friend class OAMManager;
+
 		u16 m_attributeZero;
 		u16 m_attributeOne;
 		u16 m_attributeTwo;
