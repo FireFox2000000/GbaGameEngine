@@ -4,7 +4,7 @@
 #include "engine/engine/engine.h"
 #include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/graphicalassets/sprite/Sprite.h"
-#include "engine/graphicalassets/sprite/SpriteLoader.h"
+#include "engine/graphicalassets/sprite/SpriteManager.h"
 
 bool PointerComparisonContains(const List<Sprite*>& list, Sprite* sprite)
 {
@@ -62,28 +62,28 @@ namespace GBA
 	{
 		List<Sprite*>& currentBuffer = GetCurrentSpriteBuffer();
 		List<Sprite*>& previousBuffer = GetPreviousSpriteBuffer();
-		SpriteLoader* spriteLoader = engine->GetSpriteLoader();
+		SpriteManager* SpriteManager = engine->GetSpriteManager();
 	
 		for (List<Sprite*>::iterator it = previousBuffer.begin(); it != previousBuffer.end(); ++it)
 		{
 			Sprite* sprite = (*it);
 			if (sprite->IsLoaded() && !PointerComparisonContains(currentBuffer, sprite))
 			{
-				spriteLoader->Unload(sprite);
+				SpriteManager->Unload(sprite);
 			}
 		}
 	}
 
 	void OAMManager::LoadNewSprites(Engine* engine)
 	{
-		SpriteLoader* spriteLoader = engine->GetSpriteLoader();
+		SpriteManager* SpriteManager = engine->GetSpriteManager();
 		List<Sprite*>& buffer = GetCurrentSpriteBuffer();
 		for (List<Sprite*>::iterator it = buffer.begin(); it != buffer.end(); ++it)
 		{
 			Sprite* sprite = (*it);
 			if (!sprite->IsLoaded())
 			{
-				spriteLoader->Load(*sprite);
+				SpriteManager->Load(*sprite);
 			}
 		}
 	}

@@ -4,7 +4,7 @@
 #include "SpriteAtlus.h"
 #include "engine/base/core/stl/List.h"
 
-// Remember to #include the sprite data in GBASpriteLoader.cpp
+// Remember to #include the sprite data in GBASpriteManager.cpp
 #define SPRITE_ATLUS_LIST \
 	SPRITE_ATLUS_ENTRY(Shantae_Idle)
 

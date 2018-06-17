@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "engine/render/Renderer.h"
-#include "engine/graphicalassets/sprite/SpriteLoader.h"
+#include "engine/graphicalassets/sprite/SpriteManager.h"
 
 Scene::Scene(Engine* engine)
 {

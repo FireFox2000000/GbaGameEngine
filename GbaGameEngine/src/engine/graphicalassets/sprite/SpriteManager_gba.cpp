@@ -1,21 +1,21 @@
-#include "SpriteLoader.h"
+#include "SpriteManager.h"
 #include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/graphicalassets/sprite/SpriteAtlus.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/tiles/GBATileBank.h"
 
-SpriteLoader::SpriteLoader()
+SpriteManager::SpriteManager()
 	: m_paletteRefTracker(0)
 	, m_tileRefTracker(Free)
 {
 }
 
-SpriteLoader::~SpriteLoader()
+SpriteManager::~SpriteManager()
 {
 }
 
-tTileId SpriteLoader::FindNextFreeTileSpace(u8 tileCount)
+tTileId SpriteManager::FindNextFreeTileSpace(u8 tileCount)
 {
 	tTileId tileIndex = tileCount;		// We start from offset of a whole tile because tile 0 is reserved for disabled tiles
 
@@ -41,7 +41,7 @@ tTileId SpriteLoader::FindNextFreeTileSpace(u8 tileCount)
 	return INVALID_TILE_ID;
 }
 
-void SpriteLoader::Load(Sprite& out_sprite)
+void SpriteManager::Load(Sprite& out_sprite)
 {
 	using namespace GBA;
 
@@ -105,7 +105,7 @@ void SpriteLoader::Load(Sprite& out_sprite)
 	}
 }
 
-void SpriteLoader::Unload(Sprite * sprite)
+void SpriteManager::Unload(Sprite * sprite)
 {
 	if (!sprite->IsLoaded())
 		return;
@@ -130,7 +130,7 @@ void SpriteLoader::Unload(Sprite * sprite)
 	}
 }
 
-void SpriteLoader::Clear()
+void SpriteManager::Clear()
 {
 	for (u32 i = 0; i < m_paletteRefTracker.Count(); ++i)
 	{

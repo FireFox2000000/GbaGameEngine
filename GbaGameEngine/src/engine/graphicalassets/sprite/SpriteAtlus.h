@@ -6,7 +6,7 @@
 
 class SpriteAtlus
 {
-	friend class SpriteLoader;
+	friend class SpriteManager;
 	friend class SpriteLibrary;
 
 	const u16* m_palette;

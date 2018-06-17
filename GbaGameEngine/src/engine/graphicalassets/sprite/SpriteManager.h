@@ -1,18 +1,20 @@
-#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITELOADER_H
-#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITELOADER_H
+#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEMANAGER_H
+#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEMANAGER_H
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
+#include "engine/graphicalassets/sprite/SpriteLibrary.h"
 #include "engine/graphicalassets/tile/Tile.h"
 
 class Sprite;
 
-class SpriteLoader
+class SpriteManager
 {
 	static const u32 MAX_SPRITE_TILES = 1024;
+	SpriteLibrary m_spriteLibrary;
 
 	enum TileReferenceState
 	{
@@ -27,8 +29,10 @@ class SpriteLoader
 	tTileId FindNextFreeTileSpace(u8 tileCount);
 
 public:
-	SpriteLoader();
-	~SpriteLoader();
+	SpriteManager();
+	~SpriteManager();
+
+	SpriteLibrary* GetSpriteLibrary() { return &m_spriteLibrary; }
 
 	void Load(Sprite& out_sprite);
 	void Unload(Sprite* sprite);

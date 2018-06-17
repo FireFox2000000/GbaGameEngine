@@ -2,19 +2,19 @@
 #define PRAGMA_ONCE_ENGINE_ENGINE_ENGINE_H
 
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
-#include "engine/graphicalassets/sprite/SpriteLoader.h"
+#include "engine/graphicalassets/sprite/SpriteManager.h"
 
 class Engine
 {
 	GBA::OAMManager m_oamManager;
-	SpriteLoader m_spriteLoader;
+	SpriteManager m_spriteManager;
 
 public:
 	Engine();
 	~Engine();
 
 	GBA::OAMManager* GetOAMManager() { return &m_oamManager; }
-	SpriteLoader* GetSpriteLoader() { return &m_spriteLoader; }
+	SpriteManager* GetSpriteManager() { return &m_spriteManager; }
 };
 
 #endif
