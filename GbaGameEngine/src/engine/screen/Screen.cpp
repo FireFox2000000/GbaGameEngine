@@ -1,5 +1,5 @@
 #include "Screen.h"
-#include "engine\gba\registers\display\GBADisplayControl.h"
+#include "engine/gba/registers/display/GBADisplayControl.h"
 
 Vector2 Screen::GetResolution()
 {

@@ -1,9 +1,9 @@
 #include "SpriteLoader.h"
-#include "engine\graphicalassets\sprite\Sprite.h"
-#include "engine\graphicalassets\sprite\SpriteAtlus.h"
-#include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
-#include "engine\gba\graphics\tiles\GBAPaletteBank.h"
-#include "engine\gba\graphics\tiles\GBATileBank.h"
+#include "engine/graphicalassets/sprite/Sprite.h"
+#include "engine/graphicalassets/sprite/SpriteAtlus.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
+#include "engine/gba/graphics/tiles/GBAPaletteBank.h"
+#include "engine/gba/graphics/tiles/GBATileBank.h"
 
 SpriteLoader::SpriteLoader()
 	: m_paletteRefTracker(0)

@@ -1,7 +1,7 @@
 #include "MovementTest.h"
-#include "engine\gameobject\GameObject.h"
-#include "engine\math\Vector2.h"
-#include "engine\gba\registers\input\GBAInput.h"
+#include "engine/gameobject/GameObject.h"
+#include "engine/math/Vector2.h"
+#include "engine/gba/registers/input/GBAInput.h"
 
 MovementTest::MovementTest(GameObject * gameObject)
 	: MonoBehaviour(gameObject)

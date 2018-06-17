@@ -1,8 +1,8 @@
 #ifndef PRAGMA_ONCE_ENGINE_ENGINE_ENGINE_H
 #define PRAGMA_ONCE_ENGINE_ENGINE_ENGINE_H
 
-#include "engine\gba\graphics\oam\GBAOAMManager.h"
-#include "engine\graphicalassets\sprite\SpriteLoader.h"
+#include "engine/gba/graphics/oam/GBAOAMManager.h"
+#include "engine/graphicalassets/sprite/SpriteLoader.h"
 
 class Engine
 {

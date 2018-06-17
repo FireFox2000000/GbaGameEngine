@@ -1,7 +1,7 @@
 #include "GameObject.h"
-#include "engine\base\Macros.h"
-#include "engine\gba\registers\input\GBAInput.h"
-#include "engine\component\GameObjectComponent.h"
+#include "engine/base/Macros.h"
+#include "engine/gba/registers/input/GBAInput.h"
+#include "engine/component/GameObjectComponent.h"
 
 GameObject::GameObject()
 {

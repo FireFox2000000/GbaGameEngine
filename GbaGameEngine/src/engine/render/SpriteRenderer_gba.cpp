@@ -1,14 +1,14 @@
 #include "SpriteRenderer.h"
 
-#include "engine\graphicalassets\sprite\Sprite.h"
-#include "engine\base\Macros.h"
-#include "engine\engine\engine.h"
-#include "engine\gba\graphics\oam\GBAOAMManager.h"
-#include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
-#include "engine\graphicalassets\tile\Tile.h"
-#include "engine\gameobject\GameObject.h"
-#include "engine\gameobject\Camera.h"
-#include "engine\screen\Screen.h"
+#include "engine/graphicalassets/sprite/Sprite.h"
+#include "engine/base/Macros.h"
+#include "engine/engine/engine.h"
+#include "engine/gba/graphics/oam/GBAOAMManager.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
+#include "engine/graphicalassets/tile/Tile.h"
+#include "engine/gameobject/GameObject.h"
+#include "engine/gameobject/Camera.h"
+#include "engine/screen/Screen.h"
 
 SpriteRenderer::SpriteRenderer(GameObject* gameObject)
 	: Renderer(gameObject)

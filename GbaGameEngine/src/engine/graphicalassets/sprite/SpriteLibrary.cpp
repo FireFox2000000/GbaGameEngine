@@ -1,7 +1,7 @@
 #include "SpriteLibrary.h"
-#include "engine\gba\graphics\oam\GBAAttributeFunctions.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
-#include "game\blobdata\Shantae_Idle.h"
+#include "game/blobdata/Shantae_Idle.h"
 
 SpriteLibrary::SpriteLibrary()
 {

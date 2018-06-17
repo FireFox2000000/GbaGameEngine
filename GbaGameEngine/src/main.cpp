@@ -1,9 +1,9 @@
 #include "engine/engine/engine.h"
-#include "engine\gba\registers\display\GBADisplayStatus.h"
-#include "engine\gba\registers\input\GBAInput.h"
-#include "engine\scene\SceneManager.h"
+#include "engine/gba/registers/display/GBADisplayStatus.h"
+#include "engine/gba/registers/input/GBAInput.h"
+#include "engine/scene/SceneManager.h"
 
-#include "game\scenes\Scene0.h"
+#include "game/scenes/Scene0.h"
 
 #define VBLANK_SCNLNE_START 160
 

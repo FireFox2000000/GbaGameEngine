@@ -1,13 +1,13 @@
 #include "Scene0.h"
-#include "engine\base\colour\Colour.h"
+#include "engine/base/colour/Colour.h"
 #include "engine/engine/engine.h"
-#include "engine\gba\registers\display\GBADisplayControl.h"
-#include "engine\gba\graphics\tiles\GBAPaletteBank.h"
-#include "engine\gba\graphics\tiles\GBATileBank.h"
-#include "engine\render\SpriteRenderer.h"
-#include "engine\graphicalassets\sprite\SpriteLoader.h"
+#include "engine/gba/registers/display/GBADisplayControl.h"
+#include "engine/gba/graphics/tiles/GBAPaletteBank.h"
+#include "engine/gba/graphics/tiles/GBATileBank.h"
+#include "engine/render/SpriteRenderer.h"
+#include "engine/graphicalassets/sprite/SpriteLoader.h"
 
-#include "game\scripts\MovementTest.h"
+#include "game/scripts/MovementTest.h"
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
