@@ -7,7 +7,7 @@
 
 SpriteLoader::SpriteLoader()
 	: m_paletteRefTracker(0)
-	, m_tileRefTracker(Unused)
+	, m_tileRefTracker(Free)
 {
 }
 
@@ -25,7 +25,7 @@ tTileId SpriteLoader::FindNextFreeTileSpace(u8 tileCount)
 
 		for (u8 i = tileIndex; i < tileIndex + tileCount; ++i)		// Check that the space for the tile actually exists
 		{
-			if (m_tileRefTracker[i] != Unused)
+			if (m_tileRefTracker[i] != Free)
 			{
 				tileSpaceValid = false;
 				break;
@@ -100,6 +100,7 @@ void SpriteLoader::Load(Sprite& out_sprite)
 	}
 	else
 	{
+		// Undo the palette we just loaded
 		--m_paletteRefTracker[paletteId];
 	}
 }
@@ -111,11 +112,11 @@ void SpriteLoader::Unload(Sprite * sprite)
 
 	// Remove tile references
 	tTileId index = sprite->m_tileIndex;
-	m_tileRefTracker[index++] = Unused;
+	m_tileRefTracker[index++] = Free;
 
 	while (index < m_tileRefTracker.Count() && m_tileRefTracker[index] == Continue)
 	{
-		m_tileRefTracker[index] = Unused;
+		m_tileRefTracker[index++] = Free;
 	}
 	sprite->m_tileIndex = INVALID_TILE_ID;
 
