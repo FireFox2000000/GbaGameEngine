@@ -6,17 +6,6 @@
 #include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/graphicalassets/sprite/SpriteManager.h"
 
-bool PointerComparisonContains(const List<Sprite*>& list, Sprite* sprite)
-{
-	for (List<Sprite*>::const_iterator it = list.begin(); it != list.end(); ++it)
-	{
-		if (sprite - *it == 0)
-			return true;
-	}
-
-	return false;
-}
-
 namespace GBA
 {
 	OAMManager::ObjAttrPool& OAMManager::s_objectAttrPool = *reinterpret_cast<OAMManager::ObjAttrPool*>(OAM_RAM);
@@ -67,7 +56,7 @@ namespace GBA
 		for (List<Sprite*>::iterator it = previousBuffer.begin(); it != previousBuffer.end(); ++it)
 		{
 			Sprite* sprite = (*it);
-			if (sprite->IsLoaded() && !PointerComparisonContains(currentBuffer, sprite))
+			if (sprite->IsLoaded() && !currentBuffer.Contains(sprite))
 			{
 				SpriteManager->Unload(sprite);
 			}
@@ -133,7 +122,7 @@ namespace GBA
 
 		List<Sprite*>& buffer = GetCurrentSpriteBuffer();
 		Sprite* sprite = spriteRenderProperties.sprite;
-		if (!PointerComparisonContains(buffer, sprite))
+		if (!buffer.Contains(sprite))
 			buffer.Add(sprite);
 	}
 
