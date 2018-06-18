@@ -115,7 +115,7 @@ public:
 	{
 		for (u32 i = 0; i < Count(); ++i)
 		{
-			if (item == Get(i));
+			if (item == Get(i))
 			{
 				return (int)i;
 			}
