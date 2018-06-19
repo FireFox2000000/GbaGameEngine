@@ -56,10 +56,7 @@ namespace GBA
 		OAMManager();
 		~OAMManager();
 
-		vObjectAttribute * ReserveObject();
-		void Release(vObjectAttribute* objAttr);
-
-		void DoMasterRender(Engine* engine);
+		void DoMasterRenderIntoMemory(Engine* engine);
 		void AddToRenderList(const OAMSpriteRenderProperties& spriteRenderProperties);
 	};
 }

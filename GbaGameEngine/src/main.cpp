@@ -32,7 +32,7 @@ int main()
 		WaitForVSync();
 
 		// Real Render
-		oamManager->DoMasterRender(&engine);
+		oamManager->DoMasterRenderIntoMemory(&engine);
 	}
 
 	return 0;
