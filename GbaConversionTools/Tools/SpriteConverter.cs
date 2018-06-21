@@ -9,17 +9,19 @@ namespace GbaConversionTools.Tools
 {
     class SpriteConverter
     {
+        public struct SliceCoordinate
+        {
+            public int x, y, width, height;
+        }
+
         const int c_arrayNewlineCount = 10;
         const int c_TILEWIDTH = 8;
         const int c_TileHEIGHT = 8;
         const string TAB_CHAR = "\t";
         const string namespaceTabs = TAB_CHAR;
 
-        public void Convert(string inputPath)
+        public void Convert(string inputPath, string outputPath, Bitmap bitmap, SliceCoordinate[] sliceCoordinates)
         {
-            Bitmap bitmap = new Bitmap(inputPath);
-            string outputPath = Path.GetFileNameWithoutExtension(inputPath) + ".h";
-
             StringBuilder sb = new StringBuilder();
             Size size = bitmap.Size;
             if (size.Width % c_TILEWIDTH != 0 || size.Height % c_TileHEIGHT != 0)
@@ -43,35 +45,41 @@ namespace GbaConversionTools.Tools
             
             sb.Append("namespace " + namespaceName + "\n{\n");
 
-            int totalSprites = bitmap.Width / 32;       // Todo
-            sb.Append(namespaceTabs + "const u32 spriteCount = " + totalSprites + ";\n");
+            sb.Append(namespaceTabs + "const u32 spriteCount = " + sliceCoordinates.Length + ";\n");
             WritePalette(preProcessedPalette, sb);
 
-            // Temp, just loop horizontally at a fixed width for now, eventually read from a config file
+            // Write width
             {
                 sb.Append(namespaceTabs + "const u8 widthMap[] = \n");
                 sb.Append(namespaceTabs + "{\n");
                 sb.Append(namespaceTabs + TAB_CHAR);
-                for (int i = 0; i < totalSprites; ++i)
+
+                for (int i = 0; i < sliceCoordinates.Length; ++i)
                 {
-                    int spriteWidth = 32;   // Todo
+                    int spriteWidth = sliceCoordinates[i].width;
                     sb.AppendFormat("{0}, ", spriteWidth);
                     if ((i + 1) % c_arrayNewlineCount == 0)
                         sb.AppendFormat("\n" + namespaceTabs + TAB_CHAR);
                 }
+
                 sb.Append("\n");
                 sb.Append(namespaceTabs + "};\n\n");
+            }
 
+            // Write height
+            {
                 sb.Append(namespaceTabs + "const u8 heightMap[] = \n");
                 sb.Append(namespaceTabs + "{\n");
                 sb.Append(namespaceTabs + TAB_CHAR);
-                for (int i = 0; i < totalSprites; ++i)
+
+                for (int i = 0; i < sliceCoordinates.Length; ++i)
                 {
-                    int spriteHeight = 64;   // Todo
+                    int spriteHeight = sliceCoordinates[i].height;   // Todo
                     sb.AppendFormat("{0}, ", spriteHeight);
                     if ((i + 1) % c_arrayNewlineCount == 0)
                         sb.AppendFormat("\n" + namespaceTabs + TAB_CHAR);
                 }
+
                 sb.Append("\n");
                 sb.Append(namespaceTabs + "};\n\n");
             }
@@ -79,26 +87,35 @@ namespace GbaConversionTools.Tools
             List<int> dataOffsets = new List<int>();
             dataOffsets.Add(0);
 
-            sb.Append(namespaceTabs + "const u16 data[] = \n");
-            sb.Append(namespaceTabs + "{\n");
-            for (int i = 0; i < totalSprites; ++i)
+            // Write data and add offsets
             {
-                int spriteWidth = 32, spriteHeight = 64;    // Todo, determine through some kind of config file
-                int dataCount = WriteSpriteData(sb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, i * spriteWidth, 0);
+                sb.Append(namespaceTabs + "const u16 data[] = \n");
+                sb.Append(namespaceTabs + "{\n");
+                for (int i = 0; i < sliceCoordinates.Length; ++i)
+                {
+                    SliceCoordinate slice = sliceCoordinates[i];
+                    int spriteWidth = slice.width, spriteHeight = slice.height;    // Todo, determine through some kind of config file
+                    int dataCount = WriteSpriteData(sb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, slice.x, slice.y);
 
-                if (i < totalSprites - 1)
-                    dataOffsets.Add(dataOffsets[i] + dataCount);
+                    // Add offsets
+                    if (i < sliceCoordinates.Length - 1)
+                        dataOffsets.Add(dataOffsets[i] + dataCount);
+                }
+                sb.Append(namespaceTabs + "};\n\n");
             }
-            sb.Append(namespaceTabs + "};\n\n");
 
-            sb.Append(namespaceTabs + "const u32 offsets[] = \n");
-            sb.Append(namespaceTabs + "{\n");
-            for (int i = 0; i < dataOffsets.Count; i++)
+            // Write offsets
             {
-                const string tabs = namespaceTabs + TAB_CHAR;
-                sb.AppendFormat(tabs + "{0}, \n", dataOffsets[i]);
+                sb.Append(namespaceTabs + "const u32 offsets[] = \n");
+                sb.Append(namespaceTabs + "{\n");
+                for (int i = 0; i < dataOffsets.Count; i++)
+                {
+                    const string tabs = namespaceTabs + TAB_CHAR;
+                    sb.AppendFormat(tabs + "{0}, \n", dataOffsets[i]);
+                }
+
+                sb.Append(namespaceTabs + "};\n");
             }
-            sb.Append(namespaceTabs + "};\n");
 
             sb.Append("}\n");
 
@@ -187,7 +204,7 @@ namespace GbaConversionTools.Tools
             sbOutput.Append("\n" + tabs + "},\n");
         }
 
-        int WriteSpriteData(StringBuilder sbOutput, Bitmap bitmap, Color[] palette, int width, int height, int startOffsetX, int startOffsetY)
+        int WriteSpriteData(StringBuilder sbOutput, Bitmap bitmap, Color[] palette, int width, int height, int xPos, int yPos)
         {
             const string tabs = namespaceTabs;
 
@@ -202,8 +219,8 @@ namespace GbaConversionTools.Tools
             {
                 for (int tileX = 0; tileX < tilesWide; ++tileX)
                 {
-                    int tileXOffset = startOffsetX + tileX * c_TILEWIDTH;
-                    int tileYOffset = startOffsetY + tileY * c_TileHEIGHT;
+                    int tileXOffset = xPos + tileX * c_TILEWIDTH;
+                    int tileYOffset = yPos + tileY * c_TileHEIGHT;
 
                     for (int y = 0; y < c_TileHEIGHT; ++y)
                     {
