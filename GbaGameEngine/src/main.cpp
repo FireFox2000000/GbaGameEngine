@@ -12,6 +12,7 @@ static void WaitForVSync();
 int main()
 {
 	Engine engine;
+
 	Scene0 scene0(&engine);
 	SceneManager sceneManager(&scene0);
 	GBA::OAMManager* oamManager = engine.GetOAMManager();
@@ -33,6 +34,8 @@ int main()
 
 		// Real Render
 		oamManager->DoMasterRenderIntoMemory(&engine);
+
+		engine.Update();
 	}
 
 	return 0;
