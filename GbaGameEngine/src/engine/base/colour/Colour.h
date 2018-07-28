@@ -3,6 +3,7 @@
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
+#include "engine/math/Math.h"
 
 typedef u16 rgb16;
 

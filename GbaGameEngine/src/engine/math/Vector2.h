@@ -57,18 +57,18 @@ struct Vector2
 	inline Vector2 operator/(double scalar) const { return Vector2(*this) /= scalar; }
 	
 	// Regular functions
-	float Magnitude();
-	float MagnitudeSqr();
-	Vector2 Normal();
-	Vector2 Normalized();
+	float Magnitude() const;
+	float MagnitudeSqr() const;
+	Vector2 Normal() const;
+	Vector2 Normalised() const;
 	
 	// Static functions
-	static float Distance(Vector2 a, Vector2 b);
-	static float DistanceSqr(Vector2 a, Vector2 b);
-	static float Dot(Vector2 a, Vector2 b);
-	static Vector2 Projection(Vector2 ab, Vector2 ac);
-	static float Determinant(Vector2 u, Vector2 v);
-	static Vector2 PointToVector(Vector2 pointA, Vector2 pointB);
+	static float Length(const Vector2& a, const Vector2& b);
+	static float LengthSqrd(const Vector2& a, const Vector2& b);
+	static float Dot(const Vector2& a, const Vector2& b);
+	static Vector2 Projection(const Vector2& ab, const Vector2& ac);
+	static float Determinant(const Vector2& u, const Vector2& v);
+	static Vector2 PointToVector(const Vector2& pointA, const Vector2& pointB);
 
 	const static Vector2 Zero;
 	const static Vector2 Right;

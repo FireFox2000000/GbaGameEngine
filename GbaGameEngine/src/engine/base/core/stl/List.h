@@ -4,6 +4,7 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 #include "engine/base/core/Memory.h"
+#include "engine/math/Math.h"
 
 template<class T>
 class List

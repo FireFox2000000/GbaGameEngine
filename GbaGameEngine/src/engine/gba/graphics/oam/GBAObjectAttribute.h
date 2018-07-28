@@ -3,6 +3,7 @@
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
+#include "engine/math/Math.h"
 #include "engine/math/Vector2.h"
 
 // http://www.coranac.com/tonc/text/regobj.htm#tbl-obj-size
