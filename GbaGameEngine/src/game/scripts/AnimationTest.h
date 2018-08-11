@@ -10,12 +10,8 @@ class Sprite;
 class AnimationTest : public MonoBehaviour
 {
 	SpriteRenderer* m_spriteRenderer;
-	//List<Sprite*> m_animationFrames;
-	//u32 m_frameCount;
-
 	struct KeyFrame
 	{
-		float frameIndex;
 		Sprite* sprite;
 	};
 	

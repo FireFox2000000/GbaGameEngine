@@ -31,7 +31,6 @@ void AnimationTest::Init(Engine * engine)
 		Sprite* sprite = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, i);
 		KeyFrame keyframe;
 		keyframe.sprite = sprite;
-		keyframe.frameIndex = i;
 
 		m_keyFrames.Add(keyframe);
 	}
@@ -41,7 +40,7 @@ void AnimationTest::Update(Engine* engine)
 {
 	Time* time = engine->GetTime();
 	double timeSinceAnimationStart = time->GetTime() - m_startTime;
-	double animCycleDuration = 1.0 / m_frameRate * m_totalFrames;
+	double animCycleDuration = m_totalFrames / (double)m_frameRate;
 
 	double cycles = timeSinceAnimationStart / animCycleDuration;
 	double cycleRemainder = cycles - int(cycles);
