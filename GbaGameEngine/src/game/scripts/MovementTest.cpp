@@ -1,4 +1,5 @@
 #include "MovementTest.h"
+#include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
 #include "engine/math/Vector2.h"
 #include "engine/gba/registers/input/GBAInput.h"
@@ -11,8 +12,9 @@ MovementTest::MovementTest(GameObject * gameObject)
 void MovementTest::Update(Engine* engine)
 {
 	using namespace GBA;
-	float moveSpeed = 0.2f;
-
+	Time* time = engine->GetTime();
+	float moveSpeed = 8.0f * time->GetDeltaTime();
+	
 	Vector2 position = GetGameObject()->GetPosition2();
 
 	if (Input::GetKey(Buttons::Left))
