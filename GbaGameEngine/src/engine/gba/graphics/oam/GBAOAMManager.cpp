@@ -16,10 +16,6 @@ namespace GBA
 		, m_objAttrEnabledSearchIndex(0)
 		, m_currentSpriteBufferIndex(0)
 	{
-		for (Array<List<Sprite*>, 2>::iterator it = m_spriteRenderBuffers.begin(); it != m_spriteRenderBuffers.end(); ++it)
-		{
-			it->Reserve(OBJ_ATTR_COUNT);
-		}
 	}
 
 	OAMManager::~OAMManager()
@@ -33,27 +29,27 @@ namespace GBA
 			m_currentSpriteBufferIndex = 0;
 	}
 
-	List<Sprite*>& OAMManager::GetCurrentSpriteBuffer()
+	OAMManager::tSpriteBuffer& OAMManager::GetCurrentSpriteBuffer()
 	{
-		return m_spriteRenderBuffers[m_currentSpriteBufferIndex];
+		return m_spriteRenderDoubleBuffer[m_currentSpriteBufferIndex];
 	}
 
-	List<Sprite*>& OAMManager::GetPreviousSpriteBuffer()
+	OAMManager::tSpriteBuffer& OAMManager::GetPreviousSpriteBuffer()
 	{
 		int previousRenderBufferIndex = m_currentSpriteBufferIndex + 1;
 		if (previousRenderBufferIndex > 1)
 			previousRenderBufferIndex = 0;
 
-		return m_spriteRenderBuffers[previousRenderBufferIndex];
+		return m_spriteRenderDoubleBuffer[previousRenderBufferIndex];
 	}
 
 	void OAMManager::UnloadUnusedSprites(Engine* engine)
 	{
-		List<Sprite*>& currentBuffer = GetCurrentSpriteBuffer();
-		List<Sprite*>& previousBuffer = GetPreviousSpriteBuffer();
+		tSpriteBuffer& currentBuffer = GetCurrentSpriteBuffer();
+		tSpriteBuffer& previousBuffer = GetPreviousSpriteBuffer();
 		SpriteManager* SpriteManager = engine->GetSpriteManager();
 	
-		for (List<Sprite*>::iterator it = previousBuffer.begin(); it != previousBuffer.end(); ++it)
+		for (tSpriteBuffer::iterator it = previousBuffer.begin(); it != previousBuffer.end(); ++it)
 		{
 			Sprite* sprite = (*it);
 			if (sprite->IsLoaded() && !currentBuffer.Contains(sprite))
@@ -66,8 +62,8 @@ namespace GBA
 	void OAMManager::LoadNewSprites(Engine* engine)
 	{
 		SpriteManager* SpriteManager = engine->GetSpriteManager();
-		List<Sprite*>& buffer = GetCurrentSpriteBuffer();
-		for (List<Sprite*>::iterator it = buffer.begin(); it != buffer.end(); ++it)
+		tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
+		for (tSpriteBuffer::iterator it = buffer.begin(); it != buffer.end(); ++it)
 		{
 			Sprite* sprite = (*it);
 			if (!sprite->IsLoaded())
@@ -118,9 +114,10 @@ namespace GBA
 
 	void OAMManager::AddToRenderList(const OAMSpriteRenderProperties& spriteRenderProperties)
 	{
+		// Todo, fixed list, can't render more than 128, will currently crash if this is exceeded
 		m_masterSpriteRenderList.Add(spriteRenderProperties);
 
-		List<Sprite*>& buffer = GetCurrentSpriteBuffer();
+		OAMManager::tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
 		Sprite* sprite = spriteRenderProperties.sprite;
 		if (!buffer.Contains(sprite))
 			buffer.Add(sprite);

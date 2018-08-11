@@ -5,8 +5,6 @@
 
 SpriteLibrary::SpriteLibrary()
 {
-	m_spriteAtlusCollection.Reserve(SpriteAtlusID::Count);
-
 #define SPRITE_ATLUS_ENTRY(Namespace) \
 	{\
 		SpriteAtlus* atlus = m_spriteAtlusCollection.AddNew();\

@@ -21,7 +21,7 @@ namespace SpriteAtlusID
 
 class SpriteLibrary
 {
-	List<SpriteAtlus> m_spriteAtlusCollection;
+	FixedList<SpriteAtlus, SpriteAtlusID::Count> m_spriteAtlusCollection;
 
 public:
 	SpriteLibrary();

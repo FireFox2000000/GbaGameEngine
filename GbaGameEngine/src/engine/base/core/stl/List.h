@@ -7,25 +7,86 @@
 #include "engine/math/Math.h"
 
 template<class T>
-class List
+class MAllocMemoryPolicy
 {
 	T* m_container;
 	u32 m_capacity;
-	u32 m_count;
+protected:
+	MAllocMemoryPolicy(u32 size)
+		: m_capacity(MAX(size, u32(1)))
+	{
+		m_container = MAllocType<T>(size);
+		m_capacity = size;
+	}
 
-	inline T& Get(u32 index) { return m_container[index]; }
-	inline const T& Get(u32 index) const { return m_container[index]; }
+	~MAllocMemoryPolicy()
+	{
+		SafeFree(m_container);
+	}
 
-	bool GrowTo(u32 size)
+	bool Reallocate(u32 size, u32 count)
 	{
 		T* newContainer = MAllocType<T>(size);
 		if (newContainer)
 		{
-			MemCopy(m_container, newContainer, sizeof(T) * MIN(Count(), size));
+			MemCopy(m_container, newContainer, sizeof(T) * MIN(count, size));
 			SafeFree(m_container);
 
 			m_container = newContainer;
 			m_capacity = size;
+			return true;
+		}
+
+		return false;
+	}
+
+	inline T& Get(u32 index) { return m_container[index]; }
+	inline const T& Get(u32 index) const { return m_container[index]; }
+
+	inline u32 Capacity() { return m_capacity; }
+	inline u32 Capacity() const { return m_capacity; }
+
+	inline T* GetContainer() { return m_container; }
+};
+
+template<class T, u32 SIZE>
+class FixedMemoryPolicy
+{
+	u8 m_container[SIZE * sizeof(T)];
+
+protected:
+	FixedMemoryPolicy(u32 size)
+	{
+	}
+
+	~FixedMemoryPolicy()
+	{
+	}
+
+	bool Reallocate(u32 size, u32 count)
+	{
+		// No.
+		return size <= SIZE;
+	}
+
+	inline T& Get(u32 index) { return (T&)(m_container[index * sizeof(T)]); }
+	inline const T& Get(u32 index) const { return (T&)(m_container[index * sizeof(T)]); }
+
+	inline u32 Capacity() { return SIZE; }
+	inline u32 Capacity() const { return SIZE; }
+
+	inline T* GetContainer() { return (T*)(m_container); }
+};
+
+template<class T, class MemoryPolicy>
+class ListBase : public MemoryPolicy
+{
+	u32 m_count;
+
+	bool GrowTo(u32 size)
+	{
+		if (MemoryPolicy::Reallocate(size, Count()))
+		{
 			if (Count() > size)
 				m_count = size;
 
@@ -45,7 +106,7 @@ class List
 
 		u32 length = 1;
 		u32 endPosition = index + length;
-		MoveMemory(m_container + endPosition, m_container + index, sizeof(T) * (Count() - endPosition + length));
+		MoveMemory(MemoryPolicy::GetContainer() + endPosition, MemoryPolicy::GetContainer() + index, sizeof(T) * (Count() - endPosition + length));
 		++m_count;
 
 		T* newItem = &Get(index);
@@ -56,39 +117,38 @@ public:
 	typedef T* iterator;
 	typedef const T* const_iterator;
 
-	List(u32 initialCapacity = 1) : m_capacity(MAX(initialCapacity, u32(1))), m_count(0)
+	ListBase(u32 initialCapacity = 1)
+		: MemoryPolicy(initialCapacity)
+		, m_count(0)
 	{
-		m_container = MAllocType<T>(m_capacity);
+
 	}
 
-	List(const List<T>& that) : List<T>()
+	ListBase(const ListBase<T, MemoryPolicy>& list) : ListBase<T, MemoryPolicy>()
 	{
-		Reserve(that.Capacity());
-		for (List<T>::const_iterator it = that.begin(); it != that.end(); ++it)
+		Reserve(list.Capacity());
+		for (ListBase<T, MemoryPolicy>::const_iterator it = list.begin(); it != list.end(); ++it)
 		{
 			Add(*it);
 		}
 	}
 
-	~List()
+	~ListBase()
 	{
 		for (iterator it = begin(); it != end(); ++it)
 		{
 			it->~T();
 		}
-		SafeFree(m_container);
 	}
 
-	const T* GetContainer() const
-	{
-		return m_container;
-	}
+	inline T& Get(u32 index) { return MemoryPolicy::Get(index); }
+	inline const T& Get(u32 index) const { return MemoryPolicy::Get(index); }
 
 	inline u32 Count() { return m_count; }
 	inline u32 Count() const { return m_count; }
 
-	inline u32 Capacity() { return m_capacity; }
-	inline u32 Capacity() const { return m_capacity; }
+	inline u32 Capacity() { return MemoryPolicy::Capacity(); }
+	inline u32 Capacity() const { return MemoryPolicy::Capacity(); }
 
 	iterator begin() { return Count() > 0 ? &Get(0) : NULL; }
 	const_iterator begin() const { return Count() > 0 ? &Get(0) : NULL; }
@@ -190,7 +250,7 @@ public:
 		}
 
 		u32 endPosition = index + length;
-		MoveMemory(m_container + endPosition, m_container + index, sizeof(T) * (Count() - endPosition + length));
+		MoveMemory(MemoryPolicy::GetContainer() + endPosition, MemoryPolicy::GetContainer() + index, sizeof(T) * (Count() - endPosition + length));
 
 		typename EnumerableT::const_iterator itBegin = items.begin();
 		for (u32 i = 0; i < length; ++i)
@@ -213,7 +273,7 @@ public:
 				Get(i).~T();
 			}
 
-			MoveMemory(m_container + index, m_container + endPosition, sizeof(T) * (Count() - endPosition));
+			MoveMemory(MemoryPolicy::GetContainer() + index, MemoryPolicy::GetContainer() + endPosition, sizeof(T) * (Count() - endPosition));
 			m_count -= length;
 			return true;
 		}
@@ -239,6 +299,16 @@ public:
 	{
 		return RemoveRange(0, Count());
 	}
+};
+
+template<class T>
+class List : public ListBase<T, MAllocMemoryPolicy<T> >
+{
+};
+
+template<class T, u32 SIZE>
+class FixedList : public ListBase<T, FixedMemoryPolicy<T, SIZE> >
+{
 };
 
 #endif

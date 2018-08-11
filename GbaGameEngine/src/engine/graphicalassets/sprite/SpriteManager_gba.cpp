@@ -82,17 +82,13 @@ void SpriteManager::Load(Sprite& out_sprite)
 	tTileId tileIndex = FindNextFreeTileSpace(tileCount);
 	if (tileIndex != INVALID_TILE_ID)
 	{
-		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, SpriteLower, tileIndex);	// Todo, use function that doesn't specify tile block group
+		TileBlockGroups tileBlockGroup = SpriteLower;
+		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, tileBlockGroup, tileIndex);	// Todo, use function that doesn't specify tile block group
 
 		m_tileRefTracker[tileIndex] = Used;
-
-		if (tileIndex != INVALID_TILE_ID)
+		for (int i = tileIndex + 1; i < tileIndex + tileCount; ++i)
 		{
-			m_tileRefTracker[tileIndex] = Used;
-			for (int i = tileIndex + 1; i < tileIndex + tileCount - 1; ++i)
-			{
-				m_tileRefTracker[i] = Continue;
-			}
+			m_tileRefTracker[i] = Continue;
 		}
 
 		// Set sprite attributes

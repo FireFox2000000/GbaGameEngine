@@ -33,19 +33,21 @@ namespace GBA
 		typedef Array<vObjectAttribute, OBJ_ATTR_COUNT> ObjAttrPool;
 		typedef Array<vObjectAffine, OBJ_AFFINE_COUNT> ObjAffinePool;
 
+		typedef FixedList<Sprite*, OBJ_ATTR_COUNT> tSpriteBuffer;
+
 		static ObjAttrPool& s_objectAttrPool;
 		static ObjAffinePool& s_objectAffinePool;
 
 		Array<bool, OBJ_ATTR_COUNT> m_objAttrEnabledTracker;
 		u32 m_objAttrEnabledSearchIndex;
 
-		List<OAMSpriteRenderProperties> m_masterSpriteRenderList;
-		Array<List<Sprite*>, 2> m_spriteRenderBuffers;
+		FixedList<OAMSpriteRenderProperties, OBJ_ATTR_COUNT> m_masterSpriteRenderList;
+		Array<tSpriteBuffer, 2> m_spriteRenderDoubleBuffer;
 		int m_currentSpriteBufferIndex;
 
 		void FlipRenderBuffer();
-		List<Sprite*>& GetCurrentSpriteBuffer();
-		List<Sprite*>& GetPreviousSpriteBuffer();
+		tSpriteBuffer& GetCurrentSpriteBuffer();
+		tSpriteBuffer& GetPreviousSpriteBuffer();
 
 		void UnloadUnusedSprites(Engine* engine);
 		void LoadNewSprites(Engine* engine);

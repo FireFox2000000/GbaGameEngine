@@ -25,7 +25,7 @@ namespace GBA
 
 	bool TileBank::LoadTiles(const List<u16>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
-		return LoadTiles(pixelMap.GetContainer(), pixelMap.Count(), tileBlockGroup, startTileIndex);
+		return LoadTiles(pixelMap.begin(), pixelMap.Count(), tileBlockGroup, startTileIndex);
 	}
 
 	bool TileBank::LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId)
