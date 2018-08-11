@@ -15,7 +15,7 @@ SpriteManager::~SpriteManager()
 {
 }
 
-tTileId SpriteManager::FindNextFreeTileSpace(u8 tileCount)
+tTileId SpriteManager::FindNextFreeTileSpace(u8 tileCount) const
 {
 	tTileId tileIndex = tileCount;		// We start from offset of a whole tile because tile 0 is reserved for disabled tiles
 
@@ -23,7 +23,7 @@ tTileId SpriteManager::FindNextFreeTileSpace(u8 tileCount)
 	{
 		bool tileSpaceValid = true;
 
-		for (u8 i = tileIndex; i < tileIndex + tileCount; ++i)		// Check that the space for the tile actually exists
+		for (u16 i = tileIndex; i < (tileIndex + tileCount); ++i)		// Check that the space for the tile actually exists
 		{
 			if (m_tileRefTracker[i] != Free)
 			{

@@ -26,7 +26,7 @@ class SpriteManager
 	Array<u32, sizeof(ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
 	Array<TileReferenceState, MAX_SPRITE_TILES> m_tileRefTracker;
 
-	tTileId FindNextFreeTileSpace(u8 tileCount);
+	tTileId FindNextFreeTileSpace(u8 tileCount) const;
 
 public:
 	SpriteManager();
