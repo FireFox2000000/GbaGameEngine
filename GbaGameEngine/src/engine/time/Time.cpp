@@ -1,6 +1,6 @@
 #include "Time.h"
 
-const double FRAMERATE = 59.97;	// FPS
+const float FRAMERATE = 59.97f;// / 2.0;	// FPS
 
 Time::Time()
 {
@@ -15,12 +15,12 @@ void Time::Update()
 	IncFrameCount();
 }
 
-double Time::GetDeltaTime()
+float Time::GetDeltaTime()
 {
 	return 1.0f / FRAMERATE;
 }
 
-double Time::GetRealSystemTime()
+float Time::GetRealSystemTime()
 {
 	return m_frameCount / FRAMERATE;
 }

@@ -16,9 +16,9 @@ public:
 	void Update();
 
 	u32 GetFrameCount() { return m_frameCount; }
-	double GetDeltaTime();
-	double GetTime() { return GetRealSystemTime(); }	// TODO, don't actually do this, can't scale time.
-	double GetRealSystemTime();
+	float GetDeltaTime();
+	float GetTime() { return GetRealSystemTime(); }	// TODO, don't actually do this, can't scale time.
+	float GetRealSystemTime();
 };
 
 #endif

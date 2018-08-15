@@ -20,7 +20,7 @@ class AnimationTest : public MonoBehaviour
 	u32 m_frameRate;
 	u32 m_totalFrames;
 	KeyFrames m_keyFrames;
-	double m_startTime;
+	float m_startTime;
 
 public:
 	AnimationTest(GameObject* gameObject);

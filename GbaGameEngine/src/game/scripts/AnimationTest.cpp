@@ -39,11 +39,11 @@ void AnimationTest::Init(Engine * engine)
 void AnimationTest::Update(Engine* engine)
 {
 	Time* time = engine->GetTime();
-	double timeSinceAnimationStart = time->GetTime() - m_startTime;
-	double animCycleDuration = m_totalFrames / (double)m_frameRate;
+	float timeSinceAnimationStart = time->GetTime() - m_startTime;
+	float animCycleDuration = m_totalFrames / (float)m_frameRate;
 
-	double cycles = timeSinceAnimationStart / animCycleDuration;
-	double cycleRemainder = cycles - int(cycles);
+	float cycles = timeSinceAnimationStart / animCycleDuration;
+	float cycleRemainder = cycles - int(cycles);
 
 	// Todo, search for frame based on keyframes
 
