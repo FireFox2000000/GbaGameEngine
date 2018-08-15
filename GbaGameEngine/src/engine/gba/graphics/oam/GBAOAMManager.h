@@ -59,7 +59,7 @@ namespace GBA
 		~OAMManager();
 
 		void DoMasterRenderIntoMemory(Engine* engine);
-		void AddToRenderList(const OAMSpriteRenderProperties& spriteRenderProperties);
+		OAMSpriteRenderProperties* AddToRenderList(Sprite* sprite);
 	};
 }
 

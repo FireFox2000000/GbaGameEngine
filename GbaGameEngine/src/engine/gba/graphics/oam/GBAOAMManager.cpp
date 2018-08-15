@@ -112,14 +112,16 @@ namespace GBA
 		GetCurrentSpriteBuffer().Clear();
 	}
 
-	void OAMManager::AddToRenderList(const OAMSpriteRenderProperties& spriteRenderProperties)
+	OAMSpriteRenderProperties* OAMManager::AddToRenderList(Sprite* sprite)
 	{
-		// Todo, fixed list, can't render more than 128, will currently crash if this is exceeded
-		m_masterSpriteRenderList.Add(spriteRenderProperties);
-
 		OAMManager::tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
-		Sprite* sprite = spriteRenderProperties.sprite;
 		if (!buffer.Contains(sprite))
 			buffer.Add(sprite);
+
+		// Todo, fixed list, can't render more than 128, will currently crash if this is exceeded
+		OAMSpriteRenderProperties* properties = m_masterSpriteRenderList.AddNew();
+		properties->sprite = sprite;
+
+		return properties;
 	}
 }
