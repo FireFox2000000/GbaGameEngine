@@ -1,6 +1,7 @@
 #include "Time.h"
 
-const float FRAMERATE = 59.97f;// / 2.0;	// FPS
+const u32 FRAMERATE = 5997;// FPS, .2f
+const float FPS_FIXED_SCALE = 0.01f;
 
 Time::Time()
 {
@@ -15,13 +16,18 @@ void Time::Update()
 	IncFrameCount();
 }
 
-float Time::GetDeltaTime()
+u32 Time::GetMilliseconds()
 {
-	return 1.0f / FRAMERATE;
+	return (m_frameCount * 100000 + 5) / FRAMERATE;		// Scale frame to milliseconds, multiply by 100 due to fixed point FRAMERATE, + 5 for automatic rounding
 }
 
-float Time::GetRealSystemTime()
+float Time::GetDeltaTimeSeconds()
 {
-	return m_frameCount / FRAMERATE;
+	return 100.f / (float)FRAMERATE;
+}
+
+float Time::GetRealSystemTimeSecondsf()
+{
+	return m_frameCount * FPS_FIXED_SCALE / (float)FRAMERATE;
 }
 

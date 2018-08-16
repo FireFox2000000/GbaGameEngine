@@ -7,6 +7,9 @@
 
 #define ROUND(x) (static_cast<int>((x) + 0.5f))
 
+#define SECONDS_TO_MILLISECONDS(x) ((x) * 1000)
+#define MILLISECONDS_TO_SECONDS(x) ((x) / 1000)
+
 namespace Math
 {
 	template<typename T>

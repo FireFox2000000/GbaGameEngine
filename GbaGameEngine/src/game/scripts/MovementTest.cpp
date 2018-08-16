@@ -13,7 +13,7 @@ void MovementTest::Update(Engine* engine)
 {
 	using namespace GBA;
 	Time* time = engine->GetTime();
-	float moveSpeed = 8.0f * time->GetDeltaTime();
+	float moveSpeed = 8.0f * time->GetDeltaTimeSeconds();
 	
 	Vector2 position = GetGameObject()->GetPosition2();
 

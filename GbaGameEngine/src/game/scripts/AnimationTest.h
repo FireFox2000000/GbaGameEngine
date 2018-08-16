@@ -17,10 +17,10 @@ class AnimationTest : public MonoBehaviour
 	
 	typedef List<KeyFrame> KeyFrames;
 	
-	u32 m_frameRate;
+	u32 m_frameRateMs;
 	u32 m_totalFrames;
 	KeyFrames m_keyFrames;
-	float m_startTime;
+	u32 m_startTimeMilliseconds;
 
 public:
 	AnimationTest(GameObject* gameObject);
@@ -28,6 +28,9 @@ public:
 
 	void Init(Engine* engine);
 	void Update(Engine* engine);
+
+	void SetFrameRate(u32 fps);
+	u32 GetFrameRate();
 };
 
 #endif
