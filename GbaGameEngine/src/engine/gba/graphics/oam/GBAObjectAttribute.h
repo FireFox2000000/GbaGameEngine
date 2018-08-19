@@ -3,6 +3,7 @@
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
+#include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Math.h"
 #include "engine/math/Vector2.h"
 
@@ -132,6 +133,13 @@ namespace GBA
 		{
 			SetAttribute(ROUND(position.x), XCoord);
 			SetAttribute(ROUND(position.y), YCoord);
+		}
+
+		template<class IntType, u8 BITS>
+		inline void SetPosition(const Vector2<FixedPoint<IntType, BITS> >& position) volatile	// Top-left of the sprite
+		{
+			SetAttribute(position.x.ToRoundedInt(), XCoord);
+			SetAttribute(position.y.ToRoundedInt(), YCoord);
 		}
 
 		inline void SetObjectMode(Attributes::ObjectMode objectMode)	volatile { SetAttribute(SHIFTED_BITMASK((int)objectMode, sc_A0_OBJMODE_BITINDEX), ObjMode); }

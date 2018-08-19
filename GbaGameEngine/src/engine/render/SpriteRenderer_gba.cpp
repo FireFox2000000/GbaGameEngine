@@ -2,6 +2,7 @@
 
 #include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/base/Macros.h"
+#include "engine/base/core/stl/FixedPoint.h"
 #include "engine/engine/engine.h"
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
@@ -44,12 +45,12 @@ void SpriteRenderer::Render(Engine* engine, Camera* camera)
 	GBA::OAMSpriteRenderProperties* renderProperties = oamManager->AddToRenderList(m_sprite);
 	GBA::ObjectAttribute& oamProperties = renderProperties->oamProperties;
 
-	Vector2f position = GetGameObject()->GetPosition2();
-	position -= camera->GetPosition2();					// Convert world space to relative camera space	
-	position.y *= -1;									// Correct for screen space starting from the top
-	position *= Tile::PIXELS_SQRROOT_PER_TILE;			// Camera position units to pixel units, 8 pixels per tile/unit
-	position += Screen::GetResolution() / 2.f;			// Convert to screen space
-	position += m_centerToCornerSizeOffset;				// Offset by sprite size to render from the center
+	Vector2<FixedPoint<int, 8> > position = GetGameObject()->GetPosition2();
+	position -= camera->GetPosition2();										// Convert world space to relative camera space	
+	position.y *= -1;														// Correct for screen space starting from the top
+	position *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
+	position += Screen::GetResolution() / FixedPoint<int, 8>(2);			// Convert to screen space
+	position += m_centerToCornerSizeOffset;									// Offset by sprite size to render from the center
 
 	oamProperties.SetPosition(position);
 }

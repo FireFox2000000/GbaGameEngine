@@ -135,6 +135,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\FixedPoint.h" />
     <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\time\Time.h" />
     <ClInclude Include="src\game\scripts\AnimationTest.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />

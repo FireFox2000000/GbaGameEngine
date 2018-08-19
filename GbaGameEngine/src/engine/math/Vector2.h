@@ -8,9 +8,7 @@ struct Vector2
 
 	// Constructors
 	inline Vector2() : x(0), y(0) {};
-	inline Vector2(int x, int y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {};
-	inline Vector2(float x, float y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {};
-	inline Vector2(double x, double y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {};
+	inline Vector2(T x, T y) : x(x), y(y) {};
 	inline Vector2(const Vector2& that) { *this = that; }
 	
 	// Operator overloads
@@ -49,13 +47,8 @@ struct Vector2
 
 	inline Vector2 operator+(const Vector2& vec) const { return Vector2(*this) += vec; }
 	inline Vector2 operator-(const Vector2& vec) const { return Vector2(*this) -= vec; }
-	inline Vector2 operator*(float scalar) const { return Vector2(*this) *= scalar; }
-	inline Vector2 operator/(float scalar) const { return Vector2(*this) /= scalar; }
-
-	inline Vector2 operator*(int scalar) const { return Vector2(*this) * (float)scalar; }
-	inline Vector2 operator/(int scalar) const { return Vector2(*this) / (float)scalar; }
-	inline Vector2 operator*(double scalar) const { return Vector2(*this) *= scalar; }
-	inline Vector2 operator/(double scalar) const { return Vector2(*this) /= scalar; }
+	template <class Scalar> inline Vector2 operator*(Scalar scalar) const { return Vector2(*this) *= scalar; }
+	template <class Scalar> inline Vector2 operator/(Scalar scalar) const { return Vector2(*this) /= scalar; }
 
 	template<class U>
 	inline operator Vector2<U>() const { return Vector2<U>(static_cast<U>(this->x), static_cast<U>(this->y)); }
