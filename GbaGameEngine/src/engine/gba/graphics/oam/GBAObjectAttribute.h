@@ -128,7 +128,7 @@ namespace GBA
 		inline ObjectAttribute() : m_attributeZero(0), m_attributeOne(0), m_attributeTwo(0) {}
 		inline void Reset() volatile { m_attributeZero = m_attributeOne = m_attributeTwo = 0; }
 
-		inline void SetPosition(const Vector2& position) volatile	// Top-left of the sprite
+		inline void SetPosition(const Vector2f& position) volatile	// Top-left of the sprite
 		{
 			SetAttribute(ROUND(position.x), XCoord);
 			SetAttribute(ROUND(position.y), YCoord);

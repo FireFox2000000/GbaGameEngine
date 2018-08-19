@@ -3,7 +3,6 @@
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
-#include "engine/math/Vector2.h"
 
 typedef u16 tTileId;
 const tTileId INVALID_TILE_ID = 0;

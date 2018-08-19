@@ -8,7 +8,7 @@ class Sprite;
 
 class SpriteRenderer : public Renderer
 {
-	Vector2 m_centerToCornerSizeOffset;
+	Vector2<int> m_centerToCornerSizeOffset;
 	Sprite* m_sprite;
 
 public:	

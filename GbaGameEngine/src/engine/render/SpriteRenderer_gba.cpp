@@ -44,7 +44,7 @@ void SpriteRenderer::Render(Engine* engine, Camera* camera)
 	GBA::OAMSpriteRenderProperties* renderProperties = oamManager->AddToRenderList(m_sprite);
 	GBA::ObjectAttribute& oamProperties = renderProperties->oamProperties;
 
-	Vector2 position = GetGameObject()->GetPosition2();
+	Vector2f position = GetGameObject()->GetPosition2();
 	position -= camera->GetPosition2();					// Convert world space to relative camera space	
 	position.y *= -1;									// Correct for screen space starting from the top
 	position *= Tile::PIXELS_SQRROOT_PER_TILE;			// Camera position units to pixel units, 8 pixels per tile/unit

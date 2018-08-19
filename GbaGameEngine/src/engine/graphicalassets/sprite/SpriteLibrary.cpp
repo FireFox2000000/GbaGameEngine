@@ -18,7 +18,7 @@ SpriteLibrary::SpriteLibrary()
 		{\
 			Sprite* sprite = atlus->m_sprites.AddNew();\
 			sprite->m_atlus = atlus;\
-			GBA::AttributeFunctions::GetSizeAttributesFromPixelSize(Vector2(Namespace::widthMap[i], Namespace::heightMap[i]), sprite->m_shape, sprite->m_sizeMode);\
+			GBA::AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(Namespace::widthMap[i], Namespace::heightMap[i]), sprite->m_shape, sprite->m_sizeMode);\
 			sprite->m_pixelMapData = Namespace::data + Namespace::offsets[i];\
 			if (i + 1 < Namespace::spriteCount)\
 				sprite->m_pixelMapDataLength = Namespace::offsets[i + 1] - Namespace::offsets[i];\

@@ -15,7 +15,7 @@ void MovementTest::Update(Engine* engine)
 	Time* time = engine->GetTime();
 	float moveSpeed = 8.0f * time->GetDeltaTimeSeconds();
 	
-	Vector2 position = GetGameObject()->GetPosition2();
+	Vector2f position = GetGameObject()->GetPosition2();
 
 	if (Input::GetKey(Buttons::Left))
 	{

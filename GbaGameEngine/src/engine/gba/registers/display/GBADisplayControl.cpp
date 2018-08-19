@@ -7,7 +7,7 @@
 #define SCREEN_HEIGHT 160
 
 vu32& GBA::DisplayControl::s_REG_DISPCNT = (*(vu32*)REG_DISPCNT);
-Vector2 GBA::DisplayControl::m_screenResolution = Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
+Vector2<int> GBA::DisplayControl::m_screenResolution = Vector2<int>(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 void GBA::DisplayControl::SetDisplayOptions(int params)
 {
@@ -21,10 +21,10 @@ void GBA::DisplayControl::SetDisplayOptions(int params)
 		switch (mode)
 		{
 		case (Mode5):
-			m_screenResolution = Vector2(160, 128);
+			m_screenResolution = Vector2<int>(160, 128);
 			break;
 		default:
-			m_screenResolution = Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
+			m_screenResolution = Vector2<int>(SCREEN_WIDTH, SCREEN_HEIGHT);
 			break;
 		}
 	}

@@ -12,7 +12,7 @@ class Engine;
 
 class GameObject
 {
-	Vector2 m_localPosition;	
+	Vector2f m_localPosition;	
 	List<GameObjectComponent*> m_components;
 	List<MonoBehaviour*> m_monoBehaviourComponents;
 
@@ -20,8 +20,8 @@ public:
 	GameObject();
 	~GameObject();
 
-	inline Vector2 GetPosition2() { return m_localPosition; }
-	inline void SetPosition(const Vector2& position) { m_localPosition = position; }
+	inline Vector2f GetPosition2() { return m_localPosition; }
+	inline void SetPosition(const Vector2f& position) { m_localPosition = position; }
 
 	void Update(Engine* engine);
 
