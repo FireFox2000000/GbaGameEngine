@@ -4,9 +4,10 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 #include "engine/base/core/Memory.h"
+#include "engine/base/core/stl/IArray.h"
 
 template<class T, u32 SIZE>
-class Array
+class Array : IArray<T>
 {
 	T m_buffer[SIZE];
 
@@ -15,8 +16,8 @@ class Array
 	inline volatile T& Get(u32 index) volatile { return m_buffer[index]; }
 
 public:
-	typedef T* iterator;
-	typedef const T* const_iterator;
+	typedef typename IArray<T>::iterator iterator;
+	typedef typename IArray<T>::const_iterator const_iterator;
 	typedef volatile T* volatile_iterator;
 
 	Array()
@@ -39,7 +40,9 @@ public:
 		return &m_buffer;
 	}
 
-	static inline u32 Count() { return SIZE; }
+	inline u32 Count() { return SIZE; }
+	inline u32 Count() const { return SIZE; }
+	inline u32 Count() volatile { return SIZE; }
 
 	iterator begin() { return &Get(0); }
 	const_iterator begin() const { return &Get(0); }

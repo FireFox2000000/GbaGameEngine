@@ -30,9 +30,9 @@ namespace GBA
 
 	bool TileBank::LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId)
 	{
-		if (tileId < CharBlock::Count())
+		if (tileId < CharBlockSize)
 			return LoadTiles(pixelMap, SpriteLower, tileId);
 		else
-			return LoadTiles(pixelMap, SpriteHigher, tileId - CharBlock::Count());
+			return LoadTiles(pixelMap, SpriteHigher, tileId - CharBlockSize);
 	}
 }
