@@ -99,10 +99,10 @@ make all</NMakeReBuildCommandLine>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\makefile" />
+    <None Include="makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\time\Time.cpp" />
+    <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\game\scripts\AnimationTest.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\Sprite_gba.cpp" />
@@ -131,28 +131,30 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\registers\display\GBADisplayControl.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
-    <ClCompile Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\main.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\FixedPoint.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\IArray.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\time\Time.h" />
+    <ClInclude Include="src\engine\base\colour\Palette.h" />
+    <ClInclude Include="src\engine\base\core\Memory.h" />
+    <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
+    <ClInclude Include="src\engine\base\core\stl\IArray.h" />
+    <ClInclude Include="src\engine\base\core\stl\List.h" />
+    <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
+    <ClInclude Include="src\engine\time\Time.h" />
+    <ClInclude Include="src\game\blobdata\Shantae.h" />
+    <ClInclude Include="src\game\blobdata\Shantae_Idle.h" />
     <ClInclude Include="src\game\scripts\AnimationTest.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\colour\Palette.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae_Idle.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteLibrary.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\game\blobdata\Shantae.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\engine\component\MonoBehaviour.h" />
     <ClInclude Include="src\engine\component\GameObjectComponent.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\graphicalassets\tile\Tile.h" />
     <ClInclude Include="src\engine\screen\Screen.h" />
     <ClInclude Include="src\engine\gameobject\Camera.h" />
@@ -164,8 +166,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAffine.h" />
     <ClInclude Include="src\engine\math\Math.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\Memory.h" />
-    <ClInclude Include="..\..\..\..\Alex%27s stuff\Dev\GbaGameEngine\GbaGameEngine\src\engine\base\core\stl\List.h" />
     <ClInclude Include="src\engine\base\core\Nullptr.h" />
     <ClInclude Include="src\engine\base\core\stl\Array.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h" />
