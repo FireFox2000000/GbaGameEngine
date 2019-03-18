@@ -13,12 +13,12 @@ class FixedPoint
 	inline IntType GetIntStorage() const
 	{
 		return storage >> FRACTIONAL_BITS;
-	};
+	}
 
 	inline IntType GetFloatStorage() const
 	{
 		return storage & BITS_U32(FRACTIONAL_BITS);
-	};
+	}
 
 	// Looses float precision easily
 	inline FixedPoint<IntType, FRACTIONAL_BITS>& MulHalfShift(const FixedPoint<IntType, FRACTIONAL_BITS>& b) {
@@ -36,17 +36,17 @@ public:
 	inline FixedPoint()
 	{
 		storage = 0;
-	};
+	}
 
 	inline FixedPoint(const FixedPoint<IntType, FRACTIONAL_BITS>& that)
 	{
 		*this = that;
-	};
+	}
 
 	inline IntType GetStorage() const
 	{
 		return storage;
-	};
+	}
 
 	template<class T, u8 BITS>
 	FixedPoint(const FixedPoint<T, BITS>& that)
@@ -58,22 +58,22 @@ public:
 			storage = that.GetStorage() << shiftDir;
 		else
 			storage = that.GetStorage() >> -shiftDir;
-	};
+	}
 
 	inline FixedPoint(int val)
 	{
 		storage = val << FRACTIONAL_BITS;
-	};
+	}
 
 	inline FixedPoint(float val)
 	{
 		storage = IntType(val * (1 << FRACTIONAL_BITS) + 0.5f);
-	};
+	}
 
 	inline FixedPoint(double val)
 	{
 		storage = IntType(val * (1 << FRACTIONAL_BITS) + 0.5);
-	};
+	}
 
 	inline int ToInt() const
 	{

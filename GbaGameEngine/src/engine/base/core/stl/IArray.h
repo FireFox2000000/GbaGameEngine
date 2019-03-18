@@ -26,6 +26,6 @@ public:
 };
 
 template<class T>
-IArray<T>::~IArray() {};
+IArray<T>::~IArray() {}
 
 #endif
