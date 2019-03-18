@@ -63,10 +63,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakeBuildCommandLine>set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+    <NMakeBuildCommandLine>%PATH%
 make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>make clean &amp;&amp; set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+    <NMakeReBuildCommandLine>make clean &amp;&amp; %PATH%
 make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>
@@ -82,10 +82,10 @@ make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <NMakeBuildCommandLine>set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+    <NMakeBuildCommandLine>%PATH%
 make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>make clean &amp;&amp; set path=E:\devkitadv-r5-beta-3\bin;%PATH%
+    <NMakeReBuildCommandLine>make clean &amp;&amp; %PATH%
 make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
