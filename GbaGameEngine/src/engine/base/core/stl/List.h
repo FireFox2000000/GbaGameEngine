@@ -5,7 +5,6 @@
 #include "engine/base/Macros.h"
 #include "engine/base/core/Memory.h"
 #include "engine/math/Math.h"
-#include "engine/base/core/stl/IArray.h"
 
 template<class T>
 class MAllocMemoryPolicy
@@ -80,7 +79,7 @@ protected:
 };
 
 template<class T, class MemoryPolicy>
-class ListBase : public MemoryPolicy, public IArray<T>
+class ListBase : public MemoryPolicy
 {
 	u32 m_count;
 
@@ -115,8 +114,8 @@ class ListBase : public MemoryPolicy, public IArray<T>
 	}
 
 public:
-	typedef typename IArray<T>::iterator iterator;
-	typedef typename IArray<T>::const_iterator const_iterator;
+	typedef T* iterator;
+	typedef const T* const_iterator;
 
 	ListBase(u32 initialCapacity = 1)
 		: MemoryPolicy(initialCapacity)

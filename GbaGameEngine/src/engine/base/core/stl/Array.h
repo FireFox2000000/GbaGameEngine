@@ -4,10 +4,9 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 #include "engine/base/core/Memory.h"
-#include "engine/base/core/stl/IArray.h"
 
 template<class T, u32 SIZE>
-class Array : IArray<T>
+class Array
 {
 	T m_buffer[SIZE];
 
@@ -16,8 +15,8 @@ class Array : IArray<T>
 	inline volatile T& Get(u32 index) volatile { return m_buffer[index]; }
 
 public:
-	typedef typename IArray<T>::iterator iterator;
-	typedef typename IArray<T>::const_iterator const_iterator;
+	typedef T* iterator;
+	typedef const T* const_iterator;
 	typedef volatile T* volatile_iterator;
 
 	Array()
@@ -40,9 +39,7 @@ public:
 		return &m_buffer;
 	}
 
-	inline u32 Count() { return SIZE; }
-	inline u32 Count() const { return SIZE; }
-	inline u32 Count() volatile { return SIZE; }
+	static inline u32 Count() { return SIZE; }
 
 	iterator begin() { return &Get(0); }
 	const_iterator begin() const { return &Get(0); }
@@ -55,7 +52,7 @@ public:
 	inline T & operator[](u32 index) { return Get(index); }
 	inline const T & operator[](u32 index) const { return Get(index); }
 	inline volatile T & operator[](u32 index) volatile { return Get(index); }
-	
+
 	inline T * At(u32 index) { return index < Count() ? &Get(index) : NULL; }
 	inline const T * At(u32 index) const { return index < Count() ? &Get(index) : NULL; }
 	inline volatile T * At(u32 index) volatile { return index < Count() ? &Get(index) : NULL; }

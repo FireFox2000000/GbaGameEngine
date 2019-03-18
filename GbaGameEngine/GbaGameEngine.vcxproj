@@ -138,7 +138,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\Memory.h" />
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
-    <ClInclude Include="src\engine\base\core\stl\IArray.h" />
     <ClInclude Include="src\engine\base\core\stl\List.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\time\Time.h" />

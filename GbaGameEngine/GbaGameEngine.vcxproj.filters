@@ -224,9 +224,6 @@
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\base\core\stl\IArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\base\core\stl\List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
