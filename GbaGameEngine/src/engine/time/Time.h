@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_TIME_TIME_H
-#define PRAGMA_ONCE_ENGINE_TIME_TIME_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 
@@ -21,5 +20,3 @@ public:
 	float GetTimeSecondsf() { return GetRealSystemTimeSecondsf(); }	// TODO, don't actually do this, can't scale time.
 	float GetRealSystemTimeSecondsf();
 };
-
-#endif

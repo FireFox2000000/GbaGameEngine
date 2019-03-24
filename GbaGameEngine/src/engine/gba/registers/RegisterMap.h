@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_REGISTERS_REGISTERMAP_H
-#define PRAGMA_ONCE_ENGINE_GBA_REGISTERS_REGISTERMAP_H
+#pragma once
 
 #include "engine/gba/memory/GBAMemoryLocations.h"
 
@@ -7,5 +6,3 @@
 #define REG_DISPSTAT (IO_REGISTERS + 0x4)
 #define REG_VCOUNT (IO_REGISTERS + 0x6)
 #define REG_KEYINPUT (IO_REGISTERS + 0x130)
-
-#endif

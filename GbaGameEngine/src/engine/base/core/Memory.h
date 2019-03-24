@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_MEMORY_H
-#define PRAGMA_ONCE_ENGINE_BASE_CORE_MEMORY_H
+#pragma once
 
 #include <new>
 #include <cstring>
@@ -35,5 +34,3 @@ inline static void MoveMemory(void * destination, const void * source, u32 size)
 {
 	std::memmove(destination, source, size);
 }
-
-#endif

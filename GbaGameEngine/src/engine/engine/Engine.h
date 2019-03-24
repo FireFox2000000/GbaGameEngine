@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_ENGINE_ENGINE_H
-#define PRAGMA_ONCE_ENGINE_ENGINE_ENGINE_H
+#pragma once
 
 #include "engine/time/Time.h"
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
@@ -25,5 +24,3 @@ public:
 	GBA::OAMManager* GetOAMManager() { return &m_oamManager; }
 	SpriteManager* GetSpriteManager() { return &m_spriteManager; }
 };
-
-#endif

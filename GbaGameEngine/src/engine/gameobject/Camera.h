@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GAMEOBJECT_CAMERA_H
-#define PRAGMA_ONCE_ENGINE_GAMEOBJECT_CAMERA_H
+#pragma once
 
 #include "GameObject.h"
 
@@ -22,5 +21,3 @@ public:
 	Projection::Enum GetProjection() const;
 	void SetProjection(Projection::Enum projection);
 };
-
-#endif

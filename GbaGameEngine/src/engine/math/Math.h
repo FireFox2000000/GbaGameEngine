@@ -1,5 +1,5 @@
-#ifndef PRAGMA_ONCE_ENGINE_MATH_MATH_H
-#define PRAGMA_ONCE_ENGINE_MATH_MATH_H
+#pragma once
+
 #include <cmath>
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -17,5 +17,3 @@ namespace Math
 		return a * b > 0;
 	}
 }
-
-#endif

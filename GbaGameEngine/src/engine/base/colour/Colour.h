@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_COLOUR_COLOUR_H
-#define PRAGMA_ONCE_ENGINE_BASE_COLOUR_COLOUR_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -32,5 +31,3 @@ public:
 	const static Colour Green;
 	const static Colour Blue;
 };
-
-#endif

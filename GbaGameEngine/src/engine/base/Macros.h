@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_MACROS_H
-#define PRAGMA_ONCE_ENGINE_BASE_MACROS_H
+#pragma once
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
 
@@ -14,6 +13,4 @@
 
 #ifndef NULL
 #	define NULL nullptr
-#endif
-
 #endif

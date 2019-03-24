@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_STL_FIXEDPOINT_H
-#define PRAGMA_ONCE_ENGINE_BASE_CORE_STL_FIXEDPOINT_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -133,5 +132,3 @@ public:
 	// Easy to overflow and underflow. Try not to use this if it can be helped
 	inline FixedPoint<IntType, FRACTIONAL_BITS> operator/(const FixedPoint<IntType, FRACTIONAL_BITS>& b) const { return FixedPoint<IntType, FRACTIONAL_BITS>(*this) /= b; }
 };
-
-#endif

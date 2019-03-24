@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITELIBRARY_H
-#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITELIBRARY_H
+#pragma once
 
 #include "SpriteAtlus.h"
 #include "engine/base/core/stl/List.h"
@@ -29,5 +28,3 @@ public:
 
 	Sprite* GetSprite(SpriteAtlusID::Enum atlusId, u32 spriteIndex);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
-#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBAPALETTEBANK_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/colour/Palette.h"
@@ -32,5 +31,3 @@ namespace GBA
 		static void LoadSpritePalette(const ColourPalette256& palette) { LoadPalette(s_FullSpritePalette, palette); }
 	};
 }
-
-#endif

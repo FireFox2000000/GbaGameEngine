@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEATLUS_H
-#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEATLUS_H
+#pragma once
 
 #include "engine/base/core/stl/List.h"
 #include "engine/graphicalassets/sprite/Sprite.h"
@@ -22,5 +21,3 @@ public:
 	bool IsPaletteLoaded();
 	inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
 };
-
-#endif

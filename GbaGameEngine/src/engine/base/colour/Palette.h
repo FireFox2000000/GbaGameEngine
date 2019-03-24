@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_COLOUR_PALETTE_H
-#define PRAGMA_ONCE_ENGINE_BASE_COLOUR_PALETTE_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
@@ -10,5 +9,3 @@ const static u8 INVALID_PALETTE_INDEX = 255;
 
 typedef Array<rgb16, 16> ColourPalette16;
 typedef Array<rgb16, 256> ColourPalette256;
-
-#endif

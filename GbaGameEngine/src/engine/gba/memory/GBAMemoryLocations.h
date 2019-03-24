@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_MEMORY_GBAMEMORYLOCATIONS_H
-#define PRAGMA_ONCE_ENGINE_GBA_MEMORY_GBAMEMORYLOCATIONS_H
+#pragma once
 
 #define EWRAM_DATA __attribute__((section(".ewram")))
 #define IWRAM_DATA __attribute__((section(".iwram")))
@@ -19,5 +18,3 @@
 
 #define OAM_RAM (0x07000000)
 #define OAM_RAM_END (0x070003FF)
-
-#endif

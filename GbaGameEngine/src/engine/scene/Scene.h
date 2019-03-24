@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_SCENE_SCENE_H
-#define PRAGMA_ONCE_ENGINE_SCENE_SCENE_H
+#pragma once
 
 #include "engine/gameobject/GameObject.h"
 #include "engine/gameobject/Camera.h"
@@ -23,5 +22,3 @@ public:
 	Scene(Engine* engine);
 	virtual ~Scene();
 };
-
-#endif

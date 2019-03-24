@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_TYPEDEFS_H
-#define PRAGMA_ONCE_ENGINE_BASE_TYPEDEFS_H
+#pragma once
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -11,5 +10,3 @@ typedef long s32;
 
 typedef volatile u16 vu16;
 typedef volatile u32 vu32;
-
-#endif

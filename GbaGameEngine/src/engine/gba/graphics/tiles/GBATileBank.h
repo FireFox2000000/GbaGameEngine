@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBATILEBANK_H
-#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_TILES_GBATILEBANK_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
@@ -53,5 +52,3 @@ namespace GBA
 		static bool LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId);
 	};
 }
-
-#endif

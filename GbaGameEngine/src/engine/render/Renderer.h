@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_RENDER_RENDERER_H
-#define PRAGMA_ONCE_ENGINE_RENDER_RENDERER_H
+#pragma once
 
 #include "engine/component/GameObjectComponent.h"
 
@@ -15,5 +14,3 @@ public:
 
 	virtual void Render(Engine* engine, Camera* camera) {};
 };
-
-#endif

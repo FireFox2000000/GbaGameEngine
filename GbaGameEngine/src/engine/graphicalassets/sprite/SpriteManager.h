@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEMANAGER_H
-#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITEMANAGER_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
@@ -38,5 +37,3 @@ public:
 	void Unload(Sprite* sprite);
 	void Clear();
 };
-
-#endif

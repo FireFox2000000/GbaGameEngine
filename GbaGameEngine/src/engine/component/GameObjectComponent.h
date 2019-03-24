@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_COMPONENT_GAMEOBJECTCOMPONENT_H
-#define PRAGMA_ONCE_ENGINE_COMPONENT_GAMEOBJECTCOMPONENT_H
+#pragma once
 
 class GameObject;
 class Engine;
@@ -14,5 +13,3 @@ public:
 	inline GameObject * GetGameObject() { return m_gameObject; }
 	virtual ~GameObjectComponent();
 };
-
-#endif

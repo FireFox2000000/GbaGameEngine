@@ -1,6 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITE_H
-#define PRAGMA_ONCE_ENGINE_GRAPHICALASSETS_SPRITE_SPRITE_H
-
+#pragma once
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/graphicalassets/tile/Tile.h"
@@ -30,5 +28,3 @@ public:
 	inline const SpriteAtlus* GetAtlus() const { return m_atlus; }
 	bool IsLoaded() const;
 };
-
-#endif

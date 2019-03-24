@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_GAME_SCENES_SCENE0_H
-#define PRAGMA_ONCE_GAME_SCENES_SCENE0_H
+#pragma once
 
 #include "engine/scene/Scene.h"
 #include "engine/graphicalassets/sprite/SpriteLibrary.h"
@@ -10,5 +9,3 @@ public:
 	Scene0(Engine* engine);
 	~Scene0();
 };
-
-#endif

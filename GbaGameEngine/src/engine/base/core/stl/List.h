@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_BASE_CORE_STL_LIST_H
-#define PRAGMA_ONCE_ENGINE_BASE_CORE_STL_LIST_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -310,5 +309,3 @@ template<class T, u32 SIZE>
 class FixedList : public ListBase<T, FixedMemoryPolicy<T, SIZE> >
 {
 };
-
-#endif

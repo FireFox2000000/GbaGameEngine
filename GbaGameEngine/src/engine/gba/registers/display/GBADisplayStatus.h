@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_REGISTERS_DISPLAY_GBADISPLAYSTATUS_H
-#define PRAGMA_ONCE_ENGINE_GBA_REGISTERS_DISPLAY_GBADISPLAYSTATUS_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -20,5 +19,3 @@ namespace GBA
 		inline static vu16 VCount() { return s_REG_VCOUNT; }
 	};
 }
-
-#endif

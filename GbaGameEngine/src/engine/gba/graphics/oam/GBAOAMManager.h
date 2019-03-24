@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAOAMMANAGER_H
-#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAOAMMANAGER_H
+#pragma once
 
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
@@ -62,5 +61,3 @@ namespace GBA
 		OAMSpriteRenderProperties* AddToRenderList(Sprite* sprite);
 	};
 }
-
-#endif

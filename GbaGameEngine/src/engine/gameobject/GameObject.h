@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GAMEOBJECT_GAMEOBJECT_H
-#define PRAGMA_ONCE_ENGINE_GAMEOBJECT_GAMEOBJECT_H
+#pragma once
 
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/List.h"
@@ -50,5 +49,3 @@ public:
 		return NULL;
 	}
 };
-
-#endif

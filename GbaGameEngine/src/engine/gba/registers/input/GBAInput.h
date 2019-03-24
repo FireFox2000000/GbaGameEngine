@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_REGISTERS_INPUT_GBAINPUT_H
-#define PRAGMA_ONCE_ENGINE_GBA_REGISTERS_INPUT_GBAINPUT_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -41,5 +40,3 @@ namespace GBA
 		inline static bool GetKeyUp(Buttons::Enum key) { return GetKey(key, m_previousInput) && !GetKey(key); }
 	};
 }
-
-#endif

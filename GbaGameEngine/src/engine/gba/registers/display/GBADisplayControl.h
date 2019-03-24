@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_REGISTERS_DISPLAY_GBADISPLAYCONTROL_H
-#define PRAGMA_ONCE_ENGINE_GBA_REGISTERS_DISPLAY_GBADISPLAYCONTROL_H
+#pragma once
 
 #include "engine/math/Vector2.h"
 #include "engine/base/Macros.h"
@@ -51,5 +50,3 @@ namespace GBA
 		inline static DisplayOptions::SpriteMappingMode GetSpriteMappingMode() { return DisplayOptions::SpriteMappingMode(s_REG_DISPCNT & BIT(6)); }
 	};
 }
-
-#endif

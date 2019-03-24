@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_GAME_SCRIPTS_ANIMATIONTEST_H
-#define PRAGMA_ONCE_GAME_SCRIPTS_ANIMATIONTEST_H
+#pragma once
 
 #include "engine/base/core/stl/List.h"
 #include "engine/component/MonoBehaviour.h"
@@ -32,5 +31,3 @@ public:
 	void SetFrameRate(u32 fps);
 	u32 GetFrameRate();
 };
-
-#endif

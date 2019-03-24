@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_MATH_VECTOR2_H
-#define PRAGMA_ONCE_ENGINE_MATH_VECTOR2_H
+#pragma once
 
 template <class T>
 struct Vector2
@@ -100,5 +99,3 @@ template<> float Vector2f::Dot(const Vector2f& a, const Vector2f& b);
 template<> Vector2f Vector2f::Projection(const Vector2f& ab, const Vector2f& ac);
 template<> float Vector2f::Determinant(const Vector2f& u, const Vector2f& v);
 template<> Vector2f Vector2f::PointToVector(const Vector2f& pointA, const Vector2f& pointB);
-
-#endif

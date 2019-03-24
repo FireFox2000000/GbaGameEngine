@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_COMPONENT_MONOBEHAVIOUR_H
-#define PRAGMA_ONCE_ENGINE_COMPONENT_MONOBEHAVIOUR_H
+#pragma once
 
 #include "GameObjectComponent.h"
 
@@ -12,5 +11,3 @@ public:
 
 	virtual void Update(Engine* engine) {};
 };
-
-#endif

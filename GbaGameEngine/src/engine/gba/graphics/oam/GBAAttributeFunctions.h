@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAATTRIBUTEFUNCTIONS_H
-#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAATTRIBUTEFUNCTIONS_H
+#pragma once
 
 #include "GBAObjectAttribute.h"
 #include "engine/math/Vector2.h"
@@ -16,5 +15,3 @@ namespace GBA
 		void GetSizeAttributesFromPixelSize(const GBAAttrFnVector2& pixelSize, Attributes::Shape& out_shape, Attributes::SizeMode& out_sizeMode);
 	}
 }
-
-#endif

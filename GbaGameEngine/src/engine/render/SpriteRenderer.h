@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_RENDER_SPRITERENDERER_H
-#define PRAGMA_ONCE_ENGINE_RENDER_SPRITERENDERER_H
+#pragma once
 
 #include "Renderer.h"
 #include "engine/math/Vector2.h"
@@ -18,5 +17,3 @@ public:
 	void SetSprite(Sprite* sprite);
 	void Render(Engine* engine, Camera* camera);
 };
-
-#endif

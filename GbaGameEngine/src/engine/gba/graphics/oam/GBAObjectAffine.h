@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAOBJECTAFFINE_H
-#define PRAGMA_ONCE_ENGINE_GBA_GRAPHICS_OAM_GBAOBJECTAFFINE_H
+#pragma once
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -23,5 +22,3 @@ namespace GBA
 
 	} ALIGN(4);
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef PRAGMA_ONCE_ENGINE_SCENE_SCENEMANAGER_H
-#define PRAGMA_ONCE_ENGINE_SCENE_SCENEMANAGER_H
+#pragma once
 
 #include "Scene.h"
 
@@ -15,5 +14,3 @@ public:
 	inline void RenderScene(Engine* engine) { m_current->Render(engine); }
 
 };
-
-#endif
