@@ -49,9 +49,8 @@ namespace GBA
 		tSpriteBuffer& previousBuffer = GetPreviousSpriteBuffer();
 		SpriteManager* SpriteManager = engine->GetSpriteManager();
 	
-		for (tSpriteBuffer::iterator it = previousBuffer.begin(); it != previousBuffer.end(); ++it)
+		for (Sprite* sprite : previousBuffer)
 		{
-			Sprite* sprite = (*it);
 			if (sprite->IsLoaded() && !currentBuffer.Contains(sprite))
 			{
 				SpriteManager->Unload(sprite);
@@ -63,9 +62,8 @@ namespace GBA
 	{
 		SpriteManager* SpriteManager = engine->GetSpriteManager();
 		tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
-		for (tSpriteBuffer::iterator it = buffer.begin(); it != buffer.end(); ++it)
+		for (Sprite* sprite : buffer)
 		{
-			Sprite* sprite = (*it);
 			if (!sprite->IsLoaded())
 			{
 				SpriteManager->Load(*sprite);
