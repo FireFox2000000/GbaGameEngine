@@ -14,10 +14,12 @@ Scene0::Scene0(Engine* engine)
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
+	int totalTestSprites = 41;
+
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	SpriteLibrary* spriteLibrary = engine->GetSpriteManager()->GetSpriteLibrary();
-	gameObjects.Reserve(2);
+	gameObjects.Reserve(totalTestSprites);
 	{		
 		GameObject* testObject = gameObjects.AddNew();
 
@@ -35,13 +37,20 @@ Scene0::Scene0(Engine* engine)
 	
 	if (false)
 	{
-		GameObject* testBackgroundObject = gameObjects.AddNew();
-		SpriteRenderer* testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
+		for (int i = 1; i < totalTestSprites; ++i)
+		{
+			GameObject* testBackgroundObject = gameObjects.AddNew();
+			SpriteRenderer* testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
+			testBackgroundObject->SetPosition(Vector2f((i * 0.2f) - 5, (i * 0.2f) - 5));
 
-		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
-		testBackgroundRenderer->SetSprite(shantae0);
+			Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+			testBackgroundRenderer->SetSprite(shantae0);
 
-		renderList.Add(testBackgroundRenderer);
+			AnimationTest* animation = testBackgroundObject->AddComponent<AnimationTest>();
+			animation->Init(engine);
+
+			renderList.Add(testBackgroundRenderer);
+		}
 	}
 }
 
