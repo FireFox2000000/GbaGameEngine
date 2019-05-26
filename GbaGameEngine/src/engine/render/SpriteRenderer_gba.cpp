@@ -32,7 +32,7 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
-	const Component::Position* cameraPosition = camera->GetComponent<Component::Position>();
+	const Component::Position cameraPosition = *camera->GetComponent<Component::Position>();
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
@@ -52,7 +52,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			GBA::OAMSpriteRenderProperties* renderProperties = oamManager->AddToRenderList(spriteRenderer.GetSprite());
 
 			Vector2<tFixedPoint8> newPosition = position;
-			newPosition -= *cameraPosition;											// Convert world space to relative camera space	
+			newPosition -= cameraPosition;											// Convert world space to relative camera space	
 			newPosition.y *= -1;														// Correct for screen space starting from the top
 			newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			newPosition += screenSpaceOffset;											// Convert to screen space
