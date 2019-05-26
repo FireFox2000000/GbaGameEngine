@@ -1,33 +1,41 @@
 #pragma once
 
 #include "engine/base/core/stl/List.h"
-#include "engine/component/MonoBehaviour.h"
 
 class SpriteRenderer;
 class Sprite;
+class Engine;
 
-class AnimationTest : public MonoBehaviour
+namespace Component
 {
-	SpriteRenderer* m_spriteRenderer;
-	struct KeyFrame
+	struct AnimationTest
 	{
-		Sprite* sprite;
+		struct KeyFrame
+		{
+			Sprite* sprite;
+		};
+
+		typedef List<KeyFrame> KeyFrames;
+
+		u32 m_frameRateMs;
+		u32 m_totalFrames;
+		KeyFrames m_keyFrames;
+		u32 m_startTimeMilliseconds;
+
+		AnimationTest(Engine* engine);
+		~AnimationTest();
+
+		void SetFrameRate(u32 fps);
+		u32 GetFrameRate();
+
 	};
-	
-	typedef List<KeyFrame> KeyFrames;
-	
-	u32 m_frameRateMs;
-	u32 m_totalFrames;
-	KeyFrames m_keyFrames;
-	u32 m_startTimeMilliseconds;
+}
 
-public:
-	AnimationTest(GameObject* gameObject);
-	~AnimationTest();
+namespace System
+{
+	namespace AnimationTest
+	{
+		void Update(Engine* engine);
+	}
+}
 
-	void Init(Engine* engine);
-	void Update(Engine* engine);
-
-	void SetFrameRate(u32 fps);
-	u32 GetFrameRate();
-};

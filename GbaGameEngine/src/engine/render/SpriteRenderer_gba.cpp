@@ -11,17 +11,7 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/screen/Screen.h"
 
-SpriteRenderer::SpriteRenderer(GameObject* gameObject)
-	: Renderer(gameObject)
-	, m_sprite(NULL)
-{
-}
-
-SpriteRenderer::~SpriteRenderer()
-{
-}
-
-void SpriteRenderer::SetSprite(Sprite* sprite)
+void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 {
 	using namespace GBA::Attributes;
 
@@ -33,24 +23,37 @@ void SpriteRenderer::SetSprite(Sprite* sprite)
 	m_sprite = sprite;
 }
 
-void SpriteRenderer::Render(Engine* engine, Camera* camera)
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "engine/gameobject/Camera.h"
+#include "engine/gameobject/transformation/Position.h"
+#include "engine/engine/engine.h"
+
+void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
-	if (camera->GetProjection() != Projection::Orthographic)
+	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
+	const Component::Position* cameraPosition = camera->GetComponent<Component::Position>();
+
+	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
 
-	if (!m_sprite)
-		return;
-
+	auto* entityManager = engine->GetEntityRegistry();
 	GBA::OAMManager* oamManager = engine->GetOAMManager();
-	GBA::OAMSpriteRenderProperties* renderProperties = oamManager->AddToRenderList(m_sprite);
-	GBA::ObjectAttribute& oamProperties = renderProperties->oamProperties;
 
-	Vector2<FixedPoint<int, 8> > position = GetGameObject()->GetPosition2();
-	position -= camera->GetPosition2();										// Convert world space to relative camera space	
-	position.y *= -1;														// Correct for screen space starting from the top
-	position *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
-	position += Screen::GetResolution() / FixedPoint<int, 8>(2);			// Convert to screen space
-	position += m_centerToCornerSizeOffset;									// Offset by sprite size to render from the center
+	entityManager->InvokeEach<Component::Position, Component::SpriteRenderer>([&oamManager, &cameraPosition](Component::Position& position, Component::SpriteRenderer& spriteRenderer)
+		{
+			if (!spriteRenderer.GetSprite())
+				return;
 
-	oamProperties.SetPosition(position);
+			GBA::OAMSpriteRenderProperties* renderProperties = oamManager->AddToRenderList(spriteRenderer.GetSprite());
+
+			Vector2<FixedPoint<int, 8> > newPosition = position;
+			newPosition -= *cameraPosition;											// Convert world space to relative camera space	
+			newPosition.y *= -1;														// Correct for screen space starting from the top
+			newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
+			newPosition += Screen::GetResolution() / FixedPoint<int, 8>(2);			// Convert to screen space
+			newPosition += spriteRenderer.GetCenterToCornerSizeOffset();				// Offset by sprite size to render from the center
+
+			renderProperties->oamProperties.SetPosition(newPosition);
+		});
 }

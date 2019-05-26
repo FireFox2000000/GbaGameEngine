@@ -1,3 +1,4 @@
+#include <memory>
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
@@ -11,11 +12,11 @@ static void WaitForVSync();
 
 int main()
 {
-	Engine engine;
+	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
-	Scene0 scene0(&engine);
+	Scene0 scene0(engine.get());
 	SceneManager sceneManager(&scene0);
-	GBA::OAMManager* oamManager = engine.GetOAMManager();
+	GBA::OAMManager* oamManager = engine->GetOAMManager();
 
 	// Test Initialisation		
 	GBA::Input::Update();
@@ -26,16 +27,16 @@ int main()
 		// General update
 		GBA::Input::Update();
 
-		sceneManager.UpdateScene(&engine);
-		sceneManager.RenderScene(&engine);
-
+		sceneManager.UpdateScene(engine.get());
+		sceneManager.RenderScene(engine.get());
+		
 		// Main update
 		WaitForVSync();
-
+		
 		// Real Render
-		oamManager->DoMasterRenderIntoMemory(&engine);
-
-		engine.Update();
+		oamManager->DoMasterRenderIntoMemory(engine.get());
+		
+		engine->Update();
 	}
 
 	return 0;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "GameObject.h"
-
 namespace Projection
 {
 	enum Enum
@@ -10,14 +8,17 @@ namespace Projection
 	};
 }
 
-class Camera : public GameObject
+namespace Component
 {
-	Projection::Enum m_projectionType;
+	class Camera
+	{
+		Projection::Enum m_projectionType;
 
-public:
-	Camera();
-	~Camera();
+	public:
+		Camera();
+		~Camera();
 
-	Projection::Enum GetProjection() const;
-	void SetProjection(Projection::Enum projection);
-};
+		Projection::Enum GetProjection() const;
+		void SetProjection(Projection::Enum projection);
+	};
+}

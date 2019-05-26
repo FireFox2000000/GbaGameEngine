@@ -1,9 +1,13 @@
 #include "Scene.h"
-#include "engine/render/Renderer.h"
+#include "engine/render/SpriteRenderer.h"
 #include "engine/graphicalassets/sprite/SpriteManager.h"
+#include "engine/engine/engine.h"
+#include "engine/gameobject/Camera.h"
 
 Scene::Scene(Engine* engine)
+	: m_mainCamera(engine->GetEntityRegistry())
 {
+	m_mainCamera.AddComponent<Component::Camera>();
 }
 
 
@@ -13,18 +17,11 @@ Scene::~Scene()
 
 void Scene::Update(Engine* engine)
 {
-	for (List<GameObject>::iterator it = gameObjects.begin(); it != gameObjects.end(); ++it)
-	{
-		it->Update(engine);
-	}
-
-	mainCamera.Update(engine);
+	// Todo, run proper animation systems
 }
 
 void Scene::Render(Engine* engine)
 {
-	for (u32 i = 0; i < renderList.Count(); ++i)
-	{
-		renderList[i]->Render(engine, &mainCamera);
-	}
+	// TODO, run rendering systems
+	System::SpriteRenderer::Render(engine, &m_mainCamera);
 }

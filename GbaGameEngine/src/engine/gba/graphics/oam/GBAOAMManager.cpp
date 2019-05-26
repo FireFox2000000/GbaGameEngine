@@ -60,13 +60,13 @@ namespace GBA
 
 	void OAMManager::LoadNewSprites(Engine* engine)
 	{
-		SpriteManager* SpriteManager = engine->GetSpriteManager();
+		SpriteManager* spriteManager = engine->GetSpriteManager();
 		tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
 		for (Sprite* sprite : buffer)
 		{
 			if (!sprite->IsLoaded())
 			{
-				SpriteManager->Load(*sprite);
+				spriteManager->Load(*sprite);
 			}
 		}
 	}
@@ -116,7 +116,7 @@ namespace GBA
 		if (!buffer.Contains(sprite))
 			buffer.Add(sprite);
 
-		// Todo, fixed list, can't render more than 128, will currently crash if this is exceeded
+		// Todo, can't render more than 128, will currently crash if this is exceeded
 		OAMSpriteRenderProperties* properties = m_masterSpriteRenderList.AddNew();
 		properties->sprite = sprite;
 

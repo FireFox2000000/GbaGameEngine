@@ -3,39 +3,37 @@
 #include "engine/gameobject/GameObject.h"
 #include "engine/math/Vector2.h"
 #include "engine/gba/registers/input/GBAInput.h"
+#include "engine/gameobject/transformation/Position.h"
 
-MovementTest::MovementTest(GameObject * gameObject)
-	: MonoBehaviour(gameObject)
-{
-}
-
-void MovementTest::Update(Engine* engine)
+void System::PlayerMovement::Update(Engine* engine)
 {
 	using namespace GBA;
 	Time* time = engine->GetTime();
-	float moveSpeed = 8.0f * time->GetDeltaTimeSeconds();
-	
-	Vector2f position = GetGameObject()->GetPosition2();
+	auto dt = time->GetDeltaTimeSeconds();
 
-	if (Input::GetKey(Buttons::Left))
-	{
-		position.x -= moveSpeed;
-	}
+	auto* entityManager = engine->GetEntityRegistry();
+	entityManager->InvokeEach<Component::Position, Component::PlayerMovement>([&dt](Component::Position& position, Component::PlayerMovement& playerMovement)
+		{
+			float moveSpeed = playerMovement.moveSpeed * dt;
 
-	if (Input::GetKey(Buttons::Right))
-	{
-		position.x += moveSpeed;
-	}
+			if (Input::GetKey(Buttons::Left))
+			{
+				position.x -= moveSpeed;
+			}
 
-	if (Input::GetKey(Buttons::Up))
-	{
-		position.y += moveSpeed;
-	}
+			if (Input::GetKey(Buttons::Right))
+			{
+				position.x += moveSpeed;
+			}
 
-	if (Input::GetKey(Buttons::Down))
-	{
-		position.y -= moveSpeed;
-	}
+			if (Input::GetKey(Buttons::Up))
+			{
+				position.y += moveSpeed;
+			}
 
-	GetGameObject()->SetPosition(position);
+			if (Input::GetKey(Buttons::Down))
+			{
+				position.y -= moveSpeed;
+			}
+		});
 }

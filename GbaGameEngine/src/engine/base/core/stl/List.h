@@ -189,22 +189,6 @@ public:
 		return IndexOf(item) >= 0;
 	}
 
-	/*
-	// C++11 Parameter Pack version
-	template <typename... ConstructorArgs>
-	T* AddNew(ConstructorArgs... args)
-	{
-	if (Count() >= Capacity())
-	{
-	if (!GrowTo(Capacity() * 2))
-	return NULL;
-	}
-
-	T& item = Get(m_count++);
-	item = T(args ...);
-	return &item;
-	}*/
-
 	T* InsertAt(u32 index, const T& item)
 	{
 		T* newItem = AddUninitialisedItemAt(index);
@@ -220,6 +204,19 @@ public:
 	T* AddNew()
 	{
 		return InsertNewAt(Count());
+	}
+
+	template <typename... ConstructorArgs>
+	T* AddNew(ConstructorArgs... args)
+	{
+		if (Count() >= Capacity())
+		{
+			if (!GrowTo(Capacity() * 2))
+				return NULL;
+		}
+
+		T* newItem = &Get(m_count++);
+		return new(newItem) T(args ...);
 	}
 
 	T* Add(const T& item)

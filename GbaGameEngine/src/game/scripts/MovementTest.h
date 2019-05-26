@@ -1,11 +1,18 @@
 #pragma once
 #include "engine/component/MonoBehaviour.h"
 
-class MovementTest : public MonoBehaviour
+namespace Component
 {
-public:
-	MovementTest(GameObject* gameObject);
-	~MovementTest() {};
+	struct PlayerMovement
+	{
+		float moveSpeed = 8.0f;
+	};
+}
 
-	void Update(Engine* engine);
-};
+namespace System
+{
+	namespace PlayerMovement
+	{
+		void Update(Engine* engine);
+	}
+}
