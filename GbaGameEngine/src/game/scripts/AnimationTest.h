@@ -17,17 +17,17 @@ namespace Component
 
 		typedef List<KeyFrame> KeyFrames;
 
-		u32 m_frameRateMs;
-		u32 m_totalFrames;
+		s32 m_timeToNextFrameMicroSeconds = 0;
+		u32 m_frameDtMicroseconds = 0;
+		u8 m_currentFrameIndex = 0;
+
 		KeyFrames m_keyFrames;
-		u32 m_startTimeMilliseconds;
 
 		AnimationTest(Engine* engine);
 		~AnimationTest();
 
 		void SetFrameRate(u32 fps);
-		u32 GetFrameRate();
-
+		u32 FrameCount() { return m_keyFrames.Count(); }
 	};
 }
 

@@ -7,11 +7,7 @@
 #include "engine/render/SpriteRenderer.h"
 
 Component::AnimationTest::AnimationTest(Engine* engine)
-	: m_totalFrames(12)
-	, m_startTimeMilliseconds(0)
 {
-	SetFrameRate(12);
-
 	const int maxFrameCount = 12;
 	m_keyFrames.Reserve(maxFrameCount);
 
@@ -25,6 +21,8 @@ Component::AnimationTest::AnimationTest(Engine* engine)
 
 		m_keyFrames.Add(keyframe);
 	}
+
+	SetFrameRate(12);
 }
 
 Component::AnimationTest::~AnimationTest()
@@ -33,14 +31,8 @@ Component::AnimationTest::~AnimationTest()
 
 void Component::AnimationTest::SetFrameRate(u32 fps)
 {
-	m_frameRateMs = SECONDS_TO_MILLISECONDS(m_totalFrames * m_totalFrames / fps);
+	m_frameDtMicroseconds = SECONDS_TO_MICROSECONDS(1.0f / fps);
 }
-
-u32 Component::AnimationTest::GetFrameRate()
-{
-	return MILLISECONDS_TO_SECONDS(m_frameRateMs);
-}
-
 
 void System::AnimationTest::Update(Engine* engine)
 {
@@ -49,16 +41,23 @@ void System::AnimationTest::Update(Engine* engine)
 	Time* time = engine->GetTime();
 	entityManager->InvokeEach<Component::AnimationTest, Component::SpriteRenderer>([&time](Component::AnimationTest& animation, Component::SpriteRenderer& spriteRenderer)
 		{
-			u32 msSinceAnimStart = time->GetMilliseconds() - animation.m_startTimeMilliseconds;
-			u32 animCycleDuration = animation.m_frameRateMs / animation.m_totalFrames;
+			u32 dtMicroSeconds = time->GetDtMicroSeconds();
+			animation.m_timeToNextFrameMicroSeconds += dtMicroSeconds;
 
-			u32 cycleRemainder = msSinceAnimStart % animCycleDuration;
+			// Advance current frame time and increment current frame index as needed
+			while (animation.m_timeToNextFrameMicroSeconds > (s32)animation.m_frameDtMicroseconds)
+			{
+				animation.m_timeToNextFrameMicroSeconds -= animation.m_frameDtMicroseconds;
+				++animation.m_currentFrameIndex;
+			}
 
-			// Todo, search for frame based on keyframes
+			// Wrap into a valid index
+			while (animation.m_currentFrameIndex >= animation.FrameCount())
+			{
+				animation.m_currentFrameIndex -= animation.FrameCount();
+			}
 
-			u32 frame = cycleRemainder * animation.m_totalFrames / animCycleDuration;
-
-			Sprite* sprite = animation.m_keyFrames[frame].sprite;
+			Sprite* sprite = animation.m_keyFrames[animation.m_currentFrameIndex].sprite;
 			spriteRenderer.SetSprite(sprite);
 		});
 }

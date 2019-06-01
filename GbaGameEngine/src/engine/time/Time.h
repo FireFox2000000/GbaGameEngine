@@ -4,7 +4,7 @@
 
 class Time
 {
-	u32 m_frameCount;
+	u32 m_frameCount = 0;
 
 	void IncFrameCount() { ++m_frameCount; }
 
@@ -16,7 +16,9 @@ public:
 
 	u32 GetFrameCount() { return m_frameCount; }
 	u32 GetMilliseconds();
-	float GetDeltaTimeSeconds();
+	u32 GetDtMicroSeconds();
+	u32 GetDtMs();
+	float GetDtSecondsf();
 	float GetTimeSecondsf() { return GetRealSystemTimeSecondsf(); }	// TODO, don't actually do this, can't scale time.
 	float GetRealSystemTimeSecondsf();
 };

@@ -8,6 +8,7 @@
 #define ROUND(x) (static_cast<int>((x) + 0.5f))
 
 #define SECONDS_TO_MILLISECONDS(x) ((x) * 1000)
+#define SECONDS_TO_MICROSECONDS(x) ((x) * 1000000)
 #define MILLISECONDS_TO_SECONDS(x) ((x) / 1000)
 
 namespace Math

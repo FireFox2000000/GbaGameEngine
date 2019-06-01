@@ -9,7 +9,7 @@ void System::PlayerMovement::Update(Engine* engine)
 {
 	using namespace GBA;
 	Time* time = engine->GetTime();
-	auto dt = time->GetDeltaTimeSeconds();
+	auto dt = time->GetDtSecondsf();
 
 	auto* entityManager = engine->GetEntityRegistry();
 	entityManager->InvokeEach<Component::Position, Component::PlayerMovement>([&dt](Component::Position& position, Component::PlayerMovement& playerMovement)
