@@ -123,13 +123,9 @@ public:
 
 	}
 
-	ListBase(const ListBase<T, MemoryPolicy>& list) : ListBase<T, MemoryPolicy>()
+	ListBase(const ListBase<T, MemoryPolicy>& that) : ListBase<T, MemoryPolicy>()
 	{
-		Reserve(list.Capacity());
-		for (ListBase<T, MemoryPolicy>::const_iterator it = list.begin(); it != list.end(); ++it)
-		{
-			Add(*it);
-		}
+		*this = that;
 	}
 
 	~ListBase()
@@ -138,6 +134,17 @@ public:
 		{
 			it->~T();
 		}
+	}
+
+	ListBase& operator=(const ListBase<T, MemoryPolicy>& that)
+	{
+		Reserve(that.Capacity());
+		for (ListBase<T, MemoryPolicy>::const_iterator it = that.begin(); it != that.end(); ++it)
+		{
+			Add(*it);
+		}
+
+		return *this;
 	}
 
 	inline T& Get(u32 index) { return MemoryPolicy::Get(index); }

@@ -6,7 +6,7 @@
 #include "engine/graphicalassets/sprite/SpriteLibrary.h"
 
 #include "game/scripts/MovementTest.h"
-#include "game/scripts/AnimationTest.h"
+#include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Position.h"
 
 Scene0::Scene0(Engine* engine)
@@ -15,7 +15,7 @@ Scene0::Scene0(Engine* engine)
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
-	int totalTestSprites = 40;
+	int totalTestSprites = 1;
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
@@ -23,10 +23,27 @@ Scene0::Scene0(Engine* engine)
 	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 
 	m_gameObjects.Reserve(totalTestSprites);
+
+	SpriteAnimation idleAnim;
+	{
+		const int maxFrameCount = 12;
+		idleAnim.keyFrames.Reserve(maxFrameCount);
+
+		SpriteLibrary* spriteLibrary = engine->GetSpriteManager()->GetSpriteLibrary();
+
+		for (int i = 0; i < maxFrameCount; ++i)
+		{
+			Sprite* sprite = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, i);
+			SpriteAnimation::KeyFrame* keyframe = idleAnim.keyFrames.AddNew();
+			keyframe->sprite = sprite;
+		}
+
+		idleAnim.frameRate = 12;
+	}
 	
 	if (true)
 	{
-		for (int i = 1; i < totalTestSprites; ++i)
+		for (int i = 0; i < totalTestSprites; ++i)
 		{
 			GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
 			
@@ -38,24 +55,25 @@ Scene0::Scene0(Engine* engine)
 			Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
 			testBackgroundRenderer.SetSprite(shantae0);
 
-			testBackgroundObject->AddComponent<Component::AnimationTest>(engine);
+			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
+			animator.SetAnimation(idleAnim);
 		}
 	}
 
 	// Entt is iterating these backwards when rendering sprites. Add player movement one last to draw on top for now. 
 	{
-		GameObject* testObject = m_gameObjects.AddNew(entityManager);
-		Component::Position* position = testObject->EditComponent<Component::Position>();
-		position->x = 0;
-		position->y = 0;
+		//GameObject* underBlack = &m_gameObjects[0];// m_gameObjects.Count() - 1];
+		//Component::Position* position = underBlack->EditComponent<Component::Position>();
+		//position->x = -8;
+		//position->y = 0;
 
-		Component::PlayerMovement& playerMovement = testObject->AddComponent<Component::PlayerMovement>();
+		GameObject* playerObject = &m_gameObjects[m_gameObjects.Count() - 1];
+		Component::PlayerMovement& playerMovement = playerObject->AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 
-		Component::SpriteRenderer& testRenderer = testObject->AddComponent<Component::SpriteRenderer>();
-		testRenderer.SetSprite(spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 6));
-
-		testObject->AddComponent<Component::AnimationTest>(engine);
+		Component::Position* position = playerObject->EditComponent<Component::Position>();
+		position->x = 0;
+		position->y = 0;
 	}
 }
 
@@ -66,6 +84,6 @@ Scene0::~Scene0()
 void Scene0::Update(Engine* engine)
 {
 	System::PlayerMovement::Update(engine);
-	System::AnimationTest::Update(engine);
+	System::SpriteAnimator::Update(engine);
 	Scene::Update(engine);
 }

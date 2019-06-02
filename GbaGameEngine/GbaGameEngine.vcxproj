@@ -104,7 +104,7 @@ make all</NMakeReBuildCommandLine>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\time\Time.cpp" />
-    <ClCompile Include="src\game\scripts\AnimationTest.cpp" />
+    <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\Sprite_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteLibrary.cpp" />
@@ -183,7 +183,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\game\blobdata\Shantae.h" />
     <ClInclude Include="src\game\blobdata\Shantae_Idle.h" />
-    <ClInclude Include="src\game\scripts\AnimationTest.h" />
+    <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteLibrary.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
