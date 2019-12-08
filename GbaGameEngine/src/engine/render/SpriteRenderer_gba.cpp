@@ -38,7 +38,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 		return;		// Unhandled, todo
 
 	auto* entityManager = engine->GetEntityRegistry();
-	GBA::OAMManager* oamManager = engine->GetOAMManager();
+	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
 
 	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
 

@@ -12,6 +12,14 @@
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
 {
+}
+
+Scene0::~Scene0()
+{
+}
+
+void Scene0::Enter(Engine* engine)
+{
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
@@ -19,7 +27,7 @@ Scene0::Scene0(Engine* engine)
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	SpriteLibrary* spriteLibrary = engine->GetSpriteManager()->GetSpriteLibrary();
+	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteManager>()->GetSpriteLibrary();
 	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 
 	m_gameObjects.Reserve(totalTestSprites);
@@ -28,8 +36,6 @@ Scene0::Scene0(Engine* engine)
 	{
 		const int maxFrameCount = 12;
 		idleAnim.keyFrames.Reserve(maxFrameCount);
-
-		SpriteLibrary* spriteLibrary = engine->GetSpriteManager()->GetSpriteLibrary();
 
 		for (int i = 0; i < maxFrameCount; ++i)
 		{
@@ -40,13 +46,13 @@ Scene0::Scene0(Engine* engine)
 
 		idleAnim.frameRate = 12;
 	}
-	
+
 	if (true)
 	{
 		for (int i = 0; i < totalTestSprites; ++i)
 		{
 			GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
-			
+
 			Component::Position* position = testBackgroundObject->EditComponent<Component::Position>();
 			position->x = (i * 0.2f) - 5;
 			position->y = (i * 0.2f) - 5;
@@ -77,13 +83,8 @@ Scene0::Scene0(Engine* engine)
 	}
 }
 
-Scene0::~Scene0()
-{
-}
-
 void Scene0::Update(Engine* engine)
 {
 	System::PlayerMovement::Update(engine);
-	System::SpriteAnimator::Update(engine);
 	Scene::Update(engine);
 }

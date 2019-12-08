@@ -1,29 +1,34 @@
 #pragma once
 
-#include "engine/time/Time.h"
-#include "engine/gba/graphics/oam/GBAOAMManager.h"
-#include "engine/graphicalassets/sprite/SpriteManager.h"
 #include "engine/base/ecs/EntityComponentManager.h"
 
 class Engine
 {
-	Time time;
-
-	GBA::OAMManager m_oamManager;
-	SpriteManager m_spriteManager;
 	ECS::EntityComponentManager m_entityComponentManager;
+	ECS::Entity m_engineComponentsContainer;
 
 public:
 	Engine();
 	~Engine();
 
-	void Update()
+	ECS::EntityComponentManager* GetEntityRegistry() { return &m_entityComponentManager; }
+
+	template<typename Component>
+	inline void AddComponent()
 	{
-		time.Update();
+		m_entityComponentManager.AddComponent<Component>(m_engineComponentsContainer);
 	}
 
-	Time* GetTime() { return &time; }
-	GBA::OAMManager* GetOAMManager() { return &m_oamManager; }
-	SpriteManager* GetSpriteManager() { return &m_spriteManager; }
-	ECS::EntityComponentManager* GetEntityRegistry() { return &m_entityComponentManager; }
+
+	template<typename Component>
+	inline const Component* GetComponent() const
+	{
+		return m_entityComponentManager.GetComponent<Component>(m_engineComponentsContainer);
+	}
+
+	template<typename Component>
+	inline Component* EditComponent()
+	{
+		return m_entityComponentManager.EditComponent<Component>(m_engineComponentsContainer);
+	}
 };

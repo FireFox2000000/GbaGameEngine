@@ -1,8 +1,12 @@
 #include <memory>
 #include "engine/engine/engine.h"
+#include "engine/animation/SpriteAnimator.h"
+#include "engine/scene/SceneManager.h"
+#include "engine/time/Time.h"
+
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
-#include "engine/scene/SceneManager.h"
+#include "engine/gba/graphics/oam/GBAOAMManager.h"
 
 #include "game/scenes/Scene0.h"
 
@@ -14,9 +18,10 @@ int main()
 {
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
-	Scene0 scene0(engine.get());
-	SceneManager sceneManager(&scene0);
-	GBA::OAMManager* oamManager = engine->GetOAMManager();
+	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
+	sceneManager->ChangeScene<Scene0>(engine.get());
+
+	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
 
 	// Test Initialisation		
 	GBA::Input::Update();
@@ -27,8 +32,11 @@ int main()
 		// General update
 		GBA::Input::Update();
 
-		sceneManager.UpdateScene(engine.get());
-		sceneManager.RenderScene(engine.get());
+		sceneManager->UpdateScene(engine.get());
+
+		System::SpriteAnimator::Update(engine.get());
+
+		sceneManager->RenderScene(engine.get());
 		
 		// Main update
 		WaitForVSync();
@@ -36,7 +44,7 @@ int main()
 		// Real Render
 		oamManager->DoMasterRenderIntoMemory(engine.get());
 		
-		engine->Update();
+		engine->EditComponent<Time>()->Advance();
 	}
 
 	return 0;

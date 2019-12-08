@@ -4,11 +4,12 @@
 #include "engine/math/Vector2.h"
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gameobject/transformation/Position.h"
+#include "engine/time/Time.h"
 
 void System::PlayerMovement::Update(Engine* engine)
 {
 	using namespace GBA;
-	Time* time = engine->GetTime();
+	const Time* time = engine->GetComponent<Time>();
 	auto dt = time->GetDtSecondsf();
 
 	auto* entityManager = engine->GetEntityRegistry();

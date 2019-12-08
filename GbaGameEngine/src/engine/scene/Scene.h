@@ -15,7 +15,9 @@ protected:
 	GameObject m_mainCamera;
 	List<GameObject> m_gameObjects;
 
+	virtual void Enter(Engine* engine) {}
 	virtual void Update(Engine* engine);
+	virtual void Exit(Engine* engine) {}
 
 public:
 	Scene(Engine* engine);

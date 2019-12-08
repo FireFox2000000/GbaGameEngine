@@ -1,4 +1,5 @@
 #pragma once
+#include <type_traits>	// for is_integral
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
@@ -34,6 +35,7 @@ class FixedPoint
 public:
 	inline FixedPoint()
 	{
+		STATIC_ASSERT(std::is_integral<IntType>::value, "Integral required.");
 		storage = 0;
 	}
 

@@ -47,20 +47,20 @@ namespace GBA
 	{
 		tSpriteBuffer& currentBuffer = GetCurrentSpriteBuffer();
 		tSpriteBuffer& previousBuffer = GetPreviousSpriteBuffer();
-		SpriteManager* SpriteManager = engine->GetSpriteManager();
+		SpriteManager* spriteManager = engine->EditComponent<SpriteManager>();
 	
 		for (Sprite* sprite : previousBuffer)
 		{
 			if (sprite->IsLoaded() && !currentBuffer.Contains(sprite))
 			{
-				SpriteManager->Unload(sprite);
+				spriteManager->Unload(sprite);
 			}
 		}
 	}
 
 	void OAMManager::LoadNewSprites(Engine* engine)
 	{
-		SpriteManager* spriteManager = engine->GetSpriteManager();
+		SpriteManager* spriteManager = engine->EditComponent<SpriteManager>();
 		tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
 		for (Sprite* sprite : buffer)
 		{

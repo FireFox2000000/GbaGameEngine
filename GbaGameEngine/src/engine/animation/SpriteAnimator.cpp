@@ -5,6 +5,7 @@
 #include "engine/graphicalassets/sprite/SpriteLibrary.h"
 #include "engine/math/Math.h"
 #include "engine/render/SpriteRenderer.h"
+#include "engine/time/Time.h"
 
 void Component::SpriteAnimator::SetAnimation(const SpriteAnimation& animation)
 {
@@ -19,7 +20,7 @@ void System::SpriteAnimator::Update(Engine* engine)
 {
 	auto* entityManager = engine->GetEntityRegistry();
 
-	Time* time = engine->GetTime();
+	const Time* time = engine->GetComponent<Time>();
 	const u32 dtMicroSeconds = time->GetDtMicroSeconds();
 
 	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
