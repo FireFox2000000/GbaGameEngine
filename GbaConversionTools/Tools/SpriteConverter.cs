@@ -19,6 +19,9 @@ namespace GbaConversionTools.Tools
         const int c_TileHEIGHT = 8;
         const string TAB_CHAR = "\t";
         const string namespaceTabs = TAB_CHAR;
+        const string c_u8 = "unsigned char";
+        const string c_u16 = "unsigned short";
+        const string c_u32 = "unsigned long";
 
         public void Convert(string inputPath, string outputPath, Bitmap bitmap, SliceCoordinate[] sliceCoordinates)
         {
@@ -45,12 +48,13 @@ namespace GbaConversionTools.Tools
             
             sb.Append("namespace " + namespaceName + "\n{\n");
 
-            sb.Append(namespaceTabs + "const u32 spriteCount = " + sliceCoordinates.Length + ";\n");
+            sb.Append(namespaceTabs + "extern const " + c_u32 + " spriteCount = " + sliceCoordinates.Length + ";\n");
+            WriteHeader(bitmap, preProcessedPalette, sb);
             WritePalette(preProcessedPalette, sb);
 
             // Write width
             {
-                sb.Append(namespaceTabs + "const u8 widthMap[] = \n");
+                sb.Append(namespaceTabs + "extern const " + c_u8 + " widthMap[] = \n");
                 sb.Append(namespaceTabs + "{\n");
                 sb.Append(namespaceTabs + TAB_CHAR);
 
@@ -68,7 +72,7 @@ namespace GbaConversionTools.Tools
 
             // Write height
             {
-                sb.Append(namespaceTabs + "const u8 heightMap[] = \n");
+                sb.Append(namespaceTabs + "extern const " + c_u8 + " heightMap[] = \n");
                 sb.Append(namespaceTabs + "{\n");
                 sb.Append(namespaceTabs + TAB_CHAR);
 
@@ -89,7 +93,7 @@ namespace GbaConversionTools.Tools
 
             // Write data and add offsets
             {
-                sb.Append(namespaceTabs + "const u16 data[] = \n");
+                sb.Append(namespaceTabs + "extern const " + c_u16 + " data[] = \n");
                 sb.Append(namespaceTabs + "{\n");
                 for (int i = 0; i < sliceCoordinates.Length; ++i)
                 {
@@ -106,7 +110,7 @@ namespace GbaConversionTools.Tools
 
             // Write offsets
             {
-                sb.Append(namespaceTabs + "const u32 offsets[] = \n");
+                sb.Append(namespaceTabs + "extern const " + c_u32 + " offsets[] = \n");
                 sb.Append(namespaceTabs + "{\n");
                 for (int i = 0; i < dataOffsets.Count; i++)
                 {
@@ -156,14 +160,14 @@ namespace GbaConversionTools.Tools
         {
             Size size = bitmap.Size;
 
-            sb.AppendFormat(namespaceTabs + "const u8 width = {0}, height = {1}; \n", size.Width, size.Height);
-            sb.AppendFormat(namespaceTabs + "const u8 paletteLength = {0};\n", palette.Length);
-            sb.AppendFormat(namespaceTabs + "const u32 dataLength = {0};\n\n", size.Width * size.Height / 4);
+            //sb.AppendFormat(namespaceTabs + "extern const " + c_u16 + " width = {0}, height = {1}; \n", size.Width, size.Height);
+            sb.AppendFormat(namespaceTabs + "extern const " + c_u8 + " paletteLength = {0};\n", palette.Length);
+            sb.AppendFormat(namespaceTabs + "extern const " + c_u32 + " dataLength = {0};\n\n", size.Width * size.Height / 4);
         }
 
         void WritePalette(Color[] palette, StringBuilder sb)
         {
-            sb.Append(namespaceTabs + "const u16 palette[] = \n");
+            sb.Append(namespaceTabs + "extern const " + c_u16 + " palette[] = \n");
             sb.Append(namespaceTabs + "{\n\t" + namespaceTabs);
             for (int i = 0; i < palette.Length; ++i)
             {

@@ -46,7 +46,7 @@ namespace GbaConversionTools
             string inputPath = Console.ReadLine().Trim('"');
 
             Bitmap bitmap = new Bitmap(inputPath);
-            string outputPath = Path.GetFileNameWithoutExtension(inputPath) + ".h";
+            string outputPath = Path.GetFileNameWithoutExtension(inputPath) + ".cpp";
 
             Console.WriteLine("Select slicing method:");
             Console.WriteLine("1. Grid slice");
@@ -122,11 +122,16 @@ namespace GbaConversionTools
                 {
                     int index = row * columns + col;
 
-                    sliceCoordinates[index].x = index * col;
-                    sliceCoordinates[index].y = index * row;
+                    sliceCoordinates[index].x = spriteWidth * col;
+                    sliceCoordinates[index].y = spriteHeight * row;
 
                     sliceCoordinates[index].width = spriteWidth;
                     sliceCoordinates[index].height = spriteHeight;
+
+                    Console.WriteLine("x = {0}\n", sliceCoordinates[index].x);
+                    Console.WriteLine("y = {0}\n", sliceCoordinates[index].y);
+                    Console.WriteLine("width = {0}\n", sliceCoordinates[index].width);
+                    Console.WriteLine("height = {0}\n", sliceCoordinates[index].height);
                 }
             }
 

@@ -182,7 +182,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\game\blobdata\Shantae.h" />
-    <ClInclude Include="src\game\blobdata\Shantae_Idle.h" />
+    <ClInclude Include="src\game\blobdata\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteLibrary.h" />
