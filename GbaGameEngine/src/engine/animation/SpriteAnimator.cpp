@@ -1,9 +1,5 @@
 #include "SpriteAnimator.h"
 #include "engine/engine/engine.h"
-#include "engine/gameobject/GameObject.h"
-#include "engine/graphicalassets/sprite/SpriteManager.h"
-#include "engine/graphicalassets/sprite/SpriteLibrary.h"
-#include "engine/math/Math.h"
 #include "engine/render/SpriteRenderer.h"
 #include "engine/time/Time.h"
 
