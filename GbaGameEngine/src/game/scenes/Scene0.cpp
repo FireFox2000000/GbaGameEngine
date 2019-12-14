@@ -27,7 +27,7 @@ void Scene0::Enter(Engine* engine)
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteManager>()->GetSpriteLibrary();
+	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
 	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 
 	m_gameObjects.Reserve(totalTestSprites);
