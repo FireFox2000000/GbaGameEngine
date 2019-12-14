@@ -15,6 +15,9 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 {
 	using namespace GBA::Attributes;
 
+	if (m_sprite == sprite)
+		return;
+
 	if (sprite)
 	{
 		m_centerToCornerSizeOffset = GBA::AttributeFunctions::GetPixelSize(sprite->GetShape(), sprite->GetSizeMode()) / -2;

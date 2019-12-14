@@ -26,6 +26,8 @@ void System::SpriteAnimator::Update(Engine* engine)
 
 			animator.timeToNextFrameMicroSeconds += dtMicroSeconds;
 
+			u8 previousFrameIndex = animator.currentFrameIndex;
+
 			// Advance current frame time and increment current frame index as needed
 			while (animator.timeToNextFrameMicroSeconds > (s32)animator.frameDtMicroseconds)
 			{
@@ -39,7 +41,10 @@ void System::SpriteAnimator::Update(Engine* engine)
 				animator.currentFrameIndex -= animator.FrameCount();
 			}
 
-			Sprite* sprite = animator.currentAnimation.keyFrames[animator.currentFrameIndex].sprite;
-			spriteRenderer.SetSprite(sprite);
+			if (previousFrameIndex != animator.currentFrameIndex)
+			{
+				Sprite* sprite = animator.currentAnimation.keyFrames[animator.currentFrameIndex].sprite;
+				spriteRenderer.SetSprite(sprite);
+			}
 		});
 }
