@@ -17,4 +17,9 @@ namespace Math
 	inline bool SignCompare(T a, T b) {
 		return a * b > 0;
 	}
+
+	template<typename T, typename U, typename V>
+	inline T Clamp(T v, U min, V max) {
+		return MAX(MIN(v, max), min);
+	}
 }
