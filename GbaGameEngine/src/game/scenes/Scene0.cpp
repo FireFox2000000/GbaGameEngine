@@ -8,6 +8,9 @@
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Position.h"
+#include "engine/debug/DebugLog.h"
+
+const int totalTestSprites = 128;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -23,8 +26,6 @@ void Scene0::Enter(Engine* engine)
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
-	int totalTestSprites = 1;
-
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
@@ -32,7 +33,7 @@ void Scene0::Enter(Engine* engine)
 
 	m_gameObjects.Reserve(totalTestSprites);
 
-	SpriteAnimation idleAnim;
+	SpriteAnimation& idleAnim = m_idleAnim;
 	{
 		const int maxFrameCount = 12;
 		idleAnim.keyFrames.Reserve(maxFrameCount);
@@ -49,7 +50,7 @@ void Scene0::Enter(Engine* engine)
 
 	if (true)
 	{
-		for (int i = 0; i < totalTestSprites; ++i)
+		for (int i = 0; i < 1; ++i)
 		{
 			GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
 
@@ -85,6 +86,29 @@ void Scene0::Enter(Engine* engine)
 
 void Scene0::Update(Engine* engine)
 {
+	if (m_gameObjects.Count() < totalTestSprites)
+	{
+		int i = m_gameObjects.Count();
+	
+		SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
+		ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
+		SpriteAnimation& idleAnim = m_idleAnim;
+	
+		// Create a new one
+		GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
+	
+		Component::Position* position = testBackgroundObject->EditComponent<Component::Position>();
+		position->x = (i * 0.2f) - 5;
+		position->y = (i * 0.2f) - 5;
+	
+		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
+		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+		testBackgroundRenderer.SetSprite(shantae0);
+	
+		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
+		animator.SetAnimation(idleAnim);
+	}
+
 	System::PlayerMovement::Update(engine);
 	Scene::Update(engine);
 }
