@@ -38,22 +38,15 @@ void Debug::LogAtLocation(const char * file, const int line, const char * format
 {
 	// Output this on two different lines with tab spacing for better formatting to no$gba debugger
 	{
-		string locationStr;
-
-		locationStr += file;
-		locationStr += "(";
-		locationStr += to_string(line);
-		locationStr += "):";
-
-		Debug::Log(locationStr.c_str());
+		Debug::LogFormat("%s(%d): ", file, line);
 	}
 
 	{
-		string message;
-		message += "    ";
-		message += format;
+		//string message;
+		//message += "    ";
+		//message += format;
 
-		VLOGFORMAT_W_UNPACK(format, message.c_str());
+		VLOGFORMAT_W_UNPACK(format, format);
 	}
 }
 
