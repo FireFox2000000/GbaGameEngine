@@ -10,15 +10,6 @@ class Engine;
 
 namespace GBA
 {
-	struct OAMSpriteRenderProperties
-	{
-		ObjectAttribute oamProperties;
-		Sprite* sprite;
-	};
-}
-
-namespace GBA
-{
 	typedef volatile ObjectAttribute vObjectAttribute;
 	typedef volatile ObjectAffine vObjectAffine;
 
@@ -29,6 +20,12 @@ namespace GBA
 		static const int OBJ_AFFINE_COUNT = 32;
 		
 	private:
+		struct OAMSpriteRenderPropertiesSOA
+		{
+			FixedList<ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
+			FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
+		};
+
 		typedef Array<vObjectAttribute, OBJ_ATTR_COUNT> ObjAttrPool;
 		typedef Array<vObjectAffine, OBJ_AFFINE_COUNT> ObjAffinePool;
 
@@ -40,7 +37,7 @@ namespace GBA
 		Array<bool, OBJ_ATTR_COUNT> m_objAttrEnabledTracker;
 		u32 m_objAttrEnabledSearchIndex;
 
-		FixedList<OAMSpriteRenderProperties, OBJ_ATTR_COUNT> m_masterSpriteRenderList;
+		OAMSpriteRenderPropertiesSOA m_masterSpriteRenderList;
 		Array<tSpriteBuffer, 2> m_spriteRenderDoubleBuffer;
 		int m_currentSpriteBufferIndex;
 
@@ -58,6 +55,6 @@ namespace GBA
 		~OAMManager();
 
 		void DoMasterRenderIntoMemory(Engine* engine);
-		OAMSpriteRenderProperties* AddToRenderList(Sprite* sprite);
+		ObjectAttribute* AddToRenderList(Sprite* sprite);
 	};
 }

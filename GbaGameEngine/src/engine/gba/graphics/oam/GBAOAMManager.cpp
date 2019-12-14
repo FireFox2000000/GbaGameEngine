@@ -1,10 +1,13 @@
 #include "GBAOAMManager.h"
-
 #include "engine/base/Macros.h"
 #include "engine/engine/engine.h"
 #include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/graphicalassets/sprite/SpriteManager.h"
+#include "engine/gba/registers/clock/GBATimer.h"
+#include "engine/debug/DebugLog.h"
+
+//#define RENDER_PROFILE
 
 namespace GBA
 {
@@ -73,52 +76,81 @@ namespace GBA
 
 	void OAMManager::TransferRenderListIntoMemory()
 	{
-		for (u32 i = 0; i < s_objectAttrPool.Count(); ++i)
+		u32 objectCount = m_masterSpriteRenderList.oamProperties.Count();
+
+		// Fast copy ObjectAttributes into memory
 		{
-			vObjectAttribute& oamSpriteHandle = s_objectAttrPool[i];
-			oamSpriteHandle.Reset();
+			int byteCount = sizeof(ObjectAttribute) * objectCount;
 
-			if (i < m_masterSpriteRenderList.Count())
-			{
-				OAMSpriteRenderProperties& spriteProperties = m_masterSpriteRenderList[i];
-				const Sprite* sprite = spriteProperties.sprite;
-				const ObjectAttribute& oamProperties = spriteProperties.oamProperties;
+			MemCopy(&m_masterSpriteRenderList.oamProperties, (void*)(OAM_RAM), byteCount);
 
-				// Clone current properties. This allows flags like flipping to be more easily decided by the renderer
-				oamSpriteHandle.m_attributeZero = oamProperties.m_attributeZero;
-				oamSpriteHandle.m_attributeOne = oamProperties.m_attributeOne;
-				oamSpriteHandle.m_attributeTwo = oamProperties.m_attributeTwo;
-
-				// Set sprite specific properties
-				oamSpriteHandle.SetShape(sprite->GetShape());
-				oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());
-				oamSpriteHandle.SetPaletteIndex(sprite->GetPaletteIndex());
-				oamSpriteHandle.SetTileIndex(sprite->GetTileIndex());				
-			}
+			// Remove the rest of the objects by clearing them
+			memset((void*)(OAM_RAM + byteCount), 0, sizeof(s_objectAttrPool) - byteCount);
 		}
 
-		m_masterSpriteRenderList.Clear();
+		for (u32 i = 0; i < objectCount; ++i)
+		{
+			vObjectAttribute& oamSpriteHandle = s_objectAttrPool[i];
+			const Sprite* sprite = m_masterSpriteRenderList.sprite[i];
+
+			// Set just-loaded specific properties
+			oamSpriteHandle.SetPaletteIndex(sprite->GetPaletteIndex());
+			oamSpriteHandle.SetTileIndex(sprite->GetTileIndex());
+			oamSpriteHandle.SetShape(sprite->GetShape());
+			oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());
+		}
+
+		m_masterSpriteRenderList.oamProperties.Clear();
+		m_masterSpriteRenderList.sprite.Clear();
 	}
 
 	void OAMManager::DoMasterRenderIntoMemory(Engine* engine)
 	{
+#ifdef RENDER_PROFILE
+		GBA::Timer profilerClock(2);
+		profilerClock.SetFrequency(GBA::Timer::Cycle_256);
+
+		profilerClock.SetActive(true);
+#endif
 		UnloadUnusedSprites(engine);
+#ifdef RENDER_PROFILE
+		DEBUG_LOGFORMAT("[Profile UnloadUnusedSprites] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+
+		profilerClock.SetActive(true);
+#endif
 		LoadNewSprites(engine);
+#ifdef RENDER_PROFILE
+		DEBUG_LOGFORMAT("[Profile LoadNewSprites] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+
+		profilerClock.SetActive(true);
+#endif
 		TransferRenderListIntoMemory();
+#ifdef RENDER_PROFILE
+		DEBUG_LOGFORMAT("[Profile TransferRenderListIntoMemory] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+
+		profilerClock.SetActive(true);
+#endif
 		FlipRenderBuffer();
 
 		GetCurrentSpriteBuffer().Clear();
+#ifdef RENDER_PROFILE
+		DEBUG_LOGFORMAT("[Profile Flip + Clear] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+#endif
 	}
 
-	OAMSpriteRenderProperties* OAMManager::AddToRenderList(Sprite* sprite)
+	ObjectAttribute* OAMManager::AddToRenderList(Sprite* sprite)
 	{
 		OAMManager::tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
 		if (!buffer.Contains(sprite))
 			buffer.Add(sprite);
 
 		// Todo, can't render more than 128, will currently crash if this is exceeded
-		OAMSpriteRenderProperties* properties = m_masterSpriteRenderList.AddNew();
-		properties->sprite = sprite;
+		ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew();
+		m_masterSpriteRenderList.sprite.Add(sprite);
 
 		return properties;
 	}
