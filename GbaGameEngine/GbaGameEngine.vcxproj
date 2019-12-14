@@ -101,8 +101,10 @@ make all</NMakeReBuildCommandLine>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="makefile" />
+    <None Include="src\engine\gba\tonc\asm\tonc_nocash.s" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
@@ -178,6 +180,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\entt\signal\fwd.hpp" />
     <ClInclude Include="src\engine\base\ecs\entt\signal\sigh.hpp" />
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
+    <ClInclude Include="src\engine\debug\DebugLog.h" />
+    <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
+    <ClInclude Include="src\engine\gba\tonc\include\tonc_nocash.h" />
     <ClInclude Include="src\engine\gameobject\transformation\Position.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\time\Time.h" />

@@ -10,6 +10,8 @@
 
 #include "game/scenes/Scene0.h"
 
+#include "engine/debug/DebugLog.h"
+
 #define VBLANK_SCNLNE_START 160
 
 static void WaitForVSync();
@@ -25,6 +27,8 @@ int main()
 
 	// Test Initialisation		
 	GBA::Input::Update();
+
+	DEBUG_LOG("Engine initialised");
 
 	// Update loop
 	while (true)
