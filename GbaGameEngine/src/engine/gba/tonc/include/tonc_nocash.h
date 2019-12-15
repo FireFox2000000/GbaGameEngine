@@ -28,7 +28,7 @@
 // GLOBALS 
 // --------------------------------------------------------------------
 
-extern char nocash_buffer[80] EWRAM_DATA;
+extern EWRAM_DATA char nocash_buffer[80];
 
 // --------------------------------------------------------------------
 // PROTOTYPES 

@@ -127,11 +127,6 @@ namespace GbaConversionTools
 
                     sliceCoordinates[index].width = spriteWidth;
                     sliceCoordinates[index].height = spriteHeight;
-
-                    Console.WriteLine("x = {0}\n", sliceCoordinates[index].x);
-                    Console.WriteLine("y = {0}\n", sliceCoordinates[index].y);
-                    Console.WriteLine("width = {0}\n", sliceCoordinates[index].width);
-                    Console.WriteLine("height = {0}\n", sliceCoordinates[index].height);
                 }
             }
 
