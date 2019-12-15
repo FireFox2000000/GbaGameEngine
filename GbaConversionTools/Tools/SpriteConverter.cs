@@ -9,7 +9,7 @@ namespace GbaConversionTools.Tools
 {
     class SpriteConverter
     {
-        public struct SliceCoordinate
+        public struct UVs
         {
             public int x, y, width, height;
         }
@@ -34,7 +34,7 @@ namespace GbaConversionTools.Tools
         const string VAR_OFFSETS                        = namespaceTabs + VARPREFIXES + STR_U32 + " offsets[] = \n";
         const string VAR_DATA                           = namespaceTabs + VARPREFIXES + STR_U16 + " data[] = \n";
 
-        public void Convert(string inputPath, string outputPath, Bitmap bitmap, SliceCoordinate[] sliceCoordinates)
+        public void Convert(string inputPath, string outputPath, Bitmap bitmap, UVs[] sliceCoordinates)
         {
             StringBuilder sb = new StringBuilder();
             Size size = bitmap.Size;
@@ -115,7 +115,7 @@ namespace GbaConversionTools.Tools
                 for (int i = 0; i < sliceCoordinates.Length; ++i)
                 {
                     StringBuilder dataSb = new StringBuilder();
-                    SliceCoordinate slice = sliceCoordinates[i];
+                    UVs slice = sliceCoordinates[i];
                     int spriteWidth = slice.width, spriteHeight = slice.height;    // Todo, determine through some kind of config file
                     int dataCount = WriteSpriteData(dataSb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, slice.x, slice.y);
 
