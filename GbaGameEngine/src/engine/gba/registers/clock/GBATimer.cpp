@@ -3,85 +3,93 @@
 #include "engine/base/Macros.h"
 #include "engine/math/Math.h"
 
-#define MAX_TIMERS 4
-
 #define CNT_CASCADE_BIT_INDEX 2
 #define CNT_INTERRUPTONOVERFLOW_BIT_INDEX 6
 #define CNT_ACTIVE_BIT_INDEX 7
 
-inline vu16* GetTimerDataAddr(u8 index)
+namespace GBA
 {
-	return (vu16*)(REG_TIMERDATA + (index * 0x04));
-}
+	Timers::tTimers Timers::s_timers = { Timers::Timer(0), Timers::Timer(1), Timers::Timer(2), Timers::Timer(3) };
 
-inline vu16* GetTimerControlAddrForIndex(u8 index)
-{
-	return (vu16*)(REG_TIMERCNT + (index * 0x04));
-}
-
-GBA::Timer::Timer(u8 timerIndex)
-	: m_timerIndex(Math::Clamp(timerIndex, 0, MAX_TIMERS - 1))
-{
-	*GetTimerDataAddr(m_timerIndex) = 0;
-	*GetTimerControlAddrForIndex(m_timerIndex) = 0;
-}
-
-void GBA::Timer::SetActive(bool active)
-{
-	if (active)
+	inline vu16* GetTimerDataAddr(u8 index)
 	{
-		SET_BIT(*GetTimerControlAddr(), CNT_ACTIVE_BIT_INDEX);
+		return (vu16*)(REG_TIMERDATA + (index * 0x04));
 	}
-	else
+
+	inline vu16* GetTimerControlAddrForIndex(u8 index)
 	{
-		CLEAR_BIT(*GetTimerControlAddr(), CNT_ACTIVE_BIT_INDEX);
+		return (vu16*)(REG_TIMERCNT + (index * 0x04));
 	}
-}
 
-void GBA::Timer::SetCascadeMode(bool enabled)
-{
-	if (enabled)
+	Timers::Timer::Timer(u8 timerIndex)
+		: m_timerIndex(Math::Clamp(timerIndex, 0, GBA_MAX_TIMERS - 1))
 	{
-		SET_BIT(*GetTimerControlAddr(), CNT_CASCADE_BIT_INDEX);
+		*GetTimerDataAddr(m_timerIndex) = 0;
+		*GetTimerControlAddrForIndex(m_timerIndex) = 0;
 	}
-	else
+
+	void Timers::Timer::SetActive(bool active)
 	{
-		CLEAR_BIT(*GetTimerControlAddr(), CNT_CASCADE_BIT_INDEX);
+		if (active)
+		{
+			SET_BIT(*GetTimerControlAddr(), CNT_ACTIVE_BIT_INDEX);
+		}
+		else
+		{
+			CLEAR_BIT(*GetTimerControlAddr(), CNT_ACTIVE_BIT_INDEX);
+		}
 	}
-}
 
-void GBA::Timer::EnableInterruptOnOverflow(bool enabled)
-{
-	if (enabled)
+	void Timers::Timer::SetCascadeMode(bool enabled)
 	{
-		SET_BIT(*GetTimerControlAddr(), CNT_INTERRUPTONOVERFLOW_BIT_INDEX);
+		if (enabled)
+		{
+			SET_BIT(*GetTimerControlAddr(), CNT_CASCADE_BIT_INDEX);
+		}
+		else
+		{
+			CLEAR_BIT(*GetTimerControlAddr(), CNT_CASCADE_BIT_INDEX);
+		}
 	}
-	else
+
+	void Timers::Timer::EnableInterruptOnOverflow(bool enabled)
 	{
-		CLEAR_BIT(*GetTimerControlAddr(), CNT_INTERRUPTONOVERFLOW_BIT_INDEX);
+		if (enabled)
+		{
+			SET_BIT(*GetTimerControlAddr(), CNT_INTERRUPTONOVERFLOW_BIT_INDEX);
+		}
+		else
+		{
+			CLEAR_BIT(*GetTimerControlAddr(), CNT_INTERRUPTONOVERFLOW_BIT_INDEX);
+		}
 	}
-}
 
-void GBA::Timer::SetFrequency(ClockCycle cycle)
-{
-	// Clear previous frequency
-	*GetTimerControlAddr() &= BITS_INDEXED_U32(2, 0);
+	void Timers::Timer::SetFrequency(ClockCycle cycle)
+	{
+		// Clear previous frequency
+		*GetTimerControlAddr() &= BITS_INDEXED_U32(2, 0);
 
-	// Enable new frequency
-	*GetTimerControlAddr() |= cycle;
-}
+		// Enable new frequency
+		*GetTimerControlAddr() |= cycle;
+	}
 
-void GBA::Timer::SetInitialTimerCount(u16 value)
-{
-	*GetTimerDataAddr(m_timerIndex) = value;
-}
+	void Timers::Timer::SetInitialTimerCount(u16 value)
+	{
+		*GetTimerDataAddr(m_timerIndex) = value;
+	}
 
-u16 GBA::Timer::GetCurrentTimerCount() const
-{
-	return *GetTimerDataAddr(m_timerIndex);
-}
+	u16 Timers::Timer::GetCurrentTimerCount() const
+	{
+		return *GetTimerDataAddr(m_timerIndex);
+	}
 
-vu16 * GBA::Timer::GetTimerControlAddr() const
-{
-	return GetTimerControlAddrForIndex(m_timerIndex);
+	vu16 * Timers::Timer::GetTimerControlAddr() const
+	{
+		return GetTimerControlAddrForIndex(m_timerIndex);
+	}
+
+	Timers::Timer & Timers::GetTimer(TimerId timerId)
+	{
+		return s_timers[timerId];
+	}
 }

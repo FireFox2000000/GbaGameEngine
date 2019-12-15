@@ -1,11 +1,12 @@
 #pragma once
 #include "engine/component/MonoBehaviour.h"
+#include "engine/base/core/stl/FixedPoint.h"
 
 namespace Component
 {
 	struct PlayerMovement
 	{
-		float moveSpeed = 8.0f;
+		tFixedPoint24 moveSpeed = 8.0f;
 	};
 }
 

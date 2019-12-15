@@ -10,12 +10,13 @@ void System::PlayerMovement::Update(Engine* engine)
 {
 	using namespace GBA;
 	const Time* time = engine->GetComponent<Time>();
-	auto dt = time->GetDtSecondsf();
+
+	auto dt = tFixedPoint24(time->GetDtSecondsf());
 
 	auto* entityManager = engine->GetEntityRegistry();
 	entityManager->InvokeEach<Component::Position, Component::PlayerMovement>([&dt](Component::Position& position, Component::PlayerMovement& playerMovement)
 		{
-			float moveSpeed = playerMovement.moveSpeed * dt;
+			tFixedPoint8 moveSpeed = (tFixedPoint8)(playerMovement.moveSpeed * dt);
 
 			if (Input::GetKey(Buttons::Left))
 			{

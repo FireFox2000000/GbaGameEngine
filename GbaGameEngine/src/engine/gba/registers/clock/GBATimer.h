@@ -1,13 +1,26 @@
 #pragma once
 #include "engine/base/Typedefs.h"
+#include "engine/base/core/stl/Array.h"
 
 // Hertz == Cycles per seconds
 
+#define GBA_MAX_TIMERS 4
+
 namespace GBA
 {
-	class Timer
+	class Timers
 	{
 	public:
+
+		// Configureable based on use-case
+		enum TimerId : u8
+		{
+			SystemClock1,
+			SystemClock2,
+			Profile,
+			Unused,
+		};
+
 		enum ClockCycle : u8
 		{
 			Cycle_1,
@@ -16,20 +29,35 @@ namespace GBA
 			Cycle_1024,
 		};
 
-		static const u32 c_systemFrequency = 1024 * 0x4000;
+		class Timer
+		{
+			friend class Timers;
 
-		Timer(u8 timerIndex);
-		void SetActive(bool active);
-		void SetCascadeMode(bool enabled);
-		void EnableInterruptOnOverflow(bool enabled);
-		void SetFrequency(ClockCycle cycle);
-		void SetInitialTimerCount(u16 value);
-		u16 GetCurrentTimerCount() const;	
-		u8 GetTimerIndex() const { return m_timerIndex; }
+		public:
+			void SetActive(bool active);
+			void SetCascadeMode(bool enabled);
+			void EnableInterruptOnOverflow(bool enabled);
+			void SetFrequency(ClockCycle cycle);
+			void SetInitialTimerCount(u16 value);
+			u16 GetCurrentTimerCount() const;
+			u8 GetTimerIndex() const { return m_timerIndex; }
+
+			Timer() {}; // Purely to make this class std::initializer_list compliant
+			
+		private:
+			Timer(u8 timerIndex);
+
+			u8 m_timerIndex = 0;
+
+			vu16* GetTimerControlAddr() const;
+		};
 
 	private:
-		const u8 m_timerIndex = 0;
+		using tTimers = Array <Timer, GBA_MAX_TIMERS>;
+		static tTimers s_timers;
 
-		vu16* GetTimerControlAddr() const;
+	public:
+		static const u32 c_systemFrequency = 1024 * 0x4000;
+		static Timer& GetTimer(TimerId timerId);
 	};
 }

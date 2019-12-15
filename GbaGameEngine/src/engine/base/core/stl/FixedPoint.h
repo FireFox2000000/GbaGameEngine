@@ -134,3 +134,7 @@ public:
 	// Easy to overflow and underflow. Try not to use this if it can be helped
 	inline FixedPoint<IntType, FRACTIONAL_BITS> operator/(const FixedPoint<IntType, FRACTIONAL_BITS>& b) const { return FixedPoint<IntType, FRACTIONAL_BITS>(*this) /= b; }
 };
+
+using tFixedPoint8 = FixedPoint<int, 8>;
+using tFixedPoint16 = FixedPoint<int, 16>;
+using tFixedPoint24 = FixedPoint<int, 24>;

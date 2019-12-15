@@ -12,13 +12,15 @@ public:
 	Time();
 	~Time();
 
+	void Start();
 	void Advance();
 
 	u32 GetFrameCount() { return m_frameCount; }
 	u32 GetMilliseconds() const;
 	u32 GetDtMicroSeconds() const;
 	u32 GetDtMs() const;
+
 	float GetDtSecondsf() const;
-	float GetTimeSecondsf() const { return GetRealSystemTimeSecondsf(); }	// TODO, don't actually do this, can't scale time.
-	float GetRealSystemTimeSecondsf() const;
+
+	u32 GetSecondsSinceStartup();
 };

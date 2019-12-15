@@ -15,7 +15,7 @@
 #include "engine/debug/DebugLog.h"
 
 #define VBLANK_SCNLNE_START 160
-
+#define TEST_PROFILING
 static void WaitForVSync();
 
 int main()
@@ -26,23 +26,17 @@ int main()
 	sceneManager->ChangeScene<Scene0>(engine.get());
 
 	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
+	Time* time = engine->EditComponent<Time>();
 
 	// Test Initialisation		
 	GBA::Input::Update();
 
-#ifdef TEST_PROFILING
-	// Test profiling
-	GBA::Timer profilerClock(2);
-	profilerClock.SetFrequency(GBA::Timer::Cycle_256);
-#endif
+	time->Start();
 	DEBUG_LOG("Engine initialised");
 
 	// Update loop
 	while (true)
 	{
-#ifdef TEST_PROFILING
-		profilerClock.SetActive(true);
-#endif
 		// VDraw should have started before this, main loop should aim to be under 197120 cycles
 
 		// General update
@@ -51,25 +45,16 @@ int main()
 		sceneManager->UpdateScene(engine.get());
 
 		System::SpriteAnimator::Update(engine.get());
+
 		sceneManager->RenderScene(engine.get());
-#ifdef TEST_PROFILING
-		DEBUG_LOGFORMAT("[Profile update + render scene] = %d", profilerClock.GetCurrentTimerCount());
-		profilerClock.SetActive(false);
-#endif
+
 		// Main update
 		WaitForVSync();
 
 		// VBlank, should be under 83776 cycles
-#ifdef TEST_PROFILING
-		profilerClock.SetActive(true);
-#endif
 		oamManager->DoMasterRenderIntoMemory(engine.get());
-#ifdef TEST_PROFILING
-		DEBUG_LOGFORMAT("[Profile DoMasterRenderIntoMemory] = %d", profilerClock.GetCurrentTimerCount());
-		profilerClock.SetActive(false);
-#endif
 
-		engine->EditComponent<Time>()->Advance();
+		time->Advance();
 	}
 
 	return 0;

@@ -3,6 +3,7 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 #include "engine/base/core/Memory.h"
+#include <initializer_list>
 
 template<class T, u32 SIZE>
 class Array
@@ -31,6 +32,20 @@ public:
 	}
 
 	Array(const Array<T, SIZE> & that) { *this = that; }
+
+	Array(const std::initializer_list<T>& l)
+	{
+		u32 i = 0;
+		for (auto& val : l)
+		{
+			m_buffer[i] = T(val);
+			if (++i >= Count())
+			{
+				break;
+			}
+		}
+	}
+
 	~Array() {}
 
 	const T* GetContainer() const
