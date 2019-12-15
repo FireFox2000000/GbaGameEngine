@@ -21,6 +21,16 @@ class SpriteLibrary
 {
 	FixedList<SpriteAtlus, SpriteAtlusID::Count> m_spriteAtlusCollection;
 
+	void AddSpriteSheet(
+		const u32 spriteCount, 
+		const u8 paletteLength,
+		const u16* palette,
+		const u8* widthMap,
+		const u8* heightMap,
+		const u32 dataLength,
+		const u16* data,
+		const u32* offsets);
+
 public:
 	SpriteLibrary();
 	~SpriteLibrary();
