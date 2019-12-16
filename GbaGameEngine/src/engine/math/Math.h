@@ -11,6 +11,8 @@
 #define SECONDS_TO_MICROSECONDS(x) ((x) * 1000000)
 #define MILLISECONDS_TO_SECONDS(x) ((x) / 1000)
 
+#define BYTES_TO_KB(x) ((x) / 1024.0f)
+
 namespace Math
 {
 	template<typename T>

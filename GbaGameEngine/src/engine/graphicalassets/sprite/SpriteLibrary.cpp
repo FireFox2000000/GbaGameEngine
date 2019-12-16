@@ -1,5 +1,7 @@
 #include "SpriteLibrary.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
+#include "engine/debug/DebugLog.h"
+#include "engine/math/Math.h"
 
 #define SPRITE_ATLUS_ENTRY(Namespace) \
 namespace Namespace\
@@ -19,12 +21,19 @@ namespace Namespace\
 
 SpriteLibrary::SpriteLibrary()
 {
+	DEBUG_LOG("Setting up Sprite Library...")
+
+	u32 totalBytes = 0;
+
 #define SPRITE_ATLUS_ENTRY(Namespace) \
-	AddSpriteSheet(Namespace::spriteCount, Namespace::paletteLength, Namespace::palette, Namespace::widthMap, Namespace::heightMap, Namespace::dataLength, Namespace::data, Namespace::offsets);
+	AddSpriteSheet(Namespace::spriteCount, Namespace::paletteLength, Namespace::palette, Namespace::widthMap, Namespace::heightMap, Namespace::dataLength, Namespace::data, Namespace::offsets);\
+	totalBytes += sizeof(u16) * Namespace::dataLength;
 
 	SPRITE_ATLUS_LIST
 
 #undef SPRITE_ATLUS_ENTRY
+
+	DEBUG_LOGFORMAT("Sprite Library total sprite memory = %.2fkb", BYTES_TO_KB(totalBytes));
 }
 
 void SpriteLibrary::AddSpriteSheet(
