@@ -76,7 +76,12 @@ void SpriteManager::Load(Sprite& out_sprite)
 	++m_paletteRefTracker[paletteId];
 
 	// Set tiles
-	u8 tileCount = out_sprite.m_pixelMapDataLength * 4 / Tile::PIXELS_PER_TILE;
+	const u8 bitsPerByte = 8;
+	u8 bitsPerPixel = 4;	// Todo, don't hardcode
+	u8 pixelsPerByte = bitsPerByte / bitsPerPixel;
+	u16 totalBytes = out_sprite.m_pixelMapDataLength * sizeof(out_sprite.m_pixelMapDataLength);
+	u16 totalPixels = totalBytes * pixelsPerByte;
+	u8 tileCount = totalPixels / Tile::PIXELS_PER_TILE;
 	
 	tTileId tileIndex = FindNextFreeTileSpace(tileCount);
 	if (tileIndex != INVALID_TILE_ID)
