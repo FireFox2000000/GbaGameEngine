@@ -14,7 +14,7 @@ class Sprite
 	tTileId m_tileIndex;
 
 	SpriteAtlus* m_atlus;
-	const u16* m_pixelMapData;
+	const u32* m_pixelMapData;
 	u32 m_pixelMapDataLength;
 
 	SpriteAtlus* EditAtlus() { return m_atlus; }

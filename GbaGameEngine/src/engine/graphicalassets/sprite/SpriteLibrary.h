@@ -28,7 +28,7 @@ class SpriteLibrary
 		const u8* widthMap,
 		const u8* heightMap,
 		const u32 dataLength,
-		const u16* data,
+		const u32* data,
 		const u32* offsets);
 
 public:

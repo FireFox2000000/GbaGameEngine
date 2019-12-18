@@ -12,7 +12,7 @@ namespace Namespace\
 	extern const u8 widthMap[]; \
 	extern const u8 heightMap[]; \
 	extern const u32 dataLength; \
-	extern const u16 data[]; \
+	extern const u32 data[]; \
 	extern const u32 offsets[]; \
 }\
 
@@ -27,7 +27,7 @@ SpriteLibrary::SpriteLibrary()
 
 #define SPRITE_ATLUS_ENTRY(Namespace) \
 	AddSpriteSheet(Namespace::spriteCount, Namespace::paletteLength, Namespace::palette, Namespace::widthMap, Namespace::heightMap, Namespace::dataLength, Namespace::data, Namespace::offsets);\
-	totalBytes += sizeof(u16) * Namespace::dataLength;
+	totalBytes += sizeof(u32) * Namespace::dataLength;
 
 	SPRITE_ATLUS_LIST
 
@@ -43,7 +43,7 @@ void SpriteLibrary::AddSpriteSheet(
 	const u8 * widthMap, 
 	const u8 * heightMap, 
 	const u32 dataLength, 
-	const u16 * data, 
+	const u32 * data,
 	const u32 * offsets)
 {
 	SpriteAtlus* atlus = m_spriteAtlusCollection.AddNew();

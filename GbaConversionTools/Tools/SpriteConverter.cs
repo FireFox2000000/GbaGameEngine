@@ -14,7 +14,7 @@ namespace GbaConversionTools.Tools
             public int x, y, width, height;
         }
 
-        const int c_arrayNewlineCount = 10;
+        const int c_arrayNewlineCount = 5;
         const int c_TILEWIDTH = 8;
         const int c_TileHEIGHT = 8;
 
@@ -32,7 +32,7 @@ namespace GbaConversionTools.Tools
         const string VAR_WIDTHMAP                       = namespaceTabs + VARPREFIXES + STR_U8 + " widthMap[] = \n";
         const string VAR_HEIGHTMAP                      = namespaceTabs + VARPREFIXES + STR_U8 + " heightMap[] = \n";
         const string VAR_OFFSETS                        = namespaceTabs + VARPREFIXES + STR_U32 + " offsets[] = \n";
-        const string VAR_DATA                           = namespaceTabs + VARPREFIXES + STR_U16 + " data[] = \n";
+        const string VAR_DATA                           = namespaceTabs + VARPREFIXES + STR_U32 + " data[] = \n";
 
         public void Convert(string inputPath, string outputPath, Bitmap bitmap, UVs[] sliceCoordinates)
         {
@@ -257,7 +257,7 @@ namespace GbaConversionTools.Tools
             int tilesTall = height / c_TileHEIGHT;
             int totalTiles = (width * height) / (c_TILEWIDTH * c_TileHEIGHT);
             int hexCount = 0;
-
+            List<int> colourPaletteIndicies = new List<int>();
             sbOutput.Append(namespaceTabs + TAB_CHAR);
 
             for (int tileY = 0; tileY < tilesTall; ++tileY)
@@ -269,26 +269,27 @@ namespace GbaConversionTools.Tools
 
                     for (int y = 0; y < c_TileHEIGHT; ++y)
                     {
-                        for (int x = 0; x < c_TILEWIDTH; x += 4)
+                        for (int x = 0; x < c_TILEWIDTH; ++x)
                         {
-                            UInt16 hexNum = 0;
-                            for (int i = 0; i < 4; ++i)
-                            {
-                                if (i > 0)
-                                    hexNum <<= 4;
-                                Color color = bitmap.GetPixel(tileXOffset + x + 3 - i, tileYOffset + y);
-                                int index = ColorToPaletteIndex(palette, color);
-                                hexNum += (UInt16)index;
-                            }
-                            sbOutput.AppendFormat("0x{0:X4}, ", hexNum);
-                            if ((hexCount + 1) % c_arrayNewlineCount == 0)
-                            {
-                                sbOutput.Append("\n\t" + tabs);
-                            }
-                            ++hexCount;
+                            Color color = bitmap.GetPixel(tileXOffset + x, tileYOffset + y);
+                            int index = ColorToPaletteIndex(palette, color);
+                            colourPaletteIndicies.Add(index);
                         }
                     }
                 }
+            }
+
+            List<UInt32> compressedIndicies;
+            Compression.BitPack4bbp(colourPaletteIndicies, out compressedIndicies);
+
+            foreach (var hexNum in compressedIndicies)
+            {
+                sbOutput.AppendFormat("0x{0:X8}, ", hexNum);
+                if ((hexCount + 1) % c_arrayNewlineCount == 0)
+                {
+                    sbOutput.Append("\n\t" + tabs);
+                }
+                ++hexCount;
             }
 
             sbOutput.Append("\n\n");
