@@ -2,7 +2,7 @@ namespace Shantae_Idle
 {
 	extern __attribute__((section(".ewram"))) const unsigned long spriteCount = 12;
 	extern __attribute__((section(".ewram"))) const unsigned char paletteLength = 7;
-	extern __attribute__((section(".ewram"))) const unsigned long dataLength = 6144;
+	extern __attribute__((section(".ewram"))) const unsigned long dataLength = 3072;
 
 	extern __attribute__((section(".ewram"))) const unsigned short palette[] =
 	{

@@ -61,11 +61,37 @@ namespace GbaConversionTools.Tools
             }
 
             string namespaceName = Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath));
-            
+
+            List<int> dataOffsets = new List<int>();
+            List<StringBuilder> spriteData = new List<StringBuilder>();
+            dataOffsets.Add(0);
+            int totalData = 0;
+
+            // Collect data and add offsets
+            {
+                Console.WriteLine("Processing sprite data");
+
+                for (int i = 0; i < sliceCoordinates.Length; ++i)
+                {
+                    StringBuilder dataSb = new StringBuilder();
+                    UVs slice = sliceCoordinates[i];
+                    int spriteWidth = slice.width, spriteHeight = slice.height;
+                    int dataCount = WriteSpriteData(dataSb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, slice.x, slice.y);
+
+                    spriteData.Add(dataSb);
+
+                    // Add offsets
+                    if (i < sliceCoordinates.Length - 1)
+                        dataOffsets.Add(dataOffsets[i] + dataCount);
+
+                    totalData += dataCount;
+                }
+            }
+
             sb.AppendFormat(NAMESPACE_FORMAT, namespaceName);
 
             sb.AppendFormat(VAR_SPRITECOUNT_FORMAT, sliceCoordinates.Length);
-            WriteHeader(bitmap, preProcessedPalette, sb);
+            WriteHeader(preProcessedPalette, totalData, sb);
             WritePalette(preProcessedPalette, sb);
 
             // Write width
@@ -102,30 +128,6 @@ namespace GbaConversionTools.Tools
 
                 sb.Append("\n");
                 sb.Append(namespaceTabs + "};\n\n");
-            }
-
-            List<int> dataOffsets = new List<int>();
-            List<StringBuilder> spriteData = new List<StringBuilder>();
-            dataOffsets.Add(0);
-
-            // Collect data and add offsets
-            {
-                Console.WriteLine("Processing sprite data");
-
-                for (int i = 0; i < sliceCoordinates.Length; ++i)
-                {
-                    StringBuilder dataSb = new StringBuilder();
-                    UVs slice = sliceCoordinates[i];
-                    int spriteWidth = slice.width, spriteHeight = slice.height;    // Todo, determine through some kind of config file
-                    int dataCount = WriteSpriteData(dataSb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, slice.x, slice.y);
-
-                    spriteData.Add(dataSb);
-
-                    // Add offsets
-                    if (i < sliceCoordinates.Length - 1)
-                        dataOffsets.Add(dataOffsets[i] + dataCount);
-                }
-                
             }
 
             // Write offsets
@@ -197,13 +199,11 @@ namespace GbaConversionTools.Tools
             return palette.ToArray();
         }
 
-        void WriteHeader(Bitmap bitmap, Color[] palette, StringBuilder sb)
+        void WriteHeader(Color[] palette, int size, StringBuilder sb)
         {
-            Size size = bitmap.Size;
-
             //sb.AppendFormat(namespaceTabs + "extern const " + c_u16 + " width = {0}, height = {1}; \n", size.Width, size.Height);
             sb.AppendFormat(VAR_HEADER_PALLETLENGTH_FORMAT, palette.Length);
-            sb.AppendFormat(VAR_HEADER_DATALENGTH_FORMAT, size.Width * size.Height / 4);
+            sb.AppendFormat(VAR_HEADER_DATALENGTH_FORMAT, size);
         }
 
         void WritePalette(Color[] palette, StringBuilder sb)
