@@ -302,6 +302,8 @@ public:
 	{
 		return RemoveRange(0, Count());
 	}
+
+	inline const T* GetContainer() { return MemoryPolicy::GetContainer(); }
 };
 
 template<class T>

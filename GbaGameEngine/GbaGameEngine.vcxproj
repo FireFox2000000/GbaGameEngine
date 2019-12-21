@@ -106,6 +106,8 @@ make all</NMakeReBuildCommandLine>
   <ItemGroup>
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
+    <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp" />
+    <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
@@ -184,10 +186,12 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
+    <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_nocash.h" />
     <ClInclude Include="src\engine\gameobject\transformation\Position.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
+    <ClInclude Include="src\engine\gba\tonc\memory\toncset.h" />
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />

@@ -118,6 +118,12 @@
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\math\Vector2.h">
@@ -376,6 +382,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\data\Shantae_Idle.cpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\tonc\memory\toncset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
