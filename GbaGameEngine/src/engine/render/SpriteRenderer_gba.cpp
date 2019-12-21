@@ -29,13 +29,13 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "engine/gameobject/Camera.h"
-#include "engine/gameobject/transformation/Position.h"
+#include "engine/gameobject/transformation/Transform.h"
 #include "engine/engine/engine.h"
 
 void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
-	const Component::Position cameraPosition = *camera->GetComponent<Component::Position>();
+	const auto cameraPosition = camera->GetComponent<Component::Transform>()->position;
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
@@ -45,9 +45,9 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 
 	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
 
-	entityManager->InvokeEach<Component::Position, Component::SpriteRenderer>(
+	entityManager->InvokeEach<Component::Transform, Component::SpriteRenderer>(
 		[&oamManager, &cameraPosition, &screenSpaceOffset]
-		(Component::Position& position, Component::SpriteRenderer& spriteRenderer)
+		(Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
 			if (!sprite)
@@ -55,7 +55,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 
 			GBA::ObjectAttribute* renderProperties = oamManager->AddToRenderList(sprite);
 
-			Vector2<tFixedPoint8> newPosition = position;
+			Vector2<tFixedPoint8> newPosition = transform.position;
 			newPosition -= cameraPosition;											// Convert world space to relative camera space	
 			newPosition.y *= -1;														// Correct for screen space starting from the top
 			newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
@@ -63,5 +63,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			newPosition += spriteRenderer.GetCenterToCornerSizeOffset();				// Offset by sprite size to render from the center
 
 			renderProperties->SetPosition(newPosition);
+			renderProperties->SetFlippedHorizontal((int)transform.scale.x < 0);
+			renderProperties->SetFlippedVertical((int)transform.scale.y < 0);
 		});
 }

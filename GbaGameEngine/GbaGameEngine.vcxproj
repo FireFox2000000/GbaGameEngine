@@ -189,7 +189,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_nocash.h" />
-    <ClInclude Include="src\engine\gameobject\transformation\Position.h" />
+    <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\gba\tonc\memory\toncset.h" />
     <ClInclude Include="src\engine\time\Time.h" />

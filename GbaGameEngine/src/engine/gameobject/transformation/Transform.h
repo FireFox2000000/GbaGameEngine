@@ -4,7 +4,9 @@
 
 namespace Component
 {
-	struct Position : Vector2<tFixedPoint8>
+	struct Transform
 	{
+		Vector2<tFixedPoint8> position;
+		Vector2<tFixedPoint8> scale;
 	};
 }

@@ -7,7 +7,7 @@
 
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
-#include "engine/gameobject/transformation/Position.h"
+#include "engine/gameobject/transformation/Transform.h"
 
 const int totalTestSprites = 128;
 
@@ -53,9 +53,9 @@ void Scene0::Enter(Engine* engine)
 		{
 			GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
 
-			Component::Position* position = testBackgroundObject->EditComponent<Component::Position>();
-			position->x = (i * 0.2f) - 5;
-			position->y = (i * 0.2f) - 5;
+			Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
+			transform->position.x = (i * 0.2f) - 5;
+			transform->position.y = (i * 0.2f) - 5;
 
 			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
 			Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
@@ -77,9 +77,9 @@ void Scene0::Enter(Engine* engine)
 		Component::PlayerMovement& playerMovement = playerObject->AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 
-		Component::Position* position = playerObject->EditComponent<Component::Position>();
-		position->x = 0;
-		position->y = 0;
+		Component::Transform* transform = playerObject->EditComponent<Component::Transform>();
+		transform->position.x = 0;
+		transform->position.y = 0;
 	}
 }
 
@@ -96,9 +96,9 @@ void Scene0::Update(Engine* engine)
 		// Create a new one
 		GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
 	
-		Component::Position* position = testBackgroundObject->EditComponent<Component::Position>();
-		position->x = (i * 0.2f) - 5;
-		position->y = (i * 0.2f) - 5;
+		Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
+		transform->position.x = (i * 0.2f) - 5;
+		transform->position.y = (i * 0.2f) - 5;
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
 		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);

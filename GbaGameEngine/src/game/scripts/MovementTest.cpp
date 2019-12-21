@@ -3,7 +3,7 @@
 #include "engine/gameobject/GameObject.h"
 #include "engine/math/Vector2.h"
 #include "engine/gba/registers/input/GBAInput.h"
-#include "engine/gameobject/transformation/Position.h"
+#include "engine/gameobject/transformation/Transform.h"
 #include "engine/time/Time.h"
 
 void System::PlayerMovement::Update(Engine* engine)
@@ -14,18 +14,22 @@ void System::PlayerMovement::Update(Engine* engine)
 	auto dt = tFixedPoint24(time->GetDtSecondsf());
 
 	auto* entityManager = engine->GetEntityRegistry();
-	entityManager->InvokeEach<Component::Position, Component::PlayerMovement>([&dt](Component::Position& position, Component::PlayerMovement& playerMovement)
+	entityManager->InvokeEach<Component::Transform, Component::PlayerMovement>([&dt](Component::Transform& transform, Component::PlayerMovement& playerMovement)
 		{
 			tFixedPoint8 moveSpeed = (tFixedPoint8)(playerMovement.moveSpeed * dt);
+			auto& position = transform.position;
+			auto& scale = transform.scale;
 
 			if (Input::GetKey(Buttons::Left))
 			{
 				position.x -= moveSpeed;
+				scale.x = -1;
 			}
 
 			if (Input::GetKey(Buttons::Right))
 			{
 				position.x += moveSpeed;
+				scale.x = 1;
 			}
 
 			if (Input::GetKey(Buttons::Up))
