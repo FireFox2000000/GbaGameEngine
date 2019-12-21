@@ -8,8 +8,8 @@ namespace GBA
 
 	bool TileBank::LoadTiles(const u32 * pixelMap, u32 pixelMapSize, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
-		volatile CharBlock* tileBlock = EditTileBlock(tileBlockGroup);
-		vu32 *tileMem = reinterpret_cast<vu32*>(tileBlock->At(startTileIndex));
+		volatile Tile::Tile* tileBlock = EditTileBlock(tileBlockGroup)->At(0);
+		vu32 *tileMem = reinterpret_cast<vu32*>(tileBlock + startTileIndex);			// Allow tiles to bleed over into further char blocks
 
 		if ((void*)(tileMem + pixelMapSize) <= (void*)s_charBlockPool.end())
 		{
