@@ -65,6 +65,7 @@ protected:
 	bool Reallocate(u32 size, u32 count)
 	{
 		// No.
+		DEBUG_ASSERTMSG(size <= SIZE, "FixedList out of memory");
 		return size <= SIZE;
 	}
 
@@ -100,7 +101,10 @@ class ListBase : public MemoryPolicy
 		if (Count() >= Capacity())
 		{
 			if (!GrowTo(Capacity() * 2))
+			{
+				DEBUG_ASSERTMSG(false, "Unable to add element. List out of memory");
 				return NULL;
+			}
 		}
 
 		u32 length = 1;
@@ -219,7 +223,10 @@ public:
 		if (Count() >= Capacity())
 		{
 			if (!GrowTo(Capacity() * 2))
+			{
+				DEBUG_ASSERTMSG(false, "Unable to add element. List out of memory");
 				return NULL;
+			}
 		}
 
 		T* newItem = &Get(m_count++);
@@ -236,7 +243,10 @@ public:
 	bool InsertRange(u32 index, const EnumerableT& items)
 	{
 		if (index > Count())
+		{
+			DEBUG_ASSERTMSG(false, "List insertion index out of range");
 			return false;
+		}
 
 		u32 length = u32(items.end() - items.begin());
 		u32 totalSizeRequired = Count() + length;
@@ -249,7 +259,10 @@ public:
 			} while (newSize < totalSizeRequired);
 
 			if (!GrowTo(newSize))
+			{
+				DEBUG_ASSERTMSG(false, "List out of memory");
 				return false;
+			}
 		}
 
 		u32 endPosition = index + length;

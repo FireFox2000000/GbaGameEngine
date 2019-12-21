@@ -67,9 +67,9 @@ public:
 	inline const T & operator[](u32 index) const { return Get(index); }
 	inline volatile T & operator[](u32 index) volatile { return Get(index); }
 
-	inline T * At(u32 index) { return index < Count() ? &Get(index) : NULL; }
-	inline const T * At(u32 index) const { return index < Count() ? &Get(index) : NULL; }
-	inline volatile T * At(u32 index) volatile { return index < Count() ? &Get(index) : NULL; }
+	inline T * At(u32 index) { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
+	inline const T * At(u32 index) const { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
+	inline volatile T * At(u32 index) volatile { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
 
 	inline void operator = (const Array<T, SIZE>& that) { MemCopy(&that, this, sizeof(T) * Count()); }
 	inline void operator = (const Array<T, SIZE>& that) volatile
