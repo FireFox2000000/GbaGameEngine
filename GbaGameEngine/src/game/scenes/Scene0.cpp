@@ -8,7 +8,6 @@
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Position.h"
-#include "engine/debug/DebugLog.h"
 
 const int totalTestSprites = 128;
 

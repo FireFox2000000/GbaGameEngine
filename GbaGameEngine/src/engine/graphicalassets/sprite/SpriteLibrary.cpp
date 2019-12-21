@@ -1,6 +1,5 @@
 #include "SpriteLibrary.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
-#include "engine/debug/DebugLog.h"
 #include "engine/math/Math.h"
 
 #define SPRITE_ATLUS_ENTRY(Namespace) \

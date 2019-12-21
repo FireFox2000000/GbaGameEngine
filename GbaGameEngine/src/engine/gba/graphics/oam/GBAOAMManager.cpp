@@ -5,7 +5,6 @@
 #include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/graphicalassets/sprite/SpriteManager.h"
 #include "engine/gba/registers/clock/GBATimer.h"
-#include "engine/debug/DebugLog.h"
 
 //#define RENDER_PROFILE
 

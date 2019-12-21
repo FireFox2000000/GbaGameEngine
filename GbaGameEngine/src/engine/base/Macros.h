@@ -1,4 +1,5 @@
 #pragma once
+#include "engine/base/BuildConfig.h"
 #include <type_traits>
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
@@ -19,4 +20,22 @@
 
 #ifndef NULL
 #	define NULL nullptr
+#endif
+
+#ifdef ENABLE_LOGGING
+#include "engine/debug/DebugLog.h"
+
+#ifdef LOG_LOCATION_BY_DEFAULT
+#define DEBUG_LOG(message) { Debug::LogAtLocation(__FILE__, __LINE__, message); }
+#define DEBUG_LOGFORMAT(format, ...) { Debug::LogAtLocation(__FILE__, __LINE__, format, __VA_ARGS__); }
+#else
+#define DEBUG_LOG(message) { Debug::Log(message); }
+#define DEBUG_LOGFORMAT(format, ...) { Debug::LogFormat(format, __VA_ARGS__); }
+#endif
+
+#else
+
+#define DEBUG_LOG(message)
+#define DEBUG_LOGFORMAT(format, ...)
+
 #endif

@@ -12,8 +12,6 @@
 
 #include "game/scenes/Scene0.h"
 
-#include "engine/debug/DebugLog.h"
-
 #define VBLANK_SCNLNE_START 160
 #define TEST_PROFILING
 static void WaitForVSync();
