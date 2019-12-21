@@ -3,12 +3,12 @@
 #include "engine/render/SpriteRenderer.h"
 #include "engine/time/Time.h"
 
-void Component::SpriteAnimator::SetAnimation(const SpriteAnimation& animation)
+void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 {
-	this->currentAnimation = animation;
+	currentAnimation = animation;
 
 	timeToNextFrameMicroSeconds = 0;
-	frameDtMicroseconds = SECONDS_TO_MICROSECONDS(1.0f / animation.frameRate);
+	frameDtMicroseconds = SECONDS_TO_MICROSECONDS(1.0f / animation->frameRate);
 	currentFrameIndex = 0;
 }
 
@@ -43,7 +43,7 @@ void System::SpriteAnimator::Update(Engine* engine)
 
 			if (previousFrameIndex != animator.currentFrameIndex)
 			{
-				Sprite* sprite = animator.currentAnimation.keyFrames[animator.currentFrameIndex].sprite;
+				Sprite* sprite = animator.currentAnimation->keyFrames[animator.currentFrameIndex].sprite;
 				spriteRenderer.SetSprite(sprite);
 			}
 		});

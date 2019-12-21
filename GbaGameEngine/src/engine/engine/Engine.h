@@ -19,6 +19,11 @@ public:
 		m_entityComponentManager.AddComponent<Component>(m_engineComponentsContainer);
 	}
 
+	template<typename Component, typename... Args>
+	inline void AddComponent(Args&& ... args)
+	{
+		m_entityComponentManager.AddComponent<Component>(m_engineComponentsContainer, std::forward<Args>(args)...);
+	}
 
 	template<typename Component>
 	inline const Component* GetComponent() const

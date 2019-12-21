@@ -3,7 +3,8 @@
 #include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/render/SpriteRenderer.h"
 #include "engine/graphicalassets/sprite/SpriteManager.h"
-#include "engine/graphicalassets/sprite/SpriteLibrary.h"
+#include "engine/asset/libraries/SpriteLibrary.h"
+#include "engine/asset/libraries/AnimationLibrary.h"
 
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
@@ -28,24 +29,10 @@ void Scene0::Enter(Engine* engine)
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
+	AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
 	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 
 	m_gameObjects.Reserve(totalTestSprites);
-
-	SpriteAnimation& idleAnim = m_idleAnim;
-	{
-		const int maxFrameCount = 12;
-		idleAnim.keyFrames.Reserve(maxFrameCount);
-
-		for (int i = 0; i < maxFrameCount; ++i)
-		{
-			Sprite* sprite = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, i);
-			SpriteAnimation::KeyFrame* keyframe = idleAnim.keyFrames.AddNew();
-			keyframe->sprite = sprite;
-		}
-
-		idleAnim.frameRate = 12;
-	}
 
 	if (true)
 	{
@@ -62,7 +49,7 @@ void Scene0::Enter(Engine* engine)
 			testBackgroundRenderer.SetSprite(shantae0);
 
 			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
-			animator.SetAnimation(idleAnim);
+			animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
 		}
 	}
 
@@ -90,8 +77,9 @@ void Scene0::Update(Engine* engine)
 		int i = m_gameObjects.Count();
 	
 		SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
+		AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
+
 		ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
-		SpriteAnimation& idleAnim = m_idleAnim;
 	
 		// Create a new one
 		GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
@@ -105,7 +93,7 @@ void Scene0::Update(Engine* engine)
 		testBackgroundRenderer.SetSprite(shantae0);
 	
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
-		animator.SetAnimation(idleAnim);
+		animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
 	}
 
 	System::PlayerMovement::Update(engine);

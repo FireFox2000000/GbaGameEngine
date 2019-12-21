@@ -11,6 +11,4 @@ public:
 
 	void Enter(Engine* engine) override;
 	void Update(Engine* engine) override;
-
-	SpriteAnimation m_idleAnim;
 };

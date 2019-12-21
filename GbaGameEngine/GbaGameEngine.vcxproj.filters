@@ -91,9 +91,6 @@
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteLibrary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,6 +119,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -217,9 +220,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\engine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h">
@@ -388,6 +388,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\gameobject\transformation\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\animation\SpriteAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

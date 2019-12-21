@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteAtlus.h"
+#include "engine/graphicalassets/sprite/SpriteAtlus.h"
 #include "engine/base/core/stl/List.h"
 
 #define SPRITE_ATLUS_LIST \

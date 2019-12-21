@@ -3,7 +3,9 @@
 #include "engine/scene/SceneManager.h"
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
 #include "engine/time/Time.h"
-#include "engine/graphicalassets/sprite/SpriteLibrary.h"
+
+#include "engine/asset/libraries/SpriteLibrary.h"
+#include "engine/asset/libraries/AnimationLibrary.h"
 
 Engine::Engine()
 {
@@ -11,9 +13,12 @@ Engine::Engine()
 
 	AddComponent<Time>();
 	AddComponent<SpriteManager>();
-	AddComponent<SpriteLibrary>();
 	AddComponent<SceneManager>();
 	AddComponent<GBA::OAMManager>();
+
+	// Asset managers
+	AddComponent<SpriteLibrary>();
+	AddComponent<AnimationLibrary>(EditComponent<SpriteLibrary>());
 }
 
 

@@ -1,23 +1,11 @@
 #pragma once
 
 #include "engine/base/core/stl/List.h"
+#include "engine/animation/SpriteAnimation.h"
 
 class SpriteRenderer;
 class Sprite;
 class Engine;
-
-struct SpriteAnimation
-{
-	struct KeyFrame
-	{
-		Sprite* sprite;
-	};
-
-	typedef List<KeyFrame> KeyFrames;
-
-	KeyFrames keyFrames;
-	u32 frameRate;
-};
 
 namespace System
 {
@@ -34,14 +22,14 @@ namespace Component
 	{
 		friend class System::SpriteAnimator;
 
-		SpriteAnimation currentAnimation;
+		const SpriteAnimation* currentAnimation;
 
 		s32 timeToNextFrameMicroSeconds = 0;
 		u32 frameDtMicroseconds = 0;
 		u8 currentFrameIndex = 0;
 
 	public:
-		void SetAnimation(const SpriteAnimation& animation);
-		u32 FrameCount() { return currentAnimation.keyFrames.Count(); }
+		void SetAnimation(const SpriteAnimation* animation);
+		u32 FrameCount() { return currentAnimation->keyFrames.Count(); }
 	};
 }

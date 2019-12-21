@@ -78,5 +78,6 @@ Sprite * SpriteLibrary::GetSprite(SpriteAtlusID::Enum atlusId, u32 spriteIndex)
 	if (spriteIndex < atlus.m_sprites.Count())
 		return &atlus.m_sprites[spriteIndex];
 
+	DEBUG_ASSERTMSGFORMAT(false, "Unable to get sprite for atlus %d at index %d", atlusId, spriteIndex);
 	return NULL;
 }
