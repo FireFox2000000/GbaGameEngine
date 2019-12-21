@@ -50,6 +50,16 @@ void Debug::LogAtLocation(const char * file, const int line, const char * format
 	}
 }
 
+void Debug::LogAssertionFailure(const char* file, const int line, const char* format, ...)
+{
+	Log("ASSERTION FAILED!");
+
+	va_list argptr;
+	va_start(argptr, (format));
+	LogAtLocation(file, line, format, argptr);
+	va_end(argptr);
+}
+
 #undef VLOGFORMAT_W_UNPACK
 
 #endif
