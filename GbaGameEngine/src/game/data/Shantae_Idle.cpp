@@ -1,4 +1,4 @@
-namespace Shantae_Idle
+namespace __binary_spritesheet_Shantae_Idle
 {
 	extern __attribute__((section(".ewram"))) const unsigned long spriteCount = 12;
 	extern __attribute__((section(".ewram"))) const unsigned char paletteLength = 7;

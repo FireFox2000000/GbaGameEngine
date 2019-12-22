@@ -60,7 +60,7 @@ namespace GbaConversionTools.States
 
             try
             {
-                string outputPath = Path.GetFileNameWithoutExtension(inputPath) + ".cpp";
+                string outputPath = Path.ChangeExtension(inputPath, ".cpp");
 
                 int uvProcessingOption;
                 Tools.SpriteConverter.UVs[] sliceCoordinates;
@@ -100,7 +100,7 @@ namespace GbaConversionTools.States
                 Tools.SpriteConverter spriteConverter = new Tools.SpriteConverter();
                 spriteConverter.Convert(inputPath, outputPath, bitmap, sliceCoordinates);
 
-                string jsonOutputPath = Path.GetFileNameWithoutExtension(inputPath) + "_uvs.json";
+                string jsonOutputPath = Path.GetDirectoryName(inputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(inputPath) + "_uvs.json";
                 Console.WriteLine("Saving UV coordiates to " + jsonOutputPath);
 
                 string uvJsonData = JsonConvert.SerializeObject(sliceCoordinates, Formatting.Indented);

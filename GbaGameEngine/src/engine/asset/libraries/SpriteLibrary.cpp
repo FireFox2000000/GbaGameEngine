@@ -2,20 +2,14 @@
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 #include "engine/math/Math.h"
 
-#define SPRITE_ATLUS_ENTRY(Namespace) \
-namespace Namespace\
-{\
-	extern const u32 spriteCount; \
-	extern const u8 paletteLength; \
-	extern const u16 palette[]; \
-	extern const u8 widthMap[]; \
-	extern const u8 heightMap[]; \
-	extern const u32 dataLength; \
-	extern const u32 data[]; \
-	extern const u32 offsets[]; \
-}\
+#define SPRITEMAP_NAMESPC_PREFIX __binary_spritesheet_
+
+#define _SPRITE_ATLUS_ENTRY(Prefix, Namespace) SPRITELIB_DEFINE_SPRITE_EXTRENS(Prefix, Namespace)
+#define SPRITE_ATLUS_ENTRY(Namespace) _SPRITE_ATLUS_ENTRY(SPRITEMAP_NAMESPC_PREFIX, Namespace)
 
 	SPRITE_ATLUS_LIST
+#undef DEFINE_SPRITE_ATLUS_EXTRENS
+#undef _SPRITE_ATLUS_ENTRY
 #undef SPRITE_ATLUS_ENTRY
 
 SpriteLibrary::SpriteLibrary()
@@ -24,12 +18,13 @@ SpriteLibrary::SpriteLibrary()
 
 	u32 totalBytes = 0;
 
-#define SPRITE_ATLUS_ENTRY(Namespace) \
-	AddSpriteSheet(Namespace::spriteCount, Namespace::paletteLength, Namespace::palette, Namespace::widthMap, Namespace::heightMap, Namespace::dataLength, Namespace::data, Namespace::offsets);\
-	totalBytes += sizeof(u32) * Namespace::dataLength;
+#define _SPRITE_ATLUS_ENTRY(Prefix, Namespace) SPRITELIB_ADD_SPRITE_SHEET(Prefix, Namespace)
+#define SPRITE_ATLUS_ENTRY(Namespace) _SPRITE_ATLUS_ENTRY(SPRITEMAP_NAMESPC_PREFIX, Namespace)
 
 	SPRITE_ATLUS_LIST
 
+#undef ADD_SPRITE_SHEET
+#undef _SPRITE_ATLUS_ENTRY
 #undef SPRITE_ATLUS_ENTRY
 
 	DEBUG_LOGFORMAT("Sprite Library total sprite memory = %.2fkb", BYTES_TO_KB(totalBytes));

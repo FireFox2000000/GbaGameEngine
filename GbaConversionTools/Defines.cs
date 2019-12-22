@@ -13,5 +13,7 @@ namespace GbaConversionTools
         public const string STR_U16 = "unsigned short";
         public const string STR_U32 = "unsigned long";
         public const string STR_EWRAM_DATA = "__attribute__((section(\".ewram\")))";
+
+        public const string STR_SPRITEMAP_NAMESPC_PREFIX = "__binary_spritesheet_";       // Maps to SpriteLibrary.cpp SPRITEMAP_NAMESPC_PREFIX
     }
 }

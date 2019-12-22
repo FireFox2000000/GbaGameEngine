@@ -24,9 +24,10 @@ namespace GbaConversionTools.Tools
         const string STR_U16 = Defines.STR_U16;
         const string STR_U32 = Defines.STR_U32;
         const string VARPREFIXES = "extern " + Defines.STR_EWRAM_DATA + " const ";
-        const string NAMESPACE_FORMAT                   = "namespace {0} \n{{\n";
+        const string NAMESPACE_FORMAT                   = "namespace " + Defines.STR_SPRITEMAP_NAMESPC_PREFIX + "{0} \n{{\n";
         const string VAR_HEADER_PALLETLENGTH_FORMAT     = namespaceTabs + VARPREFIXES + STR_U8 + " paletteLength = {0};\n";
-        const string VAR_HEADER_DATALENGTH_FORMAT       = namespaceTabs + VARPREFIXES + STR_U32 + " dataLength = {0};\n\n";
+        const string VAR_HEADER_DATALENGTH_FORMAT       = namespaceTabs + VARPREFIXES + STR_U32 + " dataLength = {0};\n";
+        const string VAR_HEADER_BPP_FORMAT              = namespaceTabs + VARPREFIXES + STR_U8 + " bitsPerPixel = {0};\n";
         const string VAR_PALLET                         = namespaceTabs + VARPREFIXES + STR_U16 + " palette[] = \n";
         const string VAR_SPRITECOUNT_FORMAT             = namespaceTabs + VARPREFIXES + STR_U32 + " spriteCount = {0};\n";
         const string VAR_WIDTHMAP                       = namespaceTabs + VARPREFIXES + STR_U8 + " widthMap[] = \n";
@@ -36,6 +37,9 @@ namespace GbaConversionTools.Tools
 
         public void Convert(string inputPath, string outputPath, Bitmap bitmap, UVs[] sliceCoordinates)
         {
+            string namespaceName = string.Format(NAMESPACE_FORMAT, Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)));
+            uint destBpp = 4;
+
             StringBuilder sb = new StringBuilder();
             Size size = bitmap.Size;
             if (size.Width % c_TILEWIDTH != 0 || size.Height % c_TileHEIGHT != 0)
@@ -60,8 +64,6 @@ namespace GbaConversionTools.Tools
                 }
             }
 
-            string namespaceName = Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath));
-
             List<int> dataOffsets = new List<int>();
             List<StringBuilder> spriteData = new List<StringBuilder>();
             dataOffsets.Add(0);
@@ -76,7 +78,7 @@ namespace GbaConversionTools.Tools
                     StringBuilder dataSb = new StringBuilder();
                     UVs slice = sliceCoordinates[i];
                     int spriteWidth = slice.width, spriteHeight = slice.height;
-                    int dataCount = WriteSpriteData(dataSb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, slice.x, slice.y);
+                    int dataCount = WriteSpriteData(dataSb, bitmap, preProcessedPalette, spriteWidth, spriteHeight, slice.x, slice.y, destBpp);
 
                     spriteData.Add(dataSb);
 
@@ -88,10 +90,9 @@ namespace GbaConversionTools.Tools
                 }
             }
 
-            sb.AppendFormat(NAMESPACE_FORMAT, namespaceName);
+            sb.Append(namespaceName);
 
-            sb.AppendFormat(VAR_SPRITECOUNT_FORMAT, sliceCoordinates.Length);
-            WriteHeader(preProcessedPalette, totalData, sb);
+            WriteHeader(sliceCoordinates, preProcessedPalette, totalData, destBpp, sb);
             WritePalette(preProcessedPalette, sb);
 
             // Write width
@@ -132,15 +133,19 @@ namespace GbaConversionTools.Tools
 
             // Write offsets
             {
+                const string tabs = namespaceTabs + TAB_CHAR;
+
                 sb.Append(VAR_OFFSETS);
-                sb.Append(namespaceTabs + "{\n");
+                sb.Append(namespaceTabs + "{\n" + tabs);
                 for (int i = 0; i < dataOffsets.Count; i++)
                 {
-                    const string tabs = namespaceTabs + TAB_CHAR;
-                    sb.AppendFormat(tabs + "{0}, \n", dataOffsets[i]);
+                    sb.AppendFormat("{0}, ", dataOffsets[i]);
+
+                    if ((i + 1) % c_arrayNewlineCount == 0)
+                        sb.AppendFormat("\n" + tabs);
                 }
 
-                sb.Append(namespaceTabs + "};\n\n");
+                sb.Append('\n' + namespaceTabs + "};\n\n");
             }
 
             // Write data
@@ -199,11 +204,15 @@ namespace GbaConversionTools.Tools
             return palette.ToArray();
         }
 
-        void WriteHeader(Color[] palette, int size, StringBuilder sb)
+        void WriteHeader(UVs[] sliceCoordinates, Color[] palette, int size, uint bpp, StringBuilder sb)
         {
-            //sb.AppendFormat(namespaceTabs + "extern const " + c_u16 + " width = {0}, height = {1}; \n", size.Width, size.Height);
+            sb.Append(namespaceTabs + "// File Header\n");
+            sb.AppendFormat(VAR_SPRITECOUNT_FORMAT, sliceCoordinates.Length);
             sb.AppendFormat(VAR_HEADER_PALLETLENGTH_FORMAT, palette.Length);
             sb.AppendFormat(VAR_HEADER_DATALENGTH_FORMAT, size);
+            sb.AppendFormat(VAR_HEADER_BPP_FORMAT, bpp);
+
+            sb.Append('\n');
         }
 
         void WritePalette(Color[] palette, StringBuilder sb)
@@ -240,16 +249,16 @@ namespace GbaConversionTools.Tools
             return (byte)(Math.Round(colorChannelValue / 255.0f * 31.0f));
         }
 
-        void WriteSprite(StringBuilder sbOutput, Bitmap bitmap, Color[] palette, int width, int height, int startOffsetX, int startOffsetY)
+        void WriteSprite(StringBuilder sbOutput, Bitmap bitmap, Color[] palette, int width, int height, int startOffsetX, int startOffsetY, uint destBpp)
         {
             const string tabs = namespaceTabs + TAB_CHAR;
 
             sbOutput.Append(tabs + "{\n\t" + tabs);
-            WriteSpriteData(sbOutput, bitmap, palette, width, height, startOffsetX, startOffsetY);
+            WriteSpriteData(sbOutput, bitmap, palette, width, height, startOffsetX, startOffsetY, destBpp);
             sbOutput.Append("\n" + tabs + "},\n");
         }
 
-        int WriteSpriteData(StringBuilder sbOutput, Bitmap bitmap, Color[] palette, int width, int height, int xPos, int yPos)
+        int WriteSpriteData(StringBuilder sbOutput, Bitmap bitmap, Color[] palette, int width, int height, int xPos, int yPos, uint destBpp)
         {
             const string tabs = namespaceTabs;
 
@@ -280,7 +289,7 @@ namespace GbaConversionTools.Tools
             }
 
             List<UInt32> compressedIndicies;
-            Compression.BitPack4bbp(colourPaletteIndicies, out compressedIndicies);
+            Compression.BitPack(colourPaletteIndicies, destBpp, out compressedIndicies);
 
             foreach (var hexNum in compressedIndicies)
             {

@@ -13,7 +13,7 @@ namespace GbaConversionTools
             return v != 0 && !((v & (v - 1)) != 0);
         }
 
-        static void BitPack(List<int> src, uint destBpp, out List<UInt32> dest)
+        public static void BitPack(List<int> src, uint destBpp, out List<UInt32> dest)
         {
             // Should be 1, 2, 4 or 8
             if (!IsPowerOf2(destBpp) || destBpp > 8)
@@ -33,6 +33,12 @@ namespace GbaConversionTools
                 for (int j = i + valuesPerDest - 1; j >= i; --j)
                 {
                     int index = j < src.Count ? src[j] : 0;
+
+                    if (index >= (1 << (int)destBpp))
+                    {
+                        throw new Exception(string.Format("Found value ({0}) that is not compatible with desired bits per pixel compression ({1}).", index, destBpp));
+                    }
+
                     hexNum += (UInt32)index;
 
                     if (j > i)
@@ -41,11 +47,6 @@ namespace GbaConversionTools
 
                 dest.Add(hexNum);
             }
-        }
-
-        public static void BitPack4bbp(List<int> data, out List<UInt32> dest)
-        {
-            BitPack(data, 4, out dest);
         }
     }
 }
