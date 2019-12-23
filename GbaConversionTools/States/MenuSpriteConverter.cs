@@ -36,6 +36,22 @@ namespace GbaConversionTools.States
 
         public static void Enter()
         {
+            while (true)
+            {
+                WalkSpriteConverterOptions();
+
+                Console.WriteLine("Convert another sprite? (Y/N)");
+                string inputPath = Console.ReadLine().ToLower();
+
+                if (inputPath.Length <= 0 || inputPath[0] != 'y')
+                {
+                    break;
+                }
+            }
+        }
+
+        static void WalkSpriteConverterOptions()
+        {
             Console.WriteLine("Drag a sprite file to convert");
             string inputPath = Console.ReadLine().Trim('"');
 

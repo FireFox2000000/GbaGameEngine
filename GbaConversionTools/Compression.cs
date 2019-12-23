@@ -8,15 +8,24 @@ namespace GbaConversionTools
 {
     static class Compression
     {
-        static bool IsPowerOf2(uint v)
+        public enum CompressionType
         {
-            return v != 0 && !((v & (v - 1)) != 0);
+            // Maps to GBATek to make things a little easier - https://www.akkit.org/info/gbatek.htm#biosdecompressionfunctions
+            // Maximum of 4 bits, or 16 values
+            None = 0,
+            LZ77 = 1,
+            Huffman = 2,
+            RunLength = 3,
+            DiffFiltered = 8,
+            BitPacked = 9,
         }
+
+        public static readonly int COMPRESSED_TYPE_BIT_INDEX = 4;
 
         public static void BitPack(List<int> src, uint destBpp, out List<UInt32> dest)
         {
             // Should be 1, 2, 4 or 8
-            if (!IsPowerOf2(destBpp) || destBpp > 8)
+            if (!MathX.IsPowerOf2(destBpp) || destBpp > 8)
             {
                 throw new System.Exception(string.Format("Dest bits per pixel ({0}) not compatible", destBpp));
             }
