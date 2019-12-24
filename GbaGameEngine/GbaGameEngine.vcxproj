@@ -104,6 +104,7 @@ make all</NMakeReBuildCommandLine>
     <None Include="src\engine\gba\tonc\asm\tonc_nocash.s" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\algorithm\Compression.cpp" />
     <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
@@ -116,6 +117,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
+    <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\engine\component\MonoBehaviour.cpp" />
     <ClCompile Include="src\engine\component\GameObjectComponent.cpp" />
@@ -142,6 +144,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\algorithm\Compression.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
     <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />

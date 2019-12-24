@@ -4,7 +4,9 @@
 #include "engine/base/core/stl/List.h"
 
 #define SPRITE_ATLUS_LIST \
-	SPRITE_ATLUS_ENTRY(Shantae_Idle)
+	SPRITE_ATLUS_ENTRY(Shantae_Idle)\
+	SPRITE_ATLUS_ENTRY(debug_font_8x8)\
+//
 
 namespace SpriteAtlusID
 {
@@ -29,6 +31,7 @@ protected:
 		const u8* widthMap,
 		const u8* heightMap,
 		const u32 dataLength,
+		const u32 compressionFlags,
 		const u32* data,
 		const u32* offsets);
 
@@ -51,6 +54,7 @@ namespace Prefix##Namespace\
 	extern const u8 widthMap[]; \
 	extern const u8 heightMap[]; \
 	extern const u32 dataLength; \
+	extern const u32 compressionTypeSize;\
 	extern const u32 data[]; \
 	extern const u32 offsets[]; \
 }\
@@ -58,6 +62,6 @@ namespace Prefix##Namespace\
 #define SPRITELIB_ADD_SPRITE_SHEET(Prefix, Namespace) \
 {\
 	using namespace Prefix##Namespace;\
-	AddSpriteSheet(spriteCount, paletteLength, palette, widthMap, heightMap, dataLength, data, offsets);\
+	AddSpriteSheet(spriteCount, paletteLength, palette, widthMap, heightMap, dataLength, compressionTypeSize, data, offsets);\
 	totalBytes += sizeof(u32) * dataLength;\
 }

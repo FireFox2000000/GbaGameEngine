@@ -37,12 +37,14 @@ void SpriteLibrary::AddSpriteSheet(
 	const u8 * widthMap, 
 	const u8 * heightMap, 
 	const u32 dataLength, 
+	const u32 compressionFlags,
 	const u32 * data,
 	const u32 * offsets)
 {
 	SpriteAtlus* atlus = m_spriteAtlusCollection.AddNew();
 	atlus->m_paletteLength = paletteLength;
 	atlus->m_palette = palette;
+	atlus->m_spriteDataCompressionFlags = compressionFlags;
 
 	atlus->m_sprites.Reserve(spriteCount);
 

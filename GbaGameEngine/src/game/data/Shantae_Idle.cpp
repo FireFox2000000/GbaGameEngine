@@ -1,8 +1,14 @@
 namespace __binary_spritesheet_Shantae_Idle
 {
+	// File Header
 	extern __attribute__((section(".ewram"))) const unsigned long spriteCount = 12;
 	extern __attribute__((section(".ewram"))) const unsigned char paletteLength = 7;
 	extern __attribute__((section(".ewram"))) const unsigned long dataLength = 3072;
+
+	// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types 
+	// Bit4-7   Compressed type 
+	// Bit8-31  Unused, generated in-game as 24bit size of decompressed data in bytes, probably 
+	extern __attribute__((section(".ewram"))) const unsigned long compressionTypeSize = 148;
 
 	extern __attribute__((section(".ewram"))) const unsigned short palette[] =
 	{
@@ -26,18 +32,9 @@ namespace __binary_spritesheet_Shantae_Idle
 
 	extern __attribute__((section(".ewram"))) const unsigned long offsets[] =
 	{
-		0,
-		256,
-		512,
-		768,
-		1024,
-		1280,
-		1536,
-		1792,
-		2048,
-		2304,
-		2560,
-		2816,
+		0, 256, 512, 768, 1024,
+		1280, 1536, 1792, 2048, 2304,
+		2560, 2816,
 	};
 
 	extern __attribute__((section(".ewram"))) const unsigned long data[] =

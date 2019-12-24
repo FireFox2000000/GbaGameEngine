@@ -24,4 +24,23 @@ namespace Math
 	inline T Clamp(T v, U min, V max) {
 		return MAX(MIN(v, max), min);
 	}
+
+	template<typename T>
+	int IndexOfHighestSetBit(T v)
+	{
+		int msb = 0;
+
+		if (v > 0)
+		{
+			while (v != 0)
+			{
+				v >>= 1;
+				msb++;
+			}
+
+			--msb;
+		}
+
+		return msb;
+	}
 }

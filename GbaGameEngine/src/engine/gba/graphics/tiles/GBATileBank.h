@@ -39,16 +39,16 @@ namespace GBA
 		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_charBlockPool8[int(group)]); }
 
 	public:
-		static bool LoadTiles(const u32* pixelMap, u32 pixelMapSize, TileBlockGroups tileBlockGroup, u16 startTileIndex);
-		static bool LoadTiles(const List<u32>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex);
+		static bool LoadTiles(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex);
+		//static bool LoadTiles(const List<u32>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex);
 
-		template <u32 SIZE>
-		static bool LoadTiles(const Array<u32, SIZE>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
-		{
-			return LoadTiles(pixelMap.GetContainer(), pixelMap.Count(), tileBlockGroup, startTileIndex);
-		}
+		//template <u32 SIZE>
+		//static bool LoadTiles(const Array<u32, SIZE>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
+		//{
+		//	return LoadTiles(pixelMap.GetContainer(), pixelMap.Count(), tileBlockGroup, startTileIndex);
+		//}
 
 		// Load tiles that use 4bbp
-		static bool LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId);
+		//static bool LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId);
 	};
 }

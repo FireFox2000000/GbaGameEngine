@@ -75,9 +75,18 @@ void SpriteManager::Load(Sprite& out_sprite)
 
 	++m_paletteRefTracker[paletteId];
 
+	u32 compressionFlags = out_sprite.m_atlus->GetSpriteDataCompressionFlags();
+	Compression::Type compressionType = Compression::GetCompressionType(compressionFlags);
+
 	// Set tiles
 	const u8 bitsPerByte = 8;
-	u8 bitsPerPixel = 4;	// Todo, don't hardcode
+	u8 bitsPerPixel = 4;
+
+	if (compressionType == Compression::Type::BitPacked)
+	{
+		bitsPerPixel = Compression::GetBitPackedSrcBpp(compressionFlags);
+	}
+
 	u8 pixelsPerByte = bitsPerByte / bitsPerPixel;
 	u16 totalBytes = out_sprite.m_pixelMapDataLength * sizeof(out_sprite.m_pixelMapDataLength);
 	u16 totalPixels = totalBytes * pixelsPerByte;
@@ -87,7 +96,8 @@ void SpriteManager::Load(Sprite& out_sprite)
 	if (tileIndex != INVALID_TILE_ID)
 	{
 		TileBlockGroups tileBlockGroup = SpriteLower;
-		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, tileBlockGroup, tileIndex);	// Todo, use function that doesn't specify tile block group
+
+		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, compressionFlags, tileBlockGroup, tileIndex);	// Todo, use function that doesn't specify tile block group
 
 		m_tileRefTracker[tileIndex] = Used;
 		for (int i = tileIndex + 1; i < tileIndex + tileCount; ++i)
