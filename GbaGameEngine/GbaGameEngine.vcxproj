@@ -194,6 +194,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\entt\signal\sigh.hpp" />
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
+    <ClInclude Include="src\engine\gameobject\ui\Text.h" />
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
     <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
