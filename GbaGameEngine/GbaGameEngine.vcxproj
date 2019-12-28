@@ -122,8 +122,6 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
-    <ClCompile Include="src\engine\component\MonoBehaviour.cpp" />
-    <ClCompile Include="src\engine\component\GameObjectComponent.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
@@ -212,8 +210,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
-    <ClInclude Include="src\engine\component\MonoBehaviour.h" />
-    <ClInclude Include="src\engine\component\GameObjectComponent.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />

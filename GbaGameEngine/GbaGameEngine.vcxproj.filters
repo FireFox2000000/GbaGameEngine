@@ -70,12 +70,6 @@
     <ClCompile Include="src\engine\scene\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\component\GameObjectComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\component\MonoBehaviour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\scripts\MovementTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -208,12 +202,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\scene\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\component\GameObjectComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\component\MonoBehaviour.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scripts\MovementTest.h">

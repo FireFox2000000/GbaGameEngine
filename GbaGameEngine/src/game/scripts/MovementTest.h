@@ -1,6 +1,7 @@
 #pragma once
-#include "engine/component/MonoBehaviour.h"
 #include "engine/base/core/stl/FixedPoint.h"
+
+class Engine;
 
 namespace Component
 {
