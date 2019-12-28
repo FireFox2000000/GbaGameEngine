@@ -62,7 +62,7 @@ void Scene0::Enter(Engine* engine)
 			FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
 
 			Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8)->GetSpriteForCharacter('9');
+			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
 		}
 	}

@@ -1,9 +1,9 @@
 namespace __binary_spritesheet_debug_font_8x8
 {
 	// File Header
-	extern __attribute__((section(".ewram"))) const unsigned long spriteCount = 96;
+	extern __attribute__((section(".ewram"))) const unsigned long spriteCount = 95;
 	extern __attribute__((section(".ewram"))) const unsigned char paletteLength = 2;
-	extern __attribute__((section(".ewram"))) const unsigned long dataLength = 192;
+	extern __attribute__((section(".ewram"))) const unsigned long dataLength = 190;
 
 	// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types 
 	// Bit4-7   Compressed type 
@@ -36,7 +36,7 @@ namespace __binary_spritesheet_debug_font_8x8
 		8, 8, 8, 8, 8,
 		8, 8, 8, 8, 8,
 		8, 8, 8, 8, 8,
-		8,
+
 	};
 
 	extern __attribute__((section(".ewram"))) const unsigned char heightMap[] =
@@ -60,7 +60,7 @@ namespace __binary_spritesheet_debug_font_8x8
 		8, 8, 8, 8, 8,
 		8, 8, 8, 8, 8,
 		8, 8, 8, 8, 8,
-		8,
+
 	};
 
 	extern __attribute__((section(".ewram"))) const unsigned long offsets[] =
@@ -84,7 +84,7 @@ namespace __binary_spritesheet_debug_font_8x8
 		160, 162, 164, 166, 168,
 		170, 172, 174, 176, 178,
 		180, 182, 184, 186, 188,
-		190,
+
 	};
 
 	extern __attribute__((section(".ewram"))) const unsigned long data[] =
@@ -182,8 +182,6 @@ namespace __binary_spritesheet_debug_font_8x8
 		0x524A4642, 0x00004262,
 
 		0x44444438, 0x00003844,
-
-		0x021E221E, 0x00000202,
 
 		0x44444438, 0x00403844,
 
