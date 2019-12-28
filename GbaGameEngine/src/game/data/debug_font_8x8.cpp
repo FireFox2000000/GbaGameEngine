@@ -183,6 +183,8 @@ namespace __binary_spritesheet_debug_font_8x8
 
 		0x44444438, 0x00003844,
 
+		0x021E221E, 0x00000202,
+
 		0x44444438, 0x00403844,
 
 		0x0A1E221E, 0x00002212,
@@ -212,8 +214,6 @@ namespace __binary_spritesheet_debug_font_8x8
 		0x00001408, 0x00000000,
 
 		0x00000000, 0x00007E00,
-
-		0x00000000, 0x00000000,
 
 		0x00001008, 0x00000000,
 
