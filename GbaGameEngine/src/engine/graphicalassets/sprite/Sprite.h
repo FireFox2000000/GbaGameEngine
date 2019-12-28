@@ -7,7 +7,7 @@ class SpriteAtlus;
 class Sprite
 {
 	friend class SpriteManager;
-	friend class SpriteLibrary;
+	friend class SpriteAtlus;
 
 	GBA::Attributes::Shape m_shape;
 	GBA::Attributes::SizeMode m_sizeMode;

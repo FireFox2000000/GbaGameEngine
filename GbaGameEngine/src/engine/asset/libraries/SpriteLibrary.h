@@ -5,7 +5,6 @@
 
 #define SPRITE_ATLUS_LIST \
 	SPRITE_ATLUS_ENTRY(Shantae_Idle)\
-	SPRITE_ATLUS_ENTRY(debug_font_8x8)\
 //
 
 namespace SpriteAtlusID

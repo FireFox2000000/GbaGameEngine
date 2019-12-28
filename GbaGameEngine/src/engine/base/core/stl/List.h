@@ -220,16 +220,7 @@ public:
 	template <typename... ConstructorArgs>
 	T* AddNew(ConstructorArgs... args)
 	{
-		if (Count() >= Capacity())
-		{
-			if (!GrowTo(Capacity() * 2))
-			{
-				DEBUG_ASSERTMSG(false, "Unable to add element. List out of memory");
-				return NULL;
-			}
-		}
-
-		T* newItem = &Get(m_count++);
+		T* newItem = AddUninitialisedItemAt(Count());
 		return new(newItem) T(args ...);
 	}
 

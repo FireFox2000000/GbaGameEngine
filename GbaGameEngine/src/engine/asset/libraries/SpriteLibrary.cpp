@@ -1,5 +1,4 @@
 #include "SpriteLibrary.h"
-#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 #include "engine/math/Math.h"
 
 #define SPRITEMAP_NAMESPC_PREFIX __binary_spritesheet_
@@ -41,28 +40,7 @@ void SpriteLibrary::AddSpriteSheet(
 	const u32 * data,
 	const u32 * offsets)
 {
-	SpriteAtlus* atlus = m_spriteAtlusCollection.AddNew();
-	atlus->m_paletteLength = paletteLength;
-	atlus->m_palette = palette;
-	atlus->m_spriteDataCompressionFlags = compressionFlags;
-
-	atlus->m_sprites.Reserve(spriteCount);
-
-	for (u32 i = 0; i < spriteCount; ++i)
-	{
-		Sprite* sprite = atlus->m_sprites.AddNew();
-		sprite->m_atlus = atlus;
-		GBA::AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), sprite->m_shape, sprite->m_sizeMode);
-		sprite->m_pixelMapData = data + offsets[i];
-		if (i + 1 < spriteCount)
-		{
-			sprite->m_pixelMapDataLength = offsets[i + 1] - offsets[i];
-		}
-		else
-		{
-			sprite->m_pixelMapDataLength = dataLength - offsets[i];
-		}
-	}
+	m_spriteAtlusCollection.AddNew(spriteCount, paletteLength, palette, widthMap, heightMap, dataLength, compressionFlags, data, offsets);
 }
 
 SpriteLibrary::~SpriteLibrary()
@@ -72,9 +50,9 @@ SpriteLibrary::~SpriteLibrary()
 Sprite * SpriteLibrary::GetSprite(SpriteAtlusID::Enum atlusId, u32 spriteIndex)
 {
 	SpriteAtlus& atlus = m_spriteAtlusCollection[atlusId];
-	if (spriteIndex < atlus.m_sprites.Count())
-		return &atlus.m_sprites[spriteIndex];
+	Sprite* sprite = atlus.GetSprite(spriteIndex);
 
-	DEBUG_ASSERTMSGFORMAT(false, "Unable to get sprite for atlus %d at index %d", atlusId, spriteIndex);
-	return NULL;
+	DEBUG_ASSERTMSGFORMAT(sprite, "Unable to get sprite for atlus %d at index %d", atlusId, spriteIndex);
+
+	return sprite;
 }

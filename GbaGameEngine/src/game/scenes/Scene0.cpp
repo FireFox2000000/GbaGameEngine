@@ -5,6 +5,7 @@
 #include "engine/graphicalassets/sprite/SpriteManager.h"
 #include "engine/asset/libraries/SpriteLibrary.h"
 #include "engine/asset/libraries/AnimationLibrary.h"
+#include "engine/asset/libraries/FontLibrary.h"
 
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
@@ -58,9 +59,11 @@ void Scene0::Enter(Engine* engine)
 			transform->position.x = (0.2f) - 5;
 			transform->position.y = (0.2f) - 5;
 
+			FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
+
 			Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::debug_font_8x8, 16);
-			testBackgroundRenderer.SetSprite(shantae0);
+			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8)->GetSpriteForCharacter('9');
+			testBackgroundRenderer.SetSprite(sprite);
 		}
 	}
 
