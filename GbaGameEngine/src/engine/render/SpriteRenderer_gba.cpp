@@ -61,6 +61,8 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			newPosition += screenSpaceOffset;											// Convert to screen space
 			newPosition += spriteRenderer.GetCenterToCornerSizeOffset();				// Offset by sprite size to render from the center
+			
+			renderProperties->SetPriority(GBA::Attributes::Layer2);
 
 			renderProperties->SetPosition(newPosition);
 			renderProperties->SetFlippedHorizontal((int)transform.scale.x < 0);

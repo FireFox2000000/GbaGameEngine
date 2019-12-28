@@ -10,6 +10,8 @@
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Transform.h"
+#include "engine/gameobject/ui/ScreenTransform.h"
+#include "engine/gameobject/ui/Text.h"
 
 const int totalTestSprites = 128;
 
@@ -31,6 +33,8 @@ void Scene0::Enter(Engine* engine)
 
 	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
 	AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
+	FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
+
 	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 
 	m_gameObjects.Reserve(totalTestSprites);
@@ -59,11 +63,22 @@ void Scene0::Enter(Engine* engine)
 			transform->position.x = (0.2f) - 5;
 			transform->position.y = (0.2f) - 5;
 
-			FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
-
 			Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
 			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
+		}
+
+		{
+			GameObject* testTextObject = m_gameObjects.AddNew(entityManager);
+			testTextObject->RemoveComponent<Component::Transform>();
+
+			auto& screenTransform = testTextObject->AddComponent<Component::UI::ScreenTransform>();
+			screenTransform.position.x = 0;
+			screenTransform.position.y = 0;
+
+			auto& textComponent = testTextObject->AddComponent<Component::UI::Text>();
+			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8);
+			textComponent.m_str = std::string("789 ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
 		}
 	}
 

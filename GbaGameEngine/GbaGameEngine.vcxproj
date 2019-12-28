@@ -113,6 +113,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
+    <ClCompile Include="src\engine\render\TextRenderer.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
@@ -202,7 +203,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\tonc\memory\toncset.h" />
     <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h" />
     <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
+    <ClInclude Include="src\engine\render\TextRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
+    <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
