@@ -146,6 +146,8 @@ namespace GBA
 		if (!buffer.Contains(sprite))
 			buffer.Add(sprite);
 
+		DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamProperties.Count() < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
+
 		// Todo, can't render more than 128, will currently crash if this is exceeded
 		ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew();
 		m_masterSpriteRenderList.sprite.Add(sprite);
