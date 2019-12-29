@@ -47,13 +47,12 @@ namespace GBA
 
 	void OAMManager::UnloadUnusedSprites(Engine* engine)
 	{
-		tSpriteBuffer& currentBuffer = GetCurrentSpriteBuffer();
 		tSpriteBuffer& previousBuffer = GetPreviousSpriteBuffer();
 		SpriteManager* spriteManager = engine->EditComponent<SpriteManager>();
-		
+
 		for (Sprite* sprite : previousBuffer)
 		{
-			if (sprite->IsLoaded() && !currentBuffer.Contains(sprite))
+			if (sprite->IsLoaded() && !sprite->m_renderData.IsAddedToDrawList())
 			{
 				spriteManager->Unload(sprite);
 			}

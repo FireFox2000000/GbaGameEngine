@@ -50,8 +50,17 @@ int main()
 		WaitForVSync();
 
 		// VBlank, should be under 83776 cycles
-		oamManager->DoMasterRenderIntoMemory(engine.get());
+#ifdef TEST_PROFILING
+		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
+		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
 
+		profilerClock.SetActive(true);
+#endif
+		oamManager->DoMasterRenderIntoMemory(engine.get());
+#ifdef TEST_PROFILING
+		DEBUG_LOGFORMAT("[Profile DoMasterRenderIntoMemory] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+#endif
 		time->Advance();
 	}
 
