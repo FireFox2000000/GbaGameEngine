@@ -48,14 +48,31 @@ namespace GBA
 	void OAMManager::UnloadUnusedSprites(Engine* engine)
 	{
 		tSpriteBuffer& currentBuffer = GetCurrentSpriteBuffer();
+
+		std::sort(currentBuffer.begin(), currentBuffer.end());
+
 		tSpriteBuffer& previousBuffer = GetPreviousSpriteBuffer();
 		SpriteManager* spriteManager = engine->EditComponent<SpriteManager>();
-	
+		
+		u32 currentIndex = 0;
+
 		for (Sprite* sprite : previousBuffer)
 		{
-			if (sprite->IsLoaded() && !currentBuffer.Contains(sprite))
+			if (sprite->IsLoaded())
 			{
-				spriteManager->Unload(sprite);
+				// Optimisation, both buffers should be sorted at this point, take advantage of this
+				bool found = false;
+				for (; currentIndex < currentBuffer.Count(); ++currentIndex)
+				{
+					if (sprite == currentBuffer[currentIndex])
+					{
+						found = true;
+						break;
+					}
+				}
+
+				if (!found)
+					spriteManager->Unload(sprite);
 			}
 		}
 	}
