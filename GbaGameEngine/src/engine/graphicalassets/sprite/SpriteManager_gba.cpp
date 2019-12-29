@@ -106,7 +106,7 @@ void SpriteManager::Load(Sprite& out_sprite)
 		}
 
 		// Set sprite attributes
-		out_sprite.m_tileIndex = tileIndex;
+		out_sprite.m_renderData.SetTileIndex(tileIndex);
 	}
 	else
 	{
@@ -121,14 +121,14 @@ void SpriteManager::Unload(Sprite * sprite)
 		return;
 
 	// Remove tile references
-	tTileId index = sprite->m_tileIndex;
+	tTileId index = sprite->m_renderData.GetTileIndex();
 	m_tileRefTracker[index++] = Free;
 
 	while (index < m_tileRefTracker.Count() && m_tileRefTracker[index] == Continue)
 	{
 		m_tileRefTracker[index++] = Free;
 	}
-	sprite->m_tileIndex = INVALID_TILE_ID;
+	sprite->m_renderData.SetTileIndex(INVALID_TILE_ID);
 
 	// Decrease palette references
 	--m_paletteRefTracker[sprite->GetPaletteIndex()];

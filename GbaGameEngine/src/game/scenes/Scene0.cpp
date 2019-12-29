@@ -13,7 +13,7 @@
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
 #include <stdio.h>
-const int totalTestSprites = 70;
+const int totalTestSprites = 90;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)

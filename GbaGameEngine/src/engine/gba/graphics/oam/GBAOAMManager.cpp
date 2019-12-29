@@ -70,6 +70,8 @@ namespace GBA
 			{
 				spriteManager->Load(*sprite);
 			}
+
+			sprite->m_renderData.SetAddedToDrawList(false);
 		}
 	}
 
@@ -143,8 +145,12 @@ namespace GBA
 	ObjectAttribute* OAMManager::AddToRenderList(Sprite* sprite)
 	{
 		OAMManager::tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
-		if (!buffer.Contains(sprite))
+
+		if (!sprite->m_renderData.IsAddedToDrawList())
+		{
 			buffer.Add(sprite);
+			sprite->m_renderData.SetAddedToDrawList(true);
+		}
 
 		DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamProperties.Count() < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
 
