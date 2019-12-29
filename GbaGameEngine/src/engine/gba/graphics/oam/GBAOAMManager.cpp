@@ -122,8 +122,8 @@ namespace GBA
 	void OAMManager::DoMasterRenderIntoMemory(Engine* engine)
 	{
 #ifdef RENDER_PROFILE
-		GBA::Timer profilerClock(2);
-		profilerClock.SetFrequency(GBA::Timer::Cycle_256);
+		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
+		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
 
 		profilerClock.SetActive(true);
 #endif
