@@ -426,5 +426,8 @@
     <ClInclude Include="src\engine\gameobject\ui\Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
