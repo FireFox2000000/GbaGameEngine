@@ -1,4 +1,5 @@
 #pragma once
+#include "engine/math/geometry/AxisAlignedBoundingBox.h"
 
 namespace Projection
 {
@@ -20,5 +21,7 @@ namespace Component
 
 		Projection::Enum GetProjection() const;
 		void SetProjection(Projection::Enum projection);
+
+		AxisAlignedBoundingBox2 GetOrthoBounds() const;
 	};
 }

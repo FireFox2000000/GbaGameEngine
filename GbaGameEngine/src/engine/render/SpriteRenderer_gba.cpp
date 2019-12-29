@@ -31,6 +31,7 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 #include "engine/gameobject/Camera.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/engine/engine.h"
+#include "engine/math/geometry/AxisAlignedBoundingBox.h"
 
 void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
@@ -40,22 +41,36 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
 
+
 	auto* entityManager = engine->GetEntityRegistry();
 	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
 
 	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
+	AxisAlignedBoundingBox2 orthographicCameraBounds = cameraComponent->GetOrthoBounds();
+	orthographicCameraBounds.Translate(cameraPosition);
 
 	entityManager->InvokeEach<Component::Transform, Component::SpriteRenderer>(
-		[&oamManager, &cameraPosition, &screenSpaceOffset]
+		[&oamManager, &cameraPosition, &screenSpaceOffset, &orthographicCameraBounds]
 		(Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
 			if (!sprite)
 				return;
 
+			Vector2<tFixedPoint8> position = transform.position;
+
+			// Frustum culling
+			{
+				Vector2<tFixedPoint8> worldSpriteSize = GBA::AttributeFunctions::GetTileSize(sprite->GetShape(), sprite->GetSizeMode()) / 2;
+				AxisAlignedBoundingBox2 worldSpriteBounds(position - worldSpriteSize, position + worldSpriteSize);
+
+				if (!orthographicCameraBounds.Intersects(worldSpriteBounds))
+					return;
+			}
+
 			GBA::ObjectAttribute* renderProperties = oamManager->AddToRenderList(sprite);
 
-			Vector2<tFixedPoint8> newPosition = transform.position;
+			Vector2<tFixedPoint8> newPosition = position;
 			newPosition -= cameraPosition;											// Convert world space to relative camera space	
 			newPosition.y *= -1;														// Correct for screen space starting from the top
 			newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
