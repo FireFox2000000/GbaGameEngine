@@ -12,8 +12,8 @@
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
-
-const int totalTestSprites = 87;
+#include <stdio.h>
+const int totalTestSprites = 81;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -79,6 +79,8 @@ void Scene0::Enter(Engine* engine)
 			auto& textComponent = testTextObject->AddComponent<Component::UI::Text>();
 			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8);
 			textComponent.m_str = std::string("789 ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
+
+			this->textObject = testTextObject;
 		}
 	}
 
@@ -96,6 +98,8 @@ void Scene0::Enter(Engine* engine)
 		Component::Transform* transform = playerObject->EditComponent<Component::Transform>();
 		transform->position.x = 0;
 		transform->position.y = 0;
+
+		this->playerObject = playerObject;
 	}
 }
 
@@ -124,6 +128,14 @@ void Scene0::Update(Engine* engine)
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
 	}
+
+	//auto position = playerObject->GetComponent<Component::Transform>()->position;
+	//auto* textComponent = textObject->EditComponent<Component::UI::Text>();
+	//
+	//char buff[100];
+	//snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", position.x.ToFloat(), position.y.ToFloat());
+	//
+	//textComponent->m_str = buff;
 
 	System::PlayerMovement::Update(engine);
 	Scene::Update(engine);
