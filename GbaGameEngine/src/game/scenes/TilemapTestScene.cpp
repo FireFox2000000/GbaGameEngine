@@ -3,7 +3,7 @@
 #include "engine/gba/registers/display/GBADisplayControl.h"
 
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
-#include "engine/gba/graphics/tiles/GBATileBank.h"
+#include "engine/gba/graphics/vram/GBAVram.h"
 
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 
@@ -23,7 +23,8 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	TileBlockGroups cbb = TileBlockGroups::Bg0;
 	PaletteBank::LoadBackgroundPalette(paletteId, palette);
-	TileBank::LoadTiles(nullptr, 0, 0, cbb, 0);
+	//Vram::AllocBackgroundMem
+	//TileBank::LoadTiles(nullptr, 0, 0, cbb, 0);
 
 	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
 	background.SetColourMode(Background::ColourMode::EightBitsPerPixel);

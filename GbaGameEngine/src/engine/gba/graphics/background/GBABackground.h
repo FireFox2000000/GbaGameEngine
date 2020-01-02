@@ -3,7 +3,7 @@
 #include "engine/base/Macros.h"
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Vector2.h"
-#include "engine/gba/graphics/tiles/GBATileBank.h"
+#include "engine/gba/graphics/vram/GBAVram.h"
 
 namespace GBA
 {
@@ -17,7 +17,6 @@ namespace GBA
 
 	public:
 		using tCharacterBaseBlock = TileBlockGroups;
-		using tScreenBaseBlockIndex = u16;
 
 		enum ColourMode
 		{

@@ -1,451 +1,151 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="src\engine\algorithm\Compression.cpp" />
+    <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
+    <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
+    <ClCompile Include="src\engine\debug\DebugLog.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
+    <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
+    <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp" />
+    <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
+    <ClCompile Include="src\engine\render\TextRenderer.cpp" />
+    <ClCompile Include="src\engine\time\Time.cpp" />
+    <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
+    <ClCompile Include="src\engine\engine\Engine.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\sprite\Sprite_gba.cpp" />
+    <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
+    <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
+    <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
+    <ClCompile Include="src\game\scripts\MovementTest.cpp" />
+    <ClCompile Include="src\game\scenes\Scene0.cpp" />
+    <ClCompile Include="src\engine\scene\SceneManager.cpp" />
+    <ClCompile Include="src\engine\scene\Scene.cpp" />
+    <ClCompile Include="src\engine\screen\Screen.cpp" />
+    <ClCompile Include="src\engine\gameobject\Camera.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp" />
+    <ClCompile Include="src\engine\render\SpriteRenderer_gba.cpp" />
+    <ClCompile Include="src\engine\render\Renderer.cpp" />
+    <ClCompile Include="src\engine\gameobject\GameObject.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAffine.cpp" />
+    <ClCompile Include="src\engine\math\Math.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
+    <ClCompile Include="src\engine\gba\registers\display\GBADisplayStatus.cpp" />
+    <ClCompile Include="src\engine\base\colour\Colour.cpp" />
+    <ClCompile Include="src\engine\gba\registers\display\GBADisplayControl.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
+    <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
+    <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\algorithm\Compression.h" />
+    <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
+    <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h" />
+    <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
+    <ClInclude Include="src\engine\base\BuildConfig.h" />
+    <ClInclude Include="src\engine\base\colour\Palette.h" />
+    <ClInclude Include="src\engine\base\core\Memory.h" />
+    <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
+    <ClInclude Include="src\engine\base\core\stl\List.h" />
+    <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
+    <ClInclude Include="src\engine\base\ecs\entt\config\config.h" />
+    <ClInclude Include="src\engine\base\ecs\entt\config\version.h" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\algorithm.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\family.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\hashed_string.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\ident.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\monostate.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\type_traits.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\core\utility.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\actor.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\entity.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\entt_traits.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\fwd.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\group.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\helper.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\prototype.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\registry.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\snapshot.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\sparse_set.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entity\view.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\entt.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\fwd.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\locator\locator.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\meta\factory.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\meta\meta.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\process\process.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\process\scheduler.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\resource\cache.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\resource\fwd.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\resource\handle.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\resource\loader.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\signal\delegate.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\signal\dispatcher.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\signal\emitter.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\signal\fwd.hpp" />
+    <ClInclude Include="src\engine\base\ecs\entt\signal\sigh.hpp" />
+    <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
+    <ClInclude Include="src\engine\debug\DebugLog.h" />
+    <ClInclude Include="src\engine\gameobject\ui\Text.h" />
+    <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
+    <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
+    <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
+    <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
+    <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
+    <ClInclude Include="src\engine\gba\tonc\include\tonc_nocash.h" />
+    <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
+    <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
+    <ClInclude Include="src\engine\gba\tonc\memory\toncset.h" />
+    <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h" />
+    <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
+    <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h" />
+    <ClInclude Include="src\engine\render\TextRenderer.h" />
+    <ClInclude Include="src\engine\time\Time.h" />
+    <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
+    <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
+    <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
+    <ClInclude Include="src\engine\engine\Engine.h" />
+    <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
+    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
+    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
+    <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
+    <ClInclude Include="src\game\scripts\MovementTest.h" />
+    <ClInclude Include="src\game\scenes\Scene0.h" />
+    <ClInclude Include="src\engine\scene\SceneManager.h" />
+    <ClInclude Include="src\engine\scene\Scene.h" />
+    <ClInclude Include="src\engine\graphicalassets\tile\Tile.h" />
+    <ClInclude Include="src\engine\screen\Screen.h" />
+    <ClInclude Include="src\engine\gameobject\Camera.h" />
+    <ClInclude Include="src\engine\graphicalassets\sprite\Sprite.h" />
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h" />
+    <ClInclude Include="src\engine\render\SpriteRenderer.h" />
+    <ClInclude Include="src\engine\render\Renderer.h" />
+    <ClInclude Include="src\engine\gameobject\GameObject.h" />
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAffine.h" />
+    <ClInclude Include="src\engine\math\Math.h" />
+    <ClInclude Include="src\engine\base\core\Nullptr.h" />
+    <ClInclude Include="src\engine\base\core\stl\Array.h" />
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
+    <ClInclude Include="src\engine\gba\registers\display\GBADisplayStatus.h" />
+    <ClInclude Include="src\engine\base\colour\Colour.h" />
+    <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h" />
+    <ClInclude Include="src\engine\gba\registers\display\GBADisplayControl.h" />
+    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAttribute.h" />
+    <ClInclude Include="src\engine\base\Macros.h" />
+    <ClInclude Include="src\engine\base\Typedefs.h" />
+    <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
+    <ClInclude Include="src\engine\math\Vector2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
     <None Include="src\engine\gba\tonc\asm\tonc_nocash.s" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\engine\math\Vector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\base\colour\Colour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAffine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gameobject\GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gameobject\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\screen\Screen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\registers\display\GBADisplayControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\registers\display\GBADisplayStatus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scripts\MovementTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\render\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\render\SpriteRenderer_gba.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphicalassets\sprite\Sprite_gba.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\engine\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\time\Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\animation\SpriteAnimator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\Scene0.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\debug\DebugLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\algorithm\Compression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\data\debug_font_8x8.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphicalassets\font\Font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\render\TextRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-	<ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\TilemapTestScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\background\GBABgVramAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\engine\math\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\Macros.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\Typedefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\colour\Colour.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\core\Nullptr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\core\stl\Array.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAffine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAttribute.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gameobject\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gameobject\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\screen\Screen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\registers\display\GBADisplayControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\registers\display\GBADisplayStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\registers\input\GBAInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\scene\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\scene\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scripts\MovementTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\render\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\render\SpriteRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\sprite\Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\tile\Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\engine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\core\Memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\core\stl\FixedPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\core\stl\List.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\registers\RegisterMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\time\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\colour\Palette.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\config\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\config\version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\algorithm.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\family.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\hashed_string.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\ident.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\monostate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\type_traits.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\core\utility.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\actor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\entt_traits.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\fwd.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\group.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\helper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\prototype.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\registry.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\snapshot.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\sparse_set.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entity\view.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\locator\locator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\meta\factory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\meta\meta.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\process\process.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\process\scheduler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\resource\cache.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\resource\fwd.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\resource\handle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\resource\loader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\signal\delegate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\signal\dispatcher.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\signal\emitter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\signal\fwd.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\signal\sigh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\entt.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\entt\fwd.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\ecs\ManagedEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\animation\SpriteAnimator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scenes\Scene0.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\tonc\include\tonc_nocash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\debug\DebugLog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\base\BuildConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\data\Shantae_Idle.cpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\tonc\memory\toncset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gameobject\transformation\Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\animation\SpriteAnimation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\algorithm\Compression.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\font\Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\asset\libraries\FontLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\render\TextRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gameobject\ui\Text.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-	<ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude
-    <ClInclude Include="src\game\scenes\TilemapTestScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\background\GBABgVramAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

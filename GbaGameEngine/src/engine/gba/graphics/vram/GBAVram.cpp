@@ -81,6 +81,21 @@ namespace GBA
 		}
 	}
 
+	void Vram::AllocBackgroundMem(u32 totalBytes, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
+	{
+		// Todo- Implement me
+	}
+
+	void Vram::FreeBackgroundMem(tScreenBaseBlockIndex sbbIndex)
+	{
+		m_screenEntryTracker[sbbIndex++] = Free;
+
+		while (sbbIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[sbbIndex] == Continue)
+		{
+			m_screenEntryTracker[sbbIndex++] = Free;
+		}
+	}
+
 	bool Vram::LoadTiles(const u32 * pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
 		volatile Tile::Tile* tileBlock = EditTileBlock(tileBlockGroup)->At(0);

@@ -19,6 +19,8 @@ namespace GBA
 		BlockGroupCount
 	};
 
+	using tScreenBaseBlockIndex = u16;
+
 	typedef List<u32> tSpriteData;
 
 	class Vram
@@ -51,11 +53,18 @@ namespace GBA
 		Array<AllocState, MAX_SPRITE_TILES> m_spriteTileMemTracker;
 		tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;
 
+		// Background tile mem allocator
+		static const u32 MAX_SCREEN_ENTRIES = 32;
+		Array<AllocState, MAX_SCREEN_ENTRIES> m_screenEntryTracker;
+
 		Vram() {};
 
 	public:
 		tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
 		void FreeSpriteMem(tTileId index);
+
+		void AllocBackgroundMem(u32 totalBytes, TileBlockGroups& out_cbbIndex, tScreenBaseBlockIndex& out_sbbIndex);
+		void FreeBackgroundMem(tScreenBaseBlockIndex sbbIndex);
 
 		static Vram& GetInstance()
 		{
