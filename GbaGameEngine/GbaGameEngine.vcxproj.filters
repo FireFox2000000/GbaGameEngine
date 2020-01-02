@@ -136,7 +136,16 @@
     <ClCompile Include="src\engine\render\TextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp">
+	<ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scenes\TilemapTestScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\gba\graphics\background\GBABgVramAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -426,7 +435,16 @@
     <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h">
+	<ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude
+    <ClInclude Include="src\game\scenes\TilemapTestScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\graphics\background\GBABgVramAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -108,7 +108,9 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
+	<ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\background\GBABgVramAllocator.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
@@ -123,6 +125,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
+    <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
@@ -195,7 +198,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
-    <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
+	<ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
+    <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
+    <ClInclude Include="src\engine\gba\graphics\background\GBABgVramAllocator.h" />
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
     <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
@@ -215,6 +220,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
+    <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />

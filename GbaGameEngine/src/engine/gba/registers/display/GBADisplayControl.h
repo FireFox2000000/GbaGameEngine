@@ -10,6 +10,7 @@ namespace GBA
 {
 	namespace DisplayOptions
 	{
+		
 		enum VideoMode
 		{
 			Mode0 = 0x0,	// Tile mode
@@ -19,6 +20,12 @@ namespace GBA
 			Mode3 = 0x3,	// Bitmap mode
 			Mode4 = 0x4,	// Bitmap mode
 			Mode5 = 0x5		// Bitmap mode
+
+			/*	mode	|	BG0	|	BG1	|	BG2	|	BG3
+			*	0		|	reg	|	reg	|	reg	|	reg
+			*	1		|	reg	|	reg	|	aff	|	-
+			*	2		|	-	|	-	|	aff	|	aff
+			*/
 		};
 
 		enum ObjectRendering
