@@ -9,19 +9,7 @@ class Sprite;
 
 class SpriteManager
 {
-	static const u32 MAX_SPRITE_TILES = 1024;
-
-	enum TileReferenceState
-	{
-		Free,
-		Used,
-		Continue
-	};
-
 	Array<u32, sizeof(ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
-	Array<TileReferenceState, MAX_SPRITE_TILES> m_tileRefTracker;
-
-	tTileId FindNextFreeTileSpace(u8 tileCount) const;
 
 public:
 	SpriteManager();

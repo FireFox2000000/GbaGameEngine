@@ -2,42 +2,15 @@
 #include "engine/graphicalassets/sprite/Sprite.h"
 #include "engine/graphicalassets/sprite/SpriteAtlus.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
-#include "engine/gba/graphics/tiles/GBATileBank.h"
+#include "engine/gba/graphics/vram/GBAVram.h"
 
 SpriteManager::SpriteManager()
 	: m_paletteRefTracker(0)
-	, m_tileRefTracker(Free)
 {
 }
 
 SpriteManager::~SpriteManager()
 {
-}
-
-tTileId SpriteManager::FindNextFreeTileSpace(u8 tileCount) const
-{
-	tTileId tileIndex = tileCount;		// We start from offset of a whole tile because tile 0 is reserved for disabled tiles
-
-	while (tTileId(tileIndex + tileCount) < m_tileRefTracker.Count())
-	{
-		bool tileSpaceValid = true;
-
-		for (u16 i = tileIndex; i < (tileIndex + tileCount); ++i)		// Check that the space for the tile actually exists
-		{
-			if (m_tileRefTracker[i] != Free)
-			{
-				tileSpaceValid = false;
-				break;
-			}
-		}
-
-		if (tileSpaceValid)
-			return tileIndex;
-		else
-			tileIndex += tileCount;	// Align to the size to prevent fragmentation
-	}
-
-	return INVALID_TILE_ID;
 }
 
 void SpriteManager::Load(Sprite& out_sprite)
@@ -76,35 +49,10 @@ void SpriteManager::Load(Sprite& out_sprite)
 	++m_paletteRefTracker[paletteId];
 
 	u32 compressionFlags = out_sprite.m_atlus->GetSpriteDataCompressionFlags();
-	Compression::Type compressionType = Compression::GetCompressionType(compressionFlags);
+	tTileId tileIndex = GBA::Vram::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, compressionFlags);
 
-	// Set tiles
-	const u8 bitsPerByte = 8;
-	u8 bitsPerPixel = 4;
-
-	if (compressionType == Compression::Type::BitPacked)
-	{
-		bitsPerPixel = Compression::GetBitPackedSrcBpp(compressionFlags);
-	}
-
-	u8 pixelsPerByte = bitsPerByte / bitsPerPixel;
-	u16 totalBytes = out_sprite.m_pixelMapDataLength * sizeof(out_sprite.m_pixelMapDataLength);
-	u16 totalPixels = totalBytes * pixelsPerByte;
-	u8 tileCount = totalPixels / Tile::PIXELS_PER_TILE;
-	
-	tTileId tileIndex = FindNextFreeTileSpace(tileCount);
 	if (tileIndex != INVALID_TILE_ID)
 	{
-		TileBlockGroups tileBlockGroup = SpriteLower;
-
-		TileBank::LoadTiles(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, compressionFlags, tileBlockGroup, tileIndex);	// Todo, use function that doesn't specify tile block group
-
-		m_tileRefTracker[tileIndex] = Used;
-		for (int i = tileIndex + 1; i < tileIndex + tileCount; ++i)
-		{
-			m_tileRefTracker[i] = Continue;
-		}
-
 		// Set sprite attributes
 		out_sprite.m_renderData.SetTileIndex(tileIndex);
 	}
@@ -122,12 +70,7 @@ void SpriteManager::Unload(Sprite * sprite)
 
 	// Remove tile references
 	tTileId index = sprite->m_renderData.GetTileIndex();
-	m_tileRefTracker[index++] = Free;
-
-	while (index < m_tileRefTracker.Count() && m_tileRefTracker[index] == Continue)
-	{
-		m_tileRefTracker[index++] = Free;
-	}
+	GBA::Vram::GetInstance().FreeSpriteMem(index);
 	sprite->m_renderData.SetTileIndex(INVALID_TILE_ID);
 
 	// Decrease palette references

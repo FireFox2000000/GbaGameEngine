@@ -108,6 +108,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
@@ -135,7 +136,6 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAffine.cpp" />
     <ClCompile Include="src\engine\math\Math.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\tiles\GBATileBank.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBADisplayStatus.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
@@ -195,6 +195,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
+    <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
     <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
@@ -231,7 +232,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\math\Math.h" />
     <ClInclude Include="src\engine\base\core\Nullptr.h" />
     <ClInclude Include="src\engine\base\core\stl\Array.h" />
-    <ClInclude Include="src\engine\gba\graphics\tiles\GBATileBank.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
     <ClInclude Include="src\engine\gba\registers\display\GBADisplayStatus.h" />
     <ClInclude Include="src\engine\base\colour\Colour.h" />

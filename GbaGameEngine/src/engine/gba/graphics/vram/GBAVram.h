@@ -20,13 +20,12 @@ namespace GBA
 	};
 
 	typedef List<u32> tSpriteData;
-	
-	class TileBank
+
+	class Vram
 	{
 		static const int CharBlockSize = 512;
 		static const int CharBlock8Size = 256;
 
-		
 		typedef Array<Tile::Tile, CharBlockSize> CharBlock;
 		typedef Array<Tile::Tile8, CharBlock8Size> CharBlock8;
 		typedef Array<CharBlock, BlockGroupCount> CharBlockPool;
@@ -34,21 +33,35 @@ namespace GBA
 
 		static volatile CharBlockPool & s_charBlockPool;
 		static volatile CharBlockPool8 & s_charBlockPool8;
-	
+
 		static volatile CharBlock* EditTileBlock(TileBlockGroups group) { return &(s_charBlockPool[int(group)]); }
 		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_charBlockPool8[int(group)]); }
 
+		bool LoadTiles(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex);
+
+		enum AllocState
+		{
+			Free,
+			Used,
+			Continue
+		};
+
+		// Sprite tile mem allocator
+		static const u32 MAX_SPRITE_TILES = 1024;
+		Array<AllocState, MAX_SPRITE_TILES> m_spriteTileMemTracker;
+		tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;
+
+		Vram() {};
+
 	public:
-		static bool LoadTiles(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex);
-		//static bool LoadTiles(const List<u32>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex);
+		tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
+		void FreeSpriteMem(tTileId index);
 
-		//template <u32 SIZE>
-		//static bool LoadTiles(const Array<u32, SIZE>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
-		//{
-		//	return LoadTiles(pixelMap.GetContainer(), pixelMap.Count(), tileBlockGroup, startTileIndex);
-		//}
-
-		// Load tiles that use 4bbp
-		//static bool LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId);
+		static Vram& GetInstance()
+		{
+			static Vram instance; // Guaranteed to be destroyed.
+								  // Instantiated on first use.
+			return instance;
+		}
 	};
 }
