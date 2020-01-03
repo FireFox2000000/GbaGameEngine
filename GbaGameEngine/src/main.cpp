@@ -14,7 +14,7 @@
 #include "game/scenes/TilemapTestScene.h"
 
 #define VBLANK_SCNLNE_START 160
-#define TEST_PROFILING
+//#define TEST_PROFILING
 static void WaitForVSync();
 
 int main()
