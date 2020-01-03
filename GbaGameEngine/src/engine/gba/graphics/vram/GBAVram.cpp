@@ -5,10 +5,19 @@
 
 //#define DECOMPRESSION_PROFILE
 
+const int ScreenBlocksPerCharBlock = 8;
+
 namespace GBA
 {
 	volatile Vram::CharBlockPool& Vram::s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(VRAM);
 	volatile Vram::CharBlockPool8& Vram::s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(VRAM);
+	volatile Vram::ScreenBlockPool& Vram::s_screenBlockPool = *reinterpret_cast<volatile ScreenBlockPool*>(VRAM);
+
+	Vram::Vram()
+		: m_spriteTileMemTracker(Free)
+		, m_screenEntryTracker(Free)
+	{
+	}
 
 	tTileId Vram::FindNextFreeSpriteTileSpace(u8 tileCount) const
 	{
@@ -81,18 +90,101 @@ namespace GBA
 		}
 	}
 
-	void Vram::AllocBackgroundMem(u32 totalBytes, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
+	tScreenBaseBlockIndex Vram::AllocBackgroundMem(const u16* mem, u32 dataLength, bool charBlockAligned)
 	{
-		// Todo- Implement me
+		tScreenBaseBlockIndex allocatedIndex = INVALID_SBB_ID;
+		u32 byteLength = dataLength * sizeof(u16);
+		int totalScreenBlocksNeeded = ceil((float)byteLength / sizeof(ScreenBlock));
+		int sbbOffset = charBlockAligned ? ScreenBlocksPerCharBlock : 1;
+
+		// Find the next free slots
+		for (u32 sbbIndex = 0; sbbIndex < m_screenEntryTracker.Count(); sbbIndex += sbbOffset)
+		{
+			bool sbbSpaceValid = true;
+
+			for (u16 i = sbbIndex; i < (sbbIndex + totalScreenBlocksNeeded); ++i)		// Check that the space for the tile actually exists
+			{
+				if (m_screenEntryTracker[i] != Free)
+				{
+					sbbSpaceValid = false;
+					if (!charBlockAligned)
+						sbbIndex = i;
+
+					break;
+				}
+			}
+
+			if (sbbSpaceValid)
+			{
+				allocatedIndex = sbbIndex;
+				break;
+			}
+		}
+
+		if (allocatedIndex == INVALID_SBB_ID)
+			return INVALID_SBB_ID;
+
+		// Mark the memory slots as used
+		m_screenEntryTracker[allocatedIndex] = Used;
+		for (u16 i = allocatedIndex + 1; i < (allocatedIndex + totalScreenBlocksNeeded); ++i)		// Check that the space for the tile actually exists
+		{
+			m_screenEntryTracker[i] = Continue;
+		}
+
+		// Transfer memory
+		vu16* screenEntry = reinterpret_cast<vu16*>(&s_screenBlockPool[allocatedIndex][0]);
+		for (u32 i = 0; i < dataLength; ++i)
+		{
+			screenEntry[i] = *(mem + i);
+		}
+
+		return allocatedIndex;
 	}
 
-	void Vram::FreeBackgroundMem(tScreenBaseBlockIndex sbbIndex)
+	void Vram::AllocBackgroundMem(const u16 * tileset, u32 tileSetLength, const u16 * mapData, u32 mapDataLength, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
 	{
-		m_screenEntryTracker[sbbIndex++] = Free;
+		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem(tileset, tileSetLength, true);
+		if (tileSbbIndex == INVALID_SBB_ID)
+		{
+			out_cbbIndex = TileBlockGroups::BlockGroupCount;
+			out_sbbIndex = INVALID_SBB_ID;
 
-		while (sbbIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[sbbIndex] == Continue)
+			DEBUG_ASSERTMSG(false, "Unable to load background, out of memory for tileset");
+
+			return;
+		}
+
+		out_cbbIndex = static_cast<TileBlockGroups>(tileSbbIndex / ScreenBlocksPerCharBlock);
+
+		DEBUG_LOGFORMAT("Loaded tileset into slot %d", (int)out_cbbIndex);
+
+		out_sbbIndex = AllocBackgroundMem(mapData, mapDataLength, false);
+
+		DEBUG_ASSERTMSG(out_sbbIndex != INVALID_SBB_ID, "Unable to load background, out of memory for map");
+		DEBUG_LOGFORMAT("Loaded map into slot %d", (int)out_sbbIndex);
+	}
+
+	void Vram::FreeBackgroundMem(TileBlockGroups cbbIndex, tScreenBaseBlockIndex sbbIndex)
+	{
+		// Cbb clearing
+		{
+			u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
+			m_screenEntryTracker[cbbSeIndex++] = Free;
+
+			while (cbbSeIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[cbbSeIndex] == Continue)
+			{
+				m_screenEntryTracker[cbbSeIndex++] = Free;
+			}
+		}
+
+		// Sbb clearing
 		{
 			m_screenEntryTracker[sbbIndex++] = Free;
+
+			while (sbbIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[sbbIndex] == Continue)
+			{
+				m_screenEntryTracker[sbbIndex++] = Free;
+			}
 		}
 	}
 

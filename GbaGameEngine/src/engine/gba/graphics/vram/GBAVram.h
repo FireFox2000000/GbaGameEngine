@@ -20,6 +20,7 @@ namespace GBA
 	};
 
 	using tScreenBaseBlockIndex = u16;
+	const tScreenBaseBlockIndex INVALID_SBB_ID = -1;
 
 	typedef List<u32> tSpriteData;
 
@@ -27,14 +28,21 @@ namespace GBA
 	{
 		static const int CharBlockSize = 512;
 		static const int CharBlock8Size = 256;
+		static const int ScreenEntrySize = 2048;
+		static const u32 MaxScreenBlocks = 32;
 
 		typedef Array<Tile::Tile, CharBlockSize> CharBlock;
 		typedef Array<Tile::Tile8, CharBlock8Size> CharBlock8;
 		typedef Array<CharBlock, BlockGroupCount> CharBlockPool;
 		typedef Array<CharBlock8, BlockGroupCount> CharBlockPool8;
 
+		typedef Array<u16, ScreenEntrySize / sizeof(u16)> ScreenBlock;
+		typedef Array<ScreenBlock, MaxScreenBlocks> ScreenBlockPool;
+
 		static volatile CharBlockPool & s_charBlockPool;
 		static volatile CharBlockPool8 & s_charBlockPool8;
+
+		static volatile ScreenBlockPool & s_screenBlockPool;
 
 		static volatile CharBlock* EditTileBlock(TileBlockGroups group) { return &(s_charBlockPool[int(group)]); }
 		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_charBlockPool8[int(group)]); }
@@ -54,17 +62,24 @@ namespace GBA
 		tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;
 
 		// Background tile mem allocator
-		static const u32 MAX_SCREEN_ENTRIES = 32;
-		Array<AllocState, MAX_SCREEN_ENTRIES> m_screenEntryTracker;
+		Array<AllocState, MaxScreenBlocks> m_screenEntryTracker;
 
-		Vram() {};
+		Vram();
+
+		tScreenBaseBlockIndex AllocBackgroundMem(const u16* mem, u32 dataLength, bool charBlockAligned);
 
 	public:
 		tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
 		void FreeSpriteMem(tTileId index);
 
-		void AllocBackgroundMem(u32 totalBytes, TileBlockGroups& out_cbbIndex, tScreenBaseBlockIndex& out_sbbIndex);
-		void FreeBackgroundMem(tScreenBaseBlockIndex sbbIndex);
+		void AllocBackgroundMem(
+			const u16* tileset,
+			u32 tileSetLength, 
+			const u16* mapData,
+			u32 mapDataLength, 
+			TileBlockGroups& out_cbbIndex, 
+			tScreenBaseBlockIndex& out_sbbIndex);
+		void FreeBackgroundMem(TileBlockGroups cbbIndex, tScreenBaseBlockIndex sbbIndex);
 
 		static Vram& GetInstance()
 		{

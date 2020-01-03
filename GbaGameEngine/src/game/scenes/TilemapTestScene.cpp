@@ -7,6 +7,8 @@
 
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 
+#include "game/data/brin.h"
+
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
 }
@@ -18,19 +20,25 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D | Background0);
 
-	ColourPalette16 palette(0);
-	tPaletteIndex paletteId = 0;
+	ColourPalette256 palette(0);
+
+	for (u32 i = 0; i < 256; ++i)
+	{
+		palette[i] = brinPal[i];
+	}
+
+	//tPaletteIndex paletteId = 3;
 
 	TileBlockGroups cbb = TileBlockGroups::Bg0;
-	PaletteBank::LoadBackgroundPalette(paletteId, palette);
-	//Vram::AllocBackgroundMem
-	//TileBank::LoadTiles(nullptr, 0, 0, cbb, 0);
+	tScreenBaseBlockIndex sbb = 0;
+	PaletteBank::LoadBackgroundPalette(palette);
+	Vram::GetInstance().AllocBackgroundMem(brinTiles, 496, brinMap, 2048, cbb, sbb);
 
 	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
-	background.SetColourMode(Background::ColourMode::EightBitsPerPixel);
+	background.SetColourMode(Background::ColourMode::FourBitsPerPixel);
 	background.SetCharacterBaseBlock(cbb);
-	background.SetScreenBaseBlock(0);
-	background.SetSize(Background::REG_32x32);
+	background.SetScreenBaseBlock(sbb);
+	background.SetSize(Background::REG_64x32);
 }
 
 void TilemapTestScene::Update(Engine * engine)

@@ -43,6 +43,7 @@
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\game\data\brin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
+    <ClInclude Include="src\game\data\brin.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
