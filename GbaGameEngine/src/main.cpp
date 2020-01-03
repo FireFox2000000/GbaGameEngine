@@ -11,6 +11,7 @@
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
 
 #include "game/scenes/Scene0.h"
+#include "game/scenes/TilemapTestScene.h"
 
 #define VBLANK_SCNLNE_START 160
 #define TEST_PROFILING
