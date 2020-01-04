@@ -560,13 +560,13 @@ namespace GbaConversionTools.Tools
 
             Color[] localPalette = localPaletteList.Count > 0 ? localPaletteList.ToArray() : palette;
 
-            for (int y = yStart; y < height; y += TileConfig.c_TILEHEIGHT)
+            for (int x = xStart; x < width; x += TileConfig.c_TILEWIDTH)
             {
-                for (int x = xStart; x < width; x += TileConfig.c_TILEWIDTH)
+                for (int y = yStart; y < height; y += TileConfig.c_TILEHEIGHT)
                 {
                     Tile tile = GetTile(bitmap, localPalette, x, y);
 
-                    tiles[x / TileConfig.c_TILEWIDTH, y / TileConfig.c_TILEHEIGHT] = tile;
+                    tiles[y / TileConfig.c_TILEHEIGHT, x / TileConfig.c_TILEWIDTH] = tile;
                 }
             }
 
@@ -577,12 +577,12 @@ namespace GbaConversionTools.Tools
         {
             Tile tile = new Tile();
 
-            for (int pixY = y; pixY < y + TileConfig.c_TILEHEIGHT; ++pixY)
+            for (int pixX = x; pixX < x + TileConfig.c_TILEWIDTH; ++pixX)
             {
-                for (int pixX = x; pixX < x + TileConfig.c_TILEWIDTH; ++pixX)
+                for (int pixY = y; pixY < y + TileConfig.c_TILEHEIGHT; ++pixY)
                 {
                     Color color = bitmap.GetPixel(pixX, pixY);
-                    tile.paletteIndicies[pixX - x, pixY - y] = PaletteHelper.ColorToPaletteIndex(palette, color);
+                    tile.paletteIndicies[pixY - y, pixX - x] = PaletteHelper.ColorToPaletteIndex(palette, color);
                 }
             }
 
