@@ -111,6 +111,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
+    <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\engine\gba\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
@@ -201,6 +202,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
     <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
+    <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
     <ClInclude Include="src\engine\gba\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_asminc.h" />
     <ClInclude Include="src\engine\gba\tonc\include\tonc_nocash.h" />
