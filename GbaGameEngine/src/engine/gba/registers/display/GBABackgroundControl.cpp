@@ -3,10 +3,10 @@
 
 namespace GBA
 {
-	BackgroundControl::tBackgrounds* BackgroundControl::s_backgrounds = reinterpret_cast<BackgroundControl::tBackgrounds*>(REG_BGCNT);
+	BackgroundControl::tBackgrounds BackgroundControl::s_backgrounds = { Background(0), Background(1), Background(2), Background(3) };
 
 	Background & BackgroundControl::GetBackground(Backgrounds backgroundId)
 	{
-		return *s_backgrounds->At(backgroundId);
+		return *s_backgrounds.At(backgroundId);
 	}
 }

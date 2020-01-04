@@ -19,7 +19,7 @@ namespace GBA
 
 	private:
 		using tBackgrounds = Array<Background, Backgrounds::Count>;
-		static tBackgrounds* s_backgrounds;
+		static tBackgrounds s_backgrounds;
 
 	public:
 		static Background& GetBackground(Backgrounds backgroundId);

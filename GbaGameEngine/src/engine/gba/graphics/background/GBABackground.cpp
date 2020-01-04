@@ -1,4 +1,5 @@
 #include "GBABackground.h"
+#include "engine/gba/registers/RegisterMap.h"
 
 #define CLEARED 0x0
 
@@ -22,6 +23,11 @@ enum Masks
 
 	Count = 7
 };
+
+u16& GBA::Background::EditControlRegister()
+{
+	return *(reinterpret_cast<u16*>(REG_BGCNT) + m_index);
+}
 
 void GBA::Background::SetPriority(Priority priority)
 {

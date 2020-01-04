@@ -8,6 +8,7 @@
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 
 #include "game/data/brin.h"
+#include "engine/gba/registers/input/GBAInput.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -43,4 +44,29 @@ void TilemapTestScene::Enter(Engine * engine)
 
 void TilemapTestScene::Update(Engine * engine)
 {
+	using namespace GBA;
+	using namespace GBA::DisplayOptions;
+
+	if (GBA::Input::GetKey(GBA::Buttons::Left))
+	{
+		bgPosition.x += -1;
+	}
+	
+	if (GBA::Input::GetKey(GBA::Buttons::Right))
+	{
+		bgPosition.x += 1;
+	}
+
+	if (GBA::Input::GetKey(GBA::Buttons::Down))
+	{
+		bgPosition.y += 1;
+	}
+
+	if (GBA::Input::GetKey(GBA::Buttons::Up))
+	{
+		bgPosition.y += -1;
+	}
+
+	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
+	background.SetPosition(bgPosition);
 }

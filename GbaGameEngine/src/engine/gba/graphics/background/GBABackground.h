@@ -9,14 +9,17 @@ namespace GBA
 {
 	class Background
 	{
-		u16 m_control;
-		s16 m_horizontalOffset;
-		s16 m_verticalOffset;
+		u8 m_index = 0;
 
-		void SetControlRegister(int value, u16 attributeMask) { m_control = (m_control & ~attributeMask) | (value & attributeMask); }
+		void SetControlRegister(int value, u16 attributeMask) { EditControlRegister() = (EditControlRegister() & ~attributeMask) | (value & attributeMask); }
+
+		u16& EditControlRegister();
 
 	public:
 		using tCharacterBaseBlock = TileBlockGroups;
+
+		Background() {}; // Purely to make this class std::initializer_list compliant
+		Background(u8 index) : m_index(index) {}
 
 		enum ColourMode
 		{
@@ -56,8 +59,9 @@ namespace GBA
 		template<class IntType, u8 BITS>
 		inline void SetPosition(const Vector2<FixedPoint<IntType, BITS> >& position) // Position of the screen on the map
 		{
-			m_horizontalOffset = position.x.ToRoundedInt();
-			m_verticalOffset = position.y.ToRoundedInt();
+			u16* hOffAddr = &EditControlRegister() + 4 + m_index;
+			*hOffAddr = position.x.ToRoundedInt();
+			*(hOffAddr + 1) = position.y.ToRoundedInt();
 		}
 
 	}  ALIGN(4);
