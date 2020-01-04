@@ -73,7 +73,7 @@ namespace GBA
 		void FreeSpriteMem(tTileId index);
 
 		void AllocBackgroundMem(
-			const u16* tileset,
+			const u32* tileset,
 			u32 tileSetLength, 
 			const u16* mapData,
 			u32 mapDataLength, 

@@ -14,11 +14,8 @@
 //
 //======================================================================
 
-#define brinPalLen 512
-extern const unsigned short brinPal[256];
+extern const unsigned short brinPalette[];
 
-#define brinTilesLen 992
-extern const unsigned short brinTiles[496];
+extern const unsigned long brinTiles[];
 
-#define brinMapLen 4096
-extern const unsigned short brinMap[2048];
+extern const unsigned short brinMap[];

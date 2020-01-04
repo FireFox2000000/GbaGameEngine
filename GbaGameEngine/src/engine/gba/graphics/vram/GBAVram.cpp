@@ -141,9 +141,9 @@ namespace GBA
 		return allocatedIndex;
 	}
 
-	void Vram::AllocBackgroundMem(const u16 * tileset, u32 tileSetLength, const u16 * mapData, u32 mapDataLength, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
+	void Vram::AllocBackgroundMem(const u32 * tileset, u32 tileSetLength, const u16 * mapData, u32 mapDataLength, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
 	{
-		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem(tileset, tileSetLength, true);
+		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem((u16*)tileset, tileSetLength * 2, true);
 		if (tileSbbIndex == INVALID_SBB_ID)
 		{
 			out_cbbIndex = TileBlockGroups::BlockGroupCount;
