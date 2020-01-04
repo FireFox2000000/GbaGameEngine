@@ -15,8 +15,6 @@ namespace GbaConversionTools.Tools
         }
 
         const int c_arrayNewlineCount = 5;
-        const int c_TILEWIDTH = 8;
-        const int c_TileHEIGHT = 8;
 
         const string compressionComment = "// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types \n" + namespaceTabs +
          "// Bit4-7   Compressed type \n" + namespaceTabs +
@@ -45,13 +43,18 @@ namespace GbaConversionTools.Tools
 
             StringBuilder sb = new StringBuilder();
             Size size = bitmap.Size;
-            if (size.Width % c_TILEWIDTH != 0 || size.Height % c_TileHEIGHT != 0)
+            if (size.Width % TileConfig.c_TILEWIDTH != 0 || size.Height % TileConfig.c_TILEHEIGHT != 0)
             {
                 throw new Exception("Size not compatible with GBA tiles. Width and height of pixels must be multiples of 8.");
             }
 
             Console.WriteLine("Processing colour palette");
-            Color[] preProcessedPalette = GeneratePreprocessedPalette(bitmap);
+
+            int xStart = 0;
+            int yStart = 0;
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            Color[] preProcessedPalette = PaletteHelper.GeneratePaletteFromImage(bitmap, xStart, yStart, width, height);
 
             // Validate pallet length
             {
@@ -182,43 +185,6 @@ namespace GbaConversionTools.Tools
             File.WriteAllText(outputPath, sb.ToString());
         }
 
-        Color[] GeneratePreprocessedPalette(Bitmap bitmap)
-        {
-            List<Color> palette = new List<Color>();
-            Color transparencyColour = Color.FromArgb(0);
-            palette.Add(transparencyColour);     // Always make transparent the first index
-
-            for (int y = 0; y < bitmap.Height; ++y)
-            {
-                for (int x = 0; x < bitmap.Width; ++x)
-                {
-                    Color color = bitmap.GetPixel(x, y);
-                    
-                    if (color.A != 0 && color.A != 255)
-                    {
-                        Console.WriteLine(string.Format("Warning: Found pixel with invalid alpha value ({2}) at position ({0}, {1}). Transparency is not allowed.", x, y, color.A));
-                    }
-
-                    bool foundInPalette = false;
-
-                    foreach (Color palColor in palette)
-                    {
-                        // Don't need to compare alpha
-                        if (color == palColor)
-                        {
-                            foundInPalette = true;
-                            break;
-                        }
-                    }
-
-                    if (!foundInPalette)
-                        palette.Add(color);
-                }
-            }
-
-            return palette.ToArray();
-        }
-
         void WriteHeader(UVs[] sliceCoordinates, Color[] palette, int size, Compression.CompressionType compressionType, uint bpp, StringBuilder sb)
         {
             UInt32 compressionTypeSize = 0;
@@ -244,7 +210,7 @@ namespace GbaConversionTools.Tools
             for (int i = 0; i < palette.Length; ++i)
             {
                 Color color = palette[i];
-                UInt16 rbgColor = (UInt16)(ScaleToRgb16(color.R) + (ScaleToRgb16(color.G) << 5) + (ScaleToRgb16(color.B) << 10));
+                UInt16 rbgColor = (UInt16)(PaletteHelper.ScaleToRgb16(color.R) + (PaletteHelper.ScaleToRgb16(color.G) << 5) + (PaletteHelper.ScaleToRgb16(color.B) << 10));
 
                 sb.AppendFormat("0x{0:X4}, ", rbgColor);
                 if ((i + 1) % c_arrayNewlineCount == 0)
@@ -253,22 +219,6 @@ namespace GbaConversionTools.Tools
                 }
             }
             sb.Append("\n" + namespaceTabs + "};\n\n");
-        }
-
-        int ColorToPaletteIndex(Color[] palette, Color color)
-        {
-            for (int i = 0; i < palette.Length; ++i)
-            {
-                if (color == palette[i])
-                    return i;
-            }
-
-            throw new Exception("Colour not found in palette");
-        }
-
-        byte ScaleToRgb16(byte colorChannelValue)
-        {
-            return (byte)(Math.Round(colorChannelValue / 255.0f * 31.0f));
         }
 
         void WriteSprite(
@@ -302,9 +252,9 @@ namespace GbaConversionTools.Tools
         {
             const string tabs = namespaceTabs;
 
-            int tilesWide = width / c_TILEWIDTH;
-            int tilesTall = height / c_TileHEIGHT;
-            int totalTiles = (width * height) / (c_TILEWIDTH * c_TileHEIGHT);
+            int tilesWide = width / TileConfig.c_TILEWIDTH;
+            int tilesTall = height / TileConfig.c_TILEHEIGHT;
+            int totalTiles = (width * height) / (TileConfig.c_TILEWIDTH * TileConfig.c_TILEHEIGHT);
             int hexCount = 0;
             List<int> colourPaletteIndicies = new List<int>();
             sbOutput.Append(namespaceTabs + TAB_CHAR);
@@ -313,15 +263,15 @@ namespace GbaConversionTools.Tools
             {
                 for (int tileX = 0; tileX < tilesWide; ++tileX)
                 {
-                    int tileXOffset = xPos + tileX * c_TILEWIDTH;
-                    int tileYOffset = yPos + tileY * c_TileHEIGHT;
+                    int tileXOffset = xPos + tileX * TileConfig.c_TILEWIDTH;
+                    int tileYOffset = yPos + tileY * TileConfig.c_TILEHEIGHT;
 
-                    for (int y = 0; y < c_TileHEIGHT; ++y)
+                    for (int y = 0; y < TileConfig.c_TILEHEIGHT; ++y)
                     {
-                        for (int x = 0; x < c_TILEWIDTH; ++x)
+                        for (int x = 0; x < TileConfig.c_TILEWIDTH; ++x)
                         {
                             Color color = bitmap.GetPixel(tileXOffset + x, tileYOffset + y);
-                            int index = ColorToPaletteIndex(palette, color);
+                            int index = PaletteHelper.ColorToPaletteIndex(palette, color);
                             colourPaletteIndicies.Add(index);
                         }
                     }
