@@ -10,6 +10,9 @@ namespace GbaConversionTools.Tools
     class TilemapConverter
     {
         const int c_arrayNewlineCount = 5;
+        const string compressionComment = "// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types \n" + namespaceTabs +
+         "// Bit4-7   Compressed type \n" + namespaceTabs +
+         "// Bit8-31  Unused, generated in-game as 24bit size of decompressed data in bytes, probably \n";
 
         const string TAB_CHAR = Defines.TAB_CHAR;
         const string namespaceTabs = TAB_CHAR;
@@ -18,11 +21,13 @@ namespace GbaConversionTools.Tools
         const string STR_U32 = Defines.STR_U32;
         const string VARPREFIXES = "extern " + Defines.STR_EWRAM_DATA + " const ";
 
+        const string NAMESPACE_FORMAT = "namespace " + Defines.STR_TILEMAP_NAMESPC_PREFIX + "{0} \n{{\n";
         const string VAR_HEADER_PALLETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U8 + " paletteLength = {0};\n";
         const string VAR_HEADER_TILESETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U32 + " tilesetLength = {0};\n";
         const string VAR_HEADER_TILEMAPLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U16 + " mapLength = {0};\n";
 
         const string VAR_PALLET = namespaceTabs + VARPREFIXES + STR_U16 + " palette[] = \n";
+        const string VAR_TILESET_COMPRESSION_FORMAT = namespaceTabs + compressionComment + namespaceTabs + VARPREFIXES + STR_U32 + " tileSetCompressionTypeSize = {0}; \n";
         const string VAR_TILESET = namespaceTabs + VARPREFIXES + STR_U32 + " tileset[] = \n";
         const string VAR_TILEMAP = namespaceTabs + VARPREFIXES + STR_U16 + " map[] = \n";
 
@@ -61,6 +66,8 @@ namespace GbaConversionTools.Tools
 
         public void Convert(string inputPath, string outputPath, Bitmap inputBitmap)
         {
+            string namespaceName = string.Format(NAMESPACE_FORMAT, Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)));
+
             List<Bitmap> bitmaps = new List<Bitmap>();
             bitmaps.Add(inputBitmap);
 
@@ -211,6 +218,8 @@ namespace GbaConversionTools.Tools
 
             StringBuilder sb = new StringBuilder();
 
+            sb.Append(namespaceName);
+
             WriteHeader(masterPalette, tilesetLength, sb);
             WritePalette(masterPalette, sb);
 
@@ -255,6 +264,11 @@ namespace GbaConversionTools.Tools
 
         void WriteTileSet(Tile[] tiles, StringBuilder sb, Compression.CompressionType compressionType, uint destBpp, out int totalLength)
         {
+            UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
+
+            sb.Append('\n');
+            sb.AppendFormat(VAR_TILESET_COMPRESSION_FORMAT, compressionTypeSize);
+
             sb.Append(VAR_TILESET);
             sb.Append(namespaceTabs + "{\n\t" + namespaceTabs);
 

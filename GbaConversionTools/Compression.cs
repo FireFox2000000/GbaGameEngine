@@ -22,6 +22,16 @@ namespace GbaConversionTools
 
         public static readonly int COMPRESSED_TYPE_BIT_INDEX = 4;
 
+        public static UInt32 ToGBACompressionHeader(CompressionType compressionType, uint bpp)
+        {
+            UInt32 compressionTypeSize = 0;
+            compressionTypeSize |= (uint)compressionType;
+            compressionTypeSize <<= Compression.COMPRESSED_TYPE_BIT_INDEX;
+            compressionTypeSize |= bpp;
+
+            return compressionTypeSize;
+        }
+
         public static void BitPack(List<int> src, uint destBpp, out List<UInt32> dest)
         {
             // Should be 1, 2, 4 or 8

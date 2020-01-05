@@ -187,10 +187,7 @@ namespace GbaConversionTools.Tools
 
         void WriteHeader(UVs[] sliceCoordinates, Color[] palette, int size, Compression.CompressionType compressionType, uint bpp, StringBuilder sb)
         {
-            UInt32 compressionTypeSize = 0;
-            compressionTypeSize |= (uint)compressionType;
-            compressionTypeSize <<= Compression.COMPRESSED_TYPE_BIT_INDEX;
-            compressionTypeSize |= bpp;
+            UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, bpp);
 
             sb.Append(namespaceTabs + "// File Header\n");
             sb.AppendFormat(VAR_SPRITECOUNT_FORMAT, sliceCoordinates.Length);

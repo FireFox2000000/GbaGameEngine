@@ -7,8 +7,19 @@
 
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 
-#include "game/data/brin.h"
 #include "engine/gba/registers/input/GBAInput.h"
+
+namespace __binary_background_Shantae_Idle_Map
+{
+	extern const u8 paletteLength;
+	extern const u32 tilesetLength;
+
+	extern const u16 palette[];
+	extern const u32 tileset[];
+
+	extern const u16 mapLength;
+	extern const u16 map[];
+}
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -18,22 +29,21 @@ void TilemapTestScene::Enter(Engine * engine)
 {
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
+	using namespace __binary_background_Shantae_Idle_Map;
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D | Background0);
 
-	ColourPalette256 palette(0);
+	ColourPalette256 colourPalette(0);
 
-	for (u32 i = 0; i < 256; ++i)
+	for (u32 i = 0; i < paletteLength; ++i)
 	{
-		palette[i] = brinPalette[i];
+		colourPalette[i] = palette[i];
 	}
-
-	//tPaletteIndex paletteId = 3;
 
 	TileBlockGroups cbb = TileBlockGroups::Bg0;
 	tScreenBaseBlockIndex sbb = 0;
-	PaletteBank::LoadBackgroundPalette(palette);
-	Vram::GetInstance().AllocBackgroundMem(brinTiles, 584, brinMap, 1024, cbb, sbb);
+	PaletteBank::LoadBackgroundPalette(colourPalette);
+	Vram::GetInstance().AllocBackgroundMem(tileset, tilesetLength, map, mapLength, cbb, sbb);
 
 	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
 	background.SetColourMode(Background::ColourMode::FourBitsPerPixel);

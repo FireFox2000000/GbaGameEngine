@@ -15,5 +15,6 @@ namespace GbaConversionTools
         public const string STR_EWRAM_DATA = "__attribute__((section(\".ewram\")))";
 
         public const string STR_SPRITEMAP_NAMESPC_PREFIX = "__binary_spritesheet_";       // Maps to SpriteLibrary.cpp SPRITEMAP_NAMESPC_PREFIX
+        public const string STR_TILEMAP_NAMESPC_PREFIX = "__binary_background_";       
     }
 }
