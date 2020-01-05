@@ -113,6 +113,14 @@ namespace GbaConversionTools.States
 
                 ///////////////////////////////////////
 
+                foreach(var uvs in sliceCoordinates)
+                {
+                    if (!IsValidPixelCombination(new Vector2(uvs.width, uvs.height)))
+                    {
+                        throw new Exception("Sprite size was invalid for the platform\n");                        
+                    }
+                }
+
                 Tools.SpriteConverter spriteConverter = new Tools.SpriteConverter();
                 spriteConverter.Convert(inputPath, outputPath, bitmap, sliceCoordinates);
 
