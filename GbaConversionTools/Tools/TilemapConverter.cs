@@ -189,9 +189,9 @@ namespace GbaConversionTools.Tools
             List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
             foreach (var tilemap in tileMapList)
             {
-                for (int i = 0; i < tilemap.mapData.GetLength(0); ++i)
+                for (int j = 0; j < tilemap.mapData.GetLength(1); ++j)
                 {
-                    for (int j = 0; j < tilemap.mapData.GetLength(1); ++j)
+                    for (int i = 0; i < tilemap.mapData.GetLength(0); ++i)
                     {
                         var currentMapData = tilemap.mapData[i, j];
 
@@ -279,9 +279,9 @@ namespace GbaConversionTools.Tools
                 List<UInt32> compressedIndicies;
                 List<int> linearIndicies = new List<int>();
 
-                for (int i = 0; i < tile.paletteIndicies.GetLength(0); ++i)
+                for (int j = 0; j < tile.paletteIndicies.GetLength(1); ++j)
                 {
-                    for (int j = 0; j < tile.paletteIndicies.GetLength(1); ++j)
+                    for (int i = 0; i < tile.paletteIndicies.GetLength(0); ++i)
                     {
                         linearIndicies.Add(tile.paletteIndicies[i, j]);
                     }
@@ -580,7 +580,7 @@ namespace GbaConversionTools.Tools
                 {
                     Tile tile = GetTile(bitmap, localPalette, x, y);
 
-                    tiles[y / TileConfig.c_TILEHEIGHT, x / TileConfig.c_TILEWIDTH] = tile;
+                    tiles[x / TileConfig.c_TILEWIDTH, y / TileConfig.c_TILEHEIGHT] = tile;
                 }
             }
 
@@ -596,7 +596,7 @@ namespace GbaConversionTools.Tools
                 for (int pixY = y; pixY < y + TileConfig.c_TILEHEIGHT; ++pixY)
                 {
                     Color color = bitmap.GetPixel(pixX, pixY);
-                    tile.paletteIndicies[pixY - y, pixX - x] = PaletteHelper.ColorToPaletteIndex(palette, color);
+                    tile.paletteIndicies[pixX - x, pixY - y] = PaletteHelper.ColorToPaletteIndex(palette, color);
                 }
             }
 
