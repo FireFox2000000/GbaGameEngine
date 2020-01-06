@@ -117,7 +117,16 @@ namespace GbaConversionTools.States
                 {
                     if (!IsValidPixelCombination(new Vector2(uvs.width, uvs.height)))
                     {
-                        throw new Exception("Sprite size was invalid for the platform\n");                        
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine(string.Format("UV size ({0}, {1}) was invalid for the platform", uvs.width, uvs.height));
+                        sb.AppendLine("Valid sizes: ");
+                        foreach (Vector2 size in validPixelCombinations)
+                        {
+                            sb.AppendLine(string.Format("\t({0}, {1})", size.X, size.Y));
+                        }
+                        sb.Append("\n");
+
+                        throw new Exception(sb.ToString());                        
                     }
                 }
 
@@ -158,13 +167,6 @@ namespace GbaConversionTools.States
                 float spriteHeightF = height / rows;
 
                 Console.WriteLine("Individual sprite size is ({0}, {1})", spriteWidthF, spriteHeightF);
-
-                // Validate input
-                if (!IsValidPixelCombination(new Vector2(spriteWidthF, spriteHeightF)))
-                {
-                    Console.WriteLine("Sprite size was invalid for the platform\n");
-                    continue;
-                }
 
                 spriteWidth = (int)spriteWidthF;
                 spriteHeight = (int)spriteHeightF;
