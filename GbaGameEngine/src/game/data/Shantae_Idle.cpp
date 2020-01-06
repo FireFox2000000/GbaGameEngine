@@ -1,43 +1,45 @@
+#define EWRAM_DATA __attribute__((section(".ewram")))
+
 namespace __binary_spritesheet_Shantae_Idle
 {
 	// File Header
-	extern __attribute__((section(".ewram"))) const unsigned long spriteCount = 12;
-	extern __attribute__((section(".ewram"))) const unsigned char paletteLength = 7;
-	extern __attribute__((section(".ewram"))) const unsigned long dataLength = 3072;
+	extern EWRAM_DATA const unsigned long spriteCount = 12;
+	extern EWRAM_DATA const unsigned char paletteLength = 7;
+	extern EWRAM_DATA const unsigned long dataLength = 3072;
 
 	// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types 
 	// Bit4-7   Compressed type 
 	// Bit8-31  Unused, generated in-game as 24bit size of decompressed data in bytes, probably 
-	extern __attribute__((section(".ewram"))) const unsigned long compressionTypeSize = 148;
+	extern EWRAM_DATA const unsigned long compressionTypeSize = 148;
 
-	extern __attribute__((section(".ewram"))) const unsigned short palette[] =
+	extern EWRAM_DATA const unsigned short palette[] =
 	{
 		0x0000, 0x0000, 0x6813, 0x03BD, 0x42FD,
 		0x77B5, 0x001D,
 	};
 
-	extern __attribute__((section(".ewram"))) const unsigned char widthMap[] =
+	extern EWRAM_DATA const unsigned char widthMap[] =
 	{
 		32, 32, 32, 32, 32,
 		32, 32, 32, 32, 32,
 		32, 32,
 	};
 
-	extern __attribute__((section(".ewram"))) const unsigned char heightMap[] =
+	extern EWRAM_DATA const unsigned char heightMap[] =
 	{
 		64, 64, 64, 64, 64,
 		64, 64, 64, 64, 64,
 		64, 64,
 	};
 
-	extern __attribute__((section(".ewram"))) const unsigned long offsets[] =
+	extern EWRAM_DATA const unsigned long offsets[] =
 	{
 		0, 256, 512, 768, 1024,
 		1280, 1536, 1792, 2048, 2304,
 		2560, 2816,
 	};
 
-	extern __attribute__((section(".ewram"))) const unsigned long data[] =
+	extern EWRAM_DATA const unsigned long data[] =
 	{
 		0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 		0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,

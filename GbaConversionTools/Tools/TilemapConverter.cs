@@ -19,6 +19,8 @@ namespace GbaConversionTools.Tools
         const string STR_U8 = Defines.STR_U8;
         const string STR_U16 = Defines.STR_U16;
         const string STR_U32 = Defines.STR_U32;
+
+        const string MACRO_DEFINES = Defines.STR_DEFINE_MACRO_EWRAM_DATA + "\n\n";
         const string VARPREFIXES = "extern " + Defines.STR_EWRAM_DATA + " const ";
 
         const string NAMESPACE_FORMAT = "namespace " + Defines.STR_TILEMAP_NAMESPC_PREFIX + "{0} \n{{\n";
@@ -201,6 +203,7 @@ namespace GbaConversionTools.Tools
 
             StringBuilder sb = new StringBuilder();
 
+            sb.Append(MACRO_DEFINES);
             sb.Append(namespaceName);
 
             WriteHeader(masterPalette, tilesetLength, sb);

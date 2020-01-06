@@ -25,7 +25,10 @@ namespace GbaConversionTools.Tools
         const string STR_U8 = Defines.STR_U8;
         const string STR_U16 = Defines.STR_U16;
         const string STR_U32 = Defines.STR_U32;
+
+        const string MACRO_DEFINES = Defines.STR_DEFINE_MACRO_EWRAM_DATA + "\n\n";
         const string VARPREFIXES = "extern " + Defines.STR_EWRAM_DATA + " const ";
+
         const string NAMESPACE_FORMAT                   = "namespace " + Defines.STR_SPRITEMAP_NAMESPC_PREFIX + "{0} \n{{\n";
         const string VAR_HEADER_PALLETLENGTH_FORMAT     = namespaceTabs + VARPREFIXES + STR_U8 + " paletteLength = {0};\n";
         const string VAR_HEADER_DATALENGTH_FORMAT       = namespaceTabs + VARPREFIXES + STR_U32 + " dataLength = {0};\n";
@@ -108,6 +111,7 @@ namespace GbaConversionTools.Tools
                 }
             }
 
+            sb.Append(MACRO_DEFINES);
             sb.Append(namespaceName);
 
             WriteHeader(sliceCoordinates, preProcessedPalette, totalData, compressionType, destBpp, sb);

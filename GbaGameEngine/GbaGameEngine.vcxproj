@@ -124,7 +124,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
-    <ClCompile Include="src\game\data\Shantae_Idle_Map.cpp" />
+    <ClCompile Include="src\game\data\TestBackground.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
