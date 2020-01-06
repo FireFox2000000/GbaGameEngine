@@ -9,7 +9,7 @@
 
 #include "engine/gba/registers/input/GBAInput.h"
 
-namespace __binary_background_Shantae_Idle_Map
+namespace __binary_background_eosd
 {
 	extern const u8 paletteLength;
 	extern const u32 tilesetLength;
@@ -29,7 +29,7 @@ void TilemapTestScene::Enter(Engine * engine)
 {
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
-	using namespace __binary_background_Shantae_Idle_Map;
+	using namespace __binary_background_eosd;
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D | Background0);
 
@@ -46,10 +46,10 @@ void TilemapTestScene::Enter(Engine * engine)
 	Vram::GetInstance().AllocBackgroundMem(tileset, tilesetLength, map, mapLength, cbb, sbb);
 
 	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
-	background.SetColourMode(Background::ColourMode::FourBitsPerPixel);
+	background.SetColourMode(Background::ColourMode::EightBitsPerPixel);
 	background.SetCharacterBaseBlock(cbb);
 	background.SetScreenBaseBlock(sbb);
-	background.SetSize(Background::REG_32x32);
+	background.SetSize(Background::REG_64x32);
 }
 
 void TilemapTestScene::Update(Engine * engine)
