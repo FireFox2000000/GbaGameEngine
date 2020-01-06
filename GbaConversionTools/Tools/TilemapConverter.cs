@@ -31,6 +31,10 @@ namespace GbaConversionTools.Tools
         const string VAR_TILESET = namespaceTabs + VARPREFIXES + STR_U32 + " tileset[] = \n";
         const string VAR_TILEMAP = namespaceTabs + VARPREFIXES + STR_U16 + " map[] = \n";
 
+        const int MAX_UNIQUE_TILES = 1024;
+        const int GBA_MAP_TILE_WIDTH = 32;
+        const int GBA_MAP_TILE_HEIGHT = 32;
+
         class ProcessedBitmapContainer
         {
             public int paletteIndex = -1;
@@ -158,6 +162,9 @@ namespace GbaConversionTools.Tools
 
             Tile[] masterTileSet = uniqueTileSetList.ToArray();
 
+            if (masterTileSet.Length > MAX_UNIQUE_TILES)
+                throw new Exception(string.Format("Too many tiles present in tilemap. Max tiles = {0}. Total titles found = {1}", MAX_UNIQUE_TILES, masterTileSet.Length));
+
             Console.WriteLine("Total unique tiles = " + masterTileSet.Length);
             Console.WriteLine("Processing tilemaps");
 
@@ -186,32 +193,6 @@ namespace GbaConversionTools.Tools
 
         WriteMasterTileSetToSb:
 
-            List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
-            foreach (var tilemap in tileMapList)
-            {
-                for (int j = 0; j < tilemap.mapData.GetLength(1); ++j)
-                {
-                    for (int i = 0; i < tilemap.mapData.GetLength(0); ++i)
-                    {
-                        var currentMapData = tilemap.mapData[i, j];
-
-                        GBAScreenEntry screenEntry = new GBAScreenEntry();
-                        screenEntry.SetTileIndex(currentMapData.tilesetIndex);
-
-                        if ((currentMapData.flags & TileMap.FlippingFlags.Horizontal) != 0)
-                            screenEntry.SetHFlipFlag();
-
-                        if ((currentMapData.flags & TileMap.FlippingFlags.Vertical) != 0)
-                            screenEntry.SetVFlipFlag();
-
-                        if (tilemap.paletteIndex >= 0)
-                            screenEntry.SetPalIndex(tilemap.paletteIndex);
-
-                        seList.Add(screenEntry);
-                    }
-                }
-            }
-
             int tilesetLength;
             StringBuilder tilesetSb = new StringBuilder();
             WriteTileSet(masterTileSet, tilesetSb, compressionType, destBpp, out tilesetLength);
@@ -227,7 +208,7 @@ namespace GbaConversionTools.Tools
             sb.Append(tilesetSb);
 
             // Write tile maps
-            WriteMapData(seList.ToArray(), sb);
+            WriteMapData(tileMapList, sb);
 
             sb.Append("}\n");
 
@@ -308,10 +289,48 @@ namespace GbaConversionTools.Tools
             sb.Append("\n" + namespaceTabs + "};\n\n");
         }
 
-        void WriteMapData(GBAScreenEntry[] mapEntries, StringBuilder sb)
+        void WriteMapData(List<TileMap> tilemaps, StringBuilder sb)
         {
             const string tabs = namespaceTabs;
 
+            List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
+            List<int> mapStartOffsets = new List<int>();
+
+            foreach (var tilemap in tilemaps)
+            {
+                mapStartOffsets.Add(seList.Count);
+
+                // GBA nesting: https://www.coranac.com/tonc/text/regbg.htm 9.3.1
+                for (int mapStartY = 0; mapStartY < tilemap.mapData.GetLength(1); mapStartY += GBA_MAP_TILE_HEIGHT)
+                {
+                    for (int mapStartX = 0; mapStartX < tilemap.mapData.GetLength(0); mapStartX += GBA_MAP_TILE_WIDTH)
+                    {
+                        for (int j = mapStartY; j < mapStartY + GBA_MAP_TILE_HEIGHT; ++j)
+                        {
+                            for (int i = mapStartX; i < mapStartX + GBA_MAP_TILE_WIDTH; ++i)
+                            {
+                                var currentMapData = tilemap.mapData[i, j];
+
+                                GBAScreenEntry screenEntry = new GBAScreenEntry();
+                                screenEntry.SetTileIndex(currentMapData.tilesetIndex);
+
+                                if ((currentMapData.flags & TileMap.FlippingFlags.Horizontal) != 0)
+                                    screenEntry.SetHFlipFlag();
+
+                                if ((currentMapData.flags & TileMap.FlippingFlags.Vertical) != 0)
+                                    screenEntry.SetVFlipFlag();
+
+                                if (tilemap.paletteIndex >= 0)
+                                    screenEntry.SetPalIndex(tilemap.paletteIndex);
+
+                                seList.Add(screenEntry);
+                            }
+                        }
+                    }
+                } 
+            }
+
+            GBAScreenEntry[] mapEntries = seList.ToArray();
             sb.AppendFormat(VAR_HEADER_TILEMAPLENGTH_FORMAT, mapEntries.Length);
 
             sb.Append(VAR_TILEMAP);
