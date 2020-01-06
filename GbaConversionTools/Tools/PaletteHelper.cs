@@ -10,6 +10,7 @@ namespace GbaConversionTools.Tools
     class PaletteHelper
     {
         public static readonly int PALETTE_LENGTH_4BBP = 16;
+        public static readonly int MAX_PALETTE_LENGTH = 256;
 
         public static Color[] GeneratePaletteFromImage(Bitmap bitmap, int xStart, int yStart, int width, int height)
         {

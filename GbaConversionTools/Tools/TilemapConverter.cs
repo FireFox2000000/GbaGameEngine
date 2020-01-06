@@ -98,9 +98,9 @@ namespace GbaConversionTools.Tools
 
                 // Validate pallet length
                 {
-                    if (preProcessedPalette.Length > 256)
+                    if (preProcessedPalette.Length > PaletteHelper.MAX_PALETTE_LENGTH)
                     {
-                        throw new Exception("Palette length out of range for the GBA");
+                        throw new Exception(string.Format("Palette length ({0}) out of range for the GBA ({1})", preProcessedPalette.Length, PaletteHelper.MAX_PALETTE_LENGTH));
                     }
                 }
 
@@ -147,6 +147,8 @@ namespace GbaConversionTools.Tools
             }
 
             Color[] masterPalette = masterPaletteList.ToArray();
+
+            Console.WriteLine("Total colours found = " + masterPalette.Length);
 
             Console.WriteLine("Processing master tileset");
 
