@@ -1,5 +1,6 @@
 #include "GBABackground.h"
 #include "engine/gba/registers/RegisterMap.h"
+#include "engine/algorithm/Compression.h"
 
 #define CLEARED 0x0
 
@@ -27,6 +28,11 @@ enum Masks
 u16& GBA::Background::EditControlRegister()
 {
 	return *(reinterpret_cast<u16*>(REG_BGCNT) + m_index);
+}
+
+GBA::Background::ColourMode GBA::Background::GetColourModeFromCompression(u32 compressionFlags)
+{
+	return Compression::GetBitPackedSrcBpp(compressionFlags) > 4 ? Background::ColourMode::EightBitsPerPixel : Background::ColourMode::FourBitsPerPixel;
 }
 
 void GBA::Background::SetPriority(Priority priority)

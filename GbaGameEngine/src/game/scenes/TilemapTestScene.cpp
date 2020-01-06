@@ -15,6 +15,7 @@ namespace __binary_background_eosd
 	extern const u32 tilesetLength;
 
 	extern const u16 palette[];
+	extern const u32 tileSetCompressionTypeSize;
 	extern const u32 tileset[];
 
 	extern const u16 mapLength;
@@ -40,13 +41,15 @@ void TilemapTestScene::Enter(Engine * engine)
 		colourPalette[i] = palette[i];
 	}
 
+	Background::ColourMode colourMode = Background::GetColourModeFromCompression(tileSetCompressionTypeSize);
+
 	TileBlockGroups cbb = TileBlockGroups::Bg0;
 	tScreenBaseBlockIndex sbb = 0;
 	PaletteBank::LoadBackgroundPalette(colourPalette);
 	Vram::GetInstance().AllocBackgroundMem(tileset, tilesetLength, map, mapLength, cbb, sbb);
 
 	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
-	background.SetColourMode(Background::ColourMode::EightBitsPerPixel);
+	background.SetColourMode(colourMode);
 	background.SetCharacterBaseBlock(cbb);
 	background.SetScreenBaseBlock(sbb);
 	background.SetSize(Background::REG_64x32);

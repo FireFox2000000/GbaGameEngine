@@ -48,6 +48,8 @@ namespace GBA
 			Layer3
 		};
 
+		static ColourMode GetColourModeFromCompression(u32 compressionFlags);
+
 		void SetPriority(Priority priority);
 		void SetCharacterBaseBlock(tCharacterBaseBlock blockId);
 		void SetMosaic(bool enabled);
