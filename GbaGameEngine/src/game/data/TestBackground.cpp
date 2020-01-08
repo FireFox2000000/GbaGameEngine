@@ -4233,7 +4233,18 @@ namespace __binary_background_eosd
 
 	};
 
+	extern EWRAM_DATA const unsigned char mapCount = 1;
 	extern EWRAM_DATA const unsigned short mapLength = 2048;
+	extern EWRAM_DATA const unsigned char mapTileWidths[] =
+	{
+		64,
+	};
+
+	extern EWRAM_DATA const unsigned char mapTileHeights[] =
+	{
+		32,
+	};
+
 	extern EWRAM_DATA const unsigned short map[] =
 	{
 		0x0000, 0x0001, 0x0002, 0x0002, 0x0002,
