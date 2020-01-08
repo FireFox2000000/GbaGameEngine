@@ -28,6 +28,10 @@ namespace GbaConversionTools.Tools
         const string VAR_HEADER_TILESETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U32 + " tilesetLength = {0};\n";
         const string VAR_HEADER_TILEMAPLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U16 + " mapLength = {0};\n";
 
+        const string VAR_MAPWIDTHS = namespaceTabs + VARPREFIXES + STR_U8 + " mapTileWidths[] = \n";
+        const string VAR_MAPHEIGHTS = namespaceTabs + VARPREFIXES + STR_U8 + " mapTileHeights[] = \n";
+        const string VAR_MAPCOUNT = namespaceTabs + VARPREFIXES + STR_U8 + " mapCount = {0};\n";
+
         const string VAR_PALLET = namespaceTabs + VARPREFIXES + STR_U16 + " palette[] = \n";
         const string VAR_TILESET_COMPRESSION_FORMAT = namespaceTabs + compressionComment + namespaceTabs + VARPREFIXES + STR_U32 + " tileSetCompressionTypeSize = {0}; \n";
         const string VAR_TILESET = namespaceTabs + VARPREFIXES + STR_U32 + " tileset[] = \n";
@@ -301,8 +305,23 @@ namespace GbaConversionTools.Tools
             List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
             List<int> mapStartOffsets = new List<int>();
 
+            // Write map sizes
+            StringBuilder widthSb = new StringBuilder();
+            StringBuilder heightSb = new StringBuilder();
+
+            widthSb.Append(VAR_MAPWIDTHS);
+            widthSb.Append(namespaceTabs + "{\n");
+            widthSb.Append(namespaceTabs + TAB_CHAR);
+
+            heightSb.Append(VAR_MAPHEIGHTS);
+            heightSb.Append(namespaceTabs + "{\n");
+            heightSb.Append(namespaceTabs + TAB_CHAR);
+
             foreach (var tilemap in tilemaps)
             {
+                widthSb.AppendFormat("{0}, ", tilemap.mapData.GetLength(0));
+                heightSb.AppendFormat("{0}, ", tilemap.mapData.GetLength(1));
+
                 mapStartOffsets.Add(seList.Count);
 
                 // GBA nesting: https://www.coranac.com/tonc/text/regbg.htm 9.3.1
@@ -335,8 +354,22 @@ namespace GbaConversionTools.Tools
                 } 
             }
 
+            {
+                widthSb.Append("\n");
+                widthSb.Append(namespaceTabs + "};\n");
+
+                heightSb.Append("\n");
+                heightSb.Append(namespaceTabs + "};\n");
+            }
+
             GBAScreenEntry[] mapEntries = seList.ToArray();
+            sb.AppendFormat(VAR_MAPCOUNT, tilemaps.Count);
             sb.AppendFormat(VAR_HEADER_TILEMAPLENGTH_FORMAT, mapEntries.Length);
+
+            sb.Append(widthSb.ToString());
+            sb.Append("\n");
+            sb.Append(heightSb.ToString());
+            sb.Append("\n");
 
             sb.Append(VAR_TILEMAP);
             sb.Append(namespaceTabs + "{\n\t" + namespaceTabs);
