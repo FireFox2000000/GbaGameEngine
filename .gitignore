@@ -8,6 +8,7 @@
 
 # GBA Tool output testing
 bin/
+GbaConversionTools/obj/
 
 # User-specific files
 *.suo
