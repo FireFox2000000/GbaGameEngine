@@ -34,7 +34,7 @@ MUSIC		:=
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O3 -pedantic\
+CFLAGS	:=	-g -Wall -O2 -pedantic\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
 		$(ARCH)
 
