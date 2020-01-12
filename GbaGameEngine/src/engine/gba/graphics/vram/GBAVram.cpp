@@ -4,6 +4,7 @@
 #include "engine/gba/registers/clock/GBATimer.h"
 
 //#define DECOMPRESSION_PROFILE
+//#define VRAM_TRANSFER_PROFILE
 
 const int ScreenBlocksPerCharBlock = 8;
 
@@ -131,12 +132,18 @@ namespace GBA
 			m_screenEntryTracker[i] = Continue;
 		}
 
+#ifdef VRAM_TRANSFER_PROFILE
+		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
+		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
+
+		profilerClock.SetActive(true);
+#endif
 		// Transfer memory
-		vu16* screenEntry = reinterpret_cast<vu16*>(&s_screenBlockPool[allocatedIndex][0]);
-		for (u32 i = 0; i < dataLength; ++i)
-		{
-			screenEntry[i] = *(mem + i);
-		}
+		VramSafeMemCopy(mem, (u16*)&s_screenBlockPool[allocatedIndex][0], byteLength);
+#ifdef VRAM_TRANSFER_PROFILE
+		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+#endif
 
 		return allocatedIndex;
 	}
