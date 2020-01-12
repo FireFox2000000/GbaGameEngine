@@ -52,7 +52,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
-	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D | Background0);
+	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 

@@ -5,7 +5,7 @@
 namespace GBA
 {
 	BackgroundControl::tBackgrounds BackgroundControl::s_backgrounds = { Background(0), Background(1), Background(2), Background(3) };
-	u8 BackgroundControl::s_backgroundPoolTracker = 0;
+	Bitmask<u8> BackgroundControl::s_backgroundPoolTracker = Bitmask<u8>(0);
 
 	Background & BackgroundControl::GetBackground(Backgrounds backgroundId)
 	{
@@ -15,46 +15,16 @@ namespace GBA
 	BackgroundControl::Backgrounds BackgroundControl::ReserveBackground()
 	{
 		BackgroundControl::Backgrounds bgId = Backgrounds::Count;
+		Bitmask<u8> availableBackgrounds = DisplayControl::GetBackgroundsForCurrentVideoMode();
 
 		for (u32 i = 0; i < s_backgrounds.Count(); ++i)
 		{
 			// Test if this is already owned
-			if ((s_backgroundPoolTracker & BIT(i)) != 0)
+			if (s_backgroundPoolTracker.TestBit(i))
 				continue;
 
-			DisplayOptions::ObjectRendering renderId = DisplayOptions::ObjectRendering::Background0;
-
-			switch (i)
-			{
-			case 0:
-			{
-				renderId = DisplayOptions::ObjectRendering::Background0;
-				break;
-			}
-			case 1:
-			{
-				renderId = DisplayOptions::ObjectRendering::Background1;
-				break;
-			}
-			case 2:
-			{
-				renderId = DisplayOptions::ObjectRendering::Background2;
-				break;
-			}
-			case 3:
-			{
-				renderId = DisplayOptions::ObjectRendering::Background3;
-				break;
-			}
-			default:
-			{
-				// NOT VALID
-				return Backgrounds::Count;
-			}
-			}
-
-			// Test if the GBA has this background enabled in the first place
-			if (DisplayControl::TestObjectRendering(renderId))
+			// Test if the GBA has this background available in the first place
+			if (availableBackgrounds.TestBit(i))
 			{		
 				bgId = (BackgroundControl::Backgrounds)i;
 				break;
@@ -64,7 +34,8 @@ namespace GBA
 		DEBUG_ASSERTMSG(bgId < BackgroundControl::Backgrounds::Count, "Out of backgrounds, make sure appropriate backgrounds are available via DisplayControl::SetDisplayOptions");
 
 		// Mark as reserved
-		s_backgroundPoolTracker |= BIT(bgId);
+		s_backgroundPoolTracker.SetBit(bgId);
+		DisplayControl::SetBackgroundActive(bgId, true);
 
 		return bgId;
 	}
@@ -72,6 +43,9 @@ namespace GBA
 	void BackgroundControl::FreeBackground(BackgroundControl::Backgrounds id)
 	{
 		if (id < BackgroundControl::Backgrounds::Count)
-			s_backgroundPoolTracker &= ~BIT(id);	// Clear the bit
+		{
+			s_backgroundPoolTracker.ClearBit(id);	// Clear the bit
+			DisplayControl::SetBackgroundActive(id, false);
+		}
 	}
 }

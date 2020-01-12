@@ -161,6 +161,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\asset\libraries\TilemapLibrary.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
+    <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\base\core\Memory.h" />
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
     <ClInclude Include="src\engine\base\core\stl\List.h" />

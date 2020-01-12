@@ -1,6 +1,7 @@
 #pragma once
 #include "engine/gba/graphics/background/GBABackground.h"
 #include "engine/base/core/stl/Array.h"
+#include "engine/base/core/stl/Bitmask.h"
 
 namespace GBA
 {
@@ -21,7 +22,7 @@ namespace GBA
 	private:
 		using tBackgrounds = Array<Background, Backgrounds::Count>;
 		static tBackgrounds s_backgrounds;
-		static u8 s_backgroundPoolTracker;
+		static Bitmask<u8> s_backgroundPoolTracker;
 
 	public:
 		static Background& GetBackground(Backgrounds backgroundId);
