@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "engine/graphicalassets/sprite/SpriteManager.h"
+#include "engine/graphicalassets/tilemap/TilemapManager.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
 #include "engine/time/Time.h"
@@ -15,6 +16,7 @@ Engine::Engine()
 
 	AddComponent<Time>();
 	AddComponent<SpriteManager>();
+	AddComponent<TilemapManager>();
 	AddComponent<SceneManager>();
 	AddComponent<GBA::OAMManager>();
 

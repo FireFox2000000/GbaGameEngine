@@ -38,6 +38,7 @@ void Component::TilemapRenderer::FreeAssignedBackgroundSlot()
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
 #include "engine/screen/Screen.h"
+#include "engine/graphicalassets/tilemap/TilemapManager.h"
 
 void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 {
@@ -53,12 +54,14 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 
 	auto* entityManager = engine->GetEntityRegistry();
 
+	TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
+
 	entityManager->InvokeEach<Component::Transform, Component::TilemapRenderer>(
-		[&cameraPosition, &screenSpaceOffset]
+		[&cameraPosition, &screenSpaceOffset, &tilemapManager]
 	(Component::Transform& transform, Component::TilemapRenderer& tilemapRenderer)
 		{
 			Tilemap* tilemap = tilemapRenderer.GetTilemap();
-			if (!tilemap || !tilemap->IsLoaded())
+			if (!tilemap)
 			{
 				if (tilemapRenderer.IsBackgroundSlotAssigned())
 				{
@@ -72,6 +75,12 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			if (!tilemapRenderer.IsBackgroundSlotAssigned())
 			{
 				tilemapRenderer.AssignBackgroundSlot();
+			}
+
+			// TODO, need to handle tilemap unloading somehow
+			if (!tilemap->IsLoaded())
+			{
+				tilemapManager->Load(*tilemap);
 			}
 
 			Vector2<tFixedPoint8> position = transform.position;
