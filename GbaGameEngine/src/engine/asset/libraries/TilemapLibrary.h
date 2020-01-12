@@ -62,5 +62,10 @@ namespace Prefix##Namespace\
 {\
 	using namespace Prefix##Namespace;\
 	AddTilemapSet(paletteLength, palette, tilesetLength, tileset, tileSetCompressionTypeSize, mapCount, mapTileWidths, mapTileHeights, map);\
-	/*totalBytes += sizeof(u32) * dataLength;*/\
+	totalBytes += tilesetLength * sizeof(u32);\
+	for (int i = 0; i < mapCount; ++i)\
+	{\
+		u32 mapSize = mapTileWidths[i] * mapTileHeights[i];\
+		totalBytes += sizeof(u16) * mapSize;\
+	}\
 }
