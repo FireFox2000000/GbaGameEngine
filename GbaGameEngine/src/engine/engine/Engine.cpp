@@ -7,6 +7,7 @@
 #include "engine/asset/libraries/SpriteLibrary.h"
 #include "engine/asset/libraries/AnimationLibrary.h"
 #include "engine/asset/libraries/FontLibrary.h"
+#include "engine/asset/libraries/TilemapLibrary.h"
 
 Engine::Engine()
 {
@@ -21,6 +22,7 @@ Engine::Engine()
 	AddComponent<SpriteLibrary>();
 	AddComponent<AnimationLibrary>(EditComponent<SpriteLibrary>());
 	AddComponent<FontLibrary>();
+	AddComponent<TilemapLibrary>();
 }
 
 

@@ -33,11 +33,13 @@ namespace GBA
 			REG_64x32 = 1,
 			REG_32x64 = 2,
 			REG_64x64 = 3,
+			REGSize_Count = 4,
 
 			AFF_16x16 = 0,
 			AFF_32x32 = 1,
 			AFF_64x64 = 2,
 			AFF_128x128 = 3,
+			AFFSize_Count = 4,
 		};
 
 		enum Priority
@@ -65,6 +67,8 @@ namespace GBA
 			*hOffAddr = position.x.ToRoundedInt();
 			*(hOffAddr + 1) = position.y.ToRoundedInt();
 		}
+
+		static Size GetRegSizeFromTileSize(u8 width, u8 height);
 
 	}  ALIGN(4);
 }

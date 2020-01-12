@@ -45,6 +45,10 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\game\data\TestBackground.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
+    <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
+    <ClCompile Include="src\engine\render\TilemapRenderer_gba.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -146,6 +150,10 @@
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
     <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
+    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapSet.h" />
+    <ClInclude Include="src\engine\graphicalassets\tilemap\Tilemap.h" />
+    <ClInclude Include="src\engine\asset\libraries\TilemapLibrary.h" />
+    <ClInclude Include="src\engine\render\TilemapRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

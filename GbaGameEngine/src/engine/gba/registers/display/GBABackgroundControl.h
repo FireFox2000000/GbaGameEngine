@@ -6,6 +6,7 @@ namespace GBA
 {
 	class BackgroundControl
 	{
+
 	public:
 		enum Backgrounds
 		{
@@ -20,8 +21,11 @@ namespace GBA
 	private:
 		using tBackgrounds = Array<Background, Backgrounds::Count>;
 		static tBackgrounds s_backgrounds;
+		static u8 s_backgroundPoolTracker;
 
 	public:
 		static Background& GetBackground(Backgrounds backgroundId);
+		static Backgrounds ReserveBackground();
+		static void FreeBackground(BackgroundControl::Backgrounds id);
 	};
 }

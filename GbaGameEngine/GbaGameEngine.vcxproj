@@ -107,6 +107,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
     <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
+    <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
@@ -116,7 +117,10 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />
+    <ClCompile Include="src\engine\render\TilemapRenderer_gba.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
@@ -154,6 +158,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
     <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
+    <ClInclude Include="src\engine\asset\libraries\TilemapLibrary.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\Memory.h" />
@@ -211,8 +216,11 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\tonc\memory\toncset.h" />
     <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h" />
     <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
+    <ClInclude Include="src\engine\graphicalassets\tilemap\Tilemap.h" />
+    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapSet.h" />
     <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h" />
     <ClInclude Include="src\engine\render\TextRenderer.h" />
+    <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />

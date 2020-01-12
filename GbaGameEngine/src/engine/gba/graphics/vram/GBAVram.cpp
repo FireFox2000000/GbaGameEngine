@@ -141,50 +141,50 @@ namespace GBA
 		return allocatedIndex;
 	}
 
-	void Vram::AllocBackgroundMem(const u32 * tileset, u32 tileSetLength, const u16 * mapData, u32 mapDataLength, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
+	void Vram::AllocBackgroundTileSetMem(const u32 * tileset, u32 tileSetLength, TileBlockGroups & out_cbbIndex)
 	{
 		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem((u16*)tileset, tileSetLength * 2, true);
 		if (tileSbbIndex == INVALID_SBB_ID)
 		{
 			out_cbbIndex = TileBlockGroups::BlockGroupCount;
-			out_sbbIndex = INVALID_SBB_ID;
-
 			DEBUG_ASSERTMSG(false, "Unable to load background, out of memory for tileset");
-
 			return;
 		}
 
 		out_cbbIndex = static_cast<TileBlockGroups>(tileSbbIndex / ScreenBlocksPerCharBlock);
+	}
 
-		DEBUG_LOGFORMAT("Loaded tileset into slot %d", (int)out_cbbIndex);
-
+	void Vram::AllocBackgroundTileMapMem(const u16 * mapData, u32 mapDataLength, tScreenBaseBlockIndex & out_sbbIndex)
+	{
 		out_sbbIndex = AllocBackgroundMem(mapData, mapDataLength, false);
 
 		DEBUG_ASSERTMSG(out_sbbIndex != INVALID_SBB_ID, "Unable to load background, out of memory for map");
 		DEBUG_LOGFORMAT("Loaded map into slot %d", (int)out_sbbIndex);
 	}
 
-	void Vram::FreeBackgroundMem(TileBlockGroups cbbIndex, tScreenBaseBlockIndex sbbIndex)
+	void Vram::AllocBackgroundMem(const u32 * tileset, u32 tileSetLength, const u16 * mapData, u32 mapDataLength, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
 	{
-		// Cbb clearing
+		AllocBackgroundTileSetMem(tileset, tileSetLength, out_cbbIndex);
+
+		if (out_cbbIndex != TileBlockGroups::BlockGroupCount)
 		{
-			u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
-			m_screenEntryTracker[cbbSeIndex++] = Free;
-
-			while (cbbSeIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[cbbSeIndex] == Continue)
-			{
-				m_screenEntryTracker[cbbSeIndex++] = Free;
-			}
+			AllocBackgroundTileMapMem(mapData, mapDataLength, out_sbbIndex);
 		}
+	}
 
-		// Sbb clearing
+	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)
+	{
+		u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
+		FreeBackgroundTileMapMem(cbbSeIndex);
+	}
+
+	void Vram::FreeBackgroundTileMapMem(tScreenBaseBlockIndex sbbIndex)
+	{
+		m_screenEntryTracker[sbbIndex++] = Free;
+
+		while (sbbIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[sbbIndex] == Continue)
 		{
 			m_screenEntryTracker[sbbIndex++] = Free;
-
-			while (sbbIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[sbbIndex] == Continue)
-			{
-				m_screenEntryTracker[sbbIndex++] = Free;
-			}
 		}
 	}
 

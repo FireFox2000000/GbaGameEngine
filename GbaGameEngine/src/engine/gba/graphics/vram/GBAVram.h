@@ -72,6 +72,15 @@ namespace GBA
 		tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
 		void FreeSpriteMem(tTileId index);
 
+		void AllocBackgroundTileSetMem(
+			const u32* tileset,
+			u32 tileSetLength,
+			TileBlockGroups& out_cbbIndex);
+		void AllocBackgroundTileMapMem(
+			const u16* mapData,
+			u32 mapDataLength,
+			tScreenBaseBlockIndex& out_sbbIndex);
+
 		void AllocBackgroundMem(
 			const u32* tileset,
 			u32 tileSetLength, 
@@ -79,7 +88,9 @@ namespace GBA
 			u32 mapDataLength, 
 			TileBlockGroups& out_cbbIndex, 
 			tScreenBaseBlockIndex& out_sbbIndex);
-		void FreeBackgroundMem(TileBlockGroups cbbIndex, tScreenBaseBlockIndex sbbIndex);
+
+		void FreeBackgroundTileSetMem(TileBlockGroups cbbIndex);
+		void FreeBackgroundTileMapMem(tScreenBaseBlockIndex sbbIndex);
 
 		static Vram& GetInstance()
 		{

@@ -22,7 +22,7 @@ SpriteLibrary::SpriteLibrary()
 
 	SPRITE_ATLUS_LIST
 
-#undef ADD_SPRITE_SHEET
+#undef SPRITELIB_ADD_SPRITE_SHEET
 #undef _SPRITE_ATLUS_ENTRY
 #undef SPRITE_ATLUS_ENTRY
 

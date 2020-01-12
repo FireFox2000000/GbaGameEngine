@@ -55,5 +55,6 @@ namespace GBA
 
 		inline static DisplayOptions::VideoMode GetVideoMode() { return DisplayOptions::VideoMode(s_REG_DISPCNT & BITS_INDEXED_U32(3, 0)); }
 		inline static DisplayOptions::SpriteMappingMode GetSpriteMappingMode() { return DisplayOptions::SpriteMappingMode(s_REG_DISPCNT & BIT(6)); }
+		inline static bool TestObjectRendering(DisplayOptions::ObjectRendering val) { return (s_REG_DISPCNT & val) != 0; }
 	};
 }

@@ -1,85 +1,101 @@
 #include "TilemapTestScene.h"
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
-
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
-
 #include "engine/gba/registers/display/GBABackgroundControl.h"
-
 #include "engine/gba/registers/input/GBAInput.h"
-
-namespace __binary_background_eosd
-{
-	extern const u8 paletteLength;
-	extern const u32 tilesetLength;
-
-	extern const u16 palette[];
-	extern const u32 tileSetCompressionTypeSize;
-	extern const u32 tileset[];
-
-	extern const u16 mapLength;
-	extern const u16 map[];
-}
+#include "engine/asset/libraries/TilemapLibrary.h"
+#include "engine/render/TilemapRenderer.h"
+#include "engine/gameobject/transformation/Transform.h"
+#include "engine/gameobject/Camera.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
+}
+
+void LoadTilemap(Tilemap* tilemap, GBA::BackgroundControl::Backgrounds backgroundSlot)
+{
+	using namespace GBA;
+
+	if (backgroundSlot >= GBA::BackgroundControl::Count)
+		return;
+
+	TilemapSet* tilemapSet = tilemap->EditTilemapSet();
+
+	// TODO- Ref tracking for each map we've loaded
+
+	// Load tileset
+	if (!tilemapSet->IsLoaded())
+	{
+		ColourPalette256 colourPalette(0);
+		for (u32 i = 0; i < tilemapSet->m_paletteLength; ++i)
+		{
+			colourPalette[i] = tilemapSet->m_palette[i];
+		}
+		tilemapSet->m_paletteIndex = 0;
+
+		PaletteBank::LoadBackgroundPalette(colourPalette);
+
+		Vram::GetInstance().AllocBackgroundTileSetMem(tilemapSet->m_tileset, tilemapSet->m_tilesetLength, tilemapSet->m_tileSetCharacterBaseBlock);
+	}
+
+	// Load local map data
+	if (!tilemap->IsLoaded())
+	{
+		Vram::GetInstance().AllocBackgroundTileMapMem(tilemap->m_tileMapData, tilemap->m_tileMapDataLength, tilemap->m_mapSbbIndex);
+	}
 }
 
 void TilemapTestScene::Enter(Engine * engine)
 {
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
-	using namespace __binary_background_eosd;
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D | Background0);
 
-	ColourPalette256 colourPalette(0);
+	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
 
-	for (u32 i = 0; i < paletteLength; ++i)
-	{
-		colourPalette[i] = palette[i];
-	}
+	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
+	Tilemap* testBg = tilemapLib->GetTilemap(TilemapSetID::eosd, 0);
 
-	Background::ColourMode colourMode = Background::GetColourModeFromCompression(tileSetCompressionTypeSize);
+	GameObject* background = m_gameObjects.AddNew(entityManager);
+	Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
+	tilemapRenderer.SetTilemap(testBg);
+	tilemapRenderer.AssignBackgroundSlot();
 
-	TileBlockGroups cbb = TileBlockGroups::Bg0;
-	tScreenBaseBlockIndex sbb = 0;
-	PaletteBank::LoadBackgroundPalette(colourPalette);
-	Vram::GetInstance().AllocBackgroundMem(tileset, tilesetLength, map, mapLength, cbb, sbb);
-
-	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
-	background.SetColourMode(colourMode);
-	background.SetCharacterBaseBlock(cbb);
-	background.SetScreenBaseBlock(sbb);
-	background.SetSize(Background::REG_64x32);
+	BackgroundControl::Backgrounds bgId = tilemapRenderer.GetAssignedBackgroundSlot();
+	LoadTilemap(testBg, bgId);
 }
 
 void TilemapTestScene::Update(Engine * engine)
 {
-	using namespace GBA;
-	using namespace GBA::DisplayOptions;
+	auto* entityManager = engine->GetEntityRegistry();
 
-	if (GBA::Input::GetKey(GBA::Buttons::Left))
-	{
-		bgPosition.x += -1;
-	}
-	
-	if (GBA::Input::GetKey(GBA::Buttons::Right))
-	{
-		bgPosition.x += 1;
-	}
+	entityManager->InvokeEach<Component::Transform, Component::Camera>(
+		[]
+	(Component::Transform& transform, Component::Camera& camera)
+		{
+			auto& position = transform.position;
 
-	if (GBA::Input::GetKey(GBA::Buttons::Down))
-	{
-		bgPosition.y += 1;
-	}
+			if (GBA::Input::GetKey(GBA::Buttons::Left))
+			{
+				position.x += -1;
+			}
 
-	if (GBA::Input::GetKey(GBA::Buttons::Up))
-	{
-		bgPosition.y += -1;
-	}
+			if (GBA::Input::GetKey(GBA::Buttons::Right))
+			{
+				position.x += 1;
+			}
 
-	auto& background = BackgroundControl::GetBackground(BackgroundControl::Bg0);
-	background.SetPosition(bgPosition);
+			if (GBA::Input::GetKey(GBA::Buttons::Down))
+			{
+				position.y += -1;
+			}
+
+			if (GBA::Input::GetKey(GBA::Buttons::Up))
+			{
+				position.y += 1;
+			}
+		});
 }

@@ -9,6 +9,7 @@ class Scene
 {
 	friend class SceneManager;
 
+	void PreRender(Engine* engine);
 	void Render(Engine* engine);
 
 protected:

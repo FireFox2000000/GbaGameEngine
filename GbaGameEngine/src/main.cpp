@@ -8,8 +8,6 @@
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gba/registers/clock/GBATimer.h"
 
-#include "engine/gba/graphics/oam/GBAOAMManager.h"
-
 #include "game/scenes/Scene0.h"
 #include "game/scenes/TilemapTestScene.h"
 
@@ -24,7 +22,6 @@ int main()
 	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
 	sceneManager->ChangeScene<TilemapTestScene>(engine.get());
 
-	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
 	Time* time = engine->EditComponent<Time>();
 
 	// Test Initialisation		
@@ -45,7 +42,7 @@ int main()
 
 		System::SpriteAnimator::Update(engine.get());
 
-		sceneManager->RenderScene(engine.get());
+		sceneManager->PreRenderScene(engine.get());
 
 		// Main update
 		WaitForVSync();
@@ -57,9 +54,9 @@ int main()
 
 		profilerClock.SetActive(true);
 #endif
-		oamManager->DoMasterRenderIntoMemory(engine.get());
+		sceneManager->RenderScene(engine.get());
 #ifdef TEST_PROFILING
-		DEBUG_LOGFORMAT("[Profile DoMasterRenderIntoMemory] = %d", profilerClock.GetCurrentTimerCount());
+		DEBUG_LOGFORMAT("[Profile Render] = %d", profilerClock.GetCurrentTimerCount());
 		profilerClock.SetActive(false);
 #endif
 		time->Advance();

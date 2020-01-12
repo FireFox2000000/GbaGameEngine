@@ -4,6 +4,8 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/render/SpriteRenderer.h"
 #include "engine/render/TextRenderer.h"
+#include "engine/render/TilemapRenderer.h"
+#include "engine/gba/graphics/oam/GBAOAMManager.h"
 
 //#define RENDER_PROFILE
 #ifdef RENDER_PROFILE
@@ -24,7 +26,7 @@ void Scene::Update(Engine * engine)
 {
 }
 
-void Scene::Render(Engine* engine)
+void Scene::PreRender(Engine * engine)
 {
 #ifdef RENDER_PROFILE
 	auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
@@ -33,14 +35,22 @@ void Scene::Render(Engine* engine)
 #endif
 	System::SpriteRenderer::Render(engine, &m_mainCamera);
 #ifdef RENDER_PROFILE
-	DEBUG_LOGFORMAT("[Profile System::SpriteRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
+	DEBUG_LOGFORMAT("[Profile Prerender System::SpriteRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
 	profilerClock.SetActive(false);
 
 	profilerClock.SetActive(true);
 #endif
 	System::UI::TextRenderer::Render(engine);
 #ifdef RENDER_PROFILE
-	DEBUG_LOGFORMAT("[Profile System::UI::TextRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
+	DEBUG_LOGFORMAT("[Profile Prerender System::UI::TextRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
 	profilerClock.SetActive(false);
 #endif
+}
+
+void Scene::Render(Engine* engine)
+{
+	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
+	oamManager->DoMasterRenderIntoMemory(engine);
+
+	System::TilemapRenderer::VBlankRender(engine, &m_mainCamera);
 }

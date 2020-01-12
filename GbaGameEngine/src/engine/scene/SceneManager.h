@@ -11,6 +11,7 @@ public:
 	~SceneManager();
 
 	inline void UpdateScene(Engine* engine) { m_current->Update(engine); }
+	inline void PreRenderScene(Engine* engine) { m_current->PreRender(engine); }
 	inline void RenderScene(Engine* engine) { m_current->Render(engine); }
 
 	template<typename SCENE>

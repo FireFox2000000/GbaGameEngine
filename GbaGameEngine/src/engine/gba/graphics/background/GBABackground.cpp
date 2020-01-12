@@ -69,3 +69,24 @@ void GBA::Background::SetSize(Size size)
 {
 	SetControlRegister(SHIFTED_BITMASK(size, sc_SIZE_BITINDEX), Masks::Size);
 }
+
+typedef Vector2<u8> tTileSize;
+const u8 c_SIZEMAP_COUNT = GBA::Background::REGSize_Count;
+const tTileSize c_SIZEMAP[c_SIZEMAP_COUNT] = {
+	tTileSize(32, 32),	tTileSize(64, 32),	tTileSize(32, 64),	tTileSize(64, 64),
+};
+
+GBA::Background::Size GBA::Background::GetRegSizeFromTileSize(u8 width, u8 height)
+{
+	tTileSize tileSize(width, height);
+
+	for (u8 i = 0; i < c_SIZEMAP_COUNT; ++i)
+	{
+		if (c_SIZEMAP[i] == tileSize)
+		{
+			return Size(i);
+		}
+	}
+
+	return Size::REGSize_Count;
+}
