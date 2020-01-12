@@ -24,6 +24,17 @@ void TilemapManager::Load(Tilemap & out_tilemap)
 	// Load tileset
 	if (!tilemapSet->IsLoaded())
 	{
+		// TODO, need better system to handle multiple tilemap sets being loaded. Explicitly fail to load multiple in the mean time
+
+		for (u8 refCount : m_tilesetRefCounter)
+		{
+			if (refCount > 0)
+			{
+				DEBUG_ASSERTMSG("Unable to load tilemap set. System not configured to handle multiple tilemaps from different sets.");
+				return;
+			}
+		}
+
 		ColourPalette256 colourPalette(0);
 		for (u32 i = 0; i < tilemapSet->m_paletteLength; ++i)
 		{
