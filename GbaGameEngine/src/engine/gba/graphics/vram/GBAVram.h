@@ -92,6 +92,8 @@ namespace GBA
 		void FreeBackgroundTileSetMem(TileBlockGroups cbbIndex);
 		void FreeBackgroundTileMapMem(tScreenBaseBlockIndex sbbIndex);
 
+		void Clear();
+
 		static Vram& GetInstance()
 		{
 			static Vram instance; // Guaranteed to be destroyed.

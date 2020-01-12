@@ -195,6 +195,12 @@ namespace GBA
 		}
 	}
 
+	void Vram::Clear()
+	{
+		m_spriteTileMemTracker.SetAllTo(AllocState::Free);
+		m_screenEntryTracker.SetAllTo(AllocState::Free);
+	}
+
 	bool Vram::LoadTiles(const u32 * pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
 		volatile Tile::Tile* tileBlock = EditTileBlock(tileBlockGroup)->At(0);

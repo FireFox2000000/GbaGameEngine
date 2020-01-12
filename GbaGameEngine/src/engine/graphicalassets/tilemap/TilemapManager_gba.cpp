@@ -6,6 +6,7 @@
 #include "engine/graphicalassets/tilemap/TilemapSet.h"
 
 TilemapManager::TilemapManager()
+	: m_tilesetRefCounter(0)
 {
 }
 
@@ -30,7 +31,7 @@ void TilemapManager::Load(Tilemap & out_tilemap)
 		{
 			if (refCount > 0)
 			{
-				DEBUG_ASSERTMSG("Unable to load tilemap set. System not configured to handle multiple tilemaps from different sets.");
+				DEBUG_ASSERTMSG(false, "Unable to load tilemap set. System not configured to handle multiple tilemaps from different sets.");
 				return;
 			}
 		}
@@ -83,4 +84,5 @@ void TilemapManager::Unload(Tilemap * tilemap)
 
 void TilemapManager::Clear()
 {
+	m_tilesetRefCounter.SetAllTo(0);
 }

@@ -85,8 +85,5 @@ void SpriteManager::Unload(Sprite * sprite)
 
 void SpriteManager::Clear()
 {
-	for (u32 i = 0; i < m_paletteRefTracker.Count(); ++i)
-	{
-		m_paletteRefTracker[i] = 0;
-	}
+	m_paletteRefTracker.SetAllTo(0);
 }

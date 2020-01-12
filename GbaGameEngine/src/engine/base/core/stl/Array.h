@@ -25,10 +25,7 @@ public:
 
 	Array(const T& initialValue)
 	{
-		for (u32 i = 0; i < Count(); ++i)
-		{
-			m_buffer[i] = T(initialValue);	// Todo, maybe use this instead?- new (&(m_buffer[i])) T();
-		}
+		SetAllTo(initialValue);
 	}
 
 	Array(const Array<T, SIZE> & that) { *this = that; }
@@ -106,5 +103,13 @@ public:
 	inline bool Contains(const T& item) const
 	{
 		return IndexOf(item) >= 0;
+	}
+
+	void SetAllTo(const T& val)
+	{
+		for (u32 i = 0; i < Count(); ++i)
+		{
+			m_buffer[i] = T(val);	// Todo, maybe use this instead?- new (&(m_buffer[i])) T();
+		}
 	}
 };
