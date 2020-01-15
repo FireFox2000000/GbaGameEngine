@@ -46,8 +46,7 @@ void Scene0::Enter(Engine* engine)
 			GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
 
 			Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
-			transform->position.x = (i * 0.2f) - 5;
-			transform->position.y = (i * 0.2f) - 5;
+			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
 			Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
@@ -60,8 +59,7 @@ void Scene0::Enter(Engine* engine)
 		{
 			GameObject* testTextObject = m_gameObjects.AddNew(entityManager);
 			Component::Transform* transform = testTextObject->EditComponent<Component::Transform>();
-			transform->position.x = (0.2f) - 5;
-			transform->position.y = (0.2f) - 5;
+			transform->SetPosition((0.2f) - 5, (0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
 			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8)->GetSpriteForCharacter('r');
@@ -96,8 +94,7 @@ void Scene0::Enter(Engine* engine)
 		playerMovement.moveSpeed = 8.0f;
 
 		Component::Transform* transform = playerObject->EditComponent<Component::Transform>();
-		transform->position.x = 0;
-		transform->position.y = 0;
+		transform->SetPosition(0, 0);
 
 		this->playerObject = playerObject;
 	}
@@ -118,8 +115,7 @@ void Scene0::Update(Engine* engine)
 		GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
 	
 		Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
-		transform->position.x = (i * 0.2f) - 5;
-		transform->position.y = (i * 0.2f) - 5;
+		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
 		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);

@@ -37,9 +37,10 @@ void TilemapTestScene::Update(Engine * engine)
 		[]
 	(Component::Transform& transform, Component::Camera& camera)
 		{
-			auto& position = transform.position;
+			auto position = transform.GetPosition();
 			const float speed = 0.05f;
 			position.x += speed;
+			transform.SetPosition(position);
 			/*
 			if (GBA::Input::GetKey(GBA::Buttons::Left))
 			{

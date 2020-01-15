@@ -36,7 +36,7 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
-	const auto cameraPosition = camera->GetComponent<Component::Transform>()->position;
+	const auto cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
@@ -57,7 +57,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			if (!sprite)
 				return;
 
-			Vector2<tFixedPoint8> position = transform.position;
+			Vector2<tFixedPoint8> position = transform.GetPosition();
 
 			// Frustum culling
 			{
@@ -79,8 +79,9 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			
 			renderProperties->SetPriority(GBA::Attributes::Layer2);
 
+			Component::Transform::tScale scale = transform.GetScale();
 			renderProperties->SetPosition(newPosition);
-			renderProperties->SetFlippedHorizontal((int)transform.scale.x < 0);
-			renderProperties->SetFlippedVertical((int)transform.scale.y < 0);
+			renderProperties->SetFlippedHorizontal((int)scale.x < 0);
+			renderProperties->SetFlippedVertical((int)scale.y < 0);
 		});
 }

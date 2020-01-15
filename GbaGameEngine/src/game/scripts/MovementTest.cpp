@@ -17,8 +17,8 @@ void System::PlayerMovement::Update(Engine* engine)
 	entityManager->InvokeEach<Component::Transform, Component::PlayerMovement>([&dt](Component::Transform& transform, Component::PlayerMovement& playerMovement)
 		{
 			tFixedPoint8 moveSpeed = (tFixedPoint8)(playerMovement.moveSpeed * dt);
-			auto& position = transform.position;
-			auto& scale = transform.scale;
+			auto position = transform.GetPosition();
+			auto scale = transform.GetScale();
 
 			if (Input::GetKey(Buttons::Left))
 			{
@@ -41,5 +41,8 @@ void System::PlayerMovement::Update(Engine* engine)
 			{
 				position.y -= moveSpeed;
 			}
+
+			transform.SetPosition(position);
+			transform.SetScale(scale);
 		});
 }

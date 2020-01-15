@@ -45,7 +45,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 	using namespace GBA;
 
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
-	const auto cameraPosition = camera->GetComponent<Component::Transform>()->position;
+	const auto cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
@@ -83,7 +83,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 				tilemapManager->Load(*tilemap);
 			}
 
-			Vector2<tFixedPoint8> position = transform.position;
+			Vector2<tFixedPoint8> position = transform.GetPosition();
 			
 			// Screen corrections. Final position is the position of the screen on the background.
 			position -= cameraPosition;											// Convert world space to relative camera space	
