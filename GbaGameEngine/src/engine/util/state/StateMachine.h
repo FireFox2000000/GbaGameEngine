@@ -29,7 +29,8 @@ public:
 
 		m_current = nextState;
 
-		m_current->Enter(params...);
+		if (m_current)
+			m_current->Enter(params...);
 	}
 
 	template<typename STATE, typename... ConstructorArgs>
@@ -45,4 +46,6 @@ public:
 		if (m_current)
 			m_current->Update(params...);
 	}
+
+	bool HasState() { return m_current != nullptr; }
 };
