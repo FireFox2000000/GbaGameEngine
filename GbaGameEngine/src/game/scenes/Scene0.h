@@ -5,7 +5,9 @@
 
 class Scene0 : public Scene
 {
-	GameObject* playerObject;
+	FixedList<GameObject, 128> m_gameObjects;
+
+	GameObject playerObject;
 	GameObject* textObject;
 
 public:

@@ -14,7 +14,6 @@ class Scene
 
 protected:
 	GameObject m_mainCamera;
-	List<GameObject> m_gameObjects;
 
 	virtual void Enter(Engine* engine) {}
 	virtual void Update(Engine* engine);

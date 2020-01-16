@@ -40,10 +40,6 @@ SpriteAtlus::SpriteAtlus(const SpriteAtlus & that)
 	}
 }
 
-SpriteAtlus::~SpriteAtlus()
-{
-}
-
 bool SpriteAtlus::IsPaletteLoaded()
 {
 	return GetPaletteIndex() != INVALID_PALETTE_INDEX;

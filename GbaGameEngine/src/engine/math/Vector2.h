@@ -8,7 +8,6 @@ struct Vector2
 	// Constructors
 	inline Vector2() : x(0), y(0) {};
 	inline Vector2(T x, T y) : x(x), y(y) {};
-	inline Vector2(const Vector2& that) { *this = that; }
 	
 	// Operator overloads
 	inline bool operator == (const Vector2& vec) const

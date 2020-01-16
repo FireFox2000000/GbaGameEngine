@@ -25,6 +25,8 @@ protected:
 
 	bool Reallocate(u32 size, u32 count)
 	{
+		STATIC_ASSERT(std::is_trivially_copyable<T>::value, "Must be trivially constructable");
+
 		T* newContainer = MAllocType<T>(size);
 		if (newContainer)
 		{

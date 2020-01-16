@@ -17,6 +17,7 @@ const int totalTestSprites = 90;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
+	, playerObject(engine->GetEntityRegistry())
 {
 }
 
@@ -89,14 +90,18 @@ void Scene0::Enter(Engine* engine)
 		//position->x = -8;
 		//position->y = 0;
 
-		GameObject* playerObject = &m_gameObjects[0];
-		Component::PlayerMovement& playerMovement = playerObject->AddComponent<Component::PlayerMovement>();
+		Component::SpriteRenderer& testBackgroundRenderer = playerObject.AddComponent<Component::SpriteRenderer>();
+		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+		testBackgroundRenderer.SetSprite(shantae0);
+
+		Component::SpriteAnimator& animator = playerObject.AddComponent<Component::SpriteAnimator>();
+		animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
+
+		Component::PlayerMovement& playerMovement = playerObject.AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 
-		Component::Transform* transform = playerObject->EditComponent<Component::Transform>();
-		transform->SetPosition(0, 0);
-
-		this->playerObject = playerObject;
+		Component::Transform* transform = playerObject.EditComponent<Component::Transform>();
+		transform->SetPosition(-5, 0);
 	}
 }
 

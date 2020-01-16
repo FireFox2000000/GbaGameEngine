@@ -6,6 +6,8 @@
 
 class TilemapTestScene : public Scene
 {
+	FixedList<GameObject, 2> m_gameObjects;
+
 	Vector2<tFixedPoint8> bgPosition;
 
 public:

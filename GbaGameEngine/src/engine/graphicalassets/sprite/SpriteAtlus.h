@@ -29,7 +29,6 @@ public:
 		const u32* data,
 		const u32* offsets);
 	SpriteAtlus(const SpriteAtlus& that);
-	~SpriteAtlus();
 
 	bool IsPaletteLoaded();
 	inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
