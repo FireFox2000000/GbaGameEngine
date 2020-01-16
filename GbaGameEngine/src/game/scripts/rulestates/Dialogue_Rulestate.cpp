@@ -51,7 +51,7 @@ void Dialogue_Rulestate::Enter(GameRulestateParams & params)
 
 	auto& screenTransform = *m_dialogueObject->EditComponent<Component::UI::ScreenTransform>();
 	screenTransform.position.x = 4;
-	screenTransform.position.y = resolution.y - 16;
+	screenTransform.position.y = resolution.y - 32;
 
 	if (AdvanceText())
 		params.stateMachine->ChangeState(m_finishedState, params);

@@ -21,7 +21,7 @@ protected:
 	void Update(GameRulestateParams& params) override;
 
 public:
-	const static char c_dialogueBoxStepFlag = '\n';
+	const static char c_dialogueBoxStepFlag = '`';
 
 	Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState);
 };

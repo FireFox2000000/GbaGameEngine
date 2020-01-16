@@ -14,7 +14,7 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 	if (Input::GetKeyDown(Buttons::A))
 	{
 		std::string script;
-		script += "Testing testing";
+		script += "Testing \ntesting";
 		script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
 		script += "1, 2, 3 testing";
 
