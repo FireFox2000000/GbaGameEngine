@@ -28,9 +28,9 @@ void Scene0::Enter(Engine* engine)
 	updateParams.engine = engine;
 	updateParams.stateMachine = &m_rulestateMachine;
 
-	SharedPtr<GameRulestate> nextState = std::make_shared<GeneralGameplay_Rulestate>();
+	//SharedPtr<GameRulestate> nextState = std::make_shared<GeneralGameplay_Rulestate>();
 
-	m_rulestateMachine.ChangeState(nextState, updateParams);
+	m_rulestateMachine.ChangeState<GeneralGameplay_Rulestate>(updateParams);
 }
 
 void Scene0::Update(Engine* engine)

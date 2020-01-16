@@ -32,6 +32,14 @@ public:
 		m_current->Enter(params...);
 	}
 
+	template<typename STATE, typename... ConstructorArgs>
+	void ChangeState(Params... params, ConstructorArgs... args)
+	{
+		STATIC_ASSERT(IS_BASE_OF(IState, STATE), "SceneManager::Change must be provided a type that derives from Scene.h");
+		
+		ChangeState(std::make_shared<STATE>(args...), params...);
+	}
+
 	void Update(Params... params)
 	{
 		if (m_current)
