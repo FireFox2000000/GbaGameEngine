@@ -48,6 +48,8 @@
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
     <ClCompile Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.cpp" />
     <ClCompile Include="src\game\scripts\rulestates\Dialogue_Rulestate.cpp" />
+    <ClCompile Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.cpp" />
+    <ClCompile Include="src\game\data\DebugFont_8x8.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -156,6 +158,8 @@
     <ClInclude Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.h" />
     <ClInclude Include="src\game\scripts\rulestates\Dialogue_Rulestate.h" />
     <ClInclude Include="src\game\scripts\rulestates\GameRulestate.h" />
+    <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
+    <ClInclude Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

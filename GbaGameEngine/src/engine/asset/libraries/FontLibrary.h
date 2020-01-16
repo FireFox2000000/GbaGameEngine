@@ -3,9 +3,8 @@
 #include "engine/graphicalassets/font/FontLookupFunctions.h"
 #include "engine/base/core/stl/List.h"
 
-// 	FONT_ENTRY(debug_font_8x8, AsciiExclamationOffset)
-
 #define FONT_LIST \
+	FONT_ENTRY(DebugFont_8x8, AsciiExclamationOffset)
 //
 
 namespace FontID
