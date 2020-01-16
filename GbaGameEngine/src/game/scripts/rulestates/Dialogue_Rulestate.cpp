@@ -2,9 +2,10 @@
 #include "engine/engine/engine.h"
 #include "game/scripts/prefabs/ui/TextPrefabFunctions.h"
 #include "engine/gameobject/ui/ScreenTransform.h"
-#include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gameobject/ui/Text.h"
 #include "engine/screen/Screen.h"
+
+#include "game/config/InputActions.h"
 
 Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState)
 	: m_script(script)
@@ -60,7 +61,7 @@ void Dialogue_Rulestate::Update(GameRulestateParams & params)
 {
 	using namespace GBA;
 
-	if (Input::GetKeyDown(Buttons::A))
+	if (Input::GetKeyDown(InputActions::AdvanceDialogue))
 	{
 		if (AdvanceText())
 			params.stateMachine->ChangeState(m_finishedState, params);
