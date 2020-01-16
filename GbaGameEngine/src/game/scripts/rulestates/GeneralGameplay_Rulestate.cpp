@@ -24,7 +24,3 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 
 }
 
-GeneralGameplay_Rulestate::~GeneralGameplay_Rulestate()
-{
-	DEBUG_LOG("Destroyed rulestate [GeneralGameplay_Rulestate]");
-}

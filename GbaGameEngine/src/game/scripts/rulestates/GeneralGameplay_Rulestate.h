@@ -9,5 +9,4 @@ protected:
 	void Update(GameRulestateParams& params) override;
 
 public:
-	~GeneralGameplay_Rulestate();
 };
