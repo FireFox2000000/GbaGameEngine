@@ -13,7 +13,7 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 
 	if (Input::GetKeyDown(Buttons::A))
 	{
-		SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>("", std::make_shared<GeneralGameplay_Rulestate>());
+		SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>("Testing testing \n1, 2, 3 testing", std::make_shared<GeneralGameplay_Rulestate>());
 		params.stateMachine->ChangeState(dialogueRulestate, params);
 	}
 

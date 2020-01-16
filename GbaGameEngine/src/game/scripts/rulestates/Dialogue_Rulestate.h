@@ -12,6 +12,10 @@ class Dialogue_Rulestate : public GameRulestate
 
 	std::unique_ptr<GameObject> m_dialogueObject;
 
+	int m_currentTextIndex = 0;
+
+	bool AdvanceText();
+
 protected:
 	void Enter(GameRulestateParams& params) override;
 	void Update(GameRulestateParams& params) override;
