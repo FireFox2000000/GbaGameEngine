@@ -2,7 +2,7 @@
 
 void Dialogue_Rulestate::Enter(GameRulestateParams & params)
 {
-	DEBUG_LOG("Entered rulestate [GeneralGameplay_Rulestate]");
+	DEBUG_LOG("Entered rulestate [Dialogue_Rulestate]");
 }
 
 void Dialogue_Rulestate::Update(GameRulestateParams & params)

@@ -8,6 +8,10 @@ void GeneralGameplay_Rulestate::Enter(GameRulestateParams& params)
 
 void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 {
-	//params.stateMachine->ChangeState<Dialogue_Rulestate>(params);
-	//return;
+	params.stateMachine->ChangeState(std::make_shared<Dialogue_Rulestate>(), params);
+}
+
+GeneralGameplay_Rulestate::~GeneralGameplay_Rulestate()
+{
+	DEBUG_LOG("Destroyed rulestate [GeneralGameplay_Rulestate]");
 }
