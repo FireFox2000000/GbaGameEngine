@@ -148,6 +148,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\game\scripts\rulestates\Dialogue_Rulestate.cpp" />
+    <ClCompile Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +229,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
+    <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
@@ -253,6 +256,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
+    <ClInclude Include="src\game\scripts\rulestates\Dialogue_Rulestate.h" />
+    <ClInclude Include="src\game\scripts\rulestates\GameRulestate.h" />
+    <ClInclude Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

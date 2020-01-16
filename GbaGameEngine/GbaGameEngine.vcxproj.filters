@@ -46,6 +46,8 @@
     <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
     <ClCompile Include="src\engine\render\TilemapRenderer_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
+    <ClCompile Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.cpp" />
+    <ClCompile Include="src\game\scripts\rulestates\Dialogue_Rulestate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -150,6 +152,10 @@
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
+    <ClInclude Include="src\engine\util\state\StateMachine.h" />
+    <ClInclude Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.h" />
+    <ClInclude Include="src\game\scripts\rulestates\Dialogue_Rulestate.h" />
+    <ClInclude Include="src\game\scripts\rulestates\GameRulestate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
