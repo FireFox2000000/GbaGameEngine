@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "engine/graphicalassets/font/Font.h"
 
 class Font;
