@@ -80,6 +80,36 @@ protected:
 	inline T* GetContainer() { return (T*)(m_container); }
 };
 
+template<class T>
+class FixedMemoryPolicy<T, 0>
+{
+	u8* m_container = nullptr;
+
+protected:
+	FixedMemoryPolicy(u32 size)
+	{
+	}
+
+	~FixedMemoryPolicy()
+	{
+	}
+
+	bool Reallocate(u32 size, u32 count)
+	{
+		// No.
+		DEBUG_ASSERTMSG(false, "FixedList out of memory");
+		return false;
+	}
+
+	inline T& Get(u32 index) { DEBUG_ASSERTMSG(false, "FixedList of size 0 cannot be accessed."); return (T&)(m_container[0]); }
+	inline const T& Get(u32 index) const { DEBUG_ASSERTMSG(false, "FixedList of size 0 cannot be accessed."); return (T&)(m_container[0]); }
+
+	inline u32 Capacity() { return 0; }
+	inline u32 Capacity() const { return 0; }
+
+	inline T* GetContainer() { return (T*)(m_container); }
+};
+
 template<class T, class MemoryPolicy>
 class ListBase : public MemoryPolicy
 {
