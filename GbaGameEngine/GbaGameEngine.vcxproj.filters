@@ -20,9 +20,6 @@
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
-    <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
-    <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
-    <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
@@ -44,7 +41,6 @@
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
-    <ClCompile Include="src\game\data\TestBackground.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
     <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
@@ -116,14 +112,11 @@
     <ClInclude Include="src\engine\render\TextRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
-    <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
-    <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
-    <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
