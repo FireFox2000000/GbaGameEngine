@@ -6,8 +6,6 @@
 #include "engine/gameobject/ui/Text.h"
 #include "engine/screen/Screen.h"
 
-const char dialogueBoxEnd = '\n';
-
 Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState)
 	: m_script(script)
 	, m_finishedState(finishedState)
@@ -17,10 +15,11 @@ Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<Game
 
 bool Dialogue_Rulestate::AdvanceText()
 {
+	// Find the next set of text to display in a single box
 	int dialogueIndexEnd = m_currentTextIndex;
 	for (; dialogueIndexEnd < (int)m_script.length(); ++dialogueIndexEnd)
 	{
-		if (m_script[dialogueIndexEnd] == dialogueBoxEnd)
+		if (m_script[dialogueIndexEnd] == c_dialogueBoxStepFlag)
 		{
 			break;
 		}
