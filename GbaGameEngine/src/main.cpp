@@ -9,7 +9,6 @@
 #include "engine/gba/registers/clock/GBATimer.h"
 
 #include "game/scenes/Scene0.h"
-#include "game/scenes/TilemapTestScene.h"
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
@@ -20,7 +19,7 @@ int main()
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
 	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
-	sceneManager->ChangeScene<TilemapTestScene>(engine.get());
+	sceneManager->ChangeScene<Scene0>(engine.get());
 
 	Time* time = engine->EditComponent<Time>();
 

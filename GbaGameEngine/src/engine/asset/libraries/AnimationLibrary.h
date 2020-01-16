@@ -2,8 +2,9 @@
 #include "engine/animation/SpriteAnimation.h"
 #include "engine/asset/libraries/SpriteLibrary.h"
 
+// 	SPRITE_ANIM_ENTRY(Shantae_Idle, Shantae_Idle, 0, 12, 12)
+
 #define SPRITE_ANIMATION_LIST \
-	SPRITE_ANIM_ENTRY(Shantae_Idle, Shantae_Idle, 0, 12, 12)
 
 namespace SpriteAnimationID
 {
