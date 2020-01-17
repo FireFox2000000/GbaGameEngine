@@ -30,6 +30,6 @@ namespace Component
 
 	public:
 		void SetAnimation(const SpriteAnimation* animation);
-		u32 FrameCount() { return currentAnimation->keyFrames.Count(); }
+		u32 FrameCount() { return currentAnimation ? currentAnimation->keyFrames.Count() : 0; }
 	};
 }

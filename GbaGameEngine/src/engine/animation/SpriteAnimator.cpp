@@ -10,7 +10,7 @@ void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 		currentAnimation = animation;
 
 		timeToNextFrameMicroSeconds = 0;
-		frameDtMicroseconds = SECONDS_TO_MICROSECONDS(1.0f / animation->frameRate);
+		frameDtMicroseconds = currentAnimation ? SECONDS_TO_MICROSECONDS(1.0f / currentAnimation->frameRate) : 0;
 		currentFrameIndex = 0;
 	}
 }
@@ -24,7 +24,7 @@ void System::SpriteAnimator::Update(Engine* engine)
 
 	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
 		{
-			if (animator.FrameCount() <= 0)
+			if (!animator.currentAnimation || animator.FrameCount() <= 0)
 				return;
 
 			animator.timeToNextFrameMicroSeconds += dtMicroSeconds;
