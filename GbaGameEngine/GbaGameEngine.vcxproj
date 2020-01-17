@@ -268,6 +268,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
     <ClInclude Include="src\game\scripts\componentsystems\camera\CameraTracker.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\collision\Collider.h" />
     <ClInclude Include="src\game\scripts\componentsystems\movement\RpgMovement.h" />
     <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
     <ClInclude Include="src\game\scripts\prefabs\game\PlayerPrefab.h" />

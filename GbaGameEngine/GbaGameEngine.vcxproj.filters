@@ -172,6 +172,7 @@
     <ClInclude Include="src\game\scripts\componentsystems\movement\RpgMovement.h" />
     <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
     <ClInclude Include="src\game\scripts\componentsystems\camera\CameraTracker.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\collision\Collider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

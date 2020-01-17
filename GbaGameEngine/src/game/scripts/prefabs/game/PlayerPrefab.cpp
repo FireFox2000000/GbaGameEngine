@@ -9,6 +9,7 @@
 
 #include "game/scripts/componentsystems/movement/RpgMovement.h"
 #include "game/scripts/componentsystems/PlayerComponent.h"
+#include "game/scripts/componentsystems/collision/Collider.h"
 
 void PlayerPrefab::MakePlayerObj(Engine * engine, GameObject & out_go)
 {
@@ -21,8 +22,12 @@ void PlayerPrefab::MakePlayerObj(Engine * engine, GameObject & out_go)
 	out_go.AddComponent<Component::Player>();
 
 	Component::RpgMovement& movement = out_go.AddComponent<Component::RpgMovement>();
-	movement.speed = 5;
+	movement.speed = 10;
 	movement.currentDirection = Component::RpgMovement::None;
+
+	Component::Collider& collider = out_go.AddComponent<Component::Collider>();
+	Vector2<tFixedPoint8> halfSize = Vector2<tFixedPoint8>(2, 2) / 2;
+	collider.shape = AxisAlignedBoundingBox2(halfSize * -1, halfSize);
 
 	//Component::SpriteAnimator& animator = out_go.AddComponent<Component::SpriteAnimator>();
 	//animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Idle));

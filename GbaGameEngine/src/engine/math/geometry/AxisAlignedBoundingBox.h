@@ -7,6 +7,8 @@ struct AxisAlignedBoundingBox2
 {
 	Vector2<tFixedPoint8> min, max;
 
+	AxisAlignedBoundingBox2() = default;
+
 	AxisAlignedBoundingBox2(Vector2<tFixedPoint8> min, Vector2<tFixedPoint8> max)
 	{
 		this->min = min;
@@ -34,7 +36,7 @@ struct AxisAlignedBoundingBox2
 	}
 
 	template<typename T>
-	Vector2<T> Clamp(Vector2<T> point)
+	Vector2<T> Clamp(Vector2<T> point) const
 	{
 		point.x = MIN(point.x, max.x);
 		point.x = MAX(point.x, min.x);
@@ -43,5 +45,11 @@ struct AxisAlignedBoundingBox2
 		point.y = MAX(point.y, min.y);
 
 		return point;
+	}
+
+	template<typename T>
+	bool Contains(Vector2<T> point) const
+	{
+		return point.x <= max.x && point.x >= min.x && point.y <= max.y && point.y >= min.y;
 	}
 };

@@ -8,6 +8,8 @@
 #include "engine/gameobject/transformation/Transform.h"
 #include "game/scripts/prefabs/game/PlayerPrefab.h"
 #include "game/scripts/componentsystems/camera/CameraTracker.h"
+#include "game/scripts/componentsystems/movement/RpgMovement.h"
+#include "game/scripts/componentsystems/PlayerComponent.h"
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -42,6 +44,12 @@ void Scene0::Enter(Engine* engine)
 	Component::CameraTracker& cameraTracker = m_mainCamera.AddComponent<Component::CameraTracker>();
 	cameraTracker.objectToTrack = player.get();
 	cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
+
+	testCollider = std::make_unique<GameObject>(engine);
+	PlayerPrefab::MakePlayerObj(engine, *testCollider);
+	testCollider->EditComponent<Component::Transform>()->SetPosition(0, 5);
+	testCollider->RemoveComponent<Component::RpgMovement>();
+	testCollider->RemoveComponent<Component::Player>();
 
 	GameRulestateParams updateParams;
 	updateParams.engine = engine;

@@ -30,9 +30,14 @@ public:
 		m_storage &= ~BIT(index);
 	}
 
-	inline bool TestBit(int index)
+	inline bool TestBit(int index) const
 	{
 		return (m_storage & BIT(index)) != 0;
+	}
+
+	inline bool TestMask(const Bitmask<T>& that) const
+	{
+		return (m_storage & that.m_storage) != 0;
 	}
 
 	inline void SetMask(T mask)
@@ -49,7 +54,7 @@ public:
 	}
 
 	template<class V>
-	V GetValue(int bitStartIndex, int length)
+	V GetValue(int bitStartIndex, int length) const
 	{
 		int mask = BITS_INDEXED_U32(length, bitStartIndex);
 		T storedValue = m_storage & ~mask;
