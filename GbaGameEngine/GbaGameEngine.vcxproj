@@ -153,6 +153,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\camera\CameraTracker.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\collision\Collider.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\movement\RpgMovement.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\game\PlayerPrefab.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.cpp" />
