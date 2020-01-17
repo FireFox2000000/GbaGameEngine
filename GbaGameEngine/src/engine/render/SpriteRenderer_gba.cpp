@@ -37,7 +37,6 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
 	const auto cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
-	DEBUG_LOGFORMAT("Camera Position (%d, %d)", cameraPosition.x.ToRoundedInt(), cameraPosition.y.ToRoundedInt());
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
