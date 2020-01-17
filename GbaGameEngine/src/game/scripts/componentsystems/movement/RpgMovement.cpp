@@ -83,7 +83,6 @@ void System::RpgMovement::Update(Engine* engine)
 					*entityManager->GetComponent<Component::Collider>(colliderEntity),
 					entityManager->GetComponent<Component::Transform>(colliderEntity)->GetPosition(), collision))
 				{
-					DEBUG_LOGFORMAT("Collision projection (%f, %f)", collision.aToBProjection.x.ToFloat(), collision.aToBProjection.y.ToFloat());
 					switch (rpgMovementComponent.currentDirection)
 					{
 					case Component::RpgMovement::Up:
