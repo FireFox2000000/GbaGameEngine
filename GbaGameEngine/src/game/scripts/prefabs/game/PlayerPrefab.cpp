@@ -23,12 +23,13 @@ void PlayerPrefab::MakePlayerObj(Engine * engine, GameObject & out_go)
 
 	Component::RpgMovement& movement = out_go.AddComponent<Component::RpgMovement>();
 	movement.speed = 10;
-	movement.currentDirection = Component::RpgMovement::None;
+	movement.enableHorizontalDirSpriteFlip = true;
+	movement.SetCurrentDirection(Component::RpgMovement::None);
 
 	Component::Collider& collider = out_go.AddComponent<Component::Collider>();
 	Vector2<tFixedPoint8> halfSize = Vector2<tFixedPoint8>(2, 2) / 2;
 	collider.shape = AxisAlignedBoundingBox2(halfSize * -1, halfSize);
 
-	//Component::SpriteAnimator& animator = out_go.AddComponent<Component::SpriteAnimator>();
-	//animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Idle));
+	Component::SpriteAnimator& animator = out_go.AddComponent<Component::SpriteAnimator>();
+	animator.SetAnimation(nullptr);
 }

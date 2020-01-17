@@ -20,11 +20,23 @@ namespace Component
 		};
 
 		tFixedPoint24 speed = 1.0;
+		bool enableHorizontalDirSpriteFlip = true;
+
+	private:
+		Direction previousDirection = Direction::None;
 		Direction currentDirection = Direction::None;
 
-		Array<const SpriteAnimation*, Direction::Count> movementAnimations;
+	public:
+		using tAnimationContainer = Array<const SpriteAnimation*, Direction::Count>;
+
+		tAnimationContainer movementAnimations;
+		tAnimationContainer idleAnimations;
 
 		RpgMovement();
+
+		Direction GetCurrentDirection() const;
+		Direction GetPreviousDirection() const;
+		void SetCurrentDirection(Direction dir);
 	};
 }
 

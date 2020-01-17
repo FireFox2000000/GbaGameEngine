@@ -26,6 +26,11 @@ namespace Math
 	}
 
 	template<typename T>
+	inline T Abs(T v) {
+		return v < T(0) ? v * T(-1) : v;
+	}
+
+	template<typename T>
 	int IndexOfHighestSetBit(T v)
 	{
 		int msb = 0;

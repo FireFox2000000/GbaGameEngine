@@ -10,6 +10,22 @@ Component::RpgMovement::RpgMovement()
 {
 }
 
+Component::RpgMovement::Direction Component::RpgMovement::GetCurrentDirection() const
+{
+	return currentDirection;
+}
+
+Component::RpgMovement::Direction Component::RpgMovement::GetPreviousDirection() const
+{
+	return previousDirection;
+}
+
+void Component::RpgMovement::SetCurrentDirection(Direction dir)
+{
+	previousDirection = currentDirection;
+	currentDirection = dir;
+}
+
 void System::RpgMovement::Update(Engine* engine)
 {
 	const Time* time = engine->GetComponent<Time>();
@@ -25,12 +41,14 @@ void System::RpgMovement::Update(Engine* engine)
 		Component::Transform& transform = *entityManager->EditComponent<Component::Transform>(entity);
 
 		auto position = transform.GetLocalPosition();
+		auto scale = transform.GetLocalScale();
+		auto currentDirection = rpgMovementComponent.GetCurrentDirection();
 
 		// Update position
 		{	
 			tFixedPoint8 posDt = (tFixedPoint8)(rpgMovementComponent.speed * dt);
 
-			switch (rpgMovementComponent.currentDirection)
+			switch (currentDirection)
 			{
 			case Component::RpgMovement::Up:
 			{
@@ -45,11 +63,13 @@ void System::RpgMovement::Update(Engine* engine)
 			case Component::RpgMovement::Left:
 			{
 				position.x -= posDt;
+				scale.x = Math::Abs(scale.x);
 				break;
 			}
 			case Component::RpgMovement::Right:
 			{
 				position.x += posDt;
+				scale.x = Math::Abs(scale.x) * tFixedPoint8(-1);
 				break;
 			}
 			default:
@@ -57,13 +77,15 @@ void System::RpgMovement::Update(Engine* engine)
 			}
 		}
 
-		// Todo, set animations, check collisions
-
+		// Set animations, check collisions
 		if (Component::SpriteAnimator* animator = entityManager->EditComponent<Component::SpriteAnimator>(entity))
 		{
-			const SpriteAnimation* animation = rpgMovementComponent.movementAnimations[rpgMovementComponent.currentDirection];
+			bool idleAnim = currentDirection == Component::RpgMovement::Direction::None;
+			const Component::RpgMovement::tAnimationContainer& animations = idleAnim ? rpgMovementComponent.idleAnimations : rpgMovementComponent.movementAnimations;
+			const SpriteAnimation* animation = animations[idleAnim ? currentDirection : rpgMovementComponent.GetPreviousDirection()];
 			if (animation)
 			{
+				animator->SetAnimation(animation);
 			}
 		}
 
@@ -84,7 +106,7 @@ void System::RpgMovement::Update(Engine* engine)
 					*otherCollider,
 					entityManager->GetComponent<Component::Transform>(colliderEntity)->GetPosition(), collision))
 				{
-					switch (rpgMovementComponent.currentDirection)
+					switch (currentDirection)
 					{
 					case Component::RpgMovement::Up:
 					case Component::RpgMovement::Down:
@@ -107,6 +129,9 @@ void System::RpgMovement::Update(Engine* engine)
 
 
 			transform.SetLocalPosition(position);
+
+			if (rpgMovementComponent.enableHorizontalDirSpriteFlip)
+				transform.SetLocalScale(scale);
 		}
 	}
 }
@@ -148,6 +173,6 @@ void System::RpgMovement::UpdatePlayerMovement(Engine * engine)
 				dir = Component::RpgMovement::Down;
 			}
 
-			rpgMovementComponent.currentDirection = dir;
+			rpgMovementComponent.SetCurrentDirection(dir);
 		});
 }
