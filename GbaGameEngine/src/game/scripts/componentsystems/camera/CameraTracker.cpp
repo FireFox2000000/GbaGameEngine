@@ -23,7 +23,7 @@ void System::CameraTracker::Update(Engine * engine)
 				auto boundary = tracker.worldBounds;
 				AxisAlignedBoundingBox2 orthographicCameraBounds = camera.GetOrthoBounds();
 				boundary.max -= orthographicCameraBounds.max;
-				boundary.min += orthographicCameraBounds.min;
+				boundary.min -= orthographicCameraBounds.min;
 				position = boundary.Clamp(position);
 			}
 
