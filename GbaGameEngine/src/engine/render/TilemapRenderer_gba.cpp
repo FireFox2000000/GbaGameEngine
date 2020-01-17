@@ -3,9 +3,14 @@
 #include "engine/graphicalassets/tilemap/TilemapSet.h"
 #include "engine/base/Macros.h"
 #include "engine/gba/registers/display/GBABackgroundControl.h"
+#include "engine/graphicalassets/tilemap/TilemapManager.h"
 
 Component::TilemapRenderer::~TilemapRenderer()
 {
+	// Todo, better way?
+	//TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
+	//tilemapManager->Unload(this->m_tilemap);
+
 	FreeAssignedBackgroundSlot();
 }
 
@@ -38,7 +43,6 @@ void Component::TilemapRenderer::FreeAssignedBackgroundSlot()
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
 #include "engine/screen/Screen.h"
-#include "engine/graphicalassets/tilemap/TilemapManager.h"
 
 void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 {
@@ -94,6 +98,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 
 			auto& background = BackgroundControl::GetBackground(tilemapRenderer.GetAssignedBackgroundSlot());
 			background.SetPosition(position);
+			background.SetPriority(Background::Priority::Layer3);
 
 			if (tilemapRenderer.GetDirty())
 			{

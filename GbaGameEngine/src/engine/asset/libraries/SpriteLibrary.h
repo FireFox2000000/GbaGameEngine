@@ -4,6 +4,7 @@
 #include "engine/base/core/stl/List.h"
 
 #define SPRITE_ATLUS_LIST \
+	SPRITE_ATLUS_ENTRY(Player)\
 //
 
 namespace SpriteAtlusID

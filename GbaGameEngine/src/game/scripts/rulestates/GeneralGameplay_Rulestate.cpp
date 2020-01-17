@@ -1,6 +1,8 @@
 #include "GeneralGameplay_Rulestate.h"
 #include "game/scripts/rulestates/Dialogue_Rulestate.h"
 #include "engine/gba/registers/input/GBAInput.h"
+#include "game/scripts/componentsystems/movement/RpgMovement.h"
+#include "game/config/InputActions.h"
 
 void GeneralGameplay_Rulestate::Enter(GameRulestateParams& params)
 {
@@ -11,7 +13,7 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 {
 	using namespace GBA;
 
-	if (Input::GetKeyDown(Buttons::A))
+	if (Input::GetKeyDown(InputActions::Interact))
 	{
 		std::string script;
 		script += "Testing \ntesting";
@@ -22,5 +24,7 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 		params.stateMachine->ChangeState(dialogueRulestate, params);
 	}
 
+	System::RpgMovement::UpdatePlayerMovement(params.engine);
+	System::RpgMovement::Update(params.engine);
 }
 

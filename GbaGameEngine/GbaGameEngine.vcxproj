@@ -129,7 +129,10 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
+    <ClCompile Include="src\game\data\BgTomb.cpp" />
     <ClCompile Include="src\game\data\DebugFont_8x8.cpp" />
+    <ClCompile Include="src\game\data\Player.cpp" />
+    <ClCompile Include="src\game\scenes\IntroductionScene.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
@@ -149,6 +152,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\movement\RpgMovement.cpp" />
+    <ClCompile Include="src\game\scripts\prefabs\game\PlayerPrefab.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.cpp" />
     <ClCompile Include="src\game\scripts\rulestates\Dialogue_Rulestate.cpp" />
     <ClCompile Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.cpp" />
@@ -233,6 +238,8 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
+    <ClInclude Include="src\game\config\InputActions.h" />
+    <ClInclude Include="src\game\scenes\IntroductionScene.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
@@ -259,6 +266,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\movement\RpgMovement.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
+    <ClInclude Include="src\game\scripts\prefabs\game\PlayerPrefab.h" />
     <ClInclude Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.h" />
     <ClInclude Include="src\game\scripts\rulestates\Dialogue_Rulestate.h" />
     <ClInclude Include="src\game\scripts\rulestates\GameRulestate.h" />

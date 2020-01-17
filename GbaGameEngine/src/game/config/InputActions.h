@@ -5,5 +5,10 @@ namespace InputActions
 {
 	using namespace GBA;
 
-	Buttons::Enum AdvanceDialogue = Buttons::A;
+	static const Buttons::Enum AdvanceDialogue = Buttons::A;
+	static const Buttons::Enum MoveLeft = Buttons::Left;
+	static const Buttons::Enum MoveRight = Buttons::Right;
+	static const Buttons::Enum MoveUp = Buttons::Up;
+	static const Buttons::Enum MoveDown = Buttons::Down;
+	static const Buttons::Enum Interact = Buttons::A;
 }

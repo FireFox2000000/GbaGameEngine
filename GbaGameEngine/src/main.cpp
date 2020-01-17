@@ -8,7 +8,7 @@
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gba/registers/clock/GBATimer.h"
 
-#include "game/scenes/Scene0.h"
+#include "game/scenes/IntroductionScene.h"
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
@@ -19,7 +19,7 @@ int main()
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
 	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
-	sceneManager->ChangeScene<Scene0>(engine.get());
+	sceneManager->ChangeScene<IntroductionScene>(engine.get());
 
 	Time* time = engine->EditComponent<Time>();
 

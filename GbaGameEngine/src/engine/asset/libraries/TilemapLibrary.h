@@ -3,6 +3,7 @@
 #include "engine/base/core/stl/List.h"
 
 #define TILEMAP_SET_LIST \
+	TILEMAP_SET_ENTRY(BgTomb)\
 //
 
 namespace TilemapSetID
