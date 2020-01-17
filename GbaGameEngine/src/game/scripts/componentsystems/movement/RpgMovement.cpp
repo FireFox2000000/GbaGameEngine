@@ -73,14 +73,15 @@ void System::RpgMovement::Update(Engine* engine)
 			auto colliderView = entityManager->View<Component::Collider, Component::Transform>();
 			for (auto colliderEntity : colliderView)
 			{
-				if (entity == colliderEntity)
+				const auto* otherCollider = entityManager->GetComponent<Component::Collider>(colliderEntity);
+				if (entity == colliderEntity || collider->isTrigger || otherCollider->isTrigger)
 					continue;
 
 				System::Collision::Collision collision;
 				if (System::Collision::DoesCollide(
 					*collider,
 					position,
-					*entityManager->GetComponent<Component::Collider>(colliderEntity),
+					*otherCollider,
 					entityManager->GetComponent<Component::Transform>(colliderEntity)->GetPosition(), collision))
 				{
 					switch (rpgMovementComponent.currentDirection)

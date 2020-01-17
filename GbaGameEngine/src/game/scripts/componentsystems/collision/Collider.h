@@ -30,6 +30,7 @@ namespace System
 		struct Collision
 		{
 			Vector2<tFixedPoint8> aToBProjection;
+			bool isTrigger = false;
 		};
 
 		bool DoesCollide(

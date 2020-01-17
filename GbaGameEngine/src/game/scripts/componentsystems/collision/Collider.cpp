@@ -11,6 +11,8 @@ bool System::Collision::DoesCollide
 	if (!colliderA.mask.TestMask(colliderB.mask))
 		return false;
 
+	out_collision.isTrigger = colliderA.isTrigger || colliderB.isTrigger;
+
 	if (!colliderA.shapeInverted && !colliderB.shapeInverted)
 	{
 		auto worldShapeA = colliderA.shape;
