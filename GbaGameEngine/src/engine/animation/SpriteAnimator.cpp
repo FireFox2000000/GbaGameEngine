@@ -5,11 +5,14 @@
 
 void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 {
-	currentAnimation = animation;
+	if (currentAnimation != animation)
+	{
+		currentAnimation = animation;
 
-	timeToNextFrameMicroSeconds = 0;
-	frameDtMicroseconds = SECONDS_TO_MICROSECONDS(1.0f / animation->frameRate);
-	currentFrameIndex = 0;
+		timeToNextFrameMicroSeconds = 0;
+		frameDtMicroseconds = SECONDS_TO_MICROSECONDS(1.0f / animation->frameRate);
+		currentFrameIndex = 0;
+	}
 }
 
 void System::SpriteAnimator::Update(Engine* engine)
