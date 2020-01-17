@@ -10,11 +10,11 @@ struct Vector2
 	inline Vector2(T x, T y) : x(x), y(y) {};
 	
 	// Operator overloads
-	inline bool operator == (const Vector2& vec) const
+	inline bool operator == (const Vector2<T>& vec) const
 	{
 		return x == vec.x && y == vec.y;
 	}
-	inline bool operator != (const Vector2& vec) const
+	inline bool operator != (const Vector2<T>& vec) const
 	{ 
 		return !(*this == vec); 
 	}
