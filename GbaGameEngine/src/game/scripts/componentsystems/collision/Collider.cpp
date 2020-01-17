@@ -53,6 +53,24 @@ bool System::Collision::DoesCollide
 		const auto& invertedCol = colliderA.shapeInverted ? worldShapeA : worldShapeB;
 		const auto& regularCol = !colliderA.shapeInverted ? worldShapeA : worldShapeB;
 
+		if (worldShapeA.max.x > worldShapeB.max.x)	// A is peeking right of B
+		{
+			out_collision.aToBProjection.x = worldShapeB.max.x - worldShapeA.max.x;
+		}
+		else
+		{
+			out_collision.aToBProjection.x = worldShapeB.min.x - worldShapeA.min.x;
+		}
+
+		if (worldShapeA.max.y > worldShapeB.max.y)	// A is peaking above B
+		{
+			out_collision.aToBProjection.y = worldShapeB.max.y - worldShapeA.max.y;
+		}
+		else
+		{
+			out_collision.aToBProjection.y = worldShapeB.min.y - worldShapeA.min.y;
+		}
+
 		return !(invertedCol.Contains(regularCol.min) && invertedCol.Contains(regularCol.max));
 	}
 

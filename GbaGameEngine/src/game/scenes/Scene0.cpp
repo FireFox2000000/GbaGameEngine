@@ -10,6 +10,7 @@
 #include "game/scripts/componentsystems/camera/CameraTracker.h"
 #include "game/scripts/componentsystems/movement/RpgMovement.h"
 #include "game/scripts/componentsystems/PlayerComponent.h"
+#include "game/scripts/componentsystems/collision/Collider.h"
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -31,16 +32,22 @@ void Scene0::Enter(Engine* engine)
 
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
 	Tilemap* testBg = tilemapLib->GetTilemap(TilemapSetID::BgTomb, 0);
+	auto halfBgSize = testBg->GetSizeInTiles() / 2;
 
-	background = std::make_unique<GameObject>(engine);
-	Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
-	tilemapRenderer.SetTilemap(testBg);
-	tilemapRenderer.AssignBackgroundSlot();
+	{
+		background = std::make_unique<GameObject>(engine);
+		Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
+		tilemapRenderer.SetTilemap(testBg);
+		tilemapRenderer.AssignBackgroundSlot();
+		Component::Collider& backgroundCollider = background->AddComponent<Component::Collider>();
+		backgroundCollider.shape = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
+		backgroundCollider.shapeInverted = true;
+	}
 
 	player = std::make_unique<GameObject>(engine);
 	PlayerPrefab::MakePlayerObj(engine, *player);
 
-	auto halfBgSize = testBg->GetSizeInTiles() / 2;
+	
 	Component::CameraTracker& cameraTracker = m_mainCamera.AddComponent<Component::CameraTracker>();
 	cameraTracker.objectToTrack = player.get();
 	cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
