@@ -55,6 +55,7 @@
     <ClCompile Include="src\game\scenes\IntroductionScene.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\game\PlayerPrefab.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\movement\RpgMovement.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\camera\CameraTracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\game\scripts\prefabs\game\PlayerPrefab.h" />
     <ClInclude Include="src\game\scripts\componentsystems\movement\RpgMovement.h" />
     <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\camera\CameraTracker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

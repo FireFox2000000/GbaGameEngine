@@ -7,6 +7,7 @@
 #include "engine/render/TilemapRenderer.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "game/scripts/prefabs/game/PlayerPrefab.h"
+#include "game/scripts/componentsystems/camera/CameraTracker.h"
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -37,6 +38,11 @@ void Scene0::Enter(Engine* engine)
 	player = std::make_unique<GameObject>(engine);
 	PlayerPrefab::MakePlayerObj(engine, *player);
 
+	auto halfBgSize = testBg->GetSizeInTiles() / 2;
+	Component::CameraTracker& cameraTracker = m_mainCamera.AddComponent<Component::CameraTracker>();
+	cameraTracker.objectToTrack = player.get();
+	cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
+
 	GameRulestateParams updateParams;
 	updateParams.engine = engine;
 	updateParams.stateMachine = &m_rulestateMachine;
@@ -53,4 +59,6 @@ void Scene0::Update(Engine* engine)
 	m_rulestateMachine.Update(updateParams);
 
 	Scene::Update(engine);
+
+	System::CameraTracker::Update(engine);
 }

@@ -152,6 +152,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\camera\CameraTracker.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\movement\RpgMovement.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\game\PlayerPrefab.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.cpp" />
@@ -266,6 +267,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\camera\CameraTracker.h" />
     <ClInclude Include="src\game\scripts\componentsystems\movement\RpgMovement.h" />
     <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
     <ClInclude Include="src\game\scripts\prefabs\game\PlayerPrefab.h" />

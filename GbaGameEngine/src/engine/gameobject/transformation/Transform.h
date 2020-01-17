@@ -21,8 +21,8 @@ namespace Component
 		inline void SetLocalPosition(T x, T y) { SetLocalPosition(tPosition(x, y)); }
 
 		// World position, todo
-		inline tPosition GetPosition() const { return m_localPosition; }
-		inline void SetPosition(tPosition pos) { m_localPosition = pos; }
+		inline tPosition GetPosition() const { return GetLocalPosition(); }
+		inline void SetPosition(tPosition pos) { SetLocalPosition(pos); }
 		template<typename T>
 		inline void SetPosition(T x, T y) { SetPosition(tPosition(x, y)); }
 
@@ -30,7 +30,7 @@ namespace Component
 		inline void SetLocalScale(tScale scale) { m_localScale = scale; }
 
 		// World scale, todo
-		inline tScale GetScale() const { return m_localScale; }
-		inline void SetScale(tScale scale) { m_localScale = scale; }
+		inline tScale GetScale() const { return GetLocalScale(); }
+		inline void SetScale(tScale scale) { SetLocalScale(scale); }
 	};
 }
