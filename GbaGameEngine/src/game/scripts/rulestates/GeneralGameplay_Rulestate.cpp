@@ -13,6 +13,9 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 {
 	using namespace GBA;
 
+	System::RpgMovement::UpdatePlayerMovement(params.engine);
+	System::RpgMovement::Update(params.engine);
+
 	if (Input::GetKeyDown(InputActions::Interact))
 	{
 		std::string script;
@@ -23,8 +26,5 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 		SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
 		params.stateMachine->ChangeState(dialogueRulestate, params);
 	}
-
-	System::RpgMovement::UpdatePlayerMovement(params.engine);
-	System::RpgMovement::Update(params.engine);
 }
 
