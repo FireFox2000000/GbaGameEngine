@@ -12,6 +12,11 @@ namespace GbaConversionTools.Tools
         public static readonly int PALETTE_LENGTH_4BBP = 16;
         public static readonly int MAX_PALETTE_LENGTH = 256;
 
+        static bool IsAlpha(Color colour)
+        {
+            return colour.A <= 0;
+        }
+
         public static Color[] GeneratePaletteFromImage(Bitmap bitmap, int xStart, int yStart, int width, int height)
         {
             List<Color> palette = new List<Color>();
@@ -34,7 +39,7 @@ namespace GbaConversionTools.Tools
                     foreach (Color palColor in palette)
                     {
                         // Don't need to compare alpha
-                        if (color == palColor)
+                        if (color == palColor || (IsAlpha(palColor) && IsAlpha(color)))
                         {
                             foundInPalette = true;
                             break;
@@ -53,7 +58,7 @@ namespace GbaConversionTools.Tools
         {
             for (int i = 0; i < palette.Length; ++i)
             {
-                if (color == palette[i])
+                if ((IsAlpha(color) && IsAlpha(palette[i])) || color == palette[i])
                     return i;
             }
 
