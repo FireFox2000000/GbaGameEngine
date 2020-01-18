@@ -8,11 +8,11 @@
 #include "game/config/InputActions.h"
 #include "game/scripts/componentsystems/movement/RpgMovement.h"
 
-Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState)
+Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState, std::function<void()> onFinishedFn)
 	: m_script(script)
 	, m_finishedState(finishedState)
+	, m_onFinished(onFinishedFn)
 {
-
 }
 
 bool Dialogue_Rulestate::AdvanceText()
@@ -70,4 +70,10 @@ void Dialogue_Rulestate::Update(GameRulestateParams & params)
 		if (AdvanceText())
 			params.stateMachine->ChangeState(m_finishedState, params);
 	}
+}
+
+void Dialogue_Rulestate::Exit(GameRulestateParams & params)
+{
+	if (m_onFinished)
+		m_onFinished();
 }

@@ -27,3 +27,31 @@ void SceneObjectPrefab::MakeReimuProp(Engine * engine, GameObject & out_go)
 	Sprite* sprite = spriteLibrary->GetSprite(SpriteAtlusID::Reimu, 0);
 	SceneObjectPrefab::MakeInteractableObj(engine, out_go, sprite, halfSize);
 }
+
+void SceneObjectPrefab::SetReimuPropDirection(Engine * engine, GameObject & prop, Direction dir)
+{
+	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
+
+	int spriteIndex = 0;
+	switch (dir)
+	{
+
+	case Direction::Left:
+		spriteIndex = 4;
+		break;
+
+	case Direction::Right:
+		prop.EditComponent<Component::Transform>()->SetScale(Vector2<tFixedPoint8>(-1, 1));
+		spriteIndex = 4;
+		break;
+
+	case Direction::Up:
+		spriteIndex = 8;
+		break;
+
+	case Direction::Down:
+	default:
+		break;
+	}
+	prop.EditComponent<Component::SpriteRenderer>()->SetSprite(spriteLibrary->GetSprite(SpriteAtlusID::Reimu, spriteIndex));
+}

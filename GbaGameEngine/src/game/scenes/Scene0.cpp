@@ -69,31 +69,43 @@ void Scene0::SetupSceneProps(Engine * engine)
 		Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
 		tilemapRenderer.SetTilemap(testBg);
 		tilemapRenderer.AssignBackgroundSlot();
-		Component::Collider& backgroundCollider = background->AddComponent<Component::Collider>();
-		backgroundCollider.shape = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
-		backgroundCollider.shapeInverted = true;
+		//Component::Collider& backgroundCollider = background->AddComponent<Component::Collider>();
+		//backgroundCollider.shape = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
+		//backgroundCollider.shapeInverted = true;
 	}
 
 	player = std::make_unique<GameObject>(engine);
 	PlayerPrefab::MakePlayerObj(engine, *player);
+	player->EditComponent<Component::Transform>()->SetPosition(0, -5);
 
 	Component::CameraTracker& cameraTracker = m_mainCamera.AddComponent<Component::CameraTracker>();
 	cameraTracker.objectToTrack = player.get();
-	cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
+	//cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
 
 	{
 		GameObject* prop = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakeReimuProp(engine, *prop);
 
-		prop->EditComponent<Component::Transform>()->SetPosition(0, 5);
+		prop->EditComponent<Component::Transform>()->SetPosition(0, 0);
 
 		auto* interactable = prop->EditComponent<Component::RpgInteractable>();
-		interactable->onInteracted = [](GameObject* interactor, GameRulestateParams& params)
+		interactable->onInteracted = [this, engine](GameObject* interactor, GameRulestateParams& params)
 		{
-			std::string script;
-			script += "This is a fake Reimu";
+			if (this->m_sceneFlags.TestBit(SceneFlags::Prop1Interacted))
+				return;
 
-			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+			std::string script;
+			script += "...";
+			script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+
+			script += "The imposter stares\nback at you";
+
+			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(), 
+				[this, engine]() {
+					// On finished callback
+					SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[0], SceneObjectPrefab::Left);
+					this->m_sceneFlags.SetBit(SceneFlags::Prop1Interacted);	// Oneshot
+				});
 			params.stateMachine->ChangeState(dialogueRulestate, params);
 		};
 	}
@@ -102,16 +114,98 @@ void Scene0::SetupSceneProps(Engine * engine)
 		GameObject* prop = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakeReimuProp(engine, *prop);
 
-		prop->EditComponent<Component::Transform>()->SetPosition(0, -5);
+		prop->EditComponent<Component::Transform>()->SetPosition(-64, 0);
 
 		auto* interactable = prop->EditComponent<Component::RpgInteractable>();
-		interactable->onInteracted = [](GameObject* interactor, GameRulestateParams& params)
+		interactable->onInteracted = [this, engine](GameObject* interactor, GameRulestateParams& params)
 		{
-			std::string script;
-			script += "This is another fake Reimu";
+			if (this->m_sceneFlags.TestBit(SceneFlags::Prop2Interacted))
+				return;
 
-			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+			std::string script;
+			script += "...";
+			script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+			script += "\"Leave...\"";
+
+			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(),
+				[this, engine]() {
+					// On finished callback
+					SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[1], SceneObjectPrefab::Up);
+					this->m_sceneFlags.SetBit(SceneFlags::Prop2Interacted);	// Oneshot
+				});
 			params.stateMachine->ChangeState(dialogueRulestate, params);
+		};
+	}
+
+	{
+		GameObject* prop1 = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakeReimuProp(engine, *prop1);
+		prop1->EditComponent<Component::Transform>()->SetPosition(-62, 64);
+
+		auto* interactable1 = prop1->EditComponent<Component::RpgInteractable>();
+		interactable1->onInteracted = [this, engine](GameObject* interactor, GameRulestateParams& params)
+		{
+			if (!this->m_sceneFlags.TestBit(SceneFlags::Prop3Interacted))
+			{
+				std::string script;
+				script += "...";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				script += "\"You must choose...\"";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(),
+					[this, engine]() {
+						// On finished callback
+						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[2], SceneObjectPrefab::Right);
+						this->m_sceneFlags.SetBit(SceneFlags::Prop3Interacted);	// Oneshot
+
+						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[3], SceneObjectPrefab::Left);
+						this->m_sceneFlags.SetBit(SceneFlags::Prop3Interacted);	// Oneshot
+					});
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
+			else
+			{
+				std::string script;
+				script += "Your mind is filled\nwith images of pancakes";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
+		};
+
+		GameObject* prop2 = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakeReimuProp(engine, *prop2);
+		prop2->EditComponent<Component::Transform>()->SetPosition(-66, 64);
+
+		auto* interactable2 = prop2->EditComponent<Component::RpgInteractable>();
+		interactable2->onInteracted = [this, engine](GameObject* interactor, GameRulestateParams& params)
+		{
+			if (!this->m_sceneFlags.TestBit(SceneFlags::Prop3Interacted))
+			{
+				std::string script;
+				script += "...";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				script += "\"You must choose...\"";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(),
+					[this, engine]() {
+						// On finished callback
+						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[2], SceneObjectPrefab::Right);
+						this->m_sceneFlags.SetBit(SceneFlags::Prop3Interacted);	// Oneshot
+
+						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[3], SceneObjectPrefab::Left);
+						this->m_sceneFlags.SetBit(SceneFlags::Prop3Interacted);	// Oneshot
+					});
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
+			else
+			{
+				std::string script;
+				script += "Your mind is filled\nwith images of sake";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
 		};
 	}
 }

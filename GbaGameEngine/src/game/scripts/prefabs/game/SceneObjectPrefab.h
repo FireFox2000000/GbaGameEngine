@@ -10,4 +10,13 @@ namespace SceneObjectPrefab
 {
 	void MakeInteractableObj(Engine* engine, GameObject& out_go, Sprite* sprite, const Vector2<tFixedPoint8>& size);
 	void MakeReimuProp(Engine* engine, GameObject& out_go);
+
+	enum Direction
+	{
+		Left,
+		Right,
+		Up,
+		Down,
+	};
+	void SetReimuPropDirection(Engine* engine, GameObject& prop, Direction dir);
 }
