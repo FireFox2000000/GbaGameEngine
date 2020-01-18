@@ -36,14 +36,8 @@ void TilemapManager::Load(Tilemap & out_tilemap)
 			}
 		}
 
-		ColourPalette256 colourPalette(0);
-		for (u32 i = 0; i < tilemapSet->m_paletteLength; ++i)
-		{
-			colourPalette[i] = tilemapSet->m_palette[i];
-		}
 		tilemapSet->m_paletteIndex = 0;
-
-		PaletteBank::LoadBackgroundPalette(colourPalette);
+		PaletteBank::LoadBackgroundPalette(tilemapSet->m_palette, tilemapSet->m_paletteLength);
 
 		Vram::GetInstance().AllocBackgroundTileSetMem(tilemapSet->m_tileset, tilemapSet->m_tilesetLength, tilemapSet->m_tileSetCharacterBaseBlock);
 		addRefCount = true;
