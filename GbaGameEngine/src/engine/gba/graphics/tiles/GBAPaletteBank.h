@@ -26,6 +26,8 @@ namespace GBA
 	public:
 		static void LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourPalette16& palette) { LoadPalette(s_BackgroundPalette16Groups->At(blockIndex), palette); }
 		static void LoadBackgroundPalette(const ColourPalette256& palette) { LoadPalette(s_FullBackgroundPalette, palette); }
+		static void LoadBackgroundPalette(const u16* palette, u8 arrLength);
+		static void LoadBackgroundPalette(tPaletteIndex blockIndex, const u16* palette, u8 arrLength);
 		
 		static void LoadSpritePalette(tPaletteIndex blockIndex, const ColourPalette16& palette) { LoadPalette(s_SpritePalette16Groups->At(blockIndex), palette); }
 		static void LoadSpritePalette(const ColourPalette256& palette) { LoadPalette(s_FullSpritePalette, palette); }
