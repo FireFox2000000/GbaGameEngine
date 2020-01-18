@@ -51,4 +51,6 @@ public:
 	tPaletteIndex GetPaletteIndex() const;
 	inline const SpriteAtlus* GetAtlus() const { return m_atlus; }
 	bool IsLoaded() const;
+
+	Vector2<int> GetSize() const;
 };
