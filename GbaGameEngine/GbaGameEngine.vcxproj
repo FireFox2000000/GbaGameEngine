@@ -132,6 +132,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\BgTomb.cpp" />
     <ClCompile Include="src\game\data\DebugFont_8x8.cpp" />
     <ClCompile Include="src\game\data\Player.cpp" />
+    <ClCompile Include="src\game\data\Reimu.cpp" />
     <ClCompile Include="src\game\scenes\IntroductionScene.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />

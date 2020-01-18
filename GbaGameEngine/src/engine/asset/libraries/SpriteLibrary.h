@@ -5,6 +5,7 @@
 
 #define SPRITE_ATLUS_LIST \
 	SPRITE_ATLUS_ENTRY(Player)\
+	SPRITE_ATLUS_ENTRY(Reimu)\
 //
 
 namespace SpriteAtlusID

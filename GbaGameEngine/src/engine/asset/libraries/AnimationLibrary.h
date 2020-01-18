@@ -5,6 +5,13 @@
 // 	SPRITE_ANIM_ENTRY(Shantae_Idle, Shantae_Idle, 0, 12, 12)
 
 #define SPRITE_ANIMATION_LIST \
+	SPRITE_ANIM_ENTRY(ReimuWalkDown, Reimu, 0, 4, 4)\
+	SPRITE_ANIM_ENTRY(ReimuWalkLeft, Reimu, 4, 6, 4)\
+	SPRITE_ANIM_ENTRY(ReimuWalkUp, Reimu, 8, 10, 4)\
+	SPRITE_ANIM_ENTRY(ReimuIdleDown, Reimu, 0, 1, 1)\
+	SPRITE_ANIM_ENTRY(ReimuIdleLeft, Reimu, 4, 5, 1)\
+	SPRITE_ANIM_ENTRY(ReimuIdleUp, Reimu, 8, 9, 1)\
+//
 
 namespace SpriteAnimationID
 {

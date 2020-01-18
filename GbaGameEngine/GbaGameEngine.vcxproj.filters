@@ -57,6 +57,7 @@
     <ClCompile Include="src\game\scripts\componentsystems\movement\RpgMovement.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\camera\CameraTracker.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\collision\Collider.cpp" />
+    <ClCompile Include="src\game\data\Reimu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

@@ -7,6 +7,7 @@
 
 Component::RpgMovement::RpgMovement()
 	: movementAnimations(nullptr)
+	, idleAnimations(nullptr)
 {
 }
 
@@ -82,7 +83,8 @@ void System::RpgMovement::Update(Engine* engine)
 		{
 			bool idleAnim = currentDirection == Component::RpgMovement::Direction::None;
 			const Component::RpgMovement::tAnimationContainer& animations = idleAnim ? rpgMovementComponent.idleAnimations : rpgMovementComponent.movementAnimations;
-			const SpriteAnimation* animation = animations[idleAnim ? currentDirection : rpgMovementComponent.GetPreviousDirection()];
+			const SpriteAnimation* animation = animations[!idleAnim ? currentDirection : rpgMovementComponent.GetPreviousDirection()];
+
 			if (animation)
 			{
 				animator->SetAnimation(animation);
