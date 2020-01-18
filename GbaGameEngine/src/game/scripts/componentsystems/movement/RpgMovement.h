@@ -49,5 +49,7 @@ namespace System
 	{
 		void Update(Engine* engine);
 		void UpdatePlayerMovement(Engine* engine);
+
+		void StopAllMovement(Engine* engine);
 	}
 }

@@ -204,3 +204,17 @@ void System::RpgMovement::UpdatePlayerMovement(Engine * engine)
 			rpgMovementComponent.SetCurrentDirection(dir);
 		});
 }
+
+void System::RpgMovement::StopAllMovement(Engine * engine)
+{
+	auto* entityManager = engine->GetEntityRegistry();
+
+	entityManager->InvokeEach<Component::RpgMovement>(
+		[]
+	(Component::RpgMovement& rpgMovementComponent)
+		{
+			rpgMovementComponent.SetCurrentDirection(Component::RpgMovement::Direction::None);
+		});
+
+	Update(engine);
+}

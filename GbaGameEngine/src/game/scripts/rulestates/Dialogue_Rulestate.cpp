@@ -6,6 +6,7 @@
 #include "engine/screen/Screen.h"
 
 #include "game/config/InputActions.h"
+#include "game/scripts/componentsystems/movement/RpgMovement.h"
 
 Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState)
 	: m_script(script)
@@ -43,6 +44,9 @@ bool Dialogue_Rulestate::AdvanceText()
 void Dialogue_Rulestate::Enter(GameRulestateParams & params)
 {
 	DEBUG_LOG("Entered rulestate [Dialogue_Rulestate]");
+
+	System::RpgMovement::StopAllMovement(params.engine);
+
 	m_dialogueObject = std::make_unique<GameObject>(params.engine);
 
 	TextPrefabFunctions::MakeBasicTextObj(params.engine, *m_dialogueObject.get(), FontID::DebugFont_8x8);
