@@ -16,15 +16,18 @@ Component::RpgMovement::Direction Component::RpgMovement::GetCurrentDirection() 
 	return currentDirection;
 }
 
-Component::RpgMovement::Direction Component::RpgMovement::GetPreviousDirection() const
+Component::RpgMovement::Direction Component::RpgMovement::GetCurrentFacing() const
 {
-	return previousDirection;
+	return currentFacing;
 }
 
 void Component::RpgMovement::SetCurrentDirection(Direction dir)
 {
-	previousDirection = currentDirection;
 	currentDirection = dir;
+	if (currentDirection != Direction::None)
+	{
+		currentFacing = currentDirection;
+	}
 }
 
 void System::RpgMovement::Update(Engine* engine)
@@ -83,7 +86,7 @@ void System::RpgMovement::Update(Engine* engine)
 		{
 			bool idleAnim = currentDirection == Component::RpgMovement::Direction::None;
 			const Component::RpgMovement::tAnimationContainer& animations = idleAnim ? rpgMovementComponent.idleAnimations : rpgMovementComponent.movementAnimations;
-			const SpriteAnimation* animation = animations[!idleAnim ? currentDirection : rpgMovementComponent.GetPreviousDirection()];
+			const SpriteAnimation* animation = animations[rpgMovementComponent.GetCurrentFacing()];
 
 			if (animation)
 			{
@@ -106,7 +109,7 @@ void System::RpgMovement::Update(Engine* engine)
 					*collider,
 					position,
 					*otherCollider,
-					entityManager->GetComponent<Component::Transform>(colliderEntity)->GetPosition(), collision))
+					entityManager->GetComponent<Component::Transform>(colliderEntity)->GetPosition(), false, collision))
 				{
 					switch (currentDirection)
 					{

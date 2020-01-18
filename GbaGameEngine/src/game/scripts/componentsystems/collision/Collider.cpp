@@ -5,6 +5,7 @@ bool System::Collision::DoesCollide
 	, const Component::Transform::tPosition& positionA
 	, const Component::Collider& colliderB
 	, const Component::Transform::tPosition& positionB
+	, bool touchEnabled
 	, Collision& out_collision
 	)
 {
@@ -39,7 +40,7 @@ bool System::Collision::DoesCollide
 			out_collision.aToBProjection.y = worldShapeB.max.y - worldShapeA.min.y;
 		}
 
-		return worldShapeA.Intersects(worldShapeB);
+		return touchEnabled ? worldShapeA.IntersectsOrTouches(worldShapeB) : worldShapeA.Intersects(worldShapeB);
 	}
 
 	if (colliderA.shapeInverted != colliderB.shapeInverted)

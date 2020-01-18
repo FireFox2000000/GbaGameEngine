@@ -38,6 +38,7 @@ namespace System
 			const Component::Transform::tPosition& transformA, 
 			const Component::Collider& colliderB, 
 			const Component::Transform::tPosition& transformB,
+			bool touchEnabled,
 			Collision& out_collision);
 
 	}

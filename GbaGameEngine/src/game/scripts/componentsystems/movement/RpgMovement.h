@@ -23,8 +23,8 @@ namespace Component
 		bool enableHorizontalDirSpriteFlip = true;
 
 	private:
-		Direction previousDirection = Direction::None;
 		Direction currentDirection = Direction::None;
+		Direction currentFacing = Direction::None;
 
 	public:
 		using tAnimationContainer = Array<const SpriteAnimation*, Direction::Count>;
@@ -35,7 +35,7 @@ namespace Component
 		RpgMovement();
 
 		Direction GetCurrentDirection() const;
-		Direction GetPreviousDirection() const;
+		Direction GetCurrentFacing() const;
 		void SetCurrentDirection(Direction dir);
 	};
 }
