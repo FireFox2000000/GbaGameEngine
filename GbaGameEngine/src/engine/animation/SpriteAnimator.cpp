@@ -11,7 +11,7 @@ void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 
 		timeToNextFrameMicroSeconds = 0;
 		frameDtMicroseconds = currentAnimation ? SECONDS_TO_MICROSECONDS(1.0f / currentAnimation->frameRate) : 0;
-		currentFrameIndex = 0;
+		currentFrameIndex = -1;  // New animation
 	}
 }
 
@@ -27,6 +27,17 @@ void System::SpriteAnimator::Update(Engine* engine)
 			if (!animator.currentAnimation || animator.FrameCount() <= 0)
 				return;
 
+			// A new animation was set
+			if (animator.currentFrameIndex < 0)
+			{
+				animator.currentFrameIndex = 0;
+
+				Sprite* sprite = animator.currentAnimation->keyFrames[animator.currentFrameIndex].sprite;
+				spriteRenderer.SetSprite(sprite);
+
+				return;
+			}
+
 			animator.timeToNextFrameMicroSeconds += dtMicroSeconds;
 
 			u8 previousFrameIndex = animator.currentFrameIndex;
@@ -39,7 +50,7 @@ void System::SpriteAnimator::Update(Engine* engine)
 			}
 
 			// Wrap into a valid index
-			while (animator.currentFrameIndex >= animator.FrameCount())
+			while (animator.currentFrameIndex >= (int)animator.FrameCount())
 			{
 				animator.currentFrameIndex -= animator.FrameCount();
 			}

@@ -26,7 +26,7 @@ namespace Component
 
 		s32 timeToNextFrameMicroSeconds = 0;
 		u32 frameDtMicroseconds = 0;
-		u8 currentFrameIndex = 0;
+		int currentFrameIndex = -1;
 
 	public:
 		void SetAnimation(const SpriteAnimation* animation);
