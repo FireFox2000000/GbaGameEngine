@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "engine/graphicalassets/sprite/SpriteAtlus.h"
 #include "engine/base/colour/Palette.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 tTileId Sprite::RenderData::GetTileIndex() const
 {
@@ -44,4 +45,9 @@ tPaletteIndex Sprite::GetPaletteIndex() const
 bool Sprite::IsLoaded() const
 {
 	return GetTileIndex() != INVALID_TILE_ID && m_atlus->IsPaletteLoaded();
+}
+
+Vector2<int> Sprite::GetSize() const
+{
+	return GBA::AttributeFunctions::GetTileSize(GetShape(), GetSizeMode());
 }
