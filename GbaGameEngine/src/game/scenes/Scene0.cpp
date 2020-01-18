@@ -7,10 +7,14 @@
 #include "engine/render/TilemapRenderer.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "game/scripts/prefabs/game/PlayerPrefab.h"
+#include "game/scripts/prefabs/game/SceneObjectPrefab.h"
 #include "game/scripts/componentsystems/camera/CameraTracker.h"
-#include "game/scripts/componentsystems/movement/RpgMovement.h"
-#include "game/scripts/componentsystems/PlayerComponent.h"
 #include "game/scripts/componentsystems/collision/Collider.h"
+#include "engine/asset/libraries/SpriteLibrary.h"
+#include "game/scripts/componentsystems/interaction/RpgInteraction.h"
+
+#include "game/scripts/rulestates/GeneralGameplay_Rulestate.h"
+#include "game/scripts/rulestates/Dialogue_Rulestate.h"
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -30,6 +34,32 @@ void Scene0::Enter(Engine* engine)
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
+	SetupSceneProps(engine);
+
+	GameRulestateParams updateParams;
+	updateParams.engine = engine;
+	updateParams.stateMachine = &m_rulestateMachine;
+	updateParams.playerObject = player.get();
+
+	m_rulestateMachine.ChangeState<GeneralGameplay_Rulestate>(updateParams);
+}
+
+void Scene0::Update(Engine* engine)
+{
+	GameRulestateParams updateParams;
+	updateParams.engine = engine;
+	updateParams.stateMachine = &m_rulestateMachine;
+	updateParams.playerObject = player.get();
+
+	m_rulestateMachine.Update(updateParams);
+
+	Scene::Update(engine);
+
+	System::CameraTracker::Update(engine);
+}
+
+void Scene0::SetupSceneProps(Engine * engine)
+{
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
 	Tilemap* testBg = tilemapLib->GetTilemap(TilemapSetID::BgTomb, 0);
 	auto halfBgSize = testBg->GetSizeInTiles() / 2;
@@ -47,33 +77,41 @@ void Scene0::Enter(Engine* engine)
 	player = std::make_unique<GameObject>(engine);
 	PlayerPrefab::MakePlayerObj(engine, *player);
 
-	
 	Component::CameraTracker& cameraTracker = m_mainCamera.AddComponent<Component::CameraTracker>();
 	cameraTracker.objectToTrack = player.get();
 	cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
 
-	testCollider = std::make_unique<GameObject>(engine);
-	PlayerPrefab::MakePlayerObj(engine, *testCollider);
-	testCollider->EditComponent<Component::Transform>()->SetPosition(0, 5);
-	testCollider->RemoveComponent<Component::RpgMovement>();
-	testCollider->RemoveComponent<Component::Player>();
+	{
+		GameObject* prop = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakeReimuProp(engine, *prop);
 
-	GameRulestateParams updateParams;
-	updateParams.engine = engine;
-	updateParams.stateMachine = &m_rulestateMachine;
+		prop->EditComponent<Component::Transform>()->SetPosition(0, 5);
 
-	m_rulestateMachine.ChangeState<GeneralGameplay_Rulestate>(updateParams);
-}
+		auto* interactable = prop->EditComponent<Component::RpgInteractable>();
+		interactable->onInteracted = [](GameObject* interactor, GameRulestateParams& params)
+		{
+			std::string script;
+			script += "This is a fake Reimu";
 
-void Scene0::Update(Engine* engine)
-{
-	GameRulestateParams updateParams;
-	updateParams.engine = engine;
-	updateParams.stateMachine = &m_rulestateMachine;
+			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+			params.stateMachine->ChangeState(dialogueRulestate, params);
+		};
+	}
 
-	m_rulestateMachine.Update(updateParams);
+	{
+		GameObject* prop = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakeReimuProp(engine, *prop);
 
-	Scene::Update(engine);
+		prop->EditComponent<Component::Transform>()->SetPosition(0, -5);
 
-	System::CameraTracker::Update(engine);
+		auto* interactable = prop->EditComponent<Component::RpgInteractable>();
+		interactable->onInteracted = [](GameObject* interactor, GameRulestateParams& params)
+		{
+			std::string script;
+			script += "This is another fake Reimu";
+
+			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+			params.stateMachine->ChangeState(dialogueRulestate, params);
+		};
+	}
 }

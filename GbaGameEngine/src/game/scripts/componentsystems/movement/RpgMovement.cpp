@@ -21,6 +21,29 @@ Component::RpgMovement::Direction Component::RpgMovement::GetCurrentFacing() con
 	return currentFacing;
 }
 
+Vector2<tFixedPoint8> Component::RpgMovement::GetCurrentVecFacing() const
+{
+	switch (GetCurrentFacing())
+	{
+	case Direction::Left:
+		return Vector2<tFixedPoint8>::Left;
+
+	case Direction::Right:
+		return Vector2<tFixedPoint8>::Right;
+
+	case Direction::Up:
+		return Vector2<tFixedPoint8>::Up;
+
+	case Direction::Down:
+		return Vector2<tFixedPoint8>::Down;
+
+	default:
+		break;
+	}
+
+	return Vector2<tFixedPoint8>();
+}
+
 void Component::RpgMovement::SetCurrentDirection(Direction dir)
 {
 	currentDirection = dir;

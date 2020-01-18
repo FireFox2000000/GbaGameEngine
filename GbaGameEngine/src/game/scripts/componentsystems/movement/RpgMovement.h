@@ -1,6 +1,7 @@
 #pragma once
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/base/core/stl/Array.h"
+#include "engine/math/Vector2.h"
 
 struct SpriteAnimation;
 
@@ -36,6 +37,7 @@ namespace Component
 
 		Direction GetCurrentDirection() const;
 		Direction GetCurrentFacing() const;
+		Vector2<tFixedPoint8> GetCurrentVecFacing() const;
 		void SetCurrentDirection(Direction dir);
 	};
 }

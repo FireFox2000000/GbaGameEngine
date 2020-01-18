@@ -155,8 +155,10 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\camera\CameraTracker.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\collision\Collider.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\interaction\RpgInteraction.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\movement\RpgMovement.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\game\PlayerPrefab.cpp" />
+    <ClCompile Include="src\game\scripts\prefabs\game\SceneObjectPrefab.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.cpp" />
     <ClCompile Include="src\game\scripts\rulestates\Dialogue_Rulestate.cpp" />
     <ClCompile Include="src\game\scripts\rulestates\GeneralGameplay_Rulestate.cpp" />
@@ -273,7 +275,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\scripts\componentsystems\collision\Collider.h" />
     <ClInclude Include="src\game\scripts\componentsystems\movement\RpgMovement.h" />
     <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\interaction\RpgInteraction.h" />
     <ClInclude Include="src\game\scripts\prefabs\game\PlayerPrefab.h" />
+    <ClInclude Include="src\game\scripts\prefabs\game\SceneObjectPrefab.h" />
     <ClInclude Include="src\game\scripts\prefabs\ui\TextPrefabFunctions.h" />
     <ClInclude Include="src\game\scripts\rulestates\Dialogue_Rulestate.h" />
     <ClInclude Include="src\game\scripts\rulestates\GameRulestate.h" />

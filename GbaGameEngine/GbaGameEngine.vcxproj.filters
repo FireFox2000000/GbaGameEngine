@@ -58,6 +58,8 @@
     <ClCompile Include="src\game\scripts\componentsystems\camera\CameraTracker.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\collision\Collider.cpp" />
     <ClCompile Include="src\game\data\Reimu.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\interaction\RpgInteraction.cpp" />
+    <ClCompile Include="src\game\scripts\prefabs\game\SceneObjectPrefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -175,6 +177,8 @@
     <ClInclude Include="src\game\scripts\componentsystems\PlayerComponent.h" />
     <ClInclude Include="src\game\scripts\componentsystems\camera\CameraTracker.h" />
     <ClInclude Include="src\game\scripts\componentsystems\collision\Collider.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\interaction\RpgInteraction.h" />
+    <ClInclude Include="src\game\scripts\prefabs\game\SceneObjectPrefab.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
