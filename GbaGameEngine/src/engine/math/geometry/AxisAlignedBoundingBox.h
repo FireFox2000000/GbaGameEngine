@@ -19,7 +19,7 @@ struct AxisAlignedBoundingBox2
 			(min.y < other.max.y && max.y > other.min.y);
 	}
 
-	bool IntersectsOrTounches(const AxisAlignedBoundingBox2& other) const
+	bool IntersectsOrTouches(const AxisAlignedBoundingBox2& other) const
 	{
 		return
 			(min.x <= other.max.x && max.x >= other.min.x) &&
