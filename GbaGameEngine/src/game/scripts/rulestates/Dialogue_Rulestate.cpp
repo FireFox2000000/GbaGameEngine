@@ -121,6 +121,10 @@ void Dialogue_Rulestate::Update(GameRulestateParams & params)
 		if (AdvanceText())
 			params.stateMachine->ChangeState(m_finishedState, params);
 	}
+	else if (Input::GetKeyDown(InputActions::SkipDialogue))
+	{
+		params.stateMachine->ChangeState(m_finishedState, params);
+	}
 }
 
 void Dialogue_Rulestate::Exit(GameRulestateParams & params)
