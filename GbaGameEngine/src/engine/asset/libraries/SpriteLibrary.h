@@ -6,6 +6,8 @@
 #define SPRITE_ATLUS_LIST \
 	SPRITE_ATLUS_ENTRY(Player)\
 	SPRITE_ATLUS_ENTRY(Reimu)\
+	SPRITE_ATLUS_ENTRY(GenericFairy)\
+	SPRITE_ATLUS_ENTRY(PurityRods)\
 //
 
 namespace SpriteAtlusID

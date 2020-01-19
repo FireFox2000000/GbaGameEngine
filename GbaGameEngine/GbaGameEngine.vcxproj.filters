@@ -63,6 +63,8 @@
     <ClCompile Include="src\game\scripts\componentsystems\kokirirespawn\KokiriRespawn.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\kokirirespawn\RespawnMesh.cpp" />
     <ClCompile Include="src\game\data\BgForest.cpp" />
+    <ClCompile Include="src\game\data\GenericFairy.cpp" />
+    <ClCompile Include="src\game\data\PurityRods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
