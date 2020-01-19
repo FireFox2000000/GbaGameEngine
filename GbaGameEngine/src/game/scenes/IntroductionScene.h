@@ -6,6 +6,7 @@
 class IntroductionScene : public Scene
 {
 	GameStateMachine m_rulestateMachine;
+	std::unique_ptr<GameObject> m_player;
 
 public:
 	IntroductionScene(Engine* engine);

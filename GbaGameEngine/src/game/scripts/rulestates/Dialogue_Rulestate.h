@@ -8,7 +8,10 @@
 
 class Dialogue_Rulestate : public GameRulestate
 {
+	const int CHARACTERS_PER_ROW = 25;
+
 	std::string m_script;
+	int m_totalRows = 2;
 	SharedPtr<GameRulestate> m_finishedState;
 
 	std::unique_ptr<GameObject> m_dialogueObject;
@@ -25,5 +28,5 @@ protected:
 public:
 	const static char c_dialogueBoxStepFlag = '`';
 
-	Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState, std::function<void()> onFinishedFn = nullptr);
+	Dialogue_Rulestate(const std::string& script, int totalRows, SharedPtr<GameRulestate> finishedState, std::function<void()> onFinishedFn = nullptr);
 };

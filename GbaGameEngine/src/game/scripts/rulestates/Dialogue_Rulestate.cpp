@@ -8,12 +8,11 @@
 #include "game/config/InputActions.h"
 #include "game/scripts/componentsystems/movement/RpgMovement.h"
 
-Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState, std::function<void()> onFinishedFn)
+Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, int totalRows, SharedPtr<GameRulestate> finishedState, std::function<void()> onFinishedFn)
 	: m_finishedState(finishedState)
 	, m_onFinished(onFinishedFn)
 {
-	const int CHARACTERS_PER_ROW = 25;
-	const int ROWS_PER_BOX = 2;
+	m_totalRows = totalRows;
 
 	int charIndex = 0;
 	int rowIndex = 0;
@@ -35,6 +34,8 @@ Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<Game
 		if (addString)
 		{
 			int endSubStr = !atEnd && lastSpace >= 0 ? lastSpace : i;
+			if (atEnd)
+				endSubStr += 1;
 
 			m_script += script.substr(charIndex, endSubStr - charIndex);
 
@@ -55,7 +56,7 @@ Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<Game
 			else
 			{
 				++rowIndex;
-				if (rowIndex >= ROWS_PER_BOX)
+				if (rowIndex >= m_totalRows)
 				{
 					m_script += c_dialogueBoxStepFlag;
 					rowIndex = 0;
@@ -105,7 +106,7 @@ void Dialogue_Rulestate::Enter(GameRulestateParams & params)
 
 	auto& screenTransform = *m_dialogueObject->EditComponent<Component::UI::ScreenTransform>();
 	screenTransform.position.x = 4;
-	screenTransform.position.y = resolution.y - 32;
+	screenTransform.position.y = resolution.y - (8 * m_totalRows + 5);
 
 	if (AdvanceText())
 		params.stateMachine->ChangeState(m_finishedState, params);

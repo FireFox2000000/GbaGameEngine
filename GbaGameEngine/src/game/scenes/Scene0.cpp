@@ -118,9 +118,9 @@ void Scene0::SetupSceneProps(Engine * engine)
 			script += "...";
 			script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
 
-			script += "The imposter stares\nback at you";
+			script += "The imposter stares back at you";
 
-			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(), 
+			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(), 
 				[this, engine]() {
 					// On finished callback
 					SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[0], SceneObjectPrefab::Left);
@@ -147,7 +147,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 			script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
 			script += "\"Leave...\"";
 
-			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(),
+			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(),
 				[this, engine]() {
 					// On finished callback
 					SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[1], SceneObjectPrefab::Up);
@@ -172,7 +172,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
 				script += "\"You must choose...\"";
 
-				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(),
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(),
 					[this, engine]() {
 						// On finished callback
 						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[2], SceneObjectPrefab::Right);
@@ -186,9 +186,9 @@ void Scene0::SetupSceneProps(Engine * engine)
 			else
 			{
 				std::string script;
-				script += "Your mind is filled\nwith images of pancakes";
+				script += "Your mind is filled with images of pancakes";
 
-				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
 				params.stateMachine->ChangeState(dialogueRulestate, params);
 			}
 		};
@@ -207,7 +207,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
 				script += "\"You must choose...\"";
 
-				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>(),
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(),
 					[this, engine]() {
 						// On finished callback
 						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[2], SceneObjectPrefab::Right);
@@ -221,9 +221,9 @@ void Scene0::SetupSceneProps(Engine * engine)
 			else
 			{
 				std::string script;
-				script += "Your mind is filled\nwith images of sake";
+				script += "Your mind is filled with images of sake";
 
-				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, std::make_shared<GeneralGameplay_Rulestate>());
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
 				params.stateMachine->ChangeState(dialogueRulestate, params);
 			}
 		};
