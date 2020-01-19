@@ -19,4 +19,14 @@ namespace SceneObjectPrefab
 		Down,
 	};
 	void SetReimuPropDirection(Engine* engine, GameObject& prop, Direction dir);
+
+	enum RodColour
+	{
+		Default,
+		Gold,
+		Yellow
+	};
+
+	void MakePurityRodProp(Engine* engine, GameObject& out_go, RodColour colour);
+
 }

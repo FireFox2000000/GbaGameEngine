@@ -41,15 +41,23 @@ void PlayerPrefab::MakePlayerObj(Engine * engine, GameObject & out_go)
 		movement.movementAnimations[Component::RpgMovement::Right] = animLibrary->GetSpriteAnimation(SpriteAnimationID::ReimuWalkLeft);
 	}
 
+	Vector2<tFixedPoint8> collisionOffset = Vector2<tFixedPoint8>(0, -1.f);
+
 	{
 		Component::Collider& collider = out_go.AddComponent<Component::Collider>();
-		collider.shape = AxisAlignedBoundingBox2(halfSize * -1, halfSize);
+
+		Vector2<tFixedPoint8> min = Vector2<tFixedPoint8>(-1 * halfSize + collisionOffset);
+		Vector2<tFixedPoint8> max = Vector2<tFixedPoint8>(halfSize + collisionOffset);
+		collider.shape = AxisAlignedBoundingBox2(min, max);
 	}
 
 	{
 		Component::RpgInteractor& interactor = out_go.AddComponent<Component::RpgInteractor>();
 		auto interactionTriggerSize = halfSize / 2;
-		interactor.interactionTrigger = AxisAlignedBoundingBox2(interactionTriggerSize * -1, interactionTriggerSize);
+		Vector2<tFixedPoint8> min = Vector2<tFixedPoint8>(-1 * interactionTriggerSize + collisionOffset);
+		Vector2<tFixedPoint8> max = Vector2<tFixedPoint8>(interactionTriggerSize + collisionOffset);
+
+		interactor.interactionTrigger = AxisAlignedBoundingBox2(min, max);
 		interactor.facingProjectionOffset = Vector2<tFixedPoint8>(halfSize.x, halfSize.y);
 	}
 

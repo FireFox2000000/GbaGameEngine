@@ -80,8 +80,8 @@ void Scene0::SetupSceneProps(Engine * engine)
 		tRespawnMesh::tMesh respawnGridMesh = {		// Possibly inverted on the Y???
 			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, },
 			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, },
-			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, },
-			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, },
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, tRespawnMesh::Box, },
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::Box, },
 			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, },
 		};
 		
@@ -186,7 +186,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 			else
 			{
 				std::string script;
-				script += "Your mind is filled with images of pancakes";
+				script += "Your mind is filled with images of sake";
 
 				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
 				params.stateMachine->ChangeState(dialogueRulestate, params);
@@ -221,11 +221,17 @@ void Scene0::SetupSceneProps(Engine * engine)
 			else
 			{
 				std::string script;
-				script += "Your mind is filled with images of sake";
+				script += "Your mind is filled with images of pancakes";
 
 				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
 				params.stateMachine->ChangeState(dialogueRulestate, params);
 			}
 		};
+	}
+
+	{
+		GameObject* rodProp1 = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakePurityRodProp(engine, *rodProp1, SceneObjectPrefab::RodColour::Default);
+		rodProp1->EditComponent<Component::Transform>()->SetPosition(-128, 64);
 	}
 }
