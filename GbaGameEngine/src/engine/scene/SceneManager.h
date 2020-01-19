@@ -5,12 +5,15 @@
 class SceneManager
 {
 	Scene* m_current = nullptr;
+	Scene* m_queuedScene = nullptr;
+
+	void UpdatedQueuedChange(Engine* engine);
 
 public:
 	SceneManager();
 	~SceneManager();
 
-	inline void UpdateScene(Engine* engine) { m_current->Update(engine); }
+	void UpdateScene(Engine* engine);
 	inline void PreRenderScene(Engine* engine) { m_current->PreRender(engine); }
 	inline void RenderScene(Engine* engine) { m_current->Render(engine); }
 
@@ -19,13 +22,10 @@ public:
 	{
 		STATIC_ASSERT(IS_BASE_OF(Scene, SCENE), "SceneManager::Change must be provided a type that derives from Scene.h");
 
-		if (m_current)
-			m_current->Exit(engine);
+		// We queue up a scene load to make sure we aren't changing a scene while still running update functionality from that same scene
+		m_queuedScene = new SCENE(engine);
 
-		delete m_current;
-
-		m_current = new SCENE(engine);
-
-		m_current->Enter(engine);
+		if (!m_current)
+			UpdatedQueuedChange(engine);	// Initial scene
 	}
 };
