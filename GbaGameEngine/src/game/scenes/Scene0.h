@@ -21,7 +21,7 @@ public:
 
 	std::unique_ptr<GameObject> player;
 
-	static constexpr int MAX_PROPS = 7;
+	static constexpr int MAX_PROPS = 8;
 	FixedList<GameObject, MAX_PROPS> propObjects;
 
 	enum SceneFlags

@@ -13,6 +13,7 @@
 #include "engine/asset/libraries/SpriteLibrary.h"
 #include "game/scripts/componentsystems/interaction/RpgInteraction.h"
 #include "game/scripts/componentsystems/kokirirespawn/RespawnMesh.h"
+#include "engine/render/SpriteRenderer.h"
 
 #include "game/scripts/rulestates/GeneralGameplay_Rulestate.h"
 #include "game/scripts/rulestates/Dialogue_Rulestate.h"
@@ -63,7 +64,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 {
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
 	Tilemap* testBg = tilemapLib->GetTilemap(TilemapSetID::BgForest, 0);
-	auto halfBgSize = testBg->GetSizeInTiles() / 2;
+	//auto halfBgSize = testBg->GetSizeInTiles() / 2;
 
 	{
 		background = std::make_unique<GameObject>(engine);
@@ -102,6 +103,8 @@ void Scene0::SetupSceneProps(Engine * engine)
 	cameraTracker.objectToTrack = player.get();
 	//cameraTracker.worldBounds = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
 
+	int propCount = 0;
+
 	{
 		GameObject* prop = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakeReimuProp(engine, *prop);
@@ -129,7 +132,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 			params.stateMachine->ChangeState(dialogueRulestate, params);
 		};
 	}
-
+	++propCount;
 	{
 		GameObject* prop = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakeReimuProp(engine, *prop);
@@ -156,7 +159,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 			params.stateMachine->ChangeState(dialogueRulestate, params);
 		};
 	}
-
+	++propCount;
 	{
 		GameObject* prop1 = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakeReimuProp(engine, *prop1);
@@ -192,7 +195,7 @@ void Scene0::SetupSceneProps(Engine * engine)
 				params.stateMachine->ChangeState(dialogueRulestate, params);
 			}
 		};
-
+		++propCount;
 		GameObject* prop2 = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakeReimuProp(engine, *prop2);
 		prop2->EditComponent<Component::Transform>()->SetPosition(-66, 64);
@@ -228,10 +231,88 @@ void Scene0::SetupSceneProps(Engine * engine)
 			}
 		};
 	}
-
+	++propCount;
 	{
+		int rodOffsetFromCenter = 7;
+
 		GameObject* rodProp1 = propObjects.AddNew(engine);
 		SceneObjectPrefab::MakePurityRodProp(engine, *rodProp1, SceneObjectPrefab::RodColour::Default);
-		rodProp1->EditComponent<Component::Transform>()->SetPosition(-128, 64);
+		rodProp1->EditComponent<Component::Transform>()->SetPosition(-128, 64 + rodOffsetFromCenter);
+		{
+			auto* interactableRod = rodProp1->EditComponent<Component::RpgInteractable>();
+			interactableRod->onInteracted = [this, engine, propCount](GameObject* interactor, GameRulestateParams& params)
+			{
+				{
+					std::string script;
+					script += "A replica of the Purity Rod";
+					script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+					script += "It has a brown wooden handle and white ribbon tassles";
+
+					SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
+					params.stateMachine->ChangeState(dialogueRulestate, params);
+				}
+			};
+		}
+
+		++propCount;
+
+		GameObject* rodProp2 = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakePurityRodProp(engine, *rodProp2, SceneObjectPrefab::RodColour::Gold);
+		rodProp2->EditComponent<Component::Transform>()->SetPosition(-128 - rodOffsetFromCenter, 64);
+		{
+			auto* interactableRod = rodProp2->EditComponent<Component::RpgInteractable>();
+			interactableRod->onInteracted = [this, engine, propCount](GameObject* interactor, GameRulestateParams& params)
+			{
+				{
+					std::string script;
+					script += "A replica of the Purity Rod";
+					script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+					script += "It has a brown wooden handle and gold embroided ribbon tassles";
+
+					SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
+					params.stateMachine->ChangeState(dialogueRulestate, params);
+				}
+			};
+		}
+
+		++propCount;
+
+		GameObject* rodProp3 = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakePurityRodProp(engine, *rodProp3, SceneObjectPrefab::RodColour::Yellow);
+		rodProp3->EditComponent<Component::Transform>()->SetPosition(-128, 64 - rodOffsetFromCenter);
+		{
+			auto* interactableRod = rodProp3->EditComponent<Component::RpgInteractable>();
+			interactableRod->onInteracted = [this, engine, propCount](GameObject* interactor, GameRulestateParams& params)
+			{
+				{
+					std::string script;
+					script += "A replica of the Purity Rod";
+					script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+					script += "It has a shiny yellow handle and white ribbon tassles";
+
+					SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
+					params.stateMachine->ChangeState(dialogueRulestate, params);
+				}
+			};
+		}
+
+		++propCount;
+
+		GameObject* reimuProp = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakeReimuProp(engine, *reimuProp);
+		reimuProp->EditComponent<Component::Transform>()->SetPosition(-128, 64);
+		SceneObjectPrefab::SetReimuPropDirection(engine, *reimuProp, SceneObjectPrefab::Right);
+		auto* interactableReimu = reimuProp->EditComponent<Component::RpgInteractable>();
+		interactableReimu->onInteracted = [this, engine, propCount](GameObject* interactor, GameRulestateParams& params)
+		{
+			{
+				std::string script;
+				script += "Weilders of wind are as plain as the stale air";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
+		};
+		++propCount;
 	}
 }
