@@ -116,22 +116,31 @@ void Scene0::SetupSceneProps(Engine * engine)
 		auto* interactable = prop->EditComponent<Component::RpgInteractable>();
 		interactable->onInteracted = [this, engine](GameObject* interactor, GameRulestateParams& params)
 		{
-			if (this->m_sceneFlags.TestBit(SceneFlags::Prop1Interacted))
-				return;
+			if (!this->m_sceneFlags.TestBit(SceneFlags::Prop1Interacted))
+			{
 
-			std::string script;
-			script += "...";
-			script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				std::string script;
+				script += "...";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
 
-			script += "The imposter stares back at you";
+				script += "The imposter stares back at you";
 
-			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(), 
-				[this, engine]() {
-					// On finished callback
-					SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[0], SceneObjectPrefab::Left);
-					this->m_sceneFlags.SetBit(SceneFlags::Prop1Interacted);	// Oneshot
-				});
-			params.stateMachine->ChangeState(dialogueRulestate, params);
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(),
+					[this, engine]() {
+						// On finished callback
+						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[0], SceneObjectPrefab::Left);
+						this->m_sceneFlags.SetBit(SceneFlags::Prop1Interacted);	// Oneshot
+					});
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
+			else
+			{
+				std::string script;
+				script += "It continues to stare off into the abyss";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
 		};
 	}
 	++propCount;
@@ -144,21 +153,36 @@ void Scene0::SetupSceneProps(Engine * engine)
 		auto* interactable = prop->EditComponent<Component::RpgInteractable>();
 		interactable->onInteracted = [this, engine](GameObject* interactor, GameRulestateParams& params)
 		{
-			if (this->m_sceneFlags.TestBit(SceneFlags::Prop2Interacted))
-				return;
+			if (!this->m_sceneFlags.TestBit(SceneFlags::Prop2Interacted))
+			{
 
-			std::string script;
-			script += "...";
-			script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
-			script += "\"Leave...\"";
+				std::string script;
+				script += "...";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				script += "\"Leave...\"";
 
-			SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(),
-				[this, engine]() {
-					// On finished callback
-					SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[1], SceneObjectPrefab::Up);
-					this->m_sceneFlags.SetBit(SceneFlags::Prop2Interacted);	// Oneshot
-				});
-			params.stateMachine->ChangeState(dialogueRulestate, params);
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>(),
+					[this, engine]() {
+						// On finished callback
+						SceneObjectPrefab::SetReimuPropDirection(engine, this->propObjects[1], SceneObjectPrefab::Up);
+						this->m_sceneFlags.SetBit(SceneFlags::Prop2Interacted);	// Oneshot
+					});
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
+			else
+			{
+				std::string script;
+				script += "You watch the figure with great intensity.";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				script += "...";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				script += "... ...";
+				script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
+				script += "It blinked!... Or was that just you?";
+
+				SharedPtr<GameRulestate> dialogueRulestate = std::make_shared<Dialogue_Rulestate>(script, 2, std::make_shared<GeneralGameplay_Rulestate>());
+				params.stateMachine->ChangeState(dialogueRulestate, params);
+			}
 		};
 	}
 	++propCount;
