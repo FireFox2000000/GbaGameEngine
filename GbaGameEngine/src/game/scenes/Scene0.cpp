@@ -14,6 +14,8 @@
 #include "game/scripts/componentsystems/interaction/RpgInteraction.h"
 #include "game/scripts/componentsystems/kokirirespawn/RespawnMesh.h"
 #include "engine/render/SpriteRenderer.h"
+#include "engine/scene/SceneManager.h"
+#include "game/scenes/ConclusionScene.h"
 
 #include "game/scripts/rulestates/GeneralGameplay_Rulestate.h"
 #include "game/scripts/rulestates/Dialogue_Rulestate.h"
@@ -314,5 +316,18 @@ void Scene0::SetupSceneProps(Engine * engine)
 			}
 		};
 		++propCount;
+	}
+
+	{
+		GameObject* realRod = propObjects.AddNew(engine);
+		SceneObjectPrefab::MakePurityRodProp(engine, *realRod, SceneObjectPrefab::RodColour::Default);
+		realRod->EditComponent<Component::Transform>()->SetPosition(-128, 128);
+		{
+			auto* interactableRod = realRod->EditComponent<Component::RpgInteractable>();
+			interactableRod->onInteracted = [this, engine, propCount](GameObject* interactor, GameRulestateParams& params)
+			{
+				engine->EditComponent<SceneManager>()->ChangeScene<ConclusionScene>(engine);
+			};
+		}
 	}
 }

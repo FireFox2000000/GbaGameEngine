@@ -136,6 +136,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\Player.cpp" />
     <ClCompile Include="src\game\data\PurityRods.cpp" />
     <ClCompile Include="src\game\data\Reimu.cpp" />
+    <ClCompile Include="src\game\scenes\ConclusionScene.cpp" />
     <ClCompile Include="src\game\scenes\IntroductionScene.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
@@ -250,6 +251,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\config\InputActions.h" />
+    <ClInclude Include="src\game\scenes\ConclusionScene.h" />
     <ClInclude Include="src\game\scenes\IntroductionScene.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />

@@ -37,6 +37,15 @@ void SceneObjectPrefab::MakeReimuProp(Engine * engine, GameObject & out_go)
 	out_go.AddComponent<Component::RpgInteractable>();
 }
 
+void SceneObjectPrefab::MakeFairyProp(Engine * engine, GameObject & out_go)
+{
+	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
+	Sprite* sprite = spriteLibrary->GetSprite(SpriteAtlusID::GenericFairy, 0);
+
+	Component::SpriteRenderer& renderer = out_go.AddComponent<Component::SpriteRenderer>();
+	renderer.SetSprite(sprite);
+}
+
 void SceneObjectPrefab::SetReimuPropDirection(Engine * engine, GameObject & prop, Direction dir)
 {
 	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();

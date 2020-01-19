@@ -65,6 +65,7 @@
     <ClCompile Include="src\game\data\BgForest.cpp" />
     <ClCompile Include="src\game\data\GenericFairy.cpp" />
     <ClCompile Include="src\game\data\PurityRods.cpp" />
+    <ClCompile Include="src\game\scenes\ConclusionScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\engine\math\geometry\GridMesh.h" />
     <ClInclude Include="src\game\scripts\componentsystems\kokirirespawn\RespawnMesh.h" />
     <ClInclude Include="src\game\scripts\componentsystems\kokirirespawn\KokiriRespawn.h" />
+    <ClInclude Include="src\game\scenes\ConclusionScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
