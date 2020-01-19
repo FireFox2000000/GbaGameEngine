@@ -8,7 +8,7 @@ class Scene0 : public Scene
 {
 	GameStateMachine m_rulestateMachine;
 	std::unique_ptr<GameObject> background;
-	
+	std::unique_ptr<GameObject> respawnGrid;
 
 	void SetupSceneProps(Engine* engine);
 

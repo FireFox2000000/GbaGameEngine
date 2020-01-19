@@ -6,6 +6,7 @@
 
 #include "game/scripts/componentsystems/movement/RpgMovement.h"
 #include "game/scripts/componentsystems/interaction/RpgInteraction.h"
+#include "game/scripts/componentsystems/kokirirespawn/KokiriRespawn.h"
 
 void GeneralGameplay_Rulestate::Enter(GameRulestateParams& params)
 {
@@ -18,6 +19,7 @@ void GeneralGameplay_Rulestate::Update(GameRulestateParams& params)
 
 	System::RpgMovement::UpdatePlayerMovement(params.engine);
 	System::RpgMovement::Update(params.engine);
+	System::KokiriRespawn::Update(params.engine);
 
 	if (Input::GetKeyDown(InputActions::Interact))
 	{

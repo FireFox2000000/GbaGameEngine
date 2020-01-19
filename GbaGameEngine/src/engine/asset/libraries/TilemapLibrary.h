@@ -4,6 +4,7 @@
 
 #define TILEMAP_SET_LIST \
 	TILEMAP_SET_ENTRY(BgTomb)\
+	TILEMAP_SET_ENTRY(BgForest)\
 //
 
 namespace TilemapSetID

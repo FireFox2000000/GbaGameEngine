@@ -12,6 +12,7 @@
 #include "game/scripts/componentsystems/collision/Collider.h"
 #include "engine/asset/libraries/SpriteLibrary.h"
 #include "game/scripts/componentsystems/interaction/RpgInteraction.h"
+#include "game/scripts/componentsystems/kokirirespawn/RespawnMesh.h"
 
 #include "game/scripts/rulestates/GeneralGameplay_Rulestate.h"
 #include "game/scripts/rulestates/Dialogue_Rulestate.h"
@@ -61,7 +62,7 @@ void Scene0::Update(Engine* engine)
 void Scene0::SetupSceneProps(Engine * engine)
 {
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
-	Tilemap* testBg = tilemapLib->GetTilemap(TilemapSetID::BgTomb, 0);
+	Tilemap* testBg = tilemapLib->GetTilemap(TilemapSetID::BgForest, 0);
 	auto halfBgSize = testBg->GetSizeInTiles() / 2;
 
 	{
@@ -72,6 +73,25 @@ void Scene0::SetupSceneProps(Engine * engine)
 		//Component::Collider& backgroundCollider = background->AddComponent<Component::Collider>();
 		//backgroundCollider.shape = AxisAlignedBoundingBox2(Vector2<tFixedPoint8>(-halfBgSize.x, -halfBgSize.y), Vector2<tFixedPoint8>(halfBgSize.x, halfBgSize.y));
 		//backgroundCollider.shapeInverted = true;
+	}
+
+	{
+		respawnGrid = std::make_unique<GameObject>(engine);
+		tRespawnMesh::tMesh respawnGridMesh = {		// Possibly inverted on the Y???
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, },
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, },
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, },
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::None, tRespawnMesh::Box, },
+			tRespawnMesh::tMeshRow { tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, tRespawnMesh::Box, },
+		};
+		
+		int gridScale = 64;
+		int gridRespawnPointX = 3;
+		int gridRespawnPointY = 1;
+
+		tRespawnMesh respawnMesh = tRespawnMesh(respawnGridMesh, true, gridScale);
+		respawnGrid->AddComponent<RespawnMesh>(respawnMesh, gridRespawnPointX, gridRespawnPointY);
+		respawnGrid->EditComponent<Component::Transform>()->SetPosition(-gridRespawnPointX * gridScale - gridScale / 2, -gridRespawnPointY * gridScale - gridScale / 2);
 	}
 
 	player = std::make_unique<GameObject>(engine);

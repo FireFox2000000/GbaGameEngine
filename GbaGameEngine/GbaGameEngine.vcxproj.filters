@@ -60,6 +60,9 @@
     <ClCompile Include="src\game\data\Reimu.cpp" />
     <ClCompile Include="src\game\scripts\componentsystems\interaction\RpgInteraction.cpp" />
     <ClCompile Include="src\game\scripts\prefabs\game\SceneObjectPrefab.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\kokirirespawn\KokiriRespawn.cpp" />
+    <ClCompile Include="src\game\scripts\componentsystems\kokirirespawn\RespawnMesh.cpp" />
+    <ClCompile Include="src\game\data\BgForest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -179,6 +182,9 @@
     <ClInclude Include="src\game\scripts\componentsystems\collision\Collider.h" />
     <ClInclude Include="src\game\scripts\componentsystems\interaction\RpgInteraction.h" />
     <ClInclude Include="src\game\scripts\prefabs\game\SceneObjectPrefab.h" />
+    <ClInclude Include="src\engine\math\geometry\GridMesh.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\kokirirespawn\RespawnMesh.h" />
+    <ClInclude Include="src\game\scripts\componentsystems\kokirirespawn\KokiriRespawn.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
