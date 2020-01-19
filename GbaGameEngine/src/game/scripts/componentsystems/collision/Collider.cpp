@@ -22,25 +22,29 @@ bool System::Collision::DoesCollide
 		auto worldShapeB = colliderB.shape;
 		worldShapeB.Translate(positionB);
 
-		if (worldShapeA.min.x < worldShapeB.min.x)	// A is left of B
+		bool collides = touchEnabled ? worldShapeA.IntersectsOrTouches(worldShapeB) : worldShapeA.Intersects(worldShapeB);
+		if (collides)
 		{
-			out_collision.aToBProjection.x = worldShapeB.min.x - worldShapeA.max.x;
-		}
-		else
-		{
-			out_collision.aToBProjection.x = worldShapeB.max.x - worldShapeA.min.x;
+			if (worldShapeA.min.x < worldShapeB.min.x)	// A is left of B
+			{
+				out_collision.aToBProjection.x = worldShapeB.min.x - worldShapeA.max.x;
+			}
+			else
+			{
+				out_collision.aToBProjection.x = worldShapeB.max.x - worldShapeA.min.x;
+			}
+
+			if (worldShapeA.min.y < worldShapeB.min.y)	// A is below B
+			{
+				out_collision.aToBProjection.y = worldShapeB.min.y - worldShapeA.max.y;
+			}
+			else
+			{
+				out_collision.aToBProjection.y = worldShapeB.max.y - worldShapeA.min.y;
+			}
 		}
 
-		if (worldShapeA.min.y < worldShapeB.min.y)	// A is below B
-		{
-			out_collision.aToBProjection.y = worldShapeB.min.y - worldShapeA.max.y;
-		}
-		else
-		{
-			out_collision.aToBProjection.y = worldShapeB.max.y - worldShapeA.min.y;
-		}
-
-		return touchEnabled ? worldShapeA.IntersectsOrTouches(worldShapeB) : worldShapeA.Intersects(worldShapeB);
+		return collides;
 	}
 
 	if (colliderA.shapeInverted != colliderB.shapeInverted)
