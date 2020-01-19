@@ -9,10 +9,60 @@
 #include "game/scripts/componentsystems/movement/RpgMovement.h"
 
 Dialogue_Rulestate::Dialogue_Rulestate(const std::string& script, SharedPtr<GameRulestate> finishedState, std::function<void()> onFinishedFn)
-	: m_script(script)
-	, m_finishedState(finishedState)
+	: m_finishedState(finishedState)
 	, m_onFinished(onFinishedFn)
 {
+	const int CHARACTERS_PER_ROW = 25;
+	const int ROWS_PER_BOX = 2;
+
+	int charIndex = 0;
+	int rowIndex = 0;
+	int lastSpace = -1;
+	for (u32 i = 0; i < script.length(); ++i)
+	{
+		int stringLen = i - charIndex;
+		char currentChar = script[i];
+
+		if (currentChar == ' ')
+		{
+			lastSpace = i;
+		}
+
+		bool newRow = currentChar == c_dialogueBoxStepFlag;
+		bool newLine = currentChar == '\n';
+		bool atEnd = i == script.length() - 1;
+		bool addString = stringLen > CHARACTERS_PER_ROW || newLine || newRow || atEnd;
+		if (addString)
+		{
+			int endSubStr = !atEnd && lastSpace >= 0 ? lastSpace : i;
+
+			m_script += script.substr(charIndex, endSubStr - charIndex);
+
+			if (!newLine && !newRow)
+				m_script += "\n";
+
+			charIndex = endSubStr;
+			i = endSubStr;
+			if (script[i] == ' ')
+				++i;
+
+			lastSpace = -1;
+
+			if (newRow)
+			{
+				rowIndex = 0;
+			}
+			else
+			{
+				++rowIndex;
+				if (rowIndex >= ROWS_PER_BOX)
+				{
+					m_script += c_dialogueBoxStepFlag;
+					rowIndex = 0;
+				}
+			}
+		}
+	}
 }
 
 bool Dialogue_Rulestate::AdvanceText()

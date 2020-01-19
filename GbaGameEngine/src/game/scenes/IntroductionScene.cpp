@@ -26,11 +26,9 @@ void IntroductionScene::Enter(Engine * engine)
 	updateParams.engine = engine;
 	updateParams.stateMachine = &m_rulestateMachine;
 
-	std::string script = "Here begins Reimu's\ntest to she if she is worthy";
+	std::string script = "Here begins Reimu's test to she if she is worthy of the legendary lost purification artifact";
 	script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
-	script += "of the legendary lost\npurification artifact";
-	script += Dialogue_Rulestate::c_dialogueBoxStepFlag;
-	script += "Lost in the forest of the\nsoulless, Reimu must find a\nway to escape...";
+	script += "Lost in the forest of the soulless, Reimu must find a way to escape...";
 
 	m_rulestateMachine.ChangeState<Dialogue_Rulestate>(updateParams, script, nullptr);
 }
