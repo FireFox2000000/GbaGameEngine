@@ -9,18 +9,18 @@ static const u32 sc_CBB_BITINDEX = 0x2;
 static const u32 sc_MOSAIC_BITINDEX = 0x6;
 static const u32 sc_COLOURMODE_BITINDEX = 0x7;
 static const u32 sc_SBB_BITINDEX = 0x8;
-static const u32 sc_AFFWRAPPING_BITINDEX = 0x8;
+static const u32 sc_AFFWRAPPING_BITINDEX = 0xD;
 static const u32 sc_SIZE_BITINDEX = 0xE;
 
 enum Masks
 {
-	Priorty = BITS_INDEXED_U32(2, sc_PRIORITY_BITINDEX),// 0-1
-	CharacterBaseBlock = BITS_INDEXED_U32(2, sc_CBB_BITINDEX),		// 8-9
-	Mosaic = BITS_INDEXED_U32(2, sc_MOSAIC_BITINDEX),				// A-B
-	ColourMode = BITS_INDEXED_U32(1, sc_COLOURMODE_BITINDEX),				// C
-	ScreenBaseBlock = BITS_INDEXED_U32(5, sc_SBB_BITINDEX),				// D 	
-	AffineWrapping = BITS_INDEXED_U32(2, sc_AFFWRAPPING_BITINDEX),				// E-F
-	Size = BITS_INDEXED_U32(2, sc_SIZE_BITINDEX),				// E-F
+	Priorty = BITS_INDEXED_U32(2, sc_PRIORITY_BITINDEX),
+	CharacterBaseBlock = BITS_INDEXED_U32(2, sc_CBB_BITINDEX),
+	Mosaic = BITS_INDEXED_U32(2, sc_MOSAIC_BITINDEX),
+	ColourMode = BITS_INDEXED_U32(1, sc_COLOURMODE_BITINDEX),
+	ScreenBaseBlock = BITS_INDEXED_U32(5, sc_SBB_BITINDEX),
+	AffineWrapping = BITS_INDEXED_U32(1, sc_AFFWRAPPING_BITINDEX),
+	Size = BITS_INDEXED_U32(2, sc_SIZE_BITINDEX),
 
 	Count = 7
 };
