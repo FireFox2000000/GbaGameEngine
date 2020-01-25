@@ -22,7 +22,7 @@ public:
 //public:
 	Tilemap();
 
-	GBA::Background::Size GetSize() const;
+	GBA::Background::ControlRegister::Size GetSize() const;
 	const Vector2<u8>& GetSizeInTiles() const { return m_sizeInTiles; }
 	inline GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const { return m_mapSbbIndex; }
 	bool IsLoaded() const;

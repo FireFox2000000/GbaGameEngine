@@ -98,11 +98,12 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			if (tilemapRenderer.GetDirty())
 			{
 				TilemapSet* tilemapSet = tilemap->EditTilemapSet();
-				Background::ColourMode colourMode = Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
-				background.SetColourMode(colourMode);
-				background.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());
-				background.SetScreenBaseBlock(tilemap->GetMapScreenBaseBlockIndex());
-				background.SetSize(tilemap->GetSize());
+				Background::ControlRegister::ColourMode colourMode = Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
+				auto& controlRegister = background.EditControlRegister();
+				controlRegister.SetColourMode(colourMode);
+				controlRegister.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());
+				controlRegister.SetScreenBaseBlock(tilemap->GetMapScreenBaseBlockIndex());
+				controlRegister.SetSize(tilemap->GetSize());
 
 				tilemapRenderer.ClearDirty();
 			}

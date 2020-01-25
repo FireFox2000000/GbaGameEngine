@@ -6,7 +6,7 @@ Tilemap::Tilemap()
 
 }
 
-GBA::Background::Size Tilemap::GetSize() const
+GBA::Background::ControlRegister::Size Tilemap::GetSize() const
 {
 	return GBA::Background::GetRegSizeFromTileSize(m_sizeInTiles.x, m_sizeInTiles.y);
 }
