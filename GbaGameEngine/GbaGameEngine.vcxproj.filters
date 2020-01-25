@@ -50,6 +50,7 @@
     <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
     <ClCompile Include="src\engine\render\TilemapRenderer_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
+    <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
