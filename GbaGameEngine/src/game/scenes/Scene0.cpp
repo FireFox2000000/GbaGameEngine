@@ -63,7 +63,7 @@ void Scene0::Enter(Engine* engine)
 			transform->SetPosition((0.2f) - 5, (0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8)->GetSpriteForCharacter('r');
+			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
 		}
 
@@ -76,7 +76,7 @@ void Scene0::Enter(Engine* engine)
 			screenTransform.position.y = 0;
 
 			auto& textComponent = testTextObject->AddComponent<Component::UI::Text>();
-			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8);
+			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8_bold);
 			textComponent.m_str = std::string("789 ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
 
 			this->textObject = testTextObject;

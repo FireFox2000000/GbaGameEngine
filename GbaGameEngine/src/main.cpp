@@ -34,7 +34,11 @@ int main()
 	while (true)
 	{
 		// VDraw should have started before this, main loop should aim to be under 197120 cycles
-
+#ifdef TEST_PROFILING
+		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
+		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
+		profilerClock.SetActive(true);
+#endif
 		// General update
 		GBA::Input::Update();
 
@@ -43,15 +47,15 @@ int main()
 		System::SpriteAnimator::Update(engine.get());
 
 		sceneManager->PreRenderScene(engine.get());
-
+#ifdef TEST_PROFILING
+		DEBUG_LOGFORMAT("[Profile Update] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+#endif
 		// Main update
 		WaitForVSync();
 
 		// VBlank, should be under 83776 cycles
 #ifdef TEST_PROFILING
-		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-
 		profilerClock.SetActive(true);
 #endif
 		sceneManager->RenderScene(engine.get());

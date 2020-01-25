@@ -4,7 +4,7 @@
 #include "engine/base/core/stl/List.h"
 
 #define FONT_LIST \
-	FONT_ENTRY(debug_font_8x8, AsciiExclamationOffset)\
+	FONT_ENTRY(debug_font_8x8_bold, AsciiExclamationOffset)\
 //
 
 namespace FontID
