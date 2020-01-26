@@ -167,6 +167,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\Memory.h" />
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
     <ClInclude Include="src\engine\base\core\stl\List.h" />
+    <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\base\ecs\entt\config\config.h" />
     <ClInclude Include="src\engine\base\ecs\entt\config\version.h" />

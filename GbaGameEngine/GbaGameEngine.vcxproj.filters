@@ -160,6 +160,7 @@
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
     <ClInclude Include="src\engine\gba\graphics\DrawPriority.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
+    <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
