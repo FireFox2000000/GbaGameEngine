@@ -5,6 +5,7 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Math.h"
 #include "engine/math/Vector2.h"
+#include "engine/gba/graphics/DrawPriority.h"
 
 // http://www.coranac.com/tonc/text/regobj.htm#tbl-obj-size
 
@@ -50,14 +51,6 @@ namespace GBA
 			Form3,
 
 			SizeCount
-		};
-
-		enum Priority
-		{
-			Layer0,
-			Layer1,
-			Layer2,
-			Layer3
 		};
 	}
 
@@ -146,7 +139,7 @@ namespace GBA
 		inline void SetColourMode(Attributes::ColourMode colourMode)	volatile { SetAttribute(SHIFTED_BITMASK((int)colourMode, sc_A0_COLOURMODE_BITINDEX), ColourMode); }
 		inline void SetShape(Attributes::Shape shape)					volatile { SetAttribute(SHIFTED_BITMASK((int)shape, sc_A0_SHAPE_BITINDEX), Shape); }
 		inline void SetSizeMode(Attributes::SizeMode sizeMode)			volatile { SetAttribute(SHIFTED_BITMASK((int)sizeMode, sc_A1_SIZEMODE_BITINDEX), SizeMode); }
-		inline void SetPriority(Attributes::Priority layerNum)			volatile { SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
+		inline void SetPriority(DrawPriority layerNum)			volatile { SetAttribute(SHIFTED_BITMASK((int)layerNum, sc_A2_PRIORITY_BITINDEX), Priority); }
 		inline void SetTileIndex(u32 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_TILEID_BITINDEX), BaseTileIndex); }
 		inline void SetPaletteIndex(u8 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A2_PALETTEBANK_BITINDEX), PaletteBank); }
 

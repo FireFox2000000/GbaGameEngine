@@ -77,7 +77,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			newPosition += screenSpaceOffset;											// Convert to screen space
 			newPosition += spriteRenderer.GetCenterToCornerSizeOffset();				// Offset by sprite size to render from the center
 			
-			renderProperties->SetPriority(GBA::Attributes::Layer2);
+			renderProperties->SetPriority(GBA::DrawPriority::Layer2);
 
 			Component::Transform::tScale scale = transform.GetScale();
 			renderProperties->SetPosition(newPosition);

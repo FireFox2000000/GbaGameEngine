@@ -56,7 +56,7 @@ void System::UI::TextRenderer::Render(Engine * engine)
 						//newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 						//newPosition += screenSpaceOffset;											// Convert to screen space
 
-						renderProperties->SetPriority(GBA::Attributes::Layer1);
+						renderProperties->SetPriority(GBA::DrawPriority::Layer1);
 						renderProperties->SetPosition(newPosition);
 						//renderProperties->SetFlippedHorizontal((int)transform.scale.x < 0);
 						//renderProperties->SetFlippedVertical((int)transform.scale.y < 0);

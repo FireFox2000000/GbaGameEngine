@@ -4,6 +4,7 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Vector2.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/gba/graphics/DrawPriority.h"
 
 namespace GBA
 {
@@ -41,15 +42,7 @@ namespace GBA
 				AFFSize_Count = 4,
 			};
 
-			enum Priority
-			{
-				Layer0,
-				Layer1,
-				Layer2,
-				Layer3
-			};
-
-			void SetPriority(Priority priority);
+			void SetPriority(DrawPriority priority);
 			void SetCharacterBaseBlock(tCharacterBaseBlock blockId);
 			void SetMosaic(bool enabled);
 			void SetColourMode(ColourMode colourMode);

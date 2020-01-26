@@ -35,7 +35,7 @@ GBA::Background::ControlRegister::ColourMode GBA::Background::GetColourModeFromC
 	return Compression::GetBitPackedSrcBpp(compressionFlags) > 4 ? Background::ControlRegister::ColourMode::EightBitsPerPixel : Background::ControlRegister::ColourMode::FourBitsPerPixel;
 }
 
-void GBA::Background::ControlRegister::SetPriority(Priority priority)
+void GBA::Background::ControlRegister::SetPriority(DrawPriority priority)
 {
 	SetControlRegister(SHIFTED_BITMASK(priority, sc_PRIORITY_BITINDEX), Masks::Priorty);
 }

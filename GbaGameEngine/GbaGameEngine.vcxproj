@@ -207,6 +207,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
+    <ClInclude Include="src\engine\gba\graphics\DrawPriority.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
     <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />

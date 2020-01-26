@@ -158,6 +158,7 @@
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\DrawPriority.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
