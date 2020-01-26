@@ -16,7 +16,6 @@ namespace GBA
 	OAMManager::OAMManager()
 		: m_objAttrEnabledTracker(false)
 		, m_objAttrEnabledSearchIndex(0)
-		, m_currentSpriteBufferIndex(0)
 	{
 	}
 
@@ -24,30 +23,9 @@ namespace GBA
 	{
 	}
 
-	void OAMManager::FlipRenderBuffer()
-	{
-		++m_currentSpriteBufferIndex;
-		if (m_currentSpriteBufferIndex > 1)
-			m_currentSpriteBufferIndex = 0;
-	}
-
-	OAMManager::tSpriteBuffer& OAMManager::GetCurrentSpriteBuffer()
-	{
-		return m_spriteRenderDoubleBuffer[m_currentSpriteBufferIndex];
-	}
-
-	OAMManager::tSpriteBuffer& OAMManager::GetPreviousSpriteBuffer()
-	{
-		int previousRenderBufferIndex = m_currentSpriteBufferIndex + 1;
-		if (previousRenderBufferIndex > 1)
-			previousRenderBufferIndex = 0;
-
-		return m_spriteRenderDoubleBuffer[previousRenderBufferIndex];
-	}
-
 	void OAMManager::UnloadUnusedSprites(Engine* engine)
 	{
-		tSpriteBuffer& previousBuffer = GetPreviousSpriteBuffer();
+		tSpriteBuffer& previousBuffer = m_spriteRenderDoubleBuffer.GetSecondary();
 		SpriteManager* spriteManager = engine->EditComponent<SpriteManager>();
 
 		for (Sprite* sprite : previousBuffer)
@@ -62,7 +40,7 @@ namespace GBA
 	void OAMManager::LoadNewSprites(Engine* engine)
 	{
 		SpriteManager* spriteManager = engine->EditComponent<SpriteManager>();
-		tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
+		tSpriteBuffer& buffer = m_spriteRenderDoubleBuffer.GetPrimary();
 		for (Sprite* sprite : buffer)
 		{
 			if (!sprite->IsLoaded())
@@ -132,9 +110,9 @@ namespace GBA
 
 		profilerClock.SetActive(true);
 #endif
-		FlipRenderBuffer();
+		m_spriteRenderDoubleBuffer.Flip();
 
-		GetCurrentSpriteBuffer().Clear();
+		m_spriteRenderDoubleBuffer.GetPrimary().Clear();
 #ifdef RENDER_PROFILE
 		DEBUG_LOGFORMAT("[Profile Flip + Clear] = %d", profilerClock.GetCurrentTimerCount());
 		profilerClock.SetActive(false);
@@ -143,7 +121,7 @@ namespace GBA
 
 	ObjectAttribute* OAMManager::AddToRenderList(Sprite* sprite)
 	{
-		OAMManager::tSpriteBuffer& buffer = GetCurrentSpriteBuffer();
+		OAMManager::tSpriteBuffer& buffer = m_spriteRenderDoubleBuffer.GetPrimary();
 
 		if (!sprite->m_renderData.IsAddedToDrawList())
 		{

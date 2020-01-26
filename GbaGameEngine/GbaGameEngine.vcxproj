@@ -165,6 +165,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\base\core\Memory.h" />
+    <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
     <ClInclude Include="src\engine\base\core\stl\List.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />

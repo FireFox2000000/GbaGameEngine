@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/base/core/stl/Array.h"
+#include "engine/base/core/stl/DoubleBuffer.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/oam/GBAObjectAffine.h"
@@ -38,12 +38,7 @@ namespace GBA
 		u32 m_objAttrEnabledSearchIndex;
 
 		OAMSpriteRenderPropertiesSOA m_masterSpriteRenderList;
-		Array<tSpriteBuffer, 2> m_spriteRenderDoubleBuffer;
-		int m_currentSpriteBufferIndex;
-
-		void FlipRenderBuffer();
-		tSpriteBuffer& GetCurrentSpriteBuffer();
-		tSpriteBuffer& GetPreviousSpriteBuffer();
+		DoubleBuffer<tSpriteBuffer> m_spriteRenderDoubleBuffer;
 
 		void UnloadUnusedSprites(Engine* engine);
 		void LoadNewSprites(Engine* engine);
