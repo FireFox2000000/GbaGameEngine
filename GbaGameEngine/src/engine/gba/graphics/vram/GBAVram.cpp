@@ -159,6 +159,7 @@ namespace GBA
 		}
 
 		out_cbbIndex = static_cast<TileBlockGroups>(tileSbbIndex / ScreenBlocksPerCharBlock);
+		DEBUG_LOGFORMAT("Loaded bg tileset into slot %d", (int)out_cbbIndex);
 	}
 
 	void Vram::AllocBackgroundTileMapMem(const u16 * mapData, u32 mapDataLength, tScreenBaseBlockIndex & out_sbbIndex)

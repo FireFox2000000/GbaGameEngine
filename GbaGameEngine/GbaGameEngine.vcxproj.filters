@@ -162,6 +162,8 @@
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
+    <ClInclude Include="src\engine\base\BitTwiddling.h" />
+    <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

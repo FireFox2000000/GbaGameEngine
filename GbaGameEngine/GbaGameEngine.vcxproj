@@ -169,6 +169,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
     <ClInclude Include="src\engine\base\core\stl\List.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
+    <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\base\ecs\entt\config\config.h" />
     <ClInclude Include="src\engine\base\ecs\entt\config\version.h" />
@@ -230,6 +231,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
+    <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />

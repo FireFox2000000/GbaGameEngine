@@ -1,5 +1,6 @@
 #include "Compression.h"
 #include "engine/base/Macros.h"
+#include "engine/base/BitTwiddling.h"
 #include "engine/math/Math.h"
 
 Compression::Type Compression::GetCompressionType(u32 compressionFlags)
@@ -40,7 +41,7 @@ void Compression::BitUnpack(void * dstv, const void * srcv, u32 srcLen, int srcB
 		// else NOT IMPLEMENTED, use regular. Implementation would be an optimised version, if possible
 	}
 
-	u32 srcBppFac = Math::IndexOfHighestSetBit(srcBpp) + 2;
+	u32 srcBppFac = BitTwiddling::IndexOfHighestSetBit(srcBpp) + 2;
 	u32 len = (srcLen * destBpp + 3) >> srcBppFac; // # dst words
 
 	const u32 srcMask = BITS_U32(srcBpp);
