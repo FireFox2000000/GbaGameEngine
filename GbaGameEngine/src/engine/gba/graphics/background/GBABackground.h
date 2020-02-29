@@ -54,7 +54,7 @@ namespace GBA
 			};
 
 		private:
-			// Background position is read only, better to hide this
+			// Background position is write only, better to hide this
 			struct Position
 			{
 				s16 xOffset, yOffset;
