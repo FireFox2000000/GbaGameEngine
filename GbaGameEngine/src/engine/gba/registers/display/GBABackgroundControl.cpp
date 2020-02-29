@@ -4,10 +4,10 @@
 
 namespace GBA
 {
-	BackgroundControl::tBackgrounds BackgroundControl::s_backgrounds = { Background(0), Background(1), Background(2), Background(3) };
+	BackgroundControl::tBackgrounds BackgroundControl::s_backgrounds = { Gfx::Background(0), Gfx::Background(1), Gfx::Background(2), Gfx::Background(3) };
 	Bitmask<u8> BackgroundControl::s_backgroundPoolTracker = Bitmask<u8>(0);
 
-	Background & BackgroundControl::GetBackground(Backgrounds backgroundId)
+	Gfx::Background & BackgroundControl::GetBackground(Backgrounds backgroundId)
 	{
 		return *s_backgrounds.At(backgroundId);
 	}

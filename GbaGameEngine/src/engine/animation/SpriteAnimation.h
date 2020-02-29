@@ -1,7 +1,15 @@
 #pragma once
 #include "engine/base/core/stl/List.h"
 
-class Sprite;
+namespace GBA
+{
+	namespace Gfx
+	{
+		class Sprite;
+	}
+}
+
+using Sprite = GBA::Gfx::Sprite;
 
 struct SpriteAnimation
 {

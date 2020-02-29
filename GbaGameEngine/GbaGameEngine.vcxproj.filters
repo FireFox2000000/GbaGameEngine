@@ -16,10 +16,7 @@
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\sprite\Sprite_gba.cpp" />
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteAtlus_gba.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\sprite\SpriteManager_gba.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
@@ -29,7 +26,6 @@
     <ClCompile Include="src\engine\screen\Screen.cpp" />
     <ClCompile Include="src\engine\gameobject\Camera.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp" />
-    <ClCompile Include="src\engine\render\SpriteRenderer_gba.cpp" />
     <ClCompile Include="src\engine\render\Renderer.cpp" />
     <ClCompile Include="src\engine\gameobject\GameObject.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp" />
@@ -51,6 +47,11 @@
     <ClCompile Include="src\engine\render\TilemapRenderer_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteManager.cpp" />
+    <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\Graphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -121,17 +122,13 @@
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
-    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteAtlus.h" />
-    <ClInclude Include="src\engine\graphicalassets\sprite\SpriteManager.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />
-    <ClInclude Include="src\engine\graphicalassets\tile\Tile.h" />
     <ClInclude Include="src\engine\screen\Screen.h" />
     <ClInclude Include="src\engine\gameobject\Camera.h" />
-    <ClInclude Include="src\engine\graphicalassets\sprite\Sprite.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h" />
     <ClInclude Include="src\engine\render\SpriteRenderer.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
@@ -164,6 +161,12 @@
     <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
+    <ClInclude Include="src\engine\gba\graphics\Graphics.h" />
+    <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

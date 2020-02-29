@@ -2,7 +2,6 @@
 #include "engine/graphicalassets/tilemap/Tilemap.h"
 #include "engine/graphicalassets/tilemap/TilemapSet.h"
 #include "engine/base/Macros.h"
-#include "engine/gba/registers/display/GBABackgroundControl.h"
 
 Component::TilemapRenderer::~TilemapRenderer()
 {
@@ -89,7 +88,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			position -= cameraPosition;											// Convert world space to relative camera space	
 			position.x *= -1;
 			position += tilemap->GetSizeInTiles() / 2;								// Offset by map size	
-			position *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
+			position *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			position -= screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
 			auto& background = BackgroundControl::GetBackground(tilemapRenderer.GetAssignedBackgroundSlot());
@@ -98,7 +97,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			if (tilemapRenderer.GetDirty())
 			{
 				TilemapSet* tilemapSet = tilemap->EditTilemapSet();
-				Background::ControlRegister::ColourMode colourMode = Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
+				GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
 				auto& controlRegister = background.EditControlRegister();
 				controlRegister.SetColourMode(colourMode);
 				controlRegister.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());

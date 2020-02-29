@@ -2,7 +2,6 @@
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/render/SpriteRenderer.h"
-#include "engine/graphicalassets/sprite/SpriteManager.h"
 #include "engine/asset/libraries/SpriteLibrary.h"
 #include "engine/asset/libraries/AnimationLibrary.h"
 #include "engine/asset/libraries/FontLibrary.h"

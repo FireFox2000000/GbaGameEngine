@@ -4,80 +4,83 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Vector2.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
-#include "engine/gba/graphics/DrawPriority.h"
+#include "engine/gba/graphics/GBADrawPriority.h"
 
 namespace GBA
 {
-	class Background
+	namespace Gfx
 	{
-	public:
-		using tCharacterBaseBlock = TileBlockGroups;
-
-		struct ControlRegister
+		class Background
 		{
-		private:
-			u16 m_registerValues;
-
-			void SetControlRegister(int value, u16 attributeMask) { m_registerValues = (m_registerValues & ~attributeMask) | (value & attributeMask); }
 		public:
+			using tCharacterBaseBlock = TileBlockGroups;
 
-			enum ColourMode
+			struct ControlRegister
 			{
-				FourBitsPerPixel,
-				EightBitsPerPixel
+			private:
+				u16 m_registerValues;
+
+				void SetControlRegister(int value, u16 attributeMask) { m_registerValues = (m_registerValues & ~attributeMask) | (value & attributeMask); }
+			public:
+
+				enum ColourMode
+				{
+					FourBitsPerPixel,
+					EightBitsPerPixel
+				};
+
+				enum Size
+				{
+					REG_32x32 = 0,
+					REG_64x32 = 1,
+					REG_32x64 = 2,
+					REG_64x64 = 3,
+					REGSize_Count = 4,
+
+					AFF_16x16 = 0,
+					AFF_32x32 = 1,
+					AFF_64x64 = 2,
+					AFF_128x128 = 3,
+					AFFSize_Count = 4,
+				};
+
+				void SetPriority(DrawPriority priority);
+				void SetCharacterBaseBlock(tCharacterBaseBlock blockId);
+				void SetMosaic(bool enabled);
+				void SetColourMode(ColourMode colourMode);
+				void SetScreenBaseBlock(tScreenBaseBlockIndex blockId);
+				void SetAffineWrapping(bool enabled);
+				void SetSize(Size size);
 			};
 
-			enum Size
+		private:
+			// Background position is read only, better to hide this
+			struct Position
 			{
-				REG_32x32 = 0,
-				REG_64x32 = 1,
-				REG_32x64 = 2,
-				REG_64x64 = 3,
-				REGSize_Count = 4,
-
-				AFF_16x16 = 0,
-				AFF_32x32 = 1,
-				AFF_64x64 = 2,
-				AFF_128x128 = 3,
-				AFFSize_Count = 4,
+				s16 xOffset, yOffset;
 			};
 
-			void SetPriority(DrawPriority priority);
-			void SetCharacterBaseBlock(tCharacterBaseBlock blockId);
-			void SetMosaic(bool enabled);
-			void SetColourMode(ColourMode colourMode);
-			void SetScreenBaseBlock(tScreenBaseBlockIndex blockId);
-			void SetAffineWrapping(bool enabled);
-			void SetSize(Size size);
-		};
+		private:
+			u8 m_index = 0;
 
-	private:
-		// Background position is read only, better to hide this
-		struct Position
-		{
-			s16 xOffset, yOffset;
-		};
+		public:
+			Background() {}; // Purely to make this class std::initializer_list compliant
+			Background(u8 index) : m_index(index) {}
 
-	private:
-		u8 m_index = 0;
+			ControlRegister& EditControlRegister();
 
-	public:
-		Background() {}; // Purely to make this class std::initializer_list compliant
-		Background(u8 index) : m_index(index) {}
+			static ControlRegister::ColourMode GetColourModeFromCompression(u32 compressionFlags);
 
-		ControlRegister& EditControlRegister();
+			template<class IntType, u8 BITS>
+			inline void SetPosition(const Vector2<FixedPoint<IntType, BITS> >& position) // Position of the screen on the map
+			{
+				Position* bgPos = reinterpret_cast<Position*>(&EditControlRegister() + 4 + m_index);
+				bgPos->xOffset = position.x.ToRoundedInt();
+				bgPos->yOffset = position.y.ToRoundedInt();
+			}
 
-		static ControlRegister::ColourMode GetColourModeFromCompression(u32 compressionFlags);
+			static ControlRegister::Size GetRegSizeFromTileSize(u8 width, u8 height);
 
-		template<class IntType, u8 BITS>
-		inline void SetPosition(const Vector2<FixedPoint<IntType, BITS> >& position) // Position of the screen on the map
-		{
-			Position* bgPos = reinterpret_cast<Position*>(&EditControlRegister() + 4 + m_index);
-			bgPos->xOffset = position.x.ToRoundedInt();
-			bgPos->yOffset = position.y.ToRoundedInt();
-		}
-
-		static ControlRegister::Size GetRegSizeFromTileSize(u8 width, u8 height);
-
-	}  ALIGN(4);
+		}  ALIGN(4);
+	}
 }

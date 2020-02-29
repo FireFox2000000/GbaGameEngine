@@ -5,20 +5,23 @@
 
 namespace GBA
 {
-	class ObjectAffine
+	namespace Gfx
 	{
-		u16 fill0[3];
-		s16 m_pa;
-		u16 fill1[3];
-		s16 m_pb;
-		u16 fill2[3];
-		s16 m_pc;
-		u16 fill3[3];
-		s16 m_pd;
+		class ObjectAffine
+		{
+			u16 fill0[3];
+			s16 m_pa;
+			u16 fill1[3];
+			s16 m_pb;
+			u16 fill2[3];
+			s16 m_pc;
+			u16 fill3[3];
+			s16 m_pd;
 
-	public:
-		ObjectAffine() : m_pa(0), m_pb(0), m_pc(0), m_pd(0) {}
-		~ObjectAffine();
+		public:
+			ObjectAffine() : m_pa(0), m_pb(0), m_pc(0), m_pd(0) {}
+			~ObjectAffine();
 
-	} ALIGN(4);
+		} ALIGN(4);
+	}
 }

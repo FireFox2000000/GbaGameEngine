@@ -3,7 +3,7 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
-#include "engine/graphicalassets/tile/Tile.h"
+#include "engine/gba/graphics/tiles/GBATile.h"
 
 namespace GBA
 {
@@ -31,8 +31,8 @@ namespace GBA
 		static const int ScreenEntrySize = 2048;
 		static const u32 MaxScreenBlocks = 32;
 
-		typedef Array<Tile::Tile, CharBlockSize> CharBlock;
-		typedef Array<Tile::Tile8, CharBlock8Size> CharBlock8;
+		typedef Array<GBA::Gfx::Tile::Tile, CharBlockSize> CharBlock;
+		typedef Array<GBA::Gfx::Tile::Tile8, CharBlock8Size> CharBlock8;
 		typedef Array<CharBlock, BlockGroupCount> CharBlockPool;
 		typedef Array<CharBlock8, BlockGroupCount> CharBlockPool8;
 
@@ -59,7 +59,7 @@ namespace GBA
 		// Sprite tile mem allocator
 		static const u32 MAX_SPRITE_TILES = 1024;
 		Array<AllocState, MAX_SPRITE_TILES> m_spriteTileMemTracker;
-		tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;
+		GBA::Gfx::tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;
 
 		// Background tile mem allocator
 		Array<AllocState, MaxScreenBlocks> m_screenEntryTracker;
@@ -69,8 +69,8 @@ namespace GBA
 		tScreenBaseBlockIndex AllocBackgroundMem(const u16* mem, u32 dataLength, bool charBlockAligned);
 
 	public:
-		tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
-		void FreeSpriteMem(tTileId index);
+		GBA::Gfx::tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
+		void FreeSpriteMem(GBA::Gfx::tTileId index);
 
 		void AllocBackgroundTileSetMem(
 			const u32* tileset,

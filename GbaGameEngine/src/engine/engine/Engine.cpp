@@ -1,8 +1,9 @@
 #include "Engine.h"
-#include "engine/graphicalassets/sprite/SpriteManager.h"
+#include "engine/graphicalassets/Graphics.h"
 #include "engine/graphicalassets/tilemap/TilemapManager.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
+
 #include "engine/time/Time.h"
 
 #include "engine/asset/libraries/SpriteLibrary.h"
@@ -15,10 +16,9 @@ Engine::Engine()
 	m_engineComponentsContainer = m_entityComponentManager.CreateEntity();
 
 	AddComponent<Time>();
-	AddComponent<SpriteManager>();
+	AddComponent<Graphics>();
 	AddComponent<TilemapManager>();
 	AddComponent<SceneManager>();
-	AddComponent<GBA::OAMManager>();
 
 	// Asset managers
 	AddComponent<SpriteLibrary>();

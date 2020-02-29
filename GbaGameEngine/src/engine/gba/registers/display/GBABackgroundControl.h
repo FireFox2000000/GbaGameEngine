@@ -20,12 +20,12 @@ namespace GBA
 		};
 
 	private:
-		using tBackgrounds = Array<Background, Backgrounds::Count>;
+		using tBackgrounds = Array<Gfx::Background, Backgrounds::Count>;
 		static tBackgrounds s_backgrounds;
 		static Bitmask<u8> s_backgroundPoolTracker;
 
 	public:
-		static Background& GetBackground(Backgrounds backgroundId);
+		static Gfx::Background& GetBackground(Backgrounds backgroundId);
 		static Backgrounds ReserveBackground();
 		static void FreeBackground(BackgroundControl::Backgrounds id);
 	};

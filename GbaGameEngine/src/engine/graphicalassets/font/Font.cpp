@@ -1,5 +1,4 @@
 #include "Font.h"
-#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 Font::Font(const SpriteAtlus & spriteAtlus, int(*charToSpriteIndexLookupFn)(char))
 	: m_spriteAtlus(spriteAtlus)
@@ -11,7 +10,7 @@ Font::Font(const SpriteAtlus & spriteAtlus, int(*charToSpriteIndexLookupFn)(char
 	DEBUG_ASSERTMSG(referenceSprite, "Fonts must contain at least one sprite!");
 
 	Vector2<u8> fixedCharacterSize;
-	auto pixelSize = GBA::AttributeFunctions::GetPixelSize(referenceSprite->GetShape(), referenceSprite->GetSizeMode());
+	auto pixelSize = referenceSprite->GetSizeInPixels();
 	fixedCharacterSize.x = pixelSize.x;
 	fixedCharacterSize.y = pixelSize.y;
 

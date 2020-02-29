@@ -1,11 +1,10 @@
 #include "Scene.h"
-#include "engine/graphicalassets/sprite/SpriteManager.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/Camera.h"
 #include "engine/render/SpriteRenderer.h"
 #include "engine/render/TextRenderer.h"
 #include "engine/render/TilemapRenderer.h"
-#include "engine/gba/graphics/oam/GBAOAMManager.h"
+#include "engine/graphicalassets/Graphics.h"
 
 //#define RENDER_PROFILE
 #ifdef RENDER_PROFILE
@@ -49,8 +48,9 @@ void Scene::PreRender(Engine * engine)
 
 void Scene::Render(Engine* engine)
 {
-	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
-	oamManager->DoMasterRenderIntoMemory(engine);
+	// Todo, this just renders sprite, should also do the vblank render of tilemaps as seen below
+	Graphics* gfx = engine->EditComponent<Graphics>();
+	gfx->EndFrame();
 
 	System::TilemapRenderer::VBlankRender(engine, &m_mainCamera);
 }

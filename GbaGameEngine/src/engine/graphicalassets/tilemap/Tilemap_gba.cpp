@@ -6,9 +6,9 @@ Tilemap::Tilemap()
 
 }
 
-GBA::Background::ControlRegister::Size Tilemap::GetSize() const
+GBA::Gfx::Background::ControlRegister::Size Tilemap::GetSize() const
 {
-	return GBA::Background::GetRegSizeFromTileSize(m_sizeInTiles.x, m_sizeInTiles.y);
+	return GBA::Gfx::Background::GetRegSizeFromTileSize(m_sizeInTiles.x, m_sizeInTiles.y);
 }
 
 bool Tilemap::IsLoaded() const

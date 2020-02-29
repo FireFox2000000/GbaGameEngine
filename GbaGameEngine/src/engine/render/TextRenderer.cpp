@@ -1,18 +1,18 @@
 #include "TextRenderer.h"
 #include "engine/engine/engine.h"
-#include "engine/gba/graphics/oam/GBAOAMManager.h"
 #include "engine/gameobject/ui/Text.h"
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/screen/Screen.h"
+#include "engine/graphicalassets/Graphics.h"
 
 void System::UI::TextRenderer::Render(Engine * engine)
 {
 	auto* entityManager = engine->GetEntityRegistry();
-	GBA::OAMManager* oamManager = engine->EditComponent<GBA::OAMManager>();
+	Graphics* graphics = engine->EditComponent<Graphics>();
 	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
 
 	entityManager->InvokeEach<Component::UI::ScreenTransform, Component::UI::Text>(
-		[&oamManager, &screenSpaceOffset]
+		[&graphics, &screenSpaceOffset]
 	(Component::UI::ScreenTransform& transform, Component::UI::Text& textRenderer)
 		{
 			UNUSED(screenSpaceOffset);
@@ -50,16 +50,7 @@ void System::UI::TextRenderer::Render(Engine * engine)
 
 					if (charSprite)
 					{
-						GBA::ObjectAttribute* renderProperties = oamManager->AddToRenderList(charSprite);
-
-						Vector2<tFixedPoint8> newPosition = drawPosition;
-						//newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
-						//newPosition += screenSpaceOffset;											// Convert to screen space
-
-						renderProperties->SetPriority(GBA::DrawPriority::Layer1);
-						renderProperties->SetPosition(newPosition);
-						//renderProperties->SetFlippedHorizontal((int)transform.scale.x < 0);
-						//renderProperties->SetFlippedVertical((int)transform.scale.y < 0);
+						graphics->DrawFontSprite(charSprite, drawPosition);
 					}
 					else
 					{

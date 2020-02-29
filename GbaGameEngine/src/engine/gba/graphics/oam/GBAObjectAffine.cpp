@@ -1,5 +1,5 @@
 #include "GBAObjectAffine.h"
 
-GBA::ObjectAffine::~ObjectAffine()
+GBA::Gfx::ObjectAffine::~ObjectAffine()
 {
 }

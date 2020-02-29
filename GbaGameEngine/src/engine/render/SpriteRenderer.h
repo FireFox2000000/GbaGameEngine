@@ -3,7 +3,17 @@
 #include "Renderer.h"
 #include "engine/math/Vector2.h"
 
-class Sprite;
+// Forward declaration, ideally shouldn't mention GBA
+namespace GBA
+{
+	namespace Gfx
+	{
+		class Sprite;
+	}
+}
+
+using Sprite = GBA::Gfx::Sprite;
+
 class GameObject;
 
 namespace Component

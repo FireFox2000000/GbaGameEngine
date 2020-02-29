@@ -37,7 +37,7 @@ void TilemapManager::Load(Tilemap & out_tilemap)
 		}
 
 		tilemapSet->m_paletteIndex = 0;
-		PaletteBank::LoadBackgroundPalette(tilemapSet->m_palette, tilemapSet->m_paletteLength);
+		Gfx::PaletteBank::LoadBackgroundPalette(tilemapSet->m_palette, tilemapSet->m_paletteLength);
 
 		Vram::GetInstance().AllocBackgroundTileSetMem(tilemapSet->m_tileset, tilemapSet->m_tilesetLength, tilemapSet->m_tileSetCharacterBaseBlock);
 		addRefCount = true;

@@ -3,8 +3,6 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/animation/SpriteAnimation.h"
 
-class SpriteRenderer;
-class Sprite;
 class Engine;
 
 namespace System

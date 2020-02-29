@@ -5,6 +5,7 @@
 
 //#define DECOMPRESSION_PROFILE
 //#define VRAM_TRANSFER_PROFILE
+using namespace GBA::Gfx;
 
 const int ScreenBlocksPerCharBlock = 8;
 
