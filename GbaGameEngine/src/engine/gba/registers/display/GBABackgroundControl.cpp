@@ -4,12 +4,24 @@
 
 namespace GBA
 {
-	BackgroundControl::tBackgrounds BackgroundControl::s_backgrounds = { Gfx::Background(0), Gfx::Background(1), Gfx::Background(2), Gfx::Background(3) };
+	using tBgControlRegisters = Array<GBA::Gfx::Background::ControlRegister, BackgroundControl::Backgrounds::Count>;
+	static tBgControlRegisters& s_backgroundControlRegisters = *reinterpret_cast<tBgControlRegisters*>(REG_BGCNT);
+
+	using tBgScrollingRegisters = Array<GBA::Gfx::Background::Position, BackgroundControl::Backgrounds::Count>;
+	static tBgScrollingRegisters& s_backgroundScrollingRegisters = *reinterpret_cast<tBgScrollingRegisters*>(&s_backgroundControlRegisters[0] + s_backgroundControlRegisters.Count());
+
 	Bitmask<u8> BackgroundControl::s_backgroundPoolTracker = Bitmask<u8>(0);
 
-	Gfx::Background & BackgroundControl::GetBackground(Backgrounds backgroundId)
+	Gfx::Background::ControlRegister & BackgroundControl::GetBgControlRegister(Backgrounds backgroundId)
 	{
-		return *s_backgrounds.At(backgroundId);
+		return *s_backgroundControlRegisters.At(backgroundId);
+	}
+
+	void BackgroundControl::SetBackgroundScrollingPosition(Backgrounds backgroundId, u16 x, u16 y)
+	{
+		GBA::Gfx::Background::Position& bgPos = *s_backgroundScrollingRegisters.At(backgroundId);
+		bgPos.SetX(x);
+		bgPos.SetY(y);
 	}
 
 	BackgroundControl::Backgrounds BackgroundControl::ReserveBackground()
@@ -17,7 +29,7 @@ namespace GBA
 		BackgroundControl::Backgrounds bgId = Backgrounds::Count;
 		Bitmask<u8> availableBackgrounds = DisplayControl::GetBackgroundsForCurrentVideoMode();
 
-		for (u32 i = 0; i < s_backgrounds.Count(); ++i)
+		for (u32 i = 0; i < s_backgroundControlRegisters.Count(); ++i)
 		{
 			// Test if this is already owned
 			if (s_backgroundPoolTracker.TestBit(i))

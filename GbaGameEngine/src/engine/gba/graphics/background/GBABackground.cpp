@@ -29,11 +29,6 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		Background::ControlRegister& Background::EditControlRegister()
-		{
-			return *(reinterpret_cast<Background::ControlRegister*>(REG_BGCNT) + m_index);
-		}
-
 		Background::ControlRegister::ColourMode Background::GetColourModeFromCompression(u32 compressionFlags)
 		{
 			return Compression::GetBitPackedSrcBpp(compressionFlags) > 4 ? Background::ControlRegister::ColourMode::EightBitsPerPixel : Background::ControlRegister::ColourMode::FourBitsPerPixel;

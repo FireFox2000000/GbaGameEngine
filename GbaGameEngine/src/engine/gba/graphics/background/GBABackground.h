@@ -10,9 +10,8 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		class Background
+		namespace Background
 		{
-		public:
 			using tCharacterBaseBlock = TileBlockGroups;
 
 			struct ControlRegister
@@ -53,34 +52,18 @@ namespace GBA
 				void SetSize(Size size);
 			};
 
-		private:
-			// Background position is write only, better to hide this
-			struct Position
+			// Background position is write only
+			class Position
 			{
-				s16 xOffset, yOffset;
+				s16 m_xOffset, m_yOffset;
+
+			public:
+				void SetX(s16 val) { m_xOffset = val; }
+				void SetY(s16 val) { m_yOffset = val; }
 			};
 
-		private:
-			u8 m_index = 0;
-
-		public:
-			Background() {}; // Purely to make this class std::initializer_list compliant
-			Background(u8 index) : m_index(index) {}
-
-			ControlRegister& EditControlRegister();
-
-			static ControlRegister::ColourMode GetColourModeFromCompression(u32 compressionFlags);
-
-			template<class IntType, u8 BITS>
-			inline void SetPosition(const Vector2<FixedPoint<IntType, BITS> >& position) // Position of the screen on the map
-			{
-				Position* bgPos = reinterpret_cast<Position*>(&EditControlRegister() + 4 + m_index);
-				bgPos->xOffset = position.x.ToRoundedInt();
-				bgPos->yOffset = position.y.ToRoundedInt();
-			}
-
-			static ControlRegister::Size GetRegSizeFromTileSize(u8 width, u8 height);
-
-		}  ALIGN(4);
+			ControlRegister::ColourMode GetColourModeFromCompression(u32 compressionFlags);
+			ControlRegister::Size GetRegSizeFromTileSize(u8 width, u8 height);
+		}
 	}
 }

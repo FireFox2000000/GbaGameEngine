@@ -91,14 +91,13 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			position *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			position -= screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
-			auto& background = BackgroundControl::GetBackground(tilemapRenderer.GetAssignedBackgroundSlot());
-			background.SetPosition(position);
+			BackgroundControl::SetBackgroundScrollingPosition(tilemapRenderer.GetAssignedBackgroundSlot(), position.x.ToRoundedInt(), position.y.ToRoundedInt());
 
 			if (tilemapRenderer.GetDirty())
 			{
 				TilemapSet* tilemapSet = tilemap->EditTilemapSet();
 				GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
-				auto& controlRegister = background.EditControlRegister();
+				auto& controlRegister = BackgroundControl::GetBgControlRegister(tilemapRenderer.GetAssignedBackgroundSlot());
 				controlRegister.SetColourMode(colourMode);
 				controlRegister.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());
 				controlRegister.SetScreenBaseBlock(tilemap->GetMapScreenBaseBlockIndex());
