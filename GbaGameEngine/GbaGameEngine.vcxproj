@@ -120,7 +120,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\Graphics.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
@@ -211,7 +211,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
-    <ClInclude Include="src\engine\gba\graphics\DrawPriority.h" />
+    <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteManager.h" />
@@ -228,7 +228,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\tonc\memory\toncset.h" />
     <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h" />
     <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
-    <ClInclude Include="src\engine\gba\graphics\Graphics.h" />
+    <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
     <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\Tilemap.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />

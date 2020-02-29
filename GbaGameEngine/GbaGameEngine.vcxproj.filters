@@ -51,7 +51,7 @@
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteManager.cpp" />
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\Graphics.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -155,7 +155,6 @@
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
-    <ClInclude Include="src\engine\gba\graphics\DrawPriority.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
@@ -165,8 +164,9 @@
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
-    <ClInclude Include="src\engine\gba\graphics\Graphics.h" />
     <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
+    <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
+    <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
