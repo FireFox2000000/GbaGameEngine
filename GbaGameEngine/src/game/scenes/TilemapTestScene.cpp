@@ -62,7 +62,9 @@ void TilemapTestScene::Update(Engine * engine)
 		[]
 	(Component::Transform& transform, Component::Camera& camera)
 		{
-#ifndef DYNAMIC_MAP_TEST
+#ifdef DYNAMIC_MAP_TEST
+			transform.SetPosition(15, -6);
+#else
 			auto position = transform.GetPosition();
 			const float speed = 0.05f;
 			position.x += speed;
@@ -105,6 +107,8 @@ void SetBackgroundTile(const Tilemap* tilemap, u16 data, int row, int column)
 
 void TilemapTestScene::Render(Engine * engine)
 {
+	Scene::Render(engine);
+
 #ifdef DYNAMIC_MAP_TEST
 	using namespace GBA;
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
@@ -139,6 +143,6 @@ void TilemapTestScene::Render(Engine * engine)
 		}
 	}
 #else
-	Scene::Render(engine);
+	
 #endif
 }

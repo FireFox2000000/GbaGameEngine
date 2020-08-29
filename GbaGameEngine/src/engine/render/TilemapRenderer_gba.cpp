@@ -81,7 +81,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			
 			// Screen corrections. Final position is the position of the screen on the background.
 			position -= cameraPosition;											// Convert world space to relative camera space	
-			position.x *= -1;
+			position *= -1;
 			position += tilemap->GetSizeInTiles() / 2;								// Offset by map size	
 			position *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			position -= screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
