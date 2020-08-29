@@ -45,3 +45,11 @@
 #define DEBUG_ASSERTMSGFORMAT(condition, format, ...)
 
 #endif
+
+#ifdef DEBUG
+#define FATAL_ERROR() { DEBUG_LOG("Forcing game crash. Check logs."); int i = 0; DEBUG_LOGFORMAT("%d", 1 / i); }
+
+#else
+#define FATAL_ERROR()
+
+#endif
