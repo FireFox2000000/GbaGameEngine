@@ -92,10 +92,28 @@ namespace GBA
 		}
 	}
 
-	tScreenBaseBlockIndex Vram::AllocBackgroundMem(const u16* mem, u32 dataLength, bool charBlockAligned)
+	void Vram::LoadBackgroundMem(const u16* src, tScreenBaseBlockIndex dest, u32 dataLength)
+	{
+		u32 byteLength = dataLength * sizeof(u16);
+
+#ifdef VRAM_TRANSFER_PROFILE
+		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
+		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
+
+		profilerClock.SetActive(true);
+#endif
+		// Transfer memory
+		VramSafeMemCopy(src, (u16*)&s_screenBlockPool[dest][0], byteLength);
+#ifdef VRAM_TRANSFER_PROFILE
+		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentTimerCount());
+		profilerClock.SetActive(false);
+#endif
+	}
+
+	tScreenBaseBlockIndex Vram::AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned)
 	{
 		tScreenBaseBlockIndex allocatedIndex = INVALID_SBB_ID;
-		u32 byteLength = dataLength * sizeof(u16);
+		u32 byteLength = dataLengthAsU16 * sizeof(u16);
 		int totalScreenBlocksNeeded = ceil((float)byteLength / sizeof(ScreenBlock));
 		int sbbOffset = charBlockAligned ? ScreenBlocksPerCharBlock : 1;
 
@@ -133,52 +151,49 @@ namespace GBA
 			m_screenEntryTracker[i] = Continue;
 		}
 
-#ifdef VRAM_TRANSFER_PROFILE
-		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-
-		profilerClock.SetActive(true);
-#endif
-		// Transfer memory
-		VramSafeMemCopy(mem, (u16*)&s_screenBlockPool[allocatedIndex][0], byteLength);
-#ifdef VRAM_TRANSFER_PROFILE
-		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentTimerCount());
-		profilerClock.SetActive(false);
-#endif
-
 		return allocatedIndex;
 	}
 
-	void Vram::AllocBackgroundTileSetMem(const u32 * tileset, u32 tileSetLength, TileBlockGroups & out_cbbIndex)
+	TileBlockGroups Vram::AllocBackgroundTileSetMem(u32 tileSetLength)
 	{
-		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem((u16*)tileset, tileSetLength * 2, true);
+		u32 u16DataLength = tileSetLength * 2; // Tile set is stored as u32, but we process the data as u16
+		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem(u16DataLength, true);
 		if (tileSbbIndex == INVALID_SBB_ID)
 		{
-			out_cbbIndex = TileBlockGroups::BlockGroupCount;
 			DEBUG_ASSERTMSG(false, "Unable to load background, out of memory for tileset");
-			return;
+			return TileBlockGroups::BlockGroupCount;
 		}
 
-		out_cbbIndex = static_cast<TileBlockGroups>(tileSbbIndex / ScreenBlocksPerCharBlock);
-		DEBUG_LOGFORMAT("Loaded bg tileset into slot %d", (int)out_cbbIndex);
+		TileBlockGroups cbbIndex = static_cast<TileBlockGroups>(tileSbbIndex / ScreenBlocksPerCharBlock);
+		DEBUG_LOGFORMAT("Loaded bg tileset into slot %d", (int)cbbIndex);
+
+		return cbbIndex;
 	}
 
-	void Vram::AllocBackgroundTileMapMem(const u16 * mapData, u32 mapDataLength, tScreenBaseBlockIndex & out_sbbIndex)
+	void Vram::LoadBackgroundTileSetMem(const u32 * tileset, u32 tileSetLength, TileBlockGroups cbbIndex)
 	{
-		out_sbbIndex = AllocBackgroundMem(mapData, mapDataLength, false);
-
-		DEBUG_ASSERTMSG(out_sbbIndex != INVALID_SBB_ID, "Unable to load background, out of memory for map");
-		DEBUG_LOGFORMAT("Loaded map into slot %d", (int)out_sbbIndex);
+		u32 dataLength = tileSetLength * 2;	// We cast the data from a u32[] to a u16[]. Double the length to account for this.
+		LoadBackgroundMem((u16*)tileset, cbbIndex, dataLength);
 	}
 
-	void Vram::AllocBackgroundMem(const u32 * tileset, u32 tileSetLength, const u16 * mapData, u32 mapDataLength, TileBlockGroups & out_cbbIndex, tScreenBaseBlockIndex & out_sbbIndex)
+	tScreenBaseBlockIndex Vram::AllocBackgroundTileMapMem(u32 tileCount)
 	{
-		AllocBackgroundTileSetMem(tileset, tileSetLength, out_cbbIndex);
+		tScreenBaseBlockIndex sbbIndex = AllocBackgroundMem(tileCount, false);
 
-		if (out_cbbIndex != TileBlockGroups::BlockGroupCount)
-		{
-			AllocBackgroundTileMapMem(mapData, mapDataLength, out_sbbIndex);
-		}
+		DEBUG_ASSERTMSG(sbbIndex != INVALID_SBB_ID, "Unable to load background, out of memory for map");
+		DEBUG_LOGFORMAT("Loaded map into slot %d", (int)sbbIndex);
+
+		return sbbIndex;
+	}
+
+	void Vram::LoadBackgroundTileMapMem(const u16 * mapData, u32 mapDataLength, tScreenBaseBlockIndex sbbIndex)
+	{
+		LoadBackgroundMem(mapData, sbbIndex, mapDataLength);
+	}
+
+	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data)
+	{
+		s_screenBlockPool[sbbIndex][offset] = data;
 	}
 
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)

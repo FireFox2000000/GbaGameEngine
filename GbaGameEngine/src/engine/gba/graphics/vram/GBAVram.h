@@ -66,28 +66,34 @@ namespace GBA
 
 		Vram();
 
-		tScreenBaseBlockIndex AllocBackgroundMem(const u16* mem, u32 dataLength, bool charBlockAligned);
+		void LoadBackgroundMem(const u16* src, tScreenBaseBlockIndex dest, u32 dataLength);
+		tScreenBaseBlockIndex AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned);
 
 	public:
 		GBA::Gfx::tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
 		void FreeSpriteMem(GBA::Gfx::tTileId index);
 
-		void AllocBackgroundTileSetMem(
+		TileBlockGroups AllocBackgroundTileSetMem(
+			u32 tileSetLength);
+		void LoadBackgroundTileSetMem(
 			const u32* tileset,
 			u32 tileSetLength,
-			TileBlockGroups& out_cbbIndex);
-		void AllocBackgroundTileMapMem(
-			const u16* mapData,
-			u32 mapDataLength,
-			tScreenBaseBlockIndex& out_sbbIndex);
+			TileBlockGroups cbbIndex);
 
-		void AllocBackgroundMem(
+		tScreenBaseBlockIndex AllocBackgroundTileMapMem(u32 tileCount);
+		void LoadBackgroundTileMapMem(const u16* mapData,
+			u32 mapDataLength,
+			tScreenBaseBlockIndex sbbIndex);
+
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data);
+
+		/*void AllocBackgroundMem(
 			const u32* tileset,
 			u32 tileSetLength, 
 			const u16* mapData,
 			u32 mapDataLength, 
 			TileBlockGroups& out_cbbIndex, 
-			tScreenBaseBlockIndex& out_sbbIndex);
+			tScreenBaseBlockIndex& out_sbbIndex);*/
 
 		void FreeBackgroundTileSetMem(TileBlockGroups cbbIndex);
 		void FreeBackgroundTileMapMem(tScreenBaseBlockIndex sbbIndex);

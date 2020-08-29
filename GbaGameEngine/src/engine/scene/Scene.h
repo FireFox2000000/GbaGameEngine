@@ -10,7 +10,7 @@ class Scene
 	friend class SceneManager;
 
 	void PreRender(Engine* engine);
-	void Render(Engine* engine);
+	
 
 protected:
 	GameObject m_mainCamera;
@@ -18,6 +18,7 @@ protected:
 	virtual void Enter(Engine* engine) {}
 	virtual void Update(Engine* engine);
 	virtual void Exit(Engine* engine) {}
+	virtual void Render(Engine* engine);
 
 public:
 	Scene(Engine* engine);

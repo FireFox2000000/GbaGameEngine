@@ -3,31 +3,38 @@
 #include "engine/graphicalassets/tilemap/TilemapSet.h"
 #include "engine/base/Macros.h"
 
-Component::TilemapRenderer::~TilemapRenderer()
-{
-	FreeAssignedBackgroundSlot();
-}
-
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
 	m_tilemap = tilemap;
 	SetDirty();
 }
 
-bool Component::TilemapRenderer::AssignBackgroundSlot()
+void Component::TilemapRenderer::SetWrappingEnabled(bool enabled)
 {
-	DEBUG_ASSERTMSG(!IsBackgroundSlotAssigned(), "Trying to assign a new background slot when it already has one");
-
-	m_backgroundSlotId = GBA::BackgroundControl::ReserveBackground();
-	SetDirty();
-
-	return m_backgroundSlotId < GBA::BackgroundControl::Count;
+	if (m_wrapping != enabled)
+	{
+		m_wrapping = enabled;
+		SetDirty();
+	}
 }
 
-void Component::TilemapRenderer::FreeAssignedBackgroundSlot()
+bool Component::TilemapRenderer::GetWrappingEnabled() const
 {
-	GBA::BackgroundControl::FreeBackground(m_backgroundSlotId);
-	m_backgroundSlotId = GBA::BackgroundControl::Count;
+	return m_wrapping;
+}
+
+void Component::TilemapRenderer::SetVisible(bool enabled)
+{
+	if (m_visible != enabled)
+	{
+		m_visible = enabled;
+		SetDirty();
+	}
+}
+
+bool Component::TilemapRenderer::GetVisible() const
+{
+	return m_visible;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,6 +45,7 @@ void Component::TilemapRenderer::FreeAssignedBackgroundSlot()
 #include "engine/gameobject/GameObject.h"
 #include "engine/screen/Screen.h"
 #include "engine/graphicalassets/tilemap/TilemapManager.h"
+#include "engine/gba/registers/display/GBADisplayControl.h"
 
 void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 {
@@ -60,26 +68,13 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 	(Component::Transform& transform, Component::TilemapRenderer& tilemapRenderer)
 		{
 			Tilemap* tilemap = tilemapRenderer.GetTilemap();
-			if (!tilemap)
-			{
-				if (tilemapRenderer.IsBackgroundSlotAssigned())
-				{
-					tilemapRenderer.FreeAssignedBackgroundSlot();
-				}
 
-				return;
-			}
-
-			// Register ourselves
-			if (!tilemapRenderer.IsBackgroundSlotAssigned())
-			{
-				tilemapRenderer.AssignBackgroundSlot();
-			}
+			DEBUG_ASSERTMSG(tilemap->IsLoaded(), "Cannot render tilemap, has not been loaded.");
 
 			// TODO, need to handle tilemap unloading somehow
 			if (!tilemap->IsLoaded())
 			{
-				tilemapManager->Load(*tilemap);
+				return;
 			}
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
@@ -91,17 +86,17 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			position *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			position -= screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
-			BackgroundControl::SetBackgroundScrollingPosition(tilemapRenderer.GetAssignedBackgroundSlot(), position.x.ToRoundedInt(), position.y.ToRoundedInt());
+			BackgroundControl::SetBackgroundScrollingPosition(tilemap->GetAssignedBackgroundSlot(), position.x.ToRoundedInt(), position.y.ToRoundedInt());
 
 			if (tilemapRenderer.GetDirty())
 			{
-				TilemapSet* tilemapSet = tilemap->EditTilemapSet();
-				GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
-				auto& controlRegister = BackgroundControl::GetBgControlRegister(tilemapRenderer.GetAssignedBackgroundSlot());
-				controlRegister.SetColourMode(colourMode);
-				controlRegister.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());
-				controlRegister.SetScreenBaseBlock(tilemap->GetMapScreenBaseBlockIndex());
-				controlRegister.SetSize(tilemap->GetSize());
+				auto& controlRegister = BackgroundControl::GetBgControlRegister(tilemap->GetAssignedBackgroundSlot());
+
+				// SetAffineWrapping
+				// SetMosaic
+				// SetPriority
+				controlRegister.SetAffineWrapping(tilemapRenderer.GetWrappingEnabled());
+				DisplayControl::SetBackgroundActive(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
 
 				tilemapRenderer.ClearDirty();
 			}

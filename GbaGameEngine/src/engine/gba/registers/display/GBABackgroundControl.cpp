@@ -47,7 +47,6 @@ namespace GBA
 
 		// Mark as reserved
 		s_backgroundPoolTracker.SetBit(bgId);
-		DisplayControl::SetBackgroundActive(bgId, true);
 
 		return bgId;
 	}

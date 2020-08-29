@@ -6,10 +6,11 @@
 
 class TilemapSet
 {
+	friend class TilemapManager;
+
 public:
 	const static GBA::TileBlockGroups INVALID_TILESET_CBB = GBA::TileBlockGroups::BlockGroupCount;
 
-public:
 	const u16* m_palette = NULL;
 	u8 m_paletteLength = 0;
 
@@ -19,6 +20,7 @@ public:
 	u32 m_tileSetDataCompressionFlags = 0;
 	List<Tilemap> m_maps;
 
+	// Runtime assigned render data when loaded
 	tPaletteIndex m_paletteIndex = INVALID_PALETTE_INDEX;
 	GBA::TileBlockGroups m_tileSetCharacterBaseBlock = INVALID_TILESET_CBB;
 
