@@ -11,7 +11,7 @@ void System::PlayerMovement::Update(Engine* engine)
 	using namespace GBA;
 	const Time* time = engine->GetComponent<Time>();
 
-	auto dt = tFixedPoint24(time->GetDtSecondsf());
+	auto dt = tFixedPoint24(time->GetDt().ToFloat());
 
 	auto* entityManager = engine->GetEntityRegistry();
 	entityManager->InvokeEach<Component::Transform, Component::PlayerMovement>([&dt](Component::Transform& transform, Component::PlayerMovement& playerMovement)

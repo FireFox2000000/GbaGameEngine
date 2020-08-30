@@ -11,9 +11,9 @@ namespace GBA
 {
 	Timers::tTimers Timers::s_timers = { Timers::Timer(0), Timers::Timer(1), Timers::Timer(2), Timers::Timer(3) };
 
-	inline vu16* GetTimerDataAddr(u8 index)
+	inline vs16* GetTimerDataAddr(u8 index)
 	{
-		return (vu16*)(REG_TIMERDATA + (index * 0x04));
+		return (vs16*)(REG_TIMERDATA + (index * 0x04));
 	}
 
 	inline vu16* GetTimerControlAddrForIndex(u8 index)
@@ -78,7 +78,7 @@ namespace GBA
 		*GetTimerDataAddr(m_timerIndex) = value;
 	}
 
-	u16 Timers::Timer::GetCurrentTimerCount() const
+	s16 Timers::Timer::GetCurrentTimerCount() const
 	{
 		return *GetTimerDataAddr(m_timerIndex);
 	}

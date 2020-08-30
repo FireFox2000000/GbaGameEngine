@@ -39,7 +39,7 @@ namespace GBA
 			void EnableInterruptOnOverflow(bool enabled);
 			void SetFrequency(ClockCycle cycle);
 			void SetInitialTimerCount(u16 value);
-			u16 GetCurrentTimerCount() const;
+			s16 GetCurrentTimerCount() const;
 			u8 GetTimerIndex() const { return m_timerIndex; }
 
 			Timer() {}; // Purely to make this class std::initializer_list compliant
@@ -57,7 +57,7 @@ namespace GBA
 		static tTimers s_timers;
 
 	public:
-		static const u32 c_systemFrequency = 1024 * 0x4000;
+		static const u32 c_systemFrequency = 0x1000000;
 		static Timer& GetTimer(TimerId timerId);
 	};
 }

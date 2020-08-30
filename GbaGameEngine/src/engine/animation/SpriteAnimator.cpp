@@ -20,7 +20,7 @@ void System::SpriteAnimator::Update(Engine* engine)
 	auto* entityManager = engine->GetEntityRegistry();
 
 	const Time* time = engine->GetComponent<Time>();
-	const u32 dtMicroSeconds = time->GetDtMicroSeconds();
+	const u32 dtMicroSeconds = time->GetDt().TotalMicroseconds();
 
 	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
 		{

@@ -25,7 +25,7 @@ void Time::Start()
 	Timers::Timer& clockMs = Timers::GetTimer(Timers::SystemClock1);
 	Timers::Timer& clockSeconds = Timers::GetTimer(Timers::SystemClock2);
 
-	clockMs.SetInitialTimerCount(-0x4000);
+	clockMs.SetInitialTimerCount(-MS_TIMER_START);
 	clockMs.SetFrequency(Timers::Cycle_1024);
 	clockMs.SetActive(true);
 
@@ -36,30 +36,32 @@ void Time::Start()
 void Time::Advance()
 {
 	IncFrameCount();
+
+	TimeValue currentTime = GetTimeSinceStartup();
+	m_dt = currentTime - m_frameStartTime;
+	m_frameStartTime = currentTime;
 }
 
-u32 Time::GetMilliseconds() const
+TimeValue Time::GetDt() const
 {
-	return (m_frameCount * 100000 + 5) / FRAMERATE;		// Scale frame to milliseconds, multiply by 100 due to fixed point FRAMERATE, + 5 for automatic rounding
+	return m_dt;
 }
 
-u32 Time::GetDtMicroSeconds() const
+TimeValue Time::GetTimeSinceStartup() const volatile
 {
-	return DTMICROSECONDS;
-}
+	u32 deltaTicks = Time::MS_TIMER_START + Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount();
+	int timeFactor = 1000000;
+	const u32 overflowThreshold = 0xffffffff / timeFactor;
+	int overflowCount = 0;
+	while (deltaTicks > overflowThreshold)
+	{
+		deltaTicks -= overflowThreshold;
+		++overflowCount;
+	}
 
-u32 Time::GetDtMs() const
-{
-	return DTMS;
-}
+	u32 microSeconds = (deltaTicks * timeFactor) / Time::MS_TIMER_START + (overflowCount * (overflowThreshold * timeFactor / Time::MS_TIMER_START));
+	u32 seconds = Timers::GetTimer(Timers::SystemClock2).GetCurrentTimerCount();
 
-float Time::GetDtSecondsf() const
-{
-	return DTSECONDS;
+	TimeValue time(microSeconds, seconds);
+	return time;
 }
-
-u32 Time::GetSecondsSinceStartup()
-{
-	return Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount();
-}
-

@@ -53,6 +53,7 @@
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
+    <ClCompile Include="src\engine\time\TimeValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
     <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
     <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
+    <ClInclude Include="src\engine\time\TimeValue.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -10,3 +10,6 @@ typedef long s32;
 
 typedef volatile u16 vu16;
 typedef volatile u32 vu32;
+
+typedef volatile s16 vs16;
+typedef volatile s32 vs32;

@@ -8,6 +8,7 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/graphicalassets/tilemap/TilemapManager.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/time/Time.h"
 
 #define DYNAMIC_MAP_TEST
 
@@ -55,7 +56,7 @@ void TilemapTestScene::Exit(Engine * engine)
 void TilemapTestScene::Update(Engine * engine)
 {
 	auto* entityManager = engine->GetEntityRegistry();
-	
+
 	entityManager->InvokeEach<Component::Transform, Component::Camera>(
 		[]
 	(Component::Transform& transform, Component::Camera& camera)
