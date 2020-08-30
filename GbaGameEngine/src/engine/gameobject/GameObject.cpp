@@ -5,12 +5,8 @@
 
 using namespace Component;
 
-GameObject::GameObject(ECS::EntityComponentManager* ref) : ECS::ManagedEntity(ref)
+GameObject::GameObject() : ECS::ManagedEntity()
 {
 	// Automatically add transformation components
 	AddComponent<Transform>();
-}
-
-GameObject::GameObject(Engine * engine) : GameObject(engine->GetEntityRegistry())
-{
 }

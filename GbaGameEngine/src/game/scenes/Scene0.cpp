@@ -16,7 +16,7 @@ const int totalTestSprites = 90;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
-	, playerObject(engine->GetEntityRegistry())
+	, playerObject()
 {
 }
 
@@ -35,15 +35,13 @@ void Scene0::Enter(Engine* engine)
 	AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
 	FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
 
-	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
-
 	m_gameObjects.Reserve(totalTestSprites);
 
 	if (true)
 	{
 		for (int i = 0; i < 1; ++i)
 		{
-			GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
+			GameObject* testBackgroundObject = m_gameObjects.AddNew();
 
 			Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
 			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
@@ -57,7 +55,7 @@ void Scene0::Enter(Engine* engine)
 		}
 
 		{
-			GameObject* testTextObject = m_gameObjects.AddNew(entityManager);
+			GameObject* testTextObject = m_gameObjects.AddNew();
 			Component::Transform* transform = testTextObject->EditComponent<Component::Transform>();
 			transform->SetPosition((0.2f) - 5, (0.2f) - 5);
 
@@ -67,7 +65,7 @@ void Scene0::Enter(Engine* engine)
 		}
 
 		{
-			GameObject* testTextObject = m_gameObjects.AddNew(entityManager);
+			GameObject* testTextObject = m_gameObjects.AddNew();
 			testTextObject->RemoveComponent<Component::Transform>();
 
 			auto& screenTransform = testTextObject->AddComponent<Component::UI::ScreenTransform>();
@@ -112,11 +110,9 @@ void Scene0::Update(Engine* engine)
 	
 		SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
 		AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
-	
-		ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
-	
+		
 		// Create a new one
-		GameObject* testBackgroundObject = m_gameObjects.AddNew(entityManager);
+		GameObject* testBackgroundObject = m_gameObjects.AddNew();
 	
 		Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);

@@ -12,7 +12,7 @@
 #endif
 
 Scene::Scene(Engine* engine)
-	: m_mainCamera(engine->GetEntityRegistry())
+	: m_mainCamera()
 {
 	m_mainCamera.AddComponent<Component::Camera>();
 }

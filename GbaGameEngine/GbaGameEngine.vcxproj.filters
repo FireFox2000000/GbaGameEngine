@@ -52,6 +52,7 @@
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteManager.cpp" />
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
+    <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

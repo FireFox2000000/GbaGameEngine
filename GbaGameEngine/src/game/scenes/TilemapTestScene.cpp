@@ -22,8 +22,6 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	ECS::EntityComponentManager* entityManager = engine->GetEntityRegistry();
-
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
 	Tilemap* tilemap = tilemapLib->GetTilemap(TilemapSetID::eosd, 0);
 
@@ -38,7 +36,7 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	m_loadedTilemaps.Add(tilemap);
 
-	GameObject* background = m_gameObjects.AddNew(entityManager);
+	GameObject* background = m_gameObjects.AddNew();
 	Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
 	tilemapRenderer.SetTilemap(tilemap);
 	tilemapRenderer.SetVisible(true);

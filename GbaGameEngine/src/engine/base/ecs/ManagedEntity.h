@@ -13,21 +13,21 @@ namespace ECS
 	class ManagedEntity {
 
 	private:
-		EntityComponentManager* m_registry;
 		Entity m_entity;
+		static EntityComponentManager* s_managedEntityServiceLocation;
 
 	public:
 		/**
 			* @brief Constructs an actor by using the given registry.
 			* @param ref An entity-component system properly initialized.
 			*/
-		ManagedEntity(EntityComponentManager* ref)
-			: m_registry(ref), m_entity(ref->CreateEntity())
+		ManagedEntity()
+			: m_entity(s_managedEntityServiceLocation->CreateEntity())
 		{}
 
 		/*! @brief Default destructor. */
 		virtual ~ManagedEntity() {
-			m_registry->DestroyEntity(m_entity);
+			s_managedEntityServiceLocation->DestroyEntity(m_entity);
 		}
 
 		/**
@@ -40,7 +40,7 @@ namespace ECS
 			* @param other The instance to move from.
 			*/
 		ManagedEntity(ManagedEntity&& other)
-			: m_registry(other.m_registry), m_entity(other.m_entity)
+			: m_entity(other.m_entity)
 		{
 			other.m_entity = entt::null;
 		}
@@ -58,7 +58,6 @@ namespace ECS
 		ManagedEntity& operator=(ManagedEntity&& other) {
 			if (this != &other) {
 				auto tmp{ std::move(other) };
-				std::swap(m_registry, tmp.m_registry);
 				std::swap(m_entity, tmp.m_entity);
 			}
 
@@ -81,7 +80,7 @@ namespace ECS
 			*/
 		template<typename Component, typename... Args>
 		inline Component& AddComponent(Args&& ... args) {
-			return m_registry->AddComponent<Component>(m_entity, std::forward<Args>(args)...);
+			return s_managedEntityServiceLocation->AddComponent<Component>(m_entity, std::forward<Args>(args)...);
 		}
 
 		/**
@@ -90,7 +89,7 @@ namespace ECS
 			*/
 		template<typename Component>
 		inline void RemoveComponent() {
-			m_registry->RemoveComponent<Component>(m_entity);
+			s_managedEntityServiceLocation->RemoveComponent<Component>(m_entity);
 		}
 
 		/**
@@ -100,7 +99,7 @@ namespace ECS
 			*/
 		template<typename Component>
 		inline bool HasComponent() const {
-			return m_registry->HasComponent<Component>(m_entity);
+			return s_managedEntityServiceLocation->HasComponent<Component>(m_entity);
 		}
 
 		/**
@@ -110,12 +109,12 @@ namespace ECS
 			*/
 		template<typename Component>
 		inline const Component* GetComponent() const {
-			return m_registry->GetComponent<Component>(m_entity);
+			return s_managedEntityServiceLocation->GetComponent<Component>(m_entity);
 		}
 
 		template<typename Component>
 		inline Component* EditComponent() {
-			return m_registry->EditComponent<Component>(m_entity);
+			return s_managedEntityServiceLocation->EditComponent<Component>(m_entity);
 		}
 
 		/**
@@ -124,6 +123,11 @@ namespace ECS
 			*/
 		inline Entity GetEntity() const {
 			return m_entity;
+		}
+
+		static void ProvideEntityManagerService(EntityComponentManager* registry)
+		{
+			s_managedEntityServiceLocation = registry;
 		}
 	};
 }
