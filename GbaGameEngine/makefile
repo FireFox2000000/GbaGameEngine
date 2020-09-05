@@ -30,6 +30,11 @@ DATA		:=
 MUSIC		:=
 
 #---------------------------------------------------------------------------------
+# use "make BUILD_TYPE=RETAIL" to remove debugging overhead.
+#---------------------------------------------------------------------------------
+BUILD_TYPE = 0
+
+#---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
@@ -39,6 +44,10 @@ CFLAGS	:=	-g -Wall -O2 -pedantic\
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE)
+
+ifeq ($(BUILD_TYPE),RETAIL)
+CFLAGS	+=	-DRETAIL
+endif
 
 CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++17
 
