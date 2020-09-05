@@ -62,11 +62,11 @@ void TilemapTestScene::Update(Engine * engine)
 	(Component::Transform& transform, Component::Camera& camera)
 		{
 #ifdef DYNAMIC_MAP_TEST
-			//transform.SetPosition(-15, 6);
+			//transform.SetPosition(-17, 6);
 			auto position = transform.GetPosition();
 			const float speed = 0.05f;
-			position.x += speed;
-			transform.SetPosition(position.x, tFixedPoint8(6));
+			position.y += speed;
+			transform.SetPosition(tFixedPoint8(-17), position.y);
 #else
 			auto position = transform.GetPosition();
 			const float speed = 0.05f;

@@ -87,6 +87,7 @@ namespace GBA
 			tScreenBaseBlockIndex sbbIndex);
 
 		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize);
 
 		/*void AllocBackgroundMem(
 			const u32* tileset,
