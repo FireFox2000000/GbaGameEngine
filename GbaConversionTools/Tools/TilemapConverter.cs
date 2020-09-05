@@ -324,34 +324,62 @@ namespace GbaConversionTools.Tools
 
                 mapStartOffsets.Add(seList.Count);
 
-                // GBA nesting: https://www.coranac.com/tonc/text/regbg.htm 9.3.1
-                for (int mapStartY = 0; mapStartY < tilemap.mapData.GetLength(1); mapStartY += GBA_MAP_TILE_HEIGHT)
+                bool performGbaNesting = false; // Disable for dynamic maps
+                if (performGbaNesting)
                 {
-                    for (int mapStartX = 0; mapStartX < tilemap.mapData.GetLength(0); mapStartX += GBA_MAP_TILE_WIDTH)
+                    // GBA nesting: https://www.coranac.com/tonc/text/regbg.htm 9.3.1
+                    for (int mapStartY = 0; mapStartY < tilemap.mapData.GetLength(1); mapStartY += GBA_MAP_TILE_HEIGHT)
                     {
-                        for (int j = mapStartY; j < mapStartY + GBA_MAP_TILE_HEIGHT; ++j)
+                        for (int mapStartX = 0; mapStartX < tilemap.mapData.GetLength(0); mapStartX += GBA_MAP_TILE_WIDTH)
                         {
-                            for (int i = mapStartX; i < mapStartX + GBA_MAP_TILE_WIDTH; ++i)
+                            for (int j = mapStartY; j < mapStartY + GBA_MAP_TILE_HEIGHT; ++j)
                             {
-                                var currentMapData = tilemap.mapData[i, j];
+                                for (int i = mapStartX; i < mapStartX + GBA_MAP_TILE_WIDTH; ++i)
+                                {
+                                    var currentMapData = tilemap.mapData[i, j];
 
-                                GBAScreenEntry screenEntry = new GBAScreenEntry();
-                                screenEntry.SetTileIndex(currentMapData.tilesetIndex);
+                                    GBAScreenEntry screenEntry = new GBAScreenEntry();
+                                    screenEntry.SetTileIndex(currentMapData.tilesetIndex);
 
-                                if ((currentMapData.flags & TileMap.FlippingFlags.Horizontal) != 0)
-                                    screenEntry.SetHFlipFlag();
+                                    if ((currentMapData.flags & TileMap.FlippingFlags.Horizontal) != 0)
+                                        screenEntry.SetHFlipFlag();
 
-                                if ((currentMapData.flags & TileMap.FlippingFlags.Vertical) != 0)
-                                    screenEntry.SetVFlipFlag();
+                                    if ((currentMapData.flags & TileMap.FlippingFlags.Vertical) != 0)
+                                        screenEntry.SetVFlipFlag();
 
-                                if (tilemap.paletteIndex >= 0)
-                                    screenEntry.SetPalIndex(tilemap.paletteIndex);
+                                    if (tilemap.paletteIndex >= 0)
+                                        screenEntry.SetPalIndex(tilemap.paletteIndex);
 
-                                seList.Add(screenEntry);
+                                    seList.Add(screenEntry);
+                                }
                             }
                         }
                     }
-                } 
+                }
+                else
+                {
+                    for (int mapY = 0; mapY < tilemap.mapData.GetLength(1); ++mapY)
+                    {            
+                        for (int mapX = 0; mapX < tilemap.mapData.GetLength(0); ++mapX)
+                        {
+                            var currentMapData = tilemap.mapData[mapX, mapY];
+
+                            GBAScreenEntry screenEntry = new GBAScreenEntry();
+                            screenEntry.SetTileIndex(currentMapData.tilesetIndex);
+
+                            if ((currentMapData.flags & TileMap.FlippingFlags.Horizontal) != 0)
+                                screenEntry.SetHFlipFlag();
+
+                            if ((currentMapData.flags & TileMap.FlippingFlags.Vertical) != 0)
+                                screenEntry.SetVFlipFlag();
+
+                            if (tilemap.paletteIndex >= 0)
+                                screenEntry.SetPalIndex(tilemap.paletteIndex);
+
+                            seList.Add(screenEntry);
+                        }
+                    }
+                }
             }
 
             {

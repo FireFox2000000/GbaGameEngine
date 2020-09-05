@@ -20,7 +20,7 @@ int main()
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
 	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
-	sceneManager->ChangeScene<Scene0>(engine.get());
+	sceneManager->ChangeScene<TilemapTestScene>(engine.get());
 
 	Time* time = engine->EditComponent<Time>();
 

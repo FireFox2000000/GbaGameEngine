@@ -58,35 +58,77 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 		return;		// Unhandled, todo
 
 	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
+	const Vector2<int> screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
 
 	auto* entityManager = engine->GetEntityRegistry();
 
 	TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
+	auto& vram = GBA::Vram::GetInstance();
 
 	entityManager->InvokeEach<Component::Transform, Component::TilemapRenderer>(
-		[&cameraPosition, &screenSpaceOffset, &tilemapManager]
+		[&cameraPosition
+		, &screenSpaceOffset
+		, &tilemapManager
+		, &screenSizeInTiles
+		, &vram
+		]
 	(Component::Transform& transform, Component::TilemapRenderer& tilemapRenderer)
 		{
 			Tilemap* tilemap = tilemapRenderer.GetTilemap();
 
-			DEBUG_ASSERTMSG(tilemap->IsLoaded(), "Cannot render tilemap, has not been loaded.");
-
-			// TODO, need to handle tilemap unloading somehow
 			if (!tilemap->IsLoaded())
 			{
+				DEBUG_ASSERTMSG(false, "Cannot render tilemap, has not been loaded.");
 				return;
 			}
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
+			const auto sizeInTiles = tilemap->GetSizeInTiles();
 			
 			// Screen corrections. Final position is the position of the screen on the background.
 			position -= cameraPosition;											// Convert world space to relative camera space	
-			position *= -1;
-			position += tilemap->GetSizeInTiles() / 2;								// Offset by map size	
+			position.x *= -1;
+			position += sizeInTiles / 2;								// Offset by map size	
 			position *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 			position -= screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
-			BackgroundControl::SetBackgroundScrollingPosition(tilemap->GetAssignedBackgroundSlot(), position.x.ToRoundedInt(), position.y.ToRoundedInt());
+			Vector2<int> finalPos(position.x.ToRoundedInt(), position.y.ToRoundedInt());
+			BackgroundControl::SetBackgroundScrollingPosition(tilemap->GetAssignedBackgroundSlot(), finalPos.x, finalPos.y);
+
+			bool dynamicallyLoadTiles = true;
+			if (dynamicallyLoadTiles)
+			{
+				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
+				Vector2<int> tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
+				
+				// TODO, optimise for what's already loaded in, just brute forcing for now. Way too slow though.
+				const u16* tileMapData = tilemap->GetTileMapData();
+				auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
+				for (int y = 0; y < screenSizeInTiles.y + 1; ++y)
+				{
+					for (int x = 0; x < screenSizeInTiles.x + 1; ++x)
+					{
+						// If we try to render beyond the bounds of the tilemap, render it like it's wrapped around
+						int xPos = (tilemapRenderStartPos.x + x);
+						int yPos = (tilemapRenderStartPos.y + y);
+						int tileMapXPos = xPos % sizeInTiles.x;
+						int tileMapYPos = yPos % sizeInTiles.y;
+						
+						int tilemapDataIndex = sizeInTiles.x * tileMapYPos + tileMapXPos;
+						u16 tileInfo = tileMapData[tilemapDataIndex];
+
+						// Load the tile information into VRAM
+						{
+							int row = xPos % TilemapManager::VARIABLE_TILEMAP_SIZE.x;
+							int column = yPos % TilemapManager::VARIABLE_TILEMAP_SIZE.y;
+
+							u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
+
+							vram.SetBackgroundTileData(sbbIndex, offset, tileInfo);
+						}
+					}
+				}
+			}
 
 			if (tilemapRenderer.GetDirty())
 			{

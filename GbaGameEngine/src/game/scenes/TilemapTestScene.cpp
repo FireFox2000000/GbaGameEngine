@@ -62,7 +62,11 @@ void TilemapTestScene::Update(Engine * engine)
 	(Component::Transform& transform, Component::Camera& camera)
 		{
 #ifdef DYNAMIC_MAP_TEST
-			transform.SetPosition(15, -6);
+			//transform.SetPosition(-15, 6);
+			auto position = transform.GetPosition();
+			const float speed = 0.05f;
+			position.x += speed;
+			transform.SetPosition(position.x, tFixedPoint8(6));
 #else
 			auto position = transform.GetPosition();
 			const float speed = 0.05f;
@@ -94,21 +98,22 @@ void TilemapTestScene::Update(Engine * engine)
 
 #include "engine/gba/graphics/tiles/GBATile.h"
 
-void SetBackgroundTile(const Tilemap* tilemap, u16 data, int row, int column)
-{
-	row %= TilemapManager::VARIABLE_TILEMAP_SIZE.x;
-	column %= TilemapManager::VARIABLE_TILEMAP_SIZE.y;
-
-	u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
-
-	GBA::Vram::GetInstance().SetBackgroundTileData(tilemap->GetMapScreenBaseBlockIndex(), offset, data);
-}
+//void SetBackgroundTile(const Tilemap* tilemap, u16 data, int row, int column)
+//{
+//	row %= TilemapManager::VARIABLE_TILEMAP_SIZE.x;
+//	column %= TilemapManager::VARIABLE_TILEMAP_SIZE.y;
+//
+//	u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
+//
+//	GBA::Vram::GetInstance().SetBackgroundTileData(tilemap->GetMapScreenBaseBlockIndex(), offset, data);
+//}
 
 void TilemapTestScene::Render(Engine * engine)
 {
 	Scene::Render(engine);
 
 #ifdef DYNAMIC_MAP_TEST
+	/*
 	using namespace GBA;
 	TilemapLibrary* tilemapLib = engine->EditComponent<TilemapLibrary>();
 	Tilemap* tilemap = tilemapLib->GetTilemap(TilemapSetID::eosd, 0);
@@ -140,7 +145,7 @@ void TilemapTestScene::Render(Engine * engine)
 			++tilemapDataIndex;
 			++row;
 		}
-	}
+	}*/
 #else
 	
 #endif
