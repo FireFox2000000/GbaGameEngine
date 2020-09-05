@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 
+// State machine specific for scene management
 class SceneManager
 {
 	Scene* m_current = nullptr;

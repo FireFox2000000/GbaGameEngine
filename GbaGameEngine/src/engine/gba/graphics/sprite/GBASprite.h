@@ -11,9 +11,12 @@ namespace GBA
 		class SpriteAtlus;
 		class OAMManager;
 
+		// Holds onto the actual sprite pixel data and defines the properties of the sprite.
 		class Sprite
 		{
 		public:
+			// Tracks live render information, such as vram memory location etc.
+			// Only used by draw functions. 
 			class RenderData
 			{
 				static const u8 TILE_INDEX_MAX_BITS = 10;

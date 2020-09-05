@@ -7,6 +7,10 @@ namespace GBA
 {
 	namespace Gfx
 	{
+		// TODO, not implemented yet.
+		// Rotatable/scable/skewable GBA hardware sprite.
+		// The GBA can draw a max of 32 of these at a time.
+		// See https://www.coranac.com/tonc/text/affobj.htm for more detail
 		class ObjectAffine
 		{
 			u16 fill0[3];

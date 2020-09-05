@@ -7,6 +7,7 @@ namespace GBA
 {
 	namespace Gfx
 	{
+		// Wrapper around the physical GBA palette bank.
 		class PaletteBank
 		{
 			typedef Array<ColourPalette16, 16> ColourPalette16x16;

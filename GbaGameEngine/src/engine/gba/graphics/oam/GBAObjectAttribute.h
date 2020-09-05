@@ -56,6 +56,9 @@ namespace GBA
 			};
 		}
 
+		// Standard GBA hardware sprite. Fixed size, non-rotatable etc. Smaller VRam overhead. 
+		// The GBA can draw a max of 128 of these at a time.
+		// See https://www.coranac.com/tonc/text/regobj.htm for more details
 		class ObjectAttribute
 		{
 			friend class OAMManager;

@@ -9,6 +9,8 @@ namespace GBA
 {
 	namespace Gfx
 	{
+		// Container for a list of sprites that are on the same atlus. 
+		// Sprites on the same atlus will share a colour palette between them, reducing palette memory usage.
 		class SpriteAtlus
 		{
 			friend class SpriteManager;

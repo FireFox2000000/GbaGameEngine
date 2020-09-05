@@ -15,6 +15,10 @@ namespace GBA
 		typedef volatile ObjectAttribute vObjectAttribute;
 		typedef volatile ObjectAffine vObjectAffine;
 
+		/* Responsible for loading sprites into vram and drawing them.
+		* Tracks which sprites were drawn on the previous frame and the current frame in a double buffer to determine which sprites should be unloaded from vram.
+		* Note that fully unloading sprites may resulting in danging pointers in the previous frame buffer, so it's good to leave a frame or manually clear the buffers if we ever need to do this.
+		*/
 		class OAMManager
 		{
 		public:
@@ -53,7 +57,12 @@ namespace GBA
 			OAMManager();
 			~OAMManager();
 
+			// Executed during VBlank to do the actual sprite drawing. 
+			// Needs to be as fast as possible, otherwise visual artifacts may occour if we run past VBlank. 
 			void DoMasterRenderIntoMemory();
+
+			// Use this to draw a sprite to the screen for the current frame.
+			// Does not perform sprite screen culling, this is a post-culling step.
 			ObjectAttribute* AddToRenderList(Sprite* sprite);
 		};
 	}

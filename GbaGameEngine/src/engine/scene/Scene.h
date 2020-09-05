@@ -5,6 +5,8 @@
 
 class Renderer;
 class Engine;
+
+// Base class for managing game scene state. Automatically provides a camera to use. 
 class Scene
 {
 	friend class SceneManager;

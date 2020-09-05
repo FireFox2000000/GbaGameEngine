@@ -2,6 +2,7 @@
 
 #include "engine/base/ecs/EntityComponentManager.h"
 
+// Container for game critical systems.
 class Engine
 {
 	ECS::EntityComponentManager m_entityComponentManager;

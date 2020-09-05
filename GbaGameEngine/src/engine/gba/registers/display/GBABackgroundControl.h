@@ -5,6 +5,7 @@
 
 namespace GBA
 {
+	// Provides access to the physical background controls registers of the GBA.
 	class BackgroundControl
 	{
 

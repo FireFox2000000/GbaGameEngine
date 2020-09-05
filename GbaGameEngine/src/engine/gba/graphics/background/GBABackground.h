@@ -14,6 +14,7 @@ namespace GBA
 		{
 			using tCharacterBaseBlock = TileBlockGroups;
 
+			// Represents a physical background controls register of the GBA.
 			struct ControlRegister
 			{
 			private:

@@ -57,6 +57,7 @@ namespace GBA
 		};
 
 		// Sprite tile mem allocator
+		// See "OBJ Sprite Memory Management" - https://www.gamasutra.com/view/feature/131491/gameboy_advance_resource_management.php?print=1
 		static const u32 MAX_SPRITE_TILES = 1024;
 		Array<AllocState, MAX_SPRITE_TILES> m_spriteTileMemTracker;
 		GBA::Gfx::tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;

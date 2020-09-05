@@ -11,6 +11,8 @@ namespace Projection
 
 namespace Component
 {
+	// Represents what we want to see in our world. 
+	// Currently only supports Orthographic display modes.
 	class Camera
 	{
 		Projection::Enum m_projectionType;

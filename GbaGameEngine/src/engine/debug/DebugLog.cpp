@@ -5,7 +5,7 @@
 #include "engine/base/Macros.h"
 
 #ifdef NOCASH_GBA
-#include "engine/gba/tonc/include/tonc_nocash.h"
+#include "engine/gba/tonc/include/tonc_nocash.h"		// Write to the nocash GBA emulator TTY message service. 
 
 using namespace std;
 
@@ -26,6 +26,7 @@ inline void VLogFormat(const char* format, va_list args)
 
 void Debug::Log(const char * message)
 {
+	// Write to the nocash GBA emulator TTY message service.
 	nocash_puts(message);
 }
 
