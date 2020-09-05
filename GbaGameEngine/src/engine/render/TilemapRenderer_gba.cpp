@@ -2,6 +2,7 @@
 #include "engine/graphicalassets/tilemap/Tilemap.h"
 #include "engine/graphicalassets/tilemap/TilemapSet.h"
 #include "engine/base/Macros.h"
+#include "engine/gba/registers/clock/GBATimer.h"
 
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
@@ -82,6 +83,11 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 				return;
 			}
 
+			auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
+			profilerClock.SetFrequency(GBA::Timers::Cycle_64);
+
+			profilerClock.SetActive(true);
+
 			Vector2<tFixedPoint8> position = transform.GetPosition();
 			const auto sizeInTiles = tilemap->GetSizeInTiles();
 			
@@ -95,41 +101,67 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			Vector2<int> finalPos(position.x.ToRoundedInt(), position.y.ToRoundedInt());
 			BackgroundControl::SetBackgroundScrollingPosition(tilemap->GetAssignedBackgroundSlot(), finalPos.x, finalPos.y);
 
+			DEBUG_LOGFORMAT("[Profile Tilemap Renderer positioning] = %d", profilerClock.GetCurrentTimerCount());
+			profilerClock.SetActive(false);
+
 			bool dynamicallyLoadTiles = true;
 			if (dynamicallyLoadTiles)
 			{
+				profilerClock.SetActive(true);
+
 				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
 				Vector2<int> tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
 				
 				// TODO, optimise for what's already loaded in, just brute forcing for now. Way too slow though.
 				const u16* tileMapData = tilemap->GetTileMapData();
 				auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
+
 				for (int y = 0; y < screenSizeInTiles.y + 1; ++y)
 				{
+					int yPos = (tilemapRenderStartPos.y + y);
+					int tileMapYPos = yPos % sizeInTiles.y;
+					int column = yPos % TilemapManager::VARIABLE_TILEMAP_SIZE.y;
+
+					// Cache for wrapping index, removes expensive and unnessacary modulus calls
+					int tileMapWrapOffsetX = 0;		
+					int vTileRowWrapOffsetX = 0;
+
+					// Loop through and plot tiles
 					for (int x = 0; x < screenSizeInTiles.x + 1; ++x)
 					{
 						// If we try to render beyond the bounds of the tilemap, render it like it's wrapped around
 						int xPos = (tilemapRenderStartPos.x + x);
-						int yPos = (tilemapRenderStartPos.y + y);
-						int tileMapXPos = xPos % sizeInTiles.x;
-						int tileMapYPos = yPos % sizeInTiles.y;
-						
+
+						int tileMapXPos = xPos - tileMapWrapOffsetX;
+						while (tileMapXPos >= sizeInTiles.x)
+						{
+							tileMapWrapOffsetX += sizeInTiles.x;
+							tileMapXPos -= sizeInTiles.x;
+						}
+
 						int tilemapDataIndex = sizeInTiles.x * tileMapYPos + tileMapXPos;
 						u16 tileInfo = tileMapData[tilemapDataIndex];
 
 						// Load the tile information into VRAM
 						{
-							int row = xPos % TilemapManager::VARIABLE_TILEMAP_SIZE.x;
-							int column = yPos % TilemapManager::VARIABLE_TILEMAP_SIZE.y;
+							int row = xPos - vTileRowWrapOffsetX;
+							while (row >= TilemapManager::VARIABLE_TILEMAP_SIZE.x)
+							{
+								vTileRowWrapOffsetX += TilemapManager::VARIABLE_TILEMAP_SIZE.x;
+								row -= TilemapManager::VARIABLE_TILEMAP_SIZE.x;
+							}
 
 							u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
-
 							vram.SetBackgroundTileData(sbbIndex, offset, tileInfo);
 						}
 					}
 				}
+
+				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile load = %d", profilerClock.GetCurrentTimerCount());
+				profilerClock.SetActive(false);
 			}
 
+			// Update extra effects
 			if (tilemapRenderer.GetDirty())
 			{
 				auto& controlRegister = BackgroundControl::GetBgControlRegister(tilemap->GetAssignedBackgroundSlot());
