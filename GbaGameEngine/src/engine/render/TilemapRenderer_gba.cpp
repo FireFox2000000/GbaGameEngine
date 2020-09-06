@@ -104,6 +104,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			DEBUG_LOGFORMAT("[Profile Tilemap Renderer positioning] = %d", profilerClock.GetCurrentTimerCount());
 			profilerClock.SetActive(false);
 
+
 			bool dynamicallyLoadTiles = true;
 			if (dynamicallyLoadTiles)
 			{
@@ -111,15 +112,24 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 
 				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
 				Vector2<int> tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
-				
+
+				// Account for 7 / 8 and -7 / 8 both equalling 0
+				if (finalPos.x < 0)
+					tilemapRenderStartPos.x -= 1;
+
+				if (finalPos.y < 0)
+					tilemapRenderStartPos.y -= 1;
+
 				// "Optimised" tile transferring. Currently just transfering the whole viewable map per frame, rather than taking into account what's already drawn.
 				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
 				const u16* tileMapData = tilemap->GetTileMapData();
 				auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
 
+				Vector2<int> renderSize = screenSizeInTiles + Vector2<int>(1, 1);
+
 				// Cache where we need to wrap indexes. Can't transfer outside tilemap or 32x32 BG range etc, and modulus is expensive in a loop.
-				int bgTileXStart = tilemapRenderStartPos.x % TilemapManager::VARIABLE_TILEMAP_SIZE.x;
-				int bgTileXEnd = (tilemapRenderStartPos.x + screenSizeInTiles.x + 1) % TilemapManager::VARIABLE_TILEMAP_SIZE.x;
+				int bgTileXStart = Math::Mod(tilemapRenderStartPos.x, TilemapManager::VARIABLE_TILEMAP_SIZE.x);
+				int bgTileXEnd = Math::Mod((tilemapRenderStartPos.x + renderSize.x), TilemapManager::VARIABLE_TILEMAP_SIZE.x);
 				int xWrappingOffsetPoint = TilemapManager::VARIABLE_TILEMAP_SIZE.x;
 				if (bgTileXEnd > bgTileXStart)	// No wrapping occoured
 				{
@@ -127,8 +137,8 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 					bgTileXEnd = 0;
 				}
 
-				int tilemapXStart = tilemapRenderStartPos.x % tileMapSizeInTiles.x;
-				int tilemapXEnd = (tilemapRenderStartPos.x + screenSizeInTiles.x + 1) % tileMapSizeInTiles.x;
+				int tilemapXStart = Math::Mod(tilemapRenderStartPos.x, tileMapSizeInTiles.x);
+				int tilemapXEnd = Math::Mod((tilemapRenderStartPos.x + renderSize.x), tileMapSizeInTiles.x);
 				int tilemapXWrappingOffsetPoint = tileMapSizeInTiles.x;
 				if (tilemapXEnd > tilemapXStart)	// No wrapping occoured
 				{
@@ -136,8 +146,8 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 					tilemapXEnd = 0;
 				}
 
-				int bgTileYStart = tilemapRenderStartPos.y % TilemapManager::VARIABLE_TILEMAP_SIZE.y;
-				int bgTileYEnd = (tilemapRenderStartPos.y + screenSizeInTiles.y + 1) % TilemapManager::VARIABLE_TILEMAP_SIZE.y;
+				int bgTileYStart = Math::Mod(tilemapRenderStartPos.y, TilemapManager::VARIABLE_TILEMAP_SIZE.y);
+				int bgTileYEnd = Math::Mod((tilemapRenderStartPos.y + renderSize.y), TilemapManager::VARIABLE_TILEMAP_SIZE.y);
 				int yWrappingOffsetPoint = TilemapManager::VARIABLE_TILEMAP_SIZE.y;
 				if (bgTileYEnd > bgTileYStart)	// No wrapping occoured
 				{
@@ -145,8 +155,8 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 					bgTileYEnd = 0;
 				}
 
-				int tilemapYStart = tilemapRenderStartPos.y % tileMapSizeInTiles.y;
-				int tilemapYEnd = (tilemapRenderStartPos.y + screenSizeInTiles.y + 1) % tileMapSizeInTiles.y;
+				int tilemapYStart = Math::Mod(tilemapRenderStartPos.y, tileMapSizeInTiles.y);
+				int tilemapYEnd = Math::Mod((tilemapRenderStartPos.y + renderSize.y), tileMapSizeInTiles.y);
 				int tilemapYWrappingOffsetPoint = tileMapSizeInTiles.y;
 				if (tilemapYEnd > tilemapYStart)	// No wrapping occoured
 				{
@@ -154,14 +164,17 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 					tilemapYEnd = 0;
 				}
 
+				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profilerClock.GetCurrentTimerCount());
+				profilerClock.SetActive(false);
+
 				auto DrawYRowTiles = [&](int start, int end)
 				{
-					int tileMapYPos = tilemapYStart;
+					int tileMapYPos = start;
 
 					// Iterating row by row what needs to be drawn
 					for (int y = start; y < end; ++y)
 					{
-						int column = y;
+						int row = y;
 						int tileMapXPos = tilemapXStart;
 
 						// Transfer blocks
@@ -169,24 +182,25 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 						{
 							int total = end - start;
 
-							if (tileMapXPos + total >= tilemapXWrappingOffsetPoint)
+							if (tileMapXPos + total > tilemapXWrappingOffsetPoint)	// Tilemap itself is going to wrap
 							{
+								// Draw the row with the end bit of the tilemap
+								int column = start;
+								u32 offset = row * TilemapManager::VARIABLE_TILEMAP_SIZE.x + column;
+
 								{
 									int delta = tilemapXWrappingOffsetPoint - tileMapXPos;
-
-									int row = start;
-									u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
-
 									int tilemapDataIndex = tileMapSizeInTiles.x * tileMapYPos + tileMapXPos;
+
 									vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], delta);
+
+									offset += delta;
 								}
 
+								// Draw the rest of the row with the start bit of the tilemap
 								{
 									int delta = (tileMapXPos + total) - tilemapXWrappingOffsetPoint;
 									tileMapXPos = 0;
-
-									int row = start + (tilemapXWrappingOffsetPoint - tileMapXPos);
-									u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
 
 									int tilemapDataIndex = tileMapSizeInTiles.x * tileMapYPos + tileMapXPos;
 									vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], delta);
@@ -196,8 +210,8 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 							}
 							else
 							{
-								int row = start;
-								u32 offset = column * TilemapManager::VARIABLE_TILEMAP_SIZE.x + row;
+								int column = start;
+								u32 offset = row * TilemapManager::VARIABLE_TILEMAP_SIZE.x + column;
 								int tilemapDataIndex = tileMapSizeInTiles.x * tileMapYPos + tileMapXPos;
 
 								vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], total);
@@ -215,6 +229,8 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 						}
 					}
 				};
+
+				profilerClock.SetActive(true);
 
 				DrawYRowTiles(bgTileYStart, yWrappingOffsetPoint);
 				DrawYRowTiles(0, bgTileYEnd);

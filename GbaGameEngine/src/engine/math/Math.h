@@ -24,4 +24,7 @@ namespace Math
 	inline T Clamp(T v, U min, V max) {
 		return MAX(MIN(v, max), min);
 	}
+
+	// Modulous operation, can deal with negative modulo operations unlike %
+	int Mod(int x, int N);
 }

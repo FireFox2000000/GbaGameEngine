@@ -41,6 +41,9 @@ void TilemapTestScene::Enter(Engine * engine)
 	Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
 	tilemapRenderer.SetTilemap(tilemap);
 	tilemapRenderer.SetVisible(true);
+
+	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
+	transform->SetPosition(-17, 0);
 }
 
 void TilemapTestScene::Exit(Engine * engine)
@@ -55,45 +58,33 @@ void TilemapTestScene::Exit(Engine * engine)
 
 void TilemapTestScene::Update(Engine * engine)
 {
-	auto* entityManager = engine->GetEntityRegistry();
+	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 
-	entityManager->InvokeEach<Component::Transform, Component::Camera>(
-		[]
-	(Component::Transform& transform, Component::Camera& camera)
-		{
-#ifdef DYNAMIC_MAP_TEST
-			//transform.SetPosition(-17, 6);
-			auto position = transform.GetPosition();
-			const float speed = 0.05f;
-			position.y += speed;
-			transform.SetPosition(tFixedPoint8(-17), position.y);
-#else
-			auto position = transform.GetPosition();
-			const float speed = 0.05f;
-			position.x += speed;
-			transform.SetPosition(position);
-#endif
-			/*
-			if (GBA::Input::GetKey(GBA::Buttons::Left))
-			{
-				position.x += -speed;
-			}
+	auto position = transform->GetPosition();
+	const float speed = 0.05f;
+	position.y += speed;
+	transform->SetPosition(position.x, position.y);
 
-			if (GBA::Input::GetKey(GBA::Buttons::Right))
-			{
-				position.x += speed;
-			}
+	/*
+	if (GBA::Input::GetKey(GBA::Buttons::Left))
+	{
+		position.x += -speed;
+	}
 
-			if (GBA::Input::GetKey(GBA::Buttons::Down))
-			{
-				position.y += -speed;
-			}
+	if (GBA::Input::GetKey(GBA::Buttons::Right))
+	{
+		position.x += speed;
+	}
 
-			if (GBA::Input::GetKey(GBA::Buttons::Up))
-			{
-				position.y += speed;
-			}*/
-		});
+	if (GBA::Input::GetKey(GBA::Buttons::Down))
+	{
+		position.y += -speed;
+	}
+
+	if (GBA::Input::GetKey(GBA::Buttons::Up))
+	{
+		position.y += speed;
+	}*/
 }
 
 #include "engine/gba/graphics/tiles/GBATile.h"
