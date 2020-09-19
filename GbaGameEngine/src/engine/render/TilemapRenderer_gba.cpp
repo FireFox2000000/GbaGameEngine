@@ -84,7 +84,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			}
 
 			auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-			profilerClock.SetFrequency(GBA::Timers::Cycle_64);
+			profilerClock.SetFrequency(GBA::Timers::Cycle_1);
 
 			profilerClock.SetActive(true);
 
@@ -104,136 +104,151 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			DEBUG_LOGFORMAT("[Profile Tilemap Renderer positioning] = %d", profilerClock.GetCurrentTimerCount());
 			profilerClock.SetActive(false);
 
-
 			bool dynamicallyLoadTiles = true;
 			if (dynamicallyLoadTiles)
 			{
 				profilerClock.SetActive(true);
 
-				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
 				Vector2<int> tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
 
-				// Account for 7 / 8 and -7 / 8 both equalling 0
-				if (finalPos.x < 0)
-					tilemapRenderStartPos.x -= 1;
-
-				if (finalPos.y < 0)
-					tilemapRenderStartPos.y -= 1;
-
-				// "Optimised" tile transferring. Currently just transfering the whole viewable map per frame, rather than taking into account what's already drawn.
-				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
-				const u16* tileMapData = tilemap->GetTileMapData();
-				auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
-
-				Vector2<int> renderSize = screenSizeInTiles + Vector2<int>(1, 1);
-
-				// Cache where we need to wrap indexes. Can't transfer outside tilemap or 32x32 BG range etc, and modulus is expensive in a loop.
-				int bgTileXStart = Math::Mod(tilemapRenderStartPos.x, TilemapManager::VARIABLE_TILEMAP_SIZE.x);
-				int bgTileXEnd = Math::Mod((tilemapRenderStartPos.x + renderSize.x), TilemapManager::VARIABLE_TILEMAP_SIZE.x);
-				int xWrappingOffsetPoint = TilemapManager::VARIABLE_TILEMAP_SIZE.x;
-				if (bgTileXEnd > bgTileXStart)	// No wrapping occoured
+				bool skipRender = false;
+				if (tilemapRenderer.m_lastRenderPosValid)
 				{
-					xWrappingOffsetPoint = bgTileXEnd;
-					bgTileXEnd = 0;
-				}
-
-				int tilemapXStart = Math::Mod(tilemapRenderStartPos.x, tileMapSizeInTiles.x);
-				int tilemapXEnd = Math::Mod((tilemapRenderStartPos.x + renderSize.x), tileMapSizeInTiles.x);
-				int tilemapXWrappingOffsetPoint = tileMapSizeInTiles.x;
-				if (tilemapXEnd > tilemapXStart)	// No wrapping occoured
-				{
-					tilemapXWrappingOffsetPoint = tilemapXEnd;
-					tilemapXEnd = 0;
-				}
-
-				int bgTileYStart = Math::Mod(tilemapRenderStartPos.y, TilemapManager::VARIABLE_TILEMAP_SIZE.y);
-				int bgTileYEnd = Math::Mod((tilemapRenderStartPos.y + renderSize.y), TilemapManager::VARIABLE_TILEMAP_SIZE.y);
-				int yWrappingOffsetPoint = TilemapManager::VARIABLE_TILEMAP_SIZE.y;
-				if (bgTileYEnd > bgTileYStart)	// No wrapping occoured
-				{
-					yWrappingOffsetPoint = bgTileYEnd;
-					bgTileYEnd = 0;
-				}
-
-				int tilemapYStart = Math::Mod(tilemapRenderStartPos.y, tileMapSizeInTiles.y);
-				int tilemapYEnd = Math::Mod((tilemapRenderStartPos.y + renderSize.y), tileMapSizeInTiles.y);
-				int tilemapYWrappingOffsetPoint = tileMapSizeInTiles.y;
-				if (tilemapYEnd > tilemapYStart)	// No wrapping occoured
-				{
-					tilemapYWrappingOffsetPoint = tilemapYEnd;
-					tilemapYEnd = 0;
-				}
-
-				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profilerClock.GetCurrentTimerCount());
-				profilerClock.SetActive(false);
-
-				auto DrawYRowTiles = [&](int start, int end)
-				{
-					int tileMapYPos = start;
-
-					// Iterating row by row what needs to be drawn
-					for (int y = start; y < end; ++y)
+					Vector2<int> deltaPos = tilemapRenderStartPos - tilemapRenderer.m_lastRenderPos;
+					if (deltaPos == Vector2<int>::Zero)
 					{
-						int row = y;
-						int tileMapXPos = tilemapXStart;
-
-						// Transfer blocks
-						auto DrawXRowTiles = [&](int start, int end)
-						{
-							int total = end - start;
-
-							if (tileMapXPos + total > tilemapXWrappingOffsetPoint)	// Tilemap itself is going to wrap
-							{
-								// Draw the row with the end bit of the tilemap
-								int column = start;
-								u32 offset = row * TilemapManager::VARIABLE_TILEMAP_SIZE.x + column;
-
-								{
-									int delta = tilemapXWrappingOffsetPoint - tileMapXPos;
-									int tilemapDataIndex = tileMapSizeInTiles.x * tileMapYPos + tileMapXPos;
-
-									vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], delta);
-
-									offset += delta;
-								}
-
-								// Draw the rest of the row with the start bit of the tilemap
-								{
-									int delta = (tileMapXPos + total) - tilemapXWrappingOffsetPoint;
-									tileMapXPos = 0;
-
-									int tilemapDataIndex = tileMapSizeInTiles.x * tileMapYPos + tileMapXPos;
-									vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], delta);
-
-									tileMapXPos += delta;
-								}
-							}
-							else
-							{
-								int column = start;
-								u32 offset = row * TilemapManager::VARIABLE_TILEMAP_SIZE.x + column;
-								int tilemapDataIndex = tileMapSizeInTiles.x * tileMapYPos + tileMapXPos;
-
-								vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], total);
-
-								tileMapXPos += total;
-							}
-						};
-
-						DrawXRowTiles(bgTileXStart, xWrappingOffsetPoint);
-						DrawXRowTiles(0, bgTileXEnd);
-
-						if (++tileMapYPos > tilemapYWrappingOffsetPoint)
-						{
-							tileMapYPos = 0;
-						}
+						skipRender = true;
 					}
-				};
+				}
 
-				profilerClock.SetActive(true);
+				if (!skipRender)
+				{
+					// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
 
-				DrawYRowTiles(bgTileYStart, yWrappingOffsetPoint);
-				DrawYRowTiles(0, bgTileYEnd);
+					// Account for 7 / 8 and -7 / 8 both equalling 0
+					if (finalPos.x < 0)
+						tilemapRenderStartPos.x -= 1;
+
+					if (finalPos.y < 0)
+						tilemapRenderStartPos.y -= 1;
+
+					// "Optimised" tile transferring. Currently just transfering the whole viewable map per frame, rather than taking into account what's already drawn.
+					// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
+					const u16* tileMapData = tilemap->GetTileMapData();
+					auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
+
+					Vector2<int> renderSize = screenSizeInTiles + Vector2<int>(1, 1);
+
+					// Cache where we need to wrap indexes. Can't transfer outside tilemap or 32x32 BG range etc, and modulus is expensive in a loop.
+					int bgTileXStart = Math::Mod(tilemapRenderStartPos.x, TilemapManager::VARIABLE_TILEMAP_SIZE.x);
+					int bgTileXEnd = Math::Mod((tilemapRenderStartPos.x + renderSize.x), TilemapManager::VARIABLE_TILEMAP_SIZE.x);
+					int xWrappingOffsetPoint = TilemapManager::VARIABLE_TILEMAP_SIZE.x;
+					if (bgTileXEnd > bgTileXStart)	// No wrapping occoured
+					{
+						xWrappingOffsetPoint = bgTileXEnd;
+						bgTileXEnd = 0;
+					}
+
+					int tilemapXStart = Math::Mod(tilemapRenderStartPos.x, tileMapSizeInTiles.x);
+					int tilemapXEnd = Math::Mod((tilemapRenderStartPos.x + renderSize.x), tileMapSizeInTiles.x);
+					int tilemapXWrappingOffsetPoint = tileMapSizeInTiles.x;
+					if (tilemapXEnd > tilemapXStart)	// No wrapping occoured
+					{
+						tilemapXWrappingOffsetPoint = tilemapXEnd;
+						tilemapXEnd = 0;
+					}
+
+					int bgTileYStart = Math::Mod(tilemapRenderStartPos.y, TilemapManager::VARIABLE_TILEMAP_SIZE.y);
+					int bgTileYEnd = Math::Mod((tilemapRenderStartPos.y + renderSize.y), TilemapManager::VARIABLE_TILEMAP_SIZE.y);
+					int yWrappingOffsetPoint = TilemapManager::VARIABLE_TILEMAP_SIZE.y;
+					if (bgTileYEnd > bgTileYStart)	// No wrapping occoured
+					{
+						yWrappingOffsetPoint = bgTileYEnd;
+						bgTileYEnd = 0;
+					}
+
+					int tilemapYStart = Math::Mod(tilemapRenderStartPos.y, tileMapSizeInTiles.y);
+					int tilemapYEnd = Math::Mod((tilemapRenderStartPos.y + renderSize.y), tileMapSizeInTiles.y);
+					int tilemapYWrappingOffsetPoint = tileMapSizeInTiles.y;
+					if (tilemapYEnd > tilemapYStart)	// No wrapping occoured
+					{
+						tilemapYWrappingOffsetPoint = tilemapYEnd;
+						tilemapYEnd = 0;
+					}
+
+					DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profilerClock.GetCurrentTimerCount());
+					profilerClock.SetActive(false);
+
+					auto DrawYRowTiles = [&](int start, int end)
+					{
+						int tileMapYPos = start;
+
+						// Iterating row by row what needs to be drawn
+						for (int y = start; y < end; ++y)
+						{
+							int row = y;
+							int tileMapXPos = tilemapXStart;
+
+							// Transfer blocks
+							auto DrawXRowTiles = [&](int start, int end)
+							{
+								int total = end - start;
+								int endTileMap = tileMapXPos + total;
+
+								int column = start;
+								u32 offset = row * TilemapManager::VARIABLE_TILEMAP_SIZE.x + column;
+								int rowOffset = tileMapSizeInTiles.x * tileMapYPos;
+
+								if (endTileMap > tilemapXWrappingOffsetPoint)	// Tilemap itself is going to wrap
+								{
+									// Draw the row with the end bit of the tilemap
+									{
+										int delta = tilemapXWrappingOffsetPoint - tileMapXPos;
+										int tilemapDataIndex = rowOffset + tileMapXPos;
+
+										vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], delta);
+
+										offset += delta;
+									}
+
+									// Draw the rest of the row with the start bit of the tilemap
+									{
+										int delta = endTileMap - tilemapXWrappingOffsetPoint;
+										int tilemapDataIndex = rowOffset;
+										vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], delta);
+
+										tileMapXPos = delta;
+									}
+								}
+								else
+								{
+									// Draw the whole row
+									int tilemapDataIndex = rowOffset + tileMapXPos;
+									vram.SetBackgroundTileData(sbbIndex, offset, &tileMapData[tilemapDataIndex], total);
+
+									tileMapXPos += total;
+								}
+							};
+
+							DrawXRowTiles(bgTileXStart, xWrappingOffsetPoint);
+							DrawXRowTiles(0, bgTileXEnd);
+
+							if (++tileMapYPos > tilemapYWrappingOffsetPoint)
+							{
+								tileMapYPos = 0;
+							}
+						}
+					};
+
+					profilerClock.SetActive(true);
+
+					DrawYRowTiles(bgTileYStart, yWrappingOffsetPoint);
+					DrawYRowTiles(0, bgTileYEnd);
+
+					// Track what's already been rendered so we can skip it next frame
+					tilemapRenderer.m_lastRenderPos = tilemapRenderStartPos;
+					tilemapRenderer.m_lastRenderPosValid = true;
+				}
 
 				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile load = %d", profilerClock.GetCurrentTimerCount());
 				profilerClock.SetActive(false);

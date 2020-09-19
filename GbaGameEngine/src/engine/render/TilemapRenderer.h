@@ -5,10 +5,27 @@
 class Tilemap;
 class GameObject;
 
+namespace System
+{
+	namespace TilemapRenderer
+	{
+		void VBlankRender(Engine* engine, GameObject* camera);
+	}
+}
+
 namespace Component
 {
 	class TilemapRenderer : public Renderer
 	{
+		friend void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera);
+
+		/*
+		* Used for rendering optimisations to track what's currently already loaded into memory. 
+		* Background positions are write-only, so we need to track this manually. 
+		*/
+		Vector2<int> m_lastRenderPos;
+		bool m_lastRenderPosValid = false;
+
 		Tilemap* m_tilemap;
 		bool m_tilemapDirty = true;		// True by default to set initial properties
 		bool m_wrapping = false;
@@ -32,12 +49,4 @@ namespace Component
 		bool GetDirty() { return m_tilemapDirty; }
 		void ClearDirty() { m_tilemapDirty = false; }
 	};
-}
-
-namespace System
-{
-	namespace TilemapRenderer
-	{
-		void VBlankRender(Engine* engine, GameObject* camera);
-	}
 }

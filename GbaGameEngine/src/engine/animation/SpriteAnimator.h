@@ -7,18 +7,17 @@ class Engine;
 
 namespace System
 {
-	class SpriteAnimator
+	namespace SpriteAnimator
 	{
-	public:
-		static void Update(Engine* engine);
-	};
+		void Update(Engine* engine);
+	}
 }
 
 namespace Component
 {
 	class SpriteAnimator
 	{
-		friend class System::SpriteAnimator;
+		friend void System::SpriteAnimator::Update(Engine* engine);
 
 		const SpriteAnimation* currentAnimation;
 

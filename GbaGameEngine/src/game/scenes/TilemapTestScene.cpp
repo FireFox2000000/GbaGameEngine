@@ -43,7 +43,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	tilemapRenderer.SetVisible(true);
 
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
-	transform->SetPosition(-17, 0);
+	transform->SetPosition(-17 + 20, 6);
 }
 
 void TilemapTestScene::Exit(Engine * engine)
@@ -59,10 +59,10 @@ void TilemapTestScene::Exit(Engine * engine)
 void TilemapTestScene::Update(Engine * engine)
 {
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
-
+	
 	auto position = transform->GetPosition();
 	const float speed = 0.05f;
-	position.y += speed;
+	position.x += speed;
 	transform->SetPosition(position.x, position.y);
 
 	/*
