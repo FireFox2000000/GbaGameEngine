@@ -1,6 +1,6 @@
 #include "Math.h"
 
-int Math::Mod(int x, int N)
+int Math::Mod(int x, unsigned int N)
 {
 	return (x % N + N) % N;
 }

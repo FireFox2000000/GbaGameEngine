@@ -49,6 +49,9 @@ ifeq ($(BUILD_TYPE),RETAIL)
 CFLAGS	+=	-DRETAIL
 endif
 
+retail:	CFLAGS += -DRETAIL
+retail:	CXXFLAGS += -DRETAIL
+
 CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++17
 
 ASFLAGS	:=	-g $(ARCH)
@@ -121,6 +124,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 .PHONY: $(BUILD) clean
+.PHONY: $(BUILD) retail
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -132,6 +136,13 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
 
+
+#---------------------------------------------------------------------------------
+
+retail:
+	@echo $(CXXFLAGS)
+	@[ -d $@ ] || mkdir -p $@
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 else

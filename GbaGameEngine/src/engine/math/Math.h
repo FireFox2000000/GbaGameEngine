@@ -26,5 +26,8 @@ namespace Math
 	}
 
 	// Modulous operation, can deal with negative modulo operations unlike %
-	int Mod(int x, int N);
+	int Mod(int x, unsigned int N);
+
+	// N must be a power of 2, otherwise this will be incorrect
+	inline int Power2Mod(int x, int N) { return x & (N - 1); }
 }

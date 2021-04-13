@@ -43,7 +43,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	tilemapRenderer.SetVisible(true);
 
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
-	transform->SetPosition(-17 + 20, 6);
+	transform->SetPosition(-17 - 20, 6);
 }
 
 void TilemapTestScene::Exit(Engine * engine)
@@ -62,10 +62,10 @@ void TilemapTestScene::Update(Engine * engine)
 	
 	auto position = transform->GetPosition();
 	const float speed = 0.05f;
-	position.x += speed;
-	transform->SetPosition(position.x, position.y);
+	//position.x -= speed;
+	//transform->SetPosition(position.x, position.y);
 
-	/*
+	
 	if (GBA::Input::GetKey(GBA::Buttons::Left))
 	{
 		position.x += -speed;
@@ -84,7 +84,9 @@ void TilemapTestScene::Update(Engine * engine)
 	if (GBA::Input::GetKey(GBA::Buttons::Up))
 	{
 		position.y += speed;
-	}*/
+	}
+
+	transform->SetPosition(position.x, position.y);
 }
 
 #include "engine/gba/graphics/tiles/GBATile.h"

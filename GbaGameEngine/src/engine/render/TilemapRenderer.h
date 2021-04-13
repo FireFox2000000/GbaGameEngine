@@ -19,6 +19,34 @@ namespace Component
 	{
 		friend void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera);
 
+		struct MapWrappingPoints
+		{
+			struct WrappingPointsX
+			{
+				int bgTileXStart;
+				int bgTileXEnd;
+				int xWrappingOffsetPoint;
+				int tilemapXStart;
+			};
+
+			struct WrappingPointsY
+			{
+				int bgTileYStart;
+				int bgTileYEnd;
+				int yWrappingOffsetPoint;
+
+				int tilemapYStart;
+				int tilemapYEnd;
+				int tilemapYWrappingOffsetPoint;
+			};
+
+			WrappingPointsX allColumn;
+			WrappingPointsY allRow;
+
+			WrappingPointsX newColumn;
+			WrappingPointsY newRow;		
+		};
+
 		/*
 		* Used for rendering optimisations to track what's currently already loaded into memory. 
 		* Background positions are write-only, so we need to track this manually. 
@@ -32,6 +60,11 @@ namespace Component
 		bool m_visible = true;
 
 		void SetDirty() { m_tilemapDirty = true; }
+		MapWrappingPoints CalculateMapWrappingPoints(
+			const Vector2<int>& tilemapRenderStartPos
+			, const Vector2<int>& renderSize
+			, const Vector2<u8>& tileMapSizeInTiles
+		);
 
 	public:
 		TilemapRenderer() = default;
