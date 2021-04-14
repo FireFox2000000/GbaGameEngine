@@ -1,12 +1,12 @@
-#define EWRAM_DATA __attribute__((section(".ewram")))
+
 
 namespace __binary_background_eosd
 {
 	// File Header
-	extern EWRAM_DATA const unsigned char paletteLength = 226;
-	extern EWRAM_DATA const unsigned long tilesetLength = 13328;
+	extern  const unsigned char paletteLength = 226;
+	extern  const unsigned long tilesetLength = 13328;
 
-	extern EWRAM_DATA const unsigned short palette[] =
+	extern  const unsigned short palette[] =
 	{
 		0x0000, 0x550A, 0x52F8, 0x52F8, 0x5718,
 		0x5B19, 0x5B19, 0x5B39, 0x5B19, 0x5B19,
@@ -60,8 +60,8 @@ namespace __binary_background_eosd
 	// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types 
 	// Bit4-7   Compressed type 
 	// Bit8-31  Unused, generated in-game as 24bit size of decompressed data in bytes, probably 
-	extern EWRAM_DATA const unsigned long tileSetCompressionTypeSize = 152;
-	extern EWRAM_DATA const unsigned long tileset[] =
+	extern  const unsigned long tileSetCompressionTypeSize = 152;
+	extern  const unsigned long tileset[] =
 	{
 		0x01010101, 0x01010101, 0x01010101, 0x01010101, 0x01010101,
 		0x01010101, 0x01010101, 0x01010101, 0x01010101, 0x01010101,
@@ -4231,19 +4231,19 @@ namespace __binary_background_eosd
 
 	};
 
-	extern EWRAM_DATA const unsigned char mapCount = 1;
-	extern EWRAM_DATA const unsigned short mapLength = 2048;
-	extern EWRAM_DATA const unsigned char mapTileWidths[] =
+	extern  const unsigned char mapCount = 1;
+	extern  const unsigned short mapLength = 2048;
+	extern  const unsigned char mapTileWidths[] =
 	{
 		64,
 	};
 
-	extern EWRAM_DATA const unsigned char mapTileHeights[] =
+	extern  const unsigned char mapTileHeights[] =
 	{
 		32,
 	};
 
-	extern EWRAM_DATA const unsigned short map[] =
+	extern  const unsigned short map[] =
 	{
 		0x0000, 0x0001, 0x0002, 0x0002, 0x0002,
 		0x0002, 0x0002, 0x0002, 0x0002, 0x0002,
