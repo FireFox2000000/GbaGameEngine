@@ -5,7 +5,7 @@
 
 namespace BitTwiddling
 {
-	int IndexOfHighestSetBit(u32 v)
+	inline int IndexOfHighestSetBit(u32 v)
 	{
 		if (v <= 0)
 			return -1;
@@ -23,5 +23,10 @@ namespace BitTwiddling
 		v |= v >> 16;
 
 		return MultiplyDeBruijnBitPosition[(u32)(v * 0x07C4ACDDU) >> 27];
+	}
+
+	inline bool IsPowerOf2(int v)
+	{
+		return v && !(v & (v - 1));
 	}
 }
