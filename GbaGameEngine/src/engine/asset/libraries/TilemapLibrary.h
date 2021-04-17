@@ -29,6 +29,7 @@ protected:
 		const u32* tileset,
 		const u32 compressionFlags,
 		const u8 mapCount,
+		const u8 mapIsDynamicMask,
 		const u8* widthMap,
 		const u8* heightMap,
 		const u16* mapData
@@ -53,6 +54,7 @@ namespace Prefix##Namespace\
 	extern const u32 tileset[]; \
 	extern const u32 tileSetCompressionTypeSize; \
 	extern const u8 mapCount;\
+	extern const u8 mapIsDynamicMask;\
 	extern const u8 mapTileWidths[]; \
 	extern const u8 mapTileHeights[]; \
 	extern const u16 map[]; \
@@ -61,7 +63,7 @@ namespace Prefix##Namespace\
 #define TILEMAPLIB_ADD_TILEMAP_SET(Prefix, Namespace) \
 {\
 	using namespace Prefix##Namespace;\
-	AddTilemapSet(paletteLength, palette, tilesetLength, tileset, tileSetCompressionTypeSize, mapCount, mapTileWidths, mapTileHeights, map);\
+	AddTilemapSet(paletteLength, palette, tilesetLength, tileset, tileSetCompressionTypeSize, mapCount, mapIsDynamicMask, mapTileWidths, mapTileHeights, map);\
 	totalBytes += tilesetLength * sizeof(u32);\
 	for (int i = 0; i < mapCount; ++i)\
 	{\

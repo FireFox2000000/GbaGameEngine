@@ -10,8 +10,6 @@
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/time/Time.h"
 
-#define DYNAMIC_MAP_TEST
-
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
 }
@@ -29,11 +27,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	// Load the tilemap into vram
 	TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
 
-#ifdef DYNAMIC_MAP_TEST
-	tilemapManager->LoadDynamicMap(*tilemap);
-#else
-	tilemapManager->LoadStaticMap(*tilemap);
-#endif
+	tilemapManager->LoadTilemap(*tilemap);
 
 	m_loadedTilemaps.Add(tilemap);
 

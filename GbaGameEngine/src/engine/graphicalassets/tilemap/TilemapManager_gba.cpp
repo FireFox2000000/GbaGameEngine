@@ -26,6 +26,18 @@ void TilemapManager::LoadDynamicMap(Tilemap & out_tilemap)
 	Load(out_tilemap, VARIABLE_TILEMAP_SIZE.x * VARIABLE_TILEMAP_SIZE.y, GBA::Gfx::Background::ControlRegister::Size::REG_32x32, false, false);
 }
 
+void TilemapManager::LoadTilemap(Tilemap & out_tilemap)
+{
+	if (out_tilemap.IsDynamicallyRendered())
+	{
+		LoadDynamicMap(out_tilemap);
+	}
+	else
+	{
+		LoadStaticMap(out_tilemap);
+	}
+}
+
 void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Background::ControlRegister::Size size, bool isAffine, bool copyMapDirectlyToMemory)
 {
 	using namespace GBA;

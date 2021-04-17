@@ -18,6 +18,8 @@ class Tilemap
 	Vector2<u8> m_sizeInTiles;
 	GBA::Gfx::Background::ControlRegister::Size GetSize() const;
 
+	bool m_isDynamicallyRendered = false;		// i.e. not GBA nested
+
 	// Runtime assigned render data when loaded
 	GBA::tScreenBaseBlockIndex m_mapSbbIndex = GBA::INVALID_SBB_ID;
 	GBA::BackgroundControl::Backgrounds m_backgroundSlotId = GBA::BackgroundControl::Count;
@@ -26,6 +28,7 @@ public:
 	Tilemap();
 
 	bool IsLoaded() const;
+	bool IsDynamicallyRendered() const { return m_isDynamicallyRendered; }
 	inline const Vector2<u8>& GetSizeInTiles() const { return m_sizeInTiles; }
 	inline GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const { return m_mapSbbIndex; }
 	inline const TilemapSet* GetTilemapSet() const { return m_tilemapSet; }

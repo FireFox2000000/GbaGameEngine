@@ -40,12 +40,13 @@ void TilemapLibrary::AddTilemapSet(
 	, const u32 * tileset
 	, const u32 compressionFlags
 	, const u8 mapCount
+	, const u8 mapIsDynamicMask
 	, const u8 * widthMap
 	, const u8 * heightMap
 	, const u16 * mapData
 )
 {
-	m_tilemapSetCollection.AddNew(paletteLength, palette, tilesetLength, tileset, compressionFlags, mapCount, widthMap, heightMap, mapData);
+	m_tilemapSetCollection.AddNew(paletteLength, palette, tilesetLength, tileset, compressionFlags, mapCount, mapIsDynamicMask, widthMap, heightMap, mapData);
 }
 
 Tilemap * TilemapLibrary::GetTilemap(TilemapSetID::Enum tilemapSetId, u32 mapIndex)

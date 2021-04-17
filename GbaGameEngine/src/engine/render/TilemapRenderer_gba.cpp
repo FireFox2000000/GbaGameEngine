@@ -352,8 +352,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			//DEBUG_LOGFORMAT("[Profile Tilemap Renderer positioning] = %d", profilerClock.GetCurrentTimerCount());
 			profilerClock.SetActive(false);
 
-			bool dynamicallyLoadTiles = true;
-			if (dynamicallyLoadTiles)
+			if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 			{
 				Vector2<int> tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define FORCE_DYNAMIC_RENDERING
+
+using System;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -7,6 +9,8 @@ using System.Collections.Generic;
 
 namespace GbaConversionTools.Tools
 {
+    // Currently only supports making a single tilemap set per scene. Todo, fill ui and other global tilemap palettes from the back slots to use in all scenes.
+    // Convert multiple images together to make a proper scene out of them
     class TilemapConverter
     {
         const int c_arrayNewlineCount = 5;
@@ -27,6 +31,7 @@ namespace GbaConversionTools.Tools
         const string VAR_HEADER_PALLETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U8 + " paletteLength = {0};\n";
         const string VAR_HEADER_TILESETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U32 + " tilesetLength = {0};\n";
         const string VAR_HEADER_TILEMAPLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U16 + " mapLength = {0};\n";
+        const string VAR_HEADER_TILEMAP_ISDYNAMICMASK_FORMAT = namespaceTabs + VARPREFIXES + STR_U8 + " mapIsDynamicMask = {0};\n";
 
         const string VAR_MAPWIDTHS = namespaceTabs + VARPREFIXES + STR_U8 + " mapTileWidths[] = \n";
         const string VAR_MAPHEIGHTS = namespaceTabs + VARPREFIXES + STR_U8 + " mapTileHeights[] = \n";
@@ -40,6 +45,10 @@ namespace GbaConversionTools.Tools
         const int MAX_UNIQUE_TILES = 1024;
         const int GBA_MAP_TILE_WIDTH = 32;
         const int GBA_MAP_TILE_HEIGHT = 32;
+
+        // Valid regular tilemap sizes are 32 or 64
+        const int REG_TILEMAP_MIN_SIZE = 32;
+        const int REG_TILEMAP_MAX_SIZE = 64;
 
         class ProcessedBitmapContainer
         {
@@ -317,14 +326,35 @@ namespace GbaConversionTools.Tools
             heightSb.Append(namespaceTabs + "{\n");
             heightSb.Append(namespaceTabs + TAB_CHAR);
 
-            foreach (var tilemap in tilemaps)
+            byte mapIsDynamicBitMask = 0;
+            const int maxMaps = sizeof(byte) * 8;
+            if (tilemaps.Count >= maxMaps)
             {
-                widthSb.AppendFormat("{0}, ", tilemap.mapData.GetLength(0));
-                heightSb.AppendFormat("{0}, ", tilemap.mapData.GetLength(1));
+                throw new Exception(string.Format("Too many tilemaps found. Maps = {0}, max is {1}", tilemaps.Count, maxMaps));
+            }
+
+            for (int tilemapIndex = 0; tilemapIndex < tilemaps.Count; ++tilemapIndex)
+            //foreach (var tilemap in tilemaps)
+            {
+                var tilemap = tilemaps[tilemapIndex];
+
+                int width = tilemap.mapData.GetLength(0);
+                int height = tilemap.mapData.GetLength(1);
+
+                widthSb.AppendFormat("{0}, ", width);
+                heightSb.AppendFormat("{0}, ", height);
 
                 mapStartOffsets.Add(seList.Count);
 
-                bool performGbaNesting = false; // Disable for dynamic maps
+                bool widthValidForNesting = width % GBA_MAP_TILE_WIDTH == 0 && width >= REG_TILEMAP_MIN_SIZE && width <= REG_TILEMAP_MAX_SIZE;
+                bool heightValidForNesting = height % GBA_MAP_TILE_HEIGHT == 0 && height >= REG_TILEMAP_MIN_SIZE && height <= REG_TILEMAP_MAX_SIZE;
+
+#if FORCE_DYNAMIC_RENDERING
+                bool performGbaNesting = false;
+#else
+                bool performGbaNesting = widthValidForNesting && heightValidForNesting; // Disable for dynamic maps
+#endif
+
                 if (performGbaNesting)
                 {
                     // GBA nesting: https://www.coranac.com/tonc/text/regbg.htm 9.3.1
@@ -358,6 +388,8 @@ namespace GbaConversionTools.Tools
                 }
                 else
                 {
+                    mapIsDynamicBitMask |= (byte)(1 << tilemapIndex);
+
                     for (int mapY = 0; mapY < tilemap.mapData.GetLength(1); ++mapY)
                     {            
                         for (int mapX = 0; mapX < tilemap.mapData.GetLength(0); ++mapX)
@@ -380,6 +412,16 @@ namespace GbaConversionTools.Tools
                         }
                     }
                 }
+
+                Console.WriteLine("Processed tilemap {0}:", tilemapIndex);
+                if (performGbaNesting)
+                {
+                    Console.WriteLine("\tStatic/GBA nested map");
+                }
+                else
+                {
+                    Console.WriteLine("\tDynamically rendered map");
+                }
             }
 
             {
@@ -393,6 +435,8 @@ namespace GbaConversionTools.Tools
             GBAScreenEntry[] mapEntries = seList.ToArray();
             sb.AppendFormat(VAR_MAPCOUNT, tilemaps.Count);
             sb.AppendFormat(VAR_HEADER_TILEMAPLENGTH_FORMAT, mapEntries.Length);
+
+            sb.AppendFormat(VAR_HEADER_TILEMAP_ISDYNAMICMASK_FORMAT, mapIsDynamicBitMask);
 
             sb.Append(widthSb.ToString());
             sb.Append("\n");

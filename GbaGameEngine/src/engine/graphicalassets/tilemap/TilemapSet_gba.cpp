@@ -1,4 +1,5 @@
 #include "TilemapSet.h"
+#include "engine/base/core/stl/Bitmask.h"
 
 TilemapSet::TilemapSet()
 {
@@ -12,6 +13,7 @@ TilemapSet::TilemapSet(
 	, const u32 * tileset
 	, const u32 tileSetDataCompressionFlags
 	, const u8 mapCount
+	, const u8 mapIsDynamicMask
 	, const u8 * mapTileWidths
 	, const u8 * mapTileHeights
 	, const u16 * mapData
@@ -26,11 +28,14 @@ TilemapSet::TilemapSet(
 
 	m_maps.Reserve(mapCount);
 
+	Bitmask<u8> mapIsDynamicBitMask = Bitmask<u8>(mapIsDynamicMask);
+
 	int mapDataOffset = 0;
 	for (u32 i = 0; i < mapCount; ++i)
 	{
 		Tilemap* tilemap = m_maps.AddNew();
 		tilemap->m_tilemapSet = this;
+		tilemap->m_isDynamicallyRendered = mapIsDynamicBitMask.TestBit(i);
 
 		u8 widthInTiles = mapTileWidths[i];
 		u8 heightInTiles = mapTileHeights[i];

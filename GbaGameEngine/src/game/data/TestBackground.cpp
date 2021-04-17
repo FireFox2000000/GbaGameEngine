@@ -4233,6 +4233,7 @@ namespace __binary_background_eosd
 
 	extern  const unsigned char mapCount = 1;
 	extern  const unsigned short mapLength = 2048;
+	extern  const unsigned char mapIsDynamicMask = 1;
 	extern  const unsigned char mapTileWidths[] =
 	{
 		64,
