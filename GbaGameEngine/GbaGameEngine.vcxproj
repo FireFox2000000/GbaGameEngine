@@ -127,7 +127,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />
-    <ClCompile Include="src\engine\render\TilemapRenderer_gba.cpp" />
+    <ClCompile Include="src\engine\render\TilemapRenderer.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
