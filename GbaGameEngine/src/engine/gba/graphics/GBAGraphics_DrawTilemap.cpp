@@ -390,7 +390,6 @@ namespace GBA
 					if (start == end)
 						return;
 
-					int tileMapYPos = start;
 					int tileMapSizeInTilesX = tileMapSizeInTiles.x;
 
 					// Slightly faster to have these outside the loop.
@@ -403,16 +402,37 @@ namespace GBA
 #ifdef LOG_RENDER_ROWCOLS
 					DEBUG_LOGFORMAT("[Rendering columns %d through %d, 0 through %d", bgTileXStart, bgTileXStart + seg1Size, bgTileXEnd);
 #endif
-					// Iterating row by row what needs to be drawn
-					for (int y = start; y < end; ++y)
+					if (seg1Size > 0)
 					{
-						// Wrap around the background object itself
-						CopyMapWrappedRowToVram(vram, sbbIndex, y, bgTileXStart, tileMapData, tileMapSizeInTilesX, tileMapYPos, tilemapXStart, seg1Size);
-						CopyMapWrappedRowToVram(vram, sbbIndex, y, 0, tileMapData, tileMapSizeInTilesX, tileMapYPos, tilemapXStart + seg1Size, bgTileXEnd);
+						int tileMapYPos = start;
 
-						if (++tileMapYPos > tilemapYWrappingOffsetPoint)
+						// Iterating row by row what needs to be drawn
+						for (int y = start; y < end; ++y)
 						{
-							tileMapYPos = 0;
+							// Wrap around the background object itself
+							CopyMapWrappedRowToVram(vram, sbbIndex, y, bgTileXStart, tileMapData, tileMapSizeInTilesX, tileMapYPos, tilemapXStart, seg1Size);
+
+							if (++tileMapYPos > tilemapYWrappingOffsetPoint)
+							{
+								tileMapYPos = 0;
+							}
+						}
+					}
+
+					if (bgTileXEnd > 0)
+					{
+						int tileMapYPos = start;
+
+						// Iterating row by row what needs to be drawn
+						for (int y = start; y < end; ++y)
+						{
+							// Wrap around the background object itself
+							CopyMapWrappedRowToVram(vram, sbbIndex, y, 0, tileMapData, tileMapSizeInTilesX, tileMapYPos, tilemapXStart + seg1Size, bgTileXEnd);
+
+							if (++tileMapYPos > tilemapYWrappingOffsetPoint)
+							{
+								tileMapYPos = 0;
+							}
 						}
 					}
 				};
