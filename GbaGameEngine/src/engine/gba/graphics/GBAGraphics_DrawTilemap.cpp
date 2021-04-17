@@ -8,6 +8,7 @@
 #include "engine/screen/Screen.h"
 
 //#define LOG_RENDER_ROWCOLS
+//#define PROFILE_RENDER
 
 struct MapWrappingPoints
 {
@@ -245,7 +246,21 @@ MapWrappingPoints CalculateMapWrappingPoints(
 	return wrappingPoints;
 }
 
-static inline void CopyFromMapToVram(
+static inline void CopyFromMapToVramSingle(
+	GBA::Vram& vram
+	, GBA::tScreenBaseBlockIndex sbbIndex
+	, int destBgRow
+	, int destBgCol
+	, const u16* srcMapData
+	, int srcMapIndex
+	, int size		// Unused, just for compatibility with the other functions. Should be equal to exactly 1. 
+)
+{
+	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
+	vram.SetBackgroundTileData(sbbIndex, offset , srcMapData[srcMapIndex]);
+}
+
+static inline void CopyFromMapToVramLoop(
 	GBA::Vram& vram
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
@@ -256,19 +271,34 @@ static inline void CopyFromMapToVram(
 )
 {
 	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
-	if (size < 2)
+	for (int i = 0; i < size; ++i)
 	{
-		for (int i = 0; i < size; ++i)
-		{
-			vram.SetBackgroundTileData(sbbIndex, offset + i, srcMapData[srcMapIndex + i]);
-		}
-	}
-	else
-	{
-		vram.SetBackgroundTileData(sbbIndex, offset, &srcMapData[srcMapIndex], size);
+		vram.SetBackgroundTileData(sbbIndex, offset + i, srcMapData[srcMapIndex + i]);
 	}
 }
 
+static inline void CopyFromMapToVramMemCpy(
+	GBA::Vram& vram
+	, GBA::tScreenBaseBlockIndex sbbIndex
+	, int destBgRow
+	, int destBgCol
+	, const u16* srcMapData
+	, int srcMapIndex
+	, int size
+)
+{
+	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
+	vram.SetBackgroundTileData(sbbIndex, offset, &srcMapData[srcMapIndex], size);
+}
+
+typedef void(*Fn)(GBA::Vram& vram
+	, GBA::tScreenBaseBlockIndex sbbIndex
+	, int destBgRow
+	, int destBgCol
+	, const u16* srcMapData
+	, int srcMapIndex
+	, int size); // signature for all valid template params
+template<Fn fn>
 static inline void CopyMapWrappedRowToVram(
 	GBA::Vram& vram
 	, GBA::tScreenBaseBlockIndex sbbIndex
@@ -291,20 +321,20 @@ static inline void CopyMapWrappedRowToVram(
 		int segment1Size = mapWidth - srcMapColOffset;
 
 		if (segment1Size > 0)
-			CopyFromMapToVram(vram, sbbIndex, destBgRow, destBgColStart, srcMapData, srcMapIndex, segment1Size);
+			fn(vram, sbbIndex, destBgRow, destBgColStart, srcMapData, srcMapIndex, segment1Size);
 
 		// Back to the left side of the tilemap
 		srcMapIndex -= srcMapColOffset;
 
 		int segment2Size = srcMapColOffset + size - mapWidth;
 		if (segment2Size > 0)
-			CopyFromMapToVram(vram, sbbIndex, destBgRow, destBgColStart + segment1Size, srcMapData, srcMapIndex, segment2Size);
+			fn(vram, sbbIndex, destBgRow, destBgColStart + segment1Size, srcMapData, srcMapIndex, segment2Size);
 
 	}
 	else
 	{
 		// Freely copy the whole row
-		CopyFromMapToVram(vram, sbbIndex, destBgRow, destBgColStart, srcMapData, srcMapIndex, size);
+		fn(vram, sbbIndex, destBgRow, destBgColStart, srcMapData, srcMapIndex, size);
 	}
 }
 
@@ -318,11 +348,10 @@ namespace GBA
 		, const TilemapDrawHistory& drawHistory
 	)
 	{
+#ifdef PROFILE_RENDER
 		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
 		profilerClock.SetFrequency(GBA::Timers::Cycle_1);
-
-		profilerClock.SetActive(true);
-
+#endif
 		auto& vram = GBA::Vram::GetInstance();
 		TilemapDrawHistory latestDrawHistory = drawHistory;
 
@@ -339,9 +368,6 @@ namespace GBA
 
 		Vector2<int> finalPos(newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt());
 		BackgroundControl::SetBackgroundScrollingPosition(tilemap->GetAssignedBackgroundSlot(), finalPos.x, finalPos.y);
-
-		//DEBUG_LOGFORMAT("[Profile Tilemap Renderer positioning] = %d", profilerClock.GetCurrentTimerCount());
-		profilerClock.SetActive(false);
 
 		if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 		{
@@ -367,14 +393,15 @@ namespace GBA
 
 			if (!skipRender)
 			{
+#ifdef PROFILE_RENDER
 				profilerClock.SetActive(true);
-
+#endif
 				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
 				MapWrappingPoints wrappingPoints = CalculateMapWrappingPoints(tilemapRenderStartPos, drawParams.renderSize, tileMapSizeInTiles, drawHistory.lastRenderPos, drawHistory.lastRenderPosValid);
-
+#ifdef PROFILE_RENDER
 				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profilerClock.GetCurrentTimerCount());
 				profilerClock.SetActive(false);
-
+#endif
 				// "Optimised" tile transferring.
 				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
 				const u16* tileMapData = tilemap->GetTileMapData();
@@ -390,6 +417,50 @@ namespace GBA
 					if (start == end)
 						return;
 
+					int tilemapYWrappingOffsetPoint = wrapPointsY.tilemapYWrappingOffsetPoint;
+
+					auto LoopColumns = [&](int destBgRow
+						, const u16* srcMapData
+						, u8 mapWidth
+						, int srcMapColOffset
+						, int size)
+					{
+						int tileMapYPos = start;
+
+#define LOOP_THROUGH_ALL_ROWS(TransferMethod) \
+for (int y = start; y < end; ++y)\
+{\
+	CopyMapWrappedRowToVram<TransferMethod>(vram, sbbIndex, y, destBgRow, srcMapData, mapWidth, tileMapYPos, srcMapColOffset, size);\
+\
+	if (++tileMapYPos > tilemapYWrappingOffsetPoint)\
+	{\
+		tileMapYPos = 0;\
+	}\
+}\
+/////
+						// Pick the fastest transfer method based on the size of the data we're sending.
+						// Numbers are purely based on rough profiling tests
+						switch (size)
+						{
+						case 1:
+						{
+							LOOP_THROUGH_ALL_ROWS(CopyFromMapToVramSingle);
+							break;
+						}
+						case 2:
+						case 3:
+						{
+							LOOP_THROUGH_ALL_ROWS(CopyFromMapToVramLoop);
+							break;
+						}
+						default:
+						{
+							LOOP_THROUGH_ALL_ROWS(CopyFromMapToVramMemCpy);
+						}
+						}
+					};
+#undef LOOP_THROUGH_ALL_ROWS
+
 					int tileMapSizeInTilesX = tileMapSizeInTiles.x;
 
 					// Slightly faster to have these outside the loop.
@@ -397,48 +468,25 @@ namespace GBA
 					int bgTileXStart = wrapPointsX.bgTileXStart;
 					int tilemapXStart = wrapPointsX.tilemapXStart;
 					int bgTileXEnd = wrapPointsX.bgTileXEnd;
-					int tilemapYWrappingOffsetPoint = wrapPointsY.tilemapYWrappingOffsetPoint;
 
 #ifdef LOG_RENDER_ROWCOLS
 					DEBUG_LOGFORMAT("[Rendering columns %d through %d, 0 through %d", bgTileXStart, bgTileXStart + seg1Size, bgTileXEnd);
 #endif
+
 					if (seg1Size > 0)
 					{
-						int tileMapYPos = start;
-
-						// Iterating row by row what needs to be drawn
-						for (int y = start; y < end; ++y)
-						{
-							// Wrap around the background object itself
-							CopyMapWrappedRowToVram(vram, sbbIndex, y, bgTileXStart, tileMapData, tileMapSizeInTilesX, tileMapYPos, tilemapXStart, seg1Size);
-
-							if (++tileMapYPos > tilemapYWrappingOffsetPoint)
-							{
-								tileMapYPos = 0;
-							}
-						}
+						LoopColumns(bgTileXStart, tileMapData, tileMapSizeInTilesX, tilemapXStart, seg1Size);
 					}
-
+					
 					if (bgTileXEnd > 0)
 					{
-						int tileMapYPos = start;
-
-						// Iterating row by row what needs to be drawn
-						for (int y = start; y < end; ++y)
-						{
-							// Wrap around the background object itself
-							CopyMapWrappedRowToVram(vram, sbbIndex, y, 0, tileMapData, tileMapSizeInTilesX, tileMapYPos, tilemapXStart + seg1Size, bgTileXEnd);
-
-							if (++tileMapYPos > tilemapYWrappingOffsetPoint)
-							{
-								tileMapYPos = 0;
-							}
-						}
+						LoopColumns(0, tileMapData, tileMapSizeInTilesX, tilemapXStart + seg1Size, bgTileXEnd);
 					}
 				};
 
+#ifdef PROFILE_RENDER
 				profilerClock.SetActive(true);
-
+#endif
 				// Draw onto the GBA bg rows
 				if (!drawHistory.lastRenderPosValid)
 				{
@@ -452,6 +500,24 @@ namespace GBA
 				}
 				else
 				{
+					// Draw the new rows (y direction)
+					// Do this first as drawing whole row is way more efficient than drawing the columns
+					{
+						DrawYRowTiles(
+							wrappingPoints.newRow.bgTileYStart,
+							wrappingPoints.newRow.yWrappingOffsetPoint,
+							wrappingPoints.newRow,
+							wrappingPoints.allColumn
+						);
+
+						DrawYRowTiles(
+							0,
+							wrappingPoints.newRow.bgTileYEnd,
+							wrappingPoints.newRow,
+							wrappingPoints.allColumn
+						);
+					}
+
 					// Draw the new columns (x direction)
 					{
 						DrawYRowTiles(
@@ -468,27 +534,11 @@ namespace GBA
 							wrappingPoints.newColumn
 						);
 					}
-
-					// Draw the new rows (y direction)
-					{
-						DrawYRowTiles(
-							wrappingPoints.newRow.bgTileYStart,
-							wrappingPoints.newRow.yWrappingOffsetPoint,
-							wrappingPoints.newRow,
-							wrappingPoints.allColumn
-						);
-
-						DrawYRowTiles(
-							0,
-							wrappingPoints.newRow.bgTileYEnd,
-							wrappingPoints.newRow,
-							wrappingPoints.allColumn
-						);
-					}
 				}
-
+#ifdef PROFILE_RENDER
 				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile load = %d", profilerClock.GetCurrentTimerCount());
 				profilerClock.SetActive(false);
+#endif
 			}
 
 			latestDrawHistory.lastRenderPos = tilemapRenderStartPos;

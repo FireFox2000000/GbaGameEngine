@@ -86,8 +86,8 @@ namespace GBA
 			u32 mapDataLength,
 			tScreenBaseBlockIndex sbbIndex);
 
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data);
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize);
+		inline void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data) { s_screenBlockPool[sbbIndex][offset] = data; }
+		inline void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize) { VramSafeMemCopy(data, (u16*)&s_screenBlockPool[sbbIndex][offset], sizeof(u16) *dataSize); }
 
 		/*void AllocBackgroundMem(
 			const u32* tileset,

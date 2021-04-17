@@ -55,27 +55,27 @@ void TilemapTestScene::Update(Engine * engine)
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 	
 	auto position = transform->GetPosition();
-	const float speed = 0.05f;
+	const float speed = 1;
 	//position.x -= speed;
 	//transform->SetPosition(position.x, position.y);
 
 	
-	if (GBA::Input::GetKey(GBA::Buttons::Left))
+	if (GBA::Input::GetKeyDown(GBA::Buttons::Left))
 	{
 		position.x += -speed;
 	}
 
-	if (GBA::Input::GetKey(GBA::Buttons::Right))
+	if (GBA::Input::GetKeyDown(GBA::Buttons::Right))
 	{
 		position.x += speed;
 	}
 
-	if (GBA::Input::GetKey(GBA::Buttons::Down))
+	if (GBA::Input::GetKeyDown(GBA::Buttons::Down))
 	{
 		position.y += -speed;
 	}
 
-	if (GBA::Input::GetKey(GBA::Buttons::Up))
+	if (GBA::Input::GetKeyDown(GBA::Buttons::Up))
 	{
 		position.y += speed;
 	}

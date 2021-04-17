@@ -191,16 +191,6 @@ namespace GBA
 		LoadBackgroundMem(mapData, sbbIndex, mapDataLength);
 	}
 
-	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data)
-	{
-		s_screenBlockPool[sbbIndex][offset] = data;
-	}
-
-	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16 * data, int dataSize)
-	{
-		VramSafeMemCopy(data, (u16*)&s_screenBlockPool[sbbIndex][offset], sizeof(u16) *dataSize);
-	}
-
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)
 	{
 		u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
