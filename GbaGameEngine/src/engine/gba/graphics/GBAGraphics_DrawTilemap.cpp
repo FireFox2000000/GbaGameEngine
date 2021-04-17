@@ -256,7 +256,7 @@ static inline void CopyFromMapToVram(
 )
 {
 	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
-	if (size == 1)
+	if (size < 2)
 	{
 		for (int i = 0; i < size; ++i)
 		{
