@@ -31,7 +31,6 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
-	const auto cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
@@ -40,12 +39,13 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 	auto* entityManager = engine->GetEntityRegistry();
 	Graphics* gfx = engine->EditComponent<Graphics>();
 
-	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
+	const auto drawParams = gfx->CreateDrawParams(camera);
+
 	AxisAlignedBoundingBox2 orthographicCameraBounds = cameraComponent->GetOrthoBounds();
-	orthographicCameraBounds.Translate(cameraPosition);
+	orthographicCameraBounds.Translate(drawParams.cameraPosition);
 
 	entityManager->InvokeEach<Component::Transform, Component::SpriteRenderer>(
-		[&gfx, &cameraPosition, &screenSpaceOffset, &orthographicCameraBounds]
+		[&gfx, &drawParams, &orthographicCameraBounds]
 		(Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
@@ -68,8 +68,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 				position,
 				transform.GetScale(),
 				spriteRenderer.GetCenterToCornerSizeOffset(), 
-				cameraPosition, 
-				screenSpaceOffset
+				drawParams
 			);
 		});
 }

@@ -54,6 +54,7 @@
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\time\TimeValue.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

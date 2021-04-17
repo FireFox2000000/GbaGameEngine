@@ -110,6 +110,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteManager.cpp" />
