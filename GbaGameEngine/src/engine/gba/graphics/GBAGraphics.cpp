@@ -7,7 +7,7 @@ namespace GBA
 {
 	Graphics::DrawParams Graphics::CreateDrawParams(
 		const GameObject* camera
-	)
+	) const
 	{
 		Graphics::DrawParams drawParams;
 

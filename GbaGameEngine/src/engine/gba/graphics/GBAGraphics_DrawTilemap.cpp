@@ -37,6 +37,29 @@ struct MapWrappingPoints
 	WrappingPointsY newRow;
 };
 
+// Faster than Math::Mod when you know for sure that x isn't too far from 0 or N.
+int LoopMod(int x, unsigned int N)
+{
+	if (x < 0)
+	{
+		while (x < 0)
+		{
+			x += N;
+		}
+
+		return x;
+	}
+	else
+	{
+		while (x >= (int)N)
+		{
+			x -= N;
+		}
+
+		return x;
+	}
+}
+
 MapWrappingPoints CalculateMapWrappingPoints(
 	const Vector2<int>& tilemapRenderStartPos
 	, const Vector2<int>& renderSize
@@ -47,6 +70,10 @@ MapWrappingPoints CalculateMapWrappingPoints(
 {
 	using namespace GBA;
 	Vector2<int> deltaPos = tilemapRenderStartPos - lastRenderPos;
+
+	Vector2<int> tilemapRenderStartPosMod;
+	tilemapRenderStartPosMod.x = Math::Mod(tilemapRenderStartPos.x, tileMapSizeInTiles.x);
+	tilemapRenderStartPosMod.y = Math::Mod(tilemapRenderStartPos.y, tileMapSizeInTiles.y);
 
 	// Cache where we need to wrap indexes. Can't transfer outside tilemap or 32x32 BG range etc, and modulus is expensive in a loop.
 	int bgTileXStartAll = 0, bgTileXEndAll = 0;
@@ -87,12 +114,12 @@ MapWrappingPoints CalculateMapWrappingPoints(
 
 	int tilemapXStartAll = 0, tilemapXStartNew = 0;
 	{
-		tilemapXStartAll = Math::Mod(tilemapRenderStartPos.x, tileMapSizeInTiles.x);
+		tilemapXStartAll = LoopMod(tilemapRenderStartPosMod.x, tileMapSizeInTiles.x);
 	}
 	if (lastRenderPosValid && deltaPos.x > 0)
 	{
 		// Only render the new tiles on the screen
-		tilemapXStartNew = Math::Mod(tilemapRenderStartPos.x + renderSize.x - deltaPos.x, tileMapSizeInTiles.x);
+		tilemapXStartNew = LoopMod(tilemapRenderStartPosMod.x + renderSize.x - deltaPos.x, tileMapSizeInTiles.x);
 	}
 	else
 	{
@@ -145,19 +172,19 @@ MapWrappingPoints CalculateMapWrappingPoints(
 
 	int tilemapYStartAll = 0, tilemapYStartNew = 0;
 	{
-		tilemapYStartAll = Math::Mod(tilemapRenderStartPos.y, tileMapSizeInTiles.y);
+		tilemapYStartAll = LoopMod(tilemapRenderStartPosMod.y, tileMapSizeInTiles.y);
 	}
 	if (lastRenderPosValid && deltaPos.y > 0)
 	{
 		// Only render the new tiles on the screen
-		tilemapYStartNew = Math::Mod(tilemapRenderStartPos.y + renderSize.y - deltaPos.y, tileMapSizeInTiles.y);
+		tilemapYStartNew = LoopMod(tilemapRenderStartPosMod.y + renderSize.y - deltaPos.y, tileMapSizeInTiles.y);
 	}
 	else
 	{
 		tilemapYStartNew = tilemapYStartAll;
 	}
 
-	int tilemapYEndAll = Math::Mod((tilemapRenderStartPos.y + renderSize.y), tileMapSizeInTiles.y);
+	int tilemapYEndAll = LoopMod(tilemapRenderStartPosMod.y + renderSize.y, tileMapSizeInTiles.y);
 	int tilemapYEndNew = tilemapYEndAll;
 
 	int tilemapYWrappingOffsetPointAll = tileMapSizeInTiles.y;

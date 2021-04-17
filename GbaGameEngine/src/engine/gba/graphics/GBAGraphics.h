@@ -38,7 +38,7 @@ namespace GBA
 
 		DrawParams CreateDrawParams(
 			const GameObject* camera
-		);
+		) const;
 
 		// Time critical function, called many times per frame, inlined for sprite renderer system speed, only called from one system anyway
 		inline void DrawSprite
