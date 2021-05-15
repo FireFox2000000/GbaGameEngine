@@ -6,8 +6,8 @@
 #include <malloc.h>
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
-#include "engine/gba/tonc/memory/tonccpy.h"
-#include "engine/gba/tonc/memory/toncset.h"
+#include "external/tonc/memory/tonccpy.h"
+#include "external/tonc/memory/toncset.h"
 
 template<typename T>
 inline static T* MAllocType(u32 count)

@@ -5,7 +5,7 @@
 #include "engine/base/Macros.h"
 
 #ifdef NOCASH_GBA
-#include "engine/gba/tonc/include/tonc_nocash.h"		// Write to the nocash GBA emulator TTY message service. 
+#include "external/tonc/include/tonc_nocash.h"		// Write to the nocash GBA emulator TTY message service. 
 
 using namespace std;
 

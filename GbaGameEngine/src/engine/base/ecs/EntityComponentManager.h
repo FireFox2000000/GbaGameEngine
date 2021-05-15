@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/base/ecs/entt/entity/registry.hpp"
+#include "external/entt/entity/registry.hpp"
 
 /**
 * A wrapper class around entt ecs registry to clean up syntax
