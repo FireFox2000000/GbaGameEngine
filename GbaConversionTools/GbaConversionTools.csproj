@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compression.cs" />
+    <Compile Include="CppWriter.cs" />
     <Compile Include="Defines.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Program.cs" />

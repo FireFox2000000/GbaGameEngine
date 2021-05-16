@@ -19,12 +19,12 @@ TilemapSet::TilemapSet(
 	, const u16 * mapData
 )
 {
-	m_paletteLength = paletteLength;
-	m_palette = palette;
+	m_file.m_paletteLength = paletteLength;
+	m_file.m_palette = palette;
 
-	m_tileSetDataCompressionFlags = tileSetDataCompressionFlags;
-	m_tilesetLength = tilesetLength;
-	m_tileset = tileset;
+	m_file.m_tileSetDataCompressionFlags = tileSetDataCompressionFlags;
+	m_file.m_tilesetLength = tilesetLength;
+	m_file.m_tileset = tileset;
 
 	m_maps.Reserve(mapCount);
 
@@ -35,16 +35,16 @@ TilemapSet::TilemapSet(
 	{
 		Tilemap* tilemap = m_maps.AddNew();
 		tilemap->m_tilemapSet = this;
-		tilemap->m_isDynamicallyRendered = mapIsDynamicBitMask.TestBit(i);
+		tilemap->m_file.m_isDynamicallyRendered = mapIsDynamicBitMask.TestBit(i);
 
 		u8 widthInTiles = mapTileWidths[i];
 		u8 heightInTiles = mapTileHeights[i];
 		u16 totalTiles = widthInTiles * heightInTiles;
 
-		tilemap->m_sizeInTiles = Vector2<u8>(widthInTiles, heightInTiles);
+		tilemap->m_file.m_sizeInTiles = Vector2<u8>(widthInTiles, heightInTiles);
 
-		tilemap->m_tileMapData = &mapData[mapDataOffset];
-		tilemap->m_tileMapDataLength = totalTiles;
+		tilemap->m_file.m_tileMapData = &mapData[mapDataOffset];
+		tilemap->m_file.m_tileMapDataLength = totalTiles;
 		mapDataOffset += totalTiles;
 	}
 }
@@ -60,7 +60,7 @@ TilemapSet::TilemapSet(const TilemapSet & that)
 
 bool TilemapSet::IsPaletteLoaded() const
 {
-	return m_paletteIndex != INVALID_PALETTE_INDEX;
+	return m_renderData.m_paletteIndex != INVALID_PALETTE_INDEX;
 }
 
 bool TilemapSet::IsTileSetLoaded() const

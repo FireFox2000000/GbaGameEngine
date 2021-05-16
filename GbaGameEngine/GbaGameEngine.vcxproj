@@ -107,7 +107,6 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
     <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
-    <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
@@ -118,6 +117,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
@@ -133,6 +133,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
+    <ClCompile Include="src\game\data\eosd_bin.cpp" />
     <ClCompile Include="src\game\data\TestBackground.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
@@ -164,7 +165,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
     <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
-    <ClInclude Include="src\engine\asset\libraries\TilemapLibrary.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
@@ -175,6 +175,8 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
+    <ClInclude Include="src\engine\filestream\FileReaderGBA.h" />
+    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
     <ClInclude Include="src\external\entt\config\config.h" />
     <ClInclude Include="src\external\entt\config\version.h" />
     <ClInclude Include="src\external\entt\core\algorithm.hpp" />
@@ -243,6 +245,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
+    <ClInclude Include="src\game\data\eosd_bin.h" />
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />

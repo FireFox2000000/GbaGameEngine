@@ -41,7 +41,6 @@
     <ClCompile Include="src\game\data\TestBackground.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
-    <ClCompile Include="src\engine\asset\libraries\TilemapLibrary.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
@@ -55,6 +54,8 @@
     <ClCompile Include="src\engine\render\TilemapRenderer.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
+    <ClCompile Include="src\game\data\eosd_bin.cpp" />
+    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -114,7 +115,6 @@
     <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapSet.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\Tilemap.h" />
-    <ClInclude Include="src\engine\asset\libraries\TilemapLibrary.h" />
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
@@ -171,6 +171,9 @@
     <ClInclude Include="src\external\entt\signal\sigh.hpp" />
     <ClInclude Include="src\external\entt\entt.hpp" />
     <ClInclude Include="src\external\entt\fwd.hpp" />
+    <ClInclude Include="src\game\data\eosd_bin.h" />
+    <ClInclude Include="src\engine\filestream\FileReaderGBA.h" />
+    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

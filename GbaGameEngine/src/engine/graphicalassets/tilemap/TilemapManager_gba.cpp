@@ -18,7 +18,7 @@ TilemapManager::~TilemapManager()
 
 void TilemapManager::LoadStaticMap(Tilemap & out_tilemap)
 {
-	Load(out_tilemap, out_tilemap.m_tileMapDataLength, out_tilemap.GetSize(), false, true);
+	Load(out_tilemap, out_tilemap.m_file.m_tileMapDataLength, out_tilemap.GetSize(), false, true);
 }
 
 void TilemapManager::LoadDynamicMap(Tilemap & out_tilemap)
@@ -66,15 +66,15 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 			}
 		}
 
-		tilemapSet->m_paletteIndex = 0;
-		Gfx::PaletteBank::LoadBackgroundPalette(tilemapSet->m_palette, tilemapSet->m_paletteLength);
+		tilemapSet->m_renderData.m_paletteIndex = 0;
+		Gfx::PaletteBank::LoadBackgroundPalette(tilemapSet->m_file.m_palette, tilemapSet->m_file.m_paletteLength);
 
 		auto& vram = Vram::GetInstance();
-		tilemapSet->m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_tilesetLength);
+		tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tilesetLength);
 
-		if (tilemapSet->m_tileSetCharacterBaseBlock != TileBlockGroups::BlockGroupCount)	// Check that the alloc was actually successfull
+		if (tilemapSet->m_renderData.m_tileSetCharacterBaseBlock != TileBlockGroups::BlockGroupCount)	// Check that the alloc was actually successfull
 		{
-			vram.LoadBackgroundTileSetMem(tilemapSet->m_tileset, tilemapSet->m_tilesetLength, tilemapSet->m_tileSetCharacterBaseBlock);
+			vram.LoadBackgroundTileSetMem(tilemapSet->m_file.m_tileset, tilemapSet->m_file.m_tilesetLength, tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
 		}
 
 		addRefCount = true;
@@ -83,31 +83,31 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 	// Load local map data
 	if (!out_tilemap.IsLoaded())
 	{
-		out_tilemap.m_mapSbbIndex = Vram::GetInstance().AllocBackgroundTileMapMem(tilesToAlloc);
+		out_tilemap.m_renderData.m_mapSbbIndex = Vram::GetInstance().AllocBackgroundTileMapMem(tilesToAlloc);
 
 		if (copyMapDirectlyToMemory)
 		{
-			Vram::GetInstance().LoadBackgroundTileMapMem(out_tilemap.m_tileMapData, out_tilemap.m_tileMapDataLength, out_tilemap.m_mapSbbIndex);
+			Vram::GetInstance().LoadBackgroundTileMapMem(out_tilemap.m_file.m_tileMapData, out_tilemap.m_file.m_tileMapDataLength, out_tilemap.m_renderData.m_mapSbbIndex);
 		}
 
 		// Assign background slot
 		{
-			out_tilemap.m_backgroundSlotId = GBA::BackgroundControl::ReserveBackground();
+			out_tilemap.m_renderData.m_backgroundSlotId = GBA::BackgroundControl::ReserveBackground();
 
-			DEBUG_ASSERTMSG(out_tilemap.m_backgroundSlotId < GBA::BackgroundControl::Count, "Failed to assign background slot id, out of backgrounds");
+			DEBUG_ASSERTMSG(out_tilemap.m_renderData.m_backgroundSlotId < GBA::BackgroundControl::Count, "Failed to assign background slot id, out of backgrounds");
 		}
 
 		addRefCount = true;
 	}
 
-	if (addRefCount && tilemapSet->m_tileSetCharacterBaseBlock != TilemapSet::INVALID_TILESET_CBB)
+	if (addRefCount && tilemapSet->m_renderData.m_tileSetCharacterBaseBlock != TilemapSet::INVALID_TILESET_CBB)
 	{
-		++m_tilesetRefCounter[tilemapSet->m_tileSetCharacterBaseBlock];
+		++m_tilesetRefCounter[tilemapSet->m_renderData.m_tileSetCharacterBaseBlock];
 	}
 
 	// Finally put our tilemap into the registers
 	{
-		GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(tilemapSet->m_tileSetDataCompressionFlags);
+		GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(tilemapSet->m_file.m_tileSetDataCompressionFlags);
 		auto& controlRegister = BackgroundControl::GetBgControlRegister(out_tilemap.GetAssignedBackgroundSlot());
 		controlRegister.SetColourMode(colourMode);
 		controlRegister.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());
@@ -126,24 +126,24 @@ void TilemapManager::Unload(Tilemap * tilemap)
 
 		// Free map memory
 		{
-			Vram::GetInstance().FreeBackgroundTileMapMem(tilemap->m_mapSbbIndex);
-			tilemap->m_mapSbbIndex = INVALID_SBB_ID;
+			Vram::GetInstance().FreeBackgroundTileMapMem(tilemap->m_renderData.m_mapSbbIndex);
+			tilemap->m_renderData.m_mapSbbIndex = INVALID_SBB_ID;
 		}
 
 		// Free background slot
 		{
-			GBA::BackgroundControl::FreeBackground(tilemap->m_backgroundSlotId);
-			tilemap->m_backgroundSlotId = GBA::BackgroundControl::Count;
+			GBA::BackgroundControl::FreeBackground(tilemap->m_renderData.m_backgroundSlotId);
+			tilemap->m_renderData.m_backgroundSlotId = GBA::BackgroundControl::Count;
 		}
 
 		TilemapSet* tilemapSet = tilemap->EditTilemapSet();
-		--m_tilesetRefCounter[tilemapSet->m_tileSetCharacterBaseBlock];
+		--m_tilesetRefCounter[tilemapSet->m_renderData.m_tileSetCharacterBaseBlock];
 
 		// Free tilemap set memory
-		if (m_tilesetRefCounter[tilemapSet->m_tileSetCharacterBaseBlock] <= 0)
+		if (m_tilesetRefCounter[tilemapSet->m_renderData.m_tileSetCharacterBaseBlock] <= 0)
 		{
-			Vram::GetInstance().FreeBackgroundTileSetMem(tilemapSet->m_tileSetCharacterBaseBlock);
-			tilemapSet->m_tileSetCharacterBaseBlock = TilemapSet::INVALID_TILESET_CBB;
+			Vram::GetInstance().FreeBackgroundTileSetMem(tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
+			tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = TilemapSet::INVALID_TILESET_CBB;
 		}
 	}
 }

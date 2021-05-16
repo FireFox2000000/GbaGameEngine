@@ -11,19 +11,28 @@ class TilemapSet
 public:
 	const static GBA::TileBlockGroups INVALID_TILESET_CBB = GBA::TileBlockGroups::BlockGroupCount;
 
-	const u16* m_palette = NULL;
-	u8 m_paletteLength = 0;
+	struct FileDataMap
+	{
+		const u16* m_palette = NULL;
+		u8 m_paletteLength = 0;
 
-	const u32* m_tileset = NULL;
-	u32 m_tilesetLength = 0;
+		const u32* m_tileset = NULL;
+		u32 m_tilesetLength = 0;
 
-	u32 m_tileSetDataCompressionFlags = 0;
+		u32 m_tileSetDataCompressionFlags = 0;
+	};
+
+	struct RenderData
+	{
+		// Runtime assigned render data when loaded
+		tPaletteIndex m_paletteIndex = INVALID_PALETTE_INDEX;
+		GBA::TileBlockGroups m_tileSetCharacterBaseBlock = INVALID_TILESET_CBB;
+	};
+	
 	List<Tilemap> m_maps;
-
-	// Runtime assigned render data when loaded
-	tPaletteIndex m_paletteIndex = INVALID_PALETTE_INDEX;
-	GBA::TileBlockGroups m_tileSetCharacterBaseBlock = INVALID_TILESET_CBB;
-
+	FileDataMap m_file;
+	RenderData m_renderData;
+	
 public:
 	TilemapSet();
 	TilemapSet(
@@ -42,10 +51,10 @@ public:
 	TilemapSet(const TilemapSet & that);
 
 	bool IsPaletteLoaded() const;
-	inline tPaletteIndex GetPaletteIndex() const { return m_paletteIndex; }
+	inline tPaletteIndex GetPaletteIndex() const { return m_renderData.m_paletteIndex; }
 
 	bool IsTileSetLoaded() const;
-	inline GBA::TileBlockGroups GetTileSetCharacterBaseBlock() const { return m_tileSetCharacterBaseBlock; }
+	inline GBA::TileBlockGroups GetTileSetCharacterBaseBlock() const { return m_renderData.m_tileSetCharacterBaseBlock; }
 
 	bool IsLoaded() const;
 

@@ -13,34 +13,9 @@ namespace GbaConversionTools.Tools
     // Convert multiple images together to make a proper scene out of them
     class TilemapConverter
     {
-        const int c_arrayNewlineCount = 5;
-        const string compressionComment = "// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types \n" + namespaceTabs +
-         "// Bit4-7   Compressed type \n" + namespaceTabs +
-         "// Bit8-31  Unused, generated in-game as 24bit size of decompressed data in bytes, probably \n";
-
-        const string TAB_CHAR = Defines.TAB_CHAR;
-        const string namespaceTabs = TAB_CHAR;
-        const string STR_U8 = Defines.STR_U8;
-        const string STR_U16 = Defines.STR_U16;
-        const string STR_U32 = Defines.STR_U32;
-
-        const string MACRO_DEFINES = Defines.STR_DEFINE_MACRO_EWRAM_DATA + "\n\n";
-        const string VARPREFIXES = "extern " + Defines.STR_EWRAM_DATA + " const ";
-
-        const string NAMESPACE_FORMAT = "namespace " + Defines.STR_TILEMAP_NAMESPC_PREFIX + "{0} \n{{\n";
-        const string VAR_HEADER_PALLETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U8 + " paletteLength = {0};\n";
-        const string VAR_HEADER_TILESETLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U32 + " tilesetLength = {0};\n";
-        const string VAR_HEADER_TILEMAPLENGTH_FORMAT = namespaceTabs + VARPREFIXES + STR_U16 + " mapLength = {0};\n";
-        const string VAR_HEADER_TILEMAP_ISDYNAMICMASK_FORMAT = namespaceTabs + VARPREFIXES + STR_U8 + " mapIsDynamicMask = {0};\n";
-
-        const string VAR_MAPWIDTHS = namespaceTabs + VARPREFIXES + STR_U8 + " mapTileWidths[] = \n";
-        const string VAR_MAPHEIGHTS = namespaceTabs + VARPREFIXES + STR_U8 + " mapTileHeights[] = \n";
-        const string VAR_MAPCOUNT = namespaceTabs + VARPREFIXES + STR_U8 + " mapCount = {0};\n";
-
-        const string VAR_PALLET = namespaceTabs + VARPREFIXES + STR_U16 + " palette[] = \n";
-        const string VAR_TILESET_COMPRESSION_FORMAT = namespaceTabs + compressionComment + namespaceTabs + VARPREFIXES + STR_U32 + " tileSetCompressionTypeSize = {0}; \n";
-        const string VAR_TILESET = namespaceTabs + VARPREFIXES + STR_U32 + " tileset[] = \n";
-        const string VAR_TILEMAP = namespaceTabs + VARPREFIXES + STR_U16 + " map[] = \n";
+        //const string compressionComment = "// Bit0 - 3   Data size in bit units(normally 4 or 8). May be reserved/unused for other compression types \n" + namespaceTabs +
+        // "// Bit4-7   Compressed type \n" + namespaceTabs +
+        // "// Bit8-31  Unused, generated in-game as 24bit size of decompressed data in bytes, probably \n";
 
         const int MAX_UNIQUE_TILES = 1024;
         const int GBA_MAP_TILE_WIDTH = 32;
@@ -85,7 +60,7 @@ namespace GbaConversionTools.Tools
 
         public void Convert(string inputPath, string outputPath, Bitmap inputBitmap)
         {
-            string namespaceName = string.Format(NAMESPACE_FORMAT, Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)));
+            CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
 
             List<Bitmap> bitmaps = new List<Bitmap>();
             bitmaps.Add(inputBitmap);
@@ -202,76 +177,82 @@ namespace GbaConversionTools.Tools
                 {
                     if (index >= PaletteHelper.PALETTE_LENGTH_4BBP)
                     {
+                        // We know that we have no choice but to write in 8bpp format
                         destBpp = 8;
-                        goto WriteMasterTileSetToSb;
+                        goto WriteMasterTileSet;
                     }
                 }
             }
 
-        WriteMasterTileSetToSb:
+        WriteMasterTileSet:
 
             int tilesetLength;
-            StringBuilder tilesetSb = new StringBuilder();
-            WriteTileSet(masterTileSet, tilesetSb, compressionType, destBpp, out tilesetLength);
+            List<UInt32> tileSetData = GenerateTileSetData(masterTileSet, compressionType, destBpp, out tilesetLength);
 
-            StringBuilder sb = new StringBuilder();
-
-            sb.Append(MACRO_DEFINES);
-            sb.Append(namespaceName);
-
-            WriteHeader(masterPalette, tilesetLength, sb);
-            WritePalette(masterPalette, sb);
-
-            // Real write tileset
-            sb.Append(tilesetSb);
-
-            // Write tile maps
-            WriteMapData(tileMapList, sb);
-
-            sb.Append("}\n");
-
-            Console.WriteLine("Tilemap \"" + outputPath + "\" successfully converted");
-            File.WriteAllText(outputPath, sb.ToString());
-        }
-
-        void WriteHeader(Color[] palette, int tilesetLength, StringBuilder sb)
-        {
-            sb.Append(namespaceTabs + "// File Header\n");
-            sb.AppendFormat(VAR_HEADER_PALLETLENGTH_FORMAT, palette.Length);
-            sb.AppendFormat(VAR_HEADER_TILESETLENGTH_FORMAT, tilesetLength);
-
-            sb.Append('\n');
-        }
-
-        void WritePalette(Color[] palette, StringBuilder sb)
-        {
-            sb.Append(VAR_PALLET);
-            sb.Append(namespaceTabs + "{\n\t" + namespaceTabs);
-            for (int i = 0; i < palette.Length; ++i)
+            // Write palette
             {
-                Color color = palette[i];
-                UInt16 rbgColor = (UInt16)(PaletteHelper.ScaleToRgb16(color.R) + (PaletteHelper.ScaleToRgb16(color.G) << 5) + (PaletteHelper.ScaleToRgb16(color.B) << 10));
+                cppWriter.Write((byte)masterPalette.Length);
 
-                sb.AppendFormat("0x{0:X4}, ", rbgColor);
-                if ((i + 1) % c_arrayNewlineCount == 0)
+                for (int i = 0; i < masterPalette.Length; ++i)
                 {
-                    sb.Append("\n\t" + namespaceTabs);
+                    Color color = masterPalette[i];
+                    UInt16 rbgColor = (UInt16)(PaletteHelper.ScaleToRgb16(color.R) + (PaletteHelper.ScaleToRgb16(color.G) << 5) + (PaletteHelper.ScaleToRgb16(color.B) << 10));
+                    cppWriter.Write(rbgColor);
                 }
             }
-            sb.Append("\n" + namespaceTabs + "};\n\n");
+
+            // Write tileset
+            {
+                // Compression flags
+                UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
+                cppWriter.Write(compressionTypeSize);
+
+                // Actual data
+                cppWriter.Write((UInt32)tileSetData.Count);
+                for (int i = 0; i < tileSetData.Count; ++i)
+                {
+                    cppWriter.Write(tileSetData[i]);
+                }
+            }
+
+            // Write tile maps
+            GeneratedMapData generatedMapData = GenerateMapData(tileMapList);
+
+            // Write maps
+            {
+                cppWriter.Write((byte)tileMapList.Count);
+                cppWriter.Write((UInt32)generatedMapData.screenEntries.Length);
+                cppWriter.Write(generatedMapData.mapIsDynamicBitMask);
+
+                // Width and height arrays
+                foreach (int width in generatedMapData.widthLists)
+                {
+                    cppWriter.Write((byte)width);
+                }
+
+                foreach (int height in generatedMapData.heightLists)
+                {
+                    cppWriter.Write((byte)height);
+                }
+
+                foreach (var mapEntry in generatedMapData.screenEntries)
+                {
+                    cppWriter.Write(mapEntry.m_data);
+                }
+            }
+
+            Console.WriteLine("Tilemap \"" + outputPath + "\" successfully converted");
+
+            cppWriter.Finalise();
         }
 
-        void WriteTileSet(Tile[] tiles, StringBuilder sb, Compression.CompressionType compressionType, uint destBpp, out int totalLength)
+        List<UInt32> GenerateTileSetData(Tile[] tiles, Compression.CompressionType compressionType, uint destBpp, out int totalLength)
         {
             UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
 
-            sb.Append('\n');
-            sb.AppendFormat(VAR_TILESET_COMPRESSION_FORMAT, compressionTypeSize);
-
-            sb.Append(VAR_TILESET);
-            sb.Append(namespaceTabs + "{\n\t" + namespaceTabs);
-
             totalLength = 0;
+
+            List<UInt32> allCompressedIndicies = new List<UInt32>();
 
             foreach (Tile tile in tiles)
             {
@@ -288,43 +269,28 @@ namespace GbaConversionTools.Tools
 
                 Compression.BitPack(linearIndicies, destBpp, out compressedIndicies);
 
-                int hexCount = 0;
-                const string tabs = namespaceTabs;
-                foreach (var hexNum in compressedIndicies)
-                {
-                    sb.AppendFormat("0x{0:X8}, ", hexNum);
-                    if ((hexCount + 1) % c_arrayNewlineCount == 0)
-                    {
-                        sb.Append("\n\t" + tabs);
-                    }
-                    ++totalLength;
-                    ++hexCount;
-                }
-
-                sb.Append("\n\n\t" + tabs);
+                allCompressedIndicies.AddRange(compressedIndicies);
             } 
 
-            sb.Append("\n" + namespaceTabs + "};\n\n");
+            return allCompressedIndicies;
         }
 
-        void WriteMapData(List<TileMap> tilemaps, StringBuilder sb)
+        struct GeneratedMapData
         {
-            const string tabs = namespaceTabs;
+            public GBAScreenEntry[] screenEntries;
+            public byte mapIsDynamicBitMask;
+            public List<int> widthLists;
+            public List<int> heightLists;
+        }
 
+        GeneratedMapData GenerateMapData(List<TileMap> tilemaps)
+        {
             List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
             List<int> mapStartOffsets = new List<int>();
 
             // Write map sizes
-            StringBuilder widthSb = new StringBuilder();
-            StringBuilder heightSb = new StringBuilder();
-
-            widthSb.Append(VAR_MAPWIDTHS);
-            widthSb.Append(namespaceTabs + "{\n");
-            widthSb.Append(namespaceTabs + TAB_CHAR);
-
-            heightSb.Append(VAR_MAPHEIGHTS);
-            heightSb.Append(namespaceTabs + "{\n");
-            heightSb.Append(namespaceTabs + TAB_CHAR);
+            List<int> widthLists = new List<int>();
+            List<int> heightLists = new List<int>();
 
             byte mapIsDynamicBitMask = 0;
             const int maxMaps = sizeof(byte) * 8;
@@ -341,8 +307,8 @@ namespace GbaConversionTools.Tools
                 int width = tilemap.mapData.GetLength(0);
                 int height = tilemap.mapData.GetLength(1);
 
-                widthSb.AppendFormat("{0}, ", width);
-                heightSb.AppendFormat("{0}, ", height);
+                widthLists.Add(width);
+                heightLists.Add(height);
 
                 mapStartOffsets.Add(seList.Count);
 
@@ -424,42 +390,15 @@ namespace GbaConversionTools.Tools
                 }
             }
 
-            {
-                widthSb.Append("\n");
-                widthSb.Append(namespaceTabs + "};\n");
-
-                heightSb.Append("\n");
-                heightSb.Append(namespaceTabs + "};\n");
-            }
-
             GBAScreenEntry[] mapEntries = seList.ToArray();
-            sb.AppendFormat(VAR_MAPCOUNT, tilemaps.Count);
-            sb.AppendFormat(VAR_HEADER_TILEMAPLENGTH_FORMAT, mapEntries.Length);
 
-            sb.AppendFormat(VAR_HEADER_TILEMAP_ISDYNAMICMASK_FORMAT, mapIsDynamicBitMask);
+            GeneratedMapData generatedMapData;
+            generatedMapData.screenEntries = mapEntries;
+            generatedMapData.mapIsDynamicBitMask = mapIsDynamicBitMask;
+            generatedMapData.widthLists = widthLists;
+            generatedMapData.heightLists = heightLists;
 
-            sb.Append(widthSb.ToString());
-            sb.Append("\n");
-            sb.Append(heightSb.ToString());
-            sb.Append("\n");
-
-            sb.Append(VAR_TILEMAP);
-            sb.Append(namespaceTabs + "{\n\t" + namespaceTabs);
-
-            int hexCount = 0;
-
-            foreach (var mapEntry in mapEntries)
-            {
-                sb.AppendFormat("0x{0:X4}, ", mapEntry.m_data);
-                if ((hexCount + 1) % c_arrayNewlineCount == 0)
-                {
-                    sb.Append("\n\t" + tabs);
-                }
-
-                ++hexCount;
-            }
-
-            sb.Append("\n" + namespaceTabs + "};\n\n");
+            return generatedMapData;
         }
 
         class GBAScreenEntry

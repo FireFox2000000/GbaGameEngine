@@ -1,7 +1,6 @@
 #include "TilemapRenderer.h"
 #include "engine/graphicalassets/tilemap/Tilemap.h"
 #include "engine/base/Macros.h"
-#include "engine/graphicalassets/tilemap/TilemapManager.h"
 
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
@@ -59,7 +58,6 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 
 	auto* entityManager = engine->GetEntityRegistry();
 
-	TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
 	auto& vram = GBA::Vram::GetInstance();
 	GBA::Graphics* gfx = engine->EditComponent<GBA::Graphics>();
 
@@ -67,7 +65,6 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 
 	entityManager->InvokeEach<Component::Transform, Component::TilemapRenderer>(
 		[&drawParams
-		, &tilemapManager
 		, &vram
 		, &gfx
 		]
