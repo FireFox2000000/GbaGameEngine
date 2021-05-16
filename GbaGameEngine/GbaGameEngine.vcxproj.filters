@@ -172,8 +172,8 @@
     <ClInclude Include="src\external\entt\entt.hpp" />
     <ClInclude Include="src\external\entt\fwd.hpp" />
     <ClInclude Include="src\game\data\eosd_bin.h" />
-    <ClInclude Include="src\engine\filestream\FileReaderGBA.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
+    <ClInclude Include="src\engine\filestream\CppFileReader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

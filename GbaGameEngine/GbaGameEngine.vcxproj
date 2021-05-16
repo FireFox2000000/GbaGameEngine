@@ -175,7 +175,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
-    <ClInclude Include="src\engine\filestream\FileReaderGBA.h" />
+    <ClInclude Include="src\engine\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
     <ClInclude Include="src\external\entt\config\config.h" />
     <ClInclude Include="src\external\entt\config\version.h" />
