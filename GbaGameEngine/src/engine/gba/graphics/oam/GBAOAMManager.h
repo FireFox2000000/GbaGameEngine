@@ -12,8 +12,8 @@ namespace GBA
 	{
 		class Sprite;
 
-		typedef volatile ObjectAttribute vObjectAttribute;
-		typedef volatile ObjectAffine vObjectAffine;
+		using vObjectAttribute = volatile ObjectAttribute;
+		using vObjectAffine = volatile ObjectAffine;
 
 		/* Responsible for loading sprites into vram and drawing them.
 		* Tracks which sprites were drawn on the previous frame and the current frame in a double buffer to determine which sprites should be unloaded from vram.
@@ -24,16 +24,17 @@ namespace GBA
 		public:
 			static const int OBJ_ATTR_COUNT = 128;
 			static const int OBJ_AFFINE_COUNT = 32;
-		
+
 		private:
 			struct OAMSpriteRenderPropertiesSOA
 			{
 				FixedList<ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
 				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
+				FixedList<AffineTransformationMatrix, OBJ_AFFINE_COUNT> oamAffineProperties;
 			};
 
-			typedef Array<vObjectAttribute, OBJ_ATTR_COUNT> ObjAttrPool;
-			typedef Array<vObjectAffine, OBJ_AFFINE_COUNT> ObjAffinePool;
+			using ObjAttrPool = Array<vObjectAttribute, OBJ_ATTR_COUNT>;
+			using ObjAffinePool = Array<vObjectAffine, OBJ_AFFINE_COUNT>;
 
 			typedef FixedList<Sprite*, OBJ_ATTR_COUNT> tSpriteBuffer;
 
@@ -64,6 +65,8 @@ namespace GBA
 			// Use this to draw a sprite to the screen for the current frame.
 			// Does not perform sprite screen culling, this is a post-culling step.
 			ObjectAttribute* AddToRenderList(Sprite* sprite);
+
+			AffineTransformationMatrix* AddToAffineRenderList(u8* out_index);
 		};
 	}
 }

@@ -49,6 +49,11 @@ public:
 		return storage;
 	}
 
+	inline void SetStorage(IntType val) volatile
+	{
+		storage = val;
+	}
+
 	template<class T, u8 BITS>
 	FixedPoint(const FixedPoint<T, BITS>& that)
 	{
@@ -66,9 +71,19 @@ public:
 		storage = val << FRACTIONAL_BITS;
 	}
 
+	static constexpr IntType FloatCompress(float val)
+	{
+		return IntType(val * (1 << FRACTIONAL_BITS) + 0.5f);
+	}
+
+	static constexpr float FloatDecompress(IntType val)
+	{
+		return (1.0f / (float)(1 << FRACTIONAL_BITS)) * ((int)val);
+	}
+
 	inline FixedPoint(float val)
 	{
-		storage = IntType(val * (1 << FRACTIONAL_BITS) + 0.5f);
+		storage = FloatCompress(val);
 	}
 
 	inline FixedPoint(double val)
@@ -88,13 +103,15 @@ public:
 
 	inline float ToFloat() const
 	{
-		return (1.0f / (float)(1 << FRACTIONAL_BITS)) * ((int)storage);
+		return FloatDecompress(storage);
 	}
 
 	inline double ToDouble() const
 	{
 		return (1.0 / (double)(1 << FRACTIONAL_BITS)) * ((int)storage);
 	}
+
+	static constexpr inline u8 GetFpLevel() { return FRACTIONAL_BITS; }
 
 	inline operator int() const { return ToInt(); }
 	inline operator float() const { return ToFloat(); }
@@ -115,6 +132,7 @@ public:
 		storage -= b.storage;
 		return *this;
 	}
+
 	inline FixedPoint<IntType, FRACTIONAL_BITS>& operator *= (const FixedPoint<IntType, FRACTIONAL_BITS>& b)
 	{
 		return MulHalfShift(b);
@@ -162,6 +180,40 @@ public:
 	inline bool operator != (const FixedPoint<IntType, FRACTIONAL_BITS>& b) const
 	{
 		return !(*this == b);
+	}
+
+	/*******************************************************************************/
+
+	inline FixedPoint<IntType, FRACTIONAL_BITS> operator*(const int& b) const { return FixedPoint<IntType, FRACTIONAL_BITS>(*this) *= FixedPoint<IntType, FRACTIONAL_BITS>(b); }
+
+	inline bool operator > (const int& b) const
+	{
+		return *this > FixedPoint<IntType, FRACTIONAL_BITS>(b);
+	}
+
+	inline bool operator < (const int& b) const
+	{
+		return *this < FixedPoint<IntType, FRACTIONAL_BITS>(b);
+	}
+
+	inline bool operator <= (const int& b) const
+	{
+		return *this <= FixedPoint<IntType, FRACTIONAL_BITS>(b);
+	}
+
+	inline bool operator >= (const int& b) const
+	{
+		return *this >= FixedPoint<IntType, FRACTIONAL_BITS>(b);
+	}
+
+	inline bool operator == (const int& b) const
+	{
+		return *this == FixedPoint<IntType, FRACTIONAL_BITS>(b);
+	}
+
+	inline bool operator != (const int& b) const
+	{
+		return *this != FixedPoint<IntType, FRACTIONAL_BITS>(b);
 	}
 };
 

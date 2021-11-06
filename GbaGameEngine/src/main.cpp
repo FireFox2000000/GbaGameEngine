@@ -20,7 +20,7 @@ int main()
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
 	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
-	sceneManager->ChangeScene<TilemapTestScene>(engine.get());
+	sceneManager->ChangeScene<Scene0>(engine.get());
 
 	Time* time = engine->EditComponent<Time>();
 
@@ -33,7 +33,7 @@ int main()
 	// Update loop
 	while (true)
 	{
-		// VDraw should have started before this, main loop should aim to be under 197120 cycles
+		// VDraw should have started before this, main loop should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
 #ifdef TEST_PROFILING
 		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
 		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
@@ -48,7 +48,7 @@ int main()
 
 		sceneManager->PreRenderScene(engine.get());
 #ifdef TEST_PROFILING
-		DEBUG_LOGFORMAT("[Profile Update] = %d", profilerClock.GetCurrentTimerCount());
+		DEBUG_LOGFORMAT("[Profile VDraw] = %d", profilerClock.GetCurrentTimerCount());
 		profilerClock.SetActive(false);
 #endif
 		// Main update
@@ -60,7 +60,7 @@ int main()
 #endif
 		sceneManager->RenderScene(engine.get());
 #ifdef TEST_PROFILING
-		DEBUG_LOGFORMAT("[Profile Render] = %d", profilerClock.GetCurrentTimerCount());
+		DEBUG_LOGFORMAT("[Profile VBlank] = %d", profilerClock.GetCurrentTimerCount());
 		profilerClock.SetActive(false);
 #endif
 		time->Advance();

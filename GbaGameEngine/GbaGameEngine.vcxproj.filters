@@ -56,6 +56,7 @@
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\game\data\eosd_bin.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
+    <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

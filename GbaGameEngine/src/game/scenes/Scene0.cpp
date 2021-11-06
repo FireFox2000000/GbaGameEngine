@@ -99,6 +99,8 @@ void Scene0::Enter(Engine* engine)
 
 		Component::Transform* transform = playerObject.EditComponent<Component::Transform>();
 		transform->SetPosition(-5, 0);
+		//transform->SetScale(1, 1);
+		//transform->SetRotationDegrees(180);
 	}
 }
 

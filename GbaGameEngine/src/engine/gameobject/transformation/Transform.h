@@ -10,9 +10,10 @@ namespace Component
 		using tScale = Vector2 <tFixedPoint8>;
 
 	private:
-		// Todo, replace with transformation matrix
+		// Todo, replace with proper transformation matrix maybe
 		tPosition m_localPosition;
 		tScale m_localScale = Vector2<tFixedPoint8>(1, 1);
+		tFixedPoint8 m_localRotationDegrees = 0;
 
 	public:
 		inline tPosition GetLocalPosition() const { return m_localPosition; }
@@ -32,5 +33,12 @@ namespace Component
 		// World scale, todo
 		inline tScale GetScale() const { return m_localScale; }
 		inline void SetScale(tScale scale) { m_localScale = scale; }
+		template<typename T>
+		inline void SetScale(T x, T y) { SetScale(tScale(x, y)); }
+
+		// range is [0, 0xFFFF] for [0, 2 Pi]
+		u16 GetU16Rotation() const;
+		tFixedPoint8 GetRotationDegrees() const;
+		void SetRotationDegrees(tFixedPoint8 degrees);	
 	};
 }

@@ -67,6 +67,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 				sprite,
 				position,
 				transform.GetScale(),
+				transform.GetU16Rotation(),
 				spriteRenderer.GetCenterToCornerSizeOffset(), 
 				drawParams
 			);

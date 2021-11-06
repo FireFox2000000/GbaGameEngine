@@ -64,10 +64,11 @@ namespace GBA
 				VramSafeMemSet((void*)&s_objectAttrPool[objectCount], (u8)0, sizeof(s_objectAttrPool) - byteCount);
 			}
 
+			const auto& sprites = m_masterSpriteRenderList.sprite;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
 				vObjectAttribute& oamSpriteHandle = s_objectAttrPool[i];
-				const Sprite* sprite = m_masterSpriteRenderList.sprite[i];
+				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
 				oamSpriteHandle.SetPaletteIndex(sprite->GetPaletteIndex());
@@ -76,8 +77,16 @@ namespace GBA
 				oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());
 			}
 
+			const auto& affineProperties = m_masterSpriteRenderList.oamAffineProperties;
+			for (u32 i = 0; i < affineProperties.Count(); ++i)
+			{
+				vObjectAffine& oamAffineHandle = s_objectAffinePool[i];
+				oamAffineHandle.Set(affineProperties[i]);
+			}
+
 			m_masterSpriteRenderList.oamProperties.Clear();
 			m_masterSpriteRenderList.sprite.Clear();
+			m_masterSpriteRenderList.oamAffineProperties.Clear();
 		}
 
 		void OAMManager::DoMasterRenderIntoMemory()
@@ -135,6 +144,16 @@ namespace GBA
 			m_masterSpriteRenderList.sprite.Add(sprite);
 
 			return properties;
+		}
+
+		AffineTransformationMatrix * OAMManager::AddToAffineRenderList(u8 * out_index)
+		{
+			DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamAffineProperties.Count() < OBJ_AFFINE_COUNT, "OUT OF OAM AFFINE MEMORY");
+
+			*out_index = m_masterSpriteRenderList.oamAffineProperties.Count();
+
+			AffineTransformationMatrix* affineProperties = m_masterSpriteRenderList.oamAffineProperties.AddNew();
+			return affineProperties;
 		}
 	}
 }
