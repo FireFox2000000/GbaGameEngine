@@ -57,6 +57,7 @@
     <ClCompile Include="src\game\data\eosd_bin.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
+    <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\game\data\eosd_bin.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
     <ClInclude Include="src\engine\filestream\CppFileReader.h" />
+    <ClInclude Include="src\engine\math\Matrix2x2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

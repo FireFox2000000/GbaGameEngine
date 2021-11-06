@@ -119,6 +119,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
+    <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
@@ -178,6 +179,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
+    <ClInclude Include="src\engine\math\Matrix2x2.h" />
     <ClInclude Include="src\external\entt\config\config.h" />
     <ClInclude Include="src\external\entt\config\version.h" />
     <ClInclude Include="src\external\entt\core\algorithm.hpp" />

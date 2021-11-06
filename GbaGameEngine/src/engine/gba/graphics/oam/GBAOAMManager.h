@@ -5,6 +5,7 @@
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/oam/GBAObjectAffine.h"
 #include "engine/gba/graphics/sprite/GBASpriteManager.h"
+#include "engine/math/Matrix2x2.h"
 
 namespace GBA
 {
@@ -30,7 +31,7 @@ namespace GBA
 			{
 				FixedList<ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
 				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
-				FixedList<AffineTransformationMatrix, OBJ_AFFINE_COUNT> oamAffineProperties;
+				FixedList<Matrix2x2, OBJ_AFFINE_COUNT> affineTransformation;
 			};
 
 			using ObjAttrPool = Array<vObjectAttribute, OBJ_ATTR_COUNT>;
@@ -66,7 +67,7 @@ namespace GBA
 			// Does not perform sprite screen culling, this is a post-culling step.
 			ObjectAttribute* AddToRenderList(Sprite* sprite);
 
-			AffineTransformationMatrix* AddToAffineRenderList(u8* out_index);
+			Matrix2x2* AddToAffineRenderList(u8* out_index);
 		};
 	}
 }
