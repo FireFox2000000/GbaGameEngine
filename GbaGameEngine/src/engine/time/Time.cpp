@@ -49,9 +49,12 @@ TimeValue Time::GetDt() const
 
 TimeValue Time::GetTimeSinceStartup() const volatile
 {
-	u32 deltaTicks = Time::MS_TIMER_START + Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount();
-	int timeFactor = 1000000;
-	const u32 overflowThreshold = 0xffffffff / timeFactor;
+	constexpr u16 SysClock1StartTicks = u16(-Time::MS_TIMER_START);
+	const int timeFactor = 1000000;
+	const u32 u32Max = 0xffffffff;
+	constexpr u32 overflowThreshold = u32Max / timeFactor;
+
+	u32 deltaTicks = Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount() - SysClock1StartTicks;
 	int overflowCount = 0;
 	while (deltaTicks > overflowThreshold)
 	{
@@ -59,7 +62,7 @@ TimeValue Time::GetTimeSinceStartup() const volatile
 		++overflowCount;
 	}
 
-	u32 microSeconds = (deltaTicks * timeFactor) / Time::MS_TIMER_START + (overflowCount * (overflowThreshold * timeFactor / Time::MS_TIMER_START));
+	u32 microSeconds = (deltaTicks * timeFactor) / Time::MS_TIMER_START + (overflowCount * (u32Max / Time::MS_TIMER_START));
 	u32 seconds = Timers::GetTimer(Timers::SystemClock2).GetCurrentTimerCount();
 
 	TimeValue time(microSeconds, seconds);
