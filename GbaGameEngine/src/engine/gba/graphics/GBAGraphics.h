@@ -48,16 +48,12 @@ namespace GBA
 			, const Vector2 <tFixedPoint8>& scale
 			, u16 rotation
 			, Vector2<int> anchorPoint
+			, bool hasAffineTransformation
 			, const DrawParams& drawParams
 		)
 		{
 			using namespace GBA::Gfx;
 			ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
-
-			bool hasAffineTransformation = false;
-			hasAffineTransformation |= rotation > 0;
-			hasAffineTransformation |= ((scale.x >= 0) ? scale.x : scale.x * -1) != 1;
-			hasAffineTransformation |= ((scale.y >= 0) ? scale.y : scale.y * -1) != 1;
 
 			if (hasAffineTransformation)
 			{

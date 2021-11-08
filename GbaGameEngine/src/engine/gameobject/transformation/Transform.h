@@ -14,6 +14,9 @@ namespace Component
 		tPosition m_localPosition;
 		tScale m_localScale = Vector2<tFixedPoint8>(1, 1);
 		tFixedPoint8 m_localRotationDegrees = 0;
+		bool m_hasAffineTrasformation = false;
+
+		void UpdateHasAffineTransformation();
 
 	public:
 		inline tPosition GetLocalPosition() const { return m_localPosition; }
@@ -28,11 +31,11 @@ namespace Component
 		inline void SetPosition(T x, T y) { SetPosition(tPosition(x, y)); }
 
 		inline tScale GetLocalScale() const { return m_localScale; }
-		inline void SetLocalScale(tScale scale) { m_localScale = scale; }
+		inline void SetLocalScale(tScale scale) { m_localScale = scale; UpdateHasAffineTransformation(); }
 
 		// World scale, todo
-		inline tScale GetScale() const { return m_localScale; }
-		inline void SetScale(tScale scale) { m_localScale = scale; }
+		inline tScale GetScale() const { return GetLocalScale(); }
+		inline void SetScale(tScale scale) { SetLocalScale(scale); }
 		template<typename T>
 		inline void SetScale(T x, T y) { SetScale(tScale(x, y)); }
 
@@ -40,5 +43,7 @@ namespace Component
 		u16 GetU16Rotation() const;
 		tFixedPoint8 GetRotationDegrees() const;
 		void SetRotationDegrees(tFixedPoint8 degrees);	
+
+		bool HasAffineTransformation() const { return m_hasAffineTrasformation; }
 	};
 }

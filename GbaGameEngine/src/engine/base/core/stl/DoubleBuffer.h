@@ -10,22 +10,16 @@ class DoubleBuffer
 public:
 	void Flip() 
 	{
-		++m_currentBufferIndex;
-		if (m_currentBufferIndex > 1)
-			m_currentBufferIndex = 0;
+		m_currentBufferIndex ^= 1;
 	}
 
-	T& GetPrimary() 
+	inline T& GetPrimary() 
 	{
 		return m_doubleBuffer[m_currentBufferIndex];
 	}
 
-	T& GetSecondary() 
+	inline T& GetSecondary() 
 	{
-		int previousBufferIndex = m_currentBufferIndex + 1;
-		if (previousBufferIndex > 1)
-			previousBufferIndex = 0;
-
-		return m_doubleBuffer[previousBufferIndex];
+		return m_doubleBuffer[m_currentBufferIndex ^ 1];
 	}
 };

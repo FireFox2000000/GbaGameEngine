@@ -53,10 +53,19 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 				return;
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
+			Vector2<tFixedPoint8> scale = transform.GetScale();
+			u16 rotation = transform.GetU16Rotation();
+
+			bool hasAffineTransformation = transform.HasAffineTransformation();
 
 			// Frustum culling
 			{
 				Vector2<tFixedPoint8> worldSpriteSize = sprite->GetSize();
+				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
+				{
+					worldSpriteSize *= 2;
+				}
+
 				AxisAlignedBoundingBox2 worldSpriteBounds(position - worldSpriteSize, position + worldSpriteSize);
 
 				if (!orthographicCameraBounds.Intersects(worldSpriteBounds))
@@ -66,9 +75,10 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 			gfx->DrawSprite(
 				sprite,
 				position,
-				transform.GetScale(),
-				transform.GetU16Rotation(),
+				scale,
+				rotation,
 				spriteRenderer.GetCenterToCornerSizeOffset(), 
+				hasAffineTransformation,
 				drawParams
 			);
 		});

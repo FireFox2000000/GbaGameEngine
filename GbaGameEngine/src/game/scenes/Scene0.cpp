@@ -135,6 +135,6 @@ void Scene0::Update(Engine* engine)
 	//
 	//textComponent->m_str = buff;
 
-	System::PlayerMovement::Update(engine);
+	System::PlayerMovement::Update(engine, playerObject);
 	Scene::Update(engine);
 }

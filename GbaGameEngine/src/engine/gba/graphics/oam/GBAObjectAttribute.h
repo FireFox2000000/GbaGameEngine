@@ -117,10 +117,10 @@ namespace GBA
 				A2_Count = 3
 			};
 
-			inline void SetExplicitAttribute(int value, u16 attributeMask, vu16& attribute) volatile { attribute = (attribute & ~attributeMask) | (value & attributeMask); }
-			inline void SetAttribute(int value, Attribute0_Masks attributeMask) volatile { SetExplicitAttribute(value, attributeMask, m_attributeZero); }
-			inline void SetAttribute(int value, Attribute1_Masks attributeMask) volatile { SetExplicitAttribute(value, attributeMask, m_attributeOne); }
-			inline void SetAttribute(int value, Attribute2_Masks attributeMask) volatile { SetExplicitAttribute(value, attributeMask, m_attributeTwo); }
+			//inline void SetExplicitAttribute(int value, u16 attributeMask, vu16& attribute) volatile { attribute = (attribute & ~attributeMask) | (value & attributeMask); }
+			inline void SetAttribute(int value, Attribute0_Masks attributeMask) volatile { m_attributeZero = (m_attributeZero & ~attributeMask) | (value & attributeMask); }
+			inline void SetAttribute(int value, Attribute1_Masks attributeMask) volatile { m_attributeOne = (m_attributeOne & ~attributeMask) | (value & attributeMask); }
+			inline void SetAttribute(int value, Attribute2_Masks attributeMask) volatile { m_attributeTwo = (m_attributeTwo & ~attributeMask) | (value & attributeMask); }
 
 		public:
 			inline ObjectAttribute() : m_attributeZero(0), m_attributeOne(0), m_attributeTwo(0) {}
@@ -150,8 +150,8 @@ namespace GBA
 			inline void SetAffineIndex(u8 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A1_AFFINEINDEX_BITINDEX), AffineIndex); }
 
 			void SetMosaic(bool enabled) volatile;
-			void SetFlippedHorizontal(bool flipped) volatile;
-			void SetFlippedVertical(bool flipped) volatile;
+			inline void SetFlippedHorizontal(bool flipped) volatile { SetAttribute(flipped ? HorizontalFlip : 0, HorizontalFlip); }
+			inline void SetFlippedVertical(bool flipped) volatile { SetAttribute(flipped ? VerticalFlip : 0, VerticalFlip); }
 
 		} ALIGN(4);
 	}

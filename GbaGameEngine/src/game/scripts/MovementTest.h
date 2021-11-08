@@ -2,6 +2,7 @@
 #include "engine/base/core/stl/FixedPoint.h"
 
 class Engine;
+class GameObject;
 
 namespace Component
 {
@@ -15,6 +16,6 @@ namespace System
 {
 	namespace PlayerMovement
 	{
-		void Update(Engine* engine);
+		void Update(Engine* engine, GameObject& playerObject);
 	}
 }
