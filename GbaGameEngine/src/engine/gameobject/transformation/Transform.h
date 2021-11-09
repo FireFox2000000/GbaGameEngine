@@ -39,9 +39,7 @@ namespace Component
 		template<typename T>
 		inline void SetScale(T x, T y) { SetScale(tScale(x, y)); }
 
-		// range is [0, 0xFFFF] for [0, 2 Pi]
-		u16 GetU16Rotation() const;
-		tFixedPoint8 GetRotationDegrees() const;
+		inline tFixedPoint8 GetRotationDegrees() const { return m_localRotationDegrees; }
 		void SetRotationDegrees(tFixedPoint8 degrees);	
 
 		bool HasAffineTransformation() const { return m_hasAffineTrasformation; }

@@ -9,20 +9,20 @@ struct AxisAlignedBoundingBox2
 
 	AxisAlignedBoundingBox2() = default;
 
-	AxisAlignedBoundingBox2(Vector2<tFixedPoint8> min, Vector2<tFixedPoint8> max)
+	inline AxisAlignedBoundingBox2(Vector2<tFixedPoint8> min, Vector2<tFixedPoint8> max)
 	{
 		this->min = min;
 		this->max = max;
 	}
 
-	bool Intersects(const AxisAlignedBoundingBox2& other) const
+	inline bool Intersects(const AxisAlignedBoundingBox2& other) const
 	{
 		return
 			(min.x < other.max.x && max.x > other.min.x) &&
 			(min.y < other.max.y && max.y > other.min.y);
 	}
 
-	bool IntersectsOrTouches(const AxisAlignedBoundingBox2& other) const
+	inline bool IntersectsOrTouches(const AxisAlignedBoundingBox2& other) const
 	{
 		return
 			(min.x <= other.max.x && max.x >= other.min.x) &&
@@ -36,7 +36,7 @@ struct AxisAlignedBoundingBox2
 	}
 
 	template<typename T>
-	Vector2<T> Clamp(Vector2<T> point) const
+	inline Vector2<T> Clamp(Vector2<T> point) const
 	{
 		point.x = MIN(point.x, max.x);
 		point.x = MAX(point.x, min.x);

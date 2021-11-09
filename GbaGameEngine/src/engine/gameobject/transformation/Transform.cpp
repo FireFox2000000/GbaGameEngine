@@ -12,11 +12,6 @@ void Component::Transform::UpdateHasAffineTransformation()
 	m_hasAffineTrasformation = hasAffineTransformation;
 }
 
-tFixedPoint8 Component::Transform::GetRotationDegrees() const
-{
-	return m_localRotationDegrees;
-}
-
 void Component::Transform::SetRotationDegrees(tFixedPoint8 degrees)
 {
 	m_localRotationDegrees = degrees;
@@ -24,7 +19,3 @@ void Component::Transform::SetRotationDegrees(tFixedPoint8 degrees)
 	UpdateHasAffineTransformation();
 }
 
-u16 Component::Transform::GetU16Rotation() const
-{
-	return (m_localRotationDegrees * DegreesToRot).ToRoundedInt();
-}

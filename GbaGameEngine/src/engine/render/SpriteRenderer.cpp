@@ -54,8 +54,8 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
 			Vector2<tFixedPoint8> scale = transform.GetScale();
-			u16 rotation = transform.GetU16Rotation();
-
+			tFixedPoint8 rotation = transform.GetRotationDegrees();
+			
 			bool hasAffineTransformation = transform.HasAffineTransformation();
 
 			// Frustum culling
@@ -71,7 +71,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 				if (!orthographicCameraBounds.Intersects(worldSpriteBounds))
 					return;
 			}
-
+			
 			gfx->DrawSprite(
 				sprite,
 				position,

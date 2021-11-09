@@ -19,9 +19,12 @@ namespace GBA
 
 			for (u32 i = 0; i < spriteCount; ++i)
 			{
-				Sprite* sprite = m_sprites.AddNew();
+				Attributes::Shape shape;
+				Attributes::SizeMode sizeMode;
+				AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), shape, sizeMode);
+
+				Sprite* sprite = m_sprites.AddNew(shape, sizeMode);
 				sprite->m_atlus = this;
-				AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), sprite->m_shape, sprite->m_sizeMode);
 				sprite->m_pixelMapData = data + offsets[i];
 
 				if (i + 1 < spriteCount)

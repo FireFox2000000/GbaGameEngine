@@ -1,10 +1,25 @@
 #include "GBAAttributeFunctions.h"
 #include "engine/math/Math.h"
 
+const u8 c_SIZEMAP_COUNT = GBA::Gfx::Attributes::ShapeCount * GBA::Gfx::Attributes::SizeCount;
+const GBAAttrFnVector2 c_SIZEMAP[c_SIZEMAP_COUNT] = {
+	GBAAttrFnVector2(1, 1),	GBAAttrFnVector2(2, 2),	GBAAttrFnVector2(4, 4),	GBAAttrFnVector2(8, 8),
+	GBAAttrFnVector2(2, 1),	GBAAttrFnVector2(4, 1),	GBAAttrFnVector2(4, 2),	GBAAttrFnVector2(8, 4),
+	GBAAttrFnVector2(1, 2),	GBAAttrFnVector2(1, 4),	GBAAttrFnVector2(2, 4),	GBAAttrFnVector2(4, 8),
+};
+
 namespace GBA
 {
 	namespace Gfx
 	{
+		GBAAttrFnVector2 AttributeFunctions::GetTileSize(Attributes::Shape shape, Attributes::SizeMode sizeMode) {
+			return c_SIZEMAP[shape * Attributes::SizeCount + sizeMode];
+		}
+
+		GBAAttrFnVector2 AttributeFunctions::GetPixelSize(Attributes::Shape shape, Attributes::SizeMode sizeMode) {
+			return GetPixelSize(GetTileSize(shape, sizeMode));
+		}
+
 		void AttributeFunctions::GetSizeAttributesFromTileSize(const GBAAttrFnVector2 & tileSize, Attributes::Shape & out_shape, Attributes::SizeMode & out_sizeMode)
 		{
 			for (u8 i = 0; i < c_SIZEMAP_COUNT; ++i)

@@ -2,6 +2,7 @@
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 namespace GBA
 {
@@ -37,8 +38,9 @@ namespace GBA
 			friend class SpriteAtlus;
 			friend class OAMManager;
 
-			Attributes::Shape m_shape;
-			Attributes::SizeMode m_sizeMode;
+			const u8 m_attributes;		// First 2 bits stores Attributes::Shape, next 2 bits stores Attributes::SizeMode
+			const Vector2<u8> m_tileSize;
+
 			RenderData m_renderData;
 
 			SpriteAtlus* m_atlus;
@@ -47,17 +49,17 @@ namespace GBA
 
 			SpriteAtlus* EditAtlus() { return m_atlus; }
 		public:
-			Sprite();
+			Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode);
 
-			inline Attributes::Shape GetShape() const { return m_shape; }
-			inline Attributes::SizeMode GetSizeMode() const { return m_sizeMode; }
+			inline Attributes::Shape GetShape() const { return (Attributes::Shape)(m_attributes & ~(0xFF << 2)); }
+			inline Attributes::SizeMode GetSizeMode() const { return (Attributes::SizeMode)(m_attributes >> 2); }
 			inline tTileId GetTileIndex() const { return m_renderData.GetTileIndex(); }
 			tPaletteIndex GetPaletteIndex() const;
 			inline const SpriteAtlus* GetAtlus() const { return m_atlus; }
 			bool IsLoaded() const;
 
-			Vector2<int> GetSize() const;
-			Vector2<int> GetSizeInPixels() const;
+			inline Vector2<int> GetSize() const { return m_tileSize; }
+			inline Vector2<int> GetSizeInPixels() const { return AttributeFunctions::GetPixelSize(m_tileSize); }
 		};
 	}
 }

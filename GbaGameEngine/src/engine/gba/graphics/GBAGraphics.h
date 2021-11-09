@@ -46,7 +46,7 @@ namespace GBA
 			Sprite* sprite
 			, const Vector2<tFixedPoint8>& position
 			, const Vector2 <tFixedPoint8>& scale
-			, u16 rotation
+			, tFixedPoint8 rotationDegrees
 			, Vector2<int> anchorPoint
 			, bool hasAffineTransformation
 			, const DrawParams& drawParams
@@ -57,6 +57,8 @@ namespace GBA
 
 			if (hasAffineTransformation)
 			{
+				const tFixedPoint8 DegreesToRot = tFixedPoint8(0xFFFF / 360.f);
+
 				u8 affineIndex = 255;
 				auto* affineProperties = m_oamManager.AddToAffineRenderList(&affineIndex);
 				DEBUG_ASSERTMSGFORMAT(affineIndex < 32, "Affine index out of range %d", affineIndex);
@@ -66,7 +68,8 @@ namespace GBA
 				// The affine matrix maps from screen space to texture space, need to tell where the pixel's colour comes from. Invert to correct for this.
 				// See https://www.coranac.com/tonc/text/affine.htm for details
 				Vector2<tFixedPoint8> gbaInvertedScale(tFixedPoint8(1) / scale.x, tFixedPoint8(1) / scale.y);
-				affineProperties->SetTransformation(gbaInvertedScale, -rotation);
+				u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
+				affineProperties->SetTransformation(gbaInvertedScale, -gbaRotation);
 
 				// Set as double rendering to avoid clipping artifact. Also requires anchorpoint changes as this will physically double the sprite size
 				renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjAffineDoubleRendering);

@@ -1,7 +1,6 @@
 #include "GBASprite.h"
 #include "GBASpriteAtlus.h"
 #include "engine/base/colour/Palette.h"
-#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 namespace GBA
 {
@@ -31,9 +30,9 @@ namespace GBA
 
 		///////////////////////////////////////////////////////////
 
-		Sprite::Sprite()
-			: m_shape(Attributes::Square)
-			, m_sizeMode(Attributes::Form0)
+		Sprite::Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode)
+			: m_attributes(shape | (sizeMode << 2))
+			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
 			, m_atlus(NULL)
 			, m_pixelMapData(NULL)
 			, m_pixelMapDataLength(0)
@@ -49,15 +48,6 @@ namespace GBA
 		bool Sprite::IsLoaded() const
 		{
 			return GetTileIndex() != INVALID_TILE_ID && m_atlus->IsPaletteLoaded();
-		}
-
-		Vector2<int> Sprite::GetSize() const
-		{
-			return AttributeFunctions::GetTileSize(GetShape(), GetSizeMode());
-		}
-		Vector2<int> Sprite::GetSizeInPixels() const
-		{
-			return AttributeFunctions::GetPixelSize(GetShape(), GetSizeMode());
 		}
 	}
 }
