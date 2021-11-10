@@ -136,8 +136,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\game\data\eosd_bin.cpp" />
-    <ClCompile Include="src\game\data\TestBackground.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
+    <ClCompile Include="src\game\data\Shantae_Idle_bin.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
@@ -253,6 +253,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
+    <ClInclude Include="src\game\data\Shantae_Idle_bin.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />

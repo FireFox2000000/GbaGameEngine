@@ -1,15 +1,8 @@
 #include "SpriteLibrary.h"
 #include "engine/math/Math.h"
+#include "engine/filestream/CppFileReader.h"
 
-#define SPRITEMAP_NAMESPC_PREFIX __binary_spritesheet_
-
-#define _SPRITE_ATLUS_ENTRY(Prefix, Namespace) SPRITELIB_DEFINE_SPRITE_EXTRENS(Prefix, Namespace)
-#define SPRITE_ATLUS_ENTRY(Namespace) _SPRITE_ATLUS_ENTRY(SPRITEMAP_NAMESPC_PREFIX, Namespace)
-
-	SPRITE_ATLUS_LIST
-#undef DEFINE_SPRITE_ATLUS_EXTRENS
-#undef _SPRITE_ATLUS_ENTRY
-#undef SPRITE_ATLUS_ENTRY
+#include "game/data/Shantae_Idle_bin.h"
 
 SpriteLibrary::SpriteLibrary()
 {
@@ -17,16 +10,28 @@ SpriteLibrary::SpriteLibrary()
 
 	u32 totalBytes = 0;
 
-#define _SPRITE_ATLUS_ENTRY(Prefix, Namespace) SPRITELIB_ADD_SPRITE_SHEET(Prefix, Namespace)
-#define SPRITE_ATLUS_ENTRY(Namespace) _SPRITE_ATLUS_ENTRY(SPRITEMAP_NAMESPC_PREFIX, Namespace)
-
-	SPRITE_ATLUS_LIST
-
-#undef SPRITELIB_ADD_SPRITE_SHEET
-#undef _SPRITE_ATLUS_ENTRY
-#undef SPRITE_ATLUS_ENTRY
+	totalBytes += AddSpriteSheetFromFile(Shantae_Idle_bin::data);
 
 	DEBUG_LOGFORMAT("Sprite Library total sprite memory = %.2fkb", BYTES_TO_KB(totalBytes));
+}
+
+int SpriteLibrary::AddSpriteSheetFromFile(const u32 * file)
+{
+	CppFileReader reader = CppFileReader(file);
+
+	const u32 spriteCount = reader.Read<u32>();
+	const u8 paletteLength = reader.Read<u8>();
+	const u32 dataLength = reader.Read<u32>();
+	const u32 compressionFlags = reader.Read<u32>();
+	const u16 * palette = reader.ReadAddress<u16>(paletteLength);
+	const u8 * widthMap = reader.ReadAddress<u8>(spriteCount);
+	const u8 * heightMap = reader.ReadAddress<u8>(spriteCount);
+	const u32 * offsets = reader.ReadAddress<u32>(spriteCount);
+	const u32 * data = reader.ReadAddress<u32>(dataLength);
+
+	AddSpriteSheet(spriteCount, paletteLength, palette, widthMap, heightMap, dataLength, compressionFlags, data, offsets);
+
+	return dataLength;
 }
 
 void SpriteLibrary::AddSpriteSheet(
