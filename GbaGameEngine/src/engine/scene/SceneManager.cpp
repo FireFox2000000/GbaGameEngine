@@ -10,14 +10,11 @@ SceneManager::~SceneManager()
 {
 	if (m_current)
 		delete m_current;
-
-	if (m_queuedScene)
-		delete m_queuedScene;
 }
 
 void SceneManager::UpdatedQueuedChange(Engine * engine)
 {
-	if (m_queuedScene)
+	if (m_queuedSceneFn)
 	{
 		if (m_current)
 		{
@@ -25,8 +22,8 @@ void SceneManager::UpdatedQueuedChange(Engine * engine)
 			delete m_current;
 		}
 
-		m_current = m_queuedScene;
-		m_queuedScene = nullptr;
+		m_current = m_queuedSceneFn(engine);
+		m_queuedSceneFn = nullptr;
 
 		m_current->Enter(engine);
 	}
