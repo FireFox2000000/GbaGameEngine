@@ -43,10 +43,6 @@ void Debug::LogAtLocation(const char * file, const int line, const char * format
 	}
 
 	{
-		//string message;
-		//message += "    ";
-		//message += format;
-
 		VLOGFORMAT_W_UNPACK(format, format);
 	}
 }
@@ -55,10 +51,14 @@ void Debug::LogAssertionFailure(const char* file, const int line, const char* fo
 {
 	Log("ASSERTION FAILED!");
 
-	va_list argptr;
-	va_start(argptr, (format));
-	LogAtLocation(file, line, format, argptr);
-	va_end(argptr);
+	// Output this on two different lines with tab spacing for better formatting to no$gba debugger
+	{
+		Debug::LogFormat("%s(%d): ", file, line);
+	}
+
+	{
+		VLOGFORMAT_W_UNPACK(format, format);
+	}
 }
 
 #undef VLOGFORMAT_W_UNPACK
