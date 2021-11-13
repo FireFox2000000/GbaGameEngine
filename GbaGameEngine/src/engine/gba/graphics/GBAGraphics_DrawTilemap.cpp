@@ -1,10 +1,9 @@
 #include "GBAGraphics.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
-#include "engine/graphicalassets/tilemap/Tilemap.h"
+#include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/gba/registers/clock/GBATimer.h"
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/FixedPoint.h"
-#include "engine/graphicalassets/tilemap/TilemapManager.h"
 #include "engine/screen/Screen.h"
 
 //#define LOG_RENDER_ROWCOLS
@@ -70,6 +69,8 @@ MapWrappingPoints CalculateMapWrappingPoints(
 )
 {
 	using namespace GBA;
+	using namespace GBA::Gfx;
+
 	Vector2<int> deltaPos = tilemapRenderStartPos - lastRenderPos;
 
 	Vector2<int> tilemapRenderStartPosMod;
@@ -256,7 +257,7 @@ static inline void CopyFromMapToVramSingle(
 	, int size		// Unused, just for compatibility with the other functions. Should be equal to exactly 1. 
 )
 {
-	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
+	u32 offset = destBgRow * GBA::Gfx::TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
 	vram.SetBackgroundTileData(sbbIndex, offset , srcMapData[srcMapIndex]);
 }
 
@@ -270,7 +271,7 @@ static inline void CopyFromMapToVramLoop(
 	, int size
 )
 {
-	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
+	u32 offset = destBgRow * GBA::Gfx::TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
 	for (int i = 0; i < size; ++i)
 	{
 		vram.SetBackgroundTileData(sbbIndex, offset + i, srcMapData[srcMapIndex + i]);
@@ -287,7 +288,7 @@ static inline void CopyFromMapToVramMemCpy(
 	, int size
 )
 {
-	u32 offset = destBgRow * TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
+	u32 offset = destBgRow * GBA::Gfx::TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
 	vram.SetBackgroundTileData(sbbIndex, offset, &srcMapData[srcMapIndex], size);
 }
 
@@ -340,12 +341,11 @@ static inline void CopyMapWrappedRowToVram(
 
 namespace GBA
 {
-	Graphics::TilemapDrawHistory Graphics::DrawTilemap
+	void Graphics::DrawTilemap
 	(
 		Tilemap* tilemap
 		, const Vector2<tFixedPoint8>& position
 		, const DrawParams& drawParams
-		, const TilemapDrawHistory& drawHistory
 	)
 	{
 #ifdef PROFILE_RENDER
@@ -353,7 +353,6 @@ namespace GBA
 		profilerClock.SetFrequency(GBA::Timers::Cycle_1);
 #endif
 		auto& vram = GBA::Vram::GetInstance();
-		TilemapDrawHistory latestDrawHistory = drawHistory;
 
 		const auto tileMapSizeInTiles = tilemap->GetSizeInTiles();
 
@@ -381,9 +380,12 @@ namespace GBA
 				tilemapRenderStartPos.y -= 1;
 
 			bool skipRender = false;
-			if (drawHistory.lastRenderPosValid)
+
+			auto& renderData = tilemap->m_renderData;
+
+			if (renderData.lastRenderPosValid)
 			{
-				Vector2<int> deltaPos = tilemapRenderStartPos - drawHistory.lastRenderPos;
+				Vector2<int> deltaPos = tilemapRenderStartPos - renderData.lastRenderPos;
 
 				if (deltaPos == Vector2<int>::Zero)
 				{
@@ -397,7 +399,7 @@ namespace GBA
 				profilerClock.SetActive(true);
 #endif
 				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
-				MapWrappingPoints wrappingPoints = CalculateMapWrappingPoints(tilemapRenderStartPos, drawParams.renderSize, tileMapSizeInTiles, drawHistory.lastRenderPos, drawHistory.lastRenderPosValid);
+				MapWrappingPoints wrappingPoints = CalculateMapWrappingPoints(tilemapRenderStartPos, drawParams.renderSize, tileMapSizeInTiles, renderData.lastRenderPos, renderData.lastRenderPosValid);
 #ifdef PROFILE_RENDER
 				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profilerClock.GetCurrentTimerCount());
 				profilerClock.SetActive(false);
@@ -488,7 +490,7 @@ for (int y = start; y < end; ++y)\
 				profilerClock.SetActive(true);
 #endif
 				// Draw onto the GBA bg rows
-				if (!drawHistory.lastRenderPosValid)
+				if (!renderData.lastRenderPosValid)
 				{
 					// Cleanly render the full screen
 					DrawYRowTiles(
@@ -541,10 +543,8 @@ for (int y = start; y < end; ++y)\
 #endif
 			}
 
-			latestDrawHistory.lastRenderPos = tilemapRenderStartPos;
-			latestDrawHistory.lastRenderPosValid = true;
+			renderData.lastRenderPos = tilemapRenderStartPos;
+			renderData.lastRenderPosValid = true;
 		}
-
-		return latestDrawHistory;
 	}
 }

@@ -113,3 +113,22 @@ public:
 		}
 	}
 };
+
+template<class T>
+class Array<T, 0>
+{
+public:
+	typedef T* iterator;
+	typedef const T* const_iterator;
+	typedef volatile T* volatile_iterator;
+
+	static inline u32 Count() { return 0; }
+
+	iterator begin() { return nullptr; }
+	const_iterator begin() const { return nullptr; }
+	volatile_iterator begin() volatile { return nullptr; }
+
+	iterator end() { return nullptr; }
+	const_iterator end() const { return nullptr; }
+	volatile_iterator end() volatile { return nullptr; }
+};

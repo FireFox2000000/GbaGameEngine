@@ -3,7 +3,6 @@
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 #include "engine/graphicalassets/Graphics.h"
 
-class Tilemap;
 class GameObject;
 
 namespace System
@@ -19,12 +18,6 @@ namespace Component
 	class TilemapRenderer : public Renderer
 	{
 		friend void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera);
-
-		/*
-		* Used for rendering optimisations to track what's currently already loaded into memory. 
-		* Background positions are write-only, so we need to track this manually. 
-		*/
-		GBA::Graphics::TilemapDrawHistory drawHistory;
 
 		Tilemap* m_tilemap;
 		bool m_tilemapDirty = true;		// True by default to set initial properties

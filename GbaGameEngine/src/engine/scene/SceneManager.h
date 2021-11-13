@@ -10,7 +10,6 @@ class SceneManager
 	Scene* m_current = nullptr;
 	CreateScene m_queuedSceneFn = nullptr;
 
-	void UpdatedQueuedChange(Engine* engine);
 
 public:
 	SceneManager();
@@ -19,6 +18,8 @@ public:
 	void UpdateScene(Engine* engine);
 	inline void PreRenderScene(Engine* engine) { m_current->PreRender(engine); }
 	inline void RenderScene(Engine* engine) { m_current->Render(engine); }
+
+	bool EnterQueuedScene(Engine* engine);
 
 	template<typename SCENE>
 	void ChangeScene(Engine* engine)
@@ -29,6 +30,6 @@ public:
 		m_queuedSceneFn = [](Engine* engine) { return new SCENE(engine); };
 
 		if (!m_current)
-			UpdatedQueuedChange(engine);	// Initial scene
+			EnterQueuedScene(engine);	// Initial scene
 	}
 };

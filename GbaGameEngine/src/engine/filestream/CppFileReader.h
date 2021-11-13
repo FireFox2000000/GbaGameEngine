@@ -3,32 +3,22 @@
 
 class CppFileReader
 {
+public:
+	using FilePtr = const u32*;
+
+private:
 	struct StreamPos
 	{
 		int charIndex = 0;
 	};
 
 	StreamPos m_streamPos;
-
-	void AdvanceToAlignment(int alignmentSize) {
-		DEBUG_ASSERTMSG((alignmentSize & (alignmentSize - 1)) == 0, "alignment must be power of 2");
-
-		int remainder = m_streamPos.charIndex & (alignmentSize - 1);
-		if (remainder > 0)	
-		{
-			// unaligned
-			m_streamPos.charIndex += alignmentSize - remainder;
-		}
-	}
-
-public:
-	using FilePtr = const u32*;
 	const u8* fileData = nullptr;
 
-	CppFileReader(FilePtr file)
-	{
-		fileData = (u8*)file;
-	}
+	void AdvanceToAlignment(int alignmentSize);
+
+public:
+	CppFileReader(FilePtr file);
 
 	template<typename T>
 	T Read()

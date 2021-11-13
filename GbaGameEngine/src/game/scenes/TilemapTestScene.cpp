@@ -5,8 +5,8 @@
 #include "engine/render/TilemapRenderer.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gameobject/Camera.h"
-#include "engine/graphicalassets/tilemap/TilemapManager.h"
-#include "engine/graphicalassets/tilemap/TilemapLoadFunctions.h"
+#include "engine/asset/AssetLoadFunctions.h"
+#include "engine/graphicalassets/Graphics.h"
 
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/time/Time.h"
@@ -18,19 +18,17 @@ TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 
 void TilemapTestScene::Enter(Engine * engine)
 {
-	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
-	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
+	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	// Create a tilemap asset
-	m_tilemapSets.Add(TilemapLoadFunctions::CreateTilemapSetFromFile(eosd_bin::data));
-	Tilemap* tilemap = m_tilemapSets[0].GetTilemap(0);
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, eosd_bin::data);
+	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::Eosd, 0);
 
 	// Load the tilemap into vram
-	TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
-	tilemapManager->LoadTilemap(*tilemap);
-	m_loadedTilemaps.Add(tilemap);
+	Graphics* graphicsManager = engine->EditComponent<Graphics>();
+	graphicsManager->LoadTilemap(*tilemap);
 
 	GameObject* background = m_gameObjects.AddNew();
 	Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
@@ -44,14 +42,7 @@ void TilemapTestScene::Enter(Engine * engine)
 void TilemapTestScene::Exit(Engine * engine)
 {
 	// Ideally all maps should be turned off by now unless we're doing fancy transitions or something. 
-	TilemapManager* tilemapManager = engine->EditComponent<TilemapManager>();
-	for (auto& tilemapSet : m_tilemapSets)
-	{
-		for (auto& tilemap : tilemapSet.m_maps)
-		{
-			tilemapManager->Unload(&tilemap);
-		}
-	}
+	m_assetManager.Dispose(engine);
 }
 
 void TilemapTestScene::Update(Engine * engine)

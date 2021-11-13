@@ -23,7 +23,7 @@ namespace GBA
 				static const u8 TILE_INDEX_MAX_BITS = 10;
 				static const u8 DRAW_LIST_FLAG_INDEX = 11;
 
-				u16 m_dataMask;
+				u16 m_dataMask = 0;
 
 			public:
 				tTileId GetTileIndex() const;

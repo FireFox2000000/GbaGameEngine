@@ -105,10 +105,11 @@ make all</NMakeReBuildCommandLine>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
-    <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
+    <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
+    <ClCompile Include="src\engine\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
@@ -118,22 +119,21 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
+    <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapManager.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapSet.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemap.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />
     <ClCompile Include="src\engine\render\TilemapRenderer.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
-    <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\game\data\eosd_bin.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
@@ -165,7 +165,8 @@ make all</NMakeReBuildCommandLine>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
-    <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h" />
+    <ClInclude Include="src\engine\asset\AnimationFactory.h" />
+    <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
@@ -178,7 +179,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\filestream\CppFileReader.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
+    <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
     <ClInclude Include="src\external\entt\config\config.h" />
     <ClInclude Include="src\external\entt\config\version.h" />
@@ -238,9 +239,9 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
     <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
     <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\Tilemap.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapSet.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemap.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapSet.h" />
     <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h" />
     <ClInclude Include="src\engine\render\TextRenderer.h" />
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
@@ -252,7 +253,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
-    <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
     <ClInclude Include="src\game\data\Shantae_Idle_bin.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />

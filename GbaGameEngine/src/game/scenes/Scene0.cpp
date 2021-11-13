@@ -2,9 +2,8 @@
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/render/SpriteRenderer.h"
-#include "engine/asset/libraries/SpriteLibrary.h"
-#include "engine/asset/libraries/AnimationLibrary.h"
 #include "engine/asset/libraries/FontLibrary.h"
+#include "engine/asset/AnimationFactory.h"
 
 #include "game/scripts/MovementTest.h"
 #include "engine/animation/SpriteAnimator.h"
@@ -12,6 +11,9 @@
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
 #include <stdio.h>
+
+#include "game/data/Shantae_Idle_bin.h"
+
 const int totalTestSprites = 90;
 
 Scene0::Scene0(Engine* engine)
@@ -29,10 +31,12 @@ void Scene0::Enter(Engine* engine)
 	using namespace GBA;
 	using namespace GBA::DisplayOptions;
 
+	// Load assets
+	auto* atlus = m_assetManager.AddSpriteSheetFromFile(SpriteAtlusID::Shantae, Shantae_Idle_bin::data);
+	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(atlus, 0, 12, 12));
+
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
-	AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
 	FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
 
 	m_gameObjects.Reserve(totalTestSprites);
@@ -47,22 +51,22 @@ void Scene0::Enter(Engine* engine)
 			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+			Sprite* shantae0 = m_assetManager.GetSprite(SpriteAtlusID::Shantae, 0);
 			testBackgroundRenderer.SetSprite(shantae0);
 
 			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
-			animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
+			animator.SetAnimation(defaultIdleAnim);
 		}
 
-		{
-			GameObject* testTextObject = m_gameObjects.AddNew();
-			Component::Transform* transform = testTextObject->EditComponent<Component::Transform>();
-			transform->SetPosition((0.2f) - 5, (0.2f) - 5);
-
-			Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
-			testBackgroundRenderer.SetSprite(sprite);
-		}
+		//{
+		//	GameObject* testTextObject = m_gameObjects.AddNew();
+		//	Component::Transform* transform = testTextObject->EditComponent<Component::Transform>();
+		//	transform->SetPosition((0.2f) - 5, (0.2f) - 5);
+		//
+		//	Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
+		//	Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
+		//	testBackgroundRenderer.SetSprite(sprite);
+		//}
 
 		{
 			GameObject* testTextObject = m_gameObjects.AddNew();
@@ -87,12 +91,12 @@ void Scene0::Enter(Engine* engine)
 		//position->x = -8;
 		//position->y = 0;
 
-		Component::SpriteRenderer& testBackgroundRenderer = playerObject.AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
-		testBackgroundRenderer.SetSprite(shantae0);
+		Component::SpriteRenderer& spriteRenderer = playerObject.AddComponent<Component::SpriteRenderer>();
+		Sprite* shantae0 = m_assetManager.GetSprite(SpriteAtlusID::Shantae, 1);
+		spriteRenderer.SetSprite(shantae0);
 
 		Component::SpriteAnimator& animator = playerObject.AddComponent<Component::SpriteAnimator>();
-		animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
+		animator.SetAnimation(defaultIdleAnim);
 
 		Component::PlayerMovement& playerMovement = playerObject.AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
@@ -110,9 +114,6 @@ void Scene0::Update(Engine* engine)
 	{
 		int i = m_gameObjects.Count();
 	
-		SpriteLibrary* spriteLibrary = engine->EditComponent<SpriteLibrary>();
-		AnimationLibrary* animationLibrary = engine->EditComponent<AnimationLibrary>();
-		
 		// Create a new one
 		GameObject* testBackgroundObject = m_gameObjects.AddNew();
 	
@@ -120,11 +121,11 @@ void Scene0::Update(Engine* engine)
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = spriteLibrary->GetSprite(SpriteAtlusID::Shantae_Idle, 0);
+		Sprite* shantae0 = m_assetManager.GetSprite(SpriteAtlusID::Shantae, 0);
 		testBackgroundRenderer.SetSprite(shantae0);
 	
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
-		animator.SetAnimation(animationLibrary->GetSpriteAnimation(SpriteAnimationID::Shantae_Idle));
+		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
 	//auto position = playerObject->GetComponent<Component::Transform>()->position;
@@ -137,4 +138,9 @@ void Scene0::Update(Engine* engine)
 
 	System::PlayerMovement::Update(engine, playerObject);
 	Scene::Update(engine);
+}
+
+void Scene0::Exit(Engine * engine)
+{
+	m_assetManager.Dispose(engine);
 }

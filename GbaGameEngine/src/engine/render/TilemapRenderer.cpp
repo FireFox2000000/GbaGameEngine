@@ -1,9 +1,11 @@
 #include "TilemapRenderer.h"
-#include "engine/graphicalassets/tilemap/Tilemap.h"
+#include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/Macros.h"
 
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
+	DEBUG_ASSERTMSG(tilemap->IsLoaded(), "Error: tilemap not loaded");
+
 	m_tilemap = tilemap;
 	SetDirty();
 }
@@ -49,8 +51,6 @@ bool Component::TilemapRenderer::GetVisible() const
 
 void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 {
-	using namespace GBA;
-
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
@@ -59,7 +59,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 	auto* entityManager = engine->GetEntityRegistry();
 
 	auto& vram = GBA::Vram::GetInstance();
-	GBA::Graphics* gfx = engine->EditComponent<GBA::Graphics>();
+	Graphics* gfx = engine->EditComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 
@@ -79,18 +79,18 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 			}
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
-			tilemapRenderer.drawHistory = gfx->DrawTilemap(tilemap, position, drawParams, tilemapRenderer.drawHistory);
+			gfx->DrawTilemap(tilemap, position, drawParams);
 
 			// Update extra effects
 			if (tilemapRenderer.GetDirty())
 			{
-				auto& controlRegister = BackgroundControl::GetBgControlRegister(tilemap->GetAssignedBackgroundSlot());
+				auto& controlRegister = GBA::BackgroundControl::GetBgControlRegister(tilemap->GetAssignedBackgroundSlot());
 
 				// SetAffineWrapping
 				// SetMosaic
 				// SetPriority
 				controlRegister.SetAffineWrapping(tilemapRenderer.GetWrappingEnabled());
-				DisplayControl::SetBackgroundActive(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
+				GBA::DisplayControl::SetBackgroundActive(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
 
 				tilemapRenderer.ClearDirty();
 			}

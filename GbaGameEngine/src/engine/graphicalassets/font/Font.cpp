@@ -1,11 +1,11 @@
 #include "Font.h"
 
-Font::Font(const SpriteAtlus & spriteAtlus, int(*charToSpriteIndexLookupFn)(char))
+Font::Font(const GBA::Gfx::SpriteAtlus & spriteAtlus, int(*charToSpriteIndexLookupFn)(char))
 	: m_spriteAtlus(spriteAtlus)
 {
 	m_charToSpriteIndexLookupFn = charToSpriteIndexLookupFn;
 
-	Sprite* referenceSprite = m_spriteAtlus.GetSprite(0);
+	GBA::Gfx::Sprite* referenceSprite = m_spriteAtlus.GetSprite(0);
 
 	DEBUG_ASSERTMSG(referenceSprite, "Fonts must contain at least one sprite!");
 

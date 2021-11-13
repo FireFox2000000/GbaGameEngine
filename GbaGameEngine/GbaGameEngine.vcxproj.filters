@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
-    <ClCompile Include="src\engine\asset\libraries\AnimationLibrary.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
@@ -14,7 +13,6 @@
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
-    <ClCompile Include="src\engine\asset\libraries\SpriteLibrary.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
@@ -38,9 +36,6 @@
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapSet_gba.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\Tilemap_gba.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapManager_gba.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
@@ -54,15 +49,19 @@
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\game\data\eosd_bin.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
     <ClCompile Include="src\game\data\Shantae_Idle_bin.cpp" />
+    <ClCompile Include="src\engine\filestream\CppFileReader.cpp" />
+    <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
+    <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemap.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapManager.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
-    <ClInclude Include="src\engine\asset\libraries\AnimationLibrary.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
@@ -87,7 +86,6 @@
     <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
-    <ClInclude Include="src\engine\asset\libraries\SpriteLibrary.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
@@ -115,11 +113,8 @@
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
     <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapSet.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\Tilemap.h" />
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapManager.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
@@ -174,10 +169,15 @@
     <ClInclude Include="src\external\entt\entt.hpp" />
     <ClInclude Include="src\external\entt\fwd.hpp" />
     <ClInclude Include="src\game\data\eosd_bin.h" />
-    <ClInclude Include="src\engine\graphicalassets\tilemap\TilemapLoadFunctions.h" />
     <ClInclude Include="src\engine\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
     <ClInclude Include="src\game\data\Shantae_Idle_bin.h" />
+    <ClInclude Include="src\engine\asset\AnimationFactory.h" />
+    <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemap.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapSet.h" />
+    <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

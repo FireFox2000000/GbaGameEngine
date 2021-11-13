@@ -7,6 +7,7 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/graphicalassets/Graphics.h"
 #include "engine/screen/Screen.h"
+#include "engine/gba/graphics/sprite/GBASprite.h"
 
 void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 {
@@ -49,6 +50,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 		(Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
+
 			if (!sprite)
 				return;
 

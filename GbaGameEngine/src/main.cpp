@@ -3,6 +3,7 @@
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/time/Time.h"
+#include "engine/graphicalassets/Graphics.h"
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
@@ -29,6 +30,8 @@ int main()
 
 	time->Start();
 	DEBUG_LOG("Engine initialised");
+
+	bool sceneFlipped = false;
 
 	// Update loop
 	while (true)
@@ -69,6 +72,22 @@ int main()
 			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profilerClock.GetCurrentTimerCount());
 			profilerClock.SetActive(false);
 #endif
+		}
+
+		if (GBA::Input::GetKeyDown(GBA::Buttons::Start))
+		{
+			if (sceneFlipped)
+				sceneManager->ChangeScene<Scene0>(engine.get());
+			else
+				sceneManager->ChangeScene<TilemapTestScene>(engine.get());
+
+			sceneFlipped = !sceneFlipped;
+		}
+
+		if (sceneManager->EnterQueuedScene(engine.get()))
+		{
+			// Todo, eventually do this from event list
+			engine.get()->EditComponent<Graphics>()->OnSceneChange();
 		}
 
 		// Calculate dt between frames

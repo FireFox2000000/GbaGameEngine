@@ -46,7 +46,7 @@ void System::UI::TextRenderer::Render(Engine * engine)
 				
 				default:
 				{
-					Sprite* charSprite = font.GetSpriteForCharacter(currentChar);
+					auto* charSprite = font.GetSpriteForCharacter(currentChar);
 
 					if (charSprite)
 					{

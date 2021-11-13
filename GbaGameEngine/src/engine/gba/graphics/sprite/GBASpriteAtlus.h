@@ -36,6 +36,8 @@ namespace GBA
 				const u32* offsets);
 			SpriteAtlus(const SpriteAtlus& that);
 
+			SpriteAtlus & operator=(const SpriteAtlus& that);
+
 			bool IsPaletteLoaded();
 			inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
 

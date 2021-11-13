@@ -35,7 +35,7 @@ FontLibrary::~FontLibrary()
 
 void FontLibrary::AddFontFromSpriteSheet(int(*charToSpriteIndexLookupFn)(char), const u32 spriteCount, const u8 paletteLength, const u16 * palette, const u8 * widthMap, const u8 * heightMap, const u32 dataLength, const u32 compressionFlags, const u32 * data, const u32 * offsets)
 {
-	SpriteAtlus atlus(spriteCount, paletteLength, palette, widthMap, heightMap, dataLength, compressionFlags, data, offsets);
+	GBA::Gfx::SpriteAtlus atlus(spriteCount, paletteLength, palette, widthMap, heightMap, dataLength, compressionFlags, data, offsets);
 	m_fontCollection.AddNew(atlus, charToSpriteIndexLookupFn);
 }
 

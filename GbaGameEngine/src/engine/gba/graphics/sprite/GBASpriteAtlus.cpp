@@ -41,10 +41,21 @@ namespace GBA
 		SpriteAtlus::SpriteAtlus(const SpriteAtlus & that)
 		{
 			*this = that;
+		}
+
+		SpriteAtlus & SpriteAtlus::operator=(const SpriteAtlus & that)
+		{
+			m_palette = that.m_palette;
+			m_paletteLength = that.m_paletteLength;
+			m_spriteDataCompressionFlags = that.m_spriteDataCompressionFlags;
+			m_sprites = that.m_sprites;
+
 			for (Sprite& sprite : m_sprites)
 			{
 				sprite.m_atlus = this;
 			}
+
+			return *this;
 		}
 
 		bool SpriteAtlus::IsPaletteLoaded()

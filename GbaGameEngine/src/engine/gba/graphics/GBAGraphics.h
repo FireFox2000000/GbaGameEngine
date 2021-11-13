@@ -1,12 +1,21 @@
 #pragma once
 #include "engine/gba/graphics/tiles/GBATile.h"
-#include "engine/gba/graphics/sprite/GBASprite.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
-#include "engine/gba/graphics/oam/GBAOAMManager.h"
 
-using Sprite = GBA::Gfx::Sprite;
-using SpriteAtlus = GBA::Gfx::SpriteAtlus;
-class Tilemap;
+#include "engine/gba/graphics/oam/GBAOAMManager.h"
+#include "engine/gba/graphics/tilemap/GBATilemapManager.h"
+
+namespace GBA
+{
+	namespace Gfx
+	{
+		class Sprite;
+		class TilemapSet;
+		class Tilemap;
+	}
+}
+
+using Tilemap = GBA::Gfx::Tilemap;
+
 class GameObject;
 
 namespace Component
@@ -19,6 +28,7 @@ namespace GBA
 	class Graphics
 	{
 		GBA::Gfx::OAMManager m_oamManager;
+		GBA::Gfx::TilemapManager m_tilemapManager;
 
 	public:
 		//namespace Tile = GBA::Gfx::Tile;
@@ -30,12 +40,6 @@ namespace GBA
 			Vector2<int> renderSize;
 		};
 
-		struct TilemapDrawHistory
-		{
-			Vector2<int> lastRenderPos;
-			bool lastRenderPosValid = false;
-		};
-
 		DrawParams CreateDrawParams(
 			const GameObject* camera
 		) const;
@@ -43,7 +47,7 @@ namespace GBA
 		// Time critical function, called many times per frame, inlined for sprite renderer system speed, only called from one system anyway
 		inline void DrawSprite
 		(
-			Sprite* sprite
+			GBA::Gfx::Sprite* sprite
 			, const Vector2<tFixedPoint8>& position
 			, const Vector2 <tFixedPoint8>& scale
 			, tFixedPoint8 rotationDegrees
@@ -96,7 +100,7 @@ namespace GBA
 		// Time critical function, called many times per frame, inlined for text renderer system speed, only called from one system anyway
 		inline void DrawFontSprite
 		(
-			Sprite* sprite
+			GBA::Gfx::Sprite* sprite
 			, const Vector2<tFixedPoint8>& position
 		)
 		{
@@ -108,14 +112,18 @@ namespace GBA
 			renderProperties->SetPosition(position);
 		}
 
-		TilemapDrawHistory DrawTilemap
+		void LoadTilemap(Tilemap& out_tilemap);
+		void Unload(Tilemap* tilemap);
+
+		void DrawTilemap
 		(
 			Tilemap* tilemap
 			, const Vector2<tFixedPoint8>& position
 			, const DrawParams& drawParams
-			, const TilemapDrawHistory& drawHistory
 		);
 
 		void EndFrame();
+
+		void OnSceneChange();
 	};
 }

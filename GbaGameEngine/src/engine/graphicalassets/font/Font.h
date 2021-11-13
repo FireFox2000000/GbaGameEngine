@@ -1,19 +1,19 @@
 #pragma once
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
 
 class Font
 {
 	friend class FontLibrary;
 
-	SpriteAtlus m_spriteAtlus;
+	GBA::Gfx::SpriteAtlus m_spriteAtlus;
 	int (*m_charToSpriteIndexLookupFn)(char);
 	Vector2<u8> m_fixedCharacterSize;
 
 public:
-	Font(const SpriteAtlus& spriteAtlus, int(*charToSpriteIndexLookupFn)(char));
+	Font(const GBA::Gfx::SpriteAtlus& spriteAtlus, int(*charToSpriteIndexLookupFn)(char));
 
 	const Vector2<u8> GetFixedCharacterSize() const;
 
-	inline Sprite* GetSpriteForIndex(int index) { return m_spriteAtlus.GetSprite(index); }
-	inline Sprite* GetSpriteForCharacter(char c) { return GetSpriteForIndex(m_charToSpriteIndexLookupFn(c)); }
+	inline GBA::Gfx::Sprite* GetSpriteForIndex(int index) { return m_spriteAtlus.GetSprite(index); }
+	inline GBA::Gfx::Sprite* GetSpriteForCharacter(char c) { return GetSpriteForIndex(m_charToSpriteIndexLookupFn(c)); }
 };

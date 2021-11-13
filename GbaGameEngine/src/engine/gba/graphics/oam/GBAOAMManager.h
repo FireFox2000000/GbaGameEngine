@@ -63,6 +63,8 @@ namespace GBA
 			// Needs to be as fast as possible, otherwise visual artifacts may occour if we run past VBlank. 
 			void DoMasterRenderIntoMemory();
 
+			void Clear();
+
 			// Use this to draw a sprite to the screen for the current frame.
 			// Does not perform sprite screen culling, this is a post-culling step.
 			ObjectAttribute* AddToRenderList(Sprite* sprite);
