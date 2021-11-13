@@ -127,8 +127,18 @@ namespace GBA
 #endif
 		}
 
-		void OAMManager::Clear()
+		void OAMManager::UnloadAll()
 		{
+			for (Sprite* sprite : m_spriteRenderDoubleBuffer.GetPrimary())
+			{
+				m_spriteManager.Unload(sprite);
+			}
+
+			for (Sprite* sprite : m_spriteRenderDoubleBuffer.GetSecondary())
+			{
+				m_spriteManager.Unload(sprite);
+			}
+
 			m_spriteRenderDoubleBuffer.GetPrimary().Clear();
 			m_spriteRenderDoubleBuffer.GetSecondary().Clear();
 		}

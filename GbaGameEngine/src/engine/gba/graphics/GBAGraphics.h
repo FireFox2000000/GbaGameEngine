@@ -123,7 +123,6 @@ namespace GBA
 		);
 
 		void EndFrame();
-
-		void OnSceneChange();
+		void PrepareForSceneChange();
 	};
 }

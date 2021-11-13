@@ -25,9 +25,9 @@ namespace GBA
 		m_oamManager.DoMasterRenderIntoMemory();
 	}
 
-	void Graphics::OnSceneChange()
+	void Graphics::PrepareForSceneChange()
 	{
-		m_oamManager.Clear();
+		m_oamManager.UnloadAll();
 	}
 
 	void Graphics::LoadTilemap(Tilemap& out_tilemap)

@@ -44,6 +44,8 @@ namespace GBA
 				tileIndex += tileCount;	// Align to the size to prevent fragmentation
 		}
 
+		DEBUG_ASSERTMSGFORMAT(false, "OUT OF VRAM! Failed to locate tile memory of size %d", tileCount);
+
 		return INVALID_TILE_ID;
 	}
 

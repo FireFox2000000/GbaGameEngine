@@ -45,6 +45,7 @@ namespace GBA
 				return m_spriteDataCompressionFlags;
 			}
 
+			u32 GetSpriteCount() const { return m_sprites.Count(); }
 			Sprite* GetSprite(int index) {
 				if (index >= 0 && index < (int)m_sprites.Count())
 					return &m_sprites[index];

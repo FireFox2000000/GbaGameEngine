@@ -84,10 +84,10 @@ int main()
 			sceneFlipped = !sceneFlipped;
 		}
 
-		if (sceneManager->EnterQueuedScene(engine.get()))
+		if (sceneManager->HasSceneChangeQueued())
 		{
-			// Todo, eventually do this from event list
-			engine.get()->EditComponent<Graphics>()->OnSceneChange();
+			engine.get()->EditComponent<Graphics>()->PrepareForSceneChange();
+			sceneManager->EnterQueuedScene(engine.get());
 		}
 
 		// Calculate dt between frames

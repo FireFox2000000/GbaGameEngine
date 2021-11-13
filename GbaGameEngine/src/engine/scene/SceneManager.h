@@ -20,6 +20,7 @@ public:
 	inline void RenderScene(Engine* engine) { m_current->Render(engine); }
 
 	bool EnterQueuedScene(Engine* engine);
+	bool HasSceneChangeQueued() { return m_queuedSceneFn != nullptr; }
 
 	template<typename SCENE>
 	void ChangeScene(Engine* engine)

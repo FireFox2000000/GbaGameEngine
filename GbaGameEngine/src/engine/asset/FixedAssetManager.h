@@ -24,6 +24,7 @@ public:
 	FixedAssetManager() = default;
 	~FixedAssetManager()
 	{
+#ifdef DEBUG
 		for (auto& tilemapSet : m_tilemapSets)
 		{
 			for (auto& tilemap : tilemapSet.m_maps)
@@ -31,6 +32,15 @@ public:
 				DEBUG_ASSERTMSG(!tilemap.IsLoaded(), "Tilemap leaked! \"Dispose\" not called!");
 			}
 		}
+
+		for (auto& spriteAtlus : m_spriteAtlusCollection)
+		{
+			for (u32 i = 0; i < spriteAtlus.GetSpriteCount(); ++i)
+			{
+				DEBUG_ASSERTMSG(!spriteAtlus.GetSprite(i)->IsLoaded(), "Sprites leaked! \"oamManager.UnloadAll\" not called?");
+			}
+		}
+#endif
 	}
 
 	void Dispose(Engine * engine)
