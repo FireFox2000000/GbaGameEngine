@@ -14,8 +14,19 @@ namespace GBA
 
 		inline static bool IsStatusBitSet(int bitIndex) { return s_REG_DISPSTAT & bitIndex; }
 	public:
-		inline static bool InVBlank() { return IsStatusBitSet(BIT(0)); }
-		inline static bool InHBlank() { return IsStatusBitSet(BIT(1)); }
+
+		enum Flags
+		{
+			VBlankStatus = BIT(0),
+			HBlankStatus = BIT(1),
+			VCountTriggerStatus = BIT(2),	// Set if the current scanline matches the scanline trigger ( REG_VCOUNT == REG_DISPSTAT{8-F} )
+			VBlankInterruptRequest = BIT(3),
+			HBlankInterruptRequest = BIT(4),
+			VCountInterruptRequest = BIT(15), // Fires interrupt if current scanline matches trigger value.
+		};
+
+		inline static bool InVBlank() { return IsStatusBitSet(VBlankStatus); }
+		inline static bool InHBlank() { return IsStatusBitSet(HBlankStatus); }
 		inline static vu16 VCount() { return s_REG_VCOUNT; }
 	};
 }

@@ -8,8 +8,7 @@
 /* === NOTES ===
 */
 
-#ifndef TONC_NOCASH
-#define TONC_NOCASH
+#pragma once
 
 #include "engine/gba/memory/GBAMemoryLocations.h"
 
@@ -45,7 +44,5 @@ extern "C" int nocash_puts(const char *str);
 extern "C" EWRAM_CODE void nocash_message();
 
 /*!	\}	*/
-
-#endif // TONC_NOCASH
 
 // EOF

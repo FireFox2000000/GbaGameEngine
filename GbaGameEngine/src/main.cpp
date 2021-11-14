@@ -36,14 +36,10 @@ int main()
 	// Update loop
 	while (true)
 	{
-#ifdef TEST_PROFILING
-		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-#endif
 		// VDraw, should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
 		{
 #ifdef TEST_PROFILING
-			profilerClock.SetActive(true);
+			auto profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 			// General update
 			GBA::Input::Update();
@@ -54,8 +50,9 @@ int main()
 
 			sceneManager->PreRenderScene(engine.get());
 #ifdef TEST_PROFILING
-			DEBUG_LOGFORMAT("[Profile VDraw] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			auto profileStop = Time::CaptureSystemTimeSnapshot();
+			u32 profileResult = (profileStop.TotalCycles_Freq1024() - profileStart.TotalCycles_Freq1024()) * 1024;
+			DEBUG_LOGFORMAT("[Profile VDraw] = %d", profileResult);
 #endif
 		}
 
@@ -65,12 +62,13 @@ int main()
 		// VBlank, should be under 83776 cycles no matter what
 		{
 #ifdef TEST_PROFILING
-			profilerClock.SetActive(true);
+			auto profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 			sceneManager->RenderScene(engine.get());
 #ifdef TEST_PROFILING
-			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			auto profileStop = Time::CaptureSystemTimeSnapshot();
+			u32 profileResult = (profileStop.TotalCycles_Freq1024() - profileStart.TotalCycles_Freq1024()) * 1024;
+			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profileResult);
 #endif
 		}
 

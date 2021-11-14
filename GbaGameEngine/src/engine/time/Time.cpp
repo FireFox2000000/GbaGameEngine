@@ -3,11 +3,8 @@
 
 using namespace GBA;
 
-const u32 FRAMERATE = 5997;// FPS, .2f
-constexpr u32 DTMICROSECONDS = 100000000 / FRAMERATE;
-constexpr u32 DTMS = DTMICROSECONDS / 1000;
-const float FPS_FIXED_SCALE = 0.01f;
-constexpr float DTSECONDS = 100.f / (float)FRAMERATE;
+constexpr u16 MS_TIMER_START = 0x4000;
+constexpr u16 SysClock1StartTicks = u16(-MS_TIMER_START);
 
 Time::Time()
 {
@@ -25,7 +22,7 @@ void Time::Start()
 	Timers::Timer& clockMs = Timers::GetTimer(Timers::SystemClock1);
 	Timers::Timer& clockSeconds = Timers::GetTimer(Timers::SystemClock2);
 
-	clockMs.SetInitialTimerCount(-MS_TIMER_START);
+	clockMs.SetInitialTimerCount(SysClock1StartTicks);
 	clockMs.SetFrequency(Timers::Cycle_1024);
 	clockMs.SetActive(true);
 
@@ -47,14 +44,13 @@ TimeValue Time::GetDt() const
 	return m_dt;
 }
 
-TimeValue Time::GetTimeSinceStartup() const volatile
+TimeValue Time::FromSnapshot(const InternalSnapshot& snapshot)
 {
-	constexpr u16 SysClock1StartTicks = u16(-Time::MS_TIMER_START);
-	const int timeFactor = 1000000;
-	const u32 u32Max = 0xffffffff;
+	constexpr int timeFactor = 1000000;
+	constexpr u32 u32Max = 0xffffffff;
 	constexpr u32 overflowThreshold = u32Max / timeFactor;
 
-	u32 deltaTicks = Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount() - SysClock1StartTicks;
+	u32 deltaTicks = snapshot.systemClockCount1 - SysClock1StartTicks;
 	int overflowCount = 0;
 	while (deltaTicks > overflowThreshold)
 	{
@@ -62,9 +58,28 @@ TimeValue Time::GetTimeSinceStartup() const volatile
 		++overflowCount;
 	}
 
-	u32 microSeconds = (deltaTicks * timeFactor) / Time::MS_TIMER_START + (overflowCount * (u32Max / Time::MS_TIMER_START));
-	u32 seconds = Timers::GetTimer(Timers::SystemClock2).GetCurrentTimerCount();
+	u32 microSeconds = (deltaTicks * timeFactor) / MS_TIMER_START + (overflowCount * (u32Max / MS_TIMER_START));
+	u32 seconds = snapshot.systemClockCount2;
 
-	TimeValue time(microSeconds, seconds);
-	return time;
+	return TimeValue(microSeconds, seconds);
+}
+
+TimeValue Time::GetTimeSinceStartup() const volatile
+{
+	InternalSnapshot snapshot = CaptureSystemTimeSnapshot();
+	return FromSnapshot(snapshot);
+}
+
+Time::InternalSnapshot Time::CaptureSystemTimeSnapshot()
+{
+	return { Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount(), Timers::GetTimer(Timers::SystemClock2).GetCurrentTimerCount() };
+}
+
+u32 Time::InternalSnapshot::TotalCycles_Freq1024() const
+{
+	constexpr u32 CyclesPerSecond = u16(-1) -SysClock1StartTicks;
+
+	u32 clock1Cycles = (systemClockCount1 - SysClock1StartTicks);
+	u32 clock2Cycles = systemClockCount2 * CyclesPerSecond;
+	return clock1Cycles + clock2Cycles;
 }

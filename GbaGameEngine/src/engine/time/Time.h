@@ -11,15 +11,24 @@ class Time
 	void IncFrameCount() { ++m_frameCount; }
 
 public:
+	// A cheap way to calculate system time in internal format
+	struct InternalSnapshot
+	{
+		u16 systemClockCount1;
+		u16 systemClockCount2;
+
+		u32 TotalCycles_Freq1024() const;
+	};
+
 	Time();
 	~Time();
-
-	static const u16 MS_TIMER_START = 0x4000;
 
 	void Start();
 	void Advance();
 
 	u32 GetFrameCount() { return m_frameCount; }
 	TimeValue GetDt() const;
+	static TimeValue FromSnapshot(const InternalSnapshot& snapshot);
 	TimeValue GetTimeSinceStartup() const volatile;
+	static InternalSnapshot CaptureSystemTimeSnapshot();
 };
