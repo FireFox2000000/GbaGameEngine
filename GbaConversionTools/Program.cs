@@ -19,6 +19,7 @@ namespace GbaConversionTools
             Console.WriteLine("Select converter:");
             Console.WriteLine("1. Sprite");
             Console.WriteLine("2. Tilemap");
+            Console.WriteLine("3. Audio");
 
             int menuOption;
             while (!Int32.TryParse(Console.ReadLine(), out menuOption))
@@ -39,6 +40,11 @@ namespace GbaConversionTools
                     case 2:
                         {
                             MenuTilemapConverter.Enter();
+                            break;
+                        }
+                    case 3:
+                        {
+                            MenuAudioConverter.Enter();
                             break;
                         }
                     default:

@@ -20,6 +20,26 @@ public:
 		u16 systemClockCount2;
 
 		u32 TotalCycles() const;
+
+		inline bool operator > (const InternalSnapshot& b) const
+		{
+			return systemClockCount2 > b.systemClockCount2 || (systemClockCount2 == b.systemClockCount2 && systemClockCount1 > b.systemClockCount1);
+		}
+
+		inline bool operator < (const InternalSnapshot& b) const
+		{
+			return systemClockCount2 < b.systemClockCount2 || systemClockCount2 != b.systemClockCount2 || systemClockCount1 < b.systemClockCount1;
+		}
+
+		inline bool operator <= (const InternalSnapshot& b) const
+		{
+			return !(*this > b);
+		}
+
+		inline bool operator >= (const InternalSnapshot& b) const
+		{
+			return !(*this < b);
+		}
 	};
 
 	Time();

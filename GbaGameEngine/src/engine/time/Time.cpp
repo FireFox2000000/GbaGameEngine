@@ -7,6 +7,7 @@ constexpr u16 MS_TIMER_START = 0x0;
 constexpr u16 SysClock1StartTicks = u16(-MS_TIMER_START);
 
 #define U16_MAX u16(-1)
+constexpr u32 CyclesPerSecond = U16_MAX - SysClock1StartTicks;
 
 Time::Time()
 {
@@ -80,8 +81,6 @@ Time::InternalSnapshot Time::CaptureSystemTimeSnapshot()
 
 u32 Time::InternalSnapshot::TotalCycles() const
 {
-	constexpr u32 CyclesPerSecond = U16_MAX - SysClock1StartTicks;
-
 	u32 clock1Cycles = (systemClockCount1 - SysClock1StartTicks);
 	u32 clock2Cycles = systemClockCount2 * CyclesPerSecond;
 	return clock1Cycles + clock2Cycles;

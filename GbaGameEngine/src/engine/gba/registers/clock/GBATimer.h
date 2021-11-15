@@ -15,8 +15,8 @@ namespace GBA
 		// Configureable based on use-case
 		enum TimerId : u8
 		{
-			DirectSound1,
-			DirectSound2,
+			Sound0,
+			Sound1,
 			SystemClock1,
 			SystemClock2,
 		};

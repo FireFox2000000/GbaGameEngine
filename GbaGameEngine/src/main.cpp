@@ -4,6 +4,7 @@
 #include "engine/scene/SceneManager.h"
 #include "engine/time/Time.h"
 #include "engine/graphicalassets/Graphics.h"
+#include "engine/audio/AudioManager.h"
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
@@ -23,6 +24,7 @@ int main()
 	sceneManager->ChangeScene<Scene0>(engine.get());
 
 	Time* time = engine->EditComponent<Time>();
+	AudioManager* audioManager = engine->EditComponent<AudioManager>();
 
 	// Test Initialisation		
 	GBA::Input::Update();
@@ -35,6 +37,9 @@ int main()
 	// Update loop
 	while (true)
 	{
+		//auto systemTime = Time::CaptureSystemTimeSnapshot();
+		//DEBUG_LOGFORMAT("Current time = (%d, %d)", systemTime.systemClockCount1, systemTime.systemClockCount2);
+
 		// VDraw, should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
 		{
 #ifdef TEST_PROFILING
@@ -44,6 +49,8 @@ int main()
 			GBA::Input::Update();
 
 			sceneManager->UpdateScene(engine.get());
+
+			audioManager->Update();
 
 			System::SpriteAnimator::Update(engine.get());
 
@@ -55,10 +62,12 @@ int main()
 #endif
 		}
 
+		audioManager->Update();
+
 		// Main update
 		WaitForVSync();
 
-		// VBlank, should be under 83776 cycles no matter what
+		// VBlank, must be under 83776 cycles no matter what
 		{
 #ifdef TEST_PROFILING
 			auto profileStart = Time::CaptureSystemTimeSnapshot();
@@ -70,6 +79,8 @@ int main()
 			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profileResult);
 #endif
 		}
+
+		audioManager->Update();
 
 		if (GBA::Input::GetKeyDown(GBA::Buttons::Start))
 		{

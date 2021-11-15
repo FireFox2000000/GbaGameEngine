@@ -58,6 +58,12 @@
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemap.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapSet.cpp" />
+    <ClCompile Include="src\game\data\audio\TheCrowSong.cpp" />
+    <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
+    <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
+    <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
+    <ClCompile Include="src\engine\audio\AudioManager.cpp" />
+    <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -83,7 +89,6 @@
     <ClInclude Include="src\engine\render\TextRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
     <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
-    <ClInclude Include="src\game\data\Shantae_Idle.cpp" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
@@ -178,6 +183,12 @@
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapSet.h" />
     <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
+    <ClInclude Include="src\game\data\audio\TheCrowSong.h" />
+    <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
+    <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
+    <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
+    <ClInclude Include="src\engine\audio\AudioManager.h" />
+    <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

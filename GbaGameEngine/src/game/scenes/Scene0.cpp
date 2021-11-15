@@ -4,8 +4,7 @@
 #include "engine/render/SpriteRenderer.h"
 #include "engine/asset/libraries/FontLibrary.h"
 #include "engine/asset/AnimationFactory.h"
-
-#include "game/scripts/MovementTest.h"
+#include "engine/audio/AudioManager.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gameobject/ui/ScreenTransform.h"
@@ -13,6 +12,8 @@
 #include <stdio.h>
 
 #include "game/data/Shantae_Idle_bin.h"
+#include "game/data/audio/TheCrowSong.h"
+#include "game/scripts/MovementTest.h"
 
 const int totalTestSprites = 90;
 
@@ -28,14 +29,19 @@ Scene0::~Scene0()
 
 void Scene0::Enter(Engine* engine)
 {
-	using namespace GBA;
-	using namespace GBA::DisplayOptions;
+	auto* audioManager = engine->EditComponent<AudioManager>();
+	auto handle = audioManager->CreateFromFile(TheCrowSong::data);
+	audioManager->SetChannelFlag(handle, AudioChannelProperties::Loop, true);
+	audioManager->Play(handle);
 
 	// Load assets
 	auto* atlus = m_assetManager.AddSpriteSheetFromFile(SpriteAtlusID::Shantae, Shantae_Idle_bin::data);
 	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(atlus, 0, 12, 12));
 
-	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
+	{
+		using namespace GBA::DisplayOptions;
+		GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
+	}
 
 	FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
 

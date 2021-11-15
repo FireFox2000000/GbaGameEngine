@@ -30,7 +30,7 @@ public:
 		m_storage &= ~BIT(index);
 	}
 
-	inline bool TestBit(int index)
+	inline bool TestBit(int index) const
 	{
 		return (m_storage & BIT(index)) != 0;
 	}

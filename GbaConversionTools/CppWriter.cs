@@ -24,7 +24,7 @@ namespace GbaConversionTools
         public CppWriter(string namespaceName, string filePath)
         {
             m_filePath = filePath;
-            m_namespaceName = namespaceName;      
+            m_namespaceName = namespaceName.Replace(" ", string.Empty);      
         }
 
         byte[] GetBytes(Object data)
