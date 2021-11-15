@@ -3,8 +3,10 @@
 
 using namespace GBA;
 
-constexpr u16 MS_TIMER_START = 0x4000;
+constexpr u16 MS_TIMER_START = 0x0;
 constexpr u16 SysClock1StartTicks = u16(-MS_TIMER_START);
+
+#define U16_MAX u16(-1)
 
 Time::Time()
 {
@@ -23,7 +25,7 @@ void Time::Start()
 	Timers::Timer& clockSeconds = Timers::GetTimer(Timers::SystemClock2);
 
 	clockMs.SetInitialTimerCount(SysClock1StartTicks);
-	clockMs.SetFrequency(Timers::Cycle_1024);
+	clockMs.SetFrequency(Timers::Cycle_256);
 	clockMs.SetActive(true);
 
 	clockSeconds.SetCascadeMode(true);
@@ -58,7 +60,8 @@ TimeValue Time::FromSnapshot(const InternalSnapshot& snapshot)
 		++overflowCount;
 	}
 
-	u32 microSeconds = (deltaTicks * timeFactor) / MS_TIMER_START + (overflowCount * (u32Max / MS_TIMER_START));
+	constexpr int TotalCyclesPerOverflow = U16_MAX;		// This might actually be off by a tick...
+	u32 microSeconds = (deltaTicks * timeFactor) / TotalCyclesPerOverflow + (overflowCount * (u32Max / TotalCyclesPerOverflow));
 	u32 seconds = snapshot.systemClockCount2;
 
 	return TimeValue(microSeconds, seconds);
@@ -75,9 +78,9 @@ Time::InternalSnapshot Time::CaptureSystemTimeSnapshot()
 	return { Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount(), Timers::GetTimer(Timers::SystemClock2).GetCurrentTimerCount() };
 }
 
-u32 Time::InternalSnapshot::TotalCycles_Freq1024() const
+u32 Time::InternalSnapshot::TotalCycles() const
 {
-	constexpr u32 CyclesPerSecond = u16(-1) -SysClock1StartTicks;
+	constexpr u32 CyclesPerSecond = U16_MAX - SysClock1StartTicks;
 
 	u32 clock1Cycles = (systemClockCount1 - SysClock1StartTicks);
 	u32 clock2Cycles = systemClockCount2 * CyclesPerSecond;

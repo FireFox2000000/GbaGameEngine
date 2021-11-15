@@ -11,13 +11,15 @@ class Time
 	void IncFrameCount() { ++m_frameCount; }
 
 public:
+	static constexpr int ClockFreq = 256;
+
 	// A cheap way to calculate system time in internal format
 	struct InternalSnapshot
 	{
 		u16 systemClockCount1;
 		u16 systemClockCount2;
 
-		u32 TotalCycles_Freq1024() const;
+		u32 TotalCycles() const;
 	};
 
 	Time();

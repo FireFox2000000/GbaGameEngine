@@ -7,7 +7,6 @@
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
-#include "engine/gba/registers/clock/GBATimer.h"
 
 #include "game/scenes/Scene0.h"
 #include "game/scenes/TilemapTestScene.h"
@@ -51,7 +50,7 @@ int main()
 			sceneManager->PreRenderScene(engine.get());
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
-			u32 profileResult = (profileStop.TotalCycles_Freq1024() - profileStart.TotalCycles_Freq1024()) * 1024;
+			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
 			DEBUG_LOGFORMAT("[Profile VDraw] = %d", profileResult);
 #endif
 		}
@@ -67,7 +66,7 @@ int main()
 			sceneManager->RenderScene(engine.get());
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
-			u32 profileResult = (profileStop.TotalCycles_Freq1024() - profileStart.TotalCycles_Freq1024()) * 1024;
+			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
 			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profileResult);
 #endif
 		}
