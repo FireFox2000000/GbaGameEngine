@@ -77,16 +77,16 @@ namespace GBA
 				oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());
 			}
 
-			const auto& affineTransformations = m_masterSpriteRenderList.affineTransformation;
-			for (u32 i = 0; i < affineTransformations.Count(); ++i)
+			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so. 
+			for (u32 i = 0; i < m_affineTransformationList.Count(); ++i)
 			{
 				vObjectAffine& oamAffineHandle = s_objectAffinePool[i];
-				oamAffineHandle.SetTransformation(affineTransformations[i]);
+				oamAffineHandle.SetTransformation(m_affineTransformationList[i]);
 			}
 
 			m_masterSpriteRenderList.oamProperties.Clear();
 			m_masterSpriteRenderList.sprite.Clear();
-			m_masterSpriteRenderList.affineTransformation.Clear();
+			m_affineTransformationList.Clear();
 		}
 
 		void OAMManager::DoMasterRenderIntoMemory()
@@ -164,11 +164,11 @@ namespace GBA
 
 		Matrix2x2* OAMManager::AddToAffineRenderList(u8 * out_index)
 		{
-			DEBUG_ASSERTMSG(m_masterSpriteRenderList.affineTransformation.Count() < OBJ_AFFINE_COUNT, "OUT OF OAM AFFINE MEMORY");
+			DEBUG_ASSERTMSG(m_affineTransformationList.Count() < OBJ_AFFINE_COUNT, "OUT OF OAM AFFINE MEMORY");
 
-			*out_index = m_masterSpriteRenderList.affineTransformation.Count();
+			*out_index = m_affineTransformationList.Count();
 
-			Matrix2x2* affineTransformation = m_masterSpriteRenderList.affineTransformation.AddNew();
+			Matrix2x2* affineTransformation = m_affineTransformationList.AddNew();
 			return affineTransformation;
 		}
 	}

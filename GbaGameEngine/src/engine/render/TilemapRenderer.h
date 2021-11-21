@@ -1,9 +1,19 @@
 #pragma once
 #include "Renderer.h"
 #include "engine/gba/registers/display/GBABackgroundControl.h"
-#include "engine/graphicalassets/Graphics.h"
 
 class GameObject;
+
+// Forward declaration, ideally shouldn't mention GBA
+namespace GBA
+{
+	namespace Gfx
+	{
+		class Tilemap;
+	}
+}
+
+using Tilemap = GBA::Gfx::Tilemap;
 
 namespace System
 {

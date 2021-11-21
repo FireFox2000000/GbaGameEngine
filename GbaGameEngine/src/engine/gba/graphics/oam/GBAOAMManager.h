@@ -31,7 +31,6 @@ namespace GBA
 			{
 				FixedList<ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
 				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
-				FixedList<Matrix2x2, OBJ_AFFINE_COUNT> affineTransformation;
 			};
 
 			using ObjAttrPool = Array<vObjectAttribute, OBJ_ATTR_COUNT>;
@@ -46,6 +45,7 @@ namespace GBA
 			u32 m_objAttrEnabledSearchIndex;
 
 			OAMSpriteRenderPropertiesSOA m_masterSpriteRenderList;
+			FixedList<Matrix2x2, OBJ_AFFINE_COUNT> m_affineTransformationList;
 			DoubleBuffer<tSpriteBuffer> m_spriteRenderDoubleBuffer;
 
 			SpriteManager m_spriteManager;
