@@ -5,6 +5,9 @@
 #include "engine/base/core/Memory.h"
 #include <initializer_list>
 
+// A wrapper around regular C++ arrays with a bunch of extra helper features. 
+// Do not add any more member variables to this! Need to make sure this can reinterpret_cast to regular arrays. 
+
 template<class T, u32 SIZE>
 class Array
 {

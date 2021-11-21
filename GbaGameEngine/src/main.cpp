@@ -34,6 +34,10 @@ int main()
 
 	bool sceneFlipped = false;
 
+#ifdef TEST_PROFILING
+	auto profileStart = Time::CaptureSystemTimeSnapshot();
+#endif
+
 	// Update loop
 	while (true)
 	{
@@ -42,9 +46,6 @@ int main()
 
 		// VDraw, should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
 		{
-#ifdef TEST_PROFILING
-			auto profileStart = Time::CaptureSystemTimeSnapshot();
-#endif
 			// General update
 			GBA::Input::Update();
 
@@ -70,7 +71,7 @@ int main()
 		// VBlank, must be under 83776 cycles no matter what
 		{
 #ifdef TEST_PROFILING
-			auto profileStart = Time::CaptureSystemTimeSnapshot();
+			profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 			sceneManager->RenderScene(engine.get());
 #ifdef TEST_PROFILING
@@ -79,6 +80,10 @@ int main()
 			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profileResult);
 #endif
 		}
+
+#ifdef TEST_PROFILING
+		profileStart = Time::CaptureSystemTimeSnapshot();	// loops back around to profile the end of VDraw
+#endif
 
 		audioManager->Update();
 

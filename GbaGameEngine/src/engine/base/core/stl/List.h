@@ -5,6 +5,10 @@
 #include "engine/base/core/Memory.h"
 #include "engine/math/Math.h"
 
+// Includes List<> and FixedList<>
+// List<> is basically the same as std::vector, but I don't really like the weird naming and so this is inspired to read more like C#'s list class. 
+// FixedList<> is the same as List but with a fixed allocation size. Does not use heap memory, allocated via array. 
+
 template<class T>
 class MAllocMemoryPolicy
 {
@@ -192,11 +196,11 @@ public:
 	inline u32 Capacity() { return MemoryPolicy::Capacity(); }
 	inline u32 Capacity() const { return MemoryPolicy::Capacity(); }
 
-	iterator begin() { return Count() > 0 ? &Get(0) : NULL; }
-	const_iterator begin() const { return Count() > 0 ? &Get(0) : NULL; }
+	inline iterator begin() { return Count() > 0 ? &Get(0) : NULL; }
+	inline const_iterator begin() const { return Count() > 0 ? &Get(0) : NULL; }
 
-	iterator end() { return Count() > 0 ? &Get(Count()) : NULL; }
-	const_iterator end() const { return Count() > 0 ? &Get(Count()) : NULL; }
+	inline iterator end() { return Count() > 0 ? &Get(Count()) : NULL; }
+	inline const_iterator end() const { return Count() > 0 ? &Get(Count()) : NULL; }
 
 	inline T & operator[](u32 index) { return Get(index); }
 	inline const T & operator[](u32 index) const { return Get(index); }
@@ -232,31 +236,31 @@ public:
 		return IndexOf(item) >= 0;
 	}
 
-	T* InsertAt(u32 index, const T& item)
+	inline T* InsertAt(u32 index, const T& item)
 	{
 		T* newItem = AddUninitialisedItemAt(index);
 		return new(newItem) T(item);
 	}
 
-	T* InsertNewAt(u32 index)
+	inline T* InsertNewAt(u32 index)
 	{
 		T* newItem = AddUninitialisedItemAt(index);
 		return new(newItem) T();
 	}
 
-	T* AddNew()
+	inline T* AddNew()
 	{
 		return InsertNewAt(Count());
 	}
 
 	template <typename... ConstructorArgs>
-	T* AddNew(ConstructorArgs... args)
+	inline T* AddNew(ConstructorArgs... args)
 	{
 		T* newItem = AddUninitialisedItemAt(Count());
 		return new(newItem) T(args ...);
 	}
 
-	T* Add(const T& item)
+	inline T* Add(const T& item)
 	{
 		return InsertAt(Count(), item);
 	}
@@ -317,10 +321,12 @@ public:
 			return true;
 		}
 		else
+		{
 			return false;
+		}
 	}
 
-	bool RemoveAt(u32 index)
+	inline bool RemoveAt(u32 index)
 	{
 		return RemoveRange(index, 1);
 	}
@@ -334,7 +340,7 @@ public:
 			return false;
 	}
 
-	bool Clear()
+	inline bool Clear()
 	{
 		return RemoveRange(0, Count());
 	}
