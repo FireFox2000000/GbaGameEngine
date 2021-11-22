@@ -49,7 +49,7 @@ namespace ECS
 		}
 
 		template<typename Component>
-		inline void HasComponent(const Entity entity)
+		inline bool HasComponent(const Entity entity)
 		{
 			return m_registry.has<Component>(entity);
 		}

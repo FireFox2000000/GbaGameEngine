@@ -57,7 +57,8 @@ protected:
 template<class T, u32 SIZE>
 class FixedMemoryPolicy
 {
-	u8 m_container[SIZE * sizeof(T)];
+	// Define u8 as we're going to explicitly handle constructor and destructor calls, don't want array to call them itself. 
+	alignas(T) u8 m_container[SIZE * sizeof(T)];
 
 protected:
 	FixedMemoryPolicy(u32 size)
