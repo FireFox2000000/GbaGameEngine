@@ -30,6 +30,7 @@ namespace GBA
 		GBA::Gfx::OAMManager m_oamManager;
 		GBA::Gfx::TilemapManager m_tilemapManager;
 
+
 	public:
 		//namespace Tile = GBA::Gfx::Tile;
 
@@ -61,7 +62,7 @@ namespace GBA
 
 			if (hasAffineTransformation)
 			{
-				const tFixedPoint8 DegreesToRot = tFixedPoint8(0xFFFF / 360.f);
+				constexpr tFixedPoint8 DegreesToRot(0xFFFF / 360.f);
 
 				u8 affineIndex = 255;
 				auto* affineProperties = m_oamManager.AddToAffineRenderList(&affineIndex);
@@ -81,9 +82,12 @@ namespace GBA
 			}
 			else
 			{
-				renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjNormal);
-				renderProperties->SetFlippedHorizontal((int)scale.x < 0);
-				renderProperties->SetFlippedVertical((int)scale.y < 0);
+				// renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjNormal);	// Implicit from reconstruction in AddToRenderList, no need to call this unless we want to waste cycles
+				if (scale.x < 0)
+					renderProperties->SetFlippedHorizontal();
+
+				if (scale.y < 0)
+					renderProperties->SetFlippedVertical();
 			}
 
 			Vector2<tFixedPoint8> newPosition = position;

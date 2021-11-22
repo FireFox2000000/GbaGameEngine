@@ -33,10 +33,9 @@ class FixedPoint
 	}
 
 public:
-	inline FixedPoint()
+	inline FixedPoint() : storage(0)
 	{
 		STATIC_ASSERT(std::is_integral<IntType>::value, "Integral required.");
-		storage = 0;
 	}
 
 	inline FixedPoint(const FixedPoint<IntType, FRACTIONAL_BITS>& that)
@@ -66,10 +65,6 @@ public:
 			storage = that.GetStorage() >> -shiftDir;
 	}
 
-	inline FixedPoint(int val)
-	{
-		storage = val << FRACTIONAL_BITS;
-	}
 
 	static constexpr IntType FloatCompress(float val)
 	{
@@ -81,15 +76,9 @@ public:
 		return (1.0f / (float)(1 << FRACTIONAL_BITS)) * ((int)val);
 	}
 
-	inline FixedPoint(float val)
-	{
-		storage = FloatCompress(val);
-	}
-
-	inline FixedPoint(double val)
-	{
-		storage = IntType(val * (1 << FRACTIONAL_BITS) + 0.5);
-	}
+	constexpr inline FixedPoint(int val) : storage(val << FRACTIONAL_BITS) {}
+	constexpr inline FixedPoint(float val) : storage(FloatCompress(val)) {}
+	constexpr inline FixedPoint(double val) : storage(IntType(val * (1 << FRACTIONAL_BITS) + 0.5)) {}
 
 	inline int ToInt() const
 	{

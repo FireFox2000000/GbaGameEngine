@@ -150,8 +150,12 @@ namespace GBA
 			inline void SetAffineIndex(u8 index)							volatile { SetAttribute(SHIFTED_BITMASK((int)index, sc_A1_AFFINEINDEX_BITINDEX), AffineIndex); }
 
 			void SetMosaic(bool enabled) volatile;
-			inline void SetFlippedHorizontal(bool flipped) volatile { SetAttribute(flipped ? HorizontalFlip : 0, HorizontalFlip); }
-			inline void SetFlippedVertical(bool flipped) volatile { SetAttribute(flipped ? VerticalFlip : 0, VerticalFlip); }
+
+			inline void SetFlippedHorizontal() volatile { SetAttribute(HorizontalFlip, HorizontalFlip); }
+			inline void SetFlippedVertical() volatile { SetAttribute(VerticalFlip, VerticalFlip); }
+
+			inline void ClearFlippedHorizontal() volatile { SetAttribute(0, HorizontalFlip); }
+			inline void ClearFlippedVertical() volatile { SetAttribute(0, VerticalFlip); }
 
 		} ALIGN(4);
 	}
