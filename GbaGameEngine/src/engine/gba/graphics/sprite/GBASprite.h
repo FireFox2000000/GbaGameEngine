@@ -34,7 +34,7 @@ namespace GBA
 			};
 
 		private:
-			friend class SpriteManager;
+			friend class SpriteGraphicsMemoryManager;
 			friend class SpriteAtlus;
 			friend class OAMManager;
 

@@ -31,6 +31,8 @@ void Scene0::Enter(Engine* engine)
 	auto* audioManager = engine->EditComponent<AudioManager>();
 	m_backgroundMusic = audioManager->CreateFromFile(TheCrowSong::data);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
+	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 0.5f);
+
 	audioManager->Play(m_backgroundMusic);
 
 	// Load assets

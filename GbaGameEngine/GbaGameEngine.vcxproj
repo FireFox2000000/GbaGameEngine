@@ -118,7 +118,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteManager.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
@@ -235,7 +235,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
     <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />

@@ -32,7 +32,7 @@ namespace GBA
 			{
 				if (sprite->IsLoaded() && !sprite->m_renderData.IsAddedToDrawList())
 				{
-					m_spriteManager.Unload(sprite);
+					m_spriteGraphicsMemoryManager.Unload(sprite);
 				}
 			}
 		}
@@ -44,7 +44,7 @@ namespace GBA
 			{
 				if (!sprite->IsLoaded())
 				{
-					m_spriteManager.Load(*sprite);
+					m_spriteGraphicsMemoryManager.Load(*sprite);
 				}
 
 				sprite->m_renderData.SetAddedToDrawList(false);
@@ -131,12 +131,12 @@ namespace GBA
 		{
 			for (Sprite* sprite : m_spriteRenderDoubleBuffer.GetPrimary())
 			{
-				m_spriteManager.Unload(sprite);
+				m_spriteGraphicsMemoryManager.Unload(sprite);
 			}
 
 			for (Sprite* sprite : m_spriteRenderDoubleBuffer.GetSecondary())
 			{
-				m_spriteManager.Unload(sprite);
+				m_spriteGraphicsMemoryManager.Unload(sprite);
 			}
 
 			m_spriteRenderDoubleBuffer.GetPrimary().Clear();

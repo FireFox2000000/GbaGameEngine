@@ -13,13 +13,13 @@ namespace GBA
 
 		// Use this to load a sprite's palette and load tile information into vram. 
 		// Keeps a reference per sprite atlus of what's loaded, so the atlus/palette will automatically unload once all sprites that reference the same atlus are unloaded.
-		class SpriteManager
+		class SpriteGraphicsMemoryManager
 		{
 			Array<u32, sizeof(ColourPalette16) / sizeof(rgb16)> m_paletteRefTracker;
 
 		public:
-			SpriteManager();
-			~SpriteManager();
+			SpriteGraphicsMemoryManager();
+			~SpriteGraphicsMemoryManager();
 
 			void Load(Sprite& out_sprite);
 			void Unload(Sprite* sprite);

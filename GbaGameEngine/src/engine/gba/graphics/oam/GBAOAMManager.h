@@ -4,7 +4,7 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/oam/GBAObjectAffine.h"
-#include "engine/gba/graphics/sprite/GBASpriteManager.h"
+#include "engine/gba/graphics/sprite/GBASpriteGraphicsMemoryManager.h"
 #include "engine/math/Matrix2x2.h"
 
 namespace GBA
@@ -48,7 +48,7 @@ namespace GBA
 			FixedList<Matrix2x2, OBJ_AFFINE_COUNT> m_affineTransformationList;
 			DoubleBuffer<tSpriteBuffer> m_spriteRenderDoubleBuffer;
 
-			SpriteManager m_spriteManager;
+			SpriteGraphicsMemoryManager m_spriteGraphicsMemoryManager;
 
 			void UnloadUnusedSprites();
 			void LoadNewSprites();

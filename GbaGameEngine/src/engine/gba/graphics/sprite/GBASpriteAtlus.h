@@ -13,7 +13,7 @@ namespace GBA
 		// Sprites on the same atlus will share a colour palette between them, reducing palette memory usage.
 		class SpriteAtlus
 		{
-			friend class SpriteManager;
+			friend class SpriteGraphicsMemoryManager;
 
 			const u16* m_palette = NULL;
 			u8 m_paletteLength = 0;

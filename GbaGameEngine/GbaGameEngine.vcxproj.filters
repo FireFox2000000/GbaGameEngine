@@ -39,7 +39,6 @@
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteManager.cpp" />
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
@@ -64,6 +63,7 @@
     <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
     <ClCompile Include="src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -127,7 +127,6 @@
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
     <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
@@ -190,6 +189,7 @@
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
     <ClInclude Include="src\engine\base\core\stl\Pool.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
