@@ -106,10 +106,18 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 	for (int i = m_activeChannels.handles.Count() - 1; i >= 0; --i)
 	{
 		tChannelHandle activeHandle = m_activeChannels.handles[i];
-		const auto* channel = GetDirectSoundChannel(activeHandle);
-		if (channel->soundChannelId == soundChannel)
+		if (IsDirectSoundChannel(activeHandle))
 		{
-			Stop(activeHandle);
+			const auto* channel = GetDirectSoundChannel(activeHandle);
+			if (channel->soundChannelId == soundChannel)
+			{
+				Stop(activeHandle);
+
+				if (channel->flags.TestBit(AudioChannelProperties::DisposeOnCompletion))
+				{
+					FreeChannel(handle);
+				}
+			}
 		}
 	}
 
