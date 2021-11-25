@@ -4,6 +4,7 @@
 #include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
 #include "engine/gba/registers/clock/GBATimer.h"
+#include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
 
 //#define RENDER_PROFILE
 
@@ -71,7 +72,7 @@ namespace GBA
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
-				oamSpriteHandle.SetPaletteIndex(sprite->GetPaletteIndex());
+				oamSpriteHandle.SetPaletteIndex(sprite->m_atlus->GetPaletteIndex());
 				oamSpriteHandle.SetTileIndex(sprite->GetTileIndex());
 				oamSpriteHandle.SetShape(sprite->GetShape());
 				oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());

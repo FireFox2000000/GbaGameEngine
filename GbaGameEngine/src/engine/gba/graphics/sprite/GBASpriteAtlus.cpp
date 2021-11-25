@@ -57,10 +57,5 @@ namespace GBA
 
 			return *this;
 		}
-
-		bool SpriteAtlus::IsPaletteLoaded()
-		{
-			return GetPaletteIndex() != INVALID_PALETTE_INDEX;
-		}
 	}
 }

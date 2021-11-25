@@ -38,7 +38,7 @@ namespace GBA
 
 			SpriteAtlus & operator=(const SpriteAtlus& that);
 
-			bool IsPaletteLoaded();
+			inline bool IsPaletteLoaded() { return GetPaletteIndex() != INVALID_PALETTE_INDEX; }
 			inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
 
 			inline u32 GetSpriteDataCompressionFlags() {
