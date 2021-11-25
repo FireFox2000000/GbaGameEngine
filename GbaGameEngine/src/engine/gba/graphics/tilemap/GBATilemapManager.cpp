@@ -46,7 +46,7 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 
 	if (isAffine)
 	{
-		DEBUG_ASSERTMSG(false, "Affine backgrounds not supported");
+		DEBUG_ERROR("Affine backgrounds not supported");
 		return;
 	}
 
@@ -63,7 +63,7 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 		{
 			if (refCount > 0)
 			{
-				DEBUG_ASSERTMSG(false, "Unable to load tilemap set. System not configured to handle multiple tilemaps from different sets.");
+				DEBUG_ERROR("Unable to load tilemap set. System not configured to handle multiple tilemaps from different sets.");
 				return;
 			}
 		}

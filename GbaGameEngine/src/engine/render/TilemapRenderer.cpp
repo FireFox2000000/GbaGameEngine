@@ -75,7 +75,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 
 			if (!tilemap->IsLoaded())
 			{
-				DEBUG_ASSERTMSG(false, "Cannot render tilemap, has not been loaded.");
+				DEBUG_ERROR("Cannot render tilemap, has not been loaded.");
 				return;
 			}
 

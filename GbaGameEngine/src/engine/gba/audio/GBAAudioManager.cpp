@@ -5,6 +5,9 @@
 // (2 ^ 24)hz or cycles per second
 #define CLOCK 16777216
 
+// Calculate and remove 0.03 seconds worth of ticks to account for framerate variations at 30fps, otherwise we may end up putting garbage into the speakers briefly.
+constexpr int EndTimeOffset = (CLOCK * 0.03f);
+
 GBA::Audio::AudioManager::SoundProperties::SoundProperties()
 {
 	attributes[AudioChannelProperties::Attributes::Playrate] = 1.0f;
@@ -29,7 +32,7 @@ GBA::Timers::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::Timer dma
 	}
 	}
 
-	DEBUG_ASSERTMSG(false, "Unable to get gba timer for direct sound");
+	DEBUG_ERROR("Unable to get gba timer for direct sound");
 	return GBA::Timers::Sound0;
 }
 
@@ -52,14 +55,30 @@ void GBA::Audio::AudioManager::SetMasterSoundEnabled(bool enabled)
 	}
 }
 
+const GBA::Audio::AudioManager::DirectSoundChannel * GBA::Audio::AudioManager::GetDirectSoundChannel(tChannelHandle handle)
+{
+	DEBUG_ASSERTMSG(IsDirectSoundChannel(handle), "Trying to get direct sound channel from a sound handle that is not direct sound!");
+
+	DirectSoundChannel* channelHandle = (DirectSoundChannel*)handle;
+	return channelHandle;
+}
+
+GBA::Audio::AudioManager::DirectSoundChannel * GBA::Audio::AudioManager::EditDirectSoundChannel(tChannelHandle handle)
+{
+	DEBUG_ASSERTMSG(IsDirectSoundChannel(handle), "Trying to get direct sound channel from a sound handle that is not direct sound!");
+
+	DirectSoundChannel* channelHandle = (DirectSoundChannel*)handle;
+	return channelHandle;
+}
+
 const GBA::Audio::AudioManager::SoundProperties * GBA::Audio::AudioManager::GetChannelProperties(tChannelHandle handle) const
 {
-	return &m_channels[handle];
+	return (SoundProperties*)handle;
 }
 
 GBA::Audio::AudioManager::SoundProperties * GBA::Audio::AudioManager::EditChannelProperties(tChannelHandle handle)
 {
-	return &m_channels[handle];
+	return (SoundProperties*)handle;
 }
 
 void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
@@ -78,13 +97,13 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 		return;
 	}
 
-	// TODO, properly assign a channel to use
+	// TODO, properly assign a channel to use. Won't be able to have a second track playing if stero sound is implemented, possibly. 
 	DirectSound::Channels soundChannel = DirectSound::Channels::ChannelA;
 	DirectMemoryAccess::Channels dmaChannel = DirectMemoryAccess::Channels::Sound0;
 	DirectSound::Timer dmaTimer = DirectSound::Timer::Sound0;
 
 	// Mark any active channel in this slot as inactive, we're about to stomp the audio for this new one
-	for (int i = m_activeChannels.handles.Count(); i >= 0; --i)
+	for (int i = m_activeChannels.handles.Count() - 1; i >= 0; --i)
 	{
 		tChannelHandle activeHandle = m_activeChannels.handles[i];
 		const auto* channel = GetDirectSoundChannel(activeHandle);
@@ -94,7 +113,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 		}
 	}
 
-	DirectSoundChannel& channel = m_channels[handle];	// Todo, should be a pool element instead
+	DirectSoundChannel& channel = *EditDirectSoundChannel(handle);
 	int requestedSampleStartOffset = 0;
 	int sampleStartOffset = MIN(channel.sampleCount, requestedSampleStartOffset);
 
@@ -109,13 +128,13 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 	u32 ticksPerSampleTransfer = (CLOCK / (float)sampleRate) / playRate;
 	if (ticksPerSampleTransfer > u16(-1))
 	{
-		DEBUG_ASSERTMSGFORMAT(false, "Ticks per sample overflow detected. Playrate (%f) may be too low or samplerate (%d) too high.", playRate, sampleRate);
+		DEBUG_ERRORFORMAT(false, "Ticks per sample overflow detected. Playrate (%f) may be too low or samplerate (%d) too high.", playRate, sampleRate);
 		ticksPerSampleTransfer = u16(-1);
 	}
 
 	// Calculate EOF system time so that we know when to stop or repeat the sound channel, otherwise we'll end up continuing into playing garbage
 	int totalSamplesToTransfer = channel.sampleCount - sampleStartOffset;
-	u32 totalTicksTillEnd = totalSamplesToTransfer * ticksPerSampleTransfer - (CLOCK * 0.03f);		// Calculate and remove 0.03 seconds worth of ticks to account for framerate variations at 30fps. 
+	u32 totalTicksTillEnd = totalSamplesToTransfer * ticksPerSampleTransfer - EndTimeOffset;
 	u32 totalPlaybackTicks = totalTicksTillEnd / Time::ClockFreq;
 	u32 totalSeconds = totalPlaybackTicks / u16(-1);
 	u32 remainder = totalPlaybackTicks % u16(-1);
@@ -166,13 +185,20 @@ void GBA::Audio::AudioManager::Resume(const tChannelHandle & handle)
 	// NOT SUPPORTED
 	// TODO, need to recalculate EOF time
 
-	/*
-	const auto& stream = GetDirectSoundChannel(handle);
+	if (m_activeChannels.handles.Contains(handle))
+	{
+		/*
+		const auto& stream = GetDirectSoundChannel(handle);
 
-	auto timerId = GetTimerIdForDirectSound(stream.dmaTimerId);
-	auto& timer = GBA::Timers::GetTimer(timerId);
-	timer.SetActive(true);
-	*/
+		auto timerId = GetTimerIdForDirectSound(stream.dmaTimerId);
+		auto& timer = GBA::Timers::GetTimer(timerId);
+		timer.SetActive(true);
+		*/
+	}
+	else
+	{
+		DEBUG_ERROR("Unable to resume audio channel that was not active to begin with.");
+	}
 }
 
 void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
@@ -197,23 +223,27 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 
 GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateDirectSoundChannel(int sampleRate, int sampleCount, const u8* samples, int flags)
 {
-	GBA::Audio::AudioManager::tChannelHandle channelHandle = 0;		// TODO, need to alloc this from an actual pool
+	DirectSoundChannel* newChannel = m_directSoundChannelPool.CreateNew();
 
-	DirectSoundChannel& newChannel = m_channels[channelHandle];
+	if (!newChannel)
+	{
+		DEBUG_ERROR("Unable to create a direct sound channel, none available from pool.");
+		return INVALID_CHANNEL;
+	}
 
 	// We assign the hardware channels when we actually play the channel
-	newChannel.soundChannelId = DirectSound::Channels::ChannelCount;
-	newChannel.dmaChannelId = DirectMemoryAccess::Channels::Count;
-	newChannel.dmaTimerId = DirectSound::Timer::SoundTimerCount;
+	newChannel->soundChannelId = DirectSound::Channels::ChannelCount;
+	newChannel->dmaChannelId = DirectMemoryAccess::Channels::Count;
+	newChannel->dmaTimerId = DirectSound::Timer::SoundTimerCount;
 
-	newChannel.flags = flags;
-	newChannel.flags.ClearBit(AudioChannelProperties::Active);		// No read-only flags allowed
+	newChannel->flags = flags;
+	newChannel->flags.ClearBit(AudioChannelProperties::Active);		// No read-only flags allowed
 
-	newChannel.sampleCount = sampleCount;
-	newChannel.sampleRate = sampleRate;
-	newChannel.samples = samples;
+	newChannel->sampleCount = sampleCount;
+	newChannel->sampleRate = sampleRate;
+	newChannel->samples = samples;
 
-	return channelHandle;
+	return (intptr_t)newChannel;
 }
 
 void GBA::Audio::AudioManager::PlayDirectSound(
@@ -246,7 +276,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 		DirectMemoryAccess::Mode::Special);		// "Special" sets the transfer to happen based on the sound timers
 
 	// Set the timer to overflow each time we need a new sample
-	timer.SetInitialTimerCount(65536 - repeatParams.ticksPerSampleTransfer);		// TODO, base on playrate
+	timer.SetInitialTimerCount(65536 - repeatParams.ticksPerSampleTransfer);
 
 	// Capture real start time just before we enable timer so it's accurate
 	auto startTime = Time::CaptureSystemTimeSnapshot();
@@ -270,6 +300,12 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 	DEBUG_LOGFORMAT("Direct sound end time = (%d, %d)", endTime.systemClockCount1, endTime.systemClockCount2);
 
 	*out_endTime = endTime;
+}
+
+bool GBA::Audio::AudioManager::IsDirectSoundChannel(const tChannelHandle handle)
+{
+	DirectSoundChannel* channelHandle = (DirectSoundChannel*)handle;
+	return m_directSoundChannelPool.Contains(channelHandle);
 }
 
 void GBA::Audio::AudioManager::OnActiveChannelReachedEof(int activeChannelIndex)
@@ -300,7 +336,7 @@ void GBA::Audio::AudioManager::OnActiveChannelReachedEof(int activeChannelIndex)
 
 		if (flags.TestBit(AudioChannelProperties::DisposeOnCompletion))
 		{
-
+			FreeChannel(handle);
 		}
 
 		DEBUG_LOGFORMAT("Channel (%d) reached expected eof, stopping playback", handle);
@@ -311,7 +347,7 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateFromFil
 {
 	CppFileReader reader(file);
 	int sampleRate = reader.Read<int>();
-	int sampleCount = reader.Read<int>();	// TODO, better to make this sample count instead
+	int sampleCount = reader.Read<int>();
 	const u8* samples = reader.ReadAddress<u8>(sampleCount);
 
 	return CreateDirectSoundChannel(sampleRate, sampleCount, samples);
@@ -324,7 +360,7 @@ void GBA::Audio::AudioManager::PlayFromFile(const u32 * file, float playrate)
 	int sampleCount = reader.Read<int>();	// Byte count is the same as sample count
 	const u8* samples = reader.ReadAddress<u8>(sampleCount);
 
-	auto handle = CreateDirectSoundChannel(sampleRate, sampleCount, samples);
+	auto handle = CreateDirectSoundChannel(sampleRate, sampleCount, samples, AudioChannelProperties::DisposeOnCompletion);
 
 	PlayDirectSound(handle);
 }
@@ -332,6 +368,21 @@ void GBA::Audio::AudioManager::PlayFromFile(const u32 * file, float playrate)
 void GBA::Audio::AudioManager::Play(const tChannelHandle handle)
 {
 	PlayDirectSound(handle);
+}
+
+void GBA::Audio::AudioManager::FreeChannel(const tChannelHandle handle)
+{
+	if (GetChannelProperties(handle)->flags.TestBit(AudioChannelProperties::Active))
+	{
+		Stop(handle);
+	}
+
+	if (IsDirectSoundChannel(handle))
+	{
+		m_directSoundChannelPool.Free(reinterpret_cast<DirectSoundChannel*>(handle));
+	}
+
+	// ERROR?
 }
 
 bool GBA::Audio::AudioManager::GetChannelFlag(tChannelHandle handle, AudioChannelProperties::Flags flag)

@@ -102,12 +102,12 @@ protected:
 	bool Reallocate(u32 size, u32 count)
 	{
 		// No.
-		DEBUG_ASSERTMSG(false, "FixedList out of memory");
+		DEBUG_ERROR("FixedList out of memory");
 		return false;
 	}
 
-	inline T& Get(u32 index) { DEBUG_ASSERTMSG(false, "FixedList of size 0 cannot be accessed."); return (T&)(m_container[0]); }
-	inline const T& Get(u32 index) const { DEBUG_ASSERTMSG(false, "FixedList of size 0 cannot be accessed."); return (T&)(m_container[0]); }
+	inline T& Get(u32 index) { DEBUG_ERROR("FixedList of size 0 cannot be accessed."); return (T&)(m_container[0]); }
+	inline const T& Get(u32 index) const { DEBUG_ERROR("FixedList of size 0 cannot be accessed."); return (T&)(m_container[0]); }
 
 	inline u32 Capacity() { return 0; }
 	inline u32 Capacity() const { return 0; }
@@ -139,7 +139,7 @@ class ListBase : public MemoryPolicy
 		{
 			if (!GrowTo(Capacity() * 2))
 			{
-				DEBUG_ASSERTMSG(false, "Unable to add element. List out of memory");
+				DEBUG_ERROR("Unable to add element. List out of memory");
 				return NULL;
 			}
 		}
@@ -180,6 +180,7 @@ public:
 	ListBase& operator=(const ListBase<T, MemoryPolicy>& that)
 	{
 		Reserve(that.Capacity());
+
 		for (ListBase<T, MemoryPolicy>::const_iterator it = that.begin(); it != that.end(); ++it)
 		{
 			Add(*it);
@@ -188,8 +189,8 @@ public:
 		return *this;
 	}
 
-	inline T& Get(u32 index) { return MemoryPolicy::Get(index); }
-	inline const T& Get(u32 index) const { return MemoryPolicy::Get(index); }
+	inline T& Get(u32 index) { DEBUG_ASSERTMSGFORMAT(index >= 0 && index < Count(), "List index (%d) out of range", index); return MemoryPolicy::Get(index); }
+	inline const T& Get(u32 index) const { DEBUG_ASSERTMSGFORMAT(index >= 0 && index < Count(), "List index (%d) out of range", index); return MemoryPolicy::Get(index); }
 
 	inline u32 Count() { return m_count; }
 	inline u32 Count() const { return m_count; }
@@ -200,8 +201,8 @@ public:
 	inline iterator begin() { return Count() > 0 ? &Get(0) : NULL; }
 	inline const_iterator begin() const { return Count() > 0 ? &Get(0) : NULL; }
 
-	inline iterator end() { return Count() > 0 ? &Get(Count()) : NULL; }
-	inline const_iterator end() const { return Count() > 0 ? &Get(Count()) : NULL; }
+	inline iterator end() { return Count() > 0 ? &MemoryPolicy::Get(Count()) : NULL; }
+	inline const_iterator end() const { return Count() > 0 ? &MemoryPolicy::Get(Count()) : NULL; }
 
 	inline T & operator[](u32 index) { return Get(index); }
 	inline const T & operator[](u32 index) const { return Get(index); }
@@ -272,7 +273,7 @@ public:
 	{
 		if (index > Count())
 		{
-			DEBUG_ASSERTMSG(false, "List insertion index out of range");
+			DEBUG_ERROR("List insertion index out of range");
 			return false;
 		}
 
@@ -288,7 +289,7 @@ public:
 
 			if (!GrowTo(newSize))
 			{
-				DEBUG_ASSERTMSG(false, "List out of memory");
+				DEBUG_ERROR("List out of memory");
 				return false;
 			}
 		}

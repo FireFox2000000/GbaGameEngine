@@ -44,7 +44,7 @@ namespace GBA
 				tileIndex += tileCount;	// Align to the size to prevent fragmentation
 		}
 
-		DEBUG_ASSERTMSGFORMAT(false, "OUT OF VRAM! Failed to locate tile memory of size %d", tileCount);
+		DEBUG_ERRORFORMAT(false, "OUT OF VRAM! Failed to locate tile memory of size %d", tileCount);
 
 		return INVALID_TILE_ID;
 	}
@@ -162,7 +162,7 @@ namespace GBA
 		tScreenBaseBlockIndex tileSbbIndex = AllocBackgroundMem(u16DataLength, true);
 		if (tileSbbIndex == INVALID_SBB_ID)
 		{
-			DEBUG_ASSERTMSG(false, "Unable to load background, out of memory for tileset");
+			DEBUG_ERROR("Unable to load background, out of memory for tileset");
 			return TileBlockGroups::BlockGroupCount;
 		}
 

@@ -65,7 +65,7 @@ vu32 * GBA::Audio::DirectSound::GetDestinationBuffer(Channels channel)
 		break;
 	}
 
-	DEBUG_ASSERTMSG(false, "Direct sound destination buffer not found!");
+	DEBUG_ERROR("Direct sound destination buffer not found!");
 
 	return nullptr;
 }

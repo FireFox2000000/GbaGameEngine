@@ -3,6 +3,7 @@
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/base/core/stl/Bitmask.h"
+#include "engine/base/core/stl/Pool.h"
 
 #include "engine/audio/AudioChannelProperties.h"
 
@@ -19,10 +20,11 @@ namespace GBA
 		{
 		public:
 			// TODO, move these into some kind of internal base audio manager
-			using tChannelHandle = int;
-			static constexpr tChannelHandle INVALID_CHANNEL = -1;
+			using tChannelHandle = intptr_t;
+			static constexpr tChannelHandle INVALID_CHANNEL = (intptr_t)nullptr;
 
 		private:		
+			static constexpr int MAX_DIRECTSOUND_CHANNELS = 2; // 1 background track + one sfx? Don't think we really need many full files sounds per scene. Most sfx should be using other channels
 			void SetMasterSoundEnabled(bool enabled);
 
 			struct SoundProperties
@@ -63,11 +65,11 @@ namespace GBA
 				FixedList<RepeatParams, MAX_ACTIVE_CHANNELS> repeatParams;
 			};
 
-			Array<DirectSoundChannel, 1> m_channels;		// TODO, probably want to use pool type here
+			Pool<DirectSoundChannel, MAX_DIRECTSOUND_CHANNELS> m_directSoundChannelPool;
 			ActiveChannelSOA m_activeChannels;
 
-			const DirectSoundChannel* GetDirectSoundChannel(tChannelHandle handle) { return &m_channels[handle]; }
-			DirectSoundChannel* EditDirectSoundChannel(tChannelHandle handle) { return &m_channels[handle]; }
+			const DirectSoundChannel* GetDirectSoundChannel(tChannelHandle handle);
+			DirectSoundChannel* EditDirectSoundChannel(tChannelHandle handle);
 			const SoundProperties* GetChannelProperties(tChannelHandle handle) const;
 			SoundProperties* EditChannelProperties(tChannelHandle handle);
 
@@ -83,6 +85,7 @@ namespace GBA
 				, Time::InternalSnapshot* out_endTime
 			);
 
+			bool IsDirectSoundChannel(const tChannelHandle handle);
 			void OnActiveChannelReachedEof(int activeChannelIndex);
 
 			enum Channels
@@ -114,6 +117,8 @@ namespace GBA
 			// Plays an Signed 8-bit PCM file, one-shot auto disposed
 			void PlayFromFile(const u32* file, float playrate = 1.0f);
 			void Play(const tChannelHandle handle);
+
+			void FreeChannel(const tChannelHandle handle);
 
 			bool GetChannelFlag(tChannelHandle handle, AudioChannelProperties::Flags flag);
 			void SetChannelFlag(tChannelHandle handle, AudioChannelProperties::Flags flag, bool value);

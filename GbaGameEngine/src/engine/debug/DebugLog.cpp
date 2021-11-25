@@ -47,6 +47,20 @@ void Debug::LogAtLocation(const char * file, const int line, const char * format
 	}
 }
 
+void Debug::LogError(const char * file, const int line, const char * format, ...)
+{
+	Log("ERROR!");
+
+	// Output this on two different lines with tab spacing for better formatting to no$gba debugger
+	{
+		Debug::LogFormat("%s(%d): ", file, line);
+	}
+
+	{
+		VLOGFORMAT_W_UNPACK(format, format);
+	}
+}
+
 void Debug::LogAssertionFailure(const char* file, const int line, const char* format, ...)
 {
 	Log("ASSERTION FAILED!");

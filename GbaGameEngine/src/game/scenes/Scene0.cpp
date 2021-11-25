@@ -4,7 +4,6 @@
 #include "engine/render/SpriteRenderer.h"
 #include "engine/asset/libraries/FontLibrary.h"
 #include "engine/asset/AnimationFactory.h"
-#include "engine/audio/AudioManager.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gameobject/ui/ScreenTransform.h"
@@ -30,9 +29,9 @@ Scene0::~Scene0()
 void Scene0::Enter(Engine* engine)
 {
 	auto* audioManager = engine->EditComponent<AudioManager>();
-	auto handle = audioManager->CreateFromFile(TheCrowSong::data);
-	audioManager->SetChannelFlag(handle, AudioChannelProperties::Loop, true);
-	audioManager->Play(handle);
+	m_backgroundMusic = audioManager->CreateFromFile(TheCrowSong::data);
+	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
+	audioManager->Play(m_backgroundMusic);
 
 	// Load assets
 	auto* atlus = m_assetManager.AddSpriteSheetFromFile(SpriteAtlusID::Shantae, Shantae_Idle_bin::data);
@@ -148,5 +147,10 @@ void Scene0::Update(Engine* engine)
 
 void Scene0::Exit(Engine * engine)
 {
+	// TODO, should add an auto dispose list to handle this kind of thing instead
+	auto* audioManager = engine->EditComponent<AudioManager>();
+	audioManager->Stop(m_backgroundMusic);
+	audioManager->FreeChannel(m_backgroundMusic);
+
 	m_assetManager.Dispose(engine);
 }

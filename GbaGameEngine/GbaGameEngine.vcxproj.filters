@@ -189,6 +189,7 @@
     <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
+    <ClInclude Include="src\engine\base\core\stl\Pool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

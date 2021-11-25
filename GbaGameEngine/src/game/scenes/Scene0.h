@@ -2,6 +2,7 @@
 #include "engine/scene/Scene.h"
 #include "engine/asset/FixedAssetManager.h"
 #include "engine/animation/SpriteAnimator.h"
+#include "engine/audio/AudioManager.h"
 
 class Scene0 : public Scene
 {
@@ -31,6 +32,7 @@ class Scene0 : public Scene
 
 	GameObject playerObject;
 	GameObject* textObject;
+	AudioManager::tChannelHandle m_backgroundMusic;
 
 public:
 	Scene0(Engine* engine);

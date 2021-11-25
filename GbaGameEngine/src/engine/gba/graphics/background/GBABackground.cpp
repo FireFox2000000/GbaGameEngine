@@ -87,7 +87,7 @@ namespace GBA
 				}
 			}
 
-			DEBUG_ASSERTMSG(false, "Invalid size, cannot determine GBA Control Register size");
+			DEBUG_ERROR("Invalid size, cannot determine GBA Control Register size");
 
 			return ControlRegister::Size::REGSize_Count;
 		}
