@@ -136,7 +136,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 	u32 ticksPerSampleTransfer = (CLOCK / (float)sampleRate) / playRate;
 	if (ticksPerSampleTransfer > u16(-1))
 	{
-		DEBUG_ERRORFORMAT(false, "Ticks per sample overflow detected. Playrate (%f) may be too low or samplerate (%d) too high.", playRate, sampleRate);
+		DEBUG_ERRORFORMAT("Ticks per sample overflow detected. Playrate (%f) may be too low or samplerate (%d) too high.", playRate, sampleRate);
 		ticksPerSampleTransfer = u16(-1);
 	}
 

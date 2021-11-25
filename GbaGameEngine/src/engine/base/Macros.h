@@ -29,14 +29,14 @@
 #define DEBUG_LOG(message) { Debug::LogAtLocation(__FILE__, __LINE__, message); }
 #define DEBUG_LOGFORMAT(format, ...) { Debug::LogAtLocation(__FILE__, __LINE__, format, __VA_ARGS__); }
 #define DEBUG_ERROR(message) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
-#define DEBUG_ERRORFORMAT(message, format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
+#define DEBUG_ERRORFORMAT(format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
 #define DEBUG_ASSERTMSG(condition, message) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
 #define DEBUG_ASSERTMSGFORMAT(condition, format, ...) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
 #else
 #define DEBUG_LOG(message) { Debug::Log(message); }
 #define DEBUG_LOGFORMAT(format, ...) { Debug::LogFormat(format, __VA_ARGS__); }
 #define DEBUG_ERROR(message) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
-#define DEBUG_ERRORFORMAT(message, format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
+#define DEBUG_ERRORFORMAT(format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
 #define DEBUG_ASSERTMSG(condition, message) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
 #define DEBUG_ASSERTMSGFORMAT(condition, format, ...) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
 #endif
