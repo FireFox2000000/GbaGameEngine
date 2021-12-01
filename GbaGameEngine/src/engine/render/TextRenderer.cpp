@@ -8,7 +8,7 @@
 void System::UI::TextRenderer::Render(Engine * engine)
 {
 	auto* entityManager = engine->GetEntityRegistry();
-	Graphics* graphics = engine->EditComponent<Graphics>();
+	Graphics* graphics = engine->GetComponent<Graphics>();
 	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
 
 	entityManager->InvokeEach<Component::UI::ScreenTransform, Component::UI::Text>(

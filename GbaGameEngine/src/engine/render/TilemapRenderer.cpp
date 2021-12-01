@@ -60,7 +60,7 @@ void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
 	auto* entityManager = engine->GetEntityRegistry();
 
 	auto& vram = GBA::Vram::GetInstance();
-	Graphics* gfx = engine->EditComponent<Graphics>();
+	Graphics* gfx = engine->GetComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 

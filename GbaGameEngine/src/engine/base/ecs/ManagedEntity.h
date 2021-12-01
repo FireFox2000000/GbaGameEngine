@@ -125,6 +125,7 @@ namespace ECS
 			return m_entity;
 		}
 
+		// Managed entities need a way of adding and removing components without making a call to the engine for simplicities' sake
 		static void ProvideEntityManagerService(EntityComponentManager* registry)
 		{
 			s_managedEntityServiceLocation = registry;

@@ -49,7 +49,7 @@ void Scene::PreRender(Engine * engine)
 void Scene::Render(Engine* engine)
 {
 	// Todo, this just renders sprite, should also do the vblank render of tilemaps as seen below
-	Graphics* gfx = engine->EditComponent<Graphics>();
+	Graphics* gfx = engine->GetComponent<Graphics>();
 	gfx->EndFrame();
 
 	System::TilemapRenderer::VBlankRender(engine, &m_mainCamera);

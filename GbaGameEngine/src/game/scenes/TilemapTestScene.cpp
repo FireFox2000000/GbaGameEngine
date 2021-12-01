@@ -27,7 +27,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::Eosd, 0);
 
 	// Load the tilemap into vram
-	Graphics* graphicsManager = engine->EditComponent<Graphics>();
+	Graphics* graphicsManager = engine->GetComponent<Graphics>();
 	graphicsManager->LoadTilemap(*tilemap);
 
 	GameObject* background = m_gameObjects.AddNew();

@@ -38,7 +38,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 
 
 	auto* entityManager = engine->GetEntityRegistry();
-	Graphics* gfx = engine->EditComponent<Graphics>();
+	Graphics* gfx = engine->GetComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 

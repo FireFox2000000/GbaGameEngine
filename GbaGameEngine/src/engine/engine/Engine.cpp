@@ -7,7 +7,8 @@
 
 Engine::Engine()
 {
-	m_engineComponentsContainer = m_entityComponentManager.CreateEntity();
+	m_engineComponentsContainer = m_engineComponentsRegistry.CreateEntity();
+
 	ECS::ManagedEntity::ProvideEntityManagerService(&m_entityComponentManager);
 
 	AddComponent<Time>();
@@ -20,6 +21,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	m_entityComponentManager.DestroyEntity(m_engineComponentsContainer);
+	m_engineComponentsRegistry.DestroyEntity(m_engineComponentsContainer);
+
 	ECS::ManagedEntity::ProvideEntityManagerService(NULL);
 }

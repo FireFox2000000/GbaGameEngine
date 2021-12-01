@@ -29,7 +29,7 @@ Scene0::~Scene0()
 
 void Scene0::Enter(Engine* engine)
 {
-	auto* audioManager = engine->EditComponent<AudioManager>();
+	auto* audioManager = engine->GetComponent<AudioManager>();
 	m_backgroundMusic = audioManager->CreateFromFile(TheCrowSong::data);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
 	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 0.5f);
@@ -45,7 +45,7 @@ void Scene0::Enter(Engine* engine)
 		GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 	}
 
-	FontLibrary* fontLibrary = engine->EditComponent<FontLibrary>();
+	FontLibrary* fontLibrary = engine->GetComponent<FontLibrary>();
 
 	m_gameObjects.Reserve(totalTestSprites);
 
@@ -149,7 +149,7 @@ void Scene0::Update(Engine* engine)
 
 	if (GBA::Input::GetKeyDown(GBA::Buttons::R))
 	{
-		auto* audioManager = engine->EditComponent<AudioManager>();
+		auto* audioManager = engine->GetComponent<AudioManager>();
 		if (audioManager->GetChannelFlag(m_backgroundMusic, AudioChannelProperties::Active))
 		{
 			audioManager->Stop(m_backgroundMusic);
@@ -164,7 +164,7 @@ void Scene0::Update(Engine* engine)
 void Scene0::Exit(Engine * engine)
 {
 	// TODO, should add an auto dispose list to handle this kind of thing instead
-	auto* audioManager = engine->EditComponent<AudioManager>();
+	auto* audioManager = engine->GetComponent<AudioManager>();
 	audioManager->Stop(m_backgroundMusic);
 	audioManager->FreeChannel(m_backgroundMusic);
 

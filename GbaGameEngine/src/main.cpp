@@ -20,11 +20,11 @@ int main()
 {
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 
-	SceneManager* sceneManager = engine.get()->EditComponent<SceneManager>();
+	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
 	sceneManager->ChangeScene<Scene0>(engine.get());
 
-	Time* time = engine->EditComponent<Time>();
-	AudioManager* audioManager = engine->EditComponent<AudioManager>();
+	Time* time = engine->GetComponent<Time>();
+	AudioManager* audioManager = engine->GetComponent<AudioManager>();
 
 	// Test Initialisation		
 	GBA::Input::Update();
@@ -99,7 +99,7 @@ int main()
 
 		if (sceneManager->HasSceneChangeQueued())
 		{
-			engine.get()->EditComponent<Graphics>()->PrepareForSceneChange();
+			engine.get()->GetComponent<Graphics>()->PrepareForSceneChange();
 			sceneManager->EnterQueuedScene(engine.get());
 		}
 

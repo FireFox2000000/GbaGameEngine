@@ -62,7 +62,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 
 void AssetLoadFunctions::Unload(Engine* engine, TilemapSet * begin, TilemapSet * end)
 {
-	Graphics* graphicsManager = engine->EditComponent<Graphics>();
+	Graphics* graphicsManager = engine->GetComponent<Graphics>();
 
 	for (auto* tilemapSet = begin; tilemapSet != end; ++tilemapSet)
 	{
