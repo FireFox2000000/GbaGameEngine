@@ -8,6 +8,13 @@
 // Calculate and remove 0.03 seconds worth of ticks to account for framerate variations at 30fps, otherwise we may end up putting garbage into the speakers briefly.
 constexpr int EndTimeOffset = (CLOCK * 0.03f);
 
+GBA::Audio::AudioManager::AudioManager() 
+	: m_availableDSoundChannels({ DirectSound::Channels::ChannelA, DirectSound::Channels::ChannelB })
+	, m_availableDMAChannels({ DirectMemoryAccess::Sound0, DirectMemoryAccess::Sound1 })
+	, m_availebleDSoundTimers({ DirectSound::Timer::Sound0, DirectSound::Timer::Sound1 })
+{
+}
+
 GBA::Audio::AudioManager::SoundProperties::SoundProperties()
 {
 	attributes[AudioChannelProperties::Attributes::Playrate] = 1.0f;
@@ -97,10 +104,17 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 		return;
 	}
 
-	// TODO, properly assign a channel to use. Won't be able to have a second track playing if stero sound is implemented, possibly. 
-	DirectSound::Channels soundChannel = DirectSound::Channels::ChannelA;
-	DirectMemoryAccess::Channels dmaChannel = DirectMemoryAccess::Channels::Sound0;
-	DirectSound::Timer dmaTimer = DirectSound::Timer::Sound0;
+	if (m_availableDSoundChannels.Count() <= 0)
+	{
+		DEBUG_LOG("Unable to play direct sound, all channels already in use");
+		return;
+	}
+
+	// Assign a channel to use. Won't be able to have a second track playing if stero sound is implemented, possibly. 
+	int availableIndex = 0;
+	DirectSound::Channels soundChannel = m_availableDSoundChannels[availableIndex];		m_availableDSoundChannels.RemoveAt(availableIndex);
+	DirectMemoryAccess::Channels dmaChannel = m_availableDMAChannels[availableIndex];	m_availableDMAChannels.RemoveAt(availableIndex);
+	DirectSound::Timer dmaTimer = m_availebleDSoundTimers[availableIndex];				m_availebleDSoundTimers.RemoveAt(availableIndex);
 
 	// Mark any active channel in this slot as inactive, we're about to stomp the audio for this new one
 	for (int i = m_activeChannels.handles.Count() - 1; i >= 0; --i)
@@ -224,6 +238,15 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 			m_activeChannels.expectedEofTime.RemoveAt(i);
 			m_activeChannels.repeatParams.RemoveAt(i);
 
+			if (IsDirectSoundChannel(handle))
+			{
+				// Return direct sound channel as available again.
+				const auto* dSoundChannel = GetDirectSoundChannel(handle);
+				m_availableDSoundChannels.Add(dSoundChannel->soundChannelId);
+				m_availableDMAChannels.Add(dSoundChannel->dmaChannelId);
+				m_availebleDSoundTimers.Add(dSoundChannel->dmaTimerId);
+			}
+
 			return;
 		}
 	}
@@ -261,7 +284,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 	, const u8* samples
 	, const RepeatParams& repeatParams
 	, Time::InternalSnapshot* out_endTime
-)
+) const
 {
 	// Direct sound timer and GBA timer must be set to the same timer, cannot mix these
 	GBA::Timers::TimerId timerId = GetTimerIdForDirectSound(dmaTimer);
@@ -310,7 +333,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 	*out_endTime = endTime;
 }
 
-bool GBA::Audio::AudioManager::IsDirectSoundChannel(const tChannelHandle handle)
+bool GBA::Audio::AudioManager::IsDirectSoundChannel(const tChannelHandle handle) const
 {
 	DirectSoundChannel* channelHandle = (DirectSoundChannel*)handle;
 	return m_directSoundChannelPool.Contains(channelHandle);
@@ -375,7 +398,14 @@ void GBA::Audio::AudioManager::PlayFromFile(const u32 * file, float playrate)
 
 void GBA::Audio::AudioManager::Play(const tChannelHandle handle)
 {
-	PlayDirectSound(handle);
+	if (IsDirectSoundChannel(handle))
+	{
+		PlayDirectSound(handle);
+	}
+	else
+	{
+		// Unhandled, TODO
+	}
 }
 
 void GBA::Audio::AudioManager::FreeChannel(const tChannelHandle handle)
@@ -393,7 +423,7 @@ void GBA::Audio::AudioManager::FreeChannel(const tChannelHandle handle)
 	// ERROR?
 }
 
-bool GBA::Audio::AudioManager::GetChannelFlag(tChannelHandle handle, AudioChannelProperties::Flags flag)
+bool GBA::Audio::AudioManager::GetChannelFlag(tChannelHandle handle, AudioChannelProperties::Flags flag) const
 {
 	const auto* properties = GetChannelProperties(handle);
 	return properties->flags.TestBit(flag);
@@ -420,7 +450,7 @@ void GBA::Audio::AudioManager::SetChannelFlag(tChannelHandle handle, AudioChanne
 	}
 }
 
-float GBA::Audio::AudioManager::GetChannelAttribute(tChannelHandle handle, AudioChannelProperties::Attributes attribute)
+float GBA::Audio::AudioManager::GetChannelAttribute(tChannelHandle handle, AudioChannelProperties::Attributes attribute) const
 {
 	const auto* properties = GetChannelProperties(handle);
 	return properties->attributes[attribute];

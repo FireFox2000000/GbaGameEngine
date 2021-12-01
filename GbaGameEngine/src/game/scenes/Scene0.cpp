@@ -13,6 +13,7 @@
 #include "game/data/Shantae_Idle_bin.h"
 #include "game/data/audio/TheCrowSong.h"
 #include "game/scripts/MovementTest.h"
+#include "engine/gba/registers/input/GBAInput.h"
 
 const int totalTestSprites = 90;
 
@@ -145,6 +146,19 @@ void Scene0::Update(Engine* engine)
 
 	System::PlayerMovement::Update(engine, playerObject);
 	Scene::Update(engine);
+
+	if (GBA::Input::GetKeyDown(GBA::Buttons::R))
+	{
+		auto* audioManager = engine->EditComponent<AudioManager>();
+		if (audioManager->GetChannelFlag(m_backgroundMusic, AudioChannelProperties::Active))
+		{
+			audioManager->Stop(m_backgroundMusic);
+		}
+		else
+		{
+			audioManager->Play(m_backgroundMusic);
+		}
+	}
 }
 
 void Scene0::Exit(Engine * engine)

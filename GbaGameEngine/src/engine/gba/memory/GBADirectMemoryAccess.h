@@ -17,6 +17,9 @@ namespace GBA
 
 			Sound0 = Channel1,
 			Sound1 = Channel2,
+
+			SoundCount = 2,
+
 			General = Channel3,
 		};
 

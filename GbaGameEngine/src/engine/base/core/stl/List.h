@@ -4,6 +4,7 @@
 #include "engine/base/Macros.h"
 #include "engine/base/core/Memory.h"
 #include "engine/math/Math.h"
+#include <initializer_list>
 
 // Includes List<> and FixedList<>
 // List<> is basically the same as std::vector, but I don't really like the weird naming and so this is inspired to read more like C#'s list class. 
@@ -169,6 +170,11 @@ public:
 		*this = that;
 	}
 
+	ListBase(std::initializer_list<T> l) : ListBase<T, MemoryPolicy>(l.size())
+	{
+		InsertRange(0, l);
+	}
+
 	~ListBase()
 	{
 		for (iterator it = begin(); it != end(); ++it)
@@ -279,7 +285,7 @@ public:
 
 		u32 length = u32(items.end() - items.begin());
 		u32 totalSizeRequired = Count() + length;
-		if (totalSizeRequired >= Capacity())
+		if (totalSizeRequired > Capacity())
 		{
 			u32 newSize = Capacity();
 			do
@@ -289,13 +295,14 @@ public:
 
 			if (!GrowTo(newSize))
 			{
-				DEBUG_ERROR("List out of memory");
+				DEBUG_ERRORFORMAT("List out of memory trying to grow to size %d", newSize);
 				return false;
 			}
 		}
 
 		u32 endPosition = index + length;
 		MoveMemory(MemoryPolicy::GetContainer() + endPosition, MemoryPolicy::GetContainer() + index, sizeof(T) * (Count() - endPosition + length));
+		m_count += length;
 
 		typename EnumerableT::const_iterator itBegin = items.begin();
 		for (u32 i = 0; i < length; ++i)
@@ -304,7 +311,6 @@ public:
 			new(newItem) T(*(itBegin + i));
 		}
 
-		m_count += length;
 		return true;
 	}
 
@@ -353,9 +359,11 @@ public:
 template<class T>
 class List : public ListBase<T, MAllocMemoryPolicy<T> >
 {
+	using ListBase<T, MAllocMemoryPolicy<T> >::ListBase;
 };
 
 template<class T, u32 SIZE>
 class FixedList : public ListBase<T, FixedMemoryPolicy<T, SIZE> >
 {
+	using ListBase<T, FixedMemoryPolicy<T, SIZE> >::ListBase;
 };

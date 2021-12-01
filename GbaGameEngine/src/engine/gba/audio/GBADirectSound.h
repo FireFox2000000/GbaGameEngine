@@ -29,7 +29,7 @@ namespace GBA
 				Sound0 = 0,
 				Sound1 = BIT(2),		// This sneaks inbetween the Flags enum
 
-				SoundTimerCount
+				SoundTimerCount = 2
 			};
 
 			enum Channels
