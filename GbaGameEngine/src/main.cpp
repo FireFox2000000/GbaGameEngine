@@ -74,7 +74,7 @@ int main()
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
 			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
-			DEBUG_LOGFORMAT("[Profile VDraw] = %d", profileResult);
+			PROFILE_LOGFORMAT("[Profile VDraw] = %d", profileResult);
 #endif
 		}
 
@@ -92,7 +92,7 @@ int main()
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
 			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
-			DEBUG_LOGFORMAT("[Profile VBlank] = %d", profileResult);
+			PROFILE_LOGFORMAT("[Profile VBlank] = %d", profileResult);
 #endif
 		}
 

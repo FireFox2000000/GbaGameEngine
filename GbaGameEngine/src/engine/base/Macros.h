@@ -24,7 +24,9 @@
 
 #ifdef ENABLE_LOGGING
 #include "engine/debug/DebugLog.h"
+#endif
 
+#ifdef DEBUG
 #ifdef LOG_LOCATION_BY_DEFAULT
 #define DEBUG_LOG(message) { Debug::LogAtLocation(__FILE__, __LINE__, message); }
 #define DEBUG_LOGFORMAT(format, ...) { Debug::LogAtLocation(__FILE__, __LINE__, format, __VA_ARGS__); }
@@ -46,7 +48,7 @@
 #define DEBUG_LOG(message)
 #define DEBUG_LOGFORMAT(format, ...)
 #define DEBUG_ERROR(message)
-#define DEBUG_ERRORFORMAT(message, format, ...)
+#define DEBUG_ERRORFORMAT(format, ...)
 #define DEBUG_ASSERTMSG(condition, message)
 #define DEBUG_ASSERTMSGFORMAT(condition, format, ...)
 
@@ -58,4 +60,10 @@
 #else
 #define FATAL_ERROR()
 
+#endif
+
+#if defined(PROFILE) || defined(DEBUG)
+#define	PROFILE_LOGFORMAT(format, ...) { Debug::LogFormat(format, __VA_ARGS__); }
+#else
+#define	PROFILE_LOGFORMAT(format, ...)
 #endif

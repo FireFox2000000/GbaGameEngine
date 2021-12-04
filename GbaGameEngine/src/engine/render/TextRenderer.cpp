@@ -9,13 +9,11 @@ void System::UI::TextRenderer::Render(Engine * engine)
 {
 	auto* entityManager = engine->GetEntityRegistry();
 	Graphics* graphics = engine->GetComponent<Graphics>();
-	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
 
 	entityManager->InvokeEach<Component::UI::ScreenTransform, Component::UI::Text>(
-		[&graphics, &screenSpaceOffset]
+		[&graphics]
 	(Component::UI::ScreenTransform& transform, Component::UI::Text& textRenderer)
 		{
-			UNUSED(screenSpaceOffset);
 			if (!textRenderer.m_font)
 				return;
 

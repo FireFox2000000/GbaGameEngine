@@ -4,6 +4,7 @@
 #ifndef RETAIL
 
 #define DEBUG
+//#define PROFILE
 
 #endif
 
@@ -12,6 +13,11 @@
 #define NOCASH_GBA
 #define ENABLE_LOGGING
 //#define LOG_LOCATION_BY_DEFAULT
+
+#elif defined(PROFILE)
+
+#define NOCASH_GBA
+#define ENABLE_LOGGING
 
 #else
 
