@@ -46,6 +46,8 @@ namespace GbaConversionTools.Tools
                 }
             }
 
+            Console.WriteLine(String.Format("Palette length: {0}", preProcessedPalette.Length));
+
             Compression.CompressionType compressionType = Compression.CompressionType.BitPacked;
             uint maxColours = MathX.IsPowerOf2((uint)preProcessedPalette.Length) ? (uint)preProcessedPalette.Length : MathX.NextPowerOf2((uint)preProcessedPalette.Length);
             uint destBpp = (uint)MathX.IndexOfHighestSetBit(maxColours);

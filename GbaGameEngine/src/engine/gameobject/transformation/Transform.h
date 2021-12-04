@@ -7,7 +7,7 @@ namespace Component
 	struct Transform
 	{
 		using tPosition = Vector2 <tFixedPoint8>;
-		using tScale = Vector2 <tFixedPoint8>;
+		using tScale = Vector2 <tFixedPoint24>;
 
 	private:
 		// Todo, replace with proper transformation matrix maybe

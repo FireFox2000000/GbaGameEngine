@@ -1,21 +1,26 @@
 #include "Scene0.h"
+#include <stdio.h>
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
-#include "engine/render/SpriteRenderer.h"
 #include "engine/asset/libraries/FontLibrary.h"
+
+#include "engine/render/SpriteRenderer.h"
 #include "engine/asset/AnimationFactory.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/gameobject/transformation/Transform.h"
+#include "engine/physics/Collider.h"
+#include "engine/physics/CollisionFunctions.h"
+
+
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
-#include <stdio.h>
 
 #include "game/data/Shantae_Idle_bin.h"
 #include "game/data/audio/TheCrowSong.h"
 #include "game/scripts/MovementTest.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
-const int totalTestSprites = 90;
+const int totalTestSprites = 0;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -51,6 +56,7 @@ void Scene0::Enter(Engine* engine)
 
 	if (true)
 	{
+		/*
 		for (int i = 0; i < 1; ++i)
 		{
 			GameObject* testBackgroundObject = m_gameObjects.AddNew();
@@ -65,16 +71,23 @@ void Scene0::Enter(Engine* engine)
 			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
 			animator.SetAnimation(defaultIdleAnim);
 		}
+		*/
+		{
+			textObjectCollision = m_gameObjects.AddNew();
+			Component::Transform* transform = textObjectCollision->EditComponent<Component::Transform>();
+			transform->SetPosition(0, 0);
+		
+			Component::SpriteRenderer& testBackgroundRenderer = textObjectCollision->AddComponent<Component::SpriteRenderer>();
+			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
+			testBackgroundRenderer.SetSprite(sprite);
 
-		//{
-		//	GameObject* testTextObject = m_gameObjects.AddNew();
-		//	Component::Transform* transform = testTextObject->EditComponent<Component::Transform>();
-		//	transform->SetPosition((0.2f) - 5, (0.2f) - 5);
-		//
-		//	Component::SpriteRenderer& testBackgroundRenderer = testTextObject->AddComponent<Component::SpriteRenderer>();
-		//	Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
-		//	testBackgroundRenderer.SetSprite(sprite);
-		//}
+			Component::Collider& collider = textObjectCollision->AddComponent<Component::Collider>();
+			//collider.SetCircle(sprite->GetSize().x);
+			collider.SetAABB(
+				Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
+				, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
+			);
+		}
 
 		{
 			GameObject* testTextObject = m_gameObjects.AddNew();
@@ -113,6 +126,14 @@ void Scene0::Enter(Engine* engine)
 		transform->SetPosition(-5, 0);
 		//transform->SetScale(1, 1);
 		//transform->SetRotationDegrees(180);
+
+		Component::Collider& collider = playerObject.AddComponent<Component::Collider>();
+		//collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
+		tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
+		collider.SetAABB(
+			Vector2<tFixedPoint8>((tFixedPoint8(-0.5f) * colliderWidth) + tFixedPoint8(0.5f), tFixedPoint8(0.5f) * -shantae0->GetSize().y)
+			, Vector2<tFixedPoint8>((tFixedPoint8(0.5f) * colliderWidth), (tFixedPoint8(0.5f) * shantae0->GetSize().y) - tFixedPoint8(4))
+				);
 	}
 }
 
@@ -136,14 +157,31 @@ void Scene0::Update(Engine* engine)
 		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
-	//auto position = playerObject->GetComponent<Component::Transform>()->position;
-	//auto* textComponent = textObject->EditComponent<Component::UI::Text>();
-	//
-	//char buff[100];
-	//snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", position.x.ToFloat(), position.y.ToFloat());
-	//
-	//textComponent->m_str = buff;
+	const auto* playerTransform = playerObject.GetComponent<Component::Transform>();
+	auto* textComponent = textObject->EditComponent<Component::UI::Text>();
 
+	{
+		const Component::Collider* playerCollider = playerObject.GetComponent<Component::Collider>();
+
+		const auto* letterTransform = textObjectCollision->GetComponent<Component::Transform>();
+		const Component::Collider* letterCollider = textObjectCollision->GetComponent<Component::Collider>(); 
+
+		if (CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider))
+		{
+			textComponent->m_str = "Collision";
+		}
+		else
+		{
+			textComponent->m_str = "Nollision";
+			//auto position = playerTransform->GetPosition();
+			//
+			//char buff[100];
+			//snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", position.x.ToFloat(), position.y.ToFloat());
+			//
+			//textComponent->m_str = buff;
+		}
+	}
+	
 	System::PlayerMovement::Update(engine, playerObject);
 	Scene::Update(engine);
 

@@ -64,6 +64,10 @@
     <ClCompile Include="src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
+    <ClCompile Include="src\engine\physics\Collider.cpp" />
+    <ClCompile Include="src\engine\physics\CollisionFunctions.cpp" />
+    <ClCompile Include="src\game\data\sprites\debug\Debug_Primitives_64x64.cpp" />
+    <ClCompile Include="src\engine\debug\DebugRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -190,6 +194,11 @@
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
     <ClInclude Include="src\engine\base\core\stl\Pool.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
+    <ClInclude Include="src\engine\physics\Collider.h" />
+    <ClInclude Include="src\engine\math\geometry\Circle.h" />
+    <ClInclude Include="src\engine\physics\CollisionFunctions.h" />
+    <ClInclude Include="src\game\data\sprites\debug\Debug_Primitives_64x64.h" />
+    <ClInclude Include="src\engine\debug\DebugRender.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

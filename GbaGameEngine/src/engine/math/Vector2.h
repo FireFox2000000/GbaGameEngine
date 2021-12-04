@@ -53,13 +53,14 @@ struct Vector2
 	
 	// Regular functions
 	float Magnitude() const;
-	float MagnitudeSqr() const;
 	Vector2 Normal() const;
 	Vector2 Normalised() const;
 	
 	// Static functions
+	T MagnitudeSqrd() const;
+	static T LengthSqrd(const Vector2& a, const Vector2& b);
+
 	static float Length(const Vector2& a, const Vector2& b);
-	static float LengthSqrd(const Vector2& a, const Vector2& b);
 	static float Dot(const Vector2& a, const Vector2& b);
 	static Vector2 Projection(const Vector2& ab, const Vector2& ac);
 	static float Determinant(const Vector2& u, const Vector2& v);
@@ -88,13 +89,23 @@ template <class T> inline Vector2<T> operator/(double scalar, const Vector2<T>& 
 typedef Vector2<float> Vector2f;
 
 template<> float Vector2f::Magnitude() const;
-template<> float Vector2f::MagnitudeSqr() const;
 template<> Vector2f Vector2f::Normal() const;
 template<> Vector2f Vector2f::Normalised() const;
 
 template<> float Vector2f::Length(const Vector2f& a, const Vector2f& b);
-template<> float Vector2f::LengthSqrd(const Vector2f& a, const Vector2f& b);
 template<> float Vector2f::Dot(const Vector2f& a, const Vector2f& b);
 template<> Vector2f Vector2f::Projection(const Vector2f& ab, const Vector2f& ac);
 template<> float Vector2f::Determinant(const Vector2f& u, const Vector2f& v);
 template<> Vector2f Vector2f::PointToVector(const Vector2f& pointA, const Vector2f& pointB);
+
+template<class T>
+inline T Vector2<T>::MagnitudeSqrd() const
+{
+	return x * x + y * y;
+}
+
+template<class T>
+inline T Vector2<T>::LengthSqrd(const Vector2& a, const Vector2& b)
+{
+	return (a - b).MagnitudeSqrd();
+}

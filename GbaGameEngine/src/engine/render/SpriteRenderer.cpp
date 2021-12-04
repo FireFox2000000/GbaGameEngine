@@ -55,7 +55,7 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 				return;
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
-			Vector2<tFixedPoint8> scale = transform.GetScale();
+			Component::Transform::tScale scale = transform.GetScale();
 			tFixedPoint8 rotation = transform.GetRotationDegrees();
 			
 			bool hasAffineTransformation = transform.HasAffineTransformation();

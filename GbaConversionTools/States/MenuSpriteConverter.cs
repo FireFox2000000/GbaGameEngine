@@ -77,38 +77,47 @@ namespace GbaConversionTools.States
             try
             {
                 string outputPath = Path.ChangeExtension(inputPath, ".cpp");
+                string jsonOutputPath = Path.GetDirectoryName(inputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(inputPath) + "_uvs.json";
+                bool uvsJsonExists = File.Exists(jsonOutputPath);
 
                 int uvProcessingOption;
                 Tools.SpriteConverter.UVs[] sliceCoordinates;
 
-                while (true)
+                if (uvsJsonExists)
                 {
-                    Console.WriteLine("Select slicing method:");
-                    Console.WriteLine("1. Grid slice");
-                    Console.WriteLine("2. From Json UVs");
-
-                    while (!Int32.TryParse(Console.ReadLine(), out uvProcessingOption))
+                    sliceCoordinates = JsonConvert.DeserializeObject<Tools.SpriteConverter.UVs[]>(File.ReadAllText(jsonOutputPath));
+                }
+                else
+                {
+                    while (true)
                     {
-                        Console.WriteLine(intParseErrorMsg);
-                        continue;
-                    }
+                        Console.WriteLine("Select slicing method:");
+                        Console.WriteLine("1. Grid slice");
+                        Console.WriteLine("2. From Json UVs");
 
-                    switch (uvProcessingOption)
-                    {
-                        case 1:
-                            // Read user input
-                            sliceCoordinates = PerformGridSlice(bitmap);
-                            break;
-                        case 2:
-                            // Load from json file
-                            sliceCoordinates = LoadJsonUVs();
-                            break;
-                        default:
-                            Console.WriteLine("Invalid slicing option");
+                        while (!Int32.TryParse(Console.ReadLine(), out uvProcessingOption))
+                        {
+                            Console.WriteLine(intParseErrorMsg);
                             continue;
-                    }
+                        }
 
-                    break;
+                        switch (uvProcessingOption)
+                        {
+                            case 1:
+                                // Read user input
+                                sliceCoordinates = PerformGridSlice(bitmap);
+                                break;
+                            case 2:
+                                // Load from json file
+                                sliceCoordinates = LoadJsonUVs();
+                                break;
+                            default:
+                                Console.WriteLine("Invalid slicing option");
+                                continue;
+                        }
+
+                        break;
+                    }
                 }
 
                 ///////////////////////////////////////
@@ -133,7 +142,6 @@ namespace GbaConversionTools.States
                 Tools.SpriteConverter spriteConverter = new Tools.SpriteConverter();
                 spriteConverter.Convert(inputPath, outputPath, bitmap, sliceCoordinates);
 
-                string jsonOutputPath = Path.GetDirectoryName(inputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(inputPath) + "_uvs.json";
                 Console.WriteLine("Saving UV coordiates to " + jsonOutputPath);
 
                 string uvJsonData = JsonConvert.SerializeObject(sliceCoordinates, Formatting.Indented);

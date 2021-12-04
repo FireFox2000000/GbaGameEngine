@@ -3,12 +3,7 @@
 
 template<> float Vector2f::Magnitude() const
 {
-	return sqrt(MagnitudeSqr());
-}
-
-template<> float Vector2f::MagnitudeSqr() const
-{ 
-	return (x * x + y * y);
+	return sqrt(MagnitudeSqrd());
 }
 
 template<> Vector2f Vector2f::Normal() const
@@ -25,11 +20,6 @@ template<> Vector2f Vector2f::Normalised() const
 template<> float Vector2f::Length(const Vector2& a, const Vector2& b)
 {
 	return sqrt(LengthSqrd(a, b));
-}
-
-template<> float Vector2f::LengthSqrd(const Vector2f& a, const Vector2f& b)
-{
-	return (a - b).MagnitudeSqr();
 }
 
 template<> float Vector2f::Dot(const Vector2f& a, const Vector2f& b)

@@ -50,7 +50,7 @@ namespace GBA
 		(
 			GBA::Gfx::Sprite* sprite
 			, const Vector2<tFixedPoint8>& position
-			, const Vector2 <tFixedPoint8>& scale
+			, const Vector2 <tFixedPoint24>& scale
 			, tFixedPoint8 rotationDegrees
 			, Vector2<int> anchorPoint
 			, bool hasAffineTransformation
@@ -70,9 +70,11 @@ namespace GBA
 
 				renderProperties->SetAffineIndex(affineIndex);
 
+				DEBUG_ASSERTMSG(scale.x != 0 && scale.y != 0, "Trying to render affine sprite of scale 0");
+
 				// The affine matrix maps from screen space to texture space, need to tell where the pixel's colour comes from. Invert to correct for this.
 				// See https://www.coranac.com/tonc/text/affine.htm for details
-				Vector2<tFixedPoint8> gbaInvertedScale(tFixedPoint8(1) / scale.x, tFixedPoint8(1) / scale.y);
+				Vector2<tFixedPoint8> gbaInvertedScale(1.0f / scale.x.ToFloat(), 1.0f / scale.y.ToFloat());		// Gross and slow. tFixedPoint24 overflows, tFixedPoint8 not enough precision.
 				u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
 				affineProperties->SetTransformation(gbaInvertedScale, -gbaRotation);
 

@@ -32,6 +32,7 @@ class Scene0 : public Scene
 
 	GameObject playerObject;
 	GameObject* textObject;
+	GameObject* textObjectCollision;
 	AudioManager::tChannelHandle m_backgroundMusic;
 
 public:

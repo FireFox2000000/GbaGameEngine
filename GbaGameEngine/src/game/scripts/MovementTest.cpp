@@ -19,9 +19,9 @@ void System::PlayerMovement::Update(Engine* engine, GameObject& playerObject)
 	tFixedPoint8 moveSpeed = (tFixedPoint8)(playerMovement.moveSpeed * dt);
 	auto position = transform.GetPosition();
 	auto scale = transform.GetScale();
-	auto rotation = transform.GetRotationDegrees();
-	rotation += (tFixedPoint8)(dt * -90);
-	transform.SetRotationDegrees(rotation);
+	//auto rotation = transform.GetRotationDegrees();
+	//rotation += (tFixedPoint8)(dt * -90);
+	//transform.SetRotationDegrees(rotation);
 
 	if (Input::GetKey(Buttons::Left))
 	{

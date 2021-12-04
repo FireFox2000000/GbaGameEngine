@@ -29,7 +29,7 @@ struct AxisAlignedBoundingBox2
 			(min.y <= other.max.y && max.y >= other.min.y);
 	}
 
-	void Translate(Vector2<tFixedPoint8> translation)
+	inline void Translate(Vector2<tFixedPoint8> translation)
 	{
 		min += translation;
 		max += translation;

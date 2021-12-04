@@ -111,6 +111,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
+    <ClCompile Include="src\engine\debug\DebugRender.cpp" />
     <ClCompile Include="src\engine\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
@@ -126,6 +127,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
+    <ClCompile Include="src\engine\physics\Collider.cpp" />
+    <ClCompile Include="src\engine\physics\CollisionFunctions.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
@@ -144,6 +147,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\eosd_bin.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\data\Shantae_Idle_bin.cpp" />
+    <ClCompile Include="src\game\data\sprites\debug\Debug_Primitives_64x64.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
@@ -187,12 +191,16 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtr.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
+    <ClInclude Include="src\engine\debug\DebugRender.h" />
     <ClInclude Include="src\engine\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
     <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
+    <ClInclude Include="src\engine\math\geometry\Circle.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
+    <ClInclude Include="src\engine\physics\Collider.h" />
+    <ClInclude Include="src\engine\physics\CollisionFunctions.h" />
     <ClInclude Include="src\external\entt\config\config.h" />
     <ClInclude Include="src\external\entt\config\version.h" />
     <ClInclude Include="src\external\entt\core\algorithm.hpp" />
@@ -266,6 +274,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\game\data\Shantae_Idle_bin.h" />
+    <ClInclude Include="src\game\data\sprites\debug\Debug_Primitives_64x64.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
