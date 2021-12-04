@@ -35,5 +35,5 @@ class DebugRender
 
 public:
 	DebugRender();
-	void RenderColliders(Engine* engine, GameObject* camera);
+	void RenderColliders(Engine* engine, const GameObject* camera);
 };

@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "engine/base/Macros.h"
+#include "Scene.h"
 
 SceneManager::SceneManager()
 {
@@ -39,5 +40,15 @@ void SceneManager::UpdateScene(Engine * engine)
 {
 	if (m_current)
 		m_current->Update(engine);
+}
+
+void SceneManager::PreRenderScene(Engine* engine)
+{
+	m_current->PreRender(engine);
+}
+
+void SceneManager::RenderScene(Engine* engine)
+{
+	m_current->Render(engine);
 }
 

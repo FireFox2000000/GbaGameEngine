@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "engine/audio/AudioManager.h"
+#include "engine/base/ecs/ManagedEntity.h"
 #include "engine/graphicalassets/Graphics.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/time/Time.h"

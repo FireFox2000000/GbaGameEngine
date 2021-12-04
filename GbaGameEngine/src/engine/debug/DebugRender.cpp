@@ -14,7 +14,7 @@ DebugRender::DebugRender()
 	m_assetManager.AddSpriteSheetFromFile(DebugPrimitives, Debug_Primitives_64x64::data);
 }
 
-void DebugRender::RenderColliders(Engine* engine, GameObject* camera)
+void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
 {
 	// Debug sprites are set to 64x64 in order to be able to render over a large variety of sizes. Scaling up has limits, scaling down does not (in general).
 	// CHange this if the size of the debug primitives change as well. 

@@ -13,7 +13,6 @@ class Scene
 
 	void PreRender(Engine* engine);
 	
-
 protected:
 	GameObject m_mainCamera;
 
@@ -25,4 +24,6 @@ protected:
 public:
 	Scene(Engine* engine);
 	virtual ~Scene();
+
+	const GameObject* GetMainCamera() const { return &m_mainCamera; }
 };

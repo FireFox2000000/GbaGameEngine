@@ -9,6 +9,7 @@
 # GBA Tool output testing
 bin/
 GbaConversionTools/obj/
+LocalTestAssets/
 
 # User-specific files
 *.suo
@@ -53,3 +54,4 @@ ipch/
 *.ipch
 *.iobj
 *.ipdb
+*.bak

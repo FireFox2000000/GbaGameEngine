@@ -14,11 +14,21 @@
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
+//#define DEBUG_COLLIDERS
+
+#ifdef DEBUG_COLLIDERS
+#include "engine/debug/DebugRender.h"
+#endif
+
 static void WaitForVSync();
 
 int main()
 {
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
+
+#ifdef DEBUG_COLLIDERS
+	DebugRender m_debugRenderer;	// TODO, should move this onto engine?
+#endif
 
 	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
 	sceneManager->ChangeScene<Scene0>(engine.get());
@@ -55,7 +65,12 @@ int main()
 
 			System::SpriteAnimator::Update(engine.get());
 
+#ifdef DEBUG_COLLIDERS
+			m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
+#endif
+
 			sceneManager->PreRenderScene(engine.get());
+
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
 			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
