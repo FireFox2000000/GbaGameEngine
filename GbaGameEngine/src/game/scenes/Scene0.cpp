@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
-#include "engine/asset/libraries/FontLibrary.h"
 
 #include "engine/render/SpriteRenderer.h"
 #include "engine/asset/AnimationFactory.h"
@@ -20,7 +19,7 @@
 #include "game/scripts/MovementTest.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
-const int totalTestSprites = 0;
+const int totalTestSprites = 90;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
@@ -42,15 +41,18 @@ void Scene0::Enter(Engine* engine)
 	audioManager->Play(m_backgroundMusic);
 
 	// Load assets
-	auto* atlus = m_assetManager.AddSpriteSheetFromFile(SpriteAtlusID::Shantae, Shantae_Idle_bin::data);
-	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(atlus, 0, 12, 12));
+	DEBUG_LOG("Loading Shantae sprite atlus");
+	shantaeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(Shantae_Idle_bin::data);
+
+	DEBUG_LOG("Loading Shantae idle animations");
+	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(shantaeAtlus, 0, 12, 12));
 
 	{
 		using namespace GBA::DisplayOptions;
 		GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 	}
 
-	FontLibrary* fontLibrary = engine->GetComponent<FontLibrary>();
+	FontLibrary* fontLibrary = &m_fontLib;
 
 	m_gameObjects.Reserve(totalTestSprites);
 
@@ -113,7 +115,7 @@ void Scene0::Enter(Engine* engine)
 		//position->y = 0;
 
 		Component::SpriteRenderer& spriteRenderer = playerObject.AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = m_assetManager.GetSprite(SpriteAtlusID::Shantae, 1);
+		Sprite* shantae0 = shantaeAtlus->GetSprite(1);
 		spriteRenderer.SetSprite(shantae0);
 
 		Component::SpriteAnimator& animator = playerObject.AddComponent<Component::SpriteAnimator>();
@@ -150,38 +152,41 @@ void Scene0::Update(Engine* engine)
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = m_assetManager.GetSprite(SpriteAtlusID::Shantae, 0);
+		Sprite* shantae0 = shantaeAtlus->GetSprite(0);
 		testBackgroundRenderer.SetSprite(shantae0);
 	
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
-	const auto* playerTransform = playerObject.GetComponent<Component::Transform>();
-	auto* textComponent = textObject->EditComponent<Component::UI::Text>();
-
+	if (textObject && false)
 	{
-		const Component::Collider* playerCollider = playerObject.GetComponent<Component::Collider>();
+		const auto* playerTransform = playerObject.GetComponent<Component::Transform>();
+		auto* textComponent = textObject->EditComponent<Component::UI::Text>();
 
-		const auto* letterTransform = textObjectCollision->GetComponent<Component::Transform>();
-		const Component::Collider* letterCollider = textObjectCollision->GetComponent<Component::Collider>(); 
+		{
+			const Component::Collider* playerCollider = playerObject.GetComponent<Component::Collider>();
 
-		if (CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider))
-		{
-			textComponent->m_str = "Collision";
-		}
-		else
-		{
-			textComponent->m_str = "Nollision";
-			//auto position = playerTransform->GetPosition();
-			//
-			//char buff[100];
-			//snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", position.x.ToFloat(), position.y.ToFloat());
-			//
-			//textComponent->m_str = buff;
+			const auto* letterTransform = textObjectCollision->GetComponent<Component::Transform>();
+			const Component::Collider* letterCollider = textObjectCollision->GetComponent<Component::Collider>();
+
+			if (CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider))
+			{
+				textComponent->m_str = "Collision";
+			}
+			else
+			{
+				textComponent->m_str = "Nollision";
+				//auto position = playerTransform->GetPosition();
+				//
+				//char buff[100];
+				//snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", position.x.ToFloat(), position.y.ToFloat());
+				//
+				//textComponent->m_str = buff;
+			}
 		}
 	}
-	
+
 	System::PlayerMovement::Update(engine, playerObject);
 	Scene::Update(engine);
 

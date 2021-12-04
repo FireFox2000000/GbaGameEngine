@@ -4,9 +4,10 @@
 #include "engine/gba/graphics/tiles/GBATile.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
+class SpriteAssetManagerHelper;
+
 namespace GBA
 {
-
 	namespace Gfx
 	{
 		class SpriteAtlus;
@@ -35,11 +36,12 @@ namespace GBA
 
 		private:
 			friend class SpriteGraphicsMemoryManager;
+			friend class ::SpriteAssetManagerHelper;
 			friend class SpriteAtlus;
 			friend class OAMManager;
 
-			const u8 m_attributes;		// First 2 bits stores Attributes::Shape, next 2 bits stores Attributes::SizeMode
-			const Vector2<u8> m_tileSize;
+			u8 m_attributes;		// First 2 bits stores Attributes::Shape, next 2 bits stores Attributes::SizeMode
+			Vector2<u8> m_tileSize;
 
 			RenderData m_renderData;
 
@@ -49,7 +51,9 @@ namespace GBA
 
 			SpriteAtlus* EditAtlus() { return m_atlus; }
 		public:
+			Sprite();
 			Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode);
+			~Sprite() { DEBUG_ASSERTMSG(!IsLoaded(), "Sprite was destroyed while it was still loaded in video memory!"); }
 
 			inline Attributes::Shape GetShape() const { return (Attributes::Shape)(m_attributes & ~(0xFF << 2)); }
 			inline Attributes::SizeMode GetSizeMode() const { return (Attributes::SizeMode)(m_attributes >> 2); }

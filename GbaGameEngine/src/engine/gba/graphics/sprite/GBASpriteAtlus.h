@@ -3,40 +3,37 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/algorithm/Compression.h"
 #include "engine/base/colour/Palette.h"
-#include "GBASprite.h"
+
+class SpriteAssetManagerHelper;
 
 namespace GBA
 {
 	namespace Gfx
 	{
+		struct SpriteNode;
+		class Sprite;
+
 		// Container for a list of sprites that are on the same atlus. 
 		// Sprites on the same atlus will share a colour palette between them, reducing palette memory usage.
 		class SpriteAtlus
 		{
 			friend class SpriteGraphicsMemoryManager;
+			friend class ::SpriteAssetManagerHelper;
 
-			const u16* m_palette = NULL;
-			u8 m_paletteLength = 0;
-			u32 m_spriteDataCompressionFlags = 0;
-			List<Sprite> m_sprites;
+			const u16* m_palette;
+			u8 m_paletteLength;
+			u32 m_spriteDataCompressionFlags;
+			SpriteNode* m_spritesLLHead;
 
 			tPaletteIndex m_paletteIndex = INVALID_PALETTE_INDEX;
 
 		public:
 			SpriteAtlus();
 			SpriteAtlus(
-				const u32 spriteCount,
-				const u8 paletteLength,
-				const u16* palette,
-				const u8* widthMap,
-				const u8* heightMap,
-				const u32 dataLength,
-				const u32 compressionFlags,
-				const u32* data,
-				const u32* offsets);
+				const u8 paletteLength
+				, const u16* palette
+				, const u32 compressionFlags);
 			SpriteAtlus(const SpriteAtlus& that);
-
-			SpriteAtlus & operator=(const SpriteAtlus& that);
 
 			inline bool IsPaletteLoaded() { return GetPaletteIndex() != INVALID_PALETTE_INDEX; }
 			inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
@@ -45,13 +42,13 @@ namespace GBA
 				return m_spriteDataCompressionFlags;
 			}
 
-			u32 GetSpriteCount() const { return m_sprites.Count(); }
-			Sprite* GetSprite(int index) {
-				if (index >= 0 && index < (int)m_sprites.Count())
-					return &m_sprites[index];
-				else
-					return nullptr;
-			}
+			SpriteNode* GetHead() const { return m_spritesLLHead; }
+
+			// This is slow, cache when possible
+			Sprite* GetSprite(int index);
+
+			// This is slow, cache when possible
+			const Sprite* GetSprite(int index) const;
 		};
 	}
 }

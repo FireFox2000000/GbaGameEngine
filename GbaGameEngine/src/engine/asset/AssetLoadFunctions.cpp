@@ -3,35 +3,10 @@
 #include "engine/filestream/CppFileReader.h"
 #include "engine/graphicalassets/Graphics.h"
 #include "engine/engine/Engine.h"
+#include "engine/base/core/stl/Pool.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 using namespace GBA::Gfx;
-
-SpriteAtlus AssetLoadFunctions::CreateSpriteAtlusFromFile(const u32 * file)
-{
-	CppFileReader reader = CppFileReader(file);
-
-	const u32 spriteCount = reader.Read<u32>();
-	const u8 paletteLength = reader.Read<u8>();
-	const u32 dataLength = reader.Read<u32>();
-	const u32 compressionFlags = reader.Read<u32>();
-	const u16 * palette = reader.ReadAddress<u16>(paletteLength);
-	const u8 * widthMap = reader.ReadAddress<u8>(spriteCount);
-	const u8 * heightMap = reader.ReadAddress<u8>(spriteCount);
-	const u32 * offsets = reader.ReadAddress<u32>(spriteCount);
-	const u32 * data = reader.ReadAddress<u32>(dataLength);
-
-	DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength));
-
-	return SpriteAtlus(spriteCount,
-		paletteLength,
-		palette,
-		widthMap,
-		heightMap,
-		dataLength,
-		compressionFlags,
-		data,
-		offsets);
-}
 
 TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 {

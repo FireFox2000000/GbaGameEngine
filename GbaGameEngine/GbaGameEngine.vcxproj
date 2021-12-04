@@ -107,6 +107,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
     <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
+    <ClCompile Include="src\engine\asset\SpriteAssetManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
@@ -143,7 +144,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\game\data\audio\TheCrowSong.cpp" />
-    <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
+    <ClCompile Include="src\game\data\sprites\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\game\data\tilemaps\Eosd.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\data\sprites\Shantae_Idle_bin.cpp" />
@@ -178,6 +179,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\asset\AnimationFactory.h" />
     <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
+    <ClInclude Include="src\engine\asset\SpriteAssetManager.h" />
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
@@ -196,6 +198,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
     <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
@@ -270,6 +273,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\data\audio\TheCrowSong.h" />
+    <ClInclude Include="src\game\data\sprites\debug_font_8x8_bold.h" />
     <ClInclude Include="src\game\data\tilemaps\Eosd.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />

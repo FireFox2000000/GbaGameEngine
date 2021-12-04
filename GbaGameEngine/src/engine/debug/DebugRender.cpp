@@ -11,7 +11,7 @@
 
 DebugRender::DebugRender()
 {
-	m_assetManager.AddSpriteSheetFromFile(DebugPrimitives, Debug_Primitives_64x64::data);
+	spritePrimitives = m_spriteAssetManager.CreateSpriteAtlusFromFile(Debug_Primitives_64x64::data);
 }
 
 void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
@@ -38,7 +38,7 @@ void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
 		[this, &gfx, &drawParams, &orthographicCameraBounds]
 	(Component::Transform& transform, Component::Collider& collider)
 		{
-			Sprite* sprite = nullptr;
+			GBA::Gfx::Sprite* sprite = nullptr;
 
 			Vector2<tFixedPoint8> position = transform.GetPosition();
 
@@ -51,7 +51,7 @@ void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
 			{
 			case ColliderShapeType::AABB:
 			{
-				sprite = m_assetManager.GetSprite(DebugPrimitives, HollowSquare);
+				sprite = spritePrimitives->GetSprite(0);
 
 				auto aabb = collider.GetAABB();
 				auto transformScale = transform.GetScale();
@@ -73,7 +73,7 @@ void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
 			}
 			case ColliderShapeType::Circle:
 			{
-				sprite = m_assetManager.GetSprite(DebugPrimitives, HollowCircle);
+				sprite = spritePrimitives->GetSprite(1);
 
 				const auto& circle = collider.GetCircle();
 				scale.x *= tFixedPoint24(circle.radius);

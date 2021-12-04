@@ -7,11 +7,6 @@
 
 class TilemapTestScene : public Scene
 {
-	enum SpriteAtlusID {
-		SpriteCount
-	};
-
-
 	enum SpriteAnimationID
 	{
 		AnimationCount
@@ -24,7 +19,6 @@ class TilemapTestScene : public Scene
 	};
 
 	FixedAssetManager<
-		SpriteAtlusID,
 		SpriteAnimationID,
 		TilemapSetID>
 		m_assetManager;

@@ -1,6 +1,7 @@
 #include "GBASprite.h"
 #include "GBASpriteAtlus.h"
 #include "engine/base/colour/Palette.h"
+#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 namespace GBA
 {
@@ -29,6 +30,15 @@ namespace GBA
 		}
 
 		///////////////////////////////////////////////////////////
+
+		Sprite::Sprite()
+			: m_attributes(0)
+			, m_tileSize(GBAAttrFnVector2())
+			, m_atlus(NULL)
+			, m_pixelMapData(NULL)
+			, m_pixelMapDataLength(0)
+		{
+		}
 
 		Sprite::Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode)
 			: m_attributes(shape | (sizeMode << 2))

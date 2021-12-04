@@ -1,37 +1,22 @@
 #pragma once
-#include "engine/asset/FixedAssetManager.h"
+#include "engine/asset/SpriteAssetManager.h"
 
 class Engine;
 class GameObject;
 
+namespace GBA
+{
+	namespace Gfx
+	{
+		class SpriteAtlus;
+		class Sprite;
+	}
+}
+
 class DebugRender
 {
-	enum SpriteAtlusID {
-		DebugPrimitives,
-
-		SpriteCount
-	};
-
-	enum DebugPrimitiveSprites {
-		HollowSquare,
-		HollowCircle,
-
-		DebugPrimitiveSpritesCount
-	};
-
-	enum SpriteAnimationID {
-		AnimationCount
-	};
-
-	enum TilemapSetID {
-		TilemapSetCount
-	};
-
-	FixedAssetManager<
-		SpriteAtlusID,
-		SpriteAnimationID,
-		TilemapSetID>
-		m_assetManager;
+	SpriteAssetManager<1, 2> m_spriteAssetManager;
+	GBA::Gfx::SpriteAtlus* spritePrimitives;
 
 public:
 	DebugRender();

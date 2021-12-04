@@ -4,7 +4,6 @@
 #include "engine/graphicalassets/Graphics.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/time/Time.h"
-#include "engine/asset/libraries/FontLibrary.h"
 
 Engine::Engine()
 {
@@ -15,7 +14,6 @@ Engine::Engine()
 	AddComponent<Time>();
 	AddComponent<Graphics>();
 	AddComponent<SceneManager>();
-	AddComponent<FontLibrary>();
 	AddComponent<AudioManager>();
 }
 

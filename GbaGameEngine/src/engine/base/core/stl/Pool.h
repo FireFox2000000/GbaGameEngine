@@ -8,9 +8,10 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 
-template<class T, int SIZE>
-class Pool
+template<class T>
+class IPool
 {
+protected:
 	struct PoolObject
 	{
 		// Have this as the first item in the struct so we can cast T* to PoolObject*
@@ -24,64 +25,7 @@ class Pool
 		bool active = false;	// This may be better in SOA alignment for iterator speed when pools are mostly empty. 
 	};
 
-	// Create a u8 array instead of PoolObject array to get around union implicitly deleting destructor error
-	// We'll handle the destructor calls ourselves. 
-	alignas(PoolObject) u8 m_objects[sizeof(PoolObject) * SIZE];
-	PoolObject* m_nextFree;
-
-	T* AllocUninitialisedItem()
-	{
-		// Retrieve the next free item
-		m_nextFree->active = true;
-		T* newItem = &m_nextFree->object;
-
-		// Update the next free item in the list
-		PoolObject* nextFree = m_nextFree->next;
-		m_nextFree = nextFree;
-
-		return newItem;
-	}
-
-	PoolObject* GetAt(int index)
-	{
-		PoolObject* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
-		return objects + index;
-	}
-
-	const PoolObject* GetAt(int index) const
-	{
-		const PoolObject* objects = reinterpret_cast<const PoolObject*>(&m_objects[0]);
-		return objects + index;
-	}
-
 public:
-	Pool()
-	{
-		// To create the free list, we first initialize the head of the list, setting its value to the starting address of the poolÅfs memory block.
-		// Next, using the elementÅfs size in bytes and the number of elements in the pool, we calculate the address of the last element.
-		// Finally, knowing the number of elements and the last elementÅfs address, we iterate through each element in the pool, 
-		// writing the address of the next element in its memory block, with the exception of the last element, whose next pointer value is set to null.
-
-		PoolObject* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
-		for (int i = 0; i < SIZE; ++i)
-		{
-			PoolObject* current = objects + i;
-			int next = i + 1;
-			if (next >= SIZE)
-			{
-				current->next = nullptr;
-			}
-			else
-			{
-				current->next = objects + next;
-			}
-
-			current->active = false;
-		}
-
-		m_nextFree = objects;
-	}
-
 	class iterator_base
 	{
 	protected:
@@ -96,12 +40,12 @@ public:
 			} while (m_current < m_end && !m_current->active);
 		}
 
-		inline T& Get()
+		T& Get()
 		{
 			return m_current->object;
 		}
 
-		inline const T& Get() const
+		const T& Get() const
 		{
 			return m_current->object;
 		}
@@ -131,10 +75,10 @@ public:
 	public:
 		iterator(PoolObject* current, PoolObject* end) : iterator_base(current, end) {}
 
-		inline T& operator * () { return iterator_base::Get(); }
-		inline T* operator -> () { return &iterator_base::Get(); }
+		T& operator * () { return iterator_base::Get(); }
+		T* operator -> () { return &iterator_base::Get(); }
 
-		inline iterator& operator ++ () {
+		iterator& operator ++ () {
 			iterator_base::Advance();
 			return *this;
 		}
@@ -145,24 +89,100 @@ public:
 	public:
 		const_iterator(PoolObject* current, PoolObject* end) : iterator_base(current, end) {}
 
-		inline const T& operator * () const { return iterator_base::Get(); }
-		inline const T* operator -> () const { return &iterator_base::Get(); }
+		const T& operator * () const { return iterator_base::Get(); }
+		const T* operator -> () const { return &iterator_base::Get(); }
 
-		inline const_iterator& operator ++ () {
+		const_iterator& operator ++ () {
 			iterator_base::Advance();
 			return *this;
 		}
 	};
+
+	virtual iterator begin() = 0;
+	virtual const_iterator begin() const = 0;
+
+	virtual iterator end() = 0;
+	virtual const_iterator end() const = 0;
+
+	virtual T* CreateNew() = 0;
+	virtual T* Create(const T& item) = 0;
+	virtual void Free(T* item) = 0;
+};
+
+template<class T, int SIZE>
+class Pool : public IPool<T>
+{
+	using PoolObject = typename IPool<T>::PoolObject;
+	using iterator = typename IPool<T>::iterator;
+	using const_iterator = typename IPool<T>::const_iterator;
+
+	// Create a u8 array instead of PoolObject array to get around union implicitly deleting destructor error
+	// We'll handle the destructor calls ourselves. 
+	alignas(PoolObject) u8 m_objects[sizeof(PoolObject) * SIZE];
+	PoolObject* m_nextFree;
+
+	T* AllocUninitialisedItem()
+	{
+		// Retrieve the next free item
+		m_nextFree->active = true;
+		T* newItem = &m_nextFree->object;
+
+		// Update the next free item in the list
+		auto* nextFree = m_nextFree->next;
+		m_nextFree = nextFree;
+
+		return newItem;
+	}
+
+	PoolObject* GetAt(int index)
+	{
+		auto* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
+		return objects + index;
+	}
+
+	const PoolObject* GetAt(int index) const
+	{
+		const auto* objects = reinterpret_cast<const PoolObject*>(&m_objects[0]);
+		return objects + index;
+	}
+
+public:
+	Pool()
+	{
+		// To create the free list, we first initialize the head of the list, setting its value to the starting address of the poolÅfs memory block.
+		// Next, using the elementÅfs size in bytes and the number of elements in the pool, we calculate the address of the last element.
+		// Finally, knowing the number of elements and the last elementÅfs address, we iterate through each element in the pool, 
+		// writing the address of the next element in its memory block, with the exception of the last element, whose next pointer value is set to null.
+
+		auto* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
+		for (int i = 0; i < SIZE; ++i)
+		{
+			auto* current = objects + i;
+			int next = i + 1;
+			if (next >= SIZE)
+			{
+				current->next = nullptr;
+			}
+			else
+			{
+				current->next = objects + next;
+			}
+
+			current->active = false;
+		}
+
+		m_nextFree = objects;
+	}
 
 	~Pool()
 	{
 		// Safe free all
 		int freeCount = 0;
 
-		PoolObject* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
+		auto* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
 		for (int i = 0; i < SIZE; ++i)
 		{
-			PoolObject* current = objects + i;
+			auto* current = objects + i;
 			if (current->active)
 			{
 				Free(&current->object);
@@ -176,10 +196,14 @@ public:
 	}
 
 	iterator begin() { return iterator(GetAt(0), GetAt(SIZE)); }
-	const_iterator begin() const { return const_iterator(const_cast<PoolObject*>(GetAt(0)), const_cast<PoolObject*>(GetAt(SIZE))); }
+	const_iterator begin() const {
+		return const_iterator(const_cast<PoolObject*>(GetAt(0)), const_cast<PoolObject*>(GetAt(SIZE)));
+	}
 
 	iterator end() { return iterator(GetAt(SIZE), GetAt(SIZE)); }
-	const_iterator end() const { return const_iterator(const_cast<PoolObject*>(GetAt(SIZE)), const_cast<PoolObject*>(GetAt(SIZE))); }
+	const_iterator end() const {
+		return const_iterator(const_cast<PoolObject*>(GetAt(SIZE)), const_cast<PoolObject*>(GetAt(SIZE)));
+	}
 
 	inline bool IsFull() { return !m_nextFree; }
 
@@ -225,7 +249,7 @@ public:
 
 	void Free(T* item)
 	{
-		PoolObject* poolItem = reinterpret_cast<PoolObject*>(item);
+		auto* poolItem = reinterpret_cast<PoolObject*>(item);
 		poolItem->object.~T();
 		poolItem->next = m_nextFree;
 		poolItem->active = false;

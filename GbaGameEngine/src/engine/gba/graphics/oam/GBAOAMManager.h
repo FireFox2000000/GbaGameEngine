@@ -50,7 +50,7 @@ namespace GBA
 
 			SpriteGraphicsMemoryManager m_spriteGraphicsMemoryManager;
 
-			void UnloadUnusedSprites();
+			void UnloadUnusedSprites();		// TODO, move this into VDraw and add ability to unload a Sprite from game logic update
 			void LoadNewSprites();
 			void TransferRenderListIntoMemory();
 
