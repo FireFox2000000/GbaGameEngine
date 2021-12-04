@@ -15,7 +15,7 @@
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
 
-#include "game/data/Shantae_Idle_bin.h"
+#include "game/data/sprites/Shantae_Idle_bin.h"
 #include "game/data/audio/TheCrowSong.h"
 #include "game/scripts/MovementTest.h"
 #include "engine/gba/registers/input/GBAInput.h"

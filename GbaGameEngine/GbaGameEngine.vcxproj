@@ -144,9 +144,9 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\game\data\audio\TheCrowSong.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8_bold.cpp" />
-    <ClCompile Include="src\game\data\eosd_bin.cpp" />
+    <ClCompile Include="src\game\data\tilemaps\Eosd.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
-    <ClCompile Include="src\game\data\Shantae_Idle_bin.cpp" />
+    <ClCompile Include="src\game\data\sprites\Shantae_Idle_bin.cpp" />
     <ClCompile Include="src\game\data\sprites\debug\Debug_Primitives_64x64.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\MovementTest.cpp" />
@@ -270,10 +270,10 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\data\audio\TheCrowSong.h" />
-    <ClInclude Include="src\game\data\eosd_bin.h" />
+    <ClInclude Include="src\game\data\tilemaps\Eosd.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
-    <ClInclude Include="src\game\data\Shantae_Idle_bin.h" />
+    <ClInclude Include="src\game\data\sprites\Shantae_Idle_bin.h" />
     <ClInclude Include="src\game\data\sprites\debug\Debug_Primitives_64x64.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\MovementTest.h" />

@@ -10,7 +10,7 @@
 
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/time/Time.h"
-#include "game/data/eosd_bin.h"
+#include "game/data/tilemaps/Eosd.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -23,7 +23,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	// Create a tilemap asset
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, eosd_bin::data);
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, Eosd::data);
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::Eosd, 0);
 
 	// Load the tilemap into vram

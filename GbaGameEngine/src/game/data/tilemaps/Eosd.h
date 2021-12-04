@@ -1,5 +1,5 @@
 #pragma once
-class eosd_bin
+class Eosd
 {
 public:
 	static const unsigned long data[];

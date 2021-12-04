@@ -47,10 +47,10 @@
     <ClCompile Include="src\engine\render\TilemapRenderer.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
-    <ClCompile Include="src\game\data\eosd_bin.cpp" />
+    <ClCompile Include="src\game\data\tilemaps\Eosd.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
-    <ClCompile Include="src\game\data\Shantae_Idle_bin.cpp" />
+    <ClCompile Include="src\game\data\sprites\Shantae_Idle_bin.cpp" />
     <ClCompile Include="src\engine\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
@@ -176,10 +176,10 @@
     <ClInclude Include="src\external\entt\signal\sigh.hpp" />
     <ClInclude Include="src\external\entt\entt.hpp" />
     <ClInclude Include="src\external\entt\fwd.hpp" />
-    <ClInclude Include="src\game\data\eosd_bin.h" />
+    <ClInclude Include="src\game\data\tilemaps\Eosd.h" />
     <ClInclude Include="src\engine\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
-    <ClInclude Include="src\game\data\Shantae_Idle_bin.h" />
+    <ClInclude Include="src\game\data\sprites\Shantae_Idle_bin.h" />
     <ClInclude Include="src\engine\asset\AnimationFactory.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemap.h" />
