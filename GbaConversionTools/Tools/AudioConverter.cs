@@ -37,7 +37,7 @@ namespace GbaConversionTools.Tools
         void WriteFromWaveStream(string inputPath, string outputPath, WaveStream reader)
         {
             var waveFormat = reader.WaveFormat;
-            int sampleRate = waveFormat.SampleRate;
+            int sampleRate = Math.Min(16000, waveFormat.SampleRate);
 
             using (WaveStream pcmStream = WaveFormatConversionStream.CreatePcmStream(reader))
             {
