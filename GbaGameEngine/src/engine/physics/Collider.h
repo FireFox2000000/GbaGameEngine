@@ -33,7 +33,7 @@ namespace Component
 			Circle circle;
 
 			Shape() {};
-			Shape(const Shape& that) { *this = that; };
+			Shape(const Shape& that);
 		};
 
 		Shape m_shape;
@@ -42,7 +42,7 @@ namespace Component
 		bool m_isTrigger = false;		// If set to true, objects will be allowed to pass through this collider. Otherwise a physical object. 
 
 	public:
-		inline ColliderShapeType::Enum GetShapeType() const { return m_shapeType; }
+		ColliderShapeType::Enum GetShapeType() const;
 
 		void SetCircle(tFixedPoint8 radius);
 		inline const Circle& GetCircle() const {

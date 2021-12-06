@@ -4,7 +4,8 @@
 #include "engine/base/Macros.h"
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Vector2.h"
-#include "engine/math/Matrix2x2.h"
+
+struct Matrix2x2;
 
 namespace GBA
 {
@@ -33,12 +34,7 @@ namespace GBA
 			~ObjectAffine();
 
 			// Don't trash fills
-			inline void SetTransformation(const Matrix2x2& that) volatile {
-				m_pa.SetStorage(that.a.GetStorage()); 
-				m_pb.SetStorage(that.b.GetStorage()); 
-				m_pc.SetStorage(that.c.GetStorage()); 
-				m_pd.SetStorage(that.d.GetStorage());
-			}
+			void SetTransformation(const Matrix2x2& that) volatile;
 		} ALIGN(4);
 	}
 }

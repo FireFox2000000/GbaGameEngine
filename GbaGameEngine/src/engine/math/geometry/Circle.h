@@ -6,9 +6,5 @@ struct Circle
 	tFixedPoint8 radius;
 
 	Circle() = default;
-
-	inline Circle(tFixedPoint8 radius)
-	{
-		this->radius = radius;
-	}
+	Circle(tFixedPoint8 radius);
 };

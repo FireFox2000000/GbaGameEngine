@@ -127,6 +127,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
+    <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
+    <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
     <ClCompile Include="src\engine\physics\Collider.cpp" />
     <ClCompile Include="src\engine\physics\CollisionFunctions.cpp" />

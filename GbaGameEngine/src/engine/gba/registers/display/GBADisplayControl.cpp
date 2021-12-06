@@ -7,7 +7,7 @@
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 160
 
-vu32& GBA::DisplayControl::s_REG_DISPCNT = (*(vu32*)REG_DISPCNT);
+vu32& s_REG_DISPCNT = (*(vu32*)REG_DISPCNT);
 Vector2<int> GBA::DisplayControl::m_screenResolution = Vector2<int>(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 void GBA::DisplayControl::SetDisplayOptions(int params)
@@ -29,6 +29,26 @@ void GBA::DisplayControl::SetDisplayOptions(int params)
 			break;
 		}
 	}
+}
+
+Vector2<int> GBA::DisplayControl::GetScreenResolution()
+{
+	return m_screenResolution;
+}
+
+GBA::DisplayOptions::VideoMode GBA::DisplayControl::GetVideoMode()
+{
+	return DisplayOptions::VideoMode(s_REG_DISPCNT & BITS_INDEXED_U32(3, 0));
+}
+
+GBA::DisplayOptions::SpriteMappingMode GBA::DisplayControl::GetSpriteMappingMode()
+{
+	return DisplayOptions::SpriteMappingMode(s_REG_DISPCNT & BIT(6));
+}
+
+bool GBA::DisplayControl::TestObjectRendering(DisplayOptions::ObjectRendering val)
+{
+	return (s_REG_DISPCNT & val) != 0;
 }
 
 void GBA::DisplayControl::SetBackgroundActive(int backgroundIndex, bool active)

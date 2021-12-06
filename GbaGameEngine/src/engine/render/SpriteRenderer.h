@@ -25,8 +25,8 @@ namespace Component
 
 	public:
 		void SetSprite(Sprite* sprite);
-		Sprite* GetSprite() const { return m_sprite; }
-		Vector2<int> GetCenterToCornerSizeOffset() const { return m_centerToCornerSizeOffset; }
+		Sprite* GetSprite() const;
+		Vector2<int> GetCenterToCornerSizeOffset() const;
 	};
 }
 

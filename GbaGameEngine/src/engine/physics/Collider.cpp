@@ -2,6 +2,16 @@
 
 namespace Component
 {
+	Collider::Shape::Shape(const Shape& that)
+	{
+		*this = that;
+	};
+
+	ColliderShapeType::Enum Collider::GetShapeType() const
+	{
+		return m_shapeType;
+	}
+
 	void Collider::SetCircle(tFixedPoint8 radius)
 	{
 		m_shape.circle = Circle(radius);
@@ -12,5 +22,5 @@ namespace Component
 	{
 		m_shape.aabb = AxisAlignedBoundingBox2(min, max);
 		m_shapeType = ColliderShapeType::AABB;
-	}
+	}	
 }

@@ -26,26 +26,17 @@ namespace GBA
 
 	class Vram
 	{
-		static const int CharBlockSize = 512;
+		static constexpr int CharBlockSize = 512;
 		static const int CharBlock8Size = 256;
-		static const int ScreenEntrySize = 2048;
+
+	public:
+		using CharBlock = Array<GBA::Gfx::Tile::Tile, CharBlockSize>;
+		using CharBlock8 = Array<GBA::Gfx::Tile::Tile8, CharBlock8Size>;
 		static const u32 MaxScreenBlocks = 32;
 
-		typedef Array<GBA::Gfx::Tile::Tile, CharBlockSize> CharBlock;
-		typedef Array<GBA::Gfx::Tile::Tile8, CharBlock8Size> CharBlock8;
-		typedef Array<CharBlock, BlockGroupCount> CharBlockPool;
-		typedef Array<CharBlock8, BlockGroupCount> CharBlockPool8;
-
-		typedef Array<u16, ScreenEntrySize / sizeof(u16)> ScreenBlock;
-		typedef Array<ScreenBlock, MaxScreenBlocks> ScreenBlockPool;
-
-		static volatile CharBlockPool & s_charBlockPool;
-		static volatile CharBlockPool8 & s_charBlockPool8;
-
-		static volatile ScreenBlockPool & s_screenBlockPool;
-
-		static volatile CharBlock* EditTileBlock(TileBlockGroups group) { return &(s_charBlockPool[int(group)]); }
-		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group) { return &(s_charBlockPool8[int(group)]); }
+	private:
+		static volatile CharBlock* EditTileBlock(TileBlockGroups group);
+		static volatile CharBlock8* EditTileBlock8(TileBlockGroups group);
 
 		bool LoadTiles(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex);
 
@@ -86,8 +77,8 @@ namespace GBA
 			u32 mapDataLength,
 			tScreenBaseBlockIndex sbbIndex);
 
-		inline void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data) { s_screenBlockPool[sbbIndex][offset] = data; }
-		inline void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize) { VramSafeMemCopy(data, (u16*)&s_screenBlockPool[sbbIndex][offset], sizeof(u16) *dataSize); }
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize);
 
 		/*void AllocBackgroundMem(
 			const u32* tileset,

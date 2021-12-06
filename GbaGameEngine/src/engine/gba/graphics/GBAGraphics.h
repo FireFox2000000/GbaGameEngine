@@ -45,8 +45,7 @@ namespace GBA
 			const GameObject* camera
 		) const;
 
-		// Time critical function, called many times per frame, inlined for sprite renderer system speed, only called from one system anyway
-		inline void DrawSprite
+		void DrawSprite
 		(
 			GBA::Gfx::Sprite* sprite
 			, const Vector2<tFixedPoint8>& position
@@ -55,68 +54,9 @@ namespace GBA
 			, Vector2<int> anchorPoint
 			, bool hasAffineTransformation
 			, const DrawParams& drawParams
-		)
-		{
-			using namespace GBA::Gfx;
-			ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
+		);
 
-			if (hasAffineTransformation)
-			{
-				constexpr tFixedPoint8 DegreesToRot(0xFFFF / 360.f);
-
-				u8 affineIndex = 255;
-				auto* affineProperties = m_oamManager.AddToAffineRenderList(&affineIndex);
-				DEBUG_ASSERTMSGFORMAT(affineIndex < 32, "Affine index out of range %d", affineIndex);
-
-				renderProperties->SetAffineIndex(affineIndex);
-
-				DEBUG_ASSERTMSG(scale.x != 0 && scale.y != 0, "Trying to render affine sprite of scale 0");
-
-				// The affine matrix maps from screen space to texture space, need to tell where the pixel's colour comes from. Invert to correct for this.
-				// See https://www.coranac.com/tonc/text/affine.htm for details
-				Vector2<tFixedPoint8> gbaInvertedScale(1.0f / scale.x.ToFloat(), 1.0f / scale.y.ToFloat());		// Gross and slow. tFixedPoint24 overflows, tFixedPoint8 not enough precision.
-				u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
-				affineProperties->SetTransformation(gbaInvertedScale, -gbaRotation);
-
-				// Set as double rendering to avoid clipping artifact. Also requires anchorpoint changes as this will physically double the sprite size
-				renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjAffineDoubleRendering);
-				anchorPoint *= 2;
-			}
-			else
-			{
-				// renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjNormal);	// Implicit from reconstruction in AddToRenderList, no need to call this unless we want to waste cycles
-				if (scale.x < 0)
-					renderProperties->SetFlippedHorizontal();
-
-				if (scale.y < 0)
-					renderProperties->SetFlippedVertical();
-			}
-
-			Vector2<tFixedPoint8> newPosition = position;
-			newPosition -= drawParams.cameraPosition;											// Convert world space to relative camera space	
-			newPosition.y *= -1;														// Correct for screen space starting from the top
-			newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
-			newPosition += drawParams.screenSpaceOffset;											// Convert to screen space
-			newPosition += anchorPoint;				// Offset by sprite size to render from the center
-
-			renderProperties->SetPriority(DrawPriority::Layer2);
-			renderProperties->SetPosition(newPosition);
-		}
-
-		// Time critical function, called many times per frame, inlined for text renderer system speed, only called from one system anyway
-		inline void DrawFontSprite
-		(
-			GBA::Gfx::Sprite* sprite
-			, const Vector2<tFixedPoint8>& position
-		)
-		{
-			using namespace GBA::Gfx;
-
-			ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
-
-			renderProperties->SetPriority(DrawPriority::Layer1);
-			renderProperties->SetPosition(position);
-		}
+		void DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<tFixedPoint8>& position);
 
 		void LoadTilemap(Tilemap& out_tilemap);
 		void Unload(Tilemap* tilemap);

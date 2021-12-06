@@ -12,10 +12,61 @@ void Component::Transform::UpdateHasAffineTransformation()
 	m_hasAffineTrasformation = hasAffineTransformation;
 }
 
+Component::Transform::tPosition Component::Transform::GetLocalPosition() const
+{
+	return m_localPosition;
+}
+
+void Component::Transform::SetLocalPosition(tPosition pos)
+{
+	m_localPosition = pos;
+}
+
+Component::Transform::tPosition Component::Transform::GetPosition() const
+{
+	return m_localPosition;
+}
+
+void Component::Transform::SetPosition(tPosition pos)
+{
+	m_localPosition = pos;
+}
+
+Component::Transform::tScale Component::Transform::GetLocalScale() const
+{
+	return m_localScale;
+}
+
+void Component::Transform::SetLocalScale(tScale scale)
+{
+	m_localScale = scale; 
+	UpdateHasAffineTransformation();
+}
+
+Component::Transform::tScale Component::Transform::GetScale() const
+{
+	return GetLocalScale();
+}
+
+void Component::Transform::SetScale(tScale scale)
+{
+	SetLocalScale(scale);
+}
+
+tFixedPoint8 Component::Transform::GetRotationDegrees() const
+{
+	return m_localRotationDegrees;
+}
+
 void Component::Transform::SetRotationDegrees(tFixedPoint8 degrees)
 {
 	m_localRotationDegrees = degrees;
 
 	UpdateHasAffineTransformation();
+}
+
+bool Component::Transform::HasAffineTransformation() const
+{
+	return m_hasAffineTrasformation;
 }
 

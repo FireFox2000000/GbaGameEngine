@@ -69,6 +69,8 @@
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
     <ClCompile Include="src\engine\asset\SpriteAssetManager.cpp" />
     <ClCompile Include="src\game\data\sprites\debug_font_8x8_bold.cpp" />
+    <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
+    <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

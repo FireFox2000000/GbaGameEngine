@@ -2,7 +2,6 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/colour/Palette.h"
-#include "engine/gba/graphics/vram/GBAVram.h"
 
 namespace GBA
 {
@@ -55,19 +54,14 @@ namespace GBA
 			TilemapSet(const TilemapSet & that);
 
 			bool IsPaletteLoaded() const;
-			inline tPaletteIndex GetPaletteIndex() const { return m_renderData.m_paletteIndex; }
+			tPaletteIndex GetPaletteIndex() const;
 
 			bool IsTileSetLoaded() const;
-			inline GBA::TileBlockGroups GetTileSetCharacterBaseBlock() const { return m_renderData.m_tileSetCharacterBaseBlock; }
+			GBA::TileBlockGroups GetTileSetCharacterBaseBlock() const;
 
 			bool IsLoaded() const;
 
-			Tilemap* GetTilemap(int index) {
-				if (index >= 0 && index < (int)m_maps.Count())
-					return &m_maps[index];
-				else
-					return nullptr;
-			}
+			Tilemap* GetTilemap(int index);
 		};
 	}
 }

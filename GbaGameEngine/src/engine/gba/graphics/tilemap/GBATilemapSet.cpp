@@ -65,12 +65,30 @@ bool TilemapSet::IsPaletteLoaded() const
 	return m_renderData.m_paletteIndex != INVALID_PALETTE_INDEX;
 }
 
+tPaletteIndex GBA::Gfx::TilemapSet::GetPaletteIndex() const
+{
+	return m_renderData.m_paletteIndex;
+}
+
 bool TilemapSet::IsTileSetLoaded() const
 {
 	return GetTileSetCharacterBaseBlock() != INVALID_TILESET_CBB;
 }
 
+GBA::TileBlockGroups GBA::Gfx::TilemapSet::GetTileSetCharacterBaseBlock() const
+{
+	return m_renderData.m_tileSetCharacterBaseBlock;
+}
+
 bool TilemapSet::IsLoaded() const
 {
 	return IsPaletteLoaded() && IsTileSetLoaded();
+}
+
+Tilemap* GBA::Gfx::TilemapSet::GetTilemap(int index)
+{
+	if (index >= 0 && index < (int)m_maps.Count())
+		return &m_maps[index];
+	else
+		return nullptr;
 }

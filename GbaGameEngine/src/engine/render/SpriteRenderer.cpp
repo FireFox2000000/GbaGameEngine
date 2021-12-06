@@ -22,6 +22,16 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 	m_sprite = sprite;
 }
 
+Sprite* Component::SpriteRenderer::GetSprite() const
+{
+	return m_sprite;
+}
+
+Vector2<int> Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
+{
+	return m_centerToCornerSizeOffset;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "engine/gameobject/Camera.h"

@@ -39,7 +39,7 @@ BUILD_TYPE = 0
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O2 -pedantic\
+CFLAGS	:=	-g -Wall -O2 -flto -pedantic\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
 		$(ARCH)
 

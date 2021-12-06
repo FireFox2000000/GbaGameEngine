@@ -19,29 +19,29 @@ namespace Component
 		void UpdateHasAffineTransformation();
 
 	public:
-		inline tPosition GetLocalPosition() const { return m_localPosition; }
-		inline void SetLocalPosition(tPosition pos) { m_localPosition = pos; }
+		tPosition GetLocalPosition() const;
+		void SetLocalPosition(tPosition pos);
 		template<typename T>
 		inline void SetLocalPosition(T x, T y) { SetLocalPosition(tPosition(x, y)); }
 
 		// World position, todo
-		inline tPosition GetPosition() const { return m_localPosition; }
-		inline void SetPosition(tPosition pos) { m_localPosition = pos; }
+		tPosition GetPosition() const;
+		void SetPosition(tPosition pos);
 		template<typename T>
 		inline void SetPosition(T x, T y) { SetPosition(tPosition(x, y)); }
 
-		inline tScale GetLocalScale() const { return m_localScale; }
-		inline void SetLocalScale(tScale scale) { m_localScale = scale; UpdateHasAffineTransformation(); }
+		tScale GetLocalScale() const;
+		void SetLocalScale(tScale scale);
 
 		// World scale, todo
-		inline tScale GetScale() const { return GetLocalScale(); }
-		inline void SetScale(tScale scale) { SetLocalScale(scale); }
+		tScale GetScale() const;
+		void SetScale(tScale scale);
 		template<typename T>
 		inline void SetScale(T x, T y) { SetScale(tScale(x, y)); }
 
-		inline tFixedPoint8 GetRotationDegrees() const { return m_localRotationDegrees; }
+		tFixedPoint8 GetRotationDegrees() const;
 		void SetRotationDegrees(tFixedPoint8 degrees);	
 
-		bool HasAffineTransformation() const { return m_hasAffineTrasformation; }
+		bool HasAffineTransformation() const;
 	};
 }

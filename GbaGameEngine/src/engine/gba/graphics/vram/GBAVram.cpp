@@ -7,13 +7,21 @@
 //#define VRAM_TRANSFER_PROFILE
 using namespace GBA::Gfx;
 
+const int ScreenEntrySize = 2048;
+
+using CharBlockPool = Array<GBA::Vram::CharBlock, GBA::BlockGroupCount>;
+using CharBlockPool8 = Array<GBA::Vram::CharBlock8, GBA::BlockGroupCount>;
+
+using ScreenBlock = Array<u16, ScreenEntrySize / sizeof(u16)>;
+using ScreenBlockPool = Array<ScreenBlock, GBA::Vram::MaxScreenBlocks>;
+
 const int ScreenBlocksPerCharBlock = 8;
 
 namespace GBA
 {
-	volatile Vram::CharBlockPool& Vram::s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(VRAM);
-	volatile Vram::CharBlockPool8& Vram::s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(VRAM);
-	volatile Vram::ScreenBlockPool& Vram::s_screenBlockPool = *reinterpret_cast<volatile ScreenBlockPool*>(VRAM);
+	volatile CharBlockPool& s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(VRAM);
+	volatile CharBlockPool8& s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(VRAM);
+	volatile ScreenBlockPool& s_screenBlockPool = *reinterpret_cast<volatile ScreenBlockPool*>(VRAM);
 
 	Vram::Vram()
 		: m_spriteTileMemTracker(Free)
@@ -193,6 +201,16 @@ namespace GBA
 		LoadBackgroundMem(mapData, sbbIndex, mapDataLength);
 	}
 
+	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data)
+	{
+		s_screenBlockPool[sbbIndex][offset] = data;
+	}
+
+	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize)
+	{
+		VramSafeMemCopy(data, (u16*)&s_screenBlockPool[sbbIndex][offset], sizeof(u16) * dataSize);
+	}
+
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)
 	{
 		u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
@@ -213,6 +231,16 @@ namespace GBA
 	{
 		m_spriteTileMemTracker.SetAllTo(AllocState::Free);
 		m_screenEntryTracker.SetAllTo(AllocState::Free);
+	}
+
+	volatile GBA::Vram::CharBlock* Vram::EditTileBlock(TileBlockGroups group)
+	{
+		return &(s_charBlockPool[int(group)]);
+	}
+
+	volatile GBA::Vram::CharBlock8* Vram::EditTileBlock8(TileBlockGroups group)
+	{
+		return &(s_charBlockPool8[int(group)]);
 	}
 
 	bool Vram::LoadTiles(const u32 * pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex)

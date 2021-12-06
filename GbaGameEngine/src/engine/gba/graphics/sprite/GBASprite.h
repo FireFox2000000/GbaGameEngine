@@ -1,8 +1,7 @@
 #pragma once
 #include "engine/gba/graphics/oam/GBAObjectAttribute.h"
-#include "engine/gba/graphics/tiles/GBAPaletteBank.h"
+#include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
-#include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 class SpriteAssetManagerHelper;
 
@@ -21,16 +20,13 @@ namespace GBA
 			// Only used by draw functions. 
 			class RenderData
 			{
-				static const u8 TILE_INDEX_MAX_BITS = 10;
-				static const u8 DRAW_LIST_FLAG_INDEX = 11;
-
 				u16 m_dataMask = 0;
 
 			public:
 				tTileId GetTileIndex() const;
 				void SetTileIndex(tTileId index);
 
-				inline bool IsAddedToDrawList() const { return m_dataMask & BIT(DRAW_LIST_FLAG_INDEX); }
+				bool IsAddedToDrawList() const;
 				void SetAddedToDrawList(bool val);
 			};
 
@@ -49,21 +45,21 @@ namespace GBA
 			const u32* m_pixelMapData;
 			u32 m_pixelMapDataLength;
 
-			SpriteAtlus* EditAtlus() { return m_atlus; }
+			SpriteAtlus* EditAtlus();
 		public:
 			Sprite();
 			Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode);
-			~Sprite() { DEBUG_ASSERTMSG(!IsLoaded(), "Sprite was destroyed while it was still loaded in video memory!"); }
+			~Sprite();
 
-			inline Attributes::Shape GetShape() const { return (Attributes::Shape)(m_attributes & ~(0xFF << 2)); }
-			inline Attributes::SizeMode GetSizeMode() const { return (Attributes::SizeMode)(m_attributes >> 2); }
-			inline tTileId GetTileIndex() const { return m_renderData.GetTileIndex(); }
+			Attributes::Shape GetShape() const;
+			Attributes::SizeMode GetSizeMode() const;
+			tTileId GetTileIndex() const;
 			tPaletteIndex GetPaletteIndex() const;
-			inline const SpriteAtlus* GetAtlus() const { return m_atlus; }
+			const SpriteAtlus* GetAtlus() const;
 			bool IsLoaded() const;
 
-			inline Vector2<int> GetSize() const { return m_tileSize; }
-			inline Vector2<int> GetSizeInPixels() const { return AttributeFunctions::GetPixelSize(m_tileSize); }
+			Vector2<int> GetSize() const;
+			Vector2<int> GetSizeInPixels() const;
 		};
 	}
 }

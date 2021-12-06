@@ -41,7 +41,7 @@ namespace GBA
 			};
 
 			TilemapSet* m_tilemapSet = NULL;
-			TilemapSet* EditTilemapSet() { return m_tilemapSet; }
+			TilemapSet* EditTilemapSet();
 
 			FileDataMap m_file;
 			RenderData m_renderData;
@@ -52,13 +52,13 @@ namespace GBA
 			Tilemap();
 
 			bool IsLoaded() const;
-			bool IsDynamicallyRendered() const { return m_file.m_isDynamicallyRendered; }
-			inline const Vector2<u8>& GetSizeInTiles() const { return m_file.m_sizeInTiles; }
-			inline const TilemapSet* GetTilemapSet() const { return m_tilemapSet; }
-			inline u16 GetTileMapLength() const { return m_file.m_tileMapDataLength; }
-			inline const u16* GetTileMapData() const { return m_file.m_tileMapData; }
-			inline GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const { return m_renderData.m_mapSbbIndex; }
-			inline GBA::BackgroundControl::Backgrounds GetAssignedBackgroundSlot() const { return m_renderData.m_backgroundSlotId; }
+			bool IsDynamicallyRendered() const;
+			const Vector2<u8>& GetSizeInTiles() const;
+			const TilemapSet* GetTilemapSet() const;
+			u16 GetTileMapLength() const;
+			const u16* GetTileMapData() const;
+			GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
+			GBA::BackgroundControl::Backgrounds GetAssignedBackgroundSlot() const;
 		};
 	}
 }

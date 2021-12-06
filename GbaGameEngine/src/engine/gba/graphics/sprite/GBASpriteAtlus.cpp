@@ -31,6 +31,26 @@ namespace GBA
 			*this = that;
 		}
 
+		bool SpriteAtlus::IsPaletteLoaded()
+		{ 
+			return GetPaletteIndex() != INVALID_PALETTE_INDEX; 
+		}
+
+		tPaletteIndex SpriteAtlus::GetPaletteIndex()
+		{ 
+			return m_paletteIndex; 
+		}
+
+		u32 SpriteAtlus::GetSpriteDataCompressionFlags()
+		{
+			return m_spriteDataCompressionFlags;
+		}
+
+		SpriteNode* SpriteAtlus::GetHead() const
+		{ 
+			return m_spritesLLHead; 
+		}
+
 		Sprite* SpriteAtlus::GetSprite(int index)
 		{
 			int currentIndex = 0;

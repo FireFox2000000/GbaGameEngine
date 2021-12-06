@@ -1,7 +1,5 @@
 #pragma once
-
 #include "engine/base/core/stl/List.h"
-#include "engine/algorithm/Compression.h"
 #include "engine/base/colour/Palette.h"
 
 class SpriteAssetManagerHelper;
@@ -29,20 +27,19 @@ namespace GBA
 
 		public:
 			SpriteAtlus();
+
 			SpriteAtlus(
 				const u8 paletteLength
 				, const u16* palette
 				, const u32 compressionFlags);
+
 			SpriteAtlus(const SpriteAtlus& that);
 
-			inline bool IsPaletteLoaded() { return GetPaletteIndex() != INVALID_PALETTE_INDEX; }
-			inline tPaletteIndex GetPaletteIndex() { return m_paletteIndex; }
+			bool IsPaletteLoaded();
+			tPaletteIndex GetPaletteIndex();
+			u32 GetSpriteDataCompressionFlags();
 
-			inline u32 GetSpriteDataCompressionFlags() {
-				return m_spriteDataCompressionFlags;
-			}
-
-			SpriteNode* GetHead() const { return m_spritesLLHead; }
+			SpriteNode* GetHead() const;
 
 			// This is slow, cache when possible
 			Sprite* GetSprite(int index);

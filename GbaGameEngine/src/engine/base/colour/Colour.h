@@ -8,13 +8,11 @@ typedef u16 rgb16;
 
 class Colour
 {
-	static const u8 RGB16_MAX = 31;
-	static const u8 RGB_MAX = 255;
-
-	inline static u8 ScaleToMaxRgb16(u8 colour) { return u8(ROUND(float(colour) / RGB_MAX * RGB16_MAX)); }
+	static u8 ScaleToMaxRgb16(u8 colour);
 
 public:
-	inline static rgb16 RGB16(u8 r, u8 g, u8 b) { return (MIN(r, RGB16_MAX) + (MIN(g, RGB16_MAX) << 5) + (MIN(b, RGB16_MAX) << 10)); }		// Values must be between 0 and 31
+	// Values must be between 0 and 31
+	static rgb16 RGB16(u8 r, u8 g, u8 b);
 
 	u8 r, g, b, a;
 

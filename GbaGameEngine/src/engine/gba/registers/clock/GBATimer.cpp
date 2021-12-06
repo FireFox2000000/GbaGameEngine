@@ -11,12 +11,12 @@ namespace GBA
 {
 	Timers::tTimers Timers::s_timers = { Timers::Timer(0), Timers::Timer(1), Timers::Timer(2), Timers::Timer(3) };
 
-	inline vu16* GetTimerDataAddr(u8 index)
+	vu16* GetTimerDataAddr(u8 index)
 	{
 		return (vu16*)(REG_TIMERDATA + (index * 0x04));
 	}
 
-	inline vu16* GetTimerControlAddrForIndex(u8 index)
+	vu16* GetTimerControlAddrForIndex(u8 index)
 	{
 		return (vu16*)(REG_TIMERCNT + (index * 0x04));
 	}

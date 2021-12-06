@@ -1,6 +1,7 @@
 #include "Font.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
+#include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
 
 Font::Font(GBA::Gfx::SpriteAtlus* spriteAtlus, int(*charToSpriteIndexLookupFn)(char))
 	: m_spriteAtlus(spriteAtlus)
@@ -30,4 +31,14 @@ Font::Font(GBA::Gfx::SpriteAtlus* spriteAtlus, int(*charToSpriteIndexLookupFn)(c
 const Vector2<u8> Font::GetFixedCharacterSize() const
 {
 	return m_fixedCharacterSize;
+}
+
+GBA::Gfx::Sprite* Font::GetSpriteForIndex(int index)
+{
+	return m_spritesCache[index];
+}
+
+GBA::Gfx::Sprite* Font::GetSpriteForCharacter(char c)
+{
+	return GetSpriteForIndex(m_charToSpriteIndexLookupFn(c));
 }
