@@ -3,19 +3,6 @@
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
 #include "engine/base/core/stl/Pool.h"
 
-template<typename T>
-class IPool;
-
-class SpriteAssetManagerHelper
-{
-	using SpriteAtlus = GBA::Gfx::SpriteAtlus;
-	using SpriteNode = GBA::Gfx::SpriteNode;
-
-public:
-	// TODO- When file system is implemented, pass the file string through here so we can record a log of what file we're trying to load
-	static SpriteAtlus* CreateSpriteAtlusFromFile(const u32* file, IPool<SpriteAtlus>* spriteAtlusPool, IPool<SpriteNode>* spriteNodePool);
-};
-
 // Manages a collection of sprite atlus' and sprites. 
 // Sprite atlus' do not own sprites anymore, rather they are stitched together in a linked list. 
 // These sprites are created from an external pool, created in this manager.
@@ -45,5 +32,5 @@ public:
 	SpriteAssetManager& operator=(const SpriteAssetManager&) = delete;
 	SpriteAssetManager(const SpriteAssetManager&) = delete;
 
-	SpriteAtlus* CreateSpriteAtlusFromFile(const u32* file) { return SpriteAssetManagerHelper::CreateSpriteAtlusFromFile(file, &m_spriteAtlusPool, &m_spriteNodePool); }
+	SpriteAtlus* CreateSpriteAtlusFromFile(const u32* file) { return SpriteAtlus::CreateFromFile(file, &m_spriteAtlusPool, &m_spriteNodePool); }
 };

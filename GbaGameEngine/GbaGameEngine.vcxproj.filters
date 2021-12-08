@@ -15,7 +15,7 @@
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
-    <ClCompile Include="src\game\scripts\MovementTest.cpp" />
+    <ClCompile Include="src\game\scripts\PlayerMovement.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
     <ClCompile Include="src\engine\scene\Scene.cpp" />
@@ -99,7 +99,7 @@
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
-    <ClInclude Include="src\game\scripts\MovementTest.h" />
+    <ClInclude Include="src\game\scripts\PlayerMovement.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
     <ClInclude Include="src\engine\scene\Scene.h" />

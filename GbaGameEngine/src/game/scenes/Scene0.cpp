@@ -16,7 +16,7 @@
 
 #include "game/data/sprites/Shantae_Idle_bin.h"
 #include "game/data/audio/TheCrowSong.h"
-#include "game/scripts/MovementTest.h"
+#include "game/scripts/PlayerMovement.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
 const int totalTestSprites = 90;
@@ -176,7 +176,7 @@ void Scene0::Update(Engine* engine)
 			}
 			else
 			{
-				textComponent->m_str = "Nollision";
+				//textComponent->m_str = "Nollision";
 				//auto position = playerTransform->GetPosition();
 				//
 				//char buff[100];
@@ -187,8 +187,7 @@ void Scene0::Update(Engine* engine)
 		}
 	}
 
-	System::PlayerMovement::Update(engine, playerObject);
-	Scene::Update(engine);
+	PlayerMovement::MoveHumanPlayerObject(engine, playerObject);
 
 	if (GBA::Input::GetKeyDown(GBA::Buttons::R))
 	{

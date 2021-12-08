@@ -2,7 +2,8 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/base/colour/Palette.h"
 
-class SpriteAssetManagerHelper;
+template<typename T>
+class IPool;
 
 namespace GBA
 {
@@ -16,7 +17,6 @@ namespace GBA
 		class SpriteAtlus
 		{
 			friend class SpriteGraphicsMemoryManager;
-			friend class ::SpriteAssetManagerHelper;
 
 			const u16* m_palette;
 			u8 m_paletteLength;
@@ -27,13 +27,7 @@ namespace GBA
 
 		public:
 			SpriteAtlus();
-
-			SpriteAtlus(
-				const u8 paletteLength
-				, const u16* palette
-				, const u32 compressionFlags);
-
-			SpriteAtlus(const SpriteAtlus& that);
+			static SpriteAtlus* CreateFromFile(const u32* file, IPool<SpriteAtlus>* spriteAtlusPool, IPool<SpriteNode>* spriteNodePool);
 
 			bool IsPaletteLoaded();
 			tPaletteIndex GetPaletteIndex();

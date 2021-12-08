@@ -3,8 +3,6 @@
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
 
-class SpriteAssetManagerHelper;
-
 namespace GBA
 {
 	namespace Gfx
@@ -32,7 +30,6 @@ namespace GBA
 
 		private:
 			friend class SpriteGraphicsMemoryManager;
-			friend class ::SpriteAssetManagerHelper;
 			friend class SpriteAtlus;
 			friend class OAMManager;
 

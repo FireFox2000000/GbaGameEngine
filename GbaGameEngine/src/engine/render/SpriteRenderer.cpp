@@ -72,13 +72,13 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 
 			// Frustum culling
 			{
-				Vector2<tFixedPoint8> worldSpriteSize = sprite->GetSize();
+				Vector2<tFixedPoint8> halfWorldSpriteSize = sprite->GetSize() / 2;
 				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
 				{
-					worldSpriteSize *= 2;
+					halfWorldSpriteSize *= 2;
 				}
 
-				AxisAlignedBoundingBox2 worldSpriteBounds(position - worldSpriteSize, position + worldSpriteSize);
+				AxisAlignedBoundingBox2 worldSpriteBounds(position - halfWorldSpriteSize, position + halfWorldSpriteSize);
 
 				if (!orthographicCameraBounds.Intersects(worldSpriteBounds))
 					return;
