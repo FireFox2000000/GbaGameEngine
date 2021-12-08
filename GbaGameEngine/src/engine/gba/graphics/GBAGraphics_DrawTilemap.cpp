@@ -5,6 +5,7 @@
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/screen/Screen.h"
+#include "engine/time/Time.h"
 
 //#define LOG_RENDER_ROWCOLS
 //#define PROFILE_RENDER
@@ -258,7 +259,7 @@ static inline void CopyFromMapToVramSingle(
 )
 {
 	u32 offset = destBgRow * GBA::Gfx::TilemapManager::VARIABLE_TILEMAP_SIZE.x + destBgCol;
-	vram.SetBackgroundTileData(sbbIndex, offset , srcMapData[srcMapIndex]);
+	vram.SetBackgroundTileData(sbbIndex, offset, srcMapData[srcMapIndex]);
 }
 
 static inline void CopyFromMapToVramLoop(
@@ -292,6 +293,7 @@ static inline void CopyFromMapToVramMemCpy(
 	vram.SetBackgroundTileData(sbbIndex, offset, &srcMapData[srcMapIndex], size);
 }
 
+// Pass function via template rather than function pointer so it can be inlined for SPEEEEEED
 typedef void(*Fn)(GBA::Vram& vram
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
@@ -348,10 +350,6 @@ namespace GBA
 		, const DrawParams& drawParams
 	)
 	{
-#ifdef PROFILE_RENDER
-		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-		profilerClock.SetFrequency(GBA::Timers::Cycle_1);
-#endif
 		auto& vram = GBA::Vram::GetInstance();
 
 		const auto tileMapSizeInTiles = tilemap->GetSizeInTiles();
@@ -396,13 +394,14 @@ namespace GBA
 			if (!skipRender)
 			{
 #ifdef PROFILE_RENDER
-				profilerClock.SetActive(true);
+				auto profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
 				MapWrappingPoints wrappingPoints = CalculateMapWrappingPoints(tilemapRenderStartPos, drawParams.renderSize, tileMapSizeInTiles, renderData.lastRenderPos, renderData.lastRenderPosValid);
 #ifdef PROFILE_RENDER
-				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profilerClock.GetCurrentTimerCount());
-				profilerClock.SetActive(false);
+				auto profileStop = Time::CaptureSystemTimeSnapshot();
+				u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
+				PROFILE_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profileResult);
 #endif
 				// "Optimised" tile transferring.
 				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
@@ -427,17 +426,18 @@ namespace GBA
 						, int srcMapColOffset
 						, int size)
 					{
-						int tileMapYPos = start;
-
+						int tileMapYPos = start - 1;
+						int y = start;
+						
 #define LOOP_THROUGH_ALL_ROWS(TransferMethod) \
-for (int y = start; y < end; ++y)\
+for (; y < MIN(end, tilemapYWrappingOffsetPoint + 1); ++y)\
 {\
-	CopyMapWrappedRowToVram<TransferMethod>(vram, sbbIndex, y, destBgRow, srcMapData, mapWidth, tileMapYPos, srcMapColOffset, size);\
-\
-	if (++tileMapYPos > tilemapYWrappingOffsetPoint)\
-	{\
-		tileMapYPos = 0;\
-	}\
+	CopyMapWrappedRowToVram<TransferMethod>(vram, sbbIndex, y, destBgRow, srcMapData, mapWidth, tileMapYPos++, srcMapColOffset, size);\
+}\
+tileMapYPos = 0;\
+for (; y < end; ++y)\
+{\
+	CopyMapWrappedRowToVram<TransferMethod>(vram, sbbIndex, y, destBgRow, srcMapData, mapWidth, tileMapYPos++, srcMapColOffset, size);\
 }\
 /////
 						// Pick the fastest transfer method based on the size of the data we're sending.
@@ -479,7 +479,7 @@ for (int y = start; y < end; ++y)\
 					{
 						LoopColumns(bgTileXStart, tileMapData, tileMapSizeInTilesX, tilemapXStart, seg1Size);
 					}
-					
+
 					if (bgTileXEnd > 0)
 					{
 						LoopColumns(0, tileMapData, tileMapSizeInTilesX, tilemapXStart + seg1Size, bgTileXEnd);
@@ -487,7 +487,7 @@ for (int y = start; y < end; ++y)\
 				};
 
 #ifdef PROFILE_RENDER
-				profilerClock.SetActive(true);
+				profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 				// Draw onto the GBA bg rows
 				if (!renderData.lastRenderPosValid)
@@ -538,8 +538,9 @@ for (int y = start; y < end; ++y)\
 					}
 				}
 #ifdef PROFILE_RENDER
-				DEBUG_LOGFORMAT("[Profile Tilemap Renderer dynamic tile load = %d", profilerClock.GetCurrentTimerCount());
-				profilerClock.SetActive(false);
+				profileStop = Time::CaptureSystemTimeSnapshot();
+				profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
+				PROFILE_LOGFORMAT("[Profile Tilemap Renderer dynamic tile load = %d", profileResult);
 #endif
 			}
 
