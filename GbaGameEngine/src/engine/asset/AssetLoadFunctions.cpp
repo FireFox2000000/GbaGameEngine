@@ -30,7 +30,8 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	u8* heightMap = reader.ReadAddress<u8>(mapCount);
 	u16* mapData = reader.ReadAddress<u16>(tileMapDataLength);
 
-	DEBUG_LOGFORMAT("Loaded tilemap set of size %.2fkb", BYTES_TO_KB(tilesetLength));
+	DEBUG_LOGFORMAT("Loaded tilemap set of size %.2fkb", BYTES_TO_KB(tilesetLength * sizeof(u32)));
+	DEBUG_LOGFORMAT("Loaded tilemap data of size %.2fkb", BYTES_TO_KB(tileMapDataLength * sizeof(u16)));
 
 	return TilemapSet(paletteLength, palette, tilesetLength, tileset, compressionFlags, mapCount, mapIsDynamicMask, widthMap, heightMap, mapData);
 }

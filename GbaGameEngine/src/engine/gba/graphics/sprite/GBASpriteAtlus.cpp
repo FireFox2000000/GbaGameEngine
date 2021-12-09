@@ -78,7 +78,7 @@ namespace GBA
 			const u32* offsets = reader.ReadAddress<u32>(spriteCount);
 			const u32* data = reader.ReadAddress<u32>(dataLength);
 
-			DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength));
+			DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength * sizeof(u32)));
 
 			SpriteAtlus* atlus = spriteAtlusPool->CreateNew();
 
