@@ -426,7 +426,7 @@ namespace GBA
 						, int srcMapColOffset
 						, int size)
 					{
-						int tileMapYPos = start - 1;
+						int tileMapYPos = start;
 						int y = start;
 						
 #define LOOP_THROUGH_ALL_ROWS(TransferMethod) \
