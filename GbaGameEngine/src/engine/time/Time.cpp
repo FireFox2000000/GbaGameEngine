@@ -39,10 +39,16 @@ void Time::Advance()
 
 	TimeValue currentTime = GetTimeSinceStartup();
 	m_dt = currentTime - m_frameStartTime;
+	m_dt24 = m_dt.ToFp24();
 	m_frameStartTime = currentTime;
 }
 
-TimeValue Time::GetDt() const
+tFixedPoint24 Time::GetDt() const
+{
+	return m_dt24;
+}
+
+TimeValue Time::GetDtTimeValue() const
 {
 	return m_dt;
 }

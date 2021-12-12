@@ -1,13 +1,15 @@
 #pragma once
 
-#include "engine/base/Typedefs.h"
 #include "TimeValue.h"
+#include "engine/base/core/stl/FixedPoint.h"
+#include "engine/base/Typedefs.h"
 
 class Time
 {
 	u32 m_frameCount = 0;
 	TimeValue m_frameStartTime;
 	TimeValue m_dt;
+	tFixedPoint24 m_dt24;
 	void IncFrameCount() { ++m_frameCount; }
 
 public:
@@ -49,7 +51,8 @@ public:
 	void Advance();
 
 	u32 GetFrameCount() { return m_frameCount; }
-	TimeValue GetDt() const;
+	tFixedPoint24 GetDt() const;
+	TimeValue GetDtTimeValue() const;
 	static TimeValue FromSnapshot(const InternalSnapshot& snapshot);
 	TimeValue GetTimeSinceStartup() const volatile;
 	static InternalSnapshot CaptureSystemTimeSnapshot();

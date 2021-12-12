@@ -1,13 +1,12 @@
 #pragma once
 
 #include "engine/base/Typedefs.h"
+#include "engine/base/core/stl/FixedPoint.h"
 
 class TimeValue
 {
 	u32 m_decimalMicroseconds = 0;
 	u32 m_seconds = 0;
-
-	static const int MICROSECONDS_PER_SECOND = 1000000;
 
 public:
 	TimeValue() = default;
@@ -25,7 +24,8 @@ public:
 	u32 TotalMinutes() const;
 	u32 TotalHours() const;
 
-	// Returns time in seconds. TODO, replace with fixed point conversion instead, cause float math is slow. 
+	// Returns time in seconds.
 	float ToFloat() const;
+	tFixedPoint24 ToFp24() const;
 };
 

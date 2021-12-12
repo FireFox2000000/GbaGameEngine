@@ -2,6 +2,9 @@
 #include "Time.h"
 #include "engine/math/Math.h"
 
+constexpr int MICROSECONDS_PER_SECOND = 1000000;
+constexpr float MICROSECONDS_PER_SECOND_INV = 1.0f / MICROSECONDS_PER_SECOND;
+
 TimeValue::TimeValue(u32 decimalMicroSeconds, u32 seconds)
 {
 	m_decimalMicroseconds = decimalMicroSeconds % MICROSECONDS_PER_SECOND;
@@ -69,6 +72,11 @@ u32 TimeValue::TotalHours() const
 
 float TimeValue::ToFloat() const
 {
-	float microSecondsF = (float)m_decimalMicroseconds / MICROSECONDS_PER_SECOND;
+	float microSecondsF = (float)m_decimalMicroseconds * MICROSECONDS_PER_SECOND_INV;
 	return m_seconds + microSecondsF;
+}
+
+tFixedPoint24 TimeValue::ToFp24() const
+{
+	return tFixedPoint24((int)m_seconds) + tFixedPoint24((float)m_decimalMicroseconds * MICROSECONDS_PER_SECOND_INV);
 }

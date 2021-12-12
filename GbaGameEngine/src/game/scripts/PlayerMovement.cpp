@@ -45,8 +45,7 @@ void PlayerMovement::MovePlayerObject(Engine* engine, GameObject& playerObject, 
 		return;
 
 	const Time* time = engine->GetComponent<Time>();
-
-	auto dt = tFixedPoint24(time->GetDt().ToFloat());
+	tFixedPoint24 dt = time->GetDt();
 
 	auto& transform = *playerObject.EditComponent<Component::Transform>();
 	const auto& playerMovement = *playerObject.GetComponent<Component::PlayerMovement>();
