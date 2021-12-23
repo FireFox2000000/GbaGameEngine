@@ -58,6 +58,7 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 	if (!tilemapSet->IsLoaded())
 	{
 		// TODO, need better system to handle multiple tilemap sets being loaded. Explicitly fail to load multiple in the mean time
+		// Tilemap sets may use a predefined palette index, rather than trying to define it explicitly
 
 		for (u8 refCount : m_tilesetRefCounter)
 		{
@@ -68,8 +69,9 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 			}
 		}
 
-		tilemapSet->m_renderData.m_paletteIndex = 0;
-		Gfx::PaletteBank::LoadBackgroundPalette(tilemapSet->m_file.m_palette, tilemapSet->m_file.m_paletteLength);
+		tPaletteIndex paletteIndex = tilemapSet->m_file.m_paletteBankIndex;
+		tilemapSet->m_renderData.m_paletteIndex = paletteIndex;
+		Gfx::PaletteBank::LoadBackgroundPalette(paletteIndex, tilemapSet->m_file.m_palette, tilemapSet->m_file.m_paletteLength);
 
 		auto& vram = Vram::GetInstance();
 		tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tilesetLength);

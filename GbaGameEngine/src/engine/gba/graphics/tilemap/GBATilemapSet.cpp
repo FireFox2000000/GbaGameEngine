@@ -9,7 +9,8 @@ TilemapSet::TilemapSet()
 }
 
 TilemapSet::TilemapSet(
-	const u8 paletteLength
+	const u8 paletteBankIndex
+	, const u8 paletteLength
 	, const u16 * palette
 	, const u32 tilesetLength
 	, const u32 * tileset
@@ -21,6 +22,7 @@ TilemapSet::TilemapSet(
 	, const u16 * mapData
 )
 {
+	m_file.m_paletteBankIndex = paletteBankIndex;
 	m_file.m_paletteLength = paletteLength;
 	m_file.m_palette = palette;
 

@@ -10,7 +10,9 @@
 
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/time/Time.h"
+
 #include "game/data/tilemaps/Eosd.h"
+#include "game/data/tilemaps/NightSky.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -23,7 +25,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	// Create a tilemap asset
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, Eosd::data);
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, NightSky::data);
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::Eosd, 0);
 
 	// Load the tilemap into vram
@@ -36,7 +38,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	tilemapRenderer.SetVisible(true);
 
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
-	transform->SetPosition(-17 - 20, 6);
+	transform->SetPosition(-17 + 20, 6);
 }
 
 void TilemapTestScene::Exit(Engine * engine)

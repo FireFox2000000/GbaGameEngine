@@ -71,6 +71,7 @@
     <ClCompile Include="src\game\data\sprites\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
+    <ClCompile Include="src\game\data\tilemaps\NightSky.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="src\engine\asset\SpriteAssetManager.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
     <ClInclude Include="src\game\data\sprites\debug_font_8x8_bold.h" />
+    <ClInclude Include="src\game\data\tilemaps\NightSky.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

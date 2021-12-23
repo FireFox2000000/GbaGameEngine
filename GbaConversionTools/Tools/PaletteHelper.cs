@@ -11,6 +11,7 @@ namespace GbaConversionTools.Tools
     {
         public static readonly int PALETTE_LENGTH_4BBP = 16;
         public static readonly int MAX_PALETTE_LENGTH = 256;
+        public static readonly int MAX_PALETTE_INDEX = 16;
 
         static bool IsAlpha(Color colour)
         {

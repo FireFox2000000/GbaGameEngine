@@ -1,4 +1,4 @@
-﻿#define FORCE_DYNAMIC_RENDERING
+﻿//#define FORCE_DYNAMIC_RENDERING
 
 using System;
 using System.Text;
@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GbaConversionTools.Tools
 {
@@ -58,12 +59,66 @@ namespace GbaConversionTools.Tools
             }
         }
 
-        public void Convert(string inputPath, string outputPath, Bitmap inputBitmap)
+        /// <param name="inputPath">Input file path, namespace name is derived from this</param>
+        /// <param name="outputPath">Output cpp file</param>
+        /// <param name="bitmaps">Image files to create tilemap from</param>
+        /// <param name="paletteBankIndexOffset">Allows us to force things like UI palettes into the back of the palette bank</param>
+        public void Convert(string inputPath, string outputPath, Bitmap inputBitmap, byte paletteBankIndexOffset = 0)
         {
-            CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
-
             List<Bitmap> bitmaps = new List<Bitmap>();
             bitmaps.Add(inputBitmap);
+
+            Convert(inputPath, outputPath, bitmaps, paletteBankIndexOffset);
+        }
+
+        // Groups of 16 colours
+        int Find4bbpPaletteIndex(IList<Color> paletteList, IList<Color> desiredPalette)
+        {
+            int PaletteSize = PaletteHelper.PALETTE_LENGTH_4BBP;
+            int paletteIndex = 0;
+
+            int startIndex = paletteIndex * PaletteSize;
+            int endIndex = Math.Min(startIndex + PaletteSize, paletteList.Count);
+
+            while (startIndex < paletteList.Count)
+            {
+                bool coloursFound = true;
+                foreach (Color col in desiredPalette)
+                {
+                    for (int i = startIndex; i < endIndex; ++i)
+                    {
+                        if (paletteList[i] == col)
+                        {
+                            coloursFound = false;
+                        }
+                    }
+                }
+
+                if (coloursFound)
+                {
+                    return paletteIndex;
+                }
+
+                ++paletteIndex;
+                startIndex = paletteIndex * PaletteSize;
+                endIndex = Math.Min(startIndex + PaletteSize, paletteList.Count);
+            }
+
+            return -1;
+        }
+
+        int Get4bbpPaletteIndexForSize(IList<Color> palette)
+        {
+            return palette.Count / PaletteHelper.PALETTE_LENGTH_4BBP;
+        }
+
+        /// <param name="inputPath">Input file path, namespace name is derived from this</param>
+        /// <param name="outputPath">Output cpp file</param>
+        /// <param name="bitmaps">List of image files to map tilemaps from</param>
+        /// <param name="paletteBankIndexOffset">Allows us to force things like UI palettes into the back of the palette bank</param>
+        public void Convert(string inputPath, string outputPath, List<Bitmap> bitmaps, byte paletteBankIndexOffset = 0)
+        {
+            CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
 
             List<ProcessedPaletteContainer> bitmapPalettes = new List<ProcessedPaletteContainer>();
 
@@ -75,6 +130,7 @@ namespace GbaConversionTools.Tools
                 Bitmap bitmap = bitmaps[bitmapIndex];
 
                 Size size = bitmap.Size;
+
                 if (size.Width % TileConfig.c_TILEWIDTH != 0 || size.Height % TileConfig.c_TILEHEIGHT != 0)
                 {
                     throw new Exception("Size not compatible with GBA tiles. Width and height of pixels must be multiples of 8.");
@@ -114,22 +170,46 @@ namespace GbaConversionTools.Tools
                 {
                     var bp = bitmapPalettes[i];
 
+                    Debug.Assert(bp.palette[0] == transparencyColour);
+
                     bool pal4bbp = bp.palette.Length <= PaletteHelper.PALETTE_LENGTH_4BBP;
-                    if (pal4bbp)
+                    int paletteIndex = pal4bbp ? Find4bbpPaletteIndex(masterPaletteList, bp.palette) : -1;
+
+                    if (pal4bbp && paletteIndex < 0)    // Add the new palette in
                     {
-                        // Make sure our 4bbp palette align properly
+                        // Make sure our 4bbp palette is aligned properly, every set of 16 colour palettes starts with pure transparency
                         while (masterPaletteList.Count % PaletteHelper.PALETTE_LENGTH_4BBP != 0)
                         {
                             masterPaletteList.Add(transparencyColour);
                         }
+
+                        // TODO
+                        // If 2 bitmap palettes can fit in the same GBA palette, merge them into one. 
+                        paletteIndex = Get4bbpPaletteIndexForSize(masterPaletteList);
+
+                        masterPaletteList.AddRange(bp.palette);
                     }
 
-                    int currentPaletteIndex = masterPaletteList.Count / PaletteHelper.PALETTE_LENGTH_4BBP;
-                    masterPaletteList.AddRange(bp.palette);
+                    if (!pal4bbp)
+                    {
+                        // Only add colour into the master palette if it's not already in there.
+                        foreach (Color col in bp.palette)
+                        {
+                            if (!masterPaletteList.Contains(col))
+                            {
+                                masterPaletteList.Add(col);
+                            }
+                        }
+                    }
+
+                    if ((paletteIndex + paletteBankIndexOffset) >= PaletteHelper.MAX_PALETTE_INDEX)
+                    {
+                        throw new Exception(string.Format("Palette index {0} with palette bank offset {1} is not valid for map data", paletteIndex, paletteBankIndexOffset));
+                    }
 
                     ProcessedBitmapContainer pbc = new ProcessedBitmapContainer();
                     pbc.bitmapIndex = bp.bitmapIndex;
-                    pbc.paletteIndex = pal4bbp ? currentPaletteIndex : -1;
+                    pbc.paletteIndex = paletteIndex;
                     pbc.bitmap = bitmaps[bp.bitmapIndex];
 
                     processedBitmapList.Add(pbc);
@@ -139,6 +219,11 @@ namespace GbaConversionTools.Tools
             Color[] masterPalette = masterPaletteList.ToArray();
 
             Console.WriteLine("Total colours found = " + masterPalette.Length);
+
+            if (masterPalette.Length >= PaletteHelper.MAX_PALETTE_LENGTH)
+            {
+                throw new Exception(string.Format("Master palette has too many colours ({0}/{1})", masterPalette.Length, PaletteHelper.MAX_PALETTE_LENGTH));
+            }
 
             Console.WriteLine("Processing master tileset");
 
@@ -191,6 +276,7 @@ namespace GbaConversionTools.Tools
 
             // Write palette
             {
+                cppWriter.Write(paletteBankIndexOffset);
                 cppWriter.Write((byte)masterPalette.Length);
 
                 for (int i = 0; i < masterPalette.Length; ++i)
@@ -216,7 +302,7 @@ namespace GbaConversionTools.Tools
             }
 
             // Write tile maps
-            GeneratedMapData generatedMapData = GenerateMapData(tileMapList);
+            GeneratedMapData generatedMapData = GenerateMapData(tileMapList, paletteBankIndexOffset);
 
             // Write maps
             {
@@ -283,7 +369,7 @@ namespace GbaConversionTools.Tools
             public List<int> heightLists;
         }
 
-        GeneratedMapData GenerateMapData(List<TileMap> tilemaps)
+        GeneratedMapData GenerateMapData(List<TileMap> tilemaps, int paletteBankIndexOffset)
         {
             List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
             List<int> mapStartOffsets = new List<int>();
@@ -300,9 +386,14 @@ namespace GbaConversionTools.Tools
             }
 
             for (int tilemapIndex = 0; tilemapIndex < tilemaps.Count; ++tilemapIndex)
-            //foreach (var tilemap in tilemaps)
             {
                 var tilemap = tilemaps[tilemapIndex];
+
+                int paletteIndex = tilemap.paletteIndex + paletteBankIndexOffset;
+                if (paletteIndex >= PaletteHelper.MAX_PALETTE_INDEX)
+                {
+                    throw new Exception(string.Format("Palette index {0} is not valid for map data", paletteIndex));
+                }
 
                 int width = tilemap.mapData.GetLength(0);
                 int height = tilemap.mapData.GetLength(1);
@@ -344,7 +435,7 @@ namespace GbaConversionTools.Tools
                                         screenEntry.SetVFlipFlag();
 
                                     if (tilemap.paletteIndex >= 0)
-                                        screenEntry.SetPalIndex(tilemap.paletteIndex);
+                                        screenEntry.SetPalIndex(paletteIndex);  // May be wrong when merging the palette
 
                                     seList.Add(screenEntry);
                                 }
@@ -372,7 +463,7 @@ namespace GbaConversionTools.Tools
                                 screenEntry.SetVFlipFlag();
 
                             if (tilemap.paletteIndex >= 0)
-                                screenEntry.SetPalIndex(tilemap.paletteIndex);
+                                screenEntry.SetPalIndex(paletteIndex);
 
                             seList.Add(screenEntry);
                         }

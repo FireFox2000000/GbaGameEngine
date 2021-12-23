@@ -18,6 +18,7 @@ namespace GBA
 			{
 				const u16* m_palette = NULL;
 				u8 m_paletteLength = 0;
+				u8 m_paletteBankIndex = 0;
 
 				const u32* m_tileset = NULL;
 				u32 m_tilesetLength = 0;
@@ -39,6 +40,7 @@ namespace GBA
 		public:
 			TilemapSet();
 			TilemapSet(
+				const u8 paletteBankIndex,
 				const u8 paletteLength,
 				const u16* palette,
 				const u32 tilesetLength,

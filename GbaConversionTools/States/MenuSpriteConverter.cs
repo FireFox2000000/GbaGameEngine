@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace GbaConversionTools.States
 {
-    static class MenuSpriteConverter
+    class MenuSpriteConverter : IMenuState
     {
         const string intParseErrorMsg = "Error reading input, make sure you are entering an integer value";
 
@@ -34,7 +34,7 @@ namespace GbaConversionTools.States
                 new Vector2(4 * PIXELS_PER_TILE_X, 8 * PIXELS_PER_TILE_Y),
         };
 
-        public static void Enter()
+        public void Enter()
         {
             while (true)
             {
@@ -50,7 +50,7 @@ namespace GbaConversionTools.States
             }
         }
 
-        static void WalkSpriteConverterOptions()
+        void WalkSpriteConverterOptions()
         {
             Console.WriteLine("Drag a sprite file to convert");
             string inputPath = Console.ReadLine().Trim('"');

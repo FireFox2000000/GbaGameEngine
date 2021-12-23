@@ -30,27 +30,31 @@ namespace GbaConversionTools
 
             while (true)
             {
+                IMenuState menuState = null;
+
                 switch (menuOption)
                 {
                     case 1:
                         {
-                            MenuSpriteConverter.Enter();
+                            menuState = new MenuSpriteConverter();
                             break;
                         }
                     case 2:
                         {
-                            MenuTilemapConverter.Enter();
+                            menuState = new MenuTilemapConverter();
                             break;
                         }
                     case 3:
                         {
-                            MenuAudioConverter.Enter();
+                            menuState = new MenuAudioConverter();
                             break;
                         }
                     default:
-                        Console.WriteLine("Invalid slicing option");
+                        Console.WriteLine("Invalid menu option");
                         continue;
                 }
+
+                menuState.Enter();
 
                 break;
             }

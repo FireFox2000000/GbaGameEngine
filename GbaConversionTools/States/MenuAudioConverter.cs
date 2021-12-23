@@ -7,9 +7,9 @@ using System.IO;
 
 namespace GbaConversionTools.States
 {
-    static class MenuAudioConverter
+    class MenuAudioConverter : IMenuState
     {
-        public static void Enter()
+        public void Enter()
         {
             while (true)
             {
@@ -25,7 +25,7 @@ namespace GbaConversionTools.States
             }
         }
 
-        static void WalkConverterOptions()
+        void WalkConverterOptions()
         {
             Console.WriteLine("Drag an audio file to convert");
             string inputPath = Console.ReadLine().Trim('"');

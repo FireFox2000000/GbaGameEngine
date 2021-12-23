@@ -151,6 +151,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\data\sprites\Shantae_Idle_bin.cpp" />
     <ClCompile Include="src\game\data\sprites\debug\Debug_Primitives_64x64.cpp" />
+    <ClCompile Include="src\game\data\tilemaps\NightSky.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scripts\PlayerMovement.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
@@ -281,6 +282,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\game\data\sprites\Shantae_Idle_bin.h" />
     <ClInclude Include="src\game\data\sprites\debug\Debug_Primitives_64x64.h" />
+    <ClInclude Include="src\game\data\tilemaps\NightSky.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scripts\PlayerMovement.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />

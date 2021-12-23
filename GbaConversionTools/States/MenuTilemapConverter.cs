@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace GbaConversionTools.States
 {
-    static class MenuTilemapConverter
+    class MenuTilemapConverter : IMenuState
     {
         const int PIXELS_PER_TILE_X = 8;
         const int PIXELS_PER_TILE_Y = 8;
@@ -24,7 +24,7 @@ namespace GbaConversionTools.States
 
         const string intParseErrorMsg = "Error reading input, make sure you are entering an integer value";
 
-        public static void Enter()
+        public void Enter()
         {
             while (true)
             {
@@ -40,7 +40,7 @@ namespace GbaConversionTools.States
             }
         }
 
-        static void WalkConverterOptions()
+        void WalkConverterOptions()
         {
             Console.WriteLine("Drag an image file to convert");
             string inputPath = Console.ReadLine().Trim('"');

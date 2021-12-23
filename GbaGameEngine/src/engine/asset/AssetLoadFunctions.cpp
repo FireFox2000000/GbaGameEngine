@@ -13,6 +13,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	CppFileReader reader = CppFileReader(file);
 
 	// Read palette
+	u8 paletteBankIndexOffset = reader.Read<u8>();
 	u8 paletteLength = reader.Read<u8>();
 	u16 * palette = reader.ReadAddress<u16>(paletteLength);
 
@@ -33,7 +34,19 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	DEBUG_LOGFORMAT("Loaded tilemap set of size %.2fkb", BYTES_TO_KB(tilesetLength * sizeof(u32)));
 	DEBUG_LOGFORMAT("Loaded tilemap data of size %.2fkb", BYTES_TO_KB(tileMapDataLength * sizeof(u16)));
 
-	return TilemapSet(paletteLength, palette, tilesetLength, tileset, compressionFlags, mapCount, mapIsDynamicMask, widthMap, heightMap, mapData);
+	return TilemapSet(
+		paletteBankIndexOffset
+		, paletteLength
+		, palette
+		, tilesetLength
+		, tileset
+		, compressionFlags
+		, mapCount
+		, mapIsDynamicMask
+		, widthMap
+		, heightMap
+		, mapData
+	);
 }
 
 void AssetLoadFunctions::Unload(Engine* engine, TilemapSet * begin, TilemapSet * end)
