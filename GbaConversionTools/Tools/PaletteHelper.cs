@@ -70,5 +70,10 @@ namespace GbaConversionTools.Tools
         {
             return (byte)(Math.Round(colorChannelValue / 255.0f * 31.0f));
         }
+
+        public static UInt16 ToRgb16(Color colour)
+        {
+            return (UInt16)(ScaleToRgb16(colour.R) + (ScaleToRgb16(colour.G) << 5) + (ScaleToRgb16(colour.B) << 10));
+        }
     }
 }

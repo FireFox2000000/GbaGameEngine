@@ -145,8 +145,8 @@ namespace GbaConversionTools.Tools
         {
             for (int i = 0; i < palette.Length; ++i)
             {
-                Color color = palette[i];
-                UInt16 rbgColor = (UInt16)(PaletteHelper.ScaleToRgb16(color.R) + (PaletteHelper.ScaleToRgb16(color.G) << 5) + (PaletteHelper.ScaleToRgb16(color.B) << 10));
+                Color colour = palette[i];
+                UInt16 rbgColor = PaletteHelper.ToRgb16(colour);
 
                 writer.Write(rbgColor);
             }

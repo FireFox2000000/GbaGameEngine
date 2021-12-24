@@ -71,8 +71,158 @@ namespace GbaConversionTools.Tools
             Convert(inputPath, outputPath, bitmaps, paletteBankIndexOffset);
         }
 
+        /// <param name="inputPath">Input file path, namespace name is derived from this</param>
+        /// <param name="outputPath">Output cpp file</param>
+        /// <param name="bitmaps">List of image files to map tilemaps from</param>
+        /// <param name="paletteBankIndexOffset">Allows us to force things like UI palettes into the back of the palette bank</param>
+        public void Convert(string inputPath, string outputPath, IList<Bitmap> bitmaps, byte paletteBankIndexOffset = 0)
+        {
+            CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
+
+            Console.WriteLine("Processing master palette");
+
+            Color[] masterPalette;
+            Tile[] masterTileSet;
+            TileMap[] tileMapList;
+
+            GenerateTileMaps(bitmaps, paletteBankIndexOffset, out masterPalette, out masterTileSet, out tileMapList);
+            GBAMapData gbaMapData = GenerateMapData(tileMapList, paletteBankIndexOffset);
+
+            const int maxMaps = sizeof(byte) * 8;
+            if (gbaMapData.mapIsDynamic.Count >= maxMaps)
+            {
+                // Can't store this in the current bitmask size
+                throw new Exception(string.Format("Too many tilemaps found. Maps = {0}, max is {1}. Consider increasing the bitmask of \"mapIsDynamicBitMask\".", gbaMapData.mapIsDynamic.Count, maxMaps));
+            }
+
+            Console.WriteLine("Total unique tiles = " + masterTileSet.Length);
+            Console.WriteLine("Processing tilemaps");
+
+            Compression.CompressionType compressionType = Compression.CompressionType.BitPacked;
+            uint destBpp = CalculateDestBitsPerPixel(masterTileSet);
+
+            List<UInt32> tileSetData = GenerateTileSetData(masterTileSet, compressionType, destBpp);
+
+            // Write palette
+            {
+                cppWriter.Write(paletteBankIndexOffset);
+                cppWriter.Write((byte)masterPalette.Length);
+
+                for (int i = 0; i < masterPalette.Length; ++i)
+                {
+                    Color colour = masterPalette[i];
+                    UInt16 rbgColor = PaletteHelper.ToRgb16(colour);
+                    cppWriter.Write(rbgColor);
+                }
+            }
+
+            // Write tileset
+            {
+                // Compression flags
+                UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
+                cppWriter.Write(compressionTypeSize);
+
+                // Actual data
+                cppWriter.Write((UInt32)tileSetData.Count);
+                for (int i = 0; i < tileSetData.Count; ++i)
+                {
+                    cppWriter.Write(tileSetData[i]);
+                }
+            }
+
+            // Write tile maps
+            {
+                cppWriter.Write((byte)tileMapList.Length);
+                cppWriter.Write((UInt32)gbaMapData.screenEntries.Length);
+
+                byte mapIsDynamicBitMask = BoolListToBitmaskU8(gbaMapData.mapIsDynamic);
+                cppWriter.Write(mapIsDynamicBitMask);
+
+                // Width and height arrays
+                foreach (int width in gbaMapData.widthLists)
+                {
+                    cppWriter.Write((byte)width);
+                }
+
+                foreach (int height in gbaMapData.heightLists)
+                {
+                    cppWriter.Write((byte)height);
+                }
+
+                foreach (var mapEntry in gbaMapData.screenEntries)
+                {
+                    cppWriter.Write(mapEntry.m_data);
+                }
+            }
+
+            Console.WriteLine("Tilemap \"" + outputPath + "\" successfully converted");
+
+            cppWriter.Finalise();
+        }
+
+        static byte BoolListToBitmaskU8(IList<bool> list)
+        {
+            byte bitmask = 0;
+            for (int i = 0; i < list.Count; ++i)
+            {
+                if (list[i])
+                {
+                    bitmask |= (byte)(1 << i);
+                }
+            }
+
+            return bitmask;
+        }
+
+        public static List<UInt32> GenerateTileSetData(Tile[] tiles, Compression.CompressionType compressionType, uint destBpp)
+        {
+            UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
+
+            List<UInt32> allCompressedIndicies = new List<UInt32>();
+
+            foreach (Tile tile in tiles)
+            {
+                List<UInt32> compressedIndicies;
+                List<int> linearIndicies = new List<int>();
+
+                for (int j = 0; j < tile.paletteIndicies.GetLength(1); ++j)
+                {
+                    for (int i = 0; i < tile.paletteIndicies.GetLength(0); ++i)
+                    {
+                        linearIndicies.Add(tile.paletteIndicies[i, j]);
+                    }
+                }
+
+                Compression.BitPack(linearIndicies, destBpp, out compressedIndicies);
+
+                allCompressedIndicies.AddRange(compressedIndicies);
+            } 
+
+            return allCompressedIndicies;
+        }
+
+        public static uint CalculateDestBitsPerPixel(Tile[] masterTileSet)
+        {
+            uint destBpp = 4;
+
+            foreach (Tile tile in masterTileSet)
+            {
+                foreach (int index in tile.paletteIndicies)
+                {
+                    if (index >= PaletteHelper.PALETTE_LENGTH_4BBP)
+                    {
+                        // We know that we have no choice but to write in 8bpp format
+                        destBpp = 8;
+                        return destBpp;
+                    }
+                }
+            }
+
+            return destBpp;
+        }
+
         // Groups of 16 colours
-        int Find4bbpPaletteIndex(IList<Color> paletteList, IList<Color> desiredPalette)
+        static int Find4bbpPaletteIndex(IList<Color> paletteList, IList<Color> desiredPalette)
         {
             int PaletteSize = PaletteHelper.PALETTE_LENGTH_4BBP;
             int paletteIndex = 0;
@@ -85,13 +235,17 @@ namespace GbaConversionTools.Tools
                 bool coloursFound = true;
                 foreach (Color col in desiredPalette)
                 {
+                    bool colourFound = false;
                     for (int i = startIndex; i < endIndex; ++i)
                     {
                         if (paletteList[i] == col)
                         {
-                            coloursFound = false;
+                            colourFound = true;
+                            break;
                         }
                     }
+
+                    coloursFound |= colourFound;
                 }
 
                 if (coloursFound)
@@ -107,22 +261,20 @@ namespace GbaConversionTools.Tools
             return -1;
         }
 
-        int Get4bbpPaletteIndexForSize(IList<Color> palette)
+        static int Get4bbpPaletteIndexForSize(IList<Color> palette)
         {
             return palette.Count / PaletteHelper.PALETTE_LENGTH_4BBP;
         }
 
-        /// <param name="inputPath">Input file path, namespace name is derived from this</param>
-        /// <param name="outputPath">Output cpp file</param>
-        /// <param name="bitmaps">List of image files to map tilemaps from</param>
-        /// <param name="paletteBankIndexOffset">Allows us to force things like UI palettes into the back of the palette bank</param>
-        public void Convert(string inputPath, string outputPath, List<Bitmap> bitmaps, byte paletteBankIndexOffset = 0)
+        public static void GenerateTileMaps(
+            IList<Bitmap> bitmaps
+            , byte paletteBankIndexOffset
+            , out Color[] masterPalette
+            , out Tile[] masterTileSet
+            , out TileMap[] tileMaps
+            )
         {
-            CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
-
             List<ProcessedPaletteContainer> bitmapPalettes = new List<ProcessedPaletteContainer>();
-
-            Console.WriteLine("Processing master palette");
 
             // Validate bitmaps and collect palettes
             for (int bitmapIndex = 0; bitmapIndex < bitmaps.Count; ++bitmapIndex)
@@ -216,7 +368,7 @@ namespace GbaConversionTools.Tools
                 }
             }
 
-            Color[] masterPalette = masterPaletteList.ToArray();
+            masterPalette = masterPaletteList.ToArray();
 
             Console.WriteLine("Total colours found = " + masterPalette.Length);
 
@@ -229,7 +381,7 @@ namespace GbaConversionTools.Tools
 
             // Get all unique tiles sorted via palette indicies. Need to check if local palette was greater than 16 or not
             List<Tile> uniqueTileSetList = new List<Tile>();
-            foreach(ProcessedBitmapContainer pbc in processedBitmapList)
+            foreach (ProcessedBitmapContainer pbc in processedBitmapList)
             {
                 Tile[,] rawTileMap = BitmapToTileArray(pbc.bitmap, masterPalette, pbc.paletteIndex);
                 pbc.rawTileMap = rawTileMap;
@@ -237,139 +389,28 @@ namespace GbaConversionTools.Tools
                 FillUniqueTileset(rawTileMap, uniqueTileSetList);
             }
 
-            Tile[] masterTileSet = uniqueTileSetList.ToArray();
-
-            if (masterTileSet.Length > MAX_UNIQUE_TILES)
-                throw new Exception(string.Format("Too many tiles present in tilemap. Max tiles = {0}. Total titles found = {1}", MAX_UNIQUE_TILES, masterTileSet.Length));
-
-            Console.WriteLine("Total unique tiles = " + masterTileSet.Length);
-            Console.WriteLine("Processing tilemaps");
+            masterTileSet = uniqueTileSetList.ToArray();
 
             // Generate tilemaps from master list. Remember palette index, but we should be able to forget about it. We can overlap tiles that are the same but different colours.
             List<TileMap> tileMapList = new List<TileMap>();
-            foreach(ProcessedBitmapContainer pbc in processedBitmapList)
+            foreach (ProcessedBitmapContainer pbc in processedBitmapList)
             {
                 TileMap tilemap = new TileMap(pbc.rawTileMap, masterTileSet, pbc.paletteIndex);
                 tileMapList.Add(tilemap);
             }
 
-            Compression.CompressionType compressionType = Compression.CompressionType.BitPacked;
-            uint destBpp = 4;
-
-            foreach (Tile tile in masterTileSet)
-            {
-                foreach (int index in tile.paletteIndicies)
-                {
-                    if (index >= PaletteHelper.PALETTE_LENGTH_4BBP)
-                    {
-                        // We know that we have no choice but to write in 8bpp format
-                        destBpp = 8;
-                        goto WriteMasterTileSet;
-                    }
-                }
-            }
-
-        WriteMasterTileSet:
-
-            int tilesetLength;
-            List<UInt32> tileSetData = GenerateTileSetData(masterTileSet, compressionType, destBpp, out tilesetLength);
-
-            // Write palette
-            {
-                cppWriter.Write(paletteBankIndexOffset);
-                cppWriter.Write((byte)masterPalette.Length);
-
-                for (int i = 0; i < masterPalette.Length; ++i)
-                {
-                    Color color = masterPalette[i];
-                    UInt16 rbgColor = (UInt16)(PaletteHelper.ScaleToRgb16(color.R) + (PaletteHelper.ScaleToRgb16(color.G) << 5) + (PaletteHelper.ScaleToRgb16(color.B) << 10));
-                    cppWriter.Write(rbgColor);
-                }
-            }
-
-            // Write tileset
-            {
-                // Compression flags
-                UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
-                cppWriter.Write(compressionTypeSize);
-
-                // Actual data
-                cppWriter.Write((UInt32)tileSetData.Count);
-                for (int i = 0; i < tileSetData.Count; ++i)
-                {
-                    cppWriter.Write(tileSetData[i]);
-                }
-            }
-
-            // Write tile maps
-            GeneratedMapData generatedMapData = GenerateMapData(tileMapList, paletteBankIndexOffset);
-
-            // Write maps
-            {
-                cppWriter.Write((byte)tileMapList.Count);
-                cppWriter.Write((UInt32)generatedMapData.screenEntries.Length);
-                cppWriter.Write(generatedMapData.mapIsDynamicBitMask);
-
-                // Width and height arrays
-                foreach (int width in generatedMapData.widthLists)
-                {
-                    cppWriter.Write((byte)width);
-                }
-
-                foreach (int height in generatedMapData.heightLists)
-                {
-                    cppWriter.Write((byte)height);
-                }
-
-                foreach (var mapEntry in generatedMapData.screenEntries)
-                {
-                    cppWriter.Write(mapEntry.m_data);
-                }
-            }
-
-            Console.WriteLine("Tilemap \"" + outputPath + "\" successfully converted");
-
-            cppWriter.Finalise();
+            tileMaps = tileMapList.ToArray();
         }
 
-        List<UInt32> GenerateTileSetData(Tile[] tiles, Compression.CompressionType compressionType, uint destBpp, out int totalLength)
-        {
-            UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
-
-            totalLength = 0;
-
-            List<UInt32> allCompressedIndicies = new List<UInt32>();
-
-            foreach (Tile tile in tiles)
-            {
-                List<UInt32> compressedIndicies;
-                List<int> linearIndicies = new List<int>();
-
-                for (int j = 0; j < tile.paletteIndicies.GetLength(1); ++j)
-                {
-                    for (int i = 0; i < tile.paletteIndicies.GetLength(0); ++i)
-                    {
-                        linearIndicies.Add(tile.paletteIndicies[i, j]);
-                    }
-                }
-
-                Compression.BitPack(linearIndicies, destBpp, out compressedIndicies);
-
-                allCompressedIndicies.AddRange(compressedIndicies);
-            } 
-
-            return allCompressedIndicies;
-        }
-
-        struct GeneratedMapData
+        public struct GBAMapData
         {
             public GBAScreenEntry[] screenEntries;
-            public byte mapIsDynamicBitMask;
+            public List<bool> mapIsDynamic;
             public List<int> widthLists;
             public List<int> heightLists;
         }
 
-        GeneratedMapData GenerateMapData(List<TileMap> tilemaps, int paletteBankIndexOffset)
+        public static GBAMapData GenerateMapData(IList<TileMap> tilemaps, int paletteBankIndexOffset)
         {
             List<GBAScreenEntry> seList = new List<GBAScreenEntry>();
             List<int> mapStartOffsets = new List<int>();
@@ -378,12 +419,7 @@ namespace GbaConversionTools.Tools
             List<int> widthLists = new List<int>();
             List<int> heightLists = new List<int>();
 
-            byte mapIsDynamicBitMask = 0;
-            const int maxMaps = sizeof(byte) * 8;
-            if (tilemaps.Count >= maxMaps)
-            {
-                throw new Exception(string.Format("Too many tilemaps found. Maps = {0}, max is {1}", tilemaps.Count, maxMaps));
-            }
+            List<bool> mapIsDynamic = new List<bool>();
 
             for (int tilemapIndex = 0; tilemapIndex < tilemaps.Count; ++tilemapIndex)
             {
@@ -411,6 +447,7 @@ namespace GbaConversionTools.Tools
 #else
                 bool performGbaNesting = widthValidForNesting && heightValidForNesting; // Disable for dynamic maps
 #endif
+                mapIsDynamic.Add(!performGbaNesting);
 
                 if (performGbaNesting)
                 {
@@ -445,8 +482,6 @@ namespace GbaConversionTools.Tools
                 }
                 else
                 {
-                    mapIsDynamicBitMask |= (byte)(1 << tilemapIndex);
-
                     for (int mapY = 0; mapY < tilemap.mapData.GetLength(1); ++mapY)
                     {            
                         for (int mapX = 0; mapX < tilemap.mapData.GetLength(0); ++mapX)
@@ -483,16 +518,16 @@ namespace GbaConversionTools.Tools
 
             GBAScreenEntry[] mapEntries = seList.ToArray();
 
-            GeneratedMapData generatedMapData;
+            GBAMapData generatedMapData;
             generatedMapData.screenEntries = mapEntries;
-            generatedMapData.mapIsDynamicBitMask = mapIsDynamicBitMask;
+            generatedMapData.mapIsDynamic = mapIsDynamic;
             generatedMapData.widthLists = widthLists;
             generatedMapData.heightLists = heightLists;
 
             return generatedMapData;
         }
 
-        class GBAScreenEntry
+        public class GBAScreenEntry
         {
             public UInt16 m_data;
 
@@ -517,7 +552,7 @@ namespace GbaConversionTools.Tools
             }
         }
 
-        class Tile
+        public class Tile
         {
             public enum ComparisonResult
             {
@@ -607,7 +642,7 @@ namespace GbaConversionTools.Tools
             }
         }
 
-        class TileMap
+        public class TileMap
         {
             [Flags]
             public enum FlippingFlags
@@ -707,7 +742,7 @@ namespace GbaConversionTools.Tools
             }
         }
 
-        Tile[,] BitmapToTileArray(Bitmap bitmap, Color[] palette, int localPaletteIndex = -1)
+        static Tile[,] BitmapToTileArray(Bitmap bitmap, Color[] palette, int localPaletteIndex = -1)
         {
             int xStart = 0;
             int yStart = 0;

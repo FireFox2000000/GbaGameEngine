@@ -27,6 +27,8 @@ namespace GbaConversionTools
             m_namespaceName = namespaceName.Replace(" ", string.Empty);      
         }
 
+        public string HeaderFilePath {  get { return Path.ChangeExtension(m_filePath, ".h"); } }
+
         byte[] GetBytes(Object data)
         { 
             var size = Marshal.SizeOf(data);
@@ -68,24 +70,36 @@ namespace GbaConversionTools
             m_binaryData.AddRange(bytes);
         }
 
+        /// <summary>
+        /// Writes all data to their respective files. Must call this after all data has been written by the Write functions. 
+        /// </summary>
         public void Finalise()
         {
             WriteCppFile();
 
-            string headerFilePath = Path.ChangeExtension(m_filePath, ".h");
-            bool generateHeader = !File.Exists(headerFilePath);
-            if (generateHeader)
-            {
-                WriteHeaderFile(headerFilePath);
-            }
+            string headerFilePath = HeaderFilePath;
+            WriteHeaderFile(headerFilePath);
         }
 
-        void AppendIndentation(StringBuilder sb, int level)
+        public static void AppendIndentation(StringBuilder sb, int level)
         {
             for (int i = 0; i < level; ++i)
             {
                 sb.Append(TAB_CHAR);
             }
+        }
+
+        public static string PrefixIndentation(string s, int level)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < level; ++i)
+            {
+                sb.Append(TAB_CHAR);
+            }
+
+            sb.Append(s);
+
+            return sb.ToString();
         }
 
         void WriteCppFile()

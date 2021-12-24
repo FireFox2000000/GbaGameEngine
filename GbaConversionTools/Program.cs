@@ -8,6 +8,14 @@ namespace GbaConversionTools
     {
         const string intParseErrorMsg = "Error reading input, make sure you are entering an integer value";
 
+        public delegate IMenuState CreateMenuFn();
+
+        struct ConverterOption
+        {
+            public string menuLabel;
+            public CreateMenuFn createMenuStateFn;
+        }
+
         static void AnyKeyToContinue()
         {
             Console.WriteLine("Press any key to continue");
@@ -16,10 +24,21 @@ namespace GbaConversionTools
 
         static void Main(string[] args)
         {
+            const int MenuIndexOffset = 1;      // Start menu off at 1 rather than 0
+
+            ConverterOption[] menuOptions = new ConverterOption[]
+            {
+                new ConverterOption { menuLabel = "Sprite", createMenuStateFn = () => { return new MenuSpriteConverter(); } },
+                new ConverterOption { menuLabel = "Tilemap", createMenuStateFn = () => { return new MenuTilemapConverter(); } },
+                new ConverterOption { menuLabel = "Audio", createMenuStateFn = () => { return new MenuAudioConverter(); } },
+                new ConverterOption { menuLabel = "Ui Atlus", createMenuStateFn = () => { return new MenuUiAtlusConverter(); } },
+            };
+
             Console.WriteLine("Select converter:");
-            Console.WriteLine("1. Sprite");
-            Console.WriteLine("2. Tilemap");
-            Console.WriteLine("3. Audio");
+            for (int i = 0; i < menuOptions.Length; ++i)
+            {
+                Console.WriteLine(string.Format("{0}. {1}", i + MenuIndexOffset, menuOptions[i].menuLabel));
+            }
 
             int menuOption;
             while (!Int32.TryParse(Console.ReadLine(), out menuOption))
@@ -30,38 +49,20 @@ namespace GbaConversionTools
 
             while (true)
             {
-                IMenuState menuState = null;
-
-                switch (menuOption)
+                if (menuOption >= 0 + MenuIndexOffset && menuOption < menuOptions.Length + MenuIndexOffset)
                 {
-                    case 1:
-                        {
-                            menuState = new MenuSpriteConverter();
-                            break;
-                        }
-                    case 2:
-                        {
-                            menuState = new MenuTilemapConverter();
-                            break;
-                        }
-                    case 3:
-                        {
-                            menuState = new MenuAudioConverter();
-                            break;
-                        }
-                    default:
-                        Console.WriteLine("Invalid menu option");
-                        continue;
+                    IMenuState menu = menuOptions[menuOption - MenuIndexOffset].createMenuStateFn();
+                    menu.Enter();
+                    break;
                 }
-
-                menuState.Enter();
-
-                break;
+                else
+                {
+                    Console.WriteLine("Invalid menu option");
+                    continue;
+                }
             }
 
             AnyKeyToContinue();
-        }
-
-        
+        }  
     }
 }
