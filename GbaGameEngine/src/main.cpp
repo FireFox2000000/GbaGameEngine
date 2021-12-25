@@ -11,6 +11,7 @@
 
 #include "game/scenes/Scene0.h"
 #include "game/scenes/TilemapTestScene.h"
+#include "game/scenes/UiAtlusTestScene.h"
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
@@ -31,7 +32,7 @@ int main()
 #endif
 
 	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
-	sceneManager->ChangeScene<Scene0>(engine.get());
+	sceneManager->ChangeScene<UiAtlusTestScene>(engine.get());
 
 	Time* time = engine->GetComponent<Time>();
 	AudioManager* audioManager = engine->GetComponent<AudioManager>();

@@ -40,6 +40,26 @@ void TilemapManager::LoadTilemap(Tilemap & out_tilemap)
 	}
 }
 
+void TilemapManager::LoadPalette(TilemapSet* tilemapSet)
+{
+	tPaletteIndex paletteIndex = tilemapSet->m_file.m_paletteBankIndex;
+	tilemapSet->m_renderData.m_paletteIndex = paletteIndex;
+	GBA::Gfx::PaletteBank::LoadBackgroundPalette(paletteIndex, tilemapSet->m_file.m_palette, tilemapSet->m_file.m_paletteLength);
+}
+
+void TilemapManager::LoadTileset(TilemapSet* tilemapSet)
+{
+	using namespace GBA;
+
+	auto& vram = Vram::GetInstance();
+	tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tilesetLength);
+
+	if (tilemapSet->m_renderData.m_tileSetCharacterBaseBlock != TileBlockGroups::BlockGroupCount)	// Check that the alloc was actually successfull
+	{
+		vram.LoadBackgroundTileSetMem(tilemapSet->m_file.m_tileset, tilemapSet->m_file.m_tilesetLength, tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
+	}
+}
+
 void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Background::ControlRegister::Size size, bool isAffine, bool copyMapDirectlyToMemory)
 {
 	using namespace GBA;
@@ -69,17 +89,8 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 			}
 		}
 
-		tPaletteIndex paletteIndex = tilemapSet->m_file.m_paletteBankIndex;
-		tilemapSet->m_renderData.m_paletteIndex = paletteIndex;
-		Gfx::PaletteBank::LoadBackgroundPalette(paletteIndex, tilemapSet->m_file.m_palette, tilemapSet->m_file.m_paletteLength);
-
-		auto& vram = Vram::GetInstance();
-		tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tilesetLength);
-
-		if (tilemapSet->m_renderData.m_tileSetCharacterBaseBlock != TileBlockGroups::BlockGroupCount)	// Check that the alloc was actually successfull
-		{
-			vram.LoadBackgroundTileSetMem(tilemapSet->m_file.m_tileset, tilemapSet->m_file.m_tilesetLength, tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
-		}
+		LoadPalette(tilemapSet);
+		LoadTileset(tilemapSet);
 
 		addRefCount = true;
 	}

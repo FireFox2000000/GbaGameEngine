@@ -213,12 +213,16 @@ namespace GBA
 
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)
 	{
+		if (cbbIndex == TileBlockGroups::BlockGroupCount) return;
+
 		u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
 		FreeBackgroundTileMapMem(cbbSeIndex);
 	}
 
 	void Vram::FreeBackgroundTileMapMem(tScreenBaseBlockIndex sbbIndex)
 	{
+		if (sbbIndex == INVALID_SBB_ID) return;
+
 		m_screenEntryTracker[sbbIndex++] = Free;
 
 		while (sbbIndex < m_screenEntryTracker.Count() && m_screenEntryTracker[sbbIndex] == Continue)

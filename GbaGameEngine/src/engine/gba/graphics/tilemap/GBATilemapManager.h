@@ -8,6 +8,7 @@ namespace GBA
 	namespace Gfx
 	{
 		class Tilemap;
+		class TilemapSet;
 
 		class TilemapManager
 		{
@@ -34,6 +35,9 @@ namespace GBA
 
 			void Unload(Tilemap* tilemap);
 			void Clear();
+
+			static void LoadPalette(TilemapSet* tilemapSet);
+			static void LoadTileset(TilemapSet* tilemapSet);
 		};
 	}
 }
