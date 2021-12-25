@@ -123,12 +123,14 @@ void UiRenderer::LoadAtlus(const u32* file)
 	{
 		GBA::Gfx::TilemapManager::LoadPalette(&m_tilemapSet);
 		GBA::Gfx::TilemapManager::LoadTileset(&m_tilemapSet);
+
+		// Although we're allocating the same memory each time, call this after allocating the tileset so that our tilemap memory is located directly after the tileset
+		// Otherwise we're going to eat up a whole charblock if this is called beforehand
+		m_mapSbbIndex = GBA::Vram::GetInstance().AllocBackgroundTileMapMem(BackgroundSize * BackgroundSize);
 	}
 
 	// Assign control register
 	{
-		m_mapSbbIndex = GBA::Vram::GetInstance().AllocBackgroundTileMapMem(BackgroundSize * BackgroundSize);	// Must call this after AllocBackgroundTileSetMem. May be a bug though.
-
 		GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(m_tilemapSet.m_file.m_tileSetDataCompressionFlags);
 		auto& controlRegister = BackgroundControl::GetBgControlRegister(m_backgroundId);
 		controlRegister.SetColourMode(colourMode);

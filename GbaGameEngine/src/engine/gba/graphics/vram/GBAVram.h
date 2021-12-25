@@ -65,14 +65,30 @@ namespace GBA
 		GBA::Gfx::tTileId AllocSpriteMem(const u32* pixelMap, u32 pixelMapSize, u32 compressionFlags);
 		void FreeSpriteMem(GBA::Gfx::tTileId index);
 
+		/// <summary>
+		/// Allocates a charblock to store tilesets in
+		/// Better to call this before allocating screenblocks via AllocBackgroundTileMapMem
+		/// This will let tilemap memory be allocated directly after the tileset
+		/// If map memory is allocated at a CharBlock alignment then we lose a whole charblock to place tilesets at, which is bad
+		/// </summary>
+		/// <param name="tileSetLength">Number of tiles contained in the tileset to allocation</param>
+		/// <returns>Returns a charblock index which points to an address in GBA background registers to store tilesets</returns>
 		TileBlockGroups AllocBackgroundTileSetMem(
 			u32 tileSetLength);
+
 		void LoadBackgroundTileSetMem(
 			const u32* tileset,
 			u32 tileSetLength,
 			TileBlockGroups cbbIndex);
 
+		/// <summary>
+		/// Allocates screenblocks for tile map memory
+		/// Better to call this after AllocBackgroundTileSetMem so as to not waste charblocks
+		/// This will let tilemap memory be allocated directly after the tileset
+		/// If map memory is allocated at a CharBlock alignment then we lose a whole charblock to place tilesets at, which is bad
+		/// </summary>
 		tScreenBaseBlockIndex AllocBackgroundTileMapMem(u32 tileCount);
+
 		void LoadBackgroundTileMapMem(const u16* mapData,
 			u32 mapDataLength,
 			tScreenBaseBlockIndex sbbIndex);

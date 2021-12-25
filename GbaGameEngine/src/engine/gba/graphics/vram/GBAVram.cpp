@@ -183,7 +183,7 @@ namespace GBA
 	void Vram::LoadBackgroundTileSetMem(const u32 * tileset, u32 tileSetLength, TileBlockGroups cbbIndex)
 	{
 		u32 dataLength = tileSetLength * 2;	// We cast the data from a u32[] to a u16[]. Double the length to account for this.
-		LoadBackgroundMem((u16*)tileset, cbbIndex, dataLength);
+		LoadBackgroundMem((u16*)tileset, cbbIndex * ScreenBlocksPerCharBlock, dataLength);
 	}
 
 	tScreenBaseBlockIndex Vram::AllocBackgroundTileMapMem(u32 tileCount)

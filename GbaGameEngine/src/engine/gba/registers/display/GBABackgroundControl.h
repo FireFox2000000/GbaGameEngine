@@ -10,6 +10,10 @@ namespace GBA
 	{
 
 	public:
+		/// <summary>
+		/// Available background on the GBA. Changes upon which display mode is set. 
+		/// Note that Bg0 renders on top of Bg1, which is on top of Bg2 etc. 
+		/// </summary>
 		enum Backgrounds
 		{
 			Bg0,
