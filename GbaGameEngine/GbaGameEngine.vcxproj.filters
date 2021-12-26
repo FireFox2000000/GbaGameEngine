@@ -75,6 +75,7 @@
     <ClCompile Include="src\game\scenes\UiAtlusTestScene.cpp" />
     <ClCompile Include="src\game\data\tilemaps\UiAtlus.cpp" />
     <ClCompile Include="src\engine\render\UiRenderer.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="src\game\scenes\UiAtlusTestScene.h" />
     <ClInclude Include="src\game\data\tilemaps\UiAtlus.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
+    <ClInclude Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

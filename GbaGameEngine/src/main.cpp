@@ -32,7 +32,7 @@ int main()
 #endif
 
 	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
-	sceneManager->ChangeScene<UiAtlusTestScene>(engine.get());
+	sceneManager->ChangeScene<TilemapTestScene>(engine.get());
 
 	Time* time = engine->GetComponent<Time>();
 	AudioManager* audioManager = engine->GetComponent<AudioManager>();

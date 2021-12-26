@@ -5,6 +5,7 @@
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
+#include "engine/graphicalassets/font/FontLookupFunctions.h"
 
 constexpr int BackgroundSize = 32;
 
@@ -70,7 +71,7 @@ void UiRenderer::UnloadTilemapSet()
 	GBA::Vram::GetInstance().FreeBackgroundTileSetMem(m_tilemapSet.m_renderData.m_tileSetCharacterBaseBlock);
 }
 
-void UiRenderer::LoadAtlus(const u32* file)
+void UiRenderer::LoadAtlus(const u32* file, const FontProperties& fontProperties)
 {
 	DEBUG_LOG("Loading UiAtlus into UiRenderer");
 
@@ -91,9 +92,9 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();
+		u16 clearScreenEntry = reader.Read<u16>();
 
 		u32 tilesetLength = reader.Read<u32>();
-		DEBUG_LOGFORMAT("Ui atlus tileset length = %d", tilesetLength);
 		u32* tileset = reader.ReadAddress<u32>(tilesetLength);
 
 		// Read maps
@@ -117,6 +118,8 @@ void UiRenderer::LoadAtlus(const u32* file)
 			, heightMap
 			, mapData
 		);
+
+		m_clearScreenEntry = clearScreenEntry;
 	}
 
 	// Load the palette and tileset into video memory
@@ -143,12 +146,63 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 		GBA::DisplayControl::SetBackgroundActive(m_backgroundId, true);
 	}
+
+	// Clear the screen of any preivous data or default will be first tile, need to set to the clear tile. 
+	ClearRegion(0, 0, BackgroundSize, BackgroundSize);
+
+	m_fontProperties = fontProperties;
 }
 
-void UiRenderer::DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex)
+void UiRenderer::DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const
 {
 	using namespace GBA::Gfx;
 
-	Tilemap* tilemap = m_tilemapSet.GetTilemap(uiElementIndex);
+	const Tilemap* tilemap = m_tilemapSet.GetTilemap(uiElementIndex);
 	DrawUiTilemap(screenPositionInTiles, tilemap, m_mapSbbIndex);
+}
+
+void UiRenderer::ClearRegion(int x, int y, int width, int height) const
+{
+	auto& vram = GBA::Vram::GetInstance();
+
+	for (int curX = 0; curX < width; ++curX)
+	{
+		for (int curY = 0; curY < height; ++curY)
+		{
+			int screenOffset = (y + curY) * BackgroundSize + (x + curX);
+			vram.SetBackgroundTileData(m_mapSbbIndex, screenOffset, m_clearScreenEntry);
+		}
+	}
+}
+
+void UiRenderer::RenderText(const std::string& str, const Vector2<int>& drawPosition) const
+{
+	Vector2<int> currentDrawPosition = drawPosition;
+
+	for (char c : str)
+	{
+		switch (c)
+		{
+		case '\n':
+		{
+			currentDrawPosition.x = drawPosition.x;
+			currentDrawPosition.y += m_fontProperties.fixedCharacterSize.y;
+
+			break;
+		}
+		case ' ':
+		{
+			// TODO, replace with actual sprite. May want to show coloured background or something instead
+			currentDrawPosition.x += m_fontProperties.fixedCharacterSize.x;
+			break;
+		}
+
+		default:
+		{
+			int uiElementIndex = AsciiExclamationOffset(c) + m_fontProperties.fontAsciiStart;
+			DrawUiElement(currentDrawPosition, uiElementIndex);
+			currentDrawPosition.x += 1;
+		}
+		}
+	}
 }

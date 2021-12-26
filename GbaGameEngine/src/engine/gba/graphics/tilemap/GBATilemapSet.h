@@ -64,6 +64,7 @@ namespace GBA
 			bool IsLoaded() const;
 
 			Tilemap* GetTilemap(int index);
+			const Tilemap* GetTilemap(int index) const;
 		};
 	}
 }

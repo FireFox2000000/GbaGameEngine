@@ -7,6 +7,9 @@
 
 namespace GBA
 {
+	// Charblocks/Character base block: region of memory for tilesets to be placed. 
+	// ScreenBlocks: region of memory for screen entires to be placed.
+
 	enum TileBlockGroups
 	{
 		Bg0,
@@ -59,6 +62,7 @@ namespace GBA
 		Vram();
 
 		void LoadBackgroundMem(const u16* src, tScreenBaseBlockIndex dest, u32 dataLength);
+		void SetBackgroundMem(const u16 src, tScreenBaseBlockIndex dest, u32 dataLength);
 		tScreenBaseBlockIndex AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned);
 
 	public:
@@ -80,6 +84,8 @@ namespace GBA
 			const u32* tileset,
 			u32 tileSetLength,
 			TileBlockGroups cbbIndex);
+
+		void SetBackgroundTileSetMem(const u16 value, u32 tileSetLength, TileBlockGroups cbbIndex);
 
 		/// <summary>
 		/// Allocates screenblocks for tile map memory

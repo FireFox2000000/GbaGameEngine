@@ -120,6 +120,12 @@ namespace GBA
 #endif
 	}
 
+	void Vram::SetBackgroundMem(const u16 src, tScreenBaseBlockIndex dest, u32 dataLength)
+	{
+		u32 byteLength = dataLength * sizeof(u16);
+		VramSafeMemSet((u16*)&s_screenBlockPool[dest][0], src, byteLength);
+	}
+
 	tScreenBaseBlockIndex Vram::AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned)
 	{
 		tScreenBaseBlockIndex allocatedIndex = INVALID_SBB_ID;
@@ -184,6 +190,12 @@ namespace GBA
 	{
 		u32 dataLength = tileSetLength * 2;	// We cast the data from a u32[] to a u16[]. Double the length to account for this.
 		LoadBackgroundMem((u16*)tileset, cbbIndex * ScreenBlocksPerCharBlock, dataLength);
+	}
+
+	void Vram::SetBackgroundTileSetMem(const u16 value, u32 tileSetLength, TileBlockGroups cbbIndex)
+	{
+		u32 dataLength = tileSetLength * 2;	// We cast the data from a u32[] to a u16[]. Double the length to account for this.
+		SetBackgroundMem(value, cbbIndex * ScreenBlocksPerCharBlock, dataLength);
 	}
 
 	tScreenBaseBlockIndex Vram::AllocBackgroundTileMapMem(u32 tileCount)

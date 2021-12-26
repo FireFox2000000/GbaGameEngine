@@ -94,3 +94,11 @@ Tilemap* GBA::Gfx::TilemapSet::GetTilemap(int index)
 	else
 		return nullptr;
 }
+
+const Tilemap* GBA::Gfx::TilemapSet::GetTilemap(int index) const
+{
+	if (index >= 0 && index < (int)m_maps.Count())
+		return &m_maps[index];
+	else
+		return nullptr;
+}

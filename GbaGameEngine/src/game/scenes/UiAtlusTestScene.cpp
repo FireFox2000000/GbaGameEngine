@@ -2,8 +2,6 @@
 #include "engine/engine/engine.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
 #include "game/data/tilemaps/UiAtlus.h"
-#include "engine/graphicalassets/font/FontLookupFunctions.h"
-
 
 UiAtlusTestScene::UiAtlusTestScene(Engine* engine) : Scene(engine)
 {
@@ -16,19 +14,14 @@ void UiAtlusTestScene::Enter(Engine* engine)
 
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	m_uiRenderer.LoadAtlus(UiAtlus::data);
+	m_uiRenderer.LoadAtlus(UiAtlus::data, { UiAtlusObject::Ascii_33, Vector2<int>(1, 1) });
 
 	// Draw test on screen
 	{
-		std::string testString = "!!";
-		
-		Vector2<int> drawPosition(1, 1);
+		std::string testString = "Hello World!";		
+		const Vector2<int> drawPosition(1, 1);
 
-		for (char c : testString)
-		{
-			m_uiRenderer.DrawUiElement(drawPosition, AsciiExclamationOffset(c) + UiAtlusObject::Ascii_33);
-			drawPosition.x += 1;
-		}
+		m_uiRenderer.RenderText(testString, drawPosition);
 	}
 }
 

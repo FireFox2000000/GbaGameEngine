@@ -77,10 +77,35 @@ namespace GbaConversionTools.States
                 {
                     Console.WriteLine(string.Format("No uvs defined for UI atlus image at {0}. Creating skeleton json file.", inputPath));
 
-                    sliceCoordinates = new UiAtlusUvs[1]
+                    // Make quick ui atlus uvs cause doing this by hand is tedious af. 
+                    if (false)
                     {
+                        List<UiAtlusUvs> sliceCoordinatesList = new List<UiAtlusUvs>();
+                        int rows = 6;
+                        int columns = 16;
+                        int width = 8;
+                        int height = 8;
+
+                        int asciiNumber = 33;
+                        for (int row = 0; row < rows; ++row)
+                        {
+                            for (int column = 0; column < columns; ++column)
+                            {
+                                string name = string.Format("Ascii_{0}", asciiNumber++);
+                                UiAtlusUvs uvs = new UiAtlusUvs { name = name, uvs = new Tools.SpriteConverter.UVs { x = column * width, y = row * height, width = width, height = height } };
+                                sliceCoordinatesList.Add(uvs);
+                            }
+                        }
+
+                        sliceCoordinates = sliceCoordinatesList.ToArray();
+                    }
+                    else
+                    {
+                        sliceCoordinates = new UiAtlusUvs[1]
+                        {
                         new UiAtlusUvs { name = "UvName1", uvs = new Tools.SpriteConverter.UVs{ x = 0, y = 0, width = 8, height = 8 } },
-                    };
+                        };
+                    }
 
                     string uvJsonData = JsonConvert.SerializeObject(sliceCoordinates, Formatting.Indented);
                     File.WriteAllText(jsonOutputPath, uvJsonData);

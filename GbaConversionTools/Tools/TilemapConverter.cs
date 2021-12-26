@@ -245,7 +245,7 @@ namespace GbaConversionTools.Tools
                         }
                     }
 
-                    coloursFound |= colourFound;
+                    coloursFound &= colourFound;
                 }
 
                 if (coloursFound)
@@ -272,6 +272,7 @@ namespace GbaConversionTools.Tools
             , out Color[] masterPalette
             , out Tile[] masterTileSet
             , out TileMap[] tileMaps
+            , bool skipSort = false
             )
         {
             List<ProcessedPaletteContainer> bitmapPalettes = new List<ProcessedPaletteContainer>();
@@ -309,8 +310,11 @@ namespace GbaConversionTools.Tools
                 bitmapPalettes.Add(palContainer);
             }
 
-            // Sort bitmap palette. Anything more than 16 colours should be grouped next to each other. Less than 16 should always be a full 16.
-            bitmapPalettes.Sort(new ProcessedPaletteComparer());
+            if (!skipSort)
+            {
+                // Sort bitmap palette. Anything more than 16 colours should be grouped next to each other. Less than 16 should always be a full 16.
+                bitmapPalettes.Sort(new ProcessedPaletteComparer());
+            }
 
             // Get palettes of each image, merge into a master palette
             List<Color> masterPaletteList = new List<Color>();

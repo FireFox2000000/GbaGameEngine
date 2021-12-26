@@ -7,12 +7,11 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/asset/AssetLoadFunctions.h"
 #include "engine/graphicalassets/Graphics.h"
-
-#include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/time/Time.h"
 
 #include "game/data/tilemaps/Eosd.h"
 #include "game/data/tilemaps/NightSky.h"
+#include "game/data/tilemaps/UiAtlus.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -23,6 +22,10 @@ void TilemapTestScene::Enter(Engine * engine)
 	using namespace GBA::DisplayOptions;
 
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
+
+	m_uiRenderer.LoadAtlus(UiAtlus::data, { UiAtlusObject::Ascii_33, Vector2<int>(1, 1) });
+
+	m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1));
 
 	// Create a tilemap asset
 	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, NightSky::data);

@@ -4,9 +4,12 @@
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/asset/FixedAssetManager.h"
+#include "engine/render/UiRenderer.h"
 
 class TilemapTestScene : public Scene
 {
+	UiRenderer m_uiRenderer;
+
 	enum SpriteAnimationID
 	{
 		AnimationCount

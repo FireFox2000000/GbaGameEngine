@@ -31,8 +31,39 @@ namespace GbaConversionTools.Tools
                 bitmaps.Add(bitmap.bitmap);
             }
 
-            TilemapConverter.GenerateTileMaps(bitmaps, paletteBankIndexOffset, out masterPalette, out masterTileSet, out tileMapList);
+            TilemapConverter.GenerateTileMaps(bitmaps, paletteBankIndexOffset, out masterPalette, out masterTileSet, out tileMapList, true);
             TilemapConverter.GBAMapData gbaMapData = TilemapConverter.GenerateMapData(tileMapList, paletteBankIndexOffset);
+
+            // Add clear tile at the end if not already present
+            int clearTileIndex = -1;
+            {
+                TilemapConverter.Tile clearTile = new TilemapConverter.Tile();
+                List<TilemapConverter.Tile> tiles = new List<TilemapConverter.Tile>();
+                tiles.AddRange(masterTileSet);
+
+                // Search
+                for (int i = 0; i < tiles.Count; ++i)
+                {
+                    if (tiles[i].Compare(clearTile) == TilemapConverter.Tile.ComparisonResult.Same)
+                    {
+                        clearTileIndex = i;
+                        break;
+                    }
+                }
+
+                // Not found, append
+                if (clearTileIndex == -1)
+                {
+                    clearTileIndex = tiles.Count;
+                    tiles.Add(clearTile);
+                }
+
+                masterTileSet = tiles.ToArray();
+            }
+
+            TilemapConverter.GBAScreenEntry clearScreenEntry = new TilemapConverter.GBAScreenEntry();
+            clearScreenEntry.SetTileIndex(clearTileIndex);
+            clearScreenEntry.SetPalIndex(paletteBankIndexOffset);
 
             Console.WriteLine("Total unique tiles = " + masterTileSet.Length);
             Console.WriteLine("Processing tilemaps");
@@ -60,6 +91,9 @@ namespace GbaConversionTools.Tools
                 // Compression flags
                 UInt32 compressionTypeSize = Compression.ToGBACompressionHeader(compressionType, destBpp);
                 cppWriter.Write(compressionTypeSize);
+                
+                // Clear screen entry
+                cppWriter.Write(clearScreenEntry.m_data);
 
                 // Actual data
                 cppWriter.Write((UInt32)tileSetData.Count);
@@ -104,7 +138,7 @@ namespace GbaConversionTools.Tools
                     writer.WriteLine("");
 
                     int indentationLevel = 1;
-                    writer.WriteLine(CppWriter.PrefixIndentation("enum Enum", indentationLevel));
+                    writer.WriteLine(CppWriter.PrefixIndentation("enum UiAtlusObject", indentationLevel));
                     writer.WriteLine(CppWriter.PrefixIndentation("{", indentationLevel));
 
                     ++indentationLevel;
