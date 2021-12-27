@@ -2,12 +2,17 @@
 #include "engine/scene/Scene.h"
 #include "engine/render/UiRenderer.h"
 
-class UiAtlusTestScene : public Scene
+class LevelSelectorScene : public Scene
 {
 	UiRenderer m_uiRenderer;
+	int m_currentSelectedIndex = 0;
+
+	void AdjustSelectedIndex(int direction);
+	void ClearNotch();
+	void DrawNotch();
 
 public:
-	UiAtlusTestScene(Engine* engine);
+	LevelSelectorScene(Engine* engine);
 
 	void Enter(Engine* engine) override;
 	void Update(Engine* engine) override;

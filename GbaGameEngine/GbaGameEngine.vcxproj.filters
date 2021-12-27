@@ -72,7 +72,7 @@
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
     <ClCompile Include="src\game\data\tilemaps\NightSky.cpp" />
-    <ClCompile Include="src\game\scenes\UiAtlusTestScene.cpp" />
+    <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
     <ClCompile Include="src\game\data\tilemaps\UiAtlus.cpp" />
     <ClCompile Include="src\engine\render\UiRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.cpp" />
@@ -211,7 +211,7 @@
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
     <ClInclude Include="src\game\data\sprites\debug_font_8x8_bold.h" />
     <ClInclude Include="src\game\data\tilemaps\NightSky.h" />
-    <ClInclude Include="src\game\scenes\UiAtlusTestScene.h" />
+    <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\game\data\tilemaps\UiAtlus.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.h" />

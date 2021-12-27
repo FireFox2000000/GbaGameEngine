@@ -156,7 +156,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\tilemaps\NightSky.cpp" />
     <ClCompile Include="src\game\data\tilemaps\UiAtlus.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
-    <ClCompile Include="src\game\scenes\UiAtlusTestScene.cpp" />
+    <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
     <ClCompile Include="src\game\scripts\PlayerMovement.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
@@ -291,7 +291,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\data\tilemaps\NightSky.h" />
     <ClInclude Include="src\game\data\tilemaps\UiAtlus.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
-    <ClInclude Include="src\game\scenes\UiAtlusTestScene.h" />
+    <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\game\scripts\PlayerMovement.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />

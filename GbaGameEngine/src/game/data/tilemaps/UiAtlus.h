@@ -8,6 +8,7 @@ public:
 
 enum UiAtlusObject
 {
+	Ascii_32,
 	Ascii_33,
 	Ascii_34,
 	Ascii_35,
@@ -103,4 +104,5 @@ enum UiAtlusObject
 	Ascii_125,
 	Ascii_126,
 	Ascii_127,
+	QuadTest,
 };

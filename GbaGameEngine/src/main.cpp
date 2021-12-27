@@ -9,9 +9,7 @@
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
-#include "game/scenes/Scene0.h"
-#include "game/scenes/TilemapTestScene.h"
-#include "game/scenes/UiAtlusTestScene.h"
+#include "game/scenes/LevelSelectorScene.h"
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
@@ -32,7 +30,7 @@ int main()
 #endif
 
 	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
-	sceneManager->ChangeScene<TilemapTestScene>(engine.get());
+	sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
 
 	Time* time = engine->GetComponent<Time>();
 	AudioManager* audioManager = engine->GetComponent<AudioManager>();
@@ -42,8 +40,6 @@ int main()
 
 	time->Start();
 	DEBUG_LOG("Engine initialised");
-
-	bool sceneFlipped = false;
 
 #ifdef TEST_PROFILING
 	auto profileStart = Time::CaptureSystemTimeSnapshot();
@@ -105,12 +101,7 @@ int main()
 
 		if (GBA::Input::GetKeyDown(GBA::Buttons::Start))
 		{
-			if (sceneFlipped)
-				sceneManager->ChangeScene<Scene0>(engine.get());
-			else
-				sceneManager->ChangeScene<TilemapTestScene>(engine.get());
-
-			sceneFlipped = !sceneFlipped;
+			sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
 		}
 
 		if (sceneManager->HasSceneChangeQueued())
