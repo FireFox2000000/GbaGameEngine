@@ -22,7 +22,7 @@ void __toncset(void *dst, u32 fill, u32 size)
 		return;
 
 	u32 left = (u32)dst & 3;
-	u32 *dst32 = (u32*)((u32*)dst - left);
+	u32 *dst32 = (u32*)((u8*)dst - left);
 	u32 count, mask;
 
 	// Unaligned head.

@@ -220,7 +220,7 @@ namespace GBA
 
 	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data, int dataCount)
 	{
-		VramSafeMemSet((u16*)&s_screenBlockPool[sbbIndex][offset], data, sizeof(u16) * dataCount);
+		VramSafeMemSet((u16*)&s_screenBlockPool[sbbIndex][offset], data, dataCount);
 	}
 
 	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize)
