@@ -14,7 +14,7 @@ void UiAtlusTestScene::Enter(Engine* engine)
 
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	m_uiRenderer.LoadAtlus(UiAtlus::data, { UiAtlusObject::Ascii_33, Vector2<int>(1, 1) });
+	m_uiRenderer.LoadAtlus(UiAtlus::data);
 
 	// Draw test on screen
 	{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Numerics;
 
 namespace GbaConversionTools.Tools
 {
@@ -13,7 +14,31 @@ namespace GbaConversionTools.Tools
             public Bitmap bitmap;
         }
 
-        public void Convert(string inputPath, string outputPath, IList<UiAtlusBitmap> atlusBitmaps, byte paletteBankIndexOffset = 0)
+        public struct UiAtlusUvs
+        {
+            public string name;
+            public Tools.SpriteConverter.UVs uvs;
+        }
+
+        public struct UiAtlusConfig
+        {
+            public struct FontProperties
+            {
+                // Uv index of the first ascii character
+                public int uvAsciiStart;
+
+                // The start of the supported ascii range. Generally ' ' or '!'
+                public char firstAsciiCharacter;
+
+                // Max size in tiles of the font, for line break etc. 
+                public Vector2 fixedCharacterSize;
+            }
+
+            public FontProperties fontProperties;
+            public UiAtlusUvs[] uvs;
+        }
+
+        public void Convert(string inputPath, string outputPath, in UiAtlusConfig uiAtlusConfig, IList<UiAtlusBitmap> atlusBitmaps, byte paletteBankIndexOffset = 0)
         {
             VerifyUiEnumNames(atlusBitmaps);
 
@@ -72,6 +97,14 @@ namespace GbaConversionTools.Tools
             uint destBpp = TilemapConverter.CalculateDestBitsPerPixel(masterTileSet);
 
             List<UInt32> tileSetData = TilemapConverter.GenerateTileSetData(masterTileSet, compressionType, destBpp);
+
+            // Write font properties
+            {
+                cppWriter.Write(uiAtlusConfig.fontProperties.uvAsciiStart);
+                cppWriter.Write(uiAtlusConfig.fontProperties.firstAsciiCharacter);
+                cppWriter.Write((int)(uiAtlusConfig.fontProperties.fixedCharacterSize.X));
+                cppWriter.Write((int)(uiAtlusConfig.fontProperties.fixedCharacterSize.Y));
+            }
 
             // Write palette
             {

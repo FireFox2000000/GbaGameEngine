@@ -99,7 +99,19 @@ namespace GBA
 			u32 mapDataLength,
 			tScreenBaseBlockIndex sbbIndex);
 
+		/// <summary>
+		/// Vram memset a single tile
+		/// </summary>
 		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data);
+
+		/// <summary>
+		/// Vram memset the same data
+		/// </summary>
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data, int dataCount);
+
+		/// <summary>
+		/// Vram copy an array of data
+		/// </summary>
 		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize);
 
 		/*void AllocBackgroundMem(

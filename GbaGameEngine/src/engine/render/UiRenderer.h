@@ -4,17 +4,18 @@
 
 class UiRenderer
 {
-public:
 	struct FontProperties
 	{
 		// Tilemap index of the first ascii character, i.e. '!'
 		int fontAsciiStart;
 
+		// The start of the supported ascii range. Generally ' ' or '!'
+		char firstAsciiCharacter;
+
 		// Max size in tiles of the font, for line break etc. 
 		Vector2<int> fixedCharacterSize;
 	};
 
-private:
 	GBA::Gfx::TilemapSet m_tilemapSet;
 	GBA::BackgroundControl::Backgrounds m_backgroundId;
 	GBA::tScreenBaseBlockIndex m_mapSbbIndex = GBA::INVALID_SBB_ID;
@@ -29,7 +30,7 @@ public:
 	UiRenderer();
 	~UiRenderer();
 
-	void LoadAtlus(const u32* file, const FontProperties& fontProperties);
+	void LoadAtlus(const u32* file);
 	void DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const;
 	void ClearRegion(int x, int y, int width, int height) const;
 	void RenderText(const std::string& str, const Vector2<int>& drawPosition) const;
