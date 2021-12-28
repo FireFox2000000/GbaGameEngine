@@ -5,11 +5,13 @@
 #include "engine/time/Time.h"
 #include "engine/graphicalassets/Graphics.h"
 #include "engine/audio/AudioManager.h"
+#include "engine/io/FileSystem.h"
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
 #include "game/scenes/LevelSelectorScene.h"
+#include "game/data/FileRegistry.h"
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
@@ -24,10 +26,14 @@ static void WaitForVSync();
 int main()
 {
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
+	std::unique_ptr<FileRegistry> fileRegistry = std::make_unique<FileRegistry>();
 
 #ifdef DEBUG_COLLIDERS
 	DebugRender m_debugRenderer;	// TODO, should move this onto engine?
 #endif
+
+	IO::FileSystem* fileSystem = engine.get()->GetComponent<IO::FileSystem>();
+	fileSystem->SetRegistry(fileRegistry.get());
 
 	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
 	sceneManager->ChangeScene<LevelSelectorScene>(engine.get());

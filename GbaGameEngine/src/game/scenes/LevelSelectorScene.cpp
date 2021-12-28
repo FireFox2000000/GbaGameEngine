@@ -1,13 +1,15 @@
 #include "LevelSelectorScene.h"
-#include "engine/engine/engine.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
-#include "game/data/tilemaps/UiAtlus.h"
 
+#include "engine/engine/engine.h"
+#include "engine/io/FileSystem.h"
+#include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
+#include "game/data/tilemaps/UiAtlus.h"
 #include "game/scenes/Scene0.h"
 #include "game/scenes/TilemapTestScene.h"
+
 
 int labelXPosition = 2;
 int selectedNotchXPosition = 0;
@@ -61,7 +63,10 @@ void LevelSelectorScene::Enter(Engine* engine)
 
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	m_uiRenderer.LoadAtlus(UiAtlus::data);
+	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
+	FilePtr file = fileSystem->Open("tilemaps/UiAtlus");
+
+	m_uiRenderer.LoadAtlus(file);
 
 	Vector2<int> drawPosition(labelXPosition, columnStartIndex);
 

@@ -1,5 +1,5 @@
 #include "UiRenderer.h"
-#include "engine/filestream/CppFileReader.h"
+#include "engine/io/filestream/CppFileReader.h"
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVram.h"

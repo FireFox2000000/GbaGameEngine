@@ -101,6 +101,7 @@ make all</NMakeReBuildCommandLine>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="makefile" />
+    <None Include="scripts\update_gamefiles.sh" />
     <None Include="src\external\tonc\asm\tonc_nocash.s" />
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +114,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
-    <ClCompile Include="src\engine\filestream\CppFileReader.cpp" />
+    <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
@@ -128,6 +129,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
+    <ClCompile Include="src\engine\io\FileSystem.cpp" />
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
@@ -148,6 +150,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
     <ClCompile Include="src\engine\engine\Engine.cpp" />
     <ClCompile Include="src\game\data\audio\TheCrowSong.cpp" />
+    <ClCompile Include="src\game\data\FileRegistry.cpp" />
     <ClCompile Include="src\game\data\sprites\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\game\data\tilemaps\Eosd.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
@@ -201,13 +204,15 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
-    <ClInclude Include="src\engine\filestream\CppFileReader.h" />
+    <ClInclude Include="src\engine\io\File.h" />
+    <ClInclude Include="src\engine\io\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.h" />
     <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
+    <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
     <ClInclude Include="src\engine\physics\Collider.h" />
@@ -282,6 +287,8 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\data\audio\TheCrowSong.h" />
+    <ClInclude Include="src\game\data\FileRegistry.h" />
+    <ClInclude Include="src\game\data\GameFiles.h" />
     <ClInclude Include="src\game\data\sprites\debug_font_8x8_bold.h" />
     <ClInclude Include="src\game\data\tilemaps\Eosd.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />

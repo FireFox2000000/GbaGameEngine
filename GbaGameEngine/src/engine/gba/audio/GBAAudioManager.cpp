@@ -1,6 +1,6 @@
 #include "GBAAudioManager.h"
 #include "engine/gba/registers/RegisterMap.h"
-#include "engine/filestream/CppFileReader.h"
+#include "engine/io/filestream/CppFileReader.h"
 
 // (2 ^ 24)hz or cycles per second
 #define CLOCK 16777216

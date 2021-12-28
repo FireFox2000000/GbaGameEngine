@@ -8,9 +8,8 @@
 #include "engine/asset/AssetLoadFunctions.h"
 #include "engine/graphicalassets/Graphics.h"
 #include "engine/time/Time.h"
+#include "engine/io/FileSystem.h"
 
-#include "game/data/tilemaps/Eosd.h"
-#include "game/data/tilemaps/NightSky.h"
 #include "game/data/tilemaps/UiAtlus.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
@@ -23,12 +22,15 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
-	m_uiRenderer.LoadAtlus(UiAtlus::data);
+	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
 
+	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
+	m_uiRenderer.LoadAtlus(uiAtlusFile);
 	m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1));
 
 	// Create a tilemap asset
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, NightSky::data);
+	FilePtr nightSkyFile = fileSystem->Open("tilemaps/NightSky");
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, nightSkyFile);
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::Eosd, 0);
 
 	// Load the tilemap into vram

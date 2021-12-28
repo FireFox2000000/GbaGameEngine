@@ -1,7 +1,7 @@
 #include "GBASpriteAtlus.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
-#include "engine/filestream/CppFileReader.h"
+#include "engine/io/filestream/CppFileReader.h"
 #include "engine/base/core/stl/Pool.h"
 
 namespace GBA

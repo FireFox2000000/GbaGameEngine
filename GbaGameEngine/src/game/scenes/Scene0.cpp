@@ -9,13 +9,11 @@
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/physics/Collider.h"
 #include "engine/physics/CollisionFunctions.h"
-
+#include "engine/io/FileSystem.h"
 
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
 
-#include "game/data/sprites/Shantae_Idle_bin.h"
-#include "game/data/audio/TheCrowSong.h"
 #include "game/scripts/PlayerMovement.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
@@ -33,8 +31,11 @@ Scene0::~Scene0()
 
 void Scene0::Enter(Engine* engine)
 {
+	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
+
 	auto* audioManager = engine->GetComponent<AudioManager>();
-	m_backgroundMusic = audioManager->CreateFromFile(TheCrowSong::data);
+	FilePtr theCrowSongFile = fileSystem->Open("audio/TheCrowSong");
+	m_backgroundMusic = audioManager->CreateFromFile(theCrowSongFile);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
 	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 0.5f);
 
@@ -42,7 +43,8 @@ void Scene0::Enter(Engine* engine)
 
 	// Load assets
 	DEBUG_LOG("Loading Shantae sprite atlus");
-	shantaeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(Shantae_Idle_bin::data);
+	FilePtr shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
+	shantaeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");
 	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(shantaeAtlus, 0, 12, 12));

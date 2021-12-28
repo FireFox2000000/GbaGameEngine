@@ -1,12 +1,9 @@
 #pragma once
 #include "engine/base/Typedefs.h"
+#include "engine/io/File.h"
 
 class CppFileReader
 {
-public:
-	using FilePtr = const u32*;
-
-private:
 	struct StreamPos
 	{
 		int charIndex = 0;
