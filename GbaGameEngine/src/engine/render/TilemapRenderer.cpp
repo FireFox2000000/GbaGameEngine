@@ -1,7 +1,7 @@
 #include "TilemapRenderer.h"
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/Macros.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {

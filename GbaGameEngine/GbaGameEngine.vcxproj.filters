@@ -7,8 +7,8 @@
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
+    <ClCompile Include="src\engine\graphics\font\Font.cpp" />
+    <ClCompile Include="src\engine\graphics\font\FontLookupFunctions.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />
     <ClCompile Include="src\engine\time\Time.cpp" />
     <ClCompile Include="src\engine\animation\SpriteAnimator.cpp" />
@@ -78,6 +78,10 @@
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.cpp" />
     <ClCompile Include="src\game\data\FileRegistry.cpp" />
     <ClCompile Include="src\engine\io\FileSystem.cpp" />
+    <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeOut.cpp" />
+    <ClCompile Include="src\engine\graphics\Graphics.cpp" />
+    <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
+    <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -97,8 +101,8 @@
     <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
     <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
-    <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h" />
-    <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
+    <ClInclude Include="src\engine\graphics\font\FontLookupFunctions.h" />
+    <ClInclude Include="src\engine\graphics\font\Font.h" />
     <ClInclude Include="src\engine\math\geometry\AxisAlignedBoundingBox.h" />
     <ClInclude Include="src\engine\render\TextRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
@@ -142,7 +146,7 @@
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
-    <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
+    <ClInclude Include="src\engine\graphics\Graphics.h" />
     <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
     <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
     <ClInclude Include="src\engine\time\TimeValue.h" />
@@ -221,6 +225,10 @@
     <ClInclude Include="src\engine\io\File.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\game\data\GameFiles.h" />
+    <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeOut.h" />
+    <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
+    <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
+    <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

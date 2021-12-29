@@ -11,14 +11,31 @@ class Scene
 {
 	friend class SceneManager;
 
+	/// <summary>
+	/// Pre-calculations for rendering are done here in order to reduce the actual time we're drawing to the screen. 
+	/// </summary>
 	void PreRender(Engine* engine);
 	
 protected:
 	GameObject m_mainCamera;
 
 	virtual void Enter(Engine* engine) {}
-	virtual void Update(Engine* engine);
+
+	/// <summary>
+	/// Main game-logic. Free to completely override.
+	/// </summary>
+	virtual void Update(Engine* engine) {};
+
+	/// <summary>
+	/// Post game-logic stuff like animation and physics.
+	/// </summary>
+	virtual void LateUpdate(Engine* engine);
+
 	virtual void Exit(Engine* engine) {}
+
+	/// <summary>
+	/// Actual drawing to the screen takes place here.
+	/// </summary>
 	virtual void Render(Engine* engine);
 
 public:

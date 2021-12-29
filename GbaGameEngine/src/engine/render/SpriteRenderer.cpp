@@ -5,7 +5,7 @@
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
 #include "engine/gameobject/Camera.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 #include "engine/screen/Screen.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
 

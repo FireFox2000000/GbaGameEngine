@@ -3,7 +3,7 @@
 #include "engine/gameobject/ui/Text.h"
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/screen/Screen.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 
 void System::UI::TextRenderer::Render(Engine * engine)
 {

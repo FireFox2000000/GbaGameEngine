@@ -39,7 +39,10 @@ bool SceneManager::EnterQueuedScene(Engine * engine)
 void SceneManager::UpdateScene(Engine * engine)
 {
 	if (m_current)
+	{
 		m_current->Update(engine);
+		m_current->LateUpdate(engine);
+	}
 }
 
 void SceneManager::PreRenderScene(Engine* engine)

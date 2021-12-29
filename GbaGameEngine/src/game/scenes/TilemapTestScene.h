@@ -6,6 +6,10 @@
 #include "engine/asset/FixedAssetManager.h"
 #include "engine/render/UiRenderer.h"
 
+#include <memory>
+#include "game/scripts/gfx/GfxScreenFadeIn.h"
+#include "game/scripts/gfx/GfxScreenFadeOut.h"
+
 class TilemapTestScene : public Scene
 {
 	UiRenderer m_uiRenderer;
@@ -27,6 +31,9 @@ class TilemapTestScene : public Scene
 		m_assetManager;
 
 	FixedList<GameObject, 2> m_gameObjects;
+
+	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeInTask;
+	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeOutTask;
 
 public:
 	TilemapTestScene(Engine* engine);

@@ -1,7 +1,7 @@
 #include "AssetLoadFunctions.h"
 #include "engine/math/Math.h"
 #include "engine/io/filestream/CppFileReader.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 #include "engine/engine/Engine.h"
 #include "engine/base/core/stl/Pool.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"

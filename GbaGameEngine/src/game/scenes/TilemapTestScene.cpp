@@ -1,16 +1,19 @@
 #include "TilemapTestScene.h"
 #include "engine/engine/engine.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/render/TilemapRenderer.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gameobject/Camera.h"
 #include "engine/asset/AssetLoadFunctions.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 #include "engine/time/Time.h"
 #include "engine/io/FileSystem.h"
+#include "engine/scene/SceneManager.h"
+#include "game/scenes/LevelSelectorScene.h"
+#include "engine/graphics/GraphicsSetup.h"
 
 #include "game/data/tilemaps/UiAtlus.h"
+
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -18,15 +21,13 @@ TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 
 void TilemapTestScene::Enter(Engine * engine)
 {
-	using namespace GBA::DisplayOptions;
-
-	GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
+	GraphicsSetup::InitialiseStandardGraphics();
 
 	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
 
 	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
 	m_uiRenderer.LoadAtlus(uiAtlusFile);
-	m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1));
+	m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1));	// TODO, move this to draw in the render function instead, before Scene::Render
 
 	// Create a tilemap asset
 	FilePtr nightSkyFile = fileSystem->Open("tilemaps/NightSky");
@@ -44,24 +45,48 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 	transform->SetPosition(-17 + 20, 6);
+
+	Graphics* gfx = engine->GetComponent<Graphics>();
+	std::shared_ptr<GfxScreenFadeIn> fadeTask = std::make_shared<GfxScreenFadeIn>(Colour::Black, 0.5f);
+	if (gfx->KickPostProcessingGfxTask(fadeTask))
+	{
+		m_kickedFadeInTask = fadeTask;
+	}
 }
 
 void TilemapTestScene::Exit(Engine * engine)
 {
 	// Ideally all maps should be turned off by now unless we're doing fancy transitions or something. 
 	m_assetManager.Dispose(engine);
+
+	if (m_kickedFadeOutTask && !m_kickedFadeOutTask->IsComplete())
+	{
+		m_kickedFadeOutTask->Abort();
+		m_kickedFadeOutTask = nullptr;
+	}
+
+	if (m_kickedFadeInTask && !m_kickedFadeInTask->IsComplete())
+	{
+		m_kickedFadeInTask->Abort();
+		m_kickedFadeInTask = nullptr;
+	}
 }
 
 void TilemapTestScene::Update(Engine * engine)
 {
+
+	const Time* time = engine->GetComponent<Time>();
+	tFixedPoint24 dt = time->GetDt();
+
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 	
 	auto position = transform->GetPosition();
-	const float speed = 1;
+	const float speed = 1 * dt.ToFloat();
 	//position.x -= speed;
 	//transform->SetPosition(position.x, position.y);
 
-	
+	position.x += speed;
+	/*
 	if (GBA::Input::GetKeyDown(GBA::Buttons::Left))
 	{
 		position.x += -speed;
@@ -80,9 +105,29 @@ void TilemapTestScene::Update(Engine * engine)
 	if (GBA::Input::GetKeyDown(GBA::Buttons::Up))
 	{
 		position.y += speed;
-	}
+	}*/
 
 	transform->SetPosition(position.x, position.y);
+
+	if (m_kickedFadeInTask && !m_kickedFadeInTask->IsComplete()) return;
+
+	if (!m_kickedFadeOutTask && GBA::Input::GetKeyDown(GBA::Buttons::A))
+	{
+		Graphics* gfx = engine->GetComponent<Graphics>();
+		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);
+		if (gfx->KickPostProcessingGfxTask(fadeTask))
+		{
+			m_kickedFadeOutTask = fadeTask;
+		}
+	}
+
+	if (m_kickedFadeOutTask && m_kickedFadeOutTask->IsComplete())
+	{
+		m_kickedFadeOutTask = nullptr;
+
+		SceneManager* sceneManager = engine->GetComponent<SceneManager>();
+		sceneManager->ChangeScene<LevelSelectorScene>(engine);
+	}
 }
 
 void TilemapTestScene::Render(Engine * engine)

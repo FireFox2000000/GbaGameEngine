@@ -9,15 +9,50 @@ const Colour Colour::Red = Colour(RGB_MAX, 0, 0);
 const Colour Colour::Green = Colour(0, RGB_MAX, 0);
 const Colour Colour::Blue = Colour(0, 0, RGB_MAX);
 
+
 u8 Colour::ScaleToMaxRgb16(u8 colour)
 {
 	return u8(ROUND(float(colour) / RGB_MAX * RGB16_MAX));
 }
 
-rgb16 Colour::RGB16(u8 r, u8 g, u8 b)
+// Note, this is faster when not inlined when flto is enabled. Don't try to beat the compiler here.
+u8 Colour::LerpU8(u8 a, u8 b, Colour::tColourLerpT t)
 {
-	return (MIN(r, RGB16_MAX) + (MIN(g, RGB16_MAX) << 5) + (MIN(b, RGB16_MAX) << 10));
+	int delta = (int)b - (int)a;
+	int deltaT = (t * Colour::tColourLerpT(delta)).ToInt();
+	return a + deltaT;
+}
+
+// Safe version
+Rgb16 Colour::RGB16(u8 r, u8 g, u8 b)
+{
+	return MAKE_RGB16(MIN(r, RGB16_MAX), (MIN(g, RGB16_MAX)), (MIN(b, RGB16_MAX)));
 }		
+/*
+Rgb16 Colour::LerpRgb16(Rgb16 from, Rgb16 to, Colour::tColourLerpT t)
+{
+	if (from == to) return from;
+
+	constexpr u8 mask5Bit = BITS_U32(5);
+
+	// Decompress
+	u8 ar = mask5Bit & from;
+	u8 br = mask5Bit & to;
+
+	u8 ag = mask5Bit & (from >> 5);
+	u8 bg = mask5Bit & (to >> 5);
+
+	u8 ab = mask5Bit & (from >> 10);
+	u8 bb = mask5Bit & (to >> 10);
+
+	// Lerp
+	u8 r = LerpRgb16Prop(ar, br, t);
+	u8 g = LerpRgb16Prop(ag, bg, t);
+	u8 b = LerpRgb16Prop(ab, bb, t);
+
+	// Recompress
+	return MAKE_RGB16(r, g, b);
+}*/
 
 Colour::Colour()
 	: r(RGB_MAX)

@@ -1,9 +1,8 @@
 #include <memory>
 #include "engine/engine/engine.h"
-#include "engine/animation/SpriteAnimator.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/time/Time.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 #include "engine/audio/AudioManager.h"
 #include "engine/io/FileSystem.h"
 
@@ -11,6 +10,7 @@
 #include "engine/gba/registers/input/GBAInput.h"
 
 #include "game/scenes/LevelSelectorScene.h"
+
 #include "game/data/FileRegistry.h"
 
 #define VBLANK_SCNLNE_START 160
@@ -35,9 +35,6 @@ int main()
 	IO::FileSystem* fileSystem = engine.get()->GetComponent<IO::FileSystem>();
 	fileSystem->SetRegistry(fileRegistry.get());
 
-	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
-	sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
-
 	Time* time = engine->GetComponent<Time>();
 	AudioManager* audioManager = engine->GetComponent<AudioManager>();
 
@@ -46,6 +43,9 @@ int main()
 
 	time->Start();
 	DEBUG_LOG("Engine initialised");
+
+	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
+	sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
 
 #ifdef TEST_PROFILING
 	auto profileStart = Time::CaptureSystemTimeSnapshot();
@@ -65,8 +65,6 @@ int main()
 			sceneManager->UpdateScene(engine.get());
 
 			audioManager->Update();
-
-			System::SpriteAnimator::Update(engine.get());
 
 #ifdef DEBUG_COLLIDERS
 			m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
@@ -92,6 +90,7 @@ int main()
 			profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 			sceneManager->RenderScene(engine.get());
+
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
 			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;

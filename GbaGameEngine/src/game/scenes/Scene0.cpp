@@ -1,7 +1,6 @@
 #include "Scene0.h"
 #include <stdio.h>
 #include "engine/engine/engine.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
 
 #include "engine/render/SpriteRenderer.h"
 #include "engine/asset/AnimationFactory.h"
@@ -10,6 +9,7 @@
 #include "engine/physics/Collider.h"
 #include "engine/physics/CollisionFunctions.h"
 #include "engine/io/FileSystem.h"
+#include "engine/graphics/GraphicsSetup.h"
 
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
@@ -31,6 +31,8 @@ Scene0::~Scene0()
 
 void Scene0::Enter(Engine* engine)
 {
+	GraphicsSetup::InitialiseStandardGraphics();
+
 	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
 
 	auto* audioManager = engine->GetComponent<AudioManager>();
@@ -48,11 +50,6 @@ void Scene0::Enter(Engine* engine)
 
 	DEBUG_LOG("Loading Shantae idle animations");
 	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(shantaeAtlus, 0, 12, 12));
-
-	{
-		using namespace GBA::DisplayOptions;
-		GBA::DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
-	}
 
 	FontLibrary* fontLibrary = &m_fontLib;
 

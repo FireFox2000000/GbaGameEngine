@@ -1,6 +1,6 @@
 #pragma once
-#include "engine/graphicalassets/font/Font.h"
-#include "engine/graphicalassets/font/FontLookupFunctions.h"
+#include "engine/graphics/font/Font.h"
+#include "engine/graphics/font/FontLookupFunctions.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/asset/SpriteAssetManager.h"
 

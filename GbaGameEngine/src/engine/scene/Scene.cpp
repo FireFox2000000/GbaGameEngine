@@ -1,10 +1,11 @@
 #include "Scene.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/Camera.h"
+#include "engine/animation/SpriteAnimator.h"
 #include "engine/render/SpriteRenderer.h"
 #include "engine/render/TextRenderer.h"
 #include "engine/render/TilemapRenderer.h"
-#include "engine/graphicalassets/Graphics.h"
+#include "engine/graphics/Graphics.h"
 
 //#define RENDER_PROFILE
 #ifdef RENDER_PROFILE
@@ -21,8 +22,12 @@ Scene::~Scene()
 {
 }
 
-void Scene::Update(Engine * engine)
+void Scene::LateUpdate(Engine* engine)
 {
+	Graphics* gfx = engine->GetComponent<Graphics>();
+
+	System::SpriteAnimator::Update(engine);
+	gfx->Update(engine);
 }
 
 void Scene::PreRender(Engine * engine)
@@ -48,9 +53,11 @@ void Scene::PreRender(Engine * engine)
 
 void Scene::Render(Engine* engine)
 {
-	// Todo, this just renders sprite, should also do the vblank render of tilemaps as seen below
 	Graphics* gfx = engine->GetComponent<Graphics>();
 	gfx->EndFrame();
 
 	System::TilemapRenderer::VBlankRender(engine, &m_mainCamera);
+
+	// All our main renderer should be done now. Apply post-processing effects.
+	gfx->LateRender(engine);
 }

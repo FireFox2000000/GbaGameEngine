@@ -5,7 +5,7 @@
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
-#include "engine/graphicalassets/font/FontLookupFunctions.h"
+#include "engine/graphics/font/FontLookupFunctions.h"
 
 constexpr int BackgroundSize = 32;
 

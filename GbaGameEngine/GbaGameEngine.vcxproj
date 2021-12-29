@@ -114,6 +114,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
+    <ClCompile Include="src\engine\graphics\Graphics.cpp" />
+    <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
     <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
@@ -138,8 +140,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\render\UiRenderer.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\font\Font.cpp" />
-    <ClCompile Include="src\engine\graphicalassets\font\FontLookupFunctions.cpp" />
+    <ClCompile Include="src\engine\graphics\font\Font.cpp" />
+    <ClCompile Include="src\engine\graphics\font\FontLookupFunctions.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapSet.cpp" />
@@ -160,6 +162,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\tilemaps\UiAtlus.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
+    <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
+    <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeOut.cpp" />
     <ClCompile Include="src\game\scripts\PlayerMovement.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
@@ -204,6 +208,8 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
+    <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
+    <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
     <ClInclude Include="src\engine\io\File.h" />
     <ClInclude Include="src\engine\io\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
@@ -272,10 +278,10 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\external\tonc\memory\toncset.h" />
-    <ClInclude Include="src\engine\graphicalassets\font\FontLookupFunctions.h" />
-    <ClInclude Include="src\engine\graphicalassets\font\Font.h" />
+    <ClInclude Include="src\engine\graphics\font\FontLookupFunctions.h" />
+    <ClInclude Include="src\engine\graphics\font\Font.h" />
     <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
-    <ClInclude Include="src\engine\graphicalassets\Graphics.h" />
+    <ClInclude Include="src\engine\graphics\Graphics.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemap.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapSet.h" />
@@ -299,6 +305,8 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\data\tilemaps\UiAtlus.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
+    <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
+    <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeOut.h" />
     <ClInclude Include="src\game\scripts\PlayerMovement.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
