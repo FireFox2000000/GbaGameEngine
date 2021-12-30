@@ -7,43 +7,39 @@ GfxScreenFadeIn::GfxScreenFadeIn(const Colour& destColour, float fadeSpeed)
 	: m_invSpeed(1.0f / fadeSpeed)
 {
 	m_startColour = Colour::RGB16(destColour.r, destColour.g, destColour.b);
+	m_startColourDecompressed = Colour::DecompressRgb16(m_startColour);
 }
 
 void GfxScreenFadeIn::CapturePalettes(Engine* engine)
 {
-	m_destPalettes.GetPrimary() = GBA::Gfx::PaletteBank::EditBackgroundPalette();
-	m_destPalettes.GetSecondary() = GBA::Gfx::PaletteBank::EditSpritePalette();
+	m_destPalettes.GetPrimary() = m_originalPalettesCaptured == 0 ? GBA::Gfx::PaletteBank::EditBackgroundPalette() : GBA::Gfx::PaletteBank::EditSpritePalette();
 
-	VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), m_originalPalettes.GetPrimary().Count() * sizeof(Rgb16));
-	VramSafeMemCopy((void*)m_destPalettes.GetSecondary(), &m_originalPalettes.GetSecondary(), m_originalPalettes.GetSecondary().Count() * sizeof(Rgb16));
+	ColourPalette256 originalPalettes;
 
+	// Take a snapshot of the current palettes
+	VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), m_destPalettes.GetPrimary()->Count() * sizeof(Rgb16));
+
+	// Set the palettes to the start colour
 	{
 		auto& palette = m_destPalettes.GetPrimary();
-		VramSafeMemSet((void*)&palette[0], m_startColour, palette->Count());
+		VramSafeMemSet((void*)m_destPalettes.GetPrimary(), m_startColour, palette->Count());
 	}
 
+	m_originalPalettes.Flip();
+	m_destPalettes.Flip();
+
+	m_originalPalettesCaptured += 1;
+	if (m_originalPalettesCaptured >= 2)
 	{
-		auto& palette = m_destPalettes.GetSecondary();
-		VramSafeMemSet((void*)&palette[0], m_startColour, palette->Count());
+		AdvanceState();
 	}
-
-	m_originalPalettesCaptured = true;
 }
 
 void GfxScreenFadeIn::FadePalettes(Engine* engine)
 {
-	const Time* time = engine->GetComponent<Time>();
-	tFixedPoint24 dt = time->GetDt();
-
 	// Now we can actually apply the lerp
 	{
-		ColourPalette256& srcPalette = m_originalPalettes.GetPrimary();
-		volatile ColourPalette256& destPalette = *m_destPalettes.GetPrimary();
-
-		for (u32 i = 0; i < srcPalette.Count(); ++i)
-		{
-			destPalette[i] = Colour::LerpRgb16(m_startColour, srcPalette[i], m_t);
-		}
+		VramSafeMemCopy(&m_destPaletteResult, (void*)m_destPalettes.GetPrimary(), m_destPaletteResult.Count() * sizeof(Rgb16));
 	}
 
 	// Interpolate the background and sprite palettes on different frames to reduce workload. 
@@ -52,44 +48,78 @@ void GfxScreenFadeIn::FadePalettes(Engine* engine)
 
 	if (m_t >= 1)
 	{
-		m_t = 1;
 		m_fadeCompleteCount += 1;
+
+		if (m_fadeCompleteCount >= 2)
+		{
+			AdvanceState();
+		}
 	}
-	else
+}
+
+void GfxScreenFadeIn::AdvanceState()
+{
+	m_currentState = (FadeState)(m_currentState + 1);
+}
+
+void GfxScreenFadeIn::Update(Engine* engine)
+{
+	switch (m_currentState)
 	{
+	case FadeRender:
+	{
+		// Calculate the new palette
+
+		const Time* time = engine->GetComponent<Time>();
+		tFixedPoint24 dt = time->GetDt();
+
+		auto& srcPalette = m_originalPalettes.GetPrimary();
+
+		// Perform the heavy calcs here before rendering
+		for (u32 i = 0; i < srcPalette.Count(); ++i)
+		{
+			auto decompressedSrc = Colour::DecompressRgb16(srcPalette[i]);
+			m_destPaletteResult[i] = Colour::LerpRgb16(m_startColourDecompressed, decompressedSrc, m_t);
+		}
+
 		m_t += dt * m_invSpeed;
 
 		if (m_t >= 1)
 		{
 			m_t = 1;
 		}
+		break;
 	}
-}
-
-void GfxScreenFadeIn::Update(Engine* engine)
-{
+	default:
+		break;
+	}
 }
 
 void GfxScreenFadeIn::LateRender(Engine* engine)
 {
-	if (IsComplete()) return;
-
-	if (!m_originalPalettesCaptured)
+	switch (m_currentState)
+	{
+	case PaletteCapture:
 	{
 		CapturePalettes(engine);
+		break;
 	}
-	else
+	case FadeRender:
 	{
 		FadePalettes(engine);
+		break;
+	}
+	default:
+		break;
 	}
 }
 
 bool GfxScreenFadeIn::IsComplete()
 {
-	return m_fadeCompleteCount > 1;
+	return m_currentState == Complete;
 }
 
 void GfxScreenFadeIn::Abort()
 {
-	m_fadeCompleteCount = 5;
+	m_currentState = Complete;
 }

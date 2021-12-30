@@ -47,7 +47,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	transform->SetPosition(-17 + 20, 6);
 
 	Graphics* gfx = engine->GetComponent<Graphics>();
-	std::shared_ptr<GfxScreenFadeIn> fadeTask = std::make_shared<GfxScreenFadeIn>(Colour::Black, 0.5f);
+	std::shared_ptr<GfxScreenFadeIn> fadeTask = std::make_shared<GfxScreenFadeIn>(Colour::White, 0.5f);
 	if (gfx->KickPostProcessingGfxTask(fadeTask))
 	{
 		m_kickedFadeInTask = fadeTask;
@@ -114,7 +114,7 @@ void TilemapTestScene::Update(Engine * engine)
 	if (!m_kickedFadeOutTask && GBA::Input::GetKeyDown(GBA::Buttons::A))
 	{
 		Graphics* gfx = engine->GetComponent<Graphics>();
-		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);
+		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::White, 0.5f);
 		if (gfx->KickPostProcessingGfxTask(fadeTask))
 		{
 			m_kickedFadeOutTask = fadeTask;

@@ -81,3 +81,15 @@ Colour::Colour(u8 r, u8 g, u8 b)
 Colour::~Colour()
 {
 }
+
+ColourRgb16Decompressed Colour::DecompressRgb16(Rgb16 rgbColour)
+{
+	constexpr u8 mask5Bit = BITS_U32(5);
+
+	ColourRgb16Decompressed colour;
+	colour.r = mask5Bit & rgbColour;
+	colour.g = mask5Bit & (rgbColour >> 5);
+	colour.b = mask5Bit & (rgbColour >> 10);
+
+	return colour;
+}

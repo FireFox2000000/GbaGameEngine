@@ -53,7 +53,7 @@ public:
 		return &m_buffer;
 	}
 
-	static inline u32 Count() { return SIZE; }
+	static inline constexpr u32 Count() { return SIZE; }
 
 	iterator begin() { return &Get(0); }
 	const_iterator begin() const { return &Get(0); }

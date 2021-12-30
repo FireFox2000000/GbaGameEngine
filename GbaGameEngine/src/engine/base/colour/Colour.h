@@ -10,6 +10,11 @@ typedef u16 Rgb16;
 // No guards, RGB16 method
 #define MAKE_RGB16(r, g, b) ((r) + ((g) << 5) + ((b) << 10))
 
+struct ColourRgb16Decompressed
+{
+	u8 r, g, b;
+};
+
 class Colour
 {
 public:
@@ -22,31 +27,6 @@ private:
 public:
 	// Values must be between 0 and 31
 	static Rgb16 RGB16(u8 r, u8 g, u8 b);
-
-	static inline Rgb16 LerpRgb16(Rgb16 from, Rgb16 to, tColourLerpT t)
-	{
-		if (from == to) return from;
-
-		constexpr u8 mask5Bit = BITS_U32(5);
-
-		// Decompress
-		u8 ar = mask5Bit & from;
-		u8 br = mask5Bit & to;
-
-		u8 ag = mask5Bit & (from >> 5);
-		u8 bg = mask5Bit & (to >> 5);
-
-		u8 ab = mask5Bit & (from >> 10);
-		u8 bb = mask5Bit & (to >> 10);
-
-		// Lerp
-		u8 r = LerpU8(ar, br, t);
-		u8 g = LerpU8(ag, bg, t);
-		u8 b = LerpU8(ab, bb, t);
-
-		// Recompress
-		return MAKE_RGB16(r, g, b);
-	}
 
 	u8 r, g, b, a;
 
@@ -62,4 +42,27 @@ public:
 	const static Colour Red;
 	const static Colour Green;
 	const static Colour Blue;
+
+	static Rgb16 LerpRgb16(const ColourRgb16Decompressed& from, const ColourRgb16Decompressed& to, tColourLerpT t)
+	{
+		// Lerp
+		u8 r = LerpU8(from.r, to.r, t);
+		u8 g = LerpU8(from.g, to.g, t);
+		u8 b = LerpU8(from.b, to.b, t);
+
+		// Recompress
+		return MAKE_RGB16(r, g, b);
+	}
+
+	static ColourRgb16Decompressed DecompressRgb16(Rgb16 rgbColour);
+
+	static inline Rgb16 LerpRgb16(Rgb16 from, Rgb16 to, tColourLerpT t)
+	{
+		if (from == to) return from;
+
+		ColourRgb16Decompressed decompressedColourA = DecompressRgb16(from);
+		ColourRgb16Decompressed decompressedColourB = DecompressRgb16(to);
+
+		return LerpRgb16(decompressedColourA, decompressedColourB, t);
+	}
 };
