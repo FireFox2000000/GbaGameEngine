@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "engine/gba/memory/GBAMemoryLocations.h"
+#include "engine/gba/GBAAttributes.h"
 
 /*!	\defgroup grpNocash no$gba debugging
 	\ingroup grpCore

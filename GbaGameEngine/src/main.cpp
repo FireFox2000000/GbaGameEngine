@@ -8,10 +8,14 @@
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
+#include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
+#include "engine/gba/bios/GBABios.h"
 
 #include "game/scenes/LevelSelectorScene.h"
 
 #include "game/data/FileRegistry.h"
+
+static void RegisterInterrupts();
 
 #define VBLANK_SCNLNE_START 160
 //#define TEST_PROFILING
@@ -21,10 +25,12 @@
 #include "engine/debug/DebugRender.h"
 #endif
 
-static void WaitForVSync();
-
 int main()
 {
+	GBA::InterruptSwitchboard::Init();
+	RegisterInterrupts();
+	GBA::Interrupts::EnableInterrupts();
+
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 	std::unique_ptr<FileRegistry> fileRegistry = std::make_unique<FileRegistry>();
 
@@ -82,7 +88,7 @@ int main()
 		audioManager->Update();
 
 		// Main update
-		WaitForVSync();
+		GBA::Bios::VBlankIntrWait();
 
 		// VBlank, must be under 83776 cycles no matter what
 		{
@@ -106,7 +112,8 @@ int main()
 
 		if (GBA::Input::GetKeyDown(GBA::Buttons::Start))
 		{
-			sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
+			GBA::Bios::SoftReset();
+			//sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
 		}
 
 		if (sceneManager->HasSceneChangeQueued())
@@ -122,8 +129,17 @@ int main()
 	return 0;
 }
 
-static void WaitForVSync()
+void EnableVBlankIntr()
 {
-	while (GBA::DisplayStatus::VCount() >= VBLANK_SCNLNE_START);   // wait till VDraw
-	while (GBA::DisplayStatus::VCount() < VBLANK_SCNLNE_START);    // wait till VBlank
+	GBA::DisplayStatus::EnableVBlankInterrupts();
+	GBA::Interrupts::EnableInterrupt(GBA::Interrupts::VBlank);
+}
+
+void RegisterInterrupts()
+{
+	GBA::Interrupts::DisableInterrupts();
+
+	EnableVBlankIntr();
+
+	GBA::Interrupts::EnableInterrupts();
 }

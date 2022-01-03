@@ -15,5 +15,7 @@ namespace GBA
 		static bool InVBlank();
 		static bool InHBlank();
 		static vu16 VCount();
+		static void EnableVBlankInterrupts();
+		static void EnableHBlankInterrupts();
 	};
 }

@@ -82,6 +82,9 @@
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
+    <ClCompile Include="src\engine\gba\interrupts\GBAInterrupts.cpp" />
+    <ClCompile Include="src\engine\gba\bios\GBABios.cpp" />
+    <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -229,6 +232,10 @@
     <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
+    <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
+    <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />
+    <ClInclude Include="src\engine\gba\bios\GBABios.h" />
+    <ClInclude Include="src\engine\gba\GBAAttributes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -114,6 +114,9 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
+    <ClCompile Include="src\engine\gba\bios\GBABios.cpp" />
+    <ClCompile Include="src\engine\gba\interrupts\GBAInterrupts.cpp" />
+    <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
     <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
@@ -208,6 +211,10 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
+    <ClInclude Include="src\engine\gba\GBAAttributes.h" />
+    <ClInclude Include="src\engine\gba\bios\GBABios.h" />
+    <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />
+    <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
     <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
     <ClInclude Include="src\engine\io\File.h" />

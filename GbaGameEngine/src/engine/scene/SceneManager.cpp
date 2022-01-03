@@ -26,7 +26,7 @@ bool SceneManager::EnterQueuedScene(Engine * engine)
 		m_current = m_queuedSceneFn(engine);
 		m_queuedSceneFn = nullptr;
 
-		DEBUG_LOG("Scene changed")
+		DEBUG_LOG("Scene changed");
 
 		m_current->Enter(engine);
 
