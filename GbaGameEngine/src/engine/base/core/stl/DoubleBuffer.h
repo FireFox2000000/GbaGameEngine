@@ -18,7 +18,17 @@ public:
 		return m_doubleBuffer[m_currentBufferIndex];
 	}
 
+	inline const T& GetPrimary() const
+	{
+		return m_doubleBuffer[m_currentBufferIndex];
+	}
+
 	inline T& GetSecondary() 
+	{
+		return m_doubleBuffer[m_currentBufferIndex ^ 1];
+	}
+
+	inline const T& GetSecondary() const
 	{
 		return m_doubleBuffer[m_currentBufferIndex ^ 1];
 	}

@@ -10,7 +10,13 @@
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
 #include "engine/gba/bios/GBABios.h"
+#include "engine/gba/registers/input/GBAInput.h"
 
+#include "engine/input/InputManager.h"
+
+#include "engine/input/GbaKeypadMap.h"
+#include "game/input/Input.h"
+#include "game/input/InputConfig.h"
 #include "game/scenes/LevelSelectorScene.h"
 
 #include "game/data/FileRegistry.h"
@@ -33,6 +39,7 @@ int main()
 
 	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
 	std::unique_ptr<FileRegistry> fileRegistry = std::make_unique<FileRegistry>();
+	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
 
 #ifdef DEBUG_COLLIDERS
 	DebugRender m_debugRenderer;	// TODO, should move this onto engine?
@@ -44,8 +51,8 @@ int main()
 	Time* time = engine->GetComponent<Time>();
 	AudioManager* audioManager = engine->GetComponent<AudioManager>();
 
-	// Test Initialisation		
-	GBA::Input::Update();
+	// Input Initialisation	
+	inputManager->Update();
 
 	time->Start();
 	DEBUG_LOG("Engine initialised");
@@ -66,7 +73,7 @@ int main()
 		// VDraw, should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
 		{
 			// General update
-			GBA::Input::Update();
+			inputManager->Update();
 
 			sceneManager->UpdateScene(engine.get());
 
@@ -110,7 +117,7 @@ int main()
 
 		audioManager->Update();
 
-		if (GBA::Input::GetKeyDown(GBA::Buttons::Start))
+		if (Input::GetInputDown(GameInputs::SoftReset, inputManager->GetDevices()))
 		{
 			GBA::Bios::SoftReset();
 			//sceneManager->ChangeScene<LevelSelectorScene>(engine.get());

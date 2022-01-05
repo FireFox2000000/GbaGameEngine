@@ -15,6 +15,7 @@
 #include "engine/gameobject/ui/Text.h"
 
 #include "game/scripts/PlayerMovement.h"
+#include "game/input/Input.h"
 #include "engine/gba/registers/input/GBAInput.h"
 
 const int totalTestSprites = 90;
@@ -40,7 +41,7 @@ void Scene0::Enter(Engine* engine)
 	m_backgroundMusic = audioManager->CreateFromFile(theCrowSongFile);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
 	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 0.5f);
-
+	
 	audioManager->Play(m_backgroundMusic);
 
 	// Load assets
@@ -188,7 +189,10 @@ void Scene0::Update(Engine* engine)
 
 	PlayerMovement::MoveHumanPlayerObject(engine, playerObject);
 
-	if (GBA::Input::GetKeyDown(GBA::Buttons::R))
+	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	const auto& devices = inputManager->GetDevices();
+
+	if (Input::GetInputDown(ToggleMusic, devices))
 	{
 		auto* audioManager = engine->GetComponent<AudioManager>();
 		if (audioManager->GetChannelFlag(m_backgroundMusic, AudioChannelProperties::Active))

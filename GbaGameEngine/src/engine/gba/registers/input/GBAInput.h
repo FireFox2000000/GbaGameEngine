@@ -12,11 +12,11 @@ namespace GBA
 			A = BIT(0),
 			B = BIT(1),
 			Select = BIT(2),
-			Start = BIT(3),	
-			Right = BIT(4),	
-			Left = BIT(5),	
-			Up = BIT(6),	
-			Down = BIT(7),	
+			Start = BIT(3),
+			Right = BIT(4),
+			Left = BIT(5),
+			Up = BIT(6),
+			Down = BIT(7),
 			R = BIT(8),
 			L = BIT(9),
 
@@ -26,17 +26,10 @@ namespace GBA
 
 	class Input
 	{
-		static vu32& s_REG_KEYINPUT;
-		static u32 m_previousInput;
-		static u32 m_currentInput;
-
-		inline static bool GetKey(Buttons::Enum key, const u32 inputChannel) { return !(inputChannel & key); }
-
 	public:
-		static void Update();
+		static bool GetKey(Buttons::Enum key, const u32 inputChannel);
 
-		inline static bool GetKey(Buttons::Enum key) { return GetKey(key, m_currentInput); }
-		inline static bool GetKeyDown(Buttons::Enum key) { return !GetKey(key, m_previousInput) && GetKey(key); }
-		inline static bool GetKeyUp(Buttons::Enum key) { return GetKey(key, m_previousInput) && !GetKey(key); }
+		// Note that bitmask is reversed. If the bit is set, the key is released.
+		static vu32 GetInputKeys();
 	};
 }

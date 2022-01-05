@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "engine/audio/AudioManager.h"
 #include "engine/base/ecs/ManagedEntity.h"
+#include "engine/input/InputManager.h"
 #include "engine/io/FileSystem.h"
 #include "engine/graphics/Graphics.h"
 #include "engine/scene/SceneManager.h"
@@ -17,6 +18,7 @@ Engine::Engine()
 	AddComponent<SceneManager>();
 	AddComponent<AudioManager>();
 	AddComponent<IO::FileSystem>();
+	AddComponent<Input::InputManager>();
 }
 
 

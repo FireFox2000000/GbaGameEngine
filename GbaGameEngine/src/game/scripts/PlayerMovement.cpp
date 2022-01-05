@@ -4,29 +4,31 @@
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/time/Time.h"
+#include "game/input/Input.h"
 
-Vector2<int> GetDesiredDirectionFromDpad()
+Vector2<int> GetDesiredDirectionFromDpad(Engine* engine)
 {
-	using namespace GBA;
-
 	Vector2<int> desiredDirection;
 
-	if (Input::GetKey(Buttons::Left))
+	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	const auto& devices = inputManager->GetDevices();
+
+	if (Input::GetInput(MoveLeft, devices))
 	{
 		desiredDirection = Vector2<int>::Left;
 	}
-
-	if (Input::GetKey(Buttons::Right))
+	
+	if (Input::GetInput(MoveRight, devices))
 	{
 		desiredDirection = Vector2<int>::Right;
 	}
-
-	if (Input::GetKey(Buttons::Up))
+	
+	if (Input::GetInput(MoveUp, devices))
 	{
 		desiredDirection = Vector2<int>::Up;
 	}
-
-	if (Input::GetKey(Buttons::Down))
+	
+	if (Input::GetInput(MoveDown, devices))
 	{
 		desiredDirection = Vector2<int>::Down;
 	}
@@ -36,7 +38,7 @@ Vector2<int> GetDesiredDirectionFromDpad()
 
 void PlayerMovement::MoveHumanPlayerObject(Engine* engine, GameObject& playerObject)
 {
-	MovePlayerObject(engine, playerObject, GetDesiredDirectionFromDpad());
+	MovePlayerObject(engine, playerObject, GetDesiredDirectionFromDpad(engine));
 }
 
 void PlayerMovement::MovePlayerObject(Engine* engine, GameObject& playerObject, const Vector2<int>& desiredDirection)

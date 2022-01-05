@@ -85,6 +85,10 @@
     <ClCompile Include="src\engine\gba\interrupts\GBAInterrupts.cpp" />
     <ClCompile Include="src\engine\gba\bios\GBABios.cpp" />
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
+    <ClCompile Include="src\engine\input\GbaKeypadDevice.cpp" />
+    <ClCompile Include="src\engine\input\InputManager.cpp" />
+    <ClCompile Include="src\game\input\Input.cpp" />
+    <ClCompile Include="src\game\input\InputConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -236,6 +240,13 @@
     <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />
     <ClInclude Include="src\engine\gba\bios\GBABios.h" />
     <ClInclude Include="src\engine\gba\GBAAttributes.h" />
+    <ClInclude Include="src\engine\input\IInputDevice.h" />
+    <ClInclude Include="src\engine\input\GbaKeypadDevice.h" />
+    <ClInclude Include="src\engine\input\InputManager.h" />
+    <ClInclude Include="src\engine\input\GbaKeypadMap.h" />
+    <ClInclude Include="src\game\input\Input.h" />
+    <ClInclude Include="src\engine\input\IInputMap.h" />
+    <ClInclude Include="src\game\input\InputConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

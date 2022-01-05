@@ -13,6 +13,7 @@
 #include "engine/graphics/GraphicsSetup.h"
 
 #include "game/data/tilemaps/UiAtlus.h"
+#include "game/input/Input.h"
 
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
@@ -86,6 +87,10 @@ void TilemapTestScene::Update(Engine * engine)
 	//transform->SetPosition(position.x, position.y);
 
 	position.x += speed;
+
+	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	const auto& devices = inputManager->GetDevices();
+
 	/*
 	if (GBA::Input::GetKeyDown(GBA::Buttons::Left))
 	{
@@ -111,7 +116,7 @@ void TilemapTestScene::Update(Engine * engine)
 
 	if (m_kickedFadeInTask && !m_kickedFadeInTask->IsComplete()) return;
 
-	if (!m_kickedFadeOutTask && GBA::Input::GetKeyDown(GBA::Buttons::A))
+	if (!m_kickedFadeOutTask && Input::GetInputDown(ExitTilemapTestScene, devices))
 	{
 		Graphics* gfx = engine->GetComponent<Graphics>();
 		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::White, 0.5f);

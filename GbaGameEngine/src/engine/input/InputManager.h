@@ -7,9 +7,14 @@ namespace Input
 {
 	class InputManager
 	{
-		FixedList<Input::IInputDevice, 1> m_inputDevices = { GbaKeypadDevice() };
+	public:
+		using tInputDeviceList = FixedList<Input::IInputDevice*, 1>;
+
+	private:
+		tInputDeviceList m_inputDevices = { new GbaKeypadDevice() };
 
 	public:
 		void Update();
+		const tInputDeviceList& GetDevices() { return m_inputDevices; }
 	};
 }

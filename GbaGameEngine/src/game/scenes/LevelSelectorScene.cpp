@@ -9,6 +9,7 @@
 #include "game/scenes/Scene0.h"
 #include "game/scenes/TilemapTestScene.h"
 #include "engine/base/core/Memory.h"
+#include "game/input/Input.h"
 
 int labelXPosition = 2;
 int selectedNotchXPosition = 0;
@@ -78,17 +79,19 @@ void LevelSelectorScene::Enter(Engine* engine)
 
 void LevelSelectorScene::Update(Engine* engine)
 {
-	if (GBA::Input::GetKeyDown(GBA::Buttons::Down))
+	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+
+	if (Input::GetInputDown(MenuDown, inputManager->GetDevices()))
 	{
 		AdjustSelectedIndex(1);
 	}
 
-	if (GBA::Input::GetKeyDown(GBA::Buttons::Up))
+	if (Input::GetInputDown(MenuUp, inputManager->GetDevices()))
 	{
 		AdjustSelectedIndex(-1);
 	}
 
-	if (GBA::Input::GetKeyDown(GBA::Buttons::A))
+	if (Input::GetInputDown(MenuSelect, inputManager->GetDevices()))
 	{
 		SceneManager* sceneManager = engine->GetComponent<SceneManager>();
 

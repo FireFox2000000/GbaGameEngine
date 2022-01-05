@@ -119,6 +119,9 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
+    <ClCompile Include="src\engine\input\GbaKeypadDevice.cpp" />
+    <ClCompile Include="src\game\input\Input.cpp" />
+    <ClCompile Include="src\engine\input\InputManager.cpp" />
     <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
@@ -163,6 +166,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\sprites\debug\Debug_Primitives_64x64.cpp" />
     <ClCompile Include="src\game\data\tilemaps\NightSky.cpp" />
     <ClCompile Include="src\game\data\tilemaps\UiAtlus.cpp" />
+    <ClCompile Include="src\game\input\InputConfig.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
@@ -217,6 +221,12 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
     <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
+    <ClInclude Include="src\engine\input\GbaKeypadDevice.h" />
+    <ClInclude Include="src\engine\input\GbaKeypadMap.h" />
+    <ClInclude Include="src\engine\input\IInputDevice.h" />
+    <ClInclude Include="src\engine\input\IInputMap.h" />
+    <ClInclude Include="src\game\input\Input.h" />
+    <ClInclude Include="src\engine\input\InputManager.h" />
     <ClInclude Include="src\engine\io\File.h" />
     <ClInclude Include="src\engine\io\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
@@ -310,6 +320,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\data\sprites\debug\Debug_Primitives_64x64.h" />
     <ClInclude Include="src\game\data\tilemaps\NightSky.h" />
     <ClInclude Include="src\game\data\tilemaps\UiAtlus.h" />
+    <ClInclude Include="src\game\input\InputConfig.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
