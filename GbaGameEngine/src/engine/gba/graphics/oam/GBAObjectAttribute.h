@@ -59,17 +59,50 @@ namespace GBA
 		// Standard GBA hardware sprite. Fixed size, non-rotatable etc. Smaller VRam overhead. 
 		// The GBA can draw a max of 128 of these at a time.
 		// See https://www.coranac.com/tonc/text/regobj.htm for more details
-		class ObjectAttribute
+		union ObjectAttribute
 		{
+		private:
 			friend class OAMManager;
 
-			u16 m_attributeZero;
-			u16 m_attributeOne;
-			u16 m_attributeTwo;
-			u16 padding;
+			struct Attr
+			{
+				u16 yCoord : 8
+					, objMode : 2
+					, gfxMode : 2
+					, mosaic : 1
+					, colourMode : 1
+					, shape : 2
+					;
+				u16 xCoord : 12
+					, horizontalFlip : 1
+					, verticalFlip : 1
+					, sizeMode : 2
+					;
+				u16 tileId : 10
+					, priority : 2
+					, paletteBank : 4
+					;
+				u16 : 16;
+			};
+
+			struct AffineAttr
+			{
+				u16 : 16;
+				u16 : 9
+					, affineIndex : 5	// Only used if ObjAffine is set to objMode
+					, : 2
+					;
+				u16 : 16;
+				u16 : 16;
+			};
+
+			Attr attributes;
+			AffineAttr affineModeAttr;
+			u16 data[4];		// This exists to zero out the attributes quicker than memset
 
 		public:
 			ObjectAttribute();
+
 			void Reset() volatile;
 
 			inline void SetPosition(const Vector2f& position) volatile	// Top-left of the sprite
@@ -94,7 +127,7 @@ namespace GBA
 			void SetShape(Attributes::Shape shape) volatile;
 			void SetSizeMode(Attributes::SizeMode sizeMode)	volatile;
 			void SetPriority(DrawPriority layerNum) volatile;
-			void SetTileIndex(u32 index) volatile;
+			void SetTileIndex(u16 index) volatile;
 			void SetPaletteIndex(u8 index) volatile;
 			void SetAffineIndex(u8 index) volatile;
 

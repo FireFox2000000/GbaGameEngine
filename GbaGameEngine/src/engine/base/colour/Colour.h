@@ -1,11 +1,29 @@
 #pragma once
-
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 #include "engine/math/Math.h"
 #include "engine/base/core/stl/FixedPoint.h"
 
-typedef u16 Rgb16;
+struct Rgb16
+{
+	u16 r : 5
+		, g : 5
+		, b : 6
+		;
+
+	Rgb16() = default;
+	Rgb16(u16 val);
+	Rgb16(u8 r, u8 g, u8 b);
+	Rgb16(const Rgb16& that);
+
+	bool operator==(const Rgb16& that);
+	bool operator==(const volatile Rgb16& that) volatile;
+
+	void operator = (const Rgb16& that);
+	void operator = (const Rgb16& that) volatile;
+
+	operator u16() const;
+};
 
 // No guards, RGB16 method
 #define MAKE_RGB16(r, g, b) ((r) + ((g) << 5) + ((b) << 10))
@@ -51,7 +69,7 @@ public:
 		u8 b = LerpU8(from.b, to.b, t);
 
 		// Recompress
-		return MAKE_RGB16(r, g, b);
+		return Rgb16(r, g, b);
 	}
 
 	static ColourRgb16Decompressed DecompressRgb16(Rgb16 rgbColour);
