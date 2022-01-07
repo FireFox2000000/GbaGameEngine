@@ -18,7 +18,8 @@ namespace GBA
 			// Only used by draw functions. 
 			class RenderData
 			{
-				u16 m_dataMask = 0;
+				u16 m_tileIndex : 10
+					, m_addedToDrawList : 1;
 
 			public:
 				tTileId GetTileIndex() const;

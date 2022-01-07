@@ -11,29 +11,22 @@ namespace GBA
 	{
 		tTileId Sprite::RenderData::GetTileIndex() const
 		{
-			return m_dataMask & BITS_U32(TILE_INDEX_MAX_BITS);
+			return m_tileIndex;
 		}
 
 		void Sprite::RenderData::SetTileIndex(tTileId index)
 		{
-			m_dataMask = (m_dataMask & ~BITS_U32(TILE_INDEX_MAX_BITS)) | index;
+			m_tileIndex = index;
 		}
 
 		bool Sprite::RenderData::IsAddedToDrawList() const
 		{
-			return m_dataMask & BIT(DRAW_LIST_FLAG_INDEX);
+			return m_addedToDrawList;
 		}
 
 		void Sprite::RenderData::SetAddedToDrawList(bool val)
 		{
-			if (val)
-			{
-				m_dataMask |= BIT(DRAW_LIST_FLAG_INDEX);
-			}
-			else
-			{
-				m_dataMask &= ~BIT(DRAW_LIST_FLAG_INDEX);
-			}
+			m_addedToDrawList = val;
 		}
 
 		///////////////////////////////////////////////////////////
