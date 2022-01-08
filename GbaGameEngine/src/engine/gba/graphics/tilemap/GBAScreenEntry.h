@@ -7,15 +7,17 @@ namespace GBA
 	{
 		class ScreenEntry
 		{
-			u16 m_data = 0;
+			u16 m_tileIndex : 10
+				, m_hFlip : 1
+				, m_vFlip : 1
+				, m_palIndex : 4
+				;
 
 		public:
             void SetTileIndex(int index);
             void SetHFlipFlag();
 			void SetVFlipFlag();
 			void SetPalIndex(int index);
-
-			u16 GetData() const { return m_data; }
 		};
 	}
 }

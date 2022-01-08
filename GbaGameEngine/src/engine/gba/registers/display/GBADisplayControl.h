@@ -22,6 +22,7 @@ namespace GBA
 			Mode4 = 0x4,	// Bitmap mode
 			Mode5 = 0x5		// Bitmap mode
 
+			// Available backgrounds
 			/*	mode	|	BG0	|	BG1	|	BG2	|	BG3
 			*	0		|	reg	|	reg	|	reg	|	reg
 			*	1		|	reg	|	reg	|	aff	|	-
@@ -45,11 +46,12 @@ namespace GBA
 		};
 	}
 
+	// https://www.coranac.com/tonc/text/video.htm
 	class DisplayControl
 	{
 		static Vector2<int> m_screenResolution;
 
-	public:		
+	public:
 		static void SetDisplayOptions(int params);
 		static Vector2<int> GetScreenResolution();
 

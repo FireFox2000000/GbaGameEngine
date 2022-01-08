@@ -27,7 +27,7 @@ void GBA::Interrupts::EnableInterrupt(InterruptType interrupt)
 
 u16 GBA::Interrupts::GetActiveInterrupts()
 {
-	return vu16_REG_IE * vu16_REG_IF;
+	return vu16_REG_IE & vu16_REG_IF;
 }
 
 bool GBA::Interrupts::IsInterruptActive(InterruptType interrupt)

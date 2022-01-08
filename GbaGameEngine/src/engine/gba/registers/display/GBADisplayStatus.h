@@ -7,15 +7,12 @@
 
 namespace GBA
 {
-	class DisplayStatus
+	namespace DisplayStatus
 	{
-		static bool IsStatusBitSet(int bitIndex);
-
-	public:
-		static bool InVBlank();
-		static bool InHBlank();
-		static vu16 VCount();
-		static void EnableVBlankInterrupts();
-		static void EnableHBlankInterrupts();
+		bool InVBlank();
+		bool InHBlank();
+		vu16 VCount();
+		void EnableVBlankInterrupts();
+		void EnableHBlankInterrupts();
 	};
 }

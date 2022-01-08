@@ -2,20 +2,20 @@
 
 void GBA::Gfx::ScreenEntry::SetTileIndex(int index)
 {
-    m_data |= (u16)(index & 0b1111111111);
+    m_tileIndex = index;
 }
 
 void GBA::Gfx::ScreenEntry::SetHFlipFlag()
 {
-    m_data |= 1 << 10;
+    m_hFlip = true;
 }
 
 void GBA::Gfx::ScreenEntry::SetVFlipFlag()
 {
-    m_data |= 1 << 11;
+    m_vFlip = true;
 }
 
 void GBA::Gfx::ScreenEntry::SetPalIndex(int index)
 {
-    m_data |= (u16)((index & 0b1111) << 0xc);
+    m_palIndex = index;
 }

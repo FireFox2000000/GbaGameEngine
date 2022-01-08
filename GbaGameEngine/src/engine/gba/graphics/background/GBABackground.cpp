@@ -2,29 +2,6 @@
 #include "engine/gba/registers/RegisterMap.h"
 #include "engine/algorithm/Compression.h"
 
-#define CLEARED 0x0
-
-static const u32 sc_PRIORITY_BITINDEX = 0x0;
-static const u32 sc_CBB_BITINDEX = 0x2;
-static const u32 sc_MOSAIC_BITINDEX = 0x6;
-static const u32 sc_COLOURMODE_BITINDEX = 0x7;
-static const u32 sc_SBB_BITINDEX = 0x8;
-static const u32 sc_AFFWRAPPING_BITINDEX = 0xD;
-static const u32 sc_SIZE_BITINDEX = 0xE;
-
-enum Masks
-{
-	Priorty = BITS_INDEXED_U32(2, sc_PRIORITY_BITINDEX),
-	CharacterBaseBlock = BITS_INDEXED_U32(2, sc_CBB_BITINDEX),
-	Mosaic = BITS_INDEXED_U32(2, sc_MOSAIC_BITINDEX),
-	ColourMode = BITS_INDEXED_U32(1, sc_COLOURMODE_BITINDEX),
-	ScreenBaseBlock = BITS_INDEXED_U32(5, sc_SBB_BITINDEX),
-	AffineWrapping = BITS_INDEXED_U32(1, sc_AFFWRAPPING_BITINDEX),
-	Size = BITS_INDEXED_U32(2, sc_SIZE_BITINDEX),
-
-	Count = 7
-};
-
 namespace GBA
 {
 	namespace Gfx
@@ -36,37 +13,37 @@ namespace GBA
 
 		void Background::ControlRegister::SetPriority(DrawPriority priority)
 		{
-			SetControlRegister(SHIFTED_BITMASK(priority, sc_PRIORITY_BITINDEX), Masks::Priorty);
+			m_priority = priority;
 		}
 
 		void Background::ControlRegister::SetCharacterBaseBlock(tCharacterBaseBlock blockId)
 		{
-			SetControlRegister(SHIFTED_BITMASK(blockId, sc_CBB_BITINDEX), Masks::CharacterBaseBlock);
+			m_characterBaseBlock = blockId;
 		}
 
 		void Background::ControlRegister::SetMosaic(bool enabled)
 		{
-			SetControlRegister(enabled ? Masks::Mosaic : CLEARED, Masks::Mosaic);
+			m_mosaic = enabled;
 		}
 
 		void Background::ControlRegister::SetColourMode(ColourMode colourMode)
 		{
-			SetControlRegister(SHIFTED_BITMASK(colourMode, sc_COLOURMODE_BITINDEX), Masks::ColourMode);
+			m_colourMode = colourMode;
 		}
 
 		void Background::ControlRegister::SetScreenBaseBlock(tScreenBaseBlockIndex blockId)
 		{
-			SetControlRegister(SHIFTED_BITMASK(blockId, sc_SBB_BITINDEX), Masks::ScreenBaseBlock);
+			m_screenBaseBlock = blockId;
 		}
 
 		void Background::ControlRegister::SetAffineWrapping(bool enabled)
 		{
-			SetControlRegister(enabled ? Masks::AffineWrapping : CLEARED, Masks::AffineWrapping);
+			m_affineWrapping = enabled;
 		}
 
 		void Background::ControlRegister::SetSize(Size size)
 		{
-			SetControlRegister(SHIFTED_BITMASK(size, sc_SIZE_BITINDEX), Masks::Size);
+			m_backgroundSize = size;
 		}
 
 		typedef Vector2<u8> tTileSize;

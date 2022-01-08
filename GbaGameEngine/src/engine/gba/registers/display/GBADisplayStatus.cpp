@@ -1,33 +1,37 @@
 #include "GBADisplayStatus.h"
 #include "engine/gba/registers/RegisterMap.h"
 
-vu32& s_REG_DISPSTAT = (*(vu32*)(REG_DISPSTAT));
-const vu16& s_REG_VCOUNT = (*(vu16*)(REG_VCOUNT));
-
-enum Flags
+struct DisplayStatusRegister
 {
-	VBlankStatus = BIT(0),
-	HBlankStatus = BIT(1),
-	VCountTriggerStatus = BIT(2),		// Set if the current scanline matches the scanline trigger ( REG_VCOUNT == REG_DISPSTAT{8-F} )
-	VBlankInterruptRequest = BIT(3),	// Fires an interrupt when VBlank is reached
-	HBlankInterruptRequest = BIT(4),	// Fires an interrupt when HBlank is reached
-	VCountInterruptRequest = BIT(5),	// Fires interrupt if current scanline matches trigger value.
-	VCountInterruptTriggerValue = BIT(8),
+	u16 : 3
+	, vBlankInterruptRequestEnabled : 1
+	, hBlankInterruptRequestEnabled : 1
+	, vCountInterruptRequestEnabled : 1
+	, : 2
+	, vCountTrigger : 8		// VCount trigger value. If the current scanline is at this value, bit 2 is set and an interrupt is fired if requested.
+	;
 };
 
-bool GBA::DisplayStatus::IsStatusBitSet(int bitIndex)
+struct DisplayStatusRegisterReadOnly
 {
-	return s_REG_DISPSTAT & bitIndex;
-}
+	const u16 isInVBlank : 1
+		, isInHBlank : 1
+		, isInVCount : 1
+	;
+};
+
+volatile DisplayStatusRegister& displayStatusRegister = *reinterpret_cast<DisplayStatusRegister*>(REG_DISPSTAT);
+const volatile DisplayStatusRegisterReadOnly& displayStatusRegisterReadOnly = *reinterpret_cast<const volatile DisplayStatusRegisterReadOnly*>(REG_DISPSTAT);
+const vu16& s_REG_VCOUNT = (*(vu16*)(REG_VCOUNT));
 
 bool GBA::DisplayStatus::InVBlank()
 {
-	return IsStatusBitSet(VBlankStatus);
+	return displayStatusRegisterReadOnly.isInVBlank;
 }
 
 bool GBA::DisplayStatus::InHBlank()
 {
-	return IsStatusBitSet(HBlankStatus);
+	return displayStatusRegisterReadOnly.isInHBlank;
 }
 
 vu16 GBA::DisplayStatus::VCount()
@@ -37,10 +41,11 @@ vu16 GBA::DisplayStatus::VCount()
 
 void GBA::DisplayStatus::EnableVBlankInterrupts()
 {
-	s_REG_DISPSTAT |= VBlankInterruptRequest;
+	displayStatusRegister.vBlankInterruptRequestEnabled = true;
 }
 
 void GBA::DisplayStatus::EnableHBlankInterrupts()
 {
-	s_REG_DISPSTAT |= HBlankInterruptRequest;
+	displayStatusRegister.hBlankInterruptRequestEnabled = true;
+
 }

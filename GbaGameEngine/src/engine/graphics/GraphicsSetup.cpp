@@ -8,6 +8,7 @@ void GraphicsSetup::InitialiseStandardGraphics()
 	using namespace GBA::Gfx;
 	using namespace GBA::DisplayOptions;
 
+	// We don't need to enable background manually here. That happens during tilemap rendering automatically.
 	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
 
 	{

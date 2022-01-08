@@ -10,6 +10,7 @@ namespace GBA
 {
 	namespace Gfx
 	{
+		// https://www.coranac.com/tonc/text/regbg.htm
 		namespace Background
 		{
 			using tCharacterBaseBlock = TileBlockGroups;
@@ -18,9 +19,15 @@ namespace GBA
 			struct ControlRegister
 			{
 			private:
-				u16 m_registerValues;
-
-				void SetControlRegister(int value, u16 attributeMask) { m_registerValues = (m_registerValues & ~attributeMask) | (value & attributeMask); }
+				u16 m_priority : 2
+					, m_characterBaseBlock : 2
+					, : 2
+					, m_mosaic : 1
+					, m_colourMode : 1
+					, m_screenBaseBlock : 5
+					, m_affineWrapping : 1
+					, m_backgroundSize : 2
+					;
 			public:
 
 				enum ColourMode
