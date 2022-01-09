@@ -11,16 +11,18 @@ struct Register
 
 using RegisterList = Array<Register, GBA::DirectMemoryAccess::Channels::Count>;
 
-static Register& GetRegister(GBA::DirectMemoryAccess::Channels channel)
+// Return volatile so that control var assignments are in the correct order and aren't optimised out. Weird sneaky effects otherwise. 
+static volatile Register& GetRegister(GBA::DirectMemoryAccess::Channels channel)
 {
-	return (*reinterpret_cast<RegisterList*>(REG_DMA))[channel];
+	return (*reinterpret_cast<volatile RegisterList*>(REG_DMA))[channel];
 }
 
 void GBA::DirectMemoryAccess::Transfer(Channels channel, volatile void * dst, const void * src, u32 count, u32 mode)
 {
 	Reset(channel);
 
-	Register& r = GetRegister(channel);
+	auto& r = GetRegister(channel);
+
 	r.dst = dst;
 	r.src = src;
 	r.control = count | mode;
@@ -28,6 +30,6 @@ void GBA::DirectMemoryAccess::Transfer(Channels channel, volatile void * dst, co
 
 void GBA::DirectMemoryAccess::Reset(Channels channel)
 {
-	Register& r = GetRegister(channel);
+	auto& r = GetRegister(channel);
 	r.control = 0;
 }
