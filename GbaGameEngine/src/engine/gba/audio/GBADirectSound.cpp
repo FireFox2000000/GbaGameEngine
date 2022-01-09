@@ -56,7 +56,7 @@ vu32 * GBA::Audio::DirectSound::GetDestinationBuffer(Channels channel)
 		{
 			return (vu32*)0x40000A0;
 		}
-	case ChannelB:
+	case Channels::ChannelB:
 		{
 			return (vu32*)0x40000A4;
 		}

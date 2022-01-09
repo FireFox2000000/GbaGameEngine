@@ -33,31 +33,47 @@ namespace GBA
 		{
 			friend class Timers;
 
+			union TimerDataRegister
+			{
+			private:
+				u16 initialTimerCount;	// Write-only
+
+			public:
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wuninitialized"
+				const vu16 currentTimerCount;	// Read-only, directly off hardware, no need to initialise
+#pragma GCC diagnostic pop
+
+				void SetInitialTimerCount(u16 value) volatile { initialTimerCount = value; }
+			};
+
+			struct TimerControlRegister
+			{
+				u16 frequency : 2
+					, cascadeModeEnabled : 1
+					, : 3
+					, overflowInterruptEnabled : 1
+					, isEnabled : 1
+					, : 8
+					;
+			};
+
+			TimerDataRegister dataRegister;
+			TimerControlRegister controlRegister;
+
 		public:
-			void SetActive(bool active);
-			void SetCascadeMode(bool enabled);
-			void EnableInterruptOnOverflow(bool enabled);
-			void SetFrequency(ClockCycle cycle);
-			void SetInitialTimerCount(u16 value);
-			u16 GetCurrentTimerCount() const;
-			u8 GetTimerIndex() const { return m_timerIndex; }
-
-			Timer() {}; // Purely to make this class std::initializer_list compliant
-			
-		private:
-			Timer(u8 timerIndex);
-
-			u8 m_timerIndex = 0;
-
-			vu16* GetTimerControlAddr() const;
+			void SetActive(bool active) volatile;
+			void SetCascadeMode(bool enabled) volatile;
+			void EnableInterruptOnOverflow(bool enabled) volatile;
+			void SetFrequency(ClockCycle cycle) volatile;
+			void SetInitialTimerCount(u16 value) volatile;
+			vu16 GetCurrentTimerCount() volatile const;
 		};
 
-	private:
-		using tTimers = Array <Timer, GBA_MAX_TIMERS>;
-		static tTimers s_timers;
-
 	public:
+		using tTimers = Array <Timer, GBA_MAX_TIMERS>;
+
 		static const u32 c_systemFrequency = 0x1000000;
-		static Timer& GetTimer(TimerId timerId);
+		static volatile Timer& GetTimer(TimerId timerId);
 	};
 }

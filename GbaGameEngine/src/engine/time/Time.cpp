@@ -22,8 +22,8 @@ void Time::Start()
 	// Overflow every ~1 second:
 	// 0x4000 ticks @ FREQ_1024
 
-	Timers::Timer& clockMs = Timers::GetTimer(Timers::SystemClock1);
-	Timers::Timer& clockSeconds = Timers::GetTimer(Timers::SystemClock2);
+	auto& clockMs = Timers::GetTimer(Timers::SystemClock1);
+	auto& clockSeconds = Timers::GetTimer(Timers::SystemClock2);
 
 	clockMs.SetInitialTimerCount(SysClock1StartTicks);
 	clockMs.SetFrequency(Timers::Cycle_256);

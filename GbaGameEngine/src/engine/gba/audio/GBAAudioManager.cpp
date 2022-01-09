@@ -11,7 +11,7 @@ constexpr int EndTimeOffset = (CLOCK * 0.03f);
 GBA::Audio::AudioManager::AudioManager() 
 	: m_availableDSoundChannels({ DirectSound::Channels::ChannelA, DirectSound::Channels::ChannelB })
 	, m_availableDMAChannels({ DirectMemoryAccess::Sound0, DirectMemoryAccess::Sound1 })
-	, m_availebleDSoundTimers({ DirectSound::Timer::Sound0, DirectSound::Timer::Sound1 })
+	, m_availableDSoundTimers({ DirectSound::Timer::Sound0, DirectSound::Timer::Sound1 })
 {
 }
 
@@ -42,7 +42,6 @@ GBA::Timers::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::Timer dma
 	DEBUG_ERROR("Unable to get gba timer for direct sound");
 	return GBA::Timers::Sound0;
 }
-
 
 void GBA::Audio::AudioManager::Init()
 {
@@ -114,7 +113,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 	int availableIndex = 0;
 	DirectSound::Channels soundChannel = m_availableDSoundChannels[availableIndex];		m_availableDSoundChannels.RemoveAt(availableIndex);
 	DirectMemoryAccess::Channels dmaChannel = m_availableDMAChannels[availableIndex];	m_availableDMAChannels.RemoveAt(availableIndex);
-	DirectSound::Timer dmaTimer = m_availebleDSoundTimers[availableIndex];				m_availebleDSoundTimers.RemoveAt(availableIndex);
+	DirectSound::Timer dmaTimer = m_availableDSoundTimers[availableIndex];				m_availableDSoundTimers.RemoveAt(availableIndex);
 
 	// Mark any active channel in this slot as inactive, we're about to stomp the audio for this new one
 	for (int i = m_activeChannels.handles.Count() - 1; i >= 0; --i)
@@ -244,7 +243,7 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 				const auto* dSoundChannel = GetDirectSoundChannel(handle);
 				m_availableDSoundChannels.Add(dSoundChannel->soundChannelId);
 				m_availableDMAChannels.Add(dSoundChannel->dmaChannelId);
-				m_availebleDSoundTimers.Add(dSoundChannel->dmaTimerId);
+				m_availableDSoundTimers.Add(dSoundChannel->dmaTimerId);
 			}
 
 			return;
@@ -291,11 +290,12 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 
 	// Reset timer and dma in case there's any previous sound playing
 	auto& timer = GBA::Timers::GetTimer(timerId);
-	timer.SetActive(false);
+
+	timer.SetActive(false); 
 	DirectMemoryAccess::Reset(dmaChannel);
 
-	const u8* src = samples + repeatParams.sampleStartOffset;
-	auto* dst = DirectSound::GetDestinationBuffer(soundChannel);
+	const u8* src = (samples + repeatParams.sampleStartOffset);
+	vu32* dst = DirectSound::GetDestinationBuffer(soundChannel);
 
 	// Set the dma to transfer from the sample array to the sound buffer
 	// Set transfer count as 0 since transfers are repeated timer-based
@@ -465,4 +465,3 @@ void GBA::Audio::AudioManager::SetChannelAttribute(tChannelHandle handle, AudioC
 		properties->attributes[attribute] = value;
 	}
 }
-

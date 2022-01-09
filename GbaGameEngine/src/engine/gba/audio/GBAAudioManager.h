@@ -71,7 +71,7 @@ namespace GBA
 			ActiveChannelSOA m_activeChannels;
 			FixedList<DirectSound::Channels, DirectSound::Channels::ChannelCount> m_availableDSoundChannels;
 			FixedList<DirectMemoryAccess::Channels, DirectMemoryAccess::Channels::SoundCount> m_availableDMAChannels;
-			FixedList<DirectSound::Timer, DirectSound::Timer::SoundTimerCount> m_availebleDSoundTimers;
+			FixedList<DirectSound::Timer, DirectSound::Timer::SoundTimerCount> m_availableDSoundTimers;
 
 			const DirectSoundChannel* GetDirectSoundChannel(tChannelHandle handle);
 			DirectSoundChannel* EditDirectSoundChannel(tChannelHandle handle);
