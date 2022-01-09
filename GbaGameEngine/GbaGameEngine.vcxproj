@@ -225,6 +225,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\input\GbaKeypadMap.h" />
     <ClInclude Include="src\engine\input\IInputDevice.h" />
     <ClInclude Include="src\engine\input\IInputMap.h" />
+    <ClInclude Include="src\engine\nocashemulator\NoCashEmulator.h" />
     <ClInclude Include="src\game\input\Input.h" />
     <ClInclude Include="src\engine\input\InputManager.h" />
     <ClInclude Include="src\engine\io\File.h" />

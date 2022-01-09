@@ -26,21 +26,28 @@
 #include "engine/debug/DebugLog.h"
 #endif
 
+#ifdef NOCASH_GBA
+#include "engine/nocashemulator/NoCashEmulator.h"
+#define BREAKPOINT() NoCashEmulator::NativeBreakpoint()
+#else
+#define BREAKPOINT()
+#endif
+
 #ifdef DEBUG
 #ifdef LOG_LOCATION_BY_DEFAULT
 #define DEBUG_LOG(message) { Debug::LogAtLocation(__FILE__, __LINE__, message); }
 #define DEBUG_LOGFORMAT(format, ...) { Debug::LogAtLocation(__FILE__, __LINE__, format, __VA_ARGS__); }
-#define DEBUG_ERROR(message) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
-#define DEBUG_ERRORFORMAT(format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
-#define DEBUG_ASSERTMSG(condition, message) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
-#define DEBUG_ASSERTMSGFORMAT(condition, format, ...) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
+#define DEBUG_ERROR(message) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); BREAKPOINT(); }
+#define DEBUG_ERRORFORMAT(format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); BREAKPOINT(); }
+#define DEBUG_ASSERTMSG(condition, message) { if (!(condition)) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); BREAKPOINT(); } }
+#define DEBUG_ASSERTMSGFORMAT(condition, format, ...) { if (!(condition)) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); BREAKPOINT(); } }
 #else
 #define DEBUG_LOG(message) { Debug::Log(message); }
 #define DEBUG_LOGFORMAT(format, ...) { Debug::LogFormat(format, __VA_ARGS__); }
-#define DEBUG_ERROR(message) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
-#define DEBUG_ERRORFORMAT(format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
-#define DEBUG_ASSERTMSG(condition, message) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); }
-#define DEBUG_ASSERTMSGFORMAT(condition, format, ...) { if (!(condition)) Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); }
+#define DEBUG_ERROR(message) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); BREAKPOINT(); }
+#define DEBUG_ERRORFORMAT(format, ...) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); BREAKPOINT(); }
+#define DEBUG_ASSERTMSG(condition, message) { if (!(condition)) { Debug::LogAssertionFailure(__FILE__, __LINE__, (message)); BREAKPOINT(); } }
+#define DEBUG_ASSERTMSGFORMAT(condition, format, ...) { if (!(condition)) { Debug::LogAssertionFailure(__FILE__, __LINE__, (format), __VA_ARGS__); BREAKPOINT(); } }
 #endif
 
 #else

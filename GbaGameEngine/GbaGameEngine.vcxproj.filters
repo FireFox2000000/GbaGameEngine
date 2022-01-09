@@ -247,6 +247,7 @@
     <ClInclude Include="src\game\input\Input.h" />
     <ClInclude Include="src\engine\input\IInputMap.h" />
     <ClInclude Include="src\game\input\InputConfig.h" />
+    <ClInclude Include="src\engine\nocashemulator\NoCashEmulator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -5,7 +5,8 @@
 #include "engine/base/Macros.h"
 
 #ifdef NOCASH_GBA
-#include "external/tonc/include/tonc_nocash.h"		// Write to the nocash GBA emulator TTY message service. 
+#include "engine/nocashemulator/NoCashEmulator.h"
+#endif
 
 using namespace std;
 
@@ -26,8 +27,12 @@ inline void VLogFormat(const char* format, va_list args)
 
 void Debug::Log(const char * message)
 {
+#ifdef NOCASH_GBA
 	// Write to the nocash GBA emulator TTY message service.
-	nocash_puts(message);
+	NoCashEmulator::PutS(message);
+#else
+	"Implement me!!"
+#endif
 }
 
 void Debug::LogFormat(const char * format, ...)
@@ -76,7 +81,3 @@ void Debug::LogAssertionFailure(const char* file, const int line, const char* fo
 }
 
 #undef VLOGFORMAT_W_UNPACK
-
-#endif
-
-// Not implemented
