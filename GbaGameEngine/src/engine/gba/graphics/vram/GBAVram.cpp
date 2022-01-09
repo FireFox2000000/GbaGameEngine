@@ -113,7 +113,7 @@ namespace GBA
 		profilerClock.SetActive(true);
 #endif
 		// Transfer memory
-		VramSafeMemCopy(src, (u16*)&s_screenBlockPool[dest][0], byteLength);
+		VramSafeMemCopy((u16*)&s_screenBlockPool[dest][0], src, byteLength);
 #ifdef VRAM_TRANSFER_PROFILE
 		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentTimerCount());
 		profilerClock.SetActive(false);
@@ -225,7 +225,7 @@ namespace GBA
 
 	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize)
 	{
-		VramSafeMemCopy(data, (u16*)&s_screenBlockPool[sbbIndex][offset], sizeof(u16) * dataSize);
+		VramSafeMemCopy((u16*)&s_screenBlockPool[sbbIndex][offset], data, sizeof(u16) * dataSize);
 	}
 
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)

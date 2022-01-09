@@ -59,7 +59,7 @@ namespace GBA
 			// Fast copy ObjectAttributes into memory
 			{
 				u32 byteCount = sizeof(ObjectAttribute) * objectCount;
-				VramSafeMemCopy(m_masterSpriteRenderList.oamProperties.GetContainer(), (void*)&s_objectAttrPool, byteCount);
+				VramSafeMemCopy((void*)&s_objectAttrPool, m_masterSpriteRenderList.oamProperties.GetContainer(), byteCount);
 
 				// Remove the rest of the objects by clearing them
 				VramSafeMemSet((void*)&s_objectAttrPool[objectCount], (u8)0, sizeof(s_objectAttrPool) - byteCount);

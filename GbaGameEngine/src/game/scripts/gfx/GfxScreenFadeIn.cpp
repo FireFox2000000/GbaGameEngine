@@ -17,7 +17,7 @@ void GfxScreenFadeIn::CapturePalettes(Engine* engine)
 	ColourPalette256 originalPalettes;
 
 	// Take a snapshot of the current palettes
-	VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), m_destPalettes.GetPrimary()->Count() * sizeof(Rgb16));
+	VramSafeMemCopy(&m_originalPalettes.GetPrimary(), (void*)m_destPalettes.GetPrimary(), m_destPalettes.GetPrimary()->Count() * sizeof(Rgb16));
 
 	// Set the palettes to the start colour
 	{
@@ -39,7 +39,7 @@ void GfxScreenFadeIn::FadePalettes(Engine* engine)
 {
 	// Now we can actually apply the lerp
 	{
-		VramSafeMemCopy(&m_destPaletteResult, (void*)m_destPalettes.GetPrimary(), m_destPaletteResult.Count() * sizeof(Rgb16));
+		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_destPaletteResult, m_destPaletteResult.Count() * sizeof(Rgb16));
 	}
 
 	// Interpolate the background and sprite palettes on different frames to reduce workload. 

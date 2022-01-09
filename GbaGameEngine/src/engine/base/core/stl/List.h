@@ -35,7 +35,7 @@ protected:
 		T* newContainer = MAllocType<T>(size);
 		if (newContainer)
 		{
-			MemCopy(m_container, newContainer, sizeof(T) * MIN(count, size));
+			MemCopy(newContainer, m_container, sizeof(T) * MIN(count, size));
 			SafeFree(m_container);
 
 			m_container = newContainer;

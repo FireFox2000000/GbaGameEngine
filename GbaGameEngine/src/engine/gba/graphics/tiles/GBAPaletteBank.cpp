@@ -17,12 +17,12 @@ namespace GBA
 		// 256 colours
 		void PaletteBank::LoadBackgroundPalette(const u16 * palette, u8 arrLength)
 		{
-			VramSafeMemCopy(palette, (u16*)s_FullBackgroundPalette, arrLength * sizeof(u16));
+			VramSafeMemCopy((u16*)s_FullBackgroundPalette, palette, arrLength * sizeof(u16));
 		}
 
 		void PaletteBank::LoadBackgroundPalette(tPaletteIndex blockIndex, const u16 * palette, u8 arrLength)
 		{
-			VramSafeMemCopy(palette, (u16*)(s_BackgroundPalette16Groups->At(blockIndex)), arrLength * sizeof(u16));
+			VramSafeMemCopy((u16*)(s_BackgroundPalette16Groups->At(blockIndex)), palette, arrLength * sizeof(u16));
 		}
 	}
 }
