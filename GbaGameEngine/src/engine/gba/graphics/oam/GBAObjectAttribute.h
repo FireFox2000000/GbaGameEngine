@@ -73,7 +73,8 @@ namespace GBA
 					, colourMode : 1
 					, shape : 2
 					;
-				u16 xCoord : 12
+				u16 xCoord : 9
+					, : 3
 					, horizontalFlip : 1
 					, verticalFlip : 1
 					, sizeMode : 2
