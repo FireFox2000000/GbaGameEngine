@@ -103,7 +103,11 @@ bool HasCollisionAABBvsCircle(
 
 	if (result && out_collisionMaybe)
 	{
-		// TODO
+		Vector2<tFixedPoint8> direction = closestPoint - positionB;
+		Vector2<tFixedPoint24> normal = VectorMath::Normalised(direction);
+
+		out_collisionMaybe->normal = normal;
+		out_collisionMaybe->penetrationDepth = tFixedPoint24(colB.radius - tFixedPoint8(std::sqrt(direction.MagnitudeSqrd().ToFloat())));	// float heavy, but need accuracy or this doesn't work.		
 	}
 
 	return result;

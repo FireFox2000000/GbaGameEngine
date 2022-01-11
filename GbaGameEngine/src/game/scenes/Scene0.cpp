@@ -135,12 +135,12 @@ void Scene0::Enter(Engine* engine)
 		//transform->SetRotationDegrees(180);
 
 		Component::Collider& collider = playerObject.AddComponent<Component::Collider>();
-		collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
-		//tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
-		//collider.SetAABB(
-		//	Vector2<tFixedPoint8>((tFixedPoint8(-0.5f) * colliderWidth) + tFixedPoint8(0.5f), tFixedPoint8(0.5f) * -shantae0->GetSize().y)
-		//	, Vector2<tFixedPoint8>((tFixedPoint8(0.5f) * colliderWidth), (tFixedPoint8(0.5f) * shantae0->GetSize().y) - tFixedPoint8(4))
-		//		);
+		//collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
+		tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
+		collider.SetAABB(
+			Vector2<tFixedPoint8>((tFixedPoint8(-0.5f) * colliderWidth) + tFixedPoint8(0.5f), tFixedPoint8(0.5f) * -shantae0->GetSize().y)
+			, Vector2<tFixedPoint8>((tFixedPoint8(0.5f) * colliderWidth), (tFixedPoint8(0.5f) * shantae0->GetSize().y) - tFixedPoint8(4))
+				);
 	}
 }
 
