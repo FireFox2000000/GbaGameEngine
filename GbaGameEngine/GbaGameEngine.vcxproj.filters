@@ -89,6 +89,7 @@
     <ClCompile Include="src\engine\input\InputManager.cpp" />
     <ClCompile Include="src\game\input\Input.cpp" />
     <ClCompile Include="src\game\input\InputConfig.cpp" />
+    <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -248,6 +249,11 @@
     <ClInclude Include="src\engine\input\IInputMap.h" />
     <ClInclude Include="src\game\input\InputConfig.h" />
     <ClInclude Include="src\engine\nocashemulator\NoCashEmulator.h" />
+    <ClInclude Include="src\engine\physics\Rigidbody.h" />
+    <ClInclude Include="src\engine\physics\PhysicsResolve.h" />
+    <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
+    <ClInclude Include="src\engine\physics\Collision.h" />
+    <ClInclude Include="src\engine\math\VectorMath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

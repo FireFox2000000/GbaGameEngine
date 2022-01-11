@@ -31,6 +31,11 @@ protected:
 	/// </summary>
 	virtual void LateUpdate(Engine* engine);
 
+	/// <summary>
+	/// Fixed-tick update. May update multiple times per frame or none per frame. Ideal for physics. 
+	/// </summary>
+	virtual void FixedUpdate(Engine* engine);
+
 	virtual void Exit(Engine* engine) {}
 
 	/// <summary>

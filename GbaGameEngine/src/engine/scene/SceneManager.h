@@ -17,6 +17,7 @@ public:
 	~SceneManager();
 
 	void UpdateScene(Engine* engine);
+	void FixedUpdateScene(Engine* engine);
 	void PreRenderScene(Engine* engine);
 	void RenderScene(Engine* engine);
 

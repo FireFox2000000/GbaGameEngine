@@ -83,6 +83,11 @@ void GBA::Bios::SoftReset()
 	BiosSystemCall(0x00);
 }
 
+u16 GBA::Bios::Sqrt(u32 val)
+{
+	BiosSystemCall(0x08);
+}
+
 #pragma GCC diagnostic pop
 
 #pragma GCC pop_options

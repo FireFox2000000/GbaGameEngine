@@ -45,6 +45,14 @@ void SceneManager::UpdateScene(Engine * engine)
 	}
 }
 
+void SceneManager::FixedUpdateScene(Engine* engine)
+{
+	if (m_current)
+	{
+		m_current->FixedUpdate(engine);
+	}
+}
+
 void SceneManager::PreRenderScene(Engine* engine)
 {
 	m_current->PreRender(engine);

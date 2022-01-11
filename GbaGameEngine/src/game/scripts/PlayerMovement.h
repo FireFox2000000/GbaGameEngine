@@ -10,6 +10,7 @@ namespace Component
 	struct PlayerMovement
 	{
 		tFixedPoint24 moveSpeed = 8.0f;
+		tFixedPoint24 jumpInitVel = 15.f;
 	};
 }
 

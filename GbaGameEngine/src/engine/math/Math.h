@@ -38,4 +38,6 @@ namespace Math
 
 	// theta's range is [0, 0xFFFF] for [0, 2 Pi]
 	s32 Cos(u16 theta);
+
+	float InvSqrt(float x);
 }

@@ -90,7 +90,7 @@ public:
 		return (int)((storage + (1 << FRACTIONAL_BITS) / 2) >> FRACTIONAL_BITS);
 	}
 
-	inline float ToFloat() const
+	constexpr inline float ToFloat() const
 	{
 		return FloatDecompress(storage);
 	}

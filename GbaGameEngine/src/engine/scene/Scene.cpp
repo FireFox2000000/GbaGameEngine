@@ -6,6 +6,7 @@
 #include "engine/render/TextRenderer.h"
 #include "engine/render/TilemapRenderer.h"
 #include "engine/graphics/Graphics.h"
+#include "engine/physics/PhysicsResolve.h"
 
 //#define RENDER_PROFILE
 #ifdef RENDER_PROFILE
@@ -28,6 +29,12 @@ void Scene::LateUpdate(Engine* engine)
 
 	System::SpriteAnimator::Update(engine);
 	gfx->Update(engine);
+}
+
+void Scene::FixedUpdate(Engine* engine)
+{
+	System::Physics::UpdateTransforms(engine);
+	System::Physics::ResolveCollisions(engine);
 }
 
 void Scene::PreRender(Engine * engine)

@@ -1,6 +1,8 @@
 #include "CollisionFunctions.h"
 #include "Collider.h"
+#include "Collision.h"
 #include "engine/gameobject/transformation/Transform.h"
+#include "engine/math/VectorMath.h"
 
 inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform& transformA, AxisAlignedBoundingBox2 aabb)
 {
@@ -33,32 +35,53 @@ bool HasCollisionAABBvsAABB(
 	const Component::Transform& transformA
 	, AxisAlignedBoundingBox2 colA
 	, const Component::Transform& transformB
-	, AxisAlignedBoundingBox2 colB)
+	, AxisAlignedBoundingBox2 colB
+	, Collision* out_collisionMaybe)
 {
 	colA = AdjustAABBByTransform(transformA, colA);
 	colB = AdjustAABBByTransform(transformB, colB);
 
-	return colA.IntersectsOrTouches(colB);
+	bool result = colA.IntersectsOrTouches(colB);
+
+	if (result && out_collisionMaybe)
+	{
+		// TODO
+	}
+
+	return result;
 }
 
 bool HasCollisionCirclevsCircle(
 	const Vector2<tFixedPoint8>& positionA
 	, Circle colA
 	, const Vector2<tFixedPoint8>& positionB
-	, Circle colB)
+	, Circle colB
+	, Collision* out_collisionMaybe)
 {
-	tFixedPoint8 lengthSqrd = Vector2<tFixedPoint8>::LengthSqrd(positionA, positionB);
+	tFixedPoint8 lengthSqrd = VectorMath::LengthSqrd(positionA, positionB);
 	tFixedPoint8 rad = colA.radius + colB.radius;
 	tFixedPoint8 radSqrd = rad * rad;
 
-	return radSqrd >= lengthSqrd;
+	bool result = radSqrd >= lengthSqrd;
+
+	if (result && out_collisionMaybe)
+	{
+		Vector2<tFixedPoint8> direction = positionA - positionB;
+		Vector2<tFixedPoint24> normal = VectorMath::Normalised(direction);
+
+		out_collisionMaybe->normal = normal;
+		out_collisionMaybe->penetrationDepth = tFixedPoint24(rad - tFixedPoint8(std::sqrt(lengthSqrd.ToFloat())));	// float heavy, but need accuracy or this doesn't work.
+	}
+
+	return result;
 }
 
 bool HasCollisionAABBvsCircle(
 	const Component::Transform& transformA
 	, AxisAlignedBoundingBox2 colA
 	, const Vector2<tFixedPoint8>& positionB
-	, Circle colB)
+	, Circle colB
+	, Collision* out_collisionMaybe)
 {
 	// https://learnopengl.com/In-Practice/2D-Game/Collisions/Collision-Detection - AABB - Circle collision detection
 
@@ -76,16 +99,24 @@ bool HasCollisionAABBvsCircle(
 
 	delta = closestPoint - positionB;
 
-	return delta.MagnitudeSqrd() < (colB.radius * colB.radius);
+	bool result = delta.MagnitudeSqrd() < (colB.radius * colB.radius);
+
+	if (result && out_collisionMaybe)
+	{
+		// TODO
+	}
+
+	return result;
 }
 
 bool HasCollisionAABBvsAABB(
 	const Component::Transform& transformA
 	, const Component::Collider& colA
 	, const Component::Transform& transformB
-	, const Component::Collider& colB)
+	, const Component::Collider& colB
+	, Collision* out_collisionMaybe)
 {
-	return HasCollisionAABBvsAABB(transformA, colA.GetAABB(), transformB, colB.GetAABB());
+	return HasCollisionAABBvsAABB(transformA, colA.GetAABB(), transformB, colB.GetAABB(), out_collisionMaybe);
 }
 
 /********************************************************************************************************/
@@ -94,27 +125,37 @@ bool HasCollisionCirclevsCircle(
 	const Component::Transform& transformA
 	, const Component::Collider& colA
 	, const Component::Transform& transformB
-	, const Component::Collider& colB)
+	, const Component::Collider& colB
+	, Collision* out_collisionMaybe)
 {
-	return HasCollisionCirclevsCircle(transformA.GetPosition(), colA.GetCircle(), transformA.GetPosition(), colB.GetCircle());
+	return HasCollisionCirclevsCircle(transformA.GetPosition(), colA.GetCircle(), transformB.GetPosition(), colB.GetCircle(), out_collisionMaybe);
 }
 
 bool HasCollisionAABBvsCircle(
 	const Component::Transform& transformA
 	, const Component::Collider& colA
 	, const Component::Transform& transformB
-	, const Component::Collider& colB)
+	, const Component::Collider& colB
+	, Collision* out_collisionMaybe)
 {
-	return HasCollisionAABBvsCircle(transformA, colA.GetAABB(), transformB.GetPosition(), colB.GetCircle());
+	return HasCollisionAABBvsCircle(transformA, colA.GetAABB(), transformB.GetPosition(), colB.GetCircle(), out_collisionMaybe);
 }
 
 bool HasCollisionCirclevsAABB(
 	const Component::Transform& transformA
 	, const Component::Collider& colA
 	, const Component::Transform& transformB
-	, const Component::Collider& colB)
+	, const Component::Collider& colB
+	, Collision* out_collisionMaybe)
 {
-	return HasCollisionAABBvsCircle(transformB, colB.GetAABB(), transformA.GetPosition(), colA.GetCircle());
+	bool result = HasCollisionAABBvsCircle(transformB, colB.GetAABB(), transformA.GetPosition(), colA.GetCircle(), out_collisionMaybe);
+
+	if (result && out_collisionMaybe)
+	{
+		out_collisionMaybe->normal = out_collisionMaybe->normal * -1;
+	}
+
+	return result;
 }
 
 /********************************************************************************************************/
@@ -123,7 +164,8 @@ using HasCollisionFn = bool (*)(
 	const Component::Transform& transformA
 	, const Component::Collider& colA
 	, const Component::Transform& transformB
-	, const Component::Collider& colB);
+	, const Component::Collider& colB
+	, Collision* out_collisionMaybe);
 
 static const HasCollisionFn hasCollisionFns[ColliderShapeType::Count * ColliderShapeType::Count] =
 {
@@ -136,8 +178,9 @@ bool CollisionFunctions::HasCollision(
 	const Component::Transform& transformA
 	, const Component::Collider& colA
 	, const Component::Transform& transformB
-	, const Component::Collider& colB)
+	, const Component::Collider& colB
+	, Collision* out_collisionMaybe)
 {
 	HasCollisionFn fn = hasCollisionFns[colA.GetShapeType() * ColliderShapeType::Count + colB.GetShapeType()];
-	return fn ? fn(transformA, colA, transformB, colB) : false;
+	return fn ? fn(transformA, colA, transformB, colB, out_collisionMaybe) : false;
 }

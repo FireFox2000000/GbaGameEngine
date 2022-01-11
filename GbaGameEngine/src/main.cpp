@@ -5,6 +5,7 @@
 #include "engine/graphics/Graphics.h"
 #include "engine/audio/AudioManager.h"
 #include "engine/io/FileSystem.h"
+#include "engine/physics/PhysicsConfig.h"
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/registers/input/GBAInput.h"
@@ -64,6 +65,9 @@ int main()
 	auto profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
 
+	s32 timeToNextFixedUpdateMicroSeconds = 0;
+	constexpr u32 fixedUpdateDtMicroseconds = SECONDS_TO_MICROSECONDS(PhysicsConfig::c_fixedUpdateRate.ToFloat());
+
 	// Update loop
 	while (true)
 	{
@@ -76,6 +80,17 @@ int main()
 			inputManager->Update();
 
 			sceneManager->UpdateScene(engine.get());
+
+			const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
+
+			timeToNextFixedUpdateMicroSeconds += dtMicroSeconds;
+			while (timeToNextFixedUpdateMicroSeconds > (s32)fixedUpdateDtMicroseconds)
+			{
+				timeToNextFixedUpdateMicroSeconds -= fixedUpdateDtMicroseconds;
+
+				// Perform fixed update
+				sceneManager->FixedUpdateScene(engine.get());
+			}
 
 			audioManager->Update();
 

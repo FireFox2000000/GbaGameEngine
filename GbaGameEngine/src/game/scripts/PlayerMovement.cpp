@@ -5,6 +5,7 @@
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/time/Time.h"
 #include "game/input/Input.h"
+#include "engine/physics/Rigidbody.h"
 
 Vector2<int> GetDesiredDirectionFromDpad(Engine* engine)
 {
@@ -43,30 +44,45 @@ void PlayerMovement::MoveHumanPlayerObject(Engine* engine, GameObject& playerObj
 
 void PlayerMovement::MovePlayerObject(Engine* engine, GameObject& playerObject, const Vector2<int>& desiredDirection)
 {
-	if (desiredDirection == Vector2<int>::Zero)
-		return;
-
-	const Time* time = engine->GetComponent<Time>();
-	tFixedPoint24 dt = time->GetDt();
-
-	auto& transform = *playerObject.EditComponent<Component::Transform>();
 	const auto& playerMovement = *playerObject.GetComponent<Component::PlayerMovement>();
 
+	auto& transform = *playerObject.EditComponent<Component::Transform>();
+
+#if false		// Transform-based movement
+	const Time* time = engine->GetComponent<Time>();
+	tFixedPoint24 dt = time->GetDt();
+	
 	tFixedPoint8 moveSpeed = (tFixedPoint8)(playerMovement.moveSpeed * dt);
 	auto position = transform.GetPosition();
-	//auto rotation = transform.GetRotationDegrees();
-	//rotation += (tFixedPoint8)(dt * -90);
-	//transform.SetRotationDegrees(rotation);
-
+	
 	position.x += moveSpeed * desiredDirection.x;
 	position.y += moveSpeed * desiredDirection.y;
-
+	
 	transform.SetPosition(position);
 
-	if (desiredDirection.x != 0)
+#else			// Physics-based movement
+	auto& rigidbody = *playerObject.EditComponent<Component::Rigidbody>();
+
+	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	const auto& devices = inputManager->GetDevices();
+	if (Input::GetInputDown(Jump, devices))
 	{
-		auto scale = transform.GetScale();
-		scale.x = desiredDirection.x;
-		transform.SetScale(scale);
+		rigidbody.velocity = Vector2<tFixedPoint24>(rigidbody.velocity.x, playerMovement.jumpInitVel);
+	}
+	rigidbody.velocity = Vector2<tFixedPoint24>(playerMovement.moveSpeed * desiredDirection.x, rigidbody.velocity.y);
+#endif
+	{
+
+
+		//auto rotation = transform.GetRotationDegrees();
+		//rotation += (tFixedPoint8)(dt * -90);
+		//transform.SetRotationDegrees(rotation);
+
+		if (desiredDirection.x != 0)
+		{
+			auto scale = transform.GetScale();
+			scale.x = desiredDirection.x;
+			transform.SetScale(scale);
+		}
 	}
 }

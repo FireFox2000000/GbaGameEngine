@@ -120,6 +120,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
     <ClCompile Include="src\engine\input\GbaKeypadDevice.cpp" />
+    <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
     <ClCompile Include="src\game\input\Input.cpp" />
     <ClCompile Include="src\engine\input\InputManager.cpp" />
     <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
@@ -225,7 +226,12 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\input\GbaKeypadMap.h" />
     <ClInclude Include="src\engine\input\IInputDevice.h" />
     <ClInclude Include="src\engine\input\IInputMap.h" />
+    <ClInclude Include="src\engine\math\VectorMath.h" />
     <ClInclude Include="src\engine\nocashemulator\NoCashEmulator.h" />
+    <ClInclude Include="src\engine\physics\Collision.h" />
+    <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
+    <ClInclude Include="src\engine\physics\PhysicsResolve.h" />
+    <ClInclude Include="src\engine\physics\Rigidbody.h" />
     <ClInclude Include="src\game\input\Input.h" />
     <ClInclude Include="src\engine\input\InputManager.h" />
     <ClInclude Include="src\engine\io\File.h" />

@@ -44,6 +44,9 @@ namespace Component
 	public:
 		ColliderShapeType::Enum GetShapeType() const;
 
+		bool GetIsTrigger() const;
+		void SetIsTrigger(bool isTrigger);
+
 		void SetCircle(tFixedPoint8 radius);
 		inline const Circle& GetCircle() const {
 			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::Circle, "Shape is not a circle, it is %d", m_shapeType);

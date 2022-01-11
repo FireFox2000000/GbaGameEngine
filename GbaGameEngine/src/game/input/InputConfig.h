@@ -9,6 +9,8 @@ enum GameInputs
 	MoveUp,
 	MoveDown,
 
+	Jump,
+
 	ExitTilemapTestScene,
 
 	MenuDown,

@@ -29,6 +29,7 @@ const SortedInputList GbaKeypadInputList = {
 	{ MoveRight, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Right) }},
 	{ MoveUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Up) }},
 	{ MoveDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Down) }},
+	{ Jump, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
 	{ ExitTilemapTestScene, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
 	{ MenuDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Down) }},
 	{ MenuUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Up) }},

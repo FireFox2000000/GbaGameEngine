@@ -9,7 +9,17 @@ namespace Component
 
 	ColliderShapeType::Enum Collider::GetShapeType() const
 	{
-		return m_shapeType;
+		return (ColliderShapeType::Enum)m_shapeType;
+	}
+
+	bool Collider::GetIsTrigger() const
+	{
+		return m_isTrigger;
+	}
+
+	void Collider::SetIsTrigger(bool isTrigger)
+	{
+		m_isTrigger = isTrigger;
 	}
 
 	void Collider::SetCircle(tFixedPoint8 radius)
