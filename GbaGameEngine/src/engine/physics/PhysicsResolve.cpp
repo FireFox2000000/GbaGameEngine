@@ -53,11 +53,11 @@ void System::Physics::UpdateTransforms(Engine* engine)
 			position += rigidbody.velocity * PhysicsConfig::c_fixedUpdateRate;
 
 			// Hacky ground clamp for testing
-			if (position.y < -5)
-			{
-				position.y = -5;
-				rigidbody.velocity.y = 0;
-			}
+			//if (position.y < -5)
+			//{
+			//	position.y = -5;
+			//	rigidbody.velocity.y = 0;
+			//}
 
 			transform.SetPosition(position);
 		});
