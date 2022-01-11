@@ -71,6 +71,7 @@ void System::Physics::ResolveCollisions(Engine* engine)
 		[&entityManager]
 	(ECS::Entity entityA, Component::Transform& transformA, Component::Rigidbody& rigidbodyA, Component::Collider& colliderA)
 		{
+			// Collide against static objects, dynamic objects will be more... todo
 			entityManager->InvokeEach<Component::Transform, Component::Collider>(
 				[&]
 			(ECS::Entity entityB, Component::Transform& transformB,  Component::Collider& colliderB)
@@ -78,9 +79,14 @@ void System::Physics::ResolveCollisions(Engine* engine)
 					if (entityA == entityB) return;
 
 					Collision collision;
-					if (CollisionFunctions::HasCollision(transformA, colliderA, transformB, colliderB, &collision))
+					Collision* collisionHandle = colliderB.GetIsTrigger() ? nullptr : &collision;
+
+					if (CollisionFunctions::HasCollision(transformA, colliderA, transformB, colliderB, collisionHandle))
 					{
-						if (!colliderB.GetIsTrigger())
+						collision.entityA = entityA;
+						collision.entityB = entityB;
+
+						if (collisionHandle)
 						{
 							// Push the rigidbody out of the penetrated collider
 							auto position = transformA.GetPosition();
@@ -89,8 +95,9 @@ void System::Physics::ResolveCollisions(Engine* engine)
 
 							auto velInv = rigidbodyA.velocity * -1;
 
-							// Kill velocity against the normal, Vector projection negative velocity against the normal
-							if (velInv.MagnitudeSqrd() > 0)
+							// Kill velocity against the normal if we're moving into the collider. 
+							// Otherwise preserve momentumn if we're travelling in the same direction as the push.
+							if (velInv.MagnitudeSqrd() > 0 && VectorMath::Dot(velInv, collision.normal) > 0)
 							{
 								auto normalProj = VectorMath::ProjectionNormalised(velInv, collision.normal);
 								rigidbodyA.velocity += normalProj;

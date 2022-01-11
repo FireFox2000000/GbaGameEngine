@@ -9,8 +9,8 @@ AxisAlignedBoundingBox2::AxisAlignedBoundingBox2(Vector2<tFixedPoint8> min, Vect
 bool AxisAlignedBoundingBox2::Intersects(const AxisAlignedBoundingBox2& other) const
 {
 	return
-		(min.x < other.max.x&& max.x > other.min.x) &&
-		(min.y < other.max.y&& max.y > other.min.y);
+		(min.x < other.max.x && max.x > other.min.x) &&
+		(min.y < other.max.y && max.y > other.min.y);
 }
 
 bool AxisAlignedBoundingBox2::IntersectsOrTouches(const AxisAlignedBoundingBox2& other) const

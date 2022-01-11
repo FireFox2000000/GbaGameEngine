@@ -78,18 +78,18 @@ void Scene0::Enter(Engine* engine)
 		{
 			textObjectCollision = m_gameObjects.AddNew();
 			Component::Transform* transform = textObjectCollision->EditComponent<Component::Transform>();
-			transform->SetPosition(0, -5);
+			transform->SetPosition(0, -3);
 		
 			Component::SpriteRenderer& testBackgroundRenderer = textObjectCollision->AddComponent<Component::SpriteRenderer>();
 			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
 
 			Component::Collider& collider = textObjectCollision->AddComponent<Component::Collider>();
-			collider.SetCircle(sprite->GetSize().x);
-			//collider.SetAABB(
-			//	Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
-			//	, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
-			//);
+			//collider.SetCircle(sprite->GetSize().x);
+			collider.SetAABB(
+				Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
+				, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
+			);
 		}
 
 		{
@@ -127,7 +127,7 @@ void Scene0::Enter(Engine* engine)
 
 		Component::PlayerMovement& playerMovement = playerObject.AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
-		playerMovement.jumpInitVel = 20.0f;
+		playerMovement.jumpInitVel = 22.0f;
 
 		Component::Transform* transform = playerObject.EditComponent<Component::Transform>();
 		transform->SetPosition(0, 5);

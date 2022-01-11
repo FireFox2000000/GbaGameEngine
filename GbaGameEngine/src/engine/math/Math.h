@@ -40,4 +40,14 @@ namespace Math
 	s32 Cos(u16 theta);
 
 	float InvSqrt(float x);
+
+	template <typename T> 
+	int Sign(T val) {
+		return (T(0) < val) - (val < T(0));
+	}
+
+	template <typename T>
+	T Abs(T val) {
+		return val > T(0) ? val : val * T(-1);
+	}
 }

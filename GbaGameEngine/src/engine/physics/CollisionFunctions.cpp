@@ -4,6 +4,9 @@
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/math/VectorMath.h"
 
+// Helpful resources for future self:
+// https://noonat.github.io/intersect/
+
 inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform& transformA, AxisAlignedBoundingBox2 aabb)
 {
 	// TODO, maybe AABB should only adjust by position? And use OBB instead when doing these kinds of transforms? Depends on the game I guess. 
@@ -45,7 +48,30 @@ bool HasCollisionAABBvsAABB(
 
 	if (result && out_collisionMaybe)
 	{
-		// TODO
+		Vector2<tFixedPoint8> halfExtentsA = (colA.max - colA.min) * tFixedPoint8(0.5f);
+		Vector2<tFixedPoint8> aabbCenterA = colA.min + halfExtentsA;
+
+		Vector2<tFixedPoint8> halfExtentsB = (colB.max - colB.min) * tFixedPoint8(0.5f);
+		Vector2<tFixedPoint8> aabbCenterB = colB.min + halfExtentsB;
+
+		tFixedPoint8 dx = aabbCenterB.x - aabbCenterA.x;
+		tFixedPoint8 px = (halfExtentsB.x + halfExtentsA.x) - Math::Abs(dx);
+
+		tFixedPoint8 dy = aabbCenterB.y - aabbCenterA.y;
+		tFixedPoint8 py = (halfExtentsB.y + halfExtentsA.y) - Math::Abs(dy);
+
+		if (px < py) 
+		{
+			tFixedPoint8 sx = Math::Sign(dx);
+			out_collisionMaybe->penetrationDepth = Math::Abs(tFixedPoint24(px));
+			out_collisionMaybe->normal = Vector2<tFixedPoint24>(tFixedPoint24(sx) * -1, 0);
+		}
+		else 
+		{
+			tFixedPoint8 sy = Math::Sign(dy);
+			out_collisionMaybe->penetrationDepth = Math::Abs(tFixedPoint24(py));
+			out_collisionMaybe->normal = Vector2<tFixedPoint24>(0, tFixedPoint24(sy) * -1);
+		}
 	}
 
 	return result;

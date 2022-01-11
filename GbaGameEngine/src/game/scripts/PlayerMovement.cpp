@@ -69,6 +69,10 @@ void PlayerMovement::MovePlayerObject(Engine* engine, GameObject& playerObject, 
 	{
 		rigidbody.velocity = Vector2<tFixedPoint24>(rigidbody.velocity.x, playerMovement.jumpInitVel);
 	}
+	else if (Input::GetInputUp(Jump, devices) && rigidbody.velocity.y > 0)
+	{
+		rigidbody.velocity = Vector2<tFixedPoint24>(rigidbody.velocity.x, 0);
+	}
 	rigidbody.velocity = Vector2<tFixedPoint24>(playerMovement.moveSpeed * desiredDirection.x, rigidbody.velocity.y);
 #endif
 	{

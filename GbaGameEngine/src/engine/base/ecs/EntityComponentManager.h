@@ -1,5 +1,6 @@
 #pragma once
 #include "external/entt/entity/registry.hpp"
+#include "Entity.h"
 
 /**
 * A wrapper class around entt ecs registry to clean up syntax
@@ -7,8 +8,6 @@
 
 namespace ECS
 {
-	using Entity = entt::registry::entity_type;
-
 	class EntityComponentManager
 	{
 		entt::registry m_registry;

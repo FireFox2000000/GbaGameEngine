@@ -90,6 +90,7 @@
     <ClCompile Include="src\game\input\Input.cpp" />
     <ClCompile Include="src\game\input\InputConfig.cpp" />
     <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
+    <ClCompile Include="src\engine\base\ecs\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

@@ -111,6 +111,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\asset\SpriteAssetManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
+    <ClCompile Include="src\engine\base\ecs\Entity.h" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />

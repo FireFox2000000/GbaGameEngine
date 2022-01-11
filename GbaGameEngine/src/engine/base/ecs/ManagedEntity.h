@@ -1,6 +1,4 @@
 #pragma once
-
-#include "external/entt/entity/entity.hpp"
 #include "EntityComponentManager.h"
 
 /**
