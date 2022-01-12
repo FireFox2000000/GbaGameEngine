@@ -44,12 +44,18 @@ void LevelSelectorScene::AdjustSelectedIndex(int direction)
 
 void LevelSelectorScene::ClearNotch()
 {
-	m_uiRenderer.DrawUiElement(Vector2<int>(selectedNotchXPosition, GetSelectedLabelYPos(m_currentSelectedIndex)), menuClearBgUiElement);
+	int yPos = GetSelectedLabelYPos(m_currentSelectedIndex);
+	m_uiRenderCommandQueue.Enque([this, yPos] {
+		m_uiRenderer.DrawUiElement(Vector2<int>(selectedNotchXPosition, yPos), menuClearBgUiElement);
+	});
 }
 
 void LevelSelectorScene::DrawNotch()
 {
-	m_uiRenderer.DrawUiElement(Vector2<int>(selectedNotchXPosition, GetSelectedLabelYPos(m_currentSelectedIndex)), notchUiElement);
+	int yPos = GetSelectedLabelYPos(m_currentSelectedIndex);
+	m_uiRenderCommandQueue.Enque([this, yPos] {
+		m_uiRenderer.DrawUiElement(Vector2<int>(selectedNotchXPosition, yPos), notchUiElement);
+	});
 }
 
 LevelSelectorScene::LevelSelectorScene(Engine* engine) : Scene(engine)
@@ -69,7 +75,9 @@ void LevelSelectorScene::Enter(Engine* engine)
 
 	for (const std::string& label : labels)
 	{
-		m_uiRenderer.RenderText(label, drawPosition);
+		m_uiRenderCommandQueue.Enque([this, label, drawPosition] {
+			m_uiRenderer.RenderText(label, drawPosition);
+		});
 		drawPosition.y += columnHeight;
 	}
 
@@ -114,4 +122,11 @@ void LevelSelectorScene::Update(Engine* engine)
 		}
 		}
 	}
+}
+
+void LevelSelectorScene::Render(Engine* engine)
+{
+	Scene::Render(engine);
+
+	m_uiRenderCommandQueue.ExecuteCommands();
 }

@@ -255,6 +255,7 @@
     <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
     <ClInclude Include="src\engine\physics\Collision.h" />
     <ClInclude Include="src\engine\math\VectorMath.h" />
+    <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

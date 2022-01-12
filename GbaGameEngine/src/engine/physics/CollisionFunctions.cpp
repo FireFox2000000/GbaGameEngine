@@ -6,6 +6,7 @@
 
 // Helpful resources for future self:
 // https://noonat.github.io/intersect/
+// https://www.gamasutra.com/view/feature/3383/simple_intersection_tests_for_games.php?print=1
 
 inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform& transformA, AxisAlignedBoundingBox2 aabb)
 {

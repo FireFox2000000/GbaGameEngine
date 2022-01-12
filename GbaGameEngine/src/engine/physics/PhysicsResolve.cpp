@@ -81,6 +81,7 @@ void System::Physics::ResolveCollisions(Engine* engine)
 					Collision collision;
 					Collision* collisionHandle = colliderB.GetIsTrigger() ? nullptr : &collision;
 
+					// TODO, should do sweep collisions instead
 					if (CollisionFunctions::HasCollision(transformA, colliderA, transformB, colliderB, collisionHandle))
 					{
 						collision.entityA = entityA;

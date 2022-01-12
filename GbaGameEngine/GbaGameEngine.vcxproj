@@ -359,6 +359,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
     <ClInclude Include="src\engine\time\TimeValue.h" />
+    <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -28,7 +28,8 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
 	m_uiRenderer.LoadAtlus(uiAtlusFile);
-	m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1));	// TODO, move this to draw in the render function instead, before Scene::Render
+
+	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1)); });
 
 	// Create a tilemap asset
 	FilePtr nightSkyFile = fileSystem->Open("tilemaps/NightSky");
@@ -119,7 +120,7 @@ void TilemapTestScene::Update(Engine * engine)
 	if (!m_kickedFadeOutTask && Input::GetInputDown(ExitTilemapTestScene, devices))
 	{
 		Graphics* gfx = engine->GetComponent<Graphics>();
-		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::White, 0.5f);
+		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);
 		if (gfx->KickPostProcessingGfxTask(fadeTask))
 		{
 			m_kickedFadeOutTask = fadeTask;
@@ -138,4 +139,6 @@ void TilemapTestScene::Update(Engine * engine)
 void TilemapTestScene::Render(Engine * engine)
 {
 	Scene::Render(engine);
+
+	m_uiRenderCommandQueue.ExecuteCommands();
 }

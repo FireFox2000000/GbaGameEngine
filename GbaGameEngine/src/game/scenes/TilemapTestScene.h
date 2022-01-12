@@ -6,13 +6,14 @@
 #include "engine/asset/FixedAssetManager.h"
 #include "engine/render/UiRenderer.h"
 
-#include <memory>
 #include "game/scripts/gfx/GfxScreenFadeIn.h"
 #include "game/scripts/gfx/GfxScreenFadeOut.h"
+#include "game/scripts/util/CommandQueue.h"
 
 class TilemapTestScene : public Scene
 {
 	UiRenderer m_uiRenderer;
+	CommandQueue m_uiRenderCommandQueue;
 
 	enum SpriteAnimationID
 	{
