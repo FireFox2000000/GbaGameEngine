@@ -3,16 +3,18 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "engine/base/Macros.h"
+#include "engine/gba/GBAAttributes.h"
 
 #ifdef NOCASH_GBA
 #include "engine/nocashemulator/NoCashEmulator.h"
 #endif
 
+EWRAM_DATA char buffer[256];
+
 using namespace std;
 
 inline void VLogFormat(const char* format, va_list args)
 {
-	char buffer[256];
 	vsprintf(buffer, format, args);
 	Debug::Log(buffer);
 }
@@ -30,6 +32,8 @@ void Debug::Log(const char * message)
 #ifdef NOCASH_GBA
 	// Write to the nocash GBA emulator TTY message service.
 	NoCashEmulator::PutS(message);
+#elif defined(RETAIL)
+
 #else
 	"Implement me!!"
 #endif

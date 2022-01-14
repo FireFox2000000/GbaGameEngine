@@ -36,9 +36,6 @@ void Component::TilemapRenderer::SetVisible(bool enabled)
 
 bool Component::TilemapRenderer::GetVisible() const
 {  
-#ifdef RETAIL 
-	asd
-#endif
 	return m_visible;
 }
 
