@@ -46,7 +46,7 @@ namespace GBA
 				// Only set if the channel is active
 				GBA::Audio::DirectSound::Channels soundChannelId = GBA::Audio::DirectSound::Channels::ChannelCount;
 				GBA::DirectMemoryAccess::Channels dmaChannelId = GBA::DirectMemoryAccess::Channels::Count;
-				GBA::Audio::DirectSound::Timer dmaTimerId = GBA::Audio::DirectSound::Timer::SoundTimerCount;
+				GBA::Audio::DirectSound::DSoundTimer dmaTimerId = GBA::Audio::DirectSound::DSoundTimer::SoundTimerCount;
 			};
 
 			struct RepeatParams
@@ -71,7 +71,7 @@ namespace GBA
 			ActiveChannelSOA m_activeChannels;
 			FixedList<DirectSound::Channels, DirectSound::Channels::ChannelCount> m_availableDSoundChannels;
 			FixedList<DirectMemoryAccess::Channels, DirectMemoryAccess::Channels::SoundCount> m_availableDMAChannels;
-			FixedList<DirectSound::Timer, DirectSound::Timer::SoundTimerCount> m_availableDSoundTimers;
+			FixedList<DirectSound::DSoundTimer, DirectSound::DSoundTimer::SoundTimerCount> m_availableDSoundTimers;
 
 			const DirectSoundChannel* GetDirectSoundChannel(tChannelHandle handle);
 			DirectSoundChannel* EditDirectSoundChannel(tChannelHandle handle);
@@ -88,7 +88,7 @@ namespace GBA
 			void PlayDirectSound(
 				DirectSound::Channels soundChannel
 				, DirectMemoryAccess::Channels dmaChannel
-				, DirectSound::Timer dmaTimer
+				, DirectSound::DSoundTimer dmaTimer
 				, const u8* samples
 				, const RepeatParams& repeatParams
 				, Time::InternalSnapshot* out_endTime

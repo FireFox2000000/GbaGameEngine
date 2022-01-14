@@ -1,50 +1,55 @@
 #include "GBADirectSound.h"
 #include "engine/gba/registers/RegisterMap.h"
 
-void GBA::Audio::DirectSound::SetChannelOptions(Channels channel, int flags, VolumeOptions vol, Timer timer)
+struct DirectSoundControlRegister
 {
-	u16 volume = 0;
-	switch (vol)
-	{
-		case Vol100:
-		{
-			volume = BIT(0);
-			break;
-		}
-		case Vol50:
-		default:
-		{
-			volume = 0;
-			break;
-		}
-	}
+	u16 dmgVolumeRatio : 2				// As to why there's DMG bits in direct sound control registers... who knows???
+		, directSoundAVolRatio : 1		// 50% if clear; 100% if set
+		, directSoundBVolRatio : 1		// 50% if clear; 100% if set
+		, : 4
+		, directSoundAEnableRight : 1
+		, directSoundAEnableLeft : 1
+		, directSoundATimer : 1			// Use timer 0 (if clear) or 1 (if set) for DS A
+		, directSoundAReset : 1			// Write only. When using DMA for Direct sound, this will cause DMA to reset the FIFO buffer after it's used.
+		, directSoundBEnableRight : 1
+		, directSoundBEnableLeft : 1
+		, directSoundBTimer : 1			// Use timer 0 (if clear) or 1 (if set) for DS A
+		, directSoundBReset : 1			// Write only. When using DMA for Direct sound, this will cause DMA to reset the FIFO buffer after it's used.
+		;
+};
 
-	int channelFlagBitsOffset = 0;
-	int volumeFlagBitsOffset = 0;
+volatile DirectSoundControlRegister& directSoundControl = (*reinterpret_cast<volatile DirectSoundControlRegister*>(REG_SND_DIRECTSOUNDCONTROL));
+
+void GBA::Audio::DirectSound::SetChannelOptions(Channels channel, int flags, VolumeOptions vol, DSoundTimer timer)
+{
 	switch (channel)
 	{
 		case ChannelB:
 		{
-			channelFlagBitsOffset = 0xC;
-			volumeFlagBitsOffset = 0x3;
+			directSoundControl.directSoundBTimer = timer;
+			directSoundControl.directSoundBReset = (flags & FifoReset) != 0;
+
+			directSoundControl.directSoundBVolRatio = vol;
+			directSoundControl.directSoundBEnableLeft = (flags & SoundEnabledLeft) != 0;
+			directSoundControl.directSoundBEnableRight = (flags & SoundEnabledRight) != 0;
+
 			break;
 		}
 
 		case ChannelA:
 		default:
 		{
-			channelFlagBitsOffset = 0x8;
-			volumeFlagBitsOffset = 0x2;
+			directSoundControl.directSoundATimer = timer;
+			directSoundControl.directSoundAReset = (flags & FifoReset) != 0;
+
+			directSoundControl.directSoundAVolRatio = vol;
+
+			directSoundControl.directSoundAEnableLeft = (flags & SoundEnabledLeft) != 0;
+			directSoundControl.directSoundAEnableRight = (flags & SoundEnabledRight) != 0;
+
 			break;
 		}
 	}
-
-	u16 options = (volume << volumeFlagBitsOffset) | (flags << channelFlagBitsOffset) | (timer << channelFlagBitsOffset);
-
-	
-	vu16& regSoundControl = *(vu16*)(REG_SND_DIRECTSOUNDCONTROL);
-	u16 dmgBits = regSoundControl & 0b11;		// DMG volume is set for the first two bits. Don't trash these!
-	regSoundControl = dmgBits | options;
 }
 
 vu32 * GBA::Audio::DirectSound::GetDestinationBuffer(Channels channel)

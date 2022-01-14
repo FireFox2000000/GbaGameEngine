@@ -24,12 +24,12 @@ namespace GBA
 				FifoReset = BIT(3),
 			};
 
-			enum Timer
+			enum DSoundTimer
 			{
-				Sound0 = 0,
-				Sound1 = BIT(2),		// This sneaks inbetween the Flags enum
+				Sound0,
+				Sound1,
 
-				SoundTimerCount = 2
+				SoundTimerCount
 			};
 
 			enum Channels
@@ -40,7 +40,7 @@ namespace GBA
 				ChannelCount
 			};
 
-			void SetChannelOptions(Channels channel, int flags, VolumeOptions vol, Timer timer);
+			void SetChannelOptions(Channels channel, int flags, VolumeOptions vol, DSoundTimer timer);
 			vu32* GetDestinationBuffer(Channels channel);
 		}
 	}

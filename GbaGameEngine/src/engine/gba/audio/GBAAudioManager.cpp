@@ -2,6 +2,19 @@
 #include "engine/gba/registers/RegisterMap.h"
 #include "engine/io/filestream/CppFileReader.h"
 
+struct SoundStatusRegister
+{
+	u16 sqr1 : 1		// READ-ONLY
+		, sqr2 : 1		// READ-ONLY
+		, wave : 1		// READ-ONLY
+		, noise : 1		// READ-ONLY
+		, : 3
+		, masterSoundEnabled : 1
+		;
+};
+
+volatile SoundStatusRegister& soundStatus = (*reinterpret_cast<volatile SoundStatusRegister*>(REG_SND_STATUS));
+
 // (2 ^ 24)hz or cycles per second
 #define CLOCK 16777216
 
@@ -11,7 +24,7 @@ constexpr int EndTimeOffset = (CLOCK * 0.03f);
 GBA::Audio::AudioManager::AudioManager() 
 	: m_availableDSoundChannels({ DirectSound::Channels::ChannelA, DirectSound::Channels::ChannelB })
 	, m_availableDMAChannels({ DirectMemoryAccess::Sound0, DirectMemoryAccess::Sound1 })
-	, m_availableDSoundTimers({ DirectSound::Timer::Sound0, DirectSound::Timer::Sound1 })
+	, m_availableDSoundTimers({ DirectSound::DSoundTimer::Sound0, DirectSound::DSoundTimer::Sound1 })
 {
 }
 
@@ -21,15 +34,15 @@ GBA::Audio::AudioManager::SoundProperties::SoundProperties()
 	attributes[AudioChannelProperties::Attributes::Volume] = 1.0f;
 }
 
-GBA::Timers::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::Timer dmaTimer)
+GBA::Timers::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTimer)
 {
 	switch (dmaTimer)
 	{
-	case GBA::Audio::DirectSound::Timer::Sound0:
+	case GBA::Audio::DirectSound::DSoundTimer::Sound0:
 	{
 		return GBA::Timers::Sound0;
 	}
-	case GBA::Audio::DirectSound::Timer::Sound1:
+	case GBA::Audio::DirectSound::DSoundTimer::Sound1:
 	{
 		return GBA::Timers::Sound1;
 	}
@@ -50,15 +63,7 @@ void GBA::Audio::AudioManager::Init()
 
 void GBA::Audio::AudioManager::SetMasterSoundEnabled(bool enabled)
 {
-	constexpr int soundEnabledBitIndex = 7;
-	if (enabled)
-	{
-		*(vu16*)(REG_SND_STATUS) = 1 << soundEnabledBitIndex;
-	}
-	else
-	{
-		*(vu16*)(REG_SND_STATUS) |= ~(1 << soundEnabledBitIndex);
-	}
+	soundStatus.masterSoundEnabled = enabled;
 }
 
 const GBA::Audio::AudioManager::DirectSoundChannel * GBA::Audio::AudioManager::GetDirectSoundChannel(tChannelHandle handle)
@@ -89,6 +94,26 @@ GBA::Audio::AudioManager::SoundProperties * GBA::Audio::AudioManager::EditChanne
 
 void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 {
+	/*
+	Initializing DMA-Sound Playback
+	- Select Timer 0 or 1 in SOUNDCNT_H (0x4000082) control register.
+	- Clear the FIFO.
+	- Manually write a sample byte to the FIFO/place start address
+	- Initialize transfer mode for DMA 1 or 2.
+	- Initialize DMA Sound settings in sound control register.
+	- Start the timer.
+
+	DMA-Sound Playback Procedure
+	The pseudo-procedure below is automatically repeated.
+	  If Timer overflows then
+		Move 8bit data from FIFO to sound circuit.
+		If FIFO contains only 4 x 32bits (16 bytes) then
+		  Request more data per DMA
+		  Receive 4 x 32bit (16 bytes) per DMA
+		Endif
+	  Endif
+	This playback mechanism will be repeated forever, regardless of the actual length of the sample buffer.
+	*/
 	using namespace GBA;
 
 	if (handle == INVALID_CHANNEL)
@@ -113,7 +138,9 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 	int availableIndex = 0;
 	DirectSound::Channels soundChannel = m_availableDSoundChannels[availableIndex];		m_availableDSoundChannels.RemoveAt(availableIndex);
 	DirectMemoryAccess::Channels dmaChannel = m_availableDMAChannels[availableIndex];	m_availableDMAChannels.RemoveAt(availableIndex);
-	DirectSound::Timer dmaTimer = m_availableDSoundTimers[availableIndex];				m_availableDSoundTimers.RemoveAt(availableIndex);
+	DirectSound::DSoundTimer dmaTimer = m_availableDSoundTimers[availableIndex];				m_availableDSoundTimers.RemoveAt(availableIndex);
+
+	DEBUG_LOGFORMAT("[AudioManager::PlayDirectSound] soundChannel = %d, dmaChannel = %d, dmaTimer = %d", soundChannel, dmaChannel, dmaTimer);
 
 	// Mark any active channel in this slot as inactive, we're about to stomp the audio for this new one
 	for (int i = m_activeChannels.handles.Count() - 1; i >= 0; --i)
@@ -239,8 +266,11 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 
 			if (IsDirectSoundChannel(handle))
 			{
-				// Return direct sound channel as available again.
 				const auto* dSoundChannel = GetDirectSoundChannel(handle);
+
+				DirectMemoryAccess::Reset(dSoundChannel->dmaChannelId);
+
+				// Return direct sound channel as available again.
 				m_availableDSoundChannels.Add(dSoundChannel->soundChannelId);
 				m_availableDMAChannels.Add(dSoundChannel->dmaChannelId);
 				m_availableDSoundTimers.Add(dSoundChannel->dmaTimerId);
@@ -264,7 +294,7 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateDirectS
 	// We assign the hardware channels when we actually play the channel
 	newChannel->soundChannelId = DirectSound::Channels::ChannelCount;
 	newChannel->dmaChannelId = DirectMemoryAccess::Channels::Count;
-	newChannel->dmaTimerId = DirectSound::Timer::SoundTimerCount;
+	newChannel->dmaTimerId = DirectSound::DSoundTimer::SoundTimerCount;
 
 	newChannel->flags = flags;
 	newChannel->flags.ClearBit(AudioChannelProperties::Active);		// No read-only flags allowed
@@ -279,7 +309,7 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateDirectS
 void GBA::Audio::AudioManager::PlayDirectSound(
 	DirectSound::Channels soundChannel
 	, DirectMemoryAccess::Channels dmaChannel
-	, DirectSound::Timer dmaTimer
+	, DirectSound::DSoundTimer dmaTimer
 	, const u8* samples
 	, const RepeatParams& repeatParams
 	, Time::InternalSnapshot* out_endTime
