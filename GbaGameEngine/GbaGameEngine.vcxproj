@@ -115,6 +115,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
+    <ClCompile Include="src\engine\gba\audio\GBADmgSound.cpp" />
     <ClCompile Include="src\engine\gba\bios\GBABios.cpp" />
     <ClCompile Include="src\engine\gba\interrupts\GBAInterrupts.cpp" />
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
@@ -205,6 +206,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\asset\SpriteAssetManager.h" />
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
+    <ClInclude Include="src\engine\audio\music\Note.h" />
     <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
@@ -217,6 +219,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
+    <ClInclude Include="src\engine\gba\audio\GBADmgSound.h" />
     <ClInclude Include="src\engine\gba\GBAAttributes.h" />
     <ClInclude Include="src\engine\gba\bios\GBABios.h" />
     <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />

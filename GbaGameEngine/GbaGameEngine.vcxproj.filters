@@ -91,6 +91,7 @@
     <ClCompile Include="src\game\input\InputConfig.cpp" />
     <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
     <ClCompile Include="src\engine\base\ecs\Entity.h" />
+    <ClCompile Include="src\engine\gba\audio\GBADmgSound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -256,6 +257,8 @@
     <ClInclude Include="src\engine\physics\Collision.h" />
     <ClInclude Include="src\engine\math\VectorMath.h" />
     <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
+    <ClInclude Include="src\engine\gba\audio\GBADmgSound.h" />
+    <ClInclude Include="src\engine\audio\music\Note.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

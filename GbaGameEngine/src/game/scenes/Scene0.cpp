@@ -41,7 +41,7 @@ void Scene0::Enter(Engine* engine)
 	FilePtr theCrowSongFile = fileSystem->Open("audio/TheCrowSong");
 	m_backgroundMusic = audioManager->CreateFromFile(theCrowSongFile);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
-	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 0.5f);
+	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 1.0f);
 	
 	//audioManager->Play(m_backgroundMusic);
 
@@ -164,7 +164,7 @@ void Scene0::Update(Engine* engine)
 		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
-	if (textObject && false)
+	if (textObject && true)
 	{
 		const auto* playerTransform = playerObject.GetComponent<Component::Transform>();
 		auto* textComponent = textObject->EditComponent<Component::UI::Text>();

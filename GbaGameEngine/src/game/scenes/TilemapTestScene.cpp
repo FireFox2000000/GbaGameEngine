@@ -15,6 +15,7 @@
 #include "game/data/tilemaps/UiAtlus.h"
 #include "game/input/Input.h"
 
+#include "engine/gba/audio/GBADmgSound.h"
 
 TilemapTestScene::TilemapTestScene(Engine * engine) : Scene(engine)
 {
@@ -119,6 +120,8 @@ void TilemapTestScene::Update(Engine * engine)
 
 	if (!m_kickedFadeOutTask && Input::GetInputDown(ExitTilemapTestScene, devices))
 	{
+		GBA::DMG::Test();
+
 		Graphics* gfx = engine->GetComponent<Graphics>();
 		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);
 		if (gfx->KickPostProcessingGfxTask(fadeTask))
