@@ -250,7 +250,7 @@
     <ClInclude Include="src\game\input\Input.h" />
     <ClInclude Include="src\engine\input\IInputMap.h" />
     <ClInclude Include="src\game\input\InputConfig.h" />
-    <ClInclude Include="src\engine\nocashemulator\NoCashEmulator.h" />
+    <ClInclude Include="src\engine\emulator\NoCashEmulator.h" />
     <ClInclude Include="src\engine\physics\Rigidbody.h" />
     <ClInclude Include="src\engine\physics\PhysicsResolve.h" />
     <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
@@ -259,6 +259,7 @@
     <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
     <ClInclude Include="src\engine\gba\audio\GBADmgSound.h" />
     <ClInclude Include="src\engine\audio\music\Note.h" />
+    <ClInclude Include="src\engine\emulator\VisualBoyAdvance.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

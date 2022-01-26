@@ -6,7 +6,9 @@
 #include "engine/gba/GBAAttributes.h"
 
 #ifdef NOCASH_GBA
-#include "engine/nocashemulator/NoCashEmulator.h"
+#include "engine/emulator/NoCashEmulator.h"
+#elif defined(VBA_GBA)
+#include "engine/emulator/VisualBoyAdvance.h"
 #endif
 
 EWRAM_DATA char buffer[256];
@@ -32,6 +34,9 @@ void Debug::Log(const char * message)
 #ifdef NOCASH_GBA
 	// Write to the nocash GBA emulator TTY message service.
 	NoCashEmulator::PutS(message);
+#elif defined(VBA_GBA)
+	VisualBoyAdvance::AGBPrint(message);
+	VisualBoyAdvance::AGBPrint("\n");
 #elif defined(RETAIL)
 
 #else

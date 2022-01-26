@@ -219,6 +219,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
+    <ClInclude Include="src\engine\emulator\VisualBoyAdvance.h" />
     <ClInclude Include="src\engine\gba\audio\GBADmgSound.h" />
     <ClInclude Include="src\engine\gba\GBAAttributes.h" />
     <ClInclude Include="src\engine\gba\bios\GBABios.h" />
@@ -231,7 +232,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\input\IInputDevice.h" />
     <ClInclude Include="src\engine\input\IInputMap.h" />
     <ClInclude Include="src\engine\math\VectorMath.h" />
-    <ClInclude Include="src\engine\nocashemulator\NoCashEmulator.h" />
+    <ClInclude Include="src\engine\emulator\NoCashEmulator.h" />
     <ClInclude Include="src\engine\physics\Collision.h" />
     <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
     <ClInclude Include="src\engine\physics\PhysicsResolve.h" />

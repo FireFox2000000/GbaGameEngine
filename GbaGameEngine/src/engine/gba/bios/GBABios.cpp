@@ -2,12 +2,6 @@
 #include "engine/base/Macros.h"
 #include "engine/gba/interrupts/GBAInterrupts.h"
 
-#if	defined	( __thumb__ )
-#define	BiosSystemCall(Number)	 __asm ("SWI	  "#Number"\n" :::  "r0", "r1", "r2", "r3")
-#else
-#define	BiosSystemCall(Number)	 __asm ("SWI	  "#Number"	<< 16\n" :::"r0", "r1", "r2", "r3")
-#endif
-
 /*
 enum BiosFunctions
 {
