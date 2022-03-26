@@ -1,5 +1,5 @@
 #include "FileRegistry.h"
-#include "GameFiles.h"
+#include "GameFiles.gen.h"
 #include "engine/base/core/stl/Array.h"
 
 // Provides 2 lists, one for all the filepaths/string keys to each file. 

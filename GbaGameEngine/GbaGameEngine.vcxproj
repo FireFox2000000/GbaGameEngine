@@ -323,7 +323,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\data\audio\TheCrowSong.h" />
     <ClInclude Include="src\game\data\FileRegistry.h" />
-    <ClInclude Include="src\game\data\GameFiles.h" />
+    <ClInclude Include="src\game\data\GameFiles.gen.h" />
     <ClInclude Include="src\game\data\sprites\debug_font_8x8_bold.h" />
     <ClInclude Include="src\game\data\tilemaps\Eosd.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />

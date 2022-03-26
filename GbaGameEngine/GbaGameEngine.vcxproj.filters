@@ -234,7 +234,7 @@
     <ClInclude Include="src\game\data\FileRegistry.h" />
     <ClInclude Include="src\engine\io\File.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
-    <ClInclude Include="src\game\data\GameFiles.h" />
+    <ClInclude Include="src\game\data\GameFiles.gen.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeOut.h" />
     <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
