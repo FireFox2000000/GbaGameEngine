@@ -13,15 +13,13 @@ GBA::DMG::Midi::Player::Player(const NoteEvent* begin, const NoteEvent* end)
 
 void GBA::DMG::Midi::Player::Tick()
 {
-	const NoteEvent* currentEvent = m_noteEventsBegin + m_eventIndex;
+	m_tickUntilNextEvent = MAX(m_tickUntilNextEvent - 1, 0);
 
-	if (currentEvent != m_noteEventsEnd)
+	const NoteEvent* currentEvent = m_noteEventsBegin + m_eventIndex;
+	while (currentEvent != m_noteEventsEnd && m_tickUntilNextEvent <= 0)	// We may need to play multiple note events at the same time
 	{
-		--m_tickUntilNextEvent;
-		while (m_tickUntilNextEvent <= 0)	// We may need to play multiple note events at the same time
-		{
-			OnNoteEventReached(*currentEvent);
-		}
+		OnNoteEventReached(*currentEvent);
+		currentEvent = m_noteEventsBegin + m_eventIndex;
 	}
 }
 

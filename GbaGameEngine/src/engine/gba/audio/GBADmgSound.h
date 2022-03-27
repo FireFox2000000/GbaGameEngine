@@ -81,12 +81,13 @@ namespace GBA
 
 		struct SquareSoundRegister
 		{
+			// The envelope function allows for fade-ins or fade-outs of the sound
 			// Sound length= (64-register value)*(1/256) seconds
 			u16 soundLength : 6		// WRITE-ONLY, only works if the channel is timed (Frequency::Sustain::Timed on FrequencyRegister). The length itself is actually (64-soundLength)/256 seconds for a [3.9, 250] ms range.
-				, waveDutyCycle : 2 // Ratio between on and of times of the square wave.
+				, waveDutyCycle : 2 // GBA::DMG::SquareSound::WaveDutyCycle. Ratio between on and of times of the square wave.
 				, envelopeStepTime : 3 // Time between envelope changes: ƒ¢t = EST/64 s.
-				, envelopeDirection : 1 // Indicates if the envelope decreases (default/0) or increases (1) with each step.
-				, envelopeInitialVolume : 4 // Can be considered a volume setting of sorts: 0 is silent and 15 is full volume. Combined with the direction, you can have fade-in and fade-outs; to have a sustaining sound, set initial volume to 15 and an increasing direction.
+				, envelopeDirection : 1 // GBA::DMG::SquareSound::EnvelopeStepDirection. Indicates if the envelope decreases (default/0) or increases (1) with each step.
+				, envelopeInitialVolume : 4 // [0-15] Can be considered a volume setting of sorts: 0 is silent and 15 is full volume. Combined with the direction, you can have fade-in and fade-outs; to have a sustaining sound, set initial volume to 15 and an increasing direction.
 				;
 
 			/// <summary>
@@ -106,11 +107,12 @@ namespace GBA
 				;
 		};
 
-		// The sweep does not apply to the frequency. It does not apply to the period. It applies to FrequencyRegister.soundRate
+		// The sweep does not apply to the frequency. It does not apply to the period. It applies to FrequencyRegister.soundRate.
+		// This allows us to smoothly change the pitch of the sound.
 		struct SweepRegister
 		{
 			u16 number : 3
-				, mode : 1
+				, mode : 1			// Decrease if set, otherwise increase of frequency
 				, stepTime : 3		// The time between sweeps is measured in 128 Hz (not kHz!): ƒ¢t = T/128 ms ~= 7.8T ms; if T=0, the sweep is disabled.
 				;
 
