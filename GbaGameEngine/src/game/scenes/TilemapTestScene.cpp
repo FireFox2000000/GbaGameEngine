@@ -14,7 +14,7 @@
 
 #include "game/data/tilemaps/UiAtlus.h"
 #include "game/input/Input.h"
-#include "game/scripts/MidiFallOfFall.h"
+#include "game/config/midi/MidiFallOfFall.h"
 
 TilemapTestScene::TilemapTestScene(Engine* engine) : Scene(engine)
 , m_fallOfFallMidi(Midi::FallOfFall::begin(), Midi::FallOfFall::end())

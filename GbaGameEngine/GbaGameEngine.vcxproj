@@ -175,7 +175,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeOut.cpp" />
-    <ClCompile Include="src\game\scripts\MidiFallOfFall.cpp" />
+    <ClCompile Include="src\game\config\midi\MidiFallOfFall.cpp" />
     <ClCompile Include="src\game\scripts\PlayerMovement.cpp" />
     <ClCompile Include="src\game\scenes\Scene0.cpp" />
     <ClCompile Include="src\engine\scene\SceneManager.cpp" />
@@ -340,7 +340,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeOut.h" />
-    <ClInclude Include="src\game\scripts\MidiFallOfFall.h" />
+    <ClInclude Include="src\game\config\midi\MidiFallOfFall.h" />
     <ClInclude Include="src\game\scripts\PlayerMovement.h" />
     <ClInclude Include="src\game\scenes\Scene0.h" />
     <ClInclude Include="src\engine\scene\SceneManager.h" />
