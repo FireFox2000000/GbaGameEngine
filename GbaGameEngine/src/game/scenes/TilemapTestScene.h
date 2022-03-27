@@ -10,6 +10,8 @@
 #include "game/scripts/gfx/GfxScreenFadeOut.h"
 #include "game/scripts/util/CommandQueue.h"
 
+#include "engine/gba/audio/GBADmgMidiPlayer.h"
+
 class TilemapTestScene : public Scene
 {
 	UiRenderer m_uiRenderer;
@@ -35,6 +37,8 @@ class TilemapTestScene : public Scene
 
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeInTask;
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeOutTask;
+
+	GBA::DMG::Midi::Player m_fallOfFallMidi;
 
 public:
 	TilemapTestScene(Engine* engine);

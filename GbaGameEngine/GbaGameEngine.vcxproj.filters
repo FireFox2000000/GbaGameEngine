@@ -92,6 +92,8 @@
     <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
     <ClCompile Include="src\engine\base\ecs\Entity.h" />
     <ClCompile Include="src\engine\gba\audio\GBADmgSound.cpp" />
+    <ClCompile Include="src\engine\gba\audio\GBADmgMidiPlayer.cpp" />
+    <ClCompile Include="src\game\scripts\MidiFallOfFall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -260,6 +262,8 @@
     <ClInclude Include="src\engine\gba\audio\GBADmgSound.h" />
     <ClInclude Include="src\engine\audio\music\Note.h" />
     <ClInclude Include="src\engine\emulator\VisualBoyAdvance.h" />
+    <ClInclude Include="src\engine\gba\audio\GBADmgMidiPlayer.h" />
+    <ClInclude Include="src\game\scripts\MidiFallOfFall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
