@@ -134,8 +134,9 @@ int main()
 
 		if (Input::GetInputDown(GameInputs::SoftReset, inputManager->GetDevices()))
 		{
+			engine.get()->GetComponent<Graphics>()->PrepareForSceneChange();
+			sceneManager->Dispose(engine.get());
 			GBA::Bios::SoftReset();
-			//sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
 		}
 
 		if (sceneManager->HasSceneChangeQueued())
@@ -147,6 +148,8 @@ int main()
 		// Calculate dt between frames
 		time->Advance();
 	}
+
+	sceneManager->Dispose(engine.get());
 
 	return 0;
 }

@@ -9,8 +9,7 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	if (m_current)
-		delete m_current;
+	DEBUG_ASSERTMSG(m_current == nullptr && m_queuedSceneFn == nullptr, "SceneManager::Dispose not called.");
 }
 
 bool SceneManager::EnterQueuedScene(Engine * engine)
@@ -34,6 +33,18 @@ bool SceneManager::EnterQueuedScene(Engine * engine)
 	}
 
 	return false;
+}
+
+void SceneManager::Dispose(Engine* engine)
+{
+	if (m_current)
+	{
+		m_current->Exit(engine);
+		delete m_current;
+		m_current = nullptr;
+	}
+
+	m_queuedSceneFn = nullptr;
 }
 
 void SceneManager::UpdateScene(Engine * engine)

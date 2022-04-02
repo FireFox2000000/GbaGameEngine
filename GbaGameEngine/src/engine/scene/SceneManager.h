@@ -36,5 +36,7 @@ public:
 			EnterQueuedScene(engine);	// Initial scene
 	}
 
+	void Dispose(Engine* engine);
+
 	const Scene* GetCurrentScene() const { return m_current; }
 };
