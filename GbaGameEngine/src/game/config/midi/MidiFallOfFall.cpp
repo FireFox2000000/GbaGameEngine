@@ -1,14 +1,31 @@
 #include "MidiFallOfFall.h"
-#include "engine/gba/audio/GBADmgSound.h"
-#include "engine/gba/audio/GBADmgMidiPlayer.h"
+#include "MidiPrefabs.h"
 
-GBA::DMG::SoundChannel2 HeldNotePrefab();
-GBA::DMG::SoundChannel2 OffNotePrefab();
-GBA::DMG::SoundChannel2 MakeChannelProperties(GBA::DMG::SoundChannel2 prefab, Music::Note note, int octave);
-GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel2 properties);
+using namespace Midi::Prefabs;
 
-GBA::DMG::SoundChannel2 HeldNote = HeldNotePrefab();
-GBA::DMG::SoundChannel2 OffNote = OffNotePrefab();
+GBA::DMG::SoundChannel1 HeldNotePrefab();
+
+GBA::DMG::SoundChannel2 HeldNotePrefab2()
+{
+	GBA::DMG::SoundChannel2 heldNote;
+
+	heldNote.control.envelopeStepTime = 3;
+	heldNote.control.envelopeDirection = GBA::DMG::SquareSound::EnvelopeStepDirection::Decrease;
+	heldNote.control.envelopeInitialVolume = 15;
+	heldNote.control.waveDutyCycle = GBA::DMG::SquareSound::WaveDutyCycle::Cycle_3_4;
+
+	heldNote.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 6);// FrequencyToRate(512);
+	heldNote.frequency.sustain = GBA::DMG::SquareSound::Frequency::Sustain::Hold;
+	heldNote.frequency.reset = true;
+
+	return heldNote;
+}
+
+auto HeldNote = HeldNotePrefab();
+auto HeldNote2 = HeldNotePrefab2();
+
+auto OffNote = OffNotePrefab();
+auto DrumTom = DrumTomPrefab();
 
 // BPM definitions
 const int TickStep8 = 15;
@@ -16,23 +33,43 @@ const int TickStep4 = 30;
 const int TickStep2 = 60;
 
 const GBA::DMG::Midi::NoteEvent NoteEvents[] = {
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::G,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::A,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::C,	6)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::D,	6)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::C,	6)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
-	MakeNoteEvent(TickStep2, MakeChannelProperties(HeldNote, Music::Note::G,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::A,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
-	MakeNoteEvent(TickStep8, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::G,	6)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::Fs,	6)),
-	MakeNoteEvent(TickStep4, MakeChannelProperties(HeldNote, Music::Note::B,	5)),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep2, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep8, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep4, DrumTom),
+	//MakeNoteEvent(TickStep2, OffNote),
+	
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::G,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::A,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::C,	6)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::D,	6)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::C,	6)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
+
+	MakeNoteEvent(TickStep2,	OverrideFrequency(HeldNote, Music::Note::G,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::A,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
+	MakeNoteEvent(TickStep8,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::G,	6)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::Fs,6)),
+	MakeNoteEvent(TickStep4,	OverrideFrequency(HeldNote, Music::Note::B,	5)),
 	MakeNoteEvent(TickStep2, OffNote),
+	
 };
 
 /***********************************************************************************************/
@@ -48,27 +85,18 @@ const GBA::DMG::Midi::NoteEvent* Midi::FallOfFall::end()
 	return begin() + TotalEvents;
 }
 
-
-GBA::DMG::SoundChannel2 MakeChannelProperties(GBA::DMG::SoundChannel2 prefab, Music::Note note, int octave)
+GBA::DMG::SoundChannel1 HeldNotePrefab()
 {
-	prefab.frequency.soundRate = GBA::DMG::NoteToRate(note, octave);
-	return prefab;
-};
+	GBA::DMG::SoundChannel1 heldNote;
 
-GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel2 properties)
-{
-	GBA::DMG::Midi::NoteEvent note;
-	note.deltaTick = deltaTick;
-	note.SetChannelProperties(properties);
-	return note;
-};
+	heldNote.sweep.mode = GBA::DMG::SquareSound::Sweep::Mode::Decrease;
+	heldNote.sweep.number = 0;
+	heldNote.sweep.stepTime = 0;
 
-GBA::DMG::SoundChannel2 HeldNotePrefab()
-{
-	GBA::DMG::SoundChannel2 heldNote;
 	heldNote.control.envelopeStepTime = 3;
 	heldNote.control.envelopeDirection = GBA::DMG::SquareSound::EnvelopeStepDirection::Decrease;
 	heldNote.control.envelopeInitialVolume = 15;
+	heldNote.control.waveDutyCycle = GBA::DMG::SquareSound::WaveDutyCycle::Cycle_3_4;
 
 	heldNote.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 6);// FrequencyToRate(512);
 	heldNote.frequency.sustain = GBA::DMG::SquareSound::Frequency::Sustain::Hold;
@@ -77,15 +105,3 @@ GBA::DMG::SoundChannel2 HeldNotePrefab()
 	return heldNote;
 }
 
-GBA::DMG::SoundChannel2 OffNotePrefab()
-{
-	GBA::DMG::SoundChannel2 noteOff;
-	noteOff.control.envelopeStepTime = 3;
-	noteOff.control.envelopeDirection = GBA::DMG::SquareSound::EnvelopeStepDirection::Decrease;
-	noteOff.control.envelopeInitialVolume = 0;
-
-	noteOff.frequency.sustain = GBA::DMG::SquareSound::Frequency::Sustain::Hold;
-	noteOff.frequency.reset = true;
-
-	return noteOff;
-}

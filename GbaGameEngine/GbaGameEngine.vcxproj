@@ -124,6 +124,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
     <ClCompile Include="src\engine\input\GbaKeypadDevice.cpp" />
     <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
+    <ClCompile Include="src\game\config\midi\MidiPrefabs.cpp" />
     <ClCompile Include="src\game\input\Input.cpp" />
     <ClCompile Include="src\engine\input\InputManager.cpp" />
     <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
@@ -240,6 +241,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
     <ClInclude Include="src\engine\physics\PhysicsResolve.h" />
     <ClInclude Include="src\engine\physics\Rigidbody.h" />
+    <ClInclude Include="src\game\config\midi\MidiPrefabs.h" />
     <ClInclude Include="src\game\input\Input.h" />
     <ClInclude Include="src\engine\input\InputManager.h" />
     <ClInclude Include="src\engine\io\File.h" />
