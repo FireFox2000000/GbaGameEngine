@@ -11,6 +11,7 @@ namespace GBA
 			{
 				SoundChannel1 channel1;
 				SoundChannel2 channel2;
+				SoundChannel4 channel4;
 			};
 
 			struct NoteEvent
@@ -20,8 +21,8 @@ namespace GBA
 				USoundChannel channel;
 
 				void SetChannelProperties(const SoundChannel1& properties);
-
 				void SetChannelProperties(const SoundChannel2& properties);
+				void SetChannelProperties(const SoundChannel4& properties);
 			};
 
 			class Player

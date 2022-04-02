@@ -52,6 +52,17 @@ void GBA::DMG::Midi::Player::OnNoteEventReached(const NoteEvent& noteEvent)
 		break;
 	}
 
+	case DMG::SoundChannels::Sound4:
+	{
+		auto& sound4Control = (*reinterpret_cast<DMG::NoiseControlRegister*>(REG_SND4_CONTROL));
+		auto& sound4Frequency = (*reinterpret_cast<DMG::NoiseFrequencyRegister*>(REG_SND4_FREQ));
+
+		const auto& channel = noteEvent.channel.channel4;
+		sound4Control = channel.control;
+		sound4Frequency = channel.frequency;
+		break;
+	}
+
 	default: break;
 	}
 
@@ -77,4 +88,10 @@ void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel2& proper
 {
 	channelId = DMG::SoundChannels::Sound2;
 	channel.channel2 = properties;
+}
+
+void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel4& properties)
+{
+	channelId = DMG::SoundChannels::Sound4;
+	channel.channel4 = properties;
 }

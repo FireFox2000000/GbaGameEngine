@@ -26,7 +26,15 @@ GBA::DMG::Midi::NoteEvent Midi::Prefabs::MakeNoteEvent(u32 deltaTick, GBA::DMG::
 	note.deltaTick = deltaTick;
 	note.SetChannelProperties(properties);
 	return note;
-};
+}
+
+GBA::DMG::Midi::NoteEvent Midi::Prefabs::MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel4 properties)
+{
+	GBA::DMG::Midi::NoteEvent note;
+	note.deltaTick = deltaTick;
+	note.SetChannelProperties(properties);
+	return note;
+}
 
 GBA::DMG::SoundChannel2 Midi::Prefabs::OffNotePrefab()
 {
@@ -41,21 +49,18 @@ GBA::DMG::SoundChannel2 Midi::Prefabs::OffNotePrefab()
 	return noteOff;
 }
 
-GBA::DMG::SoundChannel2 Midi::Prefabs::DrumTomPrefab()
+GBA::DMG::SoundChannel4 Midi::Prefabs::DrumTomPrefab()
 {
-	GBA::DMG::SoundChannel2 note;
+	GBA::DMG::SoundChannel4 note;
 
-	//note.sweep.mode = GBA::DMG::SquareSound::Sweep::Mode::Decrease;
-	//note.sweep.number = 7;
-	//note.sweep.stepTime = 7;
-
-	note.control.envelopeStepTime = 3;
+	note.control.envelopeStepTime = 6;
 	note.control.envelopeDirection = GBA::DMG::SquareSound::EnvelopeStepDirection::Decrease;
 	note.control.envelopeInitialVolume = 15;
-	note.control.waveDutyCycle = GBA::DMG::SquareSound::WaveDutyCycle::Cycle_3_4;
 	note.control.soundLength = 60;
 
-	note.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 3);
+	note.frequency.frequencyDividerRatio = 6;
+	note.frequency.counterStep = GBA::DMG::Noise::CounterStep::Step7;
+	note.frequency.shiftClockFreq = 2;
 	note.frequency.sustain = GBA::DMG::SquareSound::Frequency::Sustain::Timed;
 	note.frequency.reset = true;
 

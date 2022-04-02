@@ -10,8 +10,9 @@ namespace Midi
 		GBA::DMG::SoundChannel2 OverrideFrequency(GBA::DMG::SoundChannel2 prefab, Music::Note note, int octave);
 		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel1 properties);
 		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel2 properties);
+		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel4 properties);
 
 		GBA::DMG::SoundChannel2 OffNotePrefab();
-		GBA::DMG::SoundChannel2 DrumTomPrefab();
+		GBA::DMG::SoundChannel4 DrumTomPrefab();
 	}
 }

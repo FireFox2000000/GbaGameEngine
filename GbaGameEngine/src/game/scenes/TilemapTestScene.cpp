@@ -56,7 +56,7 @@ void TilemapTestScene::Enter(Engine * engine)
 		m_kickedFadeInTask = fadeTask;
 	}
 
-	GBA::DMG::EnableSoundChannels(GBA::DMG::SoundChannels::Sound1 | GBA::DMG::SoundChannels::Sound2);
+	GBA::DMG::EnableSoundChannels(GBA::DMG::SoundChannels::Sound1 | GBA::DMG::SoundChannels::Sound2 | GBA::DMG::SoundChannels::Sound4);
 	GBA::DMG::SetMasterVolume(1.0f);
 }
 

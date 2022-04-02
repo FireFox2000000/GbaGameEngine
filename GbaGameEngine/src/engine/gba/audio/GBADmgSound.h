@@ -42,6 +42,15 @@ namespace GBA
 			}
 		}
 
+		namespace Noise
+		{
+			enum CounterStep
+			{
+				Step15,
+				Step7,	
+			};
+		}
+
 		enum SoundChannels
 		{
 			Sound1 = BIT(0),		// Square with frequency sweep, which can make the frequency rise or drop exponentially as it's played
@@ -118,6 +127,27 @@ namespace GBA
 
 		};
 
+		struct NoiseControlRegister
+		{
+			u16 soundLength : 6		// WRITE-ONLY, only works if the channel is timed (Frequency::Sustain::Timed on FrequencyRegister). The length itself is actually (64-soundLength)/256 seconds for a [3.9, 250] ms range.
+				, : 2
+				, envelopeStepTime : 3 // Time between envelope changes: ƒ¢t = EST/64 s.
+				, envelopeDirection : 1 // GBA::DMG::SquareSound::EnvelopeStepDirection. Indicates if the envelope decreases (default/0) or increases (1) with each step.
+				, envelopeInitialVolume : 4 // [0-15] Can be considered a volume setting of sorts: 0 is silent and 15 is full volume. Combined with the direction, you can have fade-in and fade-outs; to have a sustaining sound, set initial volume to 15 and an increasing direction.
+				;
+		};
+
+		struct NoiseFrequencyRegister
+		{
+			u16 frequencyDividerRatio : 3
+				, counterStep : 1		// DMG::Noise::CounterStep. Using 7 stages give more metallic sounding effects when played faster (lower divider ratios) while 15 stages sounds much like white noise.
+				, shiftClockFreq : 4
+				, : 6
+				, sustain : 1
+				, reset : 1		// All registers can be modified during playback but sound need to be reinitialized when modifying the envelope initial volume or the clock divider for changes to take effects.
+				;
+		};
+
 		struct SoundChannel1
 		{
 			SweepRegister sweep;
@@ -129,6 +159,12 @@ namespace GBA
 		{
 			SquareSoundRegister control;
 			FrequencyRegister frequency;
+		};
+
+		struct SoundChannel4
+		{
+			NoiseControlRegister control;
+			NoiseFrequencyRegister frequency;
 		};
 
 		// 64Hz - 131Khz please
