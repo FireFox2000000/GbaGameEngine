@@ -15,16 +15,8 @@ namespace ECS
 		List<Entity> m_entitesToDestroyQueue = List<Entity>(64);
 
 	public:
-		inline Entity CreateEntity()
-		{
-			return m_registry.create();
-		}
-
-		inline void DestroyEntity(Entity entity)
-		{
-			// Make sure we destroy these in a safe context. By queuing we can safety destroy any entity in the middle of systems
-			m_entitesToDestroyQueue.Add(entity);	
-		}
+		Entity CreateEntity();
+		void DestroyEntity(Entity entity);
 
 		void InternalFinaliseDestroy();
 
