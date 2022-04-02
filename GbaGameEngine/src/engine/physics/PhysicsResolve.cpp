@@ -105,7 +105,9 @@ void System::Physics::ResolveCollisions(Engine* engine)
 							}
 						}
 
-						// Notify collision... somehow
+						// Notify collision
+						colliderA.OnHit(collision);
+						colliderB.OnHit(collision);
 					}
 				});
 		});

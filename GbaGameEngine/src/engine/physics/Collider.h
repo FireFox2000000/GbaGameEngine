@@ -1,6 +1,9 @@
 #pragma once
 #include "engine/math/geometry/AxisAlignedBoundingBox.h"
 #include "engine/math/geometry/Circle.h"
+#include <functional>
+
+struct Collision;
 
 // A collider class that will only be as big as the largest possible shape element. 
 // Only holds one shape at a time
@@ -40,12 +43,17 @@ namespace Component
 		ColliderShapeType::Enum m_shapeType = ColliderShapeType::Count;
 
 		bool m_isTrigger = false;		// If set to true, objects will be allowed to pass through this collider. Otherwise a physical object. 
+		std::function<void(const Collision&)> m_onHitHandler = nullptr;
 
 	public:
 		ColliderShapeType::Enum GetShapeType() const;
 
 		bool GetIsTrigger() const;
 		void SetIsTrigger(bool isTrigger);
+
+		// If you need multiple functions registered, register a function that calls the other functions instead;
+		void SetOnHitHandler(std::function<void(const Collision&)> handler);
+		void OnHit(const Collision& collision) const;
 
 		void SetCircle(tFixedPoint8 radius);
 		inline const Circle& GetCircle() const {

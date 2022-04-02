@@ -23,12 +23,20 @@ const int totalTestSprites = 1;
 
 Scene0::Scene0(Engine* engine)
 	: Scene(engine)
-	, playerObject()
 {
+	playerObject = std::make_unique<GameObject>();
 }
 
 Scene0::~Scene0()
 {
+}
+
+void Scene0::OnTextObjectCollisionTouched(const Collision& coll)
+{
+	if (playerObject && coll.InvolvedEntity(playerObject->GetEntity()))
+	{
+		playerObject = nullptr;
+	}
 }
 
 void Scene0::Enter(Engine* engine)
@@ -90,6 +98,8 @@ void Scene0::Enter(Engine* engine)
 				Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
 				, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
 			);
+
+			collider.SetOnHitHandler(std::bind(&Scene0::OnTextObjectCollisionTouched, this, std::placeholders::_1));
 		}
 
 		{
@@ -115,26 +125,26 @@ void Scene0::Enter(Engine* engine)
 		//position->x = -8;
 		//position->y = 0;
 
-		Component::SpriteRenderer& spriteRenderer = playerObject.AddComponent<Component::SpriteRenderer>();
+		Component::SpriteRenderer& spriteRenderer = playerObject->AddComponent<Component::SpriteRenderer>();
 		Sprite* shantae0 = shantaeAtlus->GetSprite(1);
 		spriteRenderer.SetSprite(shantae0);
 
-		Component::SpriteAnimator& animator = playerObject.AddComponent<Component::SpriteAnimator>();
+		Component::SpriteAnimator& animator = playerObject->AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(defaultIdleAnim);
 
-		Component::Rigidbody& rigidbody = playerObject.AddComponent<Component::Rigidbody>();
+		Component::Rigidbody& rigidbody = playerObject->AddComponent<Component::Rigidbody>();
 		rigidbody.gravity = Vector2<tFixedPoint24>(0, -30);
 
-		Component::PlayerMovement& playerMovement = playerObject.AddComponent<Component::PlayerMovement>();
+		Component::PlayerMovement& playerMovement = playerObject->AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 		playerMovement.jumpInitVel = 22.0f;
 
-		Component::Transform* transform = playerObject.EditComponent<Component::Transform>();
+		Component::Transform* transform = playerObject->EditComponent<Component::Transform>();
 		transform->SetPosition(0, 5);
 		//transform->SetScale(1, 1);
 		//transform->SetRotationDegrees(180);
 
-		Component::Collider& collider = playerObject.AddComponent<Component::Collider>();
+		Component::Collider& collider = playerObject->AddComponent<Component::Collider>();
 		//collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
 		tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
 		collider.SetAABB(
@@ -164,13 +174,13 @@ void Scene0::Update(Engine* engine)
 		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
-	if (textObject && true)
+	if (textObject && playerObject && true)
 	{
-		const auto* playerTransform = playerObject.GetComponent<Component::Transform>();
+		const auto* playerTransform = playerObject->GetComponent<Component::Transform>();
 		auto* textComponent = textObject->EditComponent<Component::UI::Text>();
 
 		{
-			const Component::Collider* playerCollider = playerObject.GetComponent<Component::Collider>();
+			const Component::Collider* playerCollider = playerObject->GetComponent<Component::Collider>();
 
 			const auto* letterTransform = textObjectCollision->GetComponent<Component::Transform>();
 			const Component::Collider* letterCollider = textObjectCollision->GetComponent<Component::Collider>();
@@ -195,7 +205,10 @@ void Scene0::Update(Engine* engine)
 		}
 	}
 
-	PlayerMovement::MoveHumanPlayerObject(engine, playerObject);
+	if (playerObject)
+	{
+		PlayerMovement::MoveHumanPlayerObject(engine, *playerObject);
+	}
 
 	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();

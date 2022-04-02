@@ -6,6 +6,8 @@
 #include "engine/asset/SpriteAssetManager.h"
 #include "engine/asset/libraries/FontLibrary.h"
 
+struct Collision;
+
 class Scene0 : public Scene
 {
 	enum SpriteAnimationID {
@@ -26,12 +28,14 @@ class Scene0 : public Scene
 
 	FixedList<GameObject, 128> m_gameObjects;
 	FontLibrary m_fontLib;
-	GameObject playerObject;
+	std::unique_ptr<GameObject> playerObject;
 	GameObject* textObject;
 	GameObject* textObjectCollision;
 	AudioManager::tChannelHandle m_backgroundMusic;
 
 	SpriteAtlus* shantaeAtlus;
+
+	void OnTextObjectCollisionTouched(const Collision& coll);
 
 public:
 	Scene0(Engine* engine);

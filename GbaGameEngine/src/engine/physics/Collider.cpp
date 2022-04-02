@@ -22,6 +22,20 @@ namespace Component
 		m_isTrigger = isTrigger;
 	}
 
+	void Collider::SetOnHitHandler(std::function<void(const Collision&)> handler)
+	{
+		DEBUG_ASSERTMSG(m_onHitHandler == nullptr, "Collider hit handler already registered");
+		m_onHitHandler = handler;
+	}
+
+	void Collider::OnHit(const Collision& collision) const
+	{
+		if (m_onHitHandler)
+		{
+			m_onHitHandler(collision);
+		}
+	}
+
 	void Collider::SetCircle(tFixedPoint8 radius)
 	{
 		m_shape.circle = Circle(radius);

@@ -109,6 +109,9 @@ int main()
 
 		audioManager->Update();
 
+		auto* entityManager = engine->GetEntityRegistry();
+		entityManager->InternalFinaliseDestroy();
+
 		// Main update
 		GBA::Bios::VBlankIntrWait();
 

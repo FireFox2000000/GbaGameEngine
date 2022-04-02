@@ -95,6 +95,8 @@
     <ClCompile Include="src\engine\gba\audio\GBADmgMidiPlayer.cpp" />
     <ClCompile Include="src\game\config\midi\MidiFallOfFall.cpp" />
     <ClCompile Include="src\game\config\midi\MidiPrefabs.cpp" />
+    <ClCompile Include="src\engine\base\ecs\EntityComponentManager.cpp" />
+    <ClCompile Include="src\engine\physics\Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />

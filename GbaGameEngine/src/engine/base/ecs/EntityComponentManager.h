@@ -1,6 +1,7 @@
 #pragma once
 #include "external/entt/entity/registry.hpp"
 #include "Entity.h"
+#include "engine/base/core/stl/List.h"
 
 /**
 * A wrapper class around entt ecs registry to clean up syntax
@@ -11,6 +12,7 @@ namespace ECS
 	class EntityComponentManager
 	{
 		entt::registry m_registry;
+		List<Entity> m_entitesToDestroyQueue = List<Entity>(64);
 
 	public:
 		inline Entity CreateEntity()
@@ -20,8 +22,11 @@ namespace ECS
 
 		inline void DestroyEntity(Entity entity)
 		{
-			return m_registry.destroy(entity);
+			// Make sure we destroy these in a safe context. By queuing we can safety destroy any entity in the middle of systems
+			m_entitesToDestroyQueue.Add(entity);	
 		}
+
+		void InternalFinaliseDestroy();
 
 		template<typename Component, typename... Args>
 		inline Component& AddComponent(const Entity entity, Args&& ... args)
