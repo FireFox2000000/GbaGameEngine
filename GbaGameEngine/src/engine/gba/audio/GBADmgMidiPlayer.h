@@ -1,5 +1,7 @@
 #pragma once
 #include "GBADmgSound.h"
+#include "engine/io/File.h"
+#include "engine/io/filestream/CppFileReader.h"
 
 namespace GBA
 {
@@ -33,10 +35,15 @@ namespace GBA
 				const NoteEvent* m_noteEventsBegin;
 				const NoteEvent* m_noteEventsEnd;
 
+				FilePtr m_file;
+				CppFileReader m_fileStream;
+				u32 m_totalEvents = 0;
+
 				void OnNoteEventReached(const NoteEvent& noteEvent);
 
 			public:
 				Player(const NoteEvent* begin, const NoteEvent* end);
+				Player(FilePtr file);
 				void Tick();
 			};
 		}

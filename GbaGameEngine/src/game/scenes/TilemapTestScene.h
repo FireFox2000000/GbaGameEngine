@@ -38,7 +38,7 @@ class TilemapTestScene : public Scene
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeInTask;
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeOutTask;
 
-	GBA::DMG::Midi::Player m_fallOfFallMidi;
+	std::unique_ptr<GBA::DMG::Midi::Player> m_fallOfFallMidi;
 
 public:
 	TilemapTestScene(Engine* engine);

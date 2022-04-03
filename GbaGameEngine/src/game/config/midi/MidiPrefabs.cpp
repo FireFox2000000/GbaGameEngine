@@ -1,39 +1,10 @@
 #include "MidiPrefabs.h"
 
-GBA::DMG::SoundChannel1 Midi::Prefabs::OverrideFrequency(GBA::DMG::SoundChannel1 prefab, Music::Note note, int octave)
+GBA::DMG::SoundChannel1 Midi::Prefabs::OverrideSweepMode(GBA::DMG::SoundChannel1 prefab, GBA::DMG::SquareSound::Sweep::Mode mode)
 {
-	prefab.frequency.soundRate = GBA::DMG::NoteToRate(note, octave);
+	prefab.sweep.mode = mode;
+	prefab.frequency.reset = false;
 	return prefab;
-}
-
-GBA::DMG::SoundChannel2 Midi::Prefabs::OverrideFrequency(GBA::DMG::SoundChannel2 prefab, Music::Note note, int octave)
-{
-	prefab.frequency.soundRate = GBA::DMG::NoteToRate(note, octave);
-	return prefab;
-};
-
-GBA::DMG::Midi::NoteEvent Midi::Prefabs::MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel1 properties)
-{
-	GBA::DMG::Midi::NoteEvent note;
-	note.deltaTick = deltaTick;
-	note.SetChannelProperties(properties);
-	return note;
-};
-
-GBA::DMG::Midi::NoteEvent Midi::Prefabs::MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel2 properties)
-{
-	GBA::DMG::Midi::NoteEvent note;
-	note.deltaTick = deltaTick;
-	note.SetChannelProperties(properties);
-	return note;
-}
-
-GBA::DMG::Midi::NoteEvent Midi::Prefabs::MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel4 properties)
-{
-	GBA::DMG::Midi::NoteEvent note;
-	note.deltaTick = deltaTick;
-	note.SetChannelProperties(properties);
-	return note;
 }
 
 GBA::DMG::SoundChannel2 Midi::Prefabs::OffNotePrefab()

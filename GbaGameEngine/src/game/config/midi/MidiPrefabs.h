@@ -6,11 +6,31 @@ namespace Midi
 {
 	namespace Prefabs
 	{
-		GBA::DMG::SoundChannel1 OverrideFrequency(GBA::DMG::SoundChannel1 prefab, Music::Note note, int octave);
-		GBA::DMG::SoundChannel2 OverrideFrequency(GBA::DMG::SoundChannel2 prefab, Music::Note note, int octave);
-		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel1 properties);
-		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel2 properties);
-		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, GBA::DMG::SoundChannel4 properties);
+		template<class Channel>
+		Channel OverrideFrequency(Channel prefab, Music::Note note, int octave)
+		{
+			prefab.frequency.soundRate = GBA::DMG::NoteToRate(note, octave);
+			return prefab;
+		}
+
+		template<class Channel>
+		Channel OverrideEnvelopeDirection(Channel prefab, GBA::DMG::SquareSound::EnvelopeStepDirection dir)
+		{
+			prefab.control.envelopeDirection = dir;
+			prefab.frequency.reset = false;
+			return prefab;
+		}
+
+		GBA::DMG::SoundChannel1 OverrideSweepMode(GBA::DMG::SoundChannel1 prefab, GBA::DMG::SquareSound::Sweep::Mode mode);
+
+		template<class Channel>
+		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, Channel properties)
+		{
+			GBA::DMG::Midi::NoteEvent note;
+			note.deltaTick = deltaTick;
+			note.SetChannelProperties(properties);
+			return note;
+		};
 
 		GBA::DMG::SoundChannel2 OffNotePrefab();
 		GBA::DMG::SoundChannel4 DrumTomPrefab();

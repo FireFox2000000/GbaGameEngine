@@ -2,6 +2,8 @@
 #include "engine/gba/registers/RegisterMap.h"
 
 GBA::DMG::Midi::Player::Player(const NoteEvent* begin, const NoteEvent* end)
+	: m_file(nullptr)
+	, m_fileStream(nullptr)
 {
 	m_noteEventsBegin = begin;
 	m_noteEventsEnd = end;
@@ -11,15 +13,90 @@ GBA::DMG::Midi::Player::Player(const NoteEvent* begin, const NoteEvent* end)
 	m_tickUntilNextEvent = begin->deltaTick;
 }
 
+GBA::DMG::Midi::Player::Player(FilePtr file)
+	: m_file(file)
+	, m_fileStream(file)
+{
+	m_totalEvents = m_fileStream.Read<u32>();
+	m_tickUntilNextEvent = m_fileStream.Read<u16>();
+}
+
+struct FileEventId
+{
+	u16 channelId : 2
+		, dataMask : 14
+		;
+};
+
 void GBA::DMG::Midi::Player::Tick()
 {
-	m_tickUntilNextEvent = MAX(m_tickUntilNextEvent - 1, 0);
-
-	const NoteEvent* currentEvent = m_noteEventsBegin + m_eventIndex;
-	while (currentEvent != m_noteEventsEnd && m_tickUntilNextEvent <= 0)	// We may need to play multiple note events at the same time
+	if (m_file)
 	{
-		OnNoteEventReached(*currentEvent);
-		currentEvent = m_noteEventsBegin + m_eventIndex;
+		m_tickUntilNextEvent = MAX(m_tickUntilNextEvent - 1, 0);
+
+		while (m_eventIndex < m_totalEvents && m_tickUntilNextEvent <= 0)
+		{
+			FileEventId eventId = m_fileStream.Read<FileEventId>();
+			u16 channel = eventId.channelId;
+			u16 dataMask = eventId.dataMask;
+
+			switch (channel)
+			{
+			case 0:
+			{
+				if (dataMask & BIT(1))
+				{
+					DMG::SweepRegister& sound1Sweep = (*reinterpret_cast<DMG::SweepRegister*>(REG_SND1_SWEEP));
+					sound1Sweep = m_fileStream.Read<DMG::SweepRegister>();
+				}
+
+				if (dataMask & BIT(2))
+				{
+					DMG::SquareSoundRegister& sound1Control = (*reinterpret_cast<DMG::SquareSoundRegister*>(REG_SND1_CONTROL));
+					sound1Control = m_fileStream.Read<DMG::SquareSoundRegister>();
+				}
+
+				if (dataMask & BIT(3))
+				{
+					DMG::FrequencyRegister& sound1Frequency = (*reinterpret_cast<DMG::FrequencyRegister*>(REG_SND1_FREQ));
+					sound1Frequency = m_fileStream.Read<DMG::FrequencyRegister>();
+				}
+				break;
+			}
+			
+			case 1:
+			{
+				if (dataMask & BIT(1))
+				{
+					DMG::SquareSoundRegister& sound2Control = (*reinterpret_cast<DMG::SquareSoundRegister*>(REG_SND2_CONTROL));
+					sound2Control = m_fileStream.Read<DMG::SquareSoundRegister>();
+				}
+
+				if (dataMask & BIT(2))
+				{
+					DMG::FrequencyRegister& sound2Frequency = (*reinterpret_cast<DMG::FrequencyRegister*>(REG_SND2_FREQ));
+					sound2Frequency = m_fileStream.Read<DMG::FrequencyRegister>();
+				}
+				break;
+			}
+			}
+
+			if (++m_eventIndex < m_totalEvents)
+			{
+				m_tickUntilNextEvent = m_fileStream.Read<u16>();
+			}
+		}
+	}
+	else
+	{
+		m_tickUntilNextEvent = MAX(m_tickUntilNextEvent - 1, 0);
+
+		const NoteEvent* currentEvent = m_noteEventsBegin + m_eventIndex;
+		while (currentEvent != m_noteEventsEnd && m_tickUntilNextEvent <= 0)	// We may need to play multiple note events at the same time
+		{
+			OnNoteEventReached(*currentEvent);
+			currentEvent = m_noteEventsBegin + m_eventIndex;
+		}
 	}
 }
 

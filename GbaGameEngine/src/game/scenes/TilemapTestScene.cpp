@@ -14,10 +14,8 @@
 
 #include "game/data/tilemaps/UiAtlus.h"
 #include "game/input/Input.h"
-#include "game/config/midi/MidiFallOfFall.h"
 
 TilemapTestScene::TilemapTestScene(Engine* engine) : Scene(engine)
-, m_fallOfFallMidi(Midi::FallOfFall::begin(), Midi::FallOfFall::end())
 {
 }
 
@@ -58,6 +56,8 @@ void TilemapTestScene::Enter(Engine * engine)
 
 	GBA::DMG::EnableSoundChannels(GBA::DMG::SoundChannels::Sound1 | GBA::DMG::SoundChannels::Sound2 | GBA::DMG::SoundChannels::Sound4);
 	GBA::DMG::SetMasterVolume(1.0f);
+
+	m_fallOfFallMidi = std::make_unique<GBA::DMG::Midi::Player>(fileSystem->Open("audio/DmgMidiFallOfFall"));
 }
 
 void TilemapTestScene::Exit(Engine * engine)
@@ -95,7 +95,7 @@ void TilemapTestScene::Update(Engine * engine)
 	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 
-	m_fallOfFallMidi.Tick();
+	m_fallOfFallMidi->Tick();
 
 	/*
 	if (GBA::Input::GetKeyDown(GBA::Buttons::Left))

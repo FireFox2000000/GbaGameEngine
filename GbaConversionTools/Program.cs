@@ -32,6 +32,7 @@ namespace GbaConversionTools
                 new ConverterOption { menuLabel = "Tilemap", createMenuStateFn = () => { return new MenuTilemapConverter(); } },
                 new ConverterOption { menuLabel = "Audio", createMenuStateFn = () => { return new MenuAudioConverter(); } },
                 new ConverterOption { menuLabel = "Ui Atlus", createMenuStateFn = () => { return new MenuUiAtlusConverter(); } },
+                new ConverterOption { menuLabel = "Build Midis", createMenuStateFn = () => { return new MenuMidiBuilder(); } },
             };
 
             Console.WriteLine("Select converter:");
