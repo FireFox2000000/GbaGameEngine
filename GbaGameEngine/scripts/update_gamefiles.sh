@@ -27,7 +27,7 @@ for file in "${AllFiles[@]}" ; do
 
     # Get just the file by itself without path or extention
     fileWoExtention=$(basename $pathAndFileWoExtention)
-    baseDir=${pathAndFileWoExtention#"src/game/data/"}
+    baseDir=${pathAndFileWoExtention#"$InputDirectory/"}
     baseDir=$(echo "$baseDir" | cut -f 1 -d '/')
     FileMacrosArr+=("FILE($baseDir, $fileWoExtention)\\")
 done

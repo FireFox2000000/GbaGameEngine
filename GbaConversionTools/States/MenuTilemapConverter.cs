@@ -78,7 +78,7 @@ namespace GbaConversionTools.States
 
             try
             {
-                string outputPath = Path.ChangeExtension(inputPath, ".cpp");
+                string outputPath = Path.Combine(Defines.DATA_PATH_TILEMAP, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
 
                 Tools.TilemapConverter converter = new Tools.TilemapConverter();
                 converter.Convert(inputPath, outputPath, bitmap);

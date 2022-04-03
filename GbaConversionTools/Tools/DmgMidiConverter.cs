@@ -79,7 +79,7 @@ namespace GbaConversionTools.Tools
                 }
             }
 
-            Console.WriteLine("Dmg Midi \"" + outputPath + "\" successfully converted");
+            Console.WriteLine("Dmg Midi \"" + System.IO.Path.GetFullPath(outputPath) + "\" successfully converted");
 
             cppWriter.Finalise();
         }

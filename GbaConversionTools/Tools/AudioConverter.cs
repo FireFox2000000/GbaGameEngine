@@ -63,7 +63,7 @@ namespace GbaConversionTools.Tools
                     }
 
                     cppWriter.Finalise();
-                    Console.WriteLine("Audio file \"" + outputPath + "\" successfully converted");
+                    Console.WriteLine("Audio file \"" + Path.GetFullPath(outputPath) + "\" successfully converted");
                 }
             }      
         }

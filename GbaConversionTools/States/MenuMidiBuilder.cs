@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GbaConversionTools.Tools;
+﻿using System.IO;
 
 namespace GbaConversionTools.States
 {
@@ -11,7 +6,7 @@ namespace GbaConversionTools.States
     {
         public void Enter()
         {
-            DmgMidis.MidiFallOfFall.MakeMidi("DmgMidiFallOfFall.dmg", "DmgMidiFallOfFall.cpp");
+            DmgMidis.MidiFallOfFall.MakeMidi("DmgMidiFallOfFall.dmg", Path.Combine(Defines.DATA_PATH_AUDIO, "DmgMidiFallOfFall.cpp"));
         }
     }
 }

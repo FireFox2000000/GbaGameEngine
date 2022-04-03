@@ -46,17 +46,14 @@
     <ClCompile Include="src\engine\render\TilemapRenderer.cpp" />
     <ClCompile Include="src\external\tonc\memory\tonccpy.cpp" />
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
-    <ClCompile Include="src\game\data\tilemaps\Eosd.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
-    <ClCompile Include="src\game\data\sprites\Shantae_Idle_bin.cpp" />
     <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
     <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemap.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapSet.cpp" />
-    <ClCompile Include="src\game\data\audio\TheCrowSong.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
     <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
@@ -65,15 +62,11 @@
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
     <ClCompile Include="src\engine\physics\Collider.cpp" />
     <ClCompile Include="src\engine\physics\CollisionFunctions.cpp" />
-    <ClCompile Include="src\game\data\sprites\debug\Debug_Primitives_64x64.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
     <ClCompile Include="src\engine\asset\SpriteAssetManager.cpp" />
-    <ClCompile Include="src\game\data\sprites\debug_font_8x8_bold.cpp" />
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
-    <ClCompile Include="src\game\data\tilemaps\NightSky.cpp" />
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
-    <ClCompile Include="src\game\data\tilemaps\UiAtlus.cpp" />
     <ClCompile Include="src\engine\render\UiRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.cpp" />
     <ClCompile Include="src\game\data\FileRegistry.cpp" />
@@ -97,7 +90,6 @@
     <ClCompile Include="src\game\config\midi\MidiPrefabs.cpp" />
     <ClCompile Include="src\engine\base\ecs\EntityComponentManager.cpp" />
     <ClCompile Include="src\engine\physics\Collision.cpp" />
-    <ClCompile Include="src\game\data\audio\DmgMidiFallOfFall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -206,17 +198,14 @@
     <ClInclude Include="src\external\entt\signal\sigh.hpp" />
     <ClInclude Include="src\external\entt\entt.hpp" />
     <ClInclude Include="src\external\entt\fwd.hpp" />
-    <ClInclude Include="src\game\data\tilemaps\Eosd.h" />
     <ClInclude Include="src\engine\io\filestream\CppFileReader.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
-    <ClInclude Include="src\game\data\sprites\Shantae_Idle_bin.h" />
     <ClInclude Include="src\engine\asset\AnimationFactory.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemap.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapSet.h" />
     <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
-    <ClInclude Include="src\game\data\audio\TheCrowSong.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
     <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
@@ -227,14 +216,10 @@
     <ClInclude Include="src\engine\physics\Collider.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
     <ClInclude Include="src\engine\physics\CollisionFunctions.h" />
-    <ClInclude Include="src\game\data\sprites\debug\Debug_Primitives_64x64.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
     <ClInclude Include="src\engine\asset\SpriteAssetManager.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
-    <ClInclude Include="src\game\data\sprites\debug_font_8x8_bold.h" />
-    <ClInclude Include="src\game\data\tilemaps\NightSky.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
-    <ClInclude Include="src\game\data\tilemaps\UiAtlus.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.h" />
     <ClInclude Include="src\game\data\FileRegistry.h" />
@@ -269,7 +254,6 @@
     <ClInclude Include="src\engine\gba\audio\GBADmgMidiPlayer.h" />
     <ClInclude Include="src\game\config\midi\MidiFallOfFall.h" />
     <ClInclude Include="src\game\config\midi\MidiPrefabs.h" />
-    <ClInclude Include="src\game\data\audio\DmgMidiFallOfFall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

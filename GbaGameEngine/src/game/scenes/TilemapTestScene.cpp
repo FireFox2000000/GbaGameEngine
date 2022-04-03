@@ -11,8 +11,6 @@
 #include "engine/scene/SceneManager.h"
 #include "game/scenes/LevelSelectorScene.h"
 #include "engine/graphics/GraphicsSetup.h"
-
-#include "game/data/tilemaps/UiAtlus.h"
 #include "game/input/Input.h"
 
 TilemapTestScene::TilemapTestScene(Engine* engine) : Scene(engine)
