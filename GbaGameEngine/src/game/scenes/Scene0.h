@@ -35,8 +35,6 @@ class Scene0 : public Scene
 
 	SpriteAtlus* shantaeAtlus;
 
-	void OnTextObjectCollisionTouched(const Collision& coll);
-
 public:
 	Scene0(Engine* engine);
 	~Scene0();

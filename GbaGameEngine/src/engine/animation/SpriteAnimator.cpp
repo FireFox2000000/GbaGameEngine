@@ -22,7 +22,7 @@ void System::SpriteAnimator::Update(Engine* engine)
 	const Time* time = engine->GetComponent<Time>();
 	const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
 
-	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
+	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](ECS::Entity entity, Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
 		{
 			if (!animator.currentAnimation || animator.FrameCount() <= 0)
 				return;
@@ -34,6 +34,11 @@ void System::SpriteAnimator::Update(Engine* engine)
 
 				Sprite* sprite = animator.currentAnimation->keyFrames[animator.currentFrameIndex].sprite;
 				spriteRenderer.SetSprite(sprite);
+
+				if (animator.currentAnimation->onNewFrameHandler)
+				{
+					animator.currentAnimation->onNewFrameHandler(animator.currentFrameIndex, entity, &animator);
+				}
 
 				return;
 			}
@@ -59,6 +64,11 @@ void System::SpriteAnimator::Update(Engine* engine)
 			{
 				Sprite* sprite = animator.currentAnimation->keyFrames[animator.currentFrameIndex].sprite;
 				spriteRenderer.SetSprite(sprite);
+
+				if (animator.currentAnimation->onNewFrameHandler)
+				{
+					animator.currentAnimation->onNewFrameHandler(animator.currentFrameIndex, entity, &animator);
+				}
 			}
 		});
 }

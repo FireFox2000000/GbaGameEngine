@@ -31,14 +31,6 @@ Scene0::~Scene0()
 {
 }
 
-void Scene0::OnTextObjectCollisionTouched(const Collision& coll)
-{
-	if (playerObject && coll.InvolvedEntity(playerObject->GetEntity()))
-	{
-		playerObject = nullptr;
-	}
-}
-
 void Scene0::Enter(Engine* engine)
 {
 	GraphicsSetup::InitialiseStandardGraphics();
@@ -60,6 +52,19 @@ void Scene0::Enter(Engine* engine)
 
 	DEBUG_LOG("Loading Shantae idle animations");
 	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(shantaeAtlus, 0, 12, 12));
+
+	defaultIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
+	{
+		// Last frame
+		if (frame == (int)defaultIdleAnim->keyFrames.Count() - 1)
+		{
+			auto* entityManager = engine->GetEntityRegistry();
+			Component::Transform* transform = entityManager->EditComponent<Component::Transform>(entity);
+			auto scale = transform->GetLocalScale();
+			scale.x *= -1;
+			transform->SetLocalScale(scale);
+		}
+	};
 
 	FontLibrary* fontLibrary = &m_fontLib;
 
@@ -99,7 +104,12 @@ void Scene0::Enter(Engine* engine)
 				, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
 			);
 
-			collider.SetOnHitHandler(std::bind(&Scene0::OnTextObjectCollisionTouched, this, std::placeholders::_1));
+			collider.SetOnHitHandler([&](const Collision& coll) {
+				//if (playerObject && coll.InvolvedEntity(playerObject->GetEntity()))
+				//{
+				//	playerObject = nullptr;
+				//}
+			});
 		}
 
 		{
