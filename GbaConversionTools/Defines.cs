@@ -19,10 +19,5 @@ namespace GbaConversionTools
 
         public const string STR_SPRITEMAP_NAMESPC_PREFIX = "__binary_spritesheet_";       // Maps to SpriteLibrary.cpp SPRITEMAP_NAMESPC_PREFIX
         public const string STR_TILEMAP_NAMESPC_PREFIX = "__binary_background_";
-
-        public const string DATA_PATH = "../../../GbaGameEngine/src/game/data/";
-        public static readonly string DATA_PATH_AUDIO = System.IO.Path.Combine(DATA_PATH, "audio");
-        public static readonly string DATA_PATH_SPRITE = System.IO.Path.Combine(DATA_PATH, "sprites");
-        public static readonly string DATA_PATH_TILEMAP = System.IO.Path.Combine(DATA_PATH, "tilemaps");
     }
 }

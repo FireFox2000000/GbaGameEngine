@@ -76,7 +76,7 @@ namespace GbaConversionTools.States
 
             try
             {
-                string outputPath = Path.Combine(Defines.DATA_PATH_SPRITE, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
+                string outputPath = Path.Combine(FileManager.Instance.SpritePath, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
                 string jsonOutputPath = Path.GetDirectoryName(inputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(inputPath) + "_uvs.json";
                 bool uvsJsonExists = File.Exists(jsonOutputPath);
 

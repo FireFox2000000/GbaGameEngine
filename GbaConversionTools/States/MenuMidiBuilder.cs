@@ -6,7 +6,7 @@ namespace GbaConversionTools.States
     {
         public void Enter()
         {
-            DmgMidis.MidiFallOfFall.MakeMidi("DmgMidiFallOfFall.dmg", Path.Combine(Defines.DATA_PATH_AUDIO, "DmgMidiFallOfFall.cpp"));
+            DmgMidis.MidiFallOfFall.MakeMidi("DmgMidiFallOfFall.dmg", Path.Combine(FileManager.Instance.AudioPath, "DmgMidiFallOfFall.cpp"));
         }
     }
 }

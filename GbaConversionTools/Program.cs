@@ -26,6 +26,22 @@ namespace GbaConversionTools
         {
             const int MenuIndexOffset = 1;      // Start menu off at 1 rather than 0
 
+            const string GameOutputPath = "../../../GbaGameEngine/src/game/data/";
+            if (System.IO.Directory.Exists(GameOutputPath))
+            {
+                FileManager.Instance = new FileManager(GameOutputPath);
+            }
+            else
+            {
+                const string DefaultOutputPath = "data/";
+                if (!System.IO.Directory.Exists(DefaultOutputPath))
+                {
+                    System.IO.Directory.CreateDirectory(DefaultOutputPath);
+                }
+
+                FileManager.Instance = new FileManager(DefaultOutputPath);
+            }
+
             ConverterOption[] menuOptions = new ConverterOption[]
             {
                 new ConverterOption { menuLabel = "Sprite", createMenuStateFn = () => { return new MenuSpriteConverter(); } },

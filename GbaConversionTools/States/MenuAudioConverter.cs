@@ -38,7 +38,7 @@ namespace GbaConversionTools.States
 
             try
             {
-                string outputPath = Path.Combine(Defines.DATA_PATH_AUDIO, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
+                string outputPath = Path.Combine(FileManager.Instance.AudioPath, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
 
                 Tools.AudioConverter converter = new Tools.AudioConverter();
                 converter.Convert(inputPath, outputPath);
