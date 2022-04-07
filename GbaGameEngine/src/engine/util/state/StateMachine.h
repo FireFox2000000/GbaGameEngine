@@ -38,7 +38,7 @@ public:
 	{
 		STATIC_ASSERT(IS_BASE_OF(IState, STATE), "SceneManager::Change must be provided a type that derives from Scene.h");
 
-		ChangeState(SharedPtr<IState>::MakeShared(args...), params...);
+		ChangeState(std::make_shared<STATE>(args...), params...);
 	}
 
 	void Update(Params... params)

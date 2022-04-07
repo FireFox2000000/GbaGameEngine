@@ -192,6 +192,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\game\scripts\states\DialogueRulestate.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\time\TimeValue.cpp" />
   </ItemGroup>
@@ -357,6 +358,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
     <ClInclude Include="src\engine\time\TimeValue.h" />
+    <ClInclude Include="src\game\scripts\states\DialogueRulestate.h" />
     <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

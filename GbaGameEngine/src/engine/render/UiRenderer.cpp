@@ -180,10 +180,17 @@ void UiRenderer::ClearRegion(int x, int y, int width, int height) const
 
 void UiRenderer::RenderText(const std::string& str, const Vector2<int>& drawPosition) const
 {
+	RenderText(str.c_str(), 0, str.length(), drawPosition);
+}
+
+void UiRenderer::RenderText(const char* str, int start, int length, const Vector2<int>& drawPosition) const
+{
 	Vector2<int> currentDrawPosition = drawPosition;
 
-	for (char c : str)
+	for (int i = start; i < (start + length); ++i)
 	{
+		char c = str[i];
+
 		switch (c)
 		{
 		case '\n':

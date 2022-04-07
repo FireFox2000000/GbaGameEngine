@@ -34,4 +34,5 @@ public:
 	void DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const;
 	void ClearRegion(int x, int y, int width, int height) const;
 	void RenderText(const std::string& str, const Vector2<int>& drawPosition) const;
+	void RenderText(const char* str, int start, int length, const Vector2<int>& drawPosition) const;
 };

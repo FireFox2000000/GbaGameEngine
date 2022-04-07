@@ -20,6 +20,9 @@ enum GameInputs
 
 	ToggleMusic,
 
+	AdvanceDialogue,
+	SkipDialogue,
+
 	Count
 };
 

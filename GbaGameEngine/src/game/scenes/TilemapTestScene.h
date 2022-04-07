@@ -11,11 +11,14 @@
 #include "game/scripts/util/CommandQueue.h"
 
 #include "engine/gba/audio/GBADmgMidiPlayer.h"
+#include "engine/util/state/StateMachine.h"
 
 class TilemapTestScene : public Scene
 {
 	UiRenderer m_uiRenderer;
 	CommandQueue m_uiRenderCommandQueue;
+
+	StateMachine<> m_stateMachine;
 
 	enum SpriteAnimationID
 	{

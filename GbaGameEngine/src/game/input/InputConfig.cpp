@@ -36,6 +36,8 @@ const SortedInputList GbaKeypadInputList = {
 	{ MenuSelect, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
 	{ MenuCancel, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::B) }},
 	{ ToggleMusic, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::R) }},
+	{ AdvanceDialogue, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
+	{ SkipDialogue, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Start) }},
 	{ SoftReset, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Start | GBA::Buttons::Enum::L | GBA::Buttons::Enum::R) }},
 };
 

@@ -12,6 +12,7 @@
 #include "game/scenes/LevelSelectorScene.h"
 #include "engine/graphics/GraphicsSetup.h"
 #include "game/input/Input.h"
+#include "game/scripts/states/DialogueRulestate.h"
 
 TilemapTestScene::TilemapTestScene(Engine* engine) : Scene(engine)
 {
@@ -56,6 +57,11 @@ void TilemapTestScene::Enter(Engine * engine)
 	GBA::DMG::SetMasterVolume(1.0f);
 
 	m_fallOfFallMidi = std::make_unique<GBA::DMG::Midi::Player>(fileSystem->Open("audio/DmgMidiFallOfFall"));
+
+	const char* script = "adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd lasd";
+
+	m_stateMachine.ChangeState<DialogueRulestate>(
+		engine, &m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [&]() { m_stateMachine.ChangeState(nullptr); });
 }
 
 void TilemapTestScene::Exit(Engine * engine)
@@ -74,6 +80,8 @@ void TilemapTestScene::Exit(Engine * engine)
 		m_kickedFadeInTask->Abort();
 		m_kickedFadeInTask = nullptr;
 	}
+
+	m_stateMachine.ChangeState(nullptr);
 }
 
 void TilemapTestScene::Update(Engine * engine)
@@ -139,6 +147,8 @@ void TilemapTestScene::Update(Engine * engine)
 		SceneManager* sceneManager = engine->GetComponent<SceneManager>();
 		sceneManager->ChangeScene<LevelSelectorScene>(engine);
 	}
+
+	m_stateMachine.Update();
 }
 
 void TilemapTestScene::Render(Engine * engine)

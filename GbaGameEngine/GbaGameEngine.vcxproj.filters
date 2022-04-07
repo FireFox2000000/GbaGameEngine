@@ -90,6 +90,7 @@
     <ClCompile Include="src\game\config\midi\MidiPrefabs.cpp" />
     <ClCompile Include="src\engine\base\ecs\EntityComponentManager.cpp" />
     <ClCompile Include="src\engine\physics\Collision.cpp" />
+    <ClCompile Include="src\game\scripts\states\DialogueRulestate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -254,6 +255,7 @@
     <ClInclude Include="src\engine\gba\audio\GBADmgMidiPlayer.h" />
     <ClInclude Include="src\game\config\midi\MidiFallOfFall.h" />
     <ClInclude Include="src\game\config\midi\MidiPrefabs.h" />
+    <ClInclude Include="src\game\scripts\states\DialogueRulestate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
