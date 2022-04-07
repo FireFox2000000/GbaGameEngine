@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace GbaConversionTools.Tools
 {
@@ -284,7 +285,7 @@ namespace GbaConversionTools.Tools
 
                 Size size = bitmap.Size;
 
-                if (size.Width % TileConfig.c_TILEWIDTH != 0 || size.Height % TileConfig.c_TILEHEIGHT != 0)
+                if (size.Width % TileConfig.TileWidth != 0 || size.Height % TileConfig.TileHeight != 0)
                 {
                     throw new Exception("Size not compatible with GBA tiles. Width and height of pixels must be multiples of 8.");
                 }
@@ -567,7 +568,7 @@ namespace GbaConversionTools.Tools
                 FlipHFlipV,
             }
 
-            public int[,] paletteIndicies = new int[TileConfig.c_TILEWIDTH, TileConfig.c_TILEHEIGHT];
+            public int[,] paletteIndicies = new int[TileConfig.TileWidth, TileConfig.TileHeight];
 
             public bool Equals(Tile that)
             {
@@ -613,7 +614,7 @@ namespace GbaConversionTools.Tools
 
             Tile FlipHorizontal()
             {
-                int[,] flippedPaletteIndicies = new int[TileConfig.c_TILEWIDTH, TileConfig.c_TILEHEIGHT];
+                int[,] flippedPaletteIndicies = new int[TileConfig.TileWidth, TileConfig.TileHeight];
 
                 for (int i = 0; i < paletteIndicies.GetLength(0); ++i)
                 {
@@ -630,7 +631,7 @@ namespace GbaConversionTools.Tools
 
             Tile FlipVertical()
             {
-                int[,] flippedPaletteIndicies = new int[TileConfig.c_TILEWIDTH, TileConfig.c_TILEHEIGHT];
+                int[,] flippedPaletteIndicies = new int[TileConfig.TileWidth, TileConfig.TileHeight];
 
                 for (int i = 0; i < paletteIndicies.GetLength(0); ++i)
                 {
@@ -753,7 +754,7 @@ namespace GbaConversionTools.Tools
             int width = bitmap.Width;
             int height = bitmap.Height;
 
-            Tile[,] tiles = new Tile[width / TileConfig.c_TILEWIDTH, height / TileConfig.c_TILEHEIGHT];
+            Tile[,] tiles = new Tile[width / TileConfig.TileWidth, height / TileConfig.TileHeight];
 
             List<Color> localPaletteList = new List<Color>();
             if (localPaletteIndex >= 0)
@@ -772,13 +773,13 @@ namespace GbaConversionTools.Tools
 
             Color[] localPalette = localPaletteList.Count > 0 ? localPaletteList.ToArray() : palette;
 
-            for (int x = xStart; x < width; x += TileConfig.c_TILEWIDTH)
+            for (int x = xStart; x < width; x += TileConfig.TileWidth)
             {
-                for (int y = yStart; y < height; y += TileConfig.c_TILEHEIGHT)
+                for (int y = yStart; y < height; y += TileConfig.TileHeight)
                 {
                     Tile tile = GetTile(bitmap, localPalette, x, y);
 
-                    tiles[x / TileConfig.c_TILEWIDTH, y / TileConfig.c_TILEHEIGHT] = tile;
+                    tiles[x / TileConfig.TileWidth, y / TileConfig.TileHeight] = tile;
                 }
             }
 
@@ -789,9 +790,9 @@ namespace GbaConversionTools.Tools
         {
             Tile tile = new Tile();
 
-            for (int pixX = x; pixX < x + TileConfig.c_TILEWIDTH; ++pixX)
+            for (int pixX = x; pixX < x + TileConfig.TileWidth; ++pixX)
             {
-                for (int pixY = y; pixY < y + TileConfig.c_TILEHEIGHT; ++pixY)
+                for (int pixY = y; pixY < y + TileConfig.TileHeight; ++pixY)
                 {
                     Color color = bitmap.GetPixel(pixX, pixY);
                     tile.paletteIndicies[pixX - x, pixY - y] = PaletteHelper.ColorToPaletteIndex(palette, color);
@@ -799,6 +800,59 @@ namespace GbaConversionTools.Tools
             }
 
             return tile;
+        }
+
+        const int PIXELS_PER_TILE_X = 8;
+        const int PIXELS_PER_TILE_Y = 8;
+
+        static Vector2[] ValidNestablePixelCombinations = new Vector2[]
+        {
+                new Vector2(32 * PIXELS_PER_TILE_X, 32 * PIXELS_PER_TILE_Y),
+                new Vector2(64 * PIXELS_PER_TILE_X, 32 * PIXELS_PER_TILE_Y),
+                new Vector2(32 * PIXELS_PER_TILE_X, 64 * PIXELS_PER_TILE_Y),
+                new Vector2(64 * PIXELS_PER_TILE_X, 64 * PIXELS_PER_TILE_Y),
+        };
+
+        public static bool IsNestableSize(Vector2 pixelSize)
+        {
+            foreach (Vector2 validCombination in ValidNestablePixelCombinations)
+            {
+                if (pixelSize == validCombination)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsValidPixelCombination(Vector2 pixelSize)
+        {
+            if (pixelSize.X % TileConfig.TileWidth != 0)
+            {
+                Console.WriteLine(string.Format("Image width ({0}) was invalid for the platform. Must be a multiple of {1} pixels.", pixelSize.X, TileConfig.TileWidth));
+                return false;
+            }
+
+            if (pixelSize.Y % TileConfig.TileHeight != 0)
+            {
+                Console.WriteLine(string.Format("Image height ({0}) was invalid for the platform. Must be a multiple of {1} pixels.", pixelSize.Y, TileConfig.TileHeight));
+                return false;
+            }
+
+            if (IsNestableSize(pixelSize))
+            {
+                return true;
+            }
+
+            // Check if it's a dynamic map
+            if (pixelSize.X >= REG_TILEMAP_MIN_SIZE * TileConfig.TileWidth && pixelSize.Y >= REG_TILEMAP_MIN_SIZE * TileConfig.TileHeight)
+            {
+                return true;
+            }
+
+            Console.WriteLine(string.Format("Image size ({0}, {1}) was invalid for the platform", pixelSize.X, pixelSize.Y));
+            Console.WriteLine("Dimensions must be a multiple of 8 and be at least 256 pixels wide and 256 pixels tall.");
+
+            return false;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace GbaConversionTools.Tools
             CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
 
             Size size = bitmap.Size;
-            if (size.Width % TileConfig.c_TILEWIDTH != 0 || size.Height % TileConfig.c_TILEHEIGHT != 0)
+            if (size.Width % TileConfig.TileWidth != 0 || size.Height % TileConfig.TileHeight != 0)
             {
                 throw new Exception("Size not compatible with GBA tiles. Width and height of pixels must be multiples of 8.");
             }
@@ -162,21 +162,21 @@ namespace GbaConversionTools.Tools
             Compression.CompressionType compressionType, 
             uint destBpp)
         {
-            int tilesWide = width / TileConfig.c_TILEWIDTH;
-            int tilesTall = height / TileConfig.c_TILEHEIGHT;
-            int totalTiles = (width * height) / (TileConfig.c_TILEWIDTH * TileConfig.c_TILEHEIGHT);
+            int tilesWide = width / TileConfig.TileWidth;
+            int tilesTall = height / TileConfig.TileHeight;
+            int totalTiles = (width * height) / (TileConfig.TileWidth * TileConfig.TileHeight);
             List<int> colourPaletteIndicies = new List<int>();
 
             for (int tileY = 0; tileY < tilesTall; ++tileY)
             {
                 for (int tileX = 0; tileX < tilesWide; ++tileX)
                 {
-                    int tileXOffset = xPos + tileX * TileConfig.c_TILEWIDTH;
-                    int tileYOffset = yPos + tileY * TileConfig.c_TILEHEIGHT;
+                    int tileXOffset = xPos + tileX * TileConfig.TileWidth;
+                    int tileYOffset = yPos + tileY * TileConfig.TileHeight;
 
-                    for (int y = 0; y < TileConfig.c_TILEHEIGHT; ++y)
+                    for (int y = 0; y < TileConfig.TileHeight; ++y)
                     {
-                        for (int x = 0; x < TileConfig.c_TILEWIDTH; ++x)
+                        for (int x = 0; x < TileConfig.TileWidth; ++x)
                         {
                             Color color = bitmap.GetPixel(tileXOffset + x, tileYOffset + y);
                             int index = PaletteHelper.ColorToPaletteIndex(palette, color);

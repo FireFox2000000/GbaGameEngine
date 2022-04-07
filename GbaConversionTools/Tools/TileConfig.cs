@@ -8,7 +8,7 @@ namespace GbaConversionTools.Tools
 {
     class TileConfig
     {
-        public static readonly int c_TILEWIDTH = 8;
-        public static readonly int c_TILEHEIGHT = 8;
+        public static readonly int TileWidth = 8;
+        public static readonly int TileHeight = 8;
     }
 }
