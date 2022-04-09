@@ -29,7 +29,7 @@ namespace Component
 	{
 		friend void System::TilemapRenderer::VBlankRender(GameObject* camera);
 
-		Tilemap* m_tilemap;
+		Tilemap* m_tilemap = nullptr;
 		bool m_tilemapDirty = true;		// True by default to set initial properties
 		bool m_wrapping = false;
 		bool m_visible = true;
