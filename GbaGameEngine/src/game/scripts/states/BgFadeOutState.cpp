@@ -1,15 +1,15 @@
-#include "BgFadeOutRulestate.h"
+#include "BgFadeOutState.h"
 #include "engine/engine/engine.h"
 #include "engine/graphics/Graphics.h"
 
-BgFadeOutRulestate::BgFadeOutRulestate(std::function<void()> onFinishedFn)
+BgFadeOutState::BgFadeOutState(std::function<void()> onFinishedFn)
 	: m_onFinished(onFinishedFn)
 {
 }
 
-void BgFadeOutRulestate::Enter()
+void BgFadeOutState::Enter()
 {
-	DEBUG_LOG("Entered rulestate [BgFadeOutRulestate]");
+	DEBUG_LOG("Entered rulestate [BgFadeOutState]");
 
 	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 	std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.25f);
@@ -19,7 +19,7 @@ void BgFadeOutRulestate::Enter()
 	}
 }
 
-void BgFadeOutRulestate::Update()
+void BgFadeOutState::Update()
 {
 	if (m_kickedFadeOutTask->IsComplete())
 	{

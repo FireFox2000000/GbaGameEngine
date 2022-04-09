@@ -1,4 +1,4 @@
-#include "DialogueRulestate.h"
+#include "DialogueState.h"
 #include "game/input/Input.h"
 #include "engine/engine/engine.h"
 #include "engine/render/UiRenderer.h"
@@ -8,7 +8,7 @@ const int CharactersPerRow = 20;
 const char DialogueBoxStepFlag = '`';
 const Vector2<int> DrawPos = Vector2<int>(1, 10);
 
-DialogueRulestate::DialogueRulestate(
+DialogueState::DialogueState(
 	UiRenderer* uiRenderer
 	, CommandQueue* uiRenderCommandQueue
 	, const char* script
@@ -88,7 +88,7 @@ DialogueRulestate::DialogueRulestate(
 	}
 }
 
-bool DialogueRulestate::AdvanceText()
+bool DialogueState::AdvanceText()
 {
 	// Find the next set of text to display in a single box
 	int dialogueIndexStart = m_currentTextIndex;
@@ -117,7 +117,7 @@ bool DialogueRulestate::AdvanceText()
 	return false;
 }
 
-void DialogueRulestate::Enter()
+void DialogueState::Enter()
 {
 	if (AdvanceText())
 	{
@@ -125,7 +125,7 @@ void DialogueRulestate::Enter()
 	}
 }
 
-void DialogueRulestate::Update()
+void DialogueState::Update()
 {
 	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
@@ -144,7 +144,7 @@ void DialogueRulestate::Update()
 
 }
 
-void DialogueRulestate::Exit()
+void DialogueState::Exit()
 {
 	m_uiRenderCommandQueue->Enque([this] {
 		m_uiRenderer->ClearRegion(DrawPos.x, DrawPos.y, CharactersPerRow + 1, m_totalRows);// +2);	// TODO once we draw borders

@@ -7,9 +7,9 @@
 #include "engine/scene/SceneManager.h"
 
 #include "game/scenes/LevelSelectorScene.h"
-#include "game/scripts/states/BgFadeInRulestate.h"
-#include "game/scripts/states/BgFadeOutRulestate.h"
-#include "game/scripts/states/DialogueRulestate.h"
+#include "game/scripts/states/BgFadeInState.h"
+#include "game/scripts/states/BgFadeOutState.h"
+#include "game/scripts/states/DialogueState.h"
 
 CutsceneTestScene::CutsceneTestScene()
 	: Scene()
@@ -50,18 +50,18 @@ void CutsceneTestScene::Enter()
 	Component::TilemapRenderer& tilemapRenderer = m_cutsceneBg.AddComponent<Component::TilemapRenderer>();
 	tilemapRenderer.SetTilemap(tilemap);
 
-	m_stateMachine.ChangeState<BgFadeInRulestate>([this]() {
+	m_stateMachine.ChangeState<BgFadeInState>([this]() {
 
 		const char* script = "adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd lasd";
-		m_stateMachine.ChangeState<DialogueRulestate>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [this]() {
-			m_stateMachine.ChangeState<BgFadeOutRulestate>([this]() {
+		m_stateMachine.ChangeState<DialogueState>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [this]() {
+			m_stateMachine.ChangeState<BgFadeOutState>([this]() {
 				// Change background
 				// Need to make sure was have no active gfx tasks before we do this
 				ChangeBg(m_assetManager.GetTilemap(TilemapSetID::CutsceneImg2, 0));
-				m_stateMachine.ChangeState<BgFadeInRulestate>([this]() { 
+				m_stateMachine.ChangeState<BgFadeInState>([this]() { 
 					const char* script = "Diag 2 adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd lasd";
-					m_stateMachine.ChangeState<DialogueRulestate>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [this]() { 
-						m_stateMachine.ChangeState<BgFadeOutRulestate>([this]() { 
+					m_stateMachine.ChangeState<DialogueState>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [this]() { 
+						m_stateMachine.ChangeState<BgFadeOutState>([this]() { 
 							SceneManager* sceneManager = Engine::GetInstance().GetComponent<SceneManager>();
 							sceneManager->ChangeScene<LevelSelectorScene>();
 						});

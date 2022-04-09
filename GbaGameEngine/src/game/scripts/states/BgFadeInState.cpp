@@ -1,18 +1,18 @@
-#include "BgFadeInRulestate.h"
+#include "BgFadeInState.h"
 #include "engine/engine/engine.h"
 #include "engine/graphics/Graphics.h"
 
-BgFadeInRulestate::BgFadeInRulestate(std::function<void()> onFinishedFn)
+BgFadeInState::BgFadeInState(std::function<void()> onFinishedFn)
 	: m_onFinished(onFinishedFn)
 {
 
 }
 
-void BgFadeInRulestate::Enter()
+void BgFadeInState::Enter()
 {
 }
 
-void BgFadeInRulestate::Update()
+void BgFadeInState::Update()
 {
 	if (!m_kickedFadeInTask)
 	{

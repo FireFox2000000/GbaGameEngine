@@ -5,7 +5,7 @@
 
 class Engine;
 
-class BgFadeInRulestate : public StateMachine<>::IState
+class BgFadeInState : public StateMachine<>::IState
 {
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeInTask;
 	std::function<void()> m_onFinished = nullptr;
@@ -15,7 +15,7 @@ protected:
 	void Update() override;
 
 public:
-	BgFadeInRulestate(
+	BgFadeInState(
 		std::function<void()> onFinishedFn = nullptr
 	);
 };

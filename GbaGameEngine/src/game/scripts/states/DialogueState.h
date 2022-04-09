@@ -7,7 +7,7 @@ class Engine;
 class UiRenderer;
 class CommandQueue;
 
-class DialogueRulestate : public StateMachine<>::IState
+class DialogueState : public StateMachine<>::IState
 {
 	UiRenderer* m_uiRenderer;
 	CommandQueue* m_uiRenderCommandQueue;
@@ -26,7 +26,7 @@ protected:
 	void Update() override;
 	void Exit() override;
 public:
-	DialogueRulestate(
+	DialogueState(
 		UiRenderer* uiRenderer
 		, CommandQueue* uiRenderCommandQueue
 		, const char* script

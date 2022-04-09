@@ -5,7 +5,7 @@
 
 class Engine;
 
-class BgFadeOutRulestate : public StateMachine<>::IState
+class BgFadeOutState : public StateMachine<>::IState
 {
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeOutTask;
 	std::function<void()> m_onFinished = nullptr;
@@ -15,5 +15,5 @@ protected:
 	void Update() override;
 
 public:
-	BgFadeOutRulestate(std::function<void()> onFinishedFn = nullptr);
+	BgFadeOutState(std::function<void()> onFinishedFn = nullptr);
 };
