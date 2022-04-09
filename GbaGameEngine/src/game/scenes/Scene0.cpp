@@ -21,8 +21,8 @@
 
 const int totalTestSprites = 1;
 
-Scene0::Scene0(Engine* engine)
-	: Scene(engine)
+Scene0::Scene0()
+	: Scene()
 {
 	playerObject = std::make_unique<GameObject>();
 }
@@ -31,13 +31,13 @@ Scene0::~Scene0()
 {
 }
 
-void Scene0::Enter(Engine* engine)
+void Scene0::Enter()
 {
 	GraphicsSetup::InitialiseStandardGraphics();
 
-	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
+	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
-	auto* audioManager = engine->GetComponent<AudioManager>();
+	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
 	FilePtr theCrowSongFile = fileSystem->Open("audio/TheCrowSong");
 	m_backgroundMusic = audioManager->CreateFromFile(theCrowSongFile);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
@@ -58,7 +58,7 @@ void Scene0::Enter(Engine* engine)
 		// Last frame
 		if (frame == (int)defaultIdleAnim->keyFrames.Count() - 1)
 		{
-			auto* entityManager = engine->GetEntityRegistry();
+			auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 			Component::Transform* transform = entityManager->EditComponent<Component::Transform>(entity);
 			auto scale = transform->GetLocalScale();
 			scale.x *= -1;
@@ -164,7 +164,7 @@ void Scene0::Enter(Engine* engine)
 	}
 }
 
-void Scene0::Update(Engine* engine)
+void Scene0::Update()
 {
 	if (m_gameObjects.Count() < totalTestSprites)
 	{
@@ -217,15 +217,15 @@ void Scene0::Update(Engine* engine)
 
 	if (playerObject)
 	{
-		PlayerMovement::MoveHumanPlayerObject(engine, *playerObject);
+		PlayerMovement::MoveHumanPlayerObject(*playerObject);
 	}
 
-	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 
 	if (Input::GetInputDown(ToggleMusic, devices))
 	{
-		auto* audioManager = engine->GetComponent<AudioManager>();
+		auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
 		if (audioManager->GetChannelFlag(m_backgroundMusic, AudioChannelProperties::Active))
 		{
 			audioManager->Stop(m_backgroundMusic);
@@ -237,12 +237,12 @@ void Scene0::Update(Engine* engine)
 	}
 }
 
-void Scene0::Exit(Engine * engine)
+void Scene0::Exit()
 {
 	// TODO, should add an auto dispose list to handle this kind of thing instead
-	auto* audioManager = engine->GetComponent<AudioManager>();
+	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
 	audioManager->Stop(m_backgroundMusic);
 	audioManager->FreeChannel(m_backgroundMusic);
 
-	m_assetManager.Dispose(engine);
+	m_assetManager.Dispose(&Engine::GetInstance());
 }

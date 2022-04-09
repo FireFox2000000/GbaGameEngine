@@ -33,9 +33,9 @@ Vector2<tFixedPoint24> SafeAddVelocityClamped(const Vector2<tFixedPoint24>& velo
 	return Vector2<tFixedPoint24>(velDecimal.x + tFixedPoint24(velWholeNum.x), velDecimal.y + tFixedPoint24(velWholeNum.y));
 }
 
-void System::Physics::UpdateTransforms(Engine* engine)
+void System::Physics::UpdateTransforms()
 {
-	auto* entityManager = engine->GetEntityRegistry();
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
 	entityManager->InvokeEach<Component::Transform, Component::Rigidbody>(
 		[]
@@ -63,9 +63,9 @@ void System::Physics::UpdateTransforms(Engine* engine)
 		});
 }
 
-void System::Physics::ResolveCollisions(Engine* engine)
+void System::Physics::ResolveCollisions()
 {
-	auto* entityManager = engine->GetEntityRegistry();
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
 	entityManager->InvokeEach<Component::Transform, Component::Rigidbody, Component::Collider>(
 		[&entityManager]

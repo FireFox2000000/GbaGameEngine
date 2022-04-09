@@ -7,7 +7,7 @@ class Engine;
 // State machine specific for scene management
 class SceneManager
 {
-	using CreateScene = std::function<Scene*(Engine*)>;
+	using CreateScene = std::function<Scene*()>;
 
 	Scene* m_current = nullptr;
 	CreateScene m_queuedSceneFn = nullptr;
@@ -16,27 +16,27 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	void UpdateScene(Engine* engine);
-	void FixedUpdateScene(Engine* engine);
-	void PreRenderScene(Engine* engine);
-	void RenderScene(Engine* engine);
+	void UpdateScene();
+	void FixedUpdateScene();
+	void PreRenderScene();
+	void RenderScene();
 
-	bool EnterQueuedScene(Engine* engine);
+	bool EnterQueuedScene();
 	bool HasSceneChangeQueued() { return m_queuedSceneFn != nullptr; }
 
 	template<typename SCENE>
-	void ChangeScene(Engine* engine)
+	void ChangeScene()
 	{
 		//STATIC_ASSERT(IS_BASE_OF(Scene, SCENE), "SceneManager::Change must be provided a type that derives from Scene.h");
 
 		// We queue up a scene load to make sure we aren't changing a scene while still running update functionality from that same scene
-		m_queuedSceneFn = [](Engine* engine) { return new SCENE(engine); };
+		m_queuedSceneFn = []() { return new SCENE(); };
 
 		if (!m_current)
-			EnterQueuedScene(engine);	// Initial scene
+			EnterQueuedScene();	// Initial scene
 	}
 
-	void Dispose(Engine* engine);
+	void Dispose();
 
 	const Scene* GetCurrentScene() const { return m_current; }
 };

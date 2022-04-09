@@ -7,11 +7,11 @@
 #include "game/input/Input.h"
 #include "engine/physics/Rigidbody.h"
 
-Vector2<int> GetDesiredDirectionFromDpad(Engine* engine)
+Vector2<int> GetDesiredDirectionFromDpad()
 {
 	Vector2<int> desiredDirection;
 
-	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 
 	if (Input::GetInput(MoveLeft, devices))
@@ -37,12 +37,12 @@ Vector2<int> GetDesiredDirectionFromDpad(Engine* engine)
 	return desiredDirection;
 }
 
-void PlayerMovement::MoveHumanPlayerObject(Engine* engine, GameObject& playerObject)
+void PlayerMovement::MoveHumanPlayerObject(GameObject& playerObject)
 {
-	MovePlayerObject(engine, playerObject, GetDesiredDirectionFromDpad(engine));
+	MovePlayerObject(playerObject, GetDesiredDirectionFromDpad());
 }
 
-void PlayerMovement::MovePlayerObject(Engine* engine, GameObject& playerObject, const Vector2<int>& desiredDirection)
+void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2<int>& desiredDirection)
 {
 	const auto& playerMovement = *playerObject.GetComponent<Component::PlayerMovement>();
 
@@ -63,7 +63,7 @@ void PlayerMovement::MovePlayerObject(Engine* engine, GameObject& playerObject, 
 #else			// Physics-based movement
 	auto& rigidbody = *playerObject.EditComponent<Component::Rigidbody>();
 
-	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 	if (Input::GetInputDown(Jump, devices))
 	{

@@ -13,20 +13,20 @@ void Graphics::DeleteCompletedGfxTasks()
 	}
 }
 
-void Graphics::Update(Engine* engine)
+void Graphics::Update()
 {
 	DeleteCompletedGfxTasks();
 
 	for (auto& task : m_currentGfxTasks)
 	{
-		task->Update(engine);
+		task->Update();
 	}
 }
 
-void Graphics::LateRender(Engine* engine)
+void Graphics::LateRender()
 {
 	for (auto& task : m_currentGfxTasks)
 	{
-		task->LateRender(engine);
+		task->LateRender();
 	}
 }

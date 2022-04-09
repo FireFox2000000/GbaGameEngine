@@ -11,7 +11,7 @@ GfxScreenFadeIn::GfxScreenFadeIn(const Colour& destColour, float fadeSpeed)
 	m_startColourDecompressed = Colour::DecompressRgb16(m_startColour);
 }
 
-void GfxScreenFadeIn::CapturePalettes(Engine* engine)
+void GfxScreenFadeIn::CapturePalettes()
 {
 	m_destPalettes.GetPrimary() = m_originalPalettesCaptured == 0 ? GBA::Gfx::PaletteBank::EditBackgroundPalette() : GBA::Gfx::PaletteBank::EditSpritePalette();
 
@@ -36,7 +36,7 @@ void GfxScreenFadeIn::CapturePalettes(Engine* engine)
 	}
 }
 
-void GfxScreenFadeIn::FadePalettes(Engine* engine)
+void GfxScreenFadeIn::FadePalettes()
 {
 	// Now we can actually apply the lerp
 	{
@@ -63,13 +63,13 @@ void GfxScreenFadeIn::AdvanceState()
 	m_currentState = (FadeState)(m_currentState + 1);
 }
 
-void GfxScreenFadeIn::Update(Engine* engine)
+void GfxScreenFadeIn::Update()
 {
 	switch (m_currentState)
 	{
 	case EnsureBackgroundsHidden:
 	{
-		auto* entityManager = engine->GetEntityRegistry();
+		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 		entityManager->InvokeEach<Component::TilemapRenderer>(
 			[](Component::TilemapRenderer& tilemapRenderer)
 			{
@@ -79,7 +79,7 @@ void GfxScreenFadeIn::Update(Engine* engine)
 	}
 	case EnsureBackgroundsVisible:
 	{
-		auto* entityManager = engine->GetEntityRegistry();
+		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 		entityManager->InvokeEach<Component::TilemapRenderer>(
 			[](Component::TilemapRenderer& tilemapRenderer)
 			{
@@ -92,7 +92,7 @@ void GfxScreenFadeIn::Update(Engine* engine)
 	{
 		// Calculate the new palette
 
-		const Time* time = engine->GetComponent<Time>();
+		const Time* time = Engine::GetInstance().GetComponent<Time>();
 		tFixedPoint24 dt = time->GetDt();
 
 		auto& srcPalette = m_originalPalettes.GetPrimary();
@@ -117,7 +117,7 @@ void GfxScreenFadeIn::Update(Engine* engine)
 	}
 }
 
-void GfxScreenFadeIn::LateRender(Engine* engine)
+void GfxScreenFadeIn::LateRender()
 {
 	switch (m_currentState)
 	{
@@ -128,12 +128,12 @@ void GfxScreenFadeIn::LateRender(Engine* engine)
 	}
 	case PaletteCapture:
 	{
-		CapturePalettes(engine);
+		CapturePalettes();
 		break;
 	}
 	case FadeRender:
 	{
-		FadePalettes(engine);
+		FadePalettes();
 		break;
 	}
 	default:

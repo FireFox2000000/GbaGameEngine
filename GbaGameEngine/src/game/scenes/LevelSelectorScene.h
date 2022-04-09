@@ -15,9 +15,9 @@ class LevelSelectorScene : public Scene
 	void DrawNotch();
 
 public:
-	LevelSelectorScene(Engine* engine);
+	LevelSelectorScene();
 
-	void Enter(Engine* engine) override;
-	void Update(Engine* engine) override;
-	void Render(Engine* engine) override;
+	void Enter() override;
+	void Update() override;
+	void Render() override;
 };

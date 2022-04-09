@@ -19,7 +19,7 @@ namespace System
 {
 	namespace TilemapRenderer
 	{
-		void VBlankRender(Engine* engine, GameObject* camera);
+		void VBlankRender(GameObject* camera);
 	}
 }
 
@@ -27,7 +27,7 @@ namespace Component
 {
 	class TilemapRenderer : public Renderer
 	{
-		friend void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera);
+		friend void System::TilemapRenderer::VBlankRender(GameObject* camera);
 
 		Tilemap* m_tilemap;
 		bool m_tilemapDirty = true;		// True by default to set initial properties

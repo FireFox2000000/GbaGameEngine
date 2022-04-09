@@ -13,7 +13,7 @@
 #include "engine/gba/registers/clock/GBATimer.h"
 #endif
 
-Scene::Scene(Engine* engine)
+Scene::Scene()
 	: m_mainCamera()
 {
 	m_mainCamera.AddComponent<Component::Camera>();
@@ -23,48 +23,48 @@ Scene::~Scene()
 {
 }
 
-void Scene::LateUpdate(Engine* engine)
+void Scene::LateUpdate()
 {
-	Graphics* gfx = engine->GetComponent<Graphics>();
+	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 
-	System::SpriteAnimator::Update(engine);
-	gfx->Update(engine);
+	System::SpriteAnimator::Update();
+	gfx->Update();
 }
 
-void Scene::FixedUpdate(Engine* engine)
+void Scene::FixedUpdate()
 {
-	System::Physics::UpdateTransforms(engine);
-	System::Physics::ResolveCollisions(engine);
+	System::Physics::UpdateTransforms();
+	System::Physics::ResolveCollisions();
 }
 
-void Scene::PreRender(Engine * engine)
+void Scene::PreRender()
 {
 #ifdef RENDER_PROFILE
 	auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
 	profilerClock.SetFrequency(GBA::Timers::Cycle_64);
 	profilerClock.SetActive(true);
 #endif
-	System::SpriteRenderer::Render(engine, &m_mainCamera);
+	System::SpriteRenderer::Render(&m_mainCamera);
 #ifdef RENDER_PROFILE
 	DEBUG_LOGFORMAT("[Profile Prerender System::SpriteRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
 	profilerClock.SetActive(false);
 
 	profilerClock.SetActive(true);
 #endif
-	System::UI::TextRenderer::Render(engine);
+	System::UI::TextRenderer::Render();
 #ifdef RENDER_PROFILE
 	DEBUG_LOGFORMAT("[Profile Prerender System::UI::TextRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
 	profilerClock.SetActive(false);
 #endif
 }
 
-void Scene::Render(Engine* engine)
+void Scene::Render()
 {
-	Graphics* gfx = engine->GetComponent<Graphics>();
+	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 	gfx->EndFrame();
 
-	System::TilemapRenderer::VBlankRender(engine, &m_mainCamera);
+	System::TilemapRenderer::VBlankRender(&m_mainCamera);
 
 	// All our main renderer should be done now. Apply post-processing effects.
-	gfx->LateRender(engine);
+	gfx->LateRender();
 }

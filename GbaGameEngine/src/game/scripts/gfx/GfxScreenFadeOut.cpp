@@ -13,7 +13,7 @@ GfxScreenFadeOut::GfxScreenFadeOut(const Colour& destColour, float fadeSpeed)
 	m_destColourDecompressed = Colour::DecompressRgb16(destColourRgb16);
 }
 
-void GfxScreenFadeOut::CapturePalettes(Engine* engine)
+void GfxScreenFadeOut::CapturePalettes()
 {
 	m_destPalettes.GetPrimary() = m_originalPalettesCaptured == BgPaletteBufferIndex ? GBA::Gfx::PaletteBank::EditBackgroundPalette() : GBA::Gfx::PaletteBank::EditSpritePalette();
 
@@ -32,7 +32,7 @@ void GfxScreenFadeOut::CapturePalettes(Engine* engine)
 	}
 }
 
-void GfxScreenFadeOut::FadePalettes(Engine* engine)
+void GfxScreenFadeOut::FadePalettes()
 {
 	// Now we can actually apply the lerp
 	{
@@ -59,7 +59,7 @@ void GfxScreenFadeOut::AdvanceState()
 	m_currentState = (FadeState)(m_currentState + 1);
 }
 
-void GfxScreenFadeOut::Update(Engine* engine)
+void GfxScreenFadeOut::Update()
 {
 	switch (m_currentState)
 	{
@@ -67,7 +67,7 @@ void GfxScreenFadeOut::Update(Engine* engine)
 	{
 		// Calculate the new palette
 
-		const Time* time = engine->GetComponent<Time>();
+		const Time* time = Engine::GetInstance().GetComponent<Time>();
 		tFixedPoint24 dt = time->GetDt();
 
 		auto& srcPalette = m_originalPalettes.GetPrimary();
@@ -89,7 +89,7 @@ void GfxScreenFadeOut::Update(Engine* engine)
 	}
 	case DisableAndRestoreBgs:
 	{
-		auto* entityManager = engine->GetEntityRegistry();
+		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 		entityManager->InvokeEach<Component::TilemapRenderer>(
 			[](Component::TilemapRenderer& tilemapRenderer)
 			{
@@ -102,18 +102,18 @@ void GfxScreenFadeOut::Update(Engine* engine)
 	}
 }
 
-void GfxScreenFadeOut::LateRender(Engine* engine)
+void GfxScreenFadeOut::LateRender()
 {
 	switch (m_currentState)
 	{
 	case PaletteCapture:
 	{
-		CapturePalettes(engine);
+		CapturePalettes();
 		break;
 	}
 	case FadeRender:
 	{
-		FadePalettes(engine);
+		FadePalettes();
 		break;
 	}
 	case DisableAndRestoreBgs:

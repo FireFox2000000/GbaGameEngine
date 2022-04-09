@@ -61,15 +61,15 @@ void LevelSelectorScene::DrawNotch()
 	});
 }
 
-LevelSelectorScene::LevelSelectorScene(Engine* engine) : Scene(engine)
+LevelSelectorScene::LevelSelectorScene() : Scene()
 {
 }
 
-void LevelSelectorScene::Enter(Engine* engine)
+void LevelSelectorScene::Enter()
 {
 	GraphicsSetup::InitialiseStandardGraphics();
 
-	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
+	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 	FilePtr file = fileSystem->Open("tilemaps/UiAtlus");
 
 	m_uiRenderer.LoadAtlus(file);
@@ -88,9 +88,9 @@ void LevelSelectorScene::Enter(Engine* engine)
 	DrawNotch();
 }
 
-void LevelSelectorScene::Update(Engine* engine)
+void LevelSelectorScene::Update()
 {
-	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 
 	if (Input::GetInputDown(MenuDown, inputManager->GetDevices()))
 	{
@@ -104,23 +104,23 @@ void LevelSelectorScene::Update(Engine* engine)
 
 	if (Input::GetInputDown(MenuSelect, inputManager->GetDevices()))
 	{
-		SceneManager* sceneManager = engine->GetComponent<SceneManager>();
+		SceneManager* sceneManager = Engine::GetInstance().GetComponent<SceneManager>();
 
 		switch (m_currentSelectedIndex)
 		{
 		case 0:
 		{
-			sceneManager->ChangeScene<Scene0>(engine);
+			sceneManager->ChangeScene<Scene0>();
 			break;
 		}
 		case 1:
 		{
-			sceneManager->ChangeScene<TilemapTestScene>(engine);
+			sceneManager->ChangeScene<TilemapTestScene>();
 			break;
 		}
 		case 2:
 		{
-			sceneManager->ChangeScene<CutsceneTestScene>(engine);
+			sceneManager->ChangeScene<CutsceneTestScene>();
 			break;
 		}
 
@@ -132,9 +132,9 @@ void LevelSelectorScene::Update(Engine* engine)
 	}
 }
 
-void LevelSelectorScene::Render(Engine* engine)
+void LevelSelectorScene::Render()
 {
-	Scene::Render(engine);
+	Scene::Render();
 
 	m_uiRenderCommandQueue.ExecuteCommands();
 }

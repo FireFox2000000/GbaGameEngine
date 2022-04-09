@@ -20,5 +20,5 @@ class DebugRender
 
 public:
 	DebugRender();
-	void RenderColliders(Engine* engine, const GameObject* camera);
+	void RenderColliders(const GameObject* camera);
 };

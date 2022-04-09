@@ -8,10 +8,10 @@ public:
 	virtual ~IPostProcessingGfxTask() = default;
 
 	// Main update loop. Pre-prepare any calcs here.
-	virtual void Update(Engine* engine) = 0;
+	virtual void Update() = 0;
 
 	// Called after main render
-	virtual void LateRender(Engine* engine) = 0;
+	virtual void LateRender() = 0;
 
 	/// <summary>
 	/// When this return true, the task will be removed and deleted.

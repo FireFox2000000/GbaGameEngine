@@ -13,15 +13,15 @@
 #include "engine/graphics/GraphicsSetup.h"
 #include "game/input/Input.h"
 
-TilemapTestScene::TilemapTestScene(Engine* engine) : Scene(engine)
+TilemapTestScene::TilemapTestScene() : Scene()
 {
 }
 
-void TilemapTestScene::Enter(Engine * engine)
+void TilemapTestScene::Enter()
 {
 	GraphicsSetup::InitialiseStandardGraphics();
 
-	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
+	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
 	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
 	m_uiRenderer.LoadAtlus(uiAtlusFile);
@@ -36,7 +36,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::NightSky, 0);
 
 	// Load the tilemap into vram
-	Graphics* graphicsManager = engine->GetComponent<Graphics>();
+	Graphics* graphicsManager = Engine::GetInstance().GetComponent<Graphics>();
 	graphicsManager->LoadTilemap(*tilemap);
 
 	m_background = m_gameObjects.AddNew();
@@ -47,7 +47,7 @@ void TilemapTestScene::Enter(Engine * engine)
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 	transform->SetPosition(-17 + 20, 6);
 
-	Graphics* gfx = engine->GetComponent<Graphics>();
+	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 	std::shared_ptr<GfxScreenFadeIn> fadeTask = std::make_shared<GfxScreenFadeIn>(Colour::White, 0.5f);
 	if (gfx->KickPostProcessingGfxTask(fadeTask))
 	{
@@ -60,10 +60,10 @@ void TilemapTestScene::Enter(Engine * engine)
 	m_fallOfFallMidi = std::make_unique<GBA::DMG::Midi::Player>(fileSystem->Open("audio/DmgMidiFallOfFall"));
 }
 
-void TilemapTestScene::Exit(Engine * engine)
+void TilemapTestScene::Exit()
 {
 	// Ideally all maps should be turned off by now unless we're doing fancy transitions or something. 
-	m_assetManager.Dispose(engine);
+	m_assetManager.Dispose(&Engine::GetInstance());
 
 	if (m_kickedFadeOutTask && !m_kickedFadeOutTask->IsComplete())
 	{
@@ -80,9 +80,9 @@ void TilemapTestScene::Exit(Engine * engine)
 	m_stateMachine.ChangeState(nullptr);
 }
 
-void TilemapTestScene::Update(Engine * engine)
+void TilemapTestScene::Update()
 {
-	const Time* time = engine->GetComponent<Time>();
+	const Time* time = Engine::GetInstance().GetComponent<Time>();
 	tFixedPoint24 dt = time->GetDt();
 
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
@@ -94,7 +94,7 @@ void TilemapTestScene::Update(Engine * engine)
 
 	position.x += speed;
 
-	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 
 	m_fallOfFallMidi->Tick();
@@ -128,7 +128,7 @@ void TilemapTestScene::Update(Engine * engine)
 	{
 		GBA::DMG::Test();
 		
-		Graphics* gfx = engine->GetComponent<Graphics>();
+		Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);
 		if (gfx->KickPostProcessingGfxTask(fadeTask))
 		{
@@ -140,16 +140,16 @@ void TilemapTestScene::Update(Engine * engine)
 	{
 		m_kickedFadeOutTask = nullptr;
 
-		SceneManager* sceneManager = engine->GetComponent<SceneManager>();
-		sceneManager->ChangeScene<LevelSelectorScene>(engine);
+		SceneManager* sceneManager = Engine::GetInstance().GetComponent<SceneManager>();
+		sceneManager->ChangeScene<LevelSelectorScene>();
 	}
 
 	m_stateMachine.Update();
 }
 
-void TilemapTestScene::Render(Engine * engine)
+void TilemapTestScene::Render()
 {
-	Scene::Render(engine);
+	Scene::Render();
 
 	m_uiRenderCommandQueue.ExecuteCommands();
 }

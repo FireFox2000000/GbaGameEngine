@@ -14,37 +14,37 @@ class Scene
 	/// <summary>
 	/// Pre-calculations for rendering are done here in order to reduce the actual time we're drawing to the screen. 
 	/// </summary>
-	void PreRender(Engine* engine);
+	void PreRender();
 	
 protected:
 	GameObject m_mainCamera;
 
-	virtual void Enter(Engine* engine) {}
+	virtual void Enter() {}
 
 	/// <summary>
 	/// Main game-logic. Free to completely override.
 	/// </summary>
-	virtual void Update(Engine* engine) {};
+	virtual void Update() {};
 
 	/// <summary>
 	/// Post game-logic stuff like animation and physics.
 	/// </summary>
-	virtual void LateUpdate(Engine* engine);
+	virtual void LateUpdate();
 
 	/// <summary>
 	/// Fixed-tick update. May update multiple times per frame or none per frame. Ideal for physics. 
 	/// </summary>
-	virtual void FixedUpdate(Engine* engine);
+	virtual void FixedUpdate();
 
-	virtual void Exit(Engine* engine) {}
+	virtual void Exit() {}
 
 	/// <summary>
 	/// Actual drawing to the screen takes place here.
 	/// </summary>
-	virtual void Render(Engine* engine);
+	virtual void Render();
 
 public:
-	Scene(Engine* engine);
+	Scene();
 	virtual ~Scene();
 
 	const GameObject* GetMainCamera() const { return &m_mainCamera; }

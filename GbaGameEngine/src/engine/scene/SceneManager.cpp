@@ -12,22 +12,22 @@ SceneManager::~SceneManager()
 	DEBUG_ASSERTMSG(m_current == nullptr && m_queuedSceneFn == nullptr, "SceneManager::Dispose not called.");
 }
 
-bool SceneManager::EnterQueuedScene(Engine * engine)
+bool SceneManager::EnterQueuedScene()
 {
 	if (m_queuedSceneFn)
 	{
 		if (m_current)
 		{
-			m_current->Exit(engine);
+			m_current->Exit();
 			delete m_current;
 		}
 
-		m_current = m_queuedSceneFn(engine);
+		m_current = m_queuedSceneFn();
 		m_queuedSceneFn = nullptr;
 
 		DEBUG_LOG("Scene changed");
 
-		m_current->Enter(engine);
+		m_current->Enter();
 
 		return true;
 	}
@@ -35,11 +35,11 @@ bool SceneManager::EnterQueuedScene(Engine * engine)
 	return false;
 }
 
-void SceneManager::Dispose(Engine* engine)
+void SceneManager::Dispose()
 {
 	if (m_current)
 	{
-		m_current->Exit(engine);
+		m_current->Exit();
 		delete m_current;
 		m_current = nullptr;
 	}
@@ -47,30 +47,30 @@ void SceneManager::Dispose(Engine* engine)
 	m_queuedSceneFn = nullptr;
 }
 
-void SceneManager::UpdateScene(Engine * engine)
+void SceneManager::UpdateScene()
 {
 	if (m_current)
 	{
-		m_current->Update(engine);
-		m_current->LateUpdate(engine);
+		m_current->Update();
+		m_current->LateUpdate();
 	}
 }
 
-void SceneManager::FixedUpdateScene(Engine* engine)
+void SceneManager::FixedUpdateScene()
 {
 	if (m_current)
 	{
-		m_current->FixedUpdate(engine);
+		m_current->FixedUpdate();
 	}
 }
 
-void SceneManager::PreRenderScene(Engine* engine)
+void SceneManager::PreRenderScene()
 {
-	m_current->PreRender(engine);
+	m_current->PreRender();
 }
 
-void SceneManager::RenderScene(Engine* engine)
+void SceneManager::RenderScene()
 {
-	m_current->Render(engine);
+	m_current->Render();
 }
 

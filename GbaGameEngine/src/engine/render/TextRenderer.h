@@ -8,7 +8,7 @@ namespace System
 	{
 		namespace TextRenderer
 		{
-			void Render(Engine* engine);
+			void Render();
 		}
 	}
 }

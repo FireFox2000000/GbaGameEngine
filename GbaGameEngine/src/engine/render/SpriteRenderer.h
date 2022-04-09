@@ -36,6 +36,6 @@ namespace System
 	{
 		// Performs screen culling across all entities that have a sprite to display and adds them to the draw list if not culled. 
 		// Run this before VBlank occours. 
-		void Render(Engine* engine, GameObject* camera);
+		void Render(GameObject* camera);
 	}
 }

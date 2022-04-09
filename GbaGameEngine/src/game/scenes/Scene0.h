@@ -36,10 +36,10 @@ class Scene0 : public Scene
 	SpriteAtlus* shantaeAtlus;
 
 public:
-	Scene0(Engine* engine);
+	Scene0();
 	~Scene0();
 
-	void Enter(Engine* engine) override;
-	void Update(Engine* engine) override;
-	void Exit(Engine* engine) override;
+	void Enter() override;
+	void Update() override;
+	void Exit() override;
 };

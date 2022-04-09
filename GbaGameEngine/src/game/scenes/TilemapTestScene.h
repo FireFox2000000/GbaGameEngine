@@ -47,10 +47,10 @@ class TilemapTestScene : public Scene
 	std::unique_ptr<GBA::DMG::Midi::Player> m_fallOfFallMidi;
 
 public:
-	TilemapTestScene(Engine* engine);
+	TilemapTestScene();
 
-	void Enter(Engine* engine) override;
-	void Exit(Engine* engine) override;
-	void Update(Engine* engine) override;
-	void Render(Engine* engine) override;
+	void Enter() override;
+	void Exit() override;
+	void Update() override;
+	void Render() override;
 };

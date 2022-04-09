@@ -14,7 +14,7 @@ DebugRender::DebugRender()
 	spritePrimitives = m_spriteAssetManager.CreateSpriteAtlusFromFile(Debug_Primitives_64x64::data);
 }
 
-void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
+void DebugRender::RenderColliders(const GameObject* camera)
 {
 	// Debug sprites are set to 64x64 in order to be able to render over a large variety of sizes. Scaling up has limits, scaling down does not (in general).
 	// CHange this if the size of the debug primitives change as well. 
@@ -26,8 +26,8 @@ void DebugRender::RenderColliders(Engine* engine, const GameObject* camera)
 		return;		// Unhandled, todo
 
 
-	auto* entityManager = engine->GetEntityRegistry();
-	Graphics* gfx = engine->GetComponent<Graphics>();
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
+	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 

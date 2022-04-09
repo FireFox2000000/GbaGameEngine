@@ -11,8 +11,8 @@
 #include "game/scripts/states/BgFadeOutRulestate.h"
 #include "game/scripts/states/DialogueRulestate.h"
 
-CutsceneTestScene::CutsceneTestScene(Engine* engine)
-	: Scene(engine)
+CutsceneTestScene::CutsceneTestScene()
+	: Scene()
 {
 }
 
@@ -29,11 +29,11 @@ void CutsceneTestScene::ChangeBg(Tilemap* newTilemap)
 	tilemapRenderer->SetTilemap(newTilemap);
 }
 
-void CutsceneTestScene::Enter(Engine* engine)
+void CutsceneTestScene::Enter()
 {
 	GraphicsSetup::InitialiseStandardGraphics();
 
-	IO::FileSystem* fileSystem = engine->GetComponent<IO::FileSystem>();
+	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
 	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
 	m_uiRenderer.LoadAtlus(uiAtlusFile);
@@ -44,7 +44,7 @@ void CutsceneTestScene::Enter(Engine* engine)
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::CutsceneImg1, 0);
 
 	// Load the tilemap into vram
-	Graphics* graphicsManager = engine->GetComponent<Graphics>();
+	Graphics* graphicsManager = Engine::GetInstance().GetComponent<Graphics>();
 	graphicsManager->LoadTilemap(*tilemap);
 
 	Component::TilemapRenderer& tilemapRenderer = m_cutsceneBg.AddComponent<Component::TilemapRenderer>();
@@ -63,7 +63,7 @@ void CutsceneTestScene::Enter(Engine* engine)
 					m_stateMachine.ChangeState<DialogueRulestate>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [this]() { 
 						m_stateMachine.ChangeState<BgFadeOutRulestate>([this]() { 
 							SceneManager* sceneManager = Engine::GetInstance().GetComponent<SceneManager>();
-							sceneManager->ChangeScene<LevelSelectorScene>(&Engine::GetInstance());
+							sceneManager->ChangeScene<LevelSelectorScene>();
 						});
 					});
 				});
@@ -72,18 +72,18 @@ void CutsceneTestScene::Enter(Engine* engine)
 	});
 }
 
-void CutsceneTestScene::Exit(Engine* engine)
+void CutsceneTestScene::Exit()
 {
 }
 
-void CutsceneTestScene::Update(Engine* engine)
+void CutsceneTestScene::Update()
 {
 	m_stateMachine.Update();
 }
 
-void CutsceneTestScene::Render(Engine* engine)
+void CutsceneTestScene::Render()
 {
-	Scene::Render(engine);
+	Scene::Render();
 
 	m_uiRenderCommandQueue.ExecuteCommands();
 }

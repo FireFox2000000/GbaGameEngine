@@ -59,7 +59,7 @@ int main()
 	DEBUG_LOG("Engine initialised");
 
 	SceneManager* sceneManager = engine.GetComponent<SceneManager>();
-	sceneManager->ChangeScene<LevelSelectorScene>(&engine);
+	sceneManager->ChangeScene<LevelSelectorScene>();
 
 #ifdef TEST_PROFILING
 	auto profileStart = Time::CaptureSystemTimeSnapshot();
@@ -79,7 +79,7 @@ int main()
 			// General update
 			inputManager->Update();
 
-			sceneManager->UpdateScene(&engine);
+			sceneManager->UpdateScene();
 
 			const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
 
@@ -89,7 +89,7 @@ int main()
 				timeToNextFixedUpdateMicroSeconds -= fixedUpdateDtMicroseconds;
 
 				// Perform fixed update
-				sceneManager->FixedUpdateScene(&engine);
+				sceneManager->FixedUpdateScene();
 			}
 
 			audioManager->Update();
@@ -98,7 +98,7 @@ int main()
 			m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
 #endif
 
-			sceneManager->PreRenderScene(&engine);
+			sceneManager->PreRenderScene();
 
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
@@ -120,7 +120,7 @@ int main()
 #ifdef TEST_PROFILING
 			profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
-			sceneManager->RenderScene(&engine);
+			sceneManager->RenderScene();
 
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
@@ -138,21 +138,21 @@ int main()
 		if (Input::GetInputDown(GameInputs::SoftReset, inputManager->GetDevices()))
 		{
 			engine.GetComponent<Graphics>()->PrepareForSceneChange();
-			sceneManager->Dispose(&engine);
+			sceneManager->Dispose();
 			GBA::Bios::SoftReset();
 		}
 
 		if (sceneManager->HasSceneChangeQueued())
 		{
 			engine.GetComponent<Graphics>()->PrepareForSceneChange();
-			sceneManager->EnterQueuedScene(&engine);
+			sceneManager->EnterQueuedScene();
 		}
 
 		// Calculate dt between frames
 		time->Advance();
 	}
 
-	sceneManager->Dispose(&engine);
+	sceneManager->Dispose();
 
 	return 0;
 }

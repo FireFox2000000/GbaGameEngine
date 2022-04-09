@@ -28,6 +28,6 @@ public:
 		return false;
 	}
 
-	void Update(Engine* engine);
-	void LateRender(Engine* engine);
+	void Update();
+	void LateRender();
 };

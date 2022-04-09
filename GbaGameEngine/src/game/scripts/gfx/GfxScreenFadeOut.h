@@ -30,18 +30,18 @@ class GfxScreenFadeOut : public IPostProcessingGfxTask
 	tFixedPoint24 m_invSpeed = 1;
 	FadeState m_currentState = PaletteCapture;
 
-	void CapturePalettes(Engine* engine);
-	void FadePalettes(Engine* engine);
+	void CapturePalettes();
+	void FadePalettes();
 	void AdvanceState();
 
 public:
 	GfxScreenFadeOut(const Colour& destColour, float fadeSpeed);
 
 	// Main update loop. Pre-prepare any calcs here.
-	void Update(Engine* engine) override;
+	void Update() override;
 
 	// Called after main render
-	void LateRender(Engine* engine) override;
+	void LateRender() override;
 
 	bool IsComplete() override;
 

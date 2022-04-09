@@ -39,7 +39,7 @@ Vector2<int> Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
 #include "engine/engine/engine.h"
 #include "engine/math/geometry/AxisAlignedBoundingBox.h"
 
-void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
+void System::SpriteRenderer::Render(GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
 
@@ -47,8 +47,8 @@ void System::SpriteRenderer::Render(Engine* engine, GameObject* camera)
 		return;		// Unhandled, todo
 
 
-	auto* entityManager = engine->GetEntityRegistry();
-	Graphics* gfx = engine->GetComponent<Graphics>();
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
+	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 

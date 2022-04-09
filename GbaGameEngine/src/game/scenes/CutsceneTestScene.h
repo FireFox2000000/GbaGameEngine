@@ -41,10 +41,10 @@ class CutsceneTestScene : public Scene
 	void ChangeBg(Tilemap* newTilemap);
 
 public:
-	CutsceneTestScene(Engine* engine);
+	CutsceneTestScene();
 
-	void Enter(Engine* engine) override;
-	void Exit(Engine* engine) override;
-	void Update(Engine* engine) override;
-	void Render(Engine* engine) override;
+	void Enter() override;
+	void Exit() override;
+	void Update() override;
+	void Render() override;
 };

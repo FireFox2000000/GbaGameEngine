@@ -9,7 +9,7 @@ namespace System
 {
 	namespace SpriteAnimator
 	{
-		void Update(Engine* engine);
+		void Update();
 	}
 }
 
@@ -17,7 +17,7 @@ namespace Component
 {
 	class SpriteAnimator
 	{
-		friend void System::SpriteAnimator::Update(Engine* engine);
+		friend void System::SpriteAnimator::Update();
 
 		const SpriteAnimation* currentAnimation;
 

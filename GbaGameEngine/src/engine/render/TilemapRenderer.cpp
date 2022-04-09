@@ -47,17 +47,17 @@ bool Component::TilemapRenderer::GetVisible() const
 #include "engine/gameobject/GameObject.h"
 #include "engine/gba/registers/display/GBADisplayControl.h"
 
-void System::TilemapRenderer::VBlankRender(Engine* engine, GameObject* camera)
+void System::TilemapRenderer::VBlankRender(GameObject* camera)
 {
 	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
 
 	if (cameraComponent->GetProjection() != Projection::Orthographic)
 		return;		// Unhandled, todo
 
-	auto* entityManager = engine->GetEntityRegistry();
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
 	auto& vram = GBA::Vram::GetInstance();
-	Graphics* gfx = engine->GetComponent<Graphics>();
+	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 

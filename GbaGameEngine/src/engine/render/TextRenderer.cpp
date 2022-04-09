@@ -5,10 +5,10 @@
 #include "engine/screen/Screen.h"
 #include "engine/graphics/Graphics.h"
 
-void System::UI::TextRenderer::Render(Engine * engine)
+void System::UI::TextRenderer::Render()
 {
-	auto* entityManager = engine->GetEntityRegistry();
-	Graphics* graphics = engine->GetComponent<Graphics>();
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
+	Graphics* graphics = Engine::GetInstance().GetComponent<Graphics>();
 
 	entityManager->InvokeEach<Component::UI::ScreenTransform, Component::UI::Text>(
 		[&graphics]

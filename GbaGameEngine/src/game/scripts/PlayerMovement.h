@@ -17,7 +17,7 @@ namespace Component
 
 namespace PlayerMovement
 {
-	void MoveHumanPlayerObject(Engine* engine, GameObject& playerObject);
-	void MovePlayerObject(Engine* engine, GameObject& playerObject, const Vector2<int>& desiredDirection);
+	void MoveHumanPlayerObject(GameObject& playerObject);
+	void MovePlayerObject(GameObject& playerObject, const Vector2<int>& desiredDirection);
 }
 
