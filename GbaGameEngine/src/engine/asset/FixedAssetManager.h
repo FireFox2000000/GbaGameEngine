@@ -46,7 +46,7 @@ public:
 	const SpriteAnimation* GetSpriteAnimation(AnimationsEnum animationId);
 
 	TilemapSet* AddTilemapSetFromFile(TilemapSetEnums e, const u32* file);
-	Tilemap* GetTilemap(TilemapSetEnums tilemapId, u32 tilemapIndex) { return m_tilemapSets[0].GetTilemap(tilemapIndex); }
+	Tilemap* GetTilemap(TilemapSetEnums tilemapId, u32 tilemapIndex) { return m_tilemapSets[tilemapId].GetTilemap(tilemapIndex); }
 };
 
 template<typename AnimationsEnum, typename TilemapSetEnums>
