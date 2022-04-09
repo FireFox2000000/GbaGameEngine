@@ -1,6 +1,6 @@
 #pragma once
 
-class Eosd
+class NightSky_Inverted
 {
 public:
 	static const unsigned long data[];

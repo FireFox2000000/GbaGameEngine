@@ -12,7 +12,6 @@
 #include "game/scenes/LevelSelectorScene.h"
 #include "engine/graphics/GraphicsSetup.h"
 #include "game/input/Input.h"
-#include "game/scripts/states/DialogueRulestate.h"
 
 TilemapTestScene::TilemapTestScene(Engine* engine) : Scene(engine)
 {
@@ -30,16 +29,18 @@ void TilemapTestScene::Enter(Engine * engine)
 	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1)); });
 
 	// Create a tilemap asset
-	FilePtr nightSkyFile = fileSystem->Open("tilemaps/NightSky");
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, nightSkyFile);
-	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::Eosd, 0);
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::NightSky, fileSystem->Open("tilemaps/NightSky"));
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::NightSkyInverted, fileSystem->Open("tilemaps/NightSky_Inverted"));
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, fileSystem->Open("tilemaps/Eosd"));
+
+	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::NightSky, 0);
 
 	// Load the tilemap into vram
 	Graphics* graphicsManager = engine->GetComponent<Graphics>();
 	graphicsManager->LoadTilemap(*tilemap);
 
-	GameObject* background = m_gameObjects.AddNew();
-	Component::TilemapRenderer& tilemapRenderer = background->AddComponent<Component::TilemapRenderer>();
+	m_background = m_gameObjects.AddNew();
+	Component::TilemapRenderer& tilemapRenderer = m_background->AddComponent<Component::TilemapRenderer>();
 	tilemapRenderer.SetTilemap(tilemap);
 	tilemapRenderer.SetVisible(true);
 
@@ -57,11 +58,6 @@ void TilemapTestScene::Enter(Engine * engine)
 	GBA::DMG::SetMasterVolume(1.0f);
 
 	m_fallOfFallMidi = std::make_unique<GBA::DMG::Midi::Player>(fileSystem->Open("audio/DmgMidiFallOfFall"));
-
-	const char* script = "adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd lasd";
-
-	m_stateMachine.ChangeState<DialogueRulestate>(
-		engine, &m_uiRenderer, &m_uiRenderCommandQueue, script, 2, [&]() { m_stateMachine.ChangeState(nullptr); });
 }
 
 void TilemapTestScene::Exit(Engine * engine)
@@ -131,7 +127,7 @@ void TilemapTestScene::Update(Engine * engine)
 	if (!m_kickedFadeOutTask && Input::GetInputDown(ExitTilemapTestScene, devices))
 	{
 		GBA::DMG::Test();
-
+		
 		Graphics* gfx = engine->GetComponent<Graphics>();
 		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);
 		if (gfx->KickPostProcessingGfxTask(fadeTask))

@@ -38,19 +38,19 @@ int main()
 	RegisterInterrupts();
 	GBA::Interrupts::EnableInterrupts();
 
-	std::unique_ptr<Engine> engine = std::make_unique<Engine>();
+	Engine& engine = Engine::GetInstance();
 	std::unique_ptr<FileRegistry> fileRegistry = std::make_unique<FileRegistry>();
-	Input::InputManager* inputManager = engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = engine.GetComponent<Input::InputManager>();
 
 #ifdef DEBUG_COLLIDERS
 	DebugRender m_debugRenderer;	// TODO, should move this onto engine?
 #endif
 
-	IO::FileSystem* fileSystem = engine.get()->GetComponent<IO::FileSystem>();
+	IO::FileSystem* fileSystem = engine.GetComponent<IO::FileSystem>();
 	fileSystem->SetRegistry(fileRegistry.get());
 
-	Time* time = engine->GetComponent<Time>();
-	AudioManager* audioManager = engine->GetComponent<AudioManager>();
+	Time* time = engine.GetComponent<Time>();
+	AudioManager* audioManager = engine.GetComponent<AudioManager>();
 
 	// Input Initialisation	
 	inputManager->Update();
@@ -58,8 +58,8 @@ int main()
 	time->Start();
 	DEBUG_LOG("Engine initialised");
 
-	SceneManager* sceneManager = engine.get()->GetComponent<SceneManager>();
-	sceneManager->ChangeScene<LevelSelectorScene>(engine.get());
+	SceneManager* sceneManager = engine.GetComponent<SceneManager>();
+	sceneManager->ChangeScene<LevelSelectorScene>(&engine);
 
 #ifdef TEST_PROFILING
 	auto profileStart = Time::CaptureSystemTimeSnapshot();
@@ -79,7 +79,7 @@ int main()
 			// General update
 			inputManager->Update();
 
-			sceneManager->UpdateScene(engine.get());
+			sceneManager->UpdateScene(&engine);
 
 			const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
 
@@ -89,7 +89,7 @@ int main()
 				timeToNextFixedUpdateMicroSeconds -= fixedUpdateDtMicroseconds;
 
 				// Perform fixed update
-				sceneManager->FixedUpdateScene(engine.get());
+				sceneManager->FixedUpdateScene(&engine);
 			}
 
 			audioManager->Update();
@@ -98,7 +98,7 @@ int main()
 			m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
 #endif
 
-			sceneManager->PreRenderScene(engine.get());
+			sceneManager->PreRenderScene(&engine);
 
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
@@ -109,7 +109,7 @@ int main()
 
 		audioManager->Update();
 
-		auto* entityManager = engine->GetEntityRegistry();
+		auto* entityManager = engine.GetEntityRegistry();
 		entityManager->InternalFinaliseDestroy();
 
 		// Main update
@@ -120,7 +120,7 @@ int main()
 #ifdef TEST_PROFILING
 			profileStart = Time::CaptureSystemTimeSnapshot();
 #endif
-			sceneManager->RenderScene(engine.get());
+			sceneManager->RenderScene(&engine);
 
 #ifdef TEST_PROFILING
 			auto profileStop = Time::CaptureSystemTimeSnapshot();
@@ -137,22 +137,22 @@ int main()
 
 		if (Input::GetInputDown(GameInputs::SoftReset, inputManager->GetDevices()))
 		{
-			engine.get()->GetComponent<Graphics>()->PrepareForSceneChange();
-			sceneManager->Dispose(engine.get());
+			engine.GetComponent<Graphics>()->PrepareForSceneChange();
+			sceneManager->Dispose(&engine);
 			GBA::Bios::SoftReset();
 		}
 
 		if (sceneManager->HasSceneChangeQueued())
 		{
-			engine.get()->GetComponent<Graphics>()->PrepareForSceneChange();
-			sceneManager->EnterQueuedScene(engine.get());
+			engine.GetComponent<Graphics>()->PrepareForSceneChange();
+			sceneManager->EnterQueuedScene(&engine);
 		}
 
 		// Calculate dt between frames
 		time->Advance();
 	}
 
-	sceneManager->Dispose(engine.get());
+	sceneManager->Dispose(&engine);
 
 	return 0;
 }

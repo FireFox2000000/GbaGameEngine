@@ -12,6 +12,7 @@ class GfxScreenFadeOut : public IPostProcessingGfxTask
 	{
 		PaletteCapture,
 		FadeRender,
+		DisableAndRestoreBgs,
 		Complete,
 
 		Count

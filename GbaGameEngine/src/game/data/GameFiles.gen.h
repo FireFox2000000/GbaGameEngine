@@ -7,6 +7,7 @@
 #include "game/data/sprites/debug_font_8x8_bold.h"
 #include "game/data/tilemaps/Eosd.h"
 #include "game/data/tilemaps/NightSky.h"
+#include "game/data/tilemaps/NightSky_Inverted.h"
 #include "game/data/tilemaps/UiAtlus.h"
 
 #define ALL_FILES()\
@@ -16,5 +17,6 @@ FILE(sprites, Shantae_Idle_bin)\
 FILE(sprites, debug_font_8x8_bold)\
 FILE(tilemaps, Eosd)\
 FILE(tilemaps, NightSky)\
+FILE(tilemaps, NightSky_Inverted)\
 FILE(tilemaps, UiAtlus)\
 //

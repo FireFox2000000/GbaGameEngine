@@ -2,6 +2,7 @@
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/engine/engine.h"
 #include "engine/time/Time.h"
+#include "engine/render/TilemapRenderer.h"
 
 GfxScreenFadeIn::GfxScreenFadeIn(const Colour& destColour, float fadeSpeed)
 	: m_invSpeed(1.0f / fadeSpeed)
@@ -66,6 +67,27 @@ void GfxScreenFadeIn::Update(Engine* engine)
 {
 	switch (m_currentState)
 	{
+	case EnsureBackgroundsHidden:
+	{
+		auto* entityManager = engine->GetEntityRegistry();
+		entityManager->InvokeEach<Component::TilemapRenderer>(
+			[](Component::TilemapRenderer& tilemapRenderer)
+			{
+				tilemapRenderer.SetVisible(false);
+			});
+		break;
+	}
+	case EnsureBackgroundsVisible:
+	{
+		auto* entityManager = engine->GetEntityRegistry();
+		entityManager->InvokeEach<Component::TilemapRenderer>(
+			[](Component::TilemapRenderer& tilemapRenderer)
+			{
+				tilemapRenderer.SetVisible(true);
+			});
+		AdvanceState();
+		// Fall through to fade render
+	}
 	case FadeRender:
 	{
 		// Calculate the new palette
@@ -99,6 +121,11 @@ void GfxScreenFadeIn::LateRender(Engine* engine)
 {
 	switch (m_currentState)
 	{
+	case EnsureBackgroundsHidden:
+	{
+		AdvanceState();
+		break;
+	}
 	case PaletteCapture:
 	{
 		CapturePalettes(engine);

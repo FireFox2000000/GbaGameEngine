@@ -2,6 +2,9 @@
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/engine/engine.h"
 #include "engine/time/Time.h"
+#include "engine/render/TilemapRenderer.h"
+
+constexpr int BgPaletteBufferIndex = 0;
 
 GfxScreenFadeOut::GfxScreenFadeOut(const Colour& destColour, float fadeSpeed)
 	: m_invSpeed(1.0f / fadeSpeed)
@@ -12,7 +15,7 @@ GfxScreenFadeOut::GfxScreenFadeOut(const Colour& destColour, float fadeSpeed)
 
 void GfxScreenFadeOut::CapturePalettes(Engine* engine)
 {
-	m_destPalettes.GetPrimary() = m_originalPalettesCaptured == 0 ? GBA::Gfx::PaletteBank::EditBackgroundPalette() : GBA::Gfx::PaletteBank::EditSpritePalette();
+	m_destPalettes.GetPrimary() = m_originalPalettesCaptured == BgPaletteBufferIndex ? GBA::Gfx::PaletteBank::EditBackgroundPalette() : GBA::Gfx::PaletteBank::EditSpritePalette();
 
 	ColourPalette256 originalPalettes;
 
@@ -84,6 +87,16 @@ void GfxScreenFadeOut::Update(Engine* engine)
 		}
 		break;
 	}
+	case DisableAndRestoreBgs:
+	{
+		auto* entityManager = engine->GetEntityRegistry();
+		entityManager->InvokeEach<Component::TilemapRenderer>(
+			[](Component::TilemapRenderer& tilemapRenderer)
+			{
+				tilemapRenderer.SetVisible(false);
+			});
+		break;
+	}
 	default:
 		break;
 	}
@@ -101,6 +114,19 @@ void GfxScreenFadeOut::LateRender(Engine* engine)
 	case FadeRender:
 	{
 		FadePalettes(engine);
+		break;
+	}
+	case DisableAndRestoreBgs:
+	{
+		// Ensure that we're on the bg palette here
+		if (m_originalPalettes.GetIndex() != BgPaletteBufferIndex)
+		{
+			m_originalPalettes.Flip();
+			m_destPalettes.Flip();
+		}
+
+		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), m_originalPalettes.GetPrimary().Count() * sizeof(Rgb16));
+		AdvanceState();
 		break;
 	}
 	default:

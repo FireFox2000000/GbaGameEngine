@@ -9,15 +9,13 @@ const char DialogueBoxStepFlag = '`';
 const Vector2<int> DrawPos = Vector2<int>(1, 10);
 
 DialogueRulestate::DialogueRulestate(
-	Engine* engine
-	, UiRenderer* uiRenderer
+	UiRenderer* uiRenderer
 	, CommandQueue* uiRenderCommandQueue
 	, const char* script
 	, int totalRows
 	, std::function<void()> onFinishedFn
 )
-	: m_engine(engine)
-	, m_uiRenderer(uiRenderer)
+	: m_uiRenderer(uiRenderer)
 	, m_uiRenderCommandQueue(uiRenderCommandQueue)
 	, m_totalRows(totalRows)
 	, m_onFinished(onFinishedFn)
@@ -88,8 +86,6 @@ DialogueRulestate::DialogueRulestate(
 			}
 		}
 	}
-
-	DEBUG_LOGFORMAT("Dialogue rulestate str: %s", m_script.c_str());
 }
 
 bool DialogueRulestate::AdvanceText()
@@ -123,8 +119,6 @@ bool DialogueRulestate::AdvanceText()
 
 void DialogueRulestate::Enter()
 {
-	DEBUG_LOG("Entered rulestate [Dialogue_Rulestate]");
-
 	if (AdvanceText())
 	{
 		m_onFinished();
@@ -133,7 +127,7 @@ void DialogueRulestate::Enter()
 
 void DialogueRulestate::Update()
 {
-	Input::InputManager* inputManager = m_engine->GetComponent<Input::InputManager>();
+	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 
 	if (Input::GetInputDown(AdvanceDialogue, devices))
@@ -147,6 +141,7 @@ void DialogueRulestate::Update()
 	{
 		m_onFinished();
 	}
+
 }
 
 void DialogueRulestate::Exit()

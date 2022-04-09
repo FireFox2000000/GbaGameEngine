@@ -10,7 +10,9 @@ class GfxScreenFadeIn : public IPostProcessingGfxTask
 {
 	enum FadeState
 	{
+		EnsureBackgroundsHidden,
 		PaletteCapture,
+		EnsureBackgroundsVisible,
 		FadeRender,
 		Complete,
 

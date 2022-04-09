@@ -23,6 +23,8 @@ public:
 			return true;
 		}
 
+		DEBUG_ASSERTMSG(false, "Unable to kick post-processing gfx task as it is out of capacity.");
+
 		return false;
 	}
 

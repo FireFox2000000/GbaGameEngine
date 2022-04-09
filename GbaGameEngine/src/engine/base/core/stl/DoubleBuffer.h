@@ -32,4 +32,9 @@ public:
 	{
 		return m_doubleBuffer[m_currentBufferIndex ^ 1];
 	}
+
+	inline int GetIndex() const
+	{
+		return m_currentBufferIndex;
+	}
 };

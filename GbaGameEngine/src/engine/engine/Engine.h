@@ -43,4 +43,10 @@ public:
 	{
 		return m_engineComponentsRegistry.EditComponent<Component>(m_engineComponentsContainer);
 	}
+
+	static Engine& GetInstance()
+	{
+		static Engine engine;
+		return engine;
+	}
 };

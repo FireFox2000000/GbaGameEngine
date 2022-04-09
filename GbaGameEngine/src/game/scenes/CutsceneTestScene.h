@@ -10,10 +10,9 @@
 #include "game/scripts/gfx/GfxScreenFadeOut.h"
 #include "game/scripts/util/CommandQueue.h"
 
-#include "engine/gba/audio/GBADmgMidiPlayer.h"
 #include "engine/util/state/StateMachine.h"
 
-class TilemapTestScene : public Scene
+class CutsceneTestScene : public Scene
 {
 	UiRenderer m_uiRenderer;
 	CommandQueue m_uiRenderCommandQueue;
@@ -26,9 +25,8 @@ class TilemapTestScene : public Scene
 	};
 
 	enum TilemapSetID {
-		NightSky,
-		NightSkyInverted,
-		Eosd,
+		CutsceneImg1,
+		CutsceneImg2,
 
 		TilemapSetCount
 	};
@@ -38,16 +36,12 @@ class TilemapTestScene : public Scene
 		TilemapSetID>
 		m_assetManager;
 
-	FixedList<GameObject, 2> m_gameObjects;
-	GameObject* m_background = nullptr;
+	GameObject m_cutsceneBg;
 
-	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeInTask;
-	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeOutTask;
-
-	std::unique_ptr<GBA::DMG::Midi::Player> m_fallOfFallMidi;
+	void ChangeBg(Tilemap* newTilemap);
 
 public:
-	TilemapTestScene(Engine* engine);
+	CutsceneTestScene(Engine* engine);
 
 	void Enter(Engine* engine) override;
 	void Exit(Engine* engine) override;

@@ -167,6 +167,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\game\data\FileRegistry.cpp" />
     <ClCompile Include="src\game\data\debug_font_8x8.cpp" />
     <ClCompile Include="src\game\input\InputConfig.cpp" />
+    <ClCompile Include="src\game\scenes\CutsceneTestScene.cpp" />
     <ClCompile Include="src\game\scenes\TilemapTestScene.cpp" />
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
@@ -192,6 +193,8 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\gba\registers\input\GBAInput.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
+    <ClCompile Include="src\game\scripts\states\BgFadeInRulestate.cpp" />
+    <ClCompile Include="src\game\scripts\states\BgFadeOutRulestate.cpp" />
     <ClCompile Include="src\game\scripts\states\DialogueRulestate.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\time\TimeValue.cpp" />
@@ -327,6 +330,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\animation\SpriteAnimator.h" />
     <ClInclude Include="src\engine\engine\Engine.h" />
     <ClInclude Include="src\game\input\InputConfig.h" />
+    <ClInclude Include="src\game\scenes\CutsceneTestScene.h" />
     <ClInclude Include="src\game\scenes\TilemapTestScene.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
@@ -358,6 +362,8 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\registers\input\GBAInput.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
     <ClInclude Include="src\engine\time\TimeValue.h" />
+    <ClInclude Include="src\game\scripts\states\BgFadeInRulestate.h" />
+    <ClInclude Include="src\game\scripts\states\BgFadeOutRulestate.h" />
     <ClInclude Include="src\game\scripts\states\DialogueRulestate.h" />
     <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
   </ItemGroup>

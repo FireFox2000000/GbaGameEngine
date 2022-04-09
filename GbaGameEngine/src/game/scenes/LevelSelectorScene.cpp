@@ -6,10 +6,12 @@
 #include "engine/gba/registers/input/GBAInput.h"
 #include "engine/graphics/GraphicsSetup.h"
 #include "game/data/tilemaps/UiAtlus.h"
-#include "game/scenes/Scene0.h"
-#include "game/scenes/TilemapTestScene.h"
 #include "engine/base/core/Memory.h"
 #include "game/input/Input.h"
+
+#include "game/scenes/Scene0.h"
+#include "game/scenes/TilemapTestScene.h"
+#include "game/scenes/CutsceneTestScene.h"
 
 int labelXPosition = 2;
 int selectedNotchXPosition = 0;
@@ -20,9 +22,10 @@ int columnHeight = 1;
 UiAtlusObject notchUiElement = UiAtlusObject::Ascii_62;
 UiAtlusObject menuClearBgUiElement = UiAtlusObject::Ascii_32;
 
-Array<std::string, 2> labels = {
+Array<std::string, 3> labels = {
 	"Sprite Stress Test",
 	"Background Viewer",
+	"Cutscene Test",
 };
 
 int GetSelectedLabelYPos(int currentSelectedOption)
@@ -113,6 +116,11 @@ void LevelSelectorScene::Update(Engine* engine)
 		case 1:
 		{
 			sceneManager->ChangeScene<TilemapTestScene>(engine);
+			break;
+		}
+		case 2:
+		{
+			sceneManager->ChangeScene<CutsceneTestScene>(engine);
 			break;
 		}
 
