@@ -15,7 +15,7 @@
 class CutsceneTestScene : public Scene
 {
 	UiRenderer m_uiRenderer;
-	CommandQueue m_uiRenderCommandQueue;
+	CommandQueue<> m_uiRenderCommandQueue;
 
 	StateMachine<> m_stateMachine;
 

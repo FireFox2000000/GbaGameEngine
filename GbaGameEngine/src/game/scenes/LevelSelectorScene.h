@@ -6,7 +6,7 @@
 class LevelSelectorScene : public Scene
 {
 	UiRenderer m_uiRenderer;
-	CommandQueue m_uiRenderCommandQueue;
+	CommandQueue<> m_uiRenderCommandQueue;
 
 	int m_currentSelectedIndex = 0;
 

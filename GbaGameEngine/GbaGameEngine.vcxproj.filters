@@ -94,6 +94,7 @@
     <ClCompile Include="src\game\scenes\CutsceneTestScene.cpp" />
     <ClCompile Include="src\game\scripts\states\BgFadeOutState.cpp" />
     <ClCompile Include="src\game\scripts\states\BgFadeInState.cpp" />
+    <ClCompile Include="src\game\scripts\states\CutsceneState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -262,6 +263,7 @@
     <ClInclude Include="src\game\scenes\CutsceneTestScene.h" />
     <ClInclude Include="src\game\scripts\states\BgFadeOutState.h" />
     <ClInclude Include="src\game\scripts\states\BgFadeInState.h" />
+    <ClInclude Include="src\game\scripts\states\CutsceneState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -10,7 +10,7 @@ const Vector2<int> DrawPos = Vector2<int>(1, 10);
 
 DialogueState::DialogueState(
 	UiRenderer* uiRenderer
-	, CommandQueue* uiRenderCommandQueue
+	, CommandQueue<>* uiRenderCommandQueue
 	, const char* script
 	, int totalRows
 	, std::function<void()> onFinishedFn

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "game/data/audio/DmgMidiFallOfFall.h"
+#include "game/data/audio/Seliana16.h"
 #include "game/data/audio/TheCrowSong.h"
 #include "game/data/sprites/Shantae_Idle_bin.h"
 #include "game/data/sprites/debug_font_8x8_bold.h"
@@ -12,6 +13,7 @@
 
 #define ALL_FILES()\
 FILE(audio, DmgMidiFallOfFall)\
+FILE(audio, Seliana16)\
 FILE(audio, TheCrowSong)\
 FILE(sprites, Shantae_Idle_bin)\
 FILE(sprites, debug_font_8x8_bold)\

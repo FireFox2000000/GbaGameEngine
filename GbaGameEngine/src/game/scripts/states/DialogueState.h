@@ -5,12 +5,14 @@
 
 class Engine;
 class UiRenderer;
+
+template<typename ...>
 class CommandQueue;
 
 class DialogueState : public StateMachine<>::IState
 {
 	UiRenderer* m_uiRenderer;
-	CommandQueue* m_uiRenderCommandQueue;
+	CommandQueue<>* m_uiRenderCommandQueue;
 
 	std::string m_script;
 	int m_totalRows = 2;
@@ -28,7 +30,7 @@ protected:
 public:
 	DialogueState(
 		UiRenderer* uiRenderer
-		, CommandQueue* uiRenderCommandQueue
+		, CommandQueue<>* uiRenderCommandQueue
 		, const char* script
 		, int totalRows
 		, std::function<void()> onFinishedFn = nullptr

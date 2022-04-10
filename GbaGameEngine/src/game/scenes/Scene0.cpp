@@ -38,7 +38,7 @@ void Scene0::Enter()
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
 	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
-	FilePtr theCrowSongFile = fileSystem->Open("audio/TheCrowSong");
+	FilePtr theCrowSongFile = fileSystem->Open("audio/Seliana16");
 	m_backgroundMusic = audioManager->CreateFromFile(theCrowSongFile);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
 	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 1.0f);

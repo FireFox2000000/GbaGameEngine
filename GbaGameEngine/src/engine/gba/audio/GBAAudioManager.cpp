@@ -411,6 +411,8 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateFromFil
 	int sampleCount = reader.Read<int>();
 	const u8* samples = reader.ReadAddress<u8>(sampleCount);
 
+	DEBUG_LOGFORMAT("[AudioManager::CreateFromFile] sample rate %d, sample count %d", sampleRate, sampleCount);
+
 	return CreateDirectSoundChannel(sampleRate, sampleCount, samples);
 }
 
