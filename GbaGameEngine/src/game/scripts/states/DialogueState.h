@@ -11,11 +11,19 @@ class CommandQueue;
 
 class DialogueState : public StateMachine<>::IState
 {
+public:
+	struct BorderSpriteSlice
+	{
+		int TopLeft, TopRight, BottomLeft, BottomRight, Left, Right, Top, Bottom = 0;
+	};
+
+private:
 	UiRenderer* m_uiRenderer;
 	CommandQueue<>* m_uiRenderCommandQueue;
 
 	std::string m_script;
 	int m_totalRows = 2;
+	BorderSpriteSlice m_borderSprites;
 
 	std::function<void()> m_onFinished = nullptr;
 
@@ -33,6 +41,7 @@ public:
 		, CommandQueue<>* uiRenderCommandQueue
 		, const char* script
 		, int totalRows
+		, const BorderSpriteSlice& borderDef
 		, std::function<void()> onFinishedFn = nullptr
 	);
 };

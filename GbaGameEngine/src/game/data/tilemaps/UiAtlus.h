@@ -104,4 +104,12 @@ public:
 		Ascii_125,
 		Ascii_126,
 		Ascii_127,
+		Border_TopLeft,
+		Border_TopRight,
+		Border_BottomLeft,
+		Border_BottomRight,
+		Border_Left,
+		Border_Right,
+		Border_Top,
+		Border_Bottom,
 	};

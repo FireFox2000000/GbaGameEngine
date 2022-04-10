@@ -12,6 +12,19 @@
 #include "game/scripts/states/DialogueState.h"
 #include "game/scripts/states/CutsceneState.h"
 
+#include "game/data/Tilemaps/UiAtlus.h"
+
+const DialogueState::BorderSpriteSlice UiBorderDef = {
+	UiAtlusObject::Border_TopLeft
+	, UiAtlusObject::Border_TopRight
+	, UiAtlusObject::Border_BottomLeft
+	, UiAtlusObject::Border_BottomRight
+	, UiAtlusObject::Border_Left
+	, UiAtlusObject::Border_Right
+	, UiAtlusObject::Border_Top
+	, UiAtlusObject::Border_Bottom
+};
+
 CutsceneTestScene::CutsceneTestScene()
 	: Scene()
 {
@@ -55,8 +68,8 @@ void CutsceneTestScene::Enter()
 		[](CutsceneState::CutsceneStateMachine* stateMachine, CutsceneState::CommandFinishedFn finished) { stateMachine->ChangeState<BgFadeInState>(finished); },
 		
 		[this](CutsceneState::CutsceneStateMachine* stateMachine, CutsceneState::CommandFinishedFn finished) {
-			const char* script = "adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd lasd";
-			stateMachine->ChangeState<DialogueState>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, finished);
+			const char* script = "adlkjasd`asd";
+			stateMachine->ChangeState<DialogueState>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, UiBorderDef, finished);
 		},
 
 		[](CutsceneState::CutsceneStateMachine* stateMachine, CutsceneState::CommandFinishedFn finished) {
@@ -71,8 +84,8 @@ void CutsceneTestScene::Enter()
 		},
 
 		[this](CutsceneState::CutsceneStateMachine* stateMachine, CutsceneState::CommandFinishedFn finished) {
-			const char* script = "Diag 2 adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd lasd";
-			stateMachine->ChangeState<DialogueState>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, finished);
+			const char* script = "Diag 2 adlkjasd aslhas asbas a albasd asl as asd lasd asd lasd as dla sdl asd\nlasd";
+			stateMachine->ChangeState<DialogueState>(&m_uiRenderer, &m_uiRenderCommandQueue, script, 2, UiBorderDef, finished);
 		},
 
 		[](CutsceneState::CutsceneStateMachine* stateMachine, CutsceneState::CommandFinishedFn finished) {
