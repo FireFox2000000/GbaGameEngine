@@ -27,7 +27,6 @@ class TilemapTestScene : public Scene
 
 	enum TilemapSetID {
 		NightSky,
-		NightSkyInverted,
 		Eosd,
 
 		TilemapSetCount

@@ -1,6 +1,6 @@
 #pragma once
 
-class NightSky
+class NightSkySet
 {
 public:
 	static const unsigned long data[];

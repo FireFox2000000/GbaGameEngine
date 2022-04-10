@@ -29,8 +29,7 @@ void TilemapTestScene::Enter()
 	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1)); });
 
 	// Create a tilemap asset
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::NightSky, fileSystem->Open("tilemaps/NightSky"));
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::NightSkyInverted, fileSystem->Open("tilemaps/NightSky_Inverted"));
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::NightSky, fileSystem->Open("tilemaps/NightSkySet"));
 	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, fileSystem->Open("tilemaps/Eosd"));
 
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::NightSky, 0);

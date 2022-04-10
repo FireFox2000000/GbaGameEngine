@@ -31,44 +31,56 @@ namespace GbaConversionTools.States
 
         void WalkConverterOptions()
         {
-            Console.WriteLine("Drag an image file to convert");
+            Console.WriteLine("Drag an image file to convert, or drag a folder path to make a tilemap set");
+
+            List<string> files = new List<string>();
             string inputPath = Console.ReadLine().Trim('"');
-
-            if (!File.Exists(inputPath))
             {
-                Console.WriteLine(string.Format("Unable to find file {0}", inputPath));
-                return;
+                if (Directory.Exists(inputPath))
+                {
+                    files.AddRange(Directory.GetFiles(inputPath));
+                }
+                else if (File.Exists(inputPath))
+                {
+                    files.Add(inputPath);
+                }
             }
 
+            List<Bitmap> bitmaps = new List<Bitmap>();
 
-            Bitmap bitmap;
-
-            try
+            foreach (string filePath in files)
             {
-                bitmap = new Bitmap(inputPath);
+                try
+                {
+                    Bitmap bitmap = new Bitmap(filePath);
+
+                    // Validate input
+                    if (!Tools.TilemapConverter.IsValidPixelCombination(new Vector2(bitmap.Width, bitmap.Height)))
+                    {
+                        throw new Exception("File not a valid pixel combination;");
+                    }
+
+                    bitmaps.Add(bitmap);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(string.Format("Unable to process file {0} as a bitmap: {1}"), e.Message, e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unable to process file as a bitmap: " + e.Message);
-                return;
-            }
 
-            // Validate input
-            if (!Tools.TilemapConverter.IsValidPixelCombination(new Vector2(bitmap.Width, bitmap.Height)))
+            if (bitmaps.Count > 0)
             {
-                return;
-            }
+                try
+                {
+                    string outputPath = Path.Combine(FileManager.Instance.TilemapPath, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
 
-            try
-            {
-                string outputPath = Path.Combine(FileManager.Instance.TilemapPath, Path.GetFileName(Path.ChangeExtension(inputPath, ".cpp")));
-
-                Tools.TilemapConverter converter = new Tools.TilemapConverter();
-                converter.Convert(inputPath, outputPath, bitmap);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error occured: " + e.Message);
+                    Tools.TilemapConverter converter = new Tools.TilemapConverter();
+                    converter.Convert(inputPath, outputPath, bitmaps);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error occured: " + e.Message);
+                }
             }
         }
     }

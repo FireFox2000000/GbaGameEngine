@@ -39,7 +39,7 @@ void CutsceneTestScene::Enter()
 	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
 	m_uiRenderer.LoadAtlus(uiAtlusFile);
 
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/NightSky"));
+	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/NightSkySet"));
 	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg2, fileSystem->Open("tilemaps/NightSky_Inverted"));
 
 	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::CutsceneImg1, 0);
