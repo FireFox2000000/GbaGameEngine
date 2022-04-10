@@ -43,10 +43,13 @@ namespace Component
 		ColliderShapeType::Enum m_shapeType = ColliderShapeType::Count;
 
 		bool m_isTrigger = false;		// If set to true, objects will be allowed to pass through this collider. Otherwise a physical object. 
+		int m_collisionMask = ~0;
 		std::function<void(const Collision&)> m_onHitHandler = nullptr;
 
 	public:
 		ColliderShapeType::Enum GetShapeType() const;
+		int GetCollisionMask() const;
+		void SetCollisionMask(int mask);
 
 		bool GetIsTrigger() const;
 		void SetIsTrigger(bool isTrigger);

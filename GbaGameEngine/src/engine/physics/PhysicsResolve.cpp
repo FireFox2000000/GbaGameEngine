@@ -77,6 +77,7 @@ void System::Physics::ResolveCollisions()
 			(ECS::Entity entityB, Component::Transform& transformB,  Component::Collider& colliderB)
 				{
 					if (entityA == entityB) return;
+					if (!(colliderA.GetCollisionMask() & colliderB.GetCollisionMask())) return;
 
 					Collision collision;
 					Collision* collisionHandle = colliderB.GetIsTrigger() ? nullptr : &collision;

@@ -103,6 +103,7 @@ void Scene0::Enter()
 				Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
 				, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
 			);
+			//collider.SetCollisionMask(BIT(1));
 
 			collider.SetOnHitHandler([&](const Collision& coll) {
 				//if (playerObject && coll.InvolvedEntity(playerObject->GetEntity()))
@@ -161,6 +162,7 @@ void Scene0::Enter()
 			Vector2<tFixedPoint8>((tFixedPoint8(-0.5f) * colliderWidth) + tFixedPoint8(0.5f), tFixedPoint8(0.5f) * -shantae0->GetSize().y)
 			, Vector2<tFixedPoint8>((tFixedPoint8(0.5f) * colliderWidth), (tFixedPoint8(0.5f) * shantae0->GetSize().y) - tFixedPoint8(4))
 				);
+		//collider.SetCollisionMask(BIT(0));
 	}
 }
 

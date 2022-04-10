@@ -12,6 +12,16 @@ namespace Component
 		return (ColliderShapeType::Enum)m_shapeType;
 	}
 
+	int Collider::GetCollisionMask() const
+	{
+		return m_collisionMask;
+	}
+
+	void Collider::SetCollisionMask(int mask)
+	{
+		m_collisionMask = mask;
+	}
+
 	bool Collider::GetIsTrigger() const
 	{
 		return m_isTrigger;
