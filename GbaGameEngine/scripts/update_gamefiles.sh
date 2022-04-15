@@ -11,7 +11,9 @@ FileMacrosArr=()
 AllFiles=()
 for d in $InputDirectory/*/ ; do
     for file in "$d"*.cpp ; do
-        AllFiles+=($file)
+        if test -f "$file"; then
+            AllFiles+=($file)
+        fi
     done
 done
 

@@ -9,9 +9,13 @@
 #include "engine/base/core/Memory.h"
 #include "game/input/Input.h"
 
-#include "game/scenes/Scene0.h"
-#include "game/scenes/TilemapTestScene.h"
-#include "game/scenes/CutsceneTestScene.h"
+#include "game/scenes/TestScenes/Scene0.h"
+#include "game/scenes/TestScenes/TilemapTestScene.h"
+#include "game/scenes/TestScenes/CutsceneTestScene.h"
+
+#include "game/scenes/TutorialScene.h"
+
+// #define TEST_SCENES
 
 int labelXPosition = 2;
 int selectedNotchXPosition = 0;
@@ -22,12 +26,17 @@ int columnHeight = 1;
 UiAtlusObject notchUiElement = UiAtlusObject::Ascii_62;
 UiAtlusObject menuClearBgUiElement = UiAtlusObject::Ascii_32;
 
+#ifdef TEST_SCENES
 Array<std::string, 3> labels = {
 	"Sprite Stress Test",
 	"Background Viewer",
 	"Cutscene Test",
 };
-
+#else
+Array<std::string, 1> labels = {
+	"Tutorial",
+};
+#endif
 int GetSelectedLabelYPos(int currentSelectedOption)
 {
 	return columnStartIndex + currentSelectedOption * columnHeight;
@@ -108,6 +117,7 @@ void LevelSelectorScene::Update()
 
 		switch (m_currentSelectedIndex)
 		{
+#ifdef TEST_SCENES
 		case 0:
 		{
 			sceneManager->ChangeScene<Scene0>();
@@ -123,7 +133,13 @@ void LevelSelectorScene::Update()
 			sceneManager->ChangeScene<CutsceneTestScene>();
 			break;
 		}
-
+#else
+		case 0:
+		{
+			sceneManager->ChangeScene<TutorialScene>();
+			break;
+		}
+#endif
 		default:
 		{
 			break;
