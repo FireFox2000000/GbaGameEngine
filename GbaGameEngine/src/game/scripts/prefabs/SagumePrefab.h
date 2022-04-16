@@ -23,5 +23,5 @@ namespace SagumePrefab
 		SagumeTilemapSetID>;
 
 	void InitAnimationContainer(SpriteAtlus* sagumeSpriteAtlus, SagumeAnimationContainer* out_animationContainer);
-	SharedPtr<GameObject> MakeSagumePrefab(const SagumeAnimationContainer& animationContainer);
+	SharedPtr<GameObject> MakeSagumePrefab(SagumeAnimationContainer& animationContainer);
 }

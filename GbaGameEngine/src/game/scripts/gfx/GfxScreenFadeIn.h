@@ -30,7 +30,7 @@ class GfxScreenFadeIn : public IPostProcessingGfxTask
 	Rgb16 m_startColour = 0;
 	Colour::tColourLerpT m_t = 0;
 	tFixedPoint24 m_invSpeed = 1;
-	FadeState m_currentState = PaletteCapture;
+	FadeState m_currentState = (FadeState)0;
 
 	void CapturePalettes();
 	void FadePalettes();

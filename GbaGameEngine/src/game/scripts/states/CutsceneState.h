@@ -16,7 +16,7 @@ private:
 	CutsceneStateMachine m_stateMachine;
 	std::function<void()> m_currentCommandFinished = nullptr;
 
-protected:
+public:
 	void Enter() override;
 	void Update() override;
 

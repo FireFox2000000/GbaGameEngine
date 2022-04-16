@@ -97,6 +97,9 @@
     <ClCompile Include="src\game\scripts\prefabs\SagumePrefab.cpp" />
     <ClCompile Include="src\game\scenes\TestScenes\Scene0.cpp" />
     <ClCompile Include="src\game\scenes\TutorialScene.cpp" />
+    <ClCompile Include="src\game\scripts\states\Tutorial\TutorialOpeningCutscene.cpp" />
+    <ClCompile Include="src\game\scripts\states\Tutorial\TutorialGameplayState.cpp" />
+    <ClCompile Include="src\game\scripts\states\DelayState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -268,6 +271,10 @@
     <ClInclude Include="src\game\scripts\states\CutsceneState.h" />
     <ClInclude Include="src\game\scripts\prefabs\SagumePrefab.h" />
     <ClInclude Include="src\game\scenes\TutorialScene.h" />
+    <ClInclude Include="src\game\scripts\states\Tutorial\TutorialOpeningCutscene.h" />
+    <ClInclude Include="src\game\scripts\GameState.h" />
+    <ClInclude Include="src\game\scripts\states\Tutorial\TutorialGameplayState.h" />
+    <ClInclude Include="src\game\scripts\states\DelayState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -4,6 +4,8 @@
 #include "engine/graphics/GraphicsSetup.h"
 #include "engine/asset/AnimationFactory.h"
 
+#include "game/scripts/states/Tutorial/TutorialOpeningCutscene.h"
+
 TutorialScene::TutorialScene()
 {
 }
@@ -15,21 +17,35 @@ void TutorialScene::Enter()
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
 	// Load assets
+	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
+	m_sceneParams.uiRenderer.LoadAtlus(uiAtlusFile);
+
 	DEBUG_LOG("Loading Sagume sprite atlus");
 	FilePtr sagumeSpriteSheet = fileSystem->Open("sprites/Sagume");
 	m_sagumeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(sagumeSpriteSheet);
 
-	DEBUG_LOG("Loading Sagume animations");
+	m_sceneParams.m_tilemapContainer.AddTilemapSetFromFile(TutorialStateParams::TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/thgj8_bg1"));
+
 	SagumePrefab::InitAnimationContainer(m_sagumeAtlus, &m_sagumeAnimationContainer);
 
-	m_sagumeGameObject = SagumePrefab::MakeSagumePrefab(m_sagumeAnimationContainer);
+	m_sceneParams.sagumeGameObject = SagumePrefab::MakeSagumePrefab(m_sagumeAnimationContainer);
+
+	m_sceneParams.stateMachine.ChangeState<TutorialOpeningCutscene>(&m_sceneParams);
 }
 
 void TutorialScene::Update()
 {
+	m_sceneParams.stateMachine.Update(&m_sceneParams);
 }
 
 void TutorialScene::Exit()
 {
 	m_sagumeAnimationContainer.Dispose(&Engine::GetInstance());
+}
+
+void TutorialScene::Render()
+{
+	Scene::Render();
+
+	m_sceneParams.uiRenderCommandQueue.ExecuteCommands();
 }
