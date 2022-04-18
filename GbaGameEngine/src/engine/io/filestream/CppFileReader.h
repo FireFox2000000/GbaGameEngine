@@ -38,4 +38,9 @@ public:
 
 		return obj;
 	}
+
+	void ResetStreamPos()
+	{
+		m_streamPos = StreamPos();
+	}
 };

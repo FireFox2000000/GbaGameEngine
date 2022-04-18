@@ -6,6 +6,7 @@
 #include "engine/gameobject/GameObject.h"
 #include "engine/util/state/StateMachine.h"
 #include "engine/render/UiRenderer.h"
+#include "engine/gba/audio/GBADmgMidiPlayer.h"
 
 #include "game/scripts/prefabs/SagumePrefab.h"
 #include "game/scripts/GameState.h"
@@ -35,6 +36,7 @@ private:
 
 	SpriteAtlus* m_sagumeAtlus;
 	TutorialStateParams m_sceneParams;
+	std::unique_ptr<GBA::DMG::Midi::Player> m_bgMidi;
 
 public:
 	TutorialScene();

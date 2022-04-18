@@ -56,6 +56,7 @@
     <Compile Include="CppWriter.cs" />
     <Compile Include="Defines.cs" />
     <Compile Include="DmgMidis\MidiFallOfFall.cs" />
+    <Compile Include="DmgMidis\MidiFrozenCapitalOfEternity.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Program.cs" />

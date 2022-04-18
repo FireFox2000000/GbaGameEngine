@@ -28,12 +28,17 @@ void TutorialScene::Enter()
 
 	m_sceneParams.sagumeGameObject = SagumePrefab::MakeSagumePrefab(m_sagumeAnimationContainer);
 
+	GBA::DMG::EnableSoundChannels(GBA::DMG::SoundChannels::Sound1 | GBA::DMG::SoundChannels::Sound2 | GBA::DMG::SoundChannels::Sound4);
+	GBA::DMG::SetMasterVolume(1.0f);
+	m_bgMidi = std::make_unique<GBA::DMG::Midi::Player>(fileSystem->Open("audio/DmgMidiFrozenCapitalOfEternity"));
+
 	m_sceneParams.stateMachine.ChangeState<TutorialOpeningCutscene>(&m_sceneParams);
 }
 
 void TutorialScene::Update()
 {
 	m_sceneParams.stateMachine.Update(&m_sceneParams);
+	m_bgMidi->Tick();
 }
 
 void TutorialScene::Exit()

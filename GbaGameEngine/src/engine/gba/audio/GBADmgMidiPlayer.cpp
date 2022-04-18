@@ -81,7 +81,16 @@ void GBA::DMG::Midi::Player::Tick()
 			}
 			}
 
-			if (++m_eventIndex < m_totalEvents)
+			bool enableLooping = true;
+			if (++m_eventIndex >= m_totalEvents && enableLooping)
+			{
+				// Loop
+				m_eventIndex = 0;
+				m_fileStream.ResetStreamPos();
+				m_totalEvents = m_fileStream.Read<u32>();
+			}
+
+			if (m_eventIndex < m_totalEvents)
 			{
 				m_tickUntilNextEvent = m_fileStream.Read<u16>();
 			}
