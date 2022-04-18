@@ -26,7 +26,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	// Read maps
 	u8 mapCount = reader.Read<u8>();
 	int tileMapDataLength = reader.Read<int>();
-	u8 mapIsDynamicMask = reader.Read<u8>();
+	u32 mapIsDynamicMask = reader.Read<u32>();
 	u8* widthMap = reader.ReadAddress<u8>(mapCount);
 	u8* heightMap = reader.ReadAddress<u8>(mapCount);
 	u16* mapData = reader.ReadAddress<u16>(tileMapDataLength);

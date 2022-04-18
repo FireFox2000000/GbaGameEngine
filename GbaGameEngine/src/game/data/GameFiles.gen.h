@@ -6,6 +6,8 @@
 #include "game/data/sprites/debug_font_8x8_bold.h"
 #include "game/data/tilemaps/NightSkySet.h"
 #include "game/data/tilemaps/UiAtlus.h"
+#include "game/data/tilemaps/bg1.h"
+#include "game/data/tilemaps/opening_cutscene_set.h"
 #include "game/data/tilemaps/thgj8_bg1.h"
 
 #define ALL_FILES()\
@@ -14,5 +16,7 @@ FILE(sprites, Shantae_Idle_bin)\
 FILE(sprites, debug_font_8x8_bold)\
 FILE(tilemaps, NightSkySet)\
 FILE(tilemaps, UiAtlus)\
+FILE(tilemaps, bg1)\
+FILE(tilemaps, opening_cutscene_set)\
 FILE(tilemaps, thgj8_bg1)\
 //

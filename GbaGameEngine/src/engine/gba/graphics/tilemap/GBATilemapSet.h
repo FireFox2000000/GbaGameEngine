@@ -47,7 +47,7 @@ namespace GBA
 				const u32* tileset,
 				const u32 tileSetDataCompressionFlags,
 				const u8 mapCount,
-				const u8 mapIsDynamicMask,
+				const u32 mapIsDynamicMask,
 				const u8* mapTileWidths,
 				const u8* mapTileHeights,
 				const u16* mapData

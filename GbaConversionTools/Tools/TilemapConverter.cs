@@ -89,7 +89,7 @@ namespace GbaConversionTools.Tools
             GenerateTileMaps(bitmaps, paletteBankIndexOffset, out masterPalette, out masterTileSet, out tileMapList);
             GBAMapData gbaMapData = GenerateMapData(tileMapList, paletteBankIndexOffset);
 
-            const int maxMaps = sizeof(byte) * 8;
+            const int maxMaps = sizeof(UInt32) * 8;
             if (gbaMapData.mapIsDynamic.Count >= maxMaps)
             {
                 // Can't store this in the current bitmask size
@@ -136,7 +136,7 @@ namespace GbaConversionTools.Tools
                 cppWriter.Write((byte)tileMapList.Length);
                 cppWriter.Write((UInt32)gbaMapData.screenEntries.Length);
 
-                byte mapIsDynamicBitMask = BoolListToBitmaskU8(gbaMapData.mapIsDynamic);
+                UInt32 mapIsDynamicBitMask = BoolListToBitmask(gbaMapData.mapIsDynamic);
                 cppWriter.Write(mapIsDynamicBitMask);
 
                 // Width and height arrays
@@ -161,14 +161,14 @@ namespace GbaConversionTools.Tools
             cppWriter.Finalise();
         }
 
-        static byte BoolListToBitmaskU8(IList<bool> list)
+        static UInt32 BoolListToBitmask(IList<bool> list)
         {
-            byte bitmask = 0;
+            UInt32 bitmask = 0;
             for (int i = 0; i < list.Count; ++i)
             {
                 if (list[i])
                 {
-                    bitmask |= (byte)(1 << i);
+                    bitmask |= (UInt32)(1 << i);
                 }
             }
 

@@ -24,8 +24,6 @@ void TutorialScene::Enter()
 	FilePtr sagumeSpriteSheet = fileSystem->Open("sprites/Sagume");
 	m_sagumeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(sagumeSpriteSheet);
 
-	m_sceneParams.m_tilemapContainer.AddTilemapSetFromFile(TutorialStateParams::TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/thgj8_bg1"));
-
 	SagumePrefab::InitAnimationContainer(m_sagumeAtlus, &m_sagumeAnimationContainer);
 
 	m_sceneParams.sagumeGameObject = SagumePrefab::MakeSagumePrefab(m_sagumeAnimationContainer);

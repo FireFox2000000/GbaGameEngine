@@ -23,22 +23,6 @@ struct TutorialStateParams
 
 	// Game objects
 	SharedPtr<GameObject> sagumeGameObject;
-
-	enum SpriteAnimationID
-	{
-		AnimationCount
-	};
-
-	enum TilemapSetID {
-		CutsceneImg1,
-
-		TilemapSetCount
-	};
-
-	FixedAssetManager<
-		SpriteAnimationID,
-		TilemapSetID>
-		m_tilemapContainer;
 };
 
 class TutorialScene : public Scene

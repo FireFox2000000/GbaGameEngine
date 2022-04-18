@@ -30,6 +30,7 @@ void Component::TilemapRenderer::SetVisible(bool enabled)
 	if (m_visible != enabled)
 	{
 		m_visible = enabled;
+		DEBUG_LOGFORMAT("SetVisible %d", enabled);
 		SetDirty();
 	}
 }
@@ -89,7 +90,6 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 				// SetPriority
 				controlRegister.SetAffineWrapping(tilemapRenderer.GetWrappingEnabled());
 				GBA::DisplayControl::SetBackgroundActive(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
-
 				tilemapRenderer.ClearDirty();
 			}
 		});
