@@ -7,7 +7,6 @@
 #include "engine/io/FileSystem.h"
 #include "engine/physics/PhysicsConfig.h"
 
-#include "engine/gba/registers/display/GBADisplayStatus.h"
 #include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
 #include "engine/gba/bios/GBABios.h"
 
@@ -19,6 +18,8 @@
 #include "game/scenes/LevelSelectorScene.h"
 
 #include "game/data/FileRegistry.h"
+
+#include "GBASDK/DisplayStatus.h"
 
 static void RegisterInterrupts();
 
@@ -157,7 +158,7 @@ int main()
 
 void EnableVBlankIntr()
 {
-	GBA::DisplayStatus::EnableVBlankInterrupts();
+	GBA::ioRegisterDisplayStatus->vBlankInterruptRequestEnabled = true;
 	GBA::Interrupts::EnableInterrupt(GBA::Interrupts::VBlank);
 }
 
