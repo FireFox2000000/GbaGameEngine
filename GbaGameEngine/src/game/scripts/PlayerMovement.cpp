@@ -1,7 +1,6 @@
 #include "PlayerMovement.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
-#include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/time/Time.h"
 #include "game/input/Input.h"

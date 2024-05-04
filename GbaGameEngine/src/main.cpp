@@ -8,10 +8,8 @@
 #include "engine/physics/PhysicsConfig.h"
 
 #include "engine/gba/registers/display/GBADisplayStatus.h"
-#include "engine/gba/registers/input/GBAInput.h"
 #include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
 #include "engine/gba/bios/GBABios.h"
-#include "engine/gba/registers/input/GBAInput.h"
 
 #include "engine/input/InputManager.h"
 

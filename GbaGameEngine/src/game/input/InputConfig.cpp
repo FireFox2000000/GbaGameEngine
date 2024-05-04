@@ -3,7 +3,6 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/base/Macros.h"
 #include "engine/input/GbaKeypadMap.h"
-#include "engine/gba/registers/input/GBAInput.h"
 #include "game/input/Input.h"
 #include <utility>
 
@@ -25,20 +24,20 @@ public:
 
 // GBA input map
 const SortedInputList GbaKeypadInputList = {
-	{ MoveLeft, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Left) }},
-	{ MoveRight, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Right) }},
-	{ MoveUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Up) }},
-	{ MoveDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Down) }},
-	{ Jump, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
-	{ ExitTilemapTestScene, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
-	{ MenuDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Down) }},
-	{ MenuUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Up) }},
-	{ MenuSelect, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
-	{ MenuCancel, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::B) }},
-	{ ToggleMusic, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::R) }},
-	{ AdvanceDialogue, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::A) }},
-	{ SkipDialogue, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Start) }},
-	{ SoftReset, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(GBA::Buttons::Enum::Start | GBA::Buttons::Enum::L | GBA::Buttons::Enum::R) }},
+	{ MoveLeft, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Left) }},
+	{ MoveRight, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Right) }},
+	{ MoveUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Up) }},
+	{ MoveDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Down) }},
+	{ Jump, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
+	{ ExitTilemapTestScene, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
+	{ MenuDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Down) }},
+	{ MenuUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Up) }},
+	{ MenuSelect, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
+	{ MenuCancel, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::B) }},
+	{ ToggleMusic, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::R) }},
+	{ AdvanceDialogue, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
+	{ SkipDialogue, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Start) }},
+	{ SoftReset, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Start | Input::GbaKeypadDevice::Buttons::L | Input::GbaKeypadDevice::Buttons::R) }},
 };
 
 Input::InputMapIter InputConfig::GetGameInputIter(GameInputs input, int mapForDeviceId)

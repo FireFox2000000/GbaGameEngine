@@ -3,7 +3,6 @@
 #include "engine/engine/engine.h"
 #include "engine/io/FileSystem.h"
 #include "engine/scene/SceneManager.h"
-#include "engine/gba/registers/input/GBAInput.h"
 #include "engine/graphics/GraphicsSetup.h"
 #include "game/data/tilemaps/UiAtlus.h"
 #include "engine/base/core/Memory.h"

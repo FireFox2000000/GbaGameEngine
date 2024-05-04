@@ -1,6 +1,5 @@
 #include "TilemapTestScene.h"
 #include "engine/engine/engine.h"
-#include "engine/gba/registers/input/GBAInput.h"
 #include "engine/render/TilemapRenderer.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gameobject/Camera.h"

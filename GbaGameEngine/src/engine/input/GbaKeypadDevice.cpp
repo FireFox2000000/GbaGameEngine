@@ -1,5 +1,7 @@
 #include "GbaKeypadDevice.h"
+
 #include "GbaKeypadMap.h"
+#include "GBASDK/Keypad.h"
 
 bool Input::GbaKeypadDevice::IsConnected() const
 {
@@ -9,22 +11,39 @@ bool Input::GbaKeypadDevice::IsConnected() const
 void Input::GbaKeypadDevice::Update()
 {
 	m_inputState.Flip();
-	m_inputState.GetPrimary().inputMask = GBA::Input::GetInputKeys();
+	auto& current = m_inputState.GetPrimary();
+	current = 0;
+
+	current |= (GBA::ioRegisterKeypad->A == GBA::ButtonState::Pressed) ? Buttons::A : 0;
+	current |= Buttons::B * (GBA::ioRegisterKeypad->B == GBA::ButtonState::Pressed);
+	current |= Buttons::Select * (GBA::ioRegisterKeypad->Select == GBA::ButtonState::Pressed);
+	current |= Buttons::Start * (GBA::ioRegisterKeypad->Start == GBA::ButtonState::Pressed);
+	current |= (GBA::ioRegisterKeypad->Right == GBA::ButtonState::Pressed) ? Buttons::Right : 0;
+	current |= (GBA::ioRegisterKeypad->Left == GBA::ButtonState::Pressed) ? Buttons::Left : 0;
+	current |= (GBA::ioRegisterKeypad->Up == GBA::ButtonState::Pressed) ? Buttons::Up : 0;
+	current |= (GBA::ioRegisterKeypad->Down == GBA::ButtonState::Pressed) ? Buttons::Down : 0;
+	current |= Buttons::R * (GBA::ioRegisterKeypad->R == GBA::ButtonState::Pressed);
+	current |= Buttons::L * (GBA::ioRegisterKeypad->L == GBA::ButtonState::Pressed);
 }
 
-bool Input::GbaKeypadDevice::GetKey(GBA::Buttons::Enum key) const
+bool TestKey(Input::GbaKeypadDevice::Buttons key, const u32 inputChannel)
 {
-	return GBA::Input::GetKey(key, m_inputState.GetPrimary().inputMask);
+	return inputChannel & key;
 }
 
-bool Input::GbaKeypadDevice::GetKeyDown(GBA::Buttons::Enum key) const
+bool Input::GbaKeypadDevice::GetKey(Buttons key) const
 {
-	return !GBA::Input::GetKey(key, m_inputState.GetSecondary().inputMask) && GetKey(key);
+	return TestKey(key, m_inputState.GetPrimary());
 }
 
-bool Input::GbaKeypadDevice::GetKeyUp(GBA::Buttons::Enum key) const
+bool Input::GbaKeypadDevice::GetKeyDown(Buttons key) const
 {
-	return GBA::Input::GetKey(key, m_inputState.GetSecondary().inputMask) && !GetKey(key);
+	return !TestKey(key, m_inputState.GetSecondary()) && GetKey(key);
+}
+
+bool Input::GbaKeypadDevice::GetKeyUp(Buttons key) const
+{
+	return TestKey(key, m_inputState.GetSecondary()) && !GetKey(key);
 }
 
 bool Input::GbaKeypadDevice::GetInput(const IInputMap& inputMap) const
@@ -44,22 +63,22 @@ bool Input::GbaKeypadDevice::GetInputUp(const IInputMap& inputMap) const
 
 bool InputMatches(u32 inputMask, u32 mapMask)
 {
-	return (~inputMask & mapMask) == mapMask;
+	return (inputMask & mapMask) == mapMask;
 }
 
 bool Input::GbaKeypadDevice::GetInput(const GbaKeypadMap& inputMap) const
 {
-	return InputMatches(m_inputState.GetPrimary().inputMask, inputMap.keysMask);
+	return InputMatches(m_inputState.GetPrimary(), inputMap.keysMask);
 }
 
 bool Input::GbaKeypadDevice::GetInputDown(const GbaKeypadMap& inputMap) const
 {
-	return !InputMatches(m_inputState.GetSecondary().inputMask, inputMap.keysMask) &&
-		InputMatches(m_inputState.GetPrimary().inputMask, inputMap.keysMask);
+	return !InputMatches(m_inputState.GetSecondary(), inputMap.keysMask) &&
+		InputMatches(m_inputState.GetPrimary(), inputMap.keysMask);
 }
 
 bool Input::GbaKeypadDevice::GetInputUp(const GbaKeypadMap& inputMap) const
 {
-	return InputMatches(m_inputState.GetSecondary().inputMask, inputMap.keysMask) &&
-		!InputMatches(m_inputState.GetPrimary().inputMask, inputMap.keysMask);
+	return InputMatches(m_inputState.GetSecondary(), inputMap.keysMask) &&
+		!InputMatches(m_inputState.GetPrimary(), inputMap.keysMask);
 }
