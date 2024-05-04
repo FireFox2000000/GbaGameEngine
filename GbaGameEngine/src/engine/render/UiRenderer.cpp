@@ -3,9 +3,9 @@
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
 #include "engine/graphics/font/FontLookupFunctions.h"
+#include "GBASDK/DisplayControl.h"
 
 constexpr int BackgroundSize = 32;
 
@@ -38,7 +38,7 @@ UiRenderer::~UiRenderer()
 {
 	DEBUG_LOG("Unloading UiRenderer");
 
-	GBA::DisplayControl::SetBackgroundActive(m_backgroundId, false);
+	GBA::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, false);
 
 	UnloadTilemapSet();
 
@@ -152,7 +152,7 @@ void UiRenderer::LoadAtlus(const u32* file)
 		controlRegister.SetPriority(GBA::Gfx::DrawPriority::Layer0);
 		controlRegister.SetAffineWrapping(false);
 
-		GBA::DisplayControl::SetBackgroundActive(m_backgroundId, true);
+		GBA::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, true);
 	}
 
 	// Clear the screen of any preivous data or default will be first tile, need to set to the clear tile. 

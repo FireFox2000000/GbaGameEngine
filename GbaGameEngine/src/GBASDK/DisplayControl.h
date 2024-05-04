@@ -1,7 +1,7 @@
 #pragma once
 namespace GBA
 {
-	enum class VideoMode
+	enum class VideoMode : unsigned char
 	{
 		Mode0,	// Tile mode
 		Mode1,	// Tile mode
@@ -19,16 +19,16 @@ namespace GBA
 		*/
 	};
 
-	enum class CGBMode
+	enum class CGBMode : unsigned char
 	{
 		GameBoyAdvance,
 		GameBoyColour
 	};
 
-	enum class ObjectMappingMode
+	enum class ObjectMappingMode : unsigned char
 	{
-		TwoDimentional,
-		OneDimentional
+		TwoDimensional,
+		OneDimensional
 	};
 
 	struct DisplayControl
@@ -47,6 +47,7 @@ namespace GBA
 
 		ObjectMappingMode objectMappingMode : 1;
 
+		// Allow FAST access to VRAM, Palette and OAM. Appears to be enabled by default. 
 		bool forceScreenBlank : 1;
 
 		bool enableBackground0 : 1;
@@ -60,8 +61,37 @@ namespace GBA
 		bool enableWindow1 : 1;
 
 		bool enableWindowObject : 1;
+
+		inline void SetBackgroundEnabled(int index, bool isEnabled)
+		{
+			switch (index)
+			{
+			case 0:
+			{
+				enableBackground0 = isEnabled;
+				break;
+			}
+			case 1:
+			{
+				enableBackground1 = isEnabled;
+				break;
+			}
+			case 2:
+			{
+				enableBackground2 = isEnabled;
+				break;
+			}
+			case 3:
+			{
+				enableBackground3 = isEnabled;
+				break;
+			}
+			}
+		}
 	};
 
 	// Read/write
-	volatile DisplayControl* const ioRegisterDisplayControl = reinterpret_cast<DisplayControl*>(0x4000000);
+	// Note that the default state for this register appears to have the forceScreenBlank bit set
+	// Recommended to set to false upon initialisation
+	DisplayControl* const ioRegisterDisplayControl = reinterpret_cast<DisplayControl*>(0x4000000);
 }

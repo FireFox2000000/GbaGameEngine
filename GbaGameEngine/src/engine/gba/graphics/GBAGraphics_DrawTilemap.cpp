@@ -1,5 +1,4 @@
 #include "GBAGraphics.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/gba/registers/clock/GBATimer.h"
 #include "engine/math/Vector2.h"

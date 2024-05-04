@@ -45,7 +45,7 @@ bool Component::TilemapRenderer::GetVisible() const
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
+#include "GBASDK/DisplayControl.h"
 
 void System::TilemapRenderer::VBlankRender(GameObject* camera)
 {
@@ -88,7 +88,8 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 				// SetMosaic
 				// SetPriority
 				controlRegister.SetAffineWrapping(tilemapRenderer.GetWrappingEnabled());
-				GBA::DisplayControl::SetBackgroundActive(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
+				
+				GBA::ioRegisterDisplayControl->SetBackgroundEnabled(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
 
 				tilemapRenderer.ClearDirty();
 			}

@@ -29,7 +29,6 @@
     <ClCompile Include="src\engine\math\Math.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
-    <ClCompile Include="src\engine\gba\registers\display\GBADisplayControl.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAObjectAttribute.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -139,7 +138,6 @@
     <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
     <ClInclude Include="src\engine\base\colour\Colour.h" />
     <ClInclude Include="src\engine\gba\memory\GBAMemoryLocations.h" />
-    <ClInclude Include="src\engine\gba\registers\display\GBADisplayControl.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAObjectAttribute.h" />
     <ClInclude Include="src\engine\base\Macros.h" />
     <ClInclude Include="src\engine\base\Typedefs.h" />

@@ -1,6 +1,40 @@
 #include "GBABackgroundControl.h"
 #include "engine/gba/registers/RegisterMap.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
+#include "GBASDK/DisplayControl.h"
+
+Bitmask<u8> GetBackgroundsForCurrentVideoMode()
+{
+	Bitmask<u8> mask;
+
+	switch (GBA::ioRegisterDisplayControl->videoMode)
+	{
+	case GBA::VideoMode::Mode0:
+	{
+		mask.SetBit(0);
+		mask.SetBit(1);
+		mask.SetBit(2);
+		mask.SetBit(3);
+		break;
+	}
+	case GBA::VideoMode::Mode1:
+	{
+		mask.SetBit(0);
+		mask.SetBit(1);
+		mask.SetBit(2);
+		break;
+	}
+	case GBA::VideoMode::Mode2:
+	{
+		mask.SetBit(2);
+		mask.SetBit(3);
+		break;
+	}
+	default:
+		break;
+	}
+
+	return mask;
+}
 
 namespace GBA
 {
@@ -27,7 +61,7 @@ namespace GBA
 	BackgroundControl::Backgrounds BackgroundControl::ReserveBackground()
 	{
 		BackgroundControl::Backgrounds bgId = Backgrounds::Count;
-		Bitmask<u8> availableBackgrounds = DisplayControl::GetBackgroundsForCurrentVideoMode();
+		Bitmask<u8> availableBackgrounds = GetBackgroundsForCurrentVideoMode();
 
 		for (u32 i = 0; i < s_backgroundControlRegisters.Count(); ++i)
 		{
@@ -56,7 +90,7 @@ namespace GBA
 		if (id < BackgroundControl::Backgrounds::Count)
 		{
 			s_backgroundPoolTracker.ClearBit(id);	// Clear the bit
-			DisplayControl::SetBackgroundActive(id, false);
+			GBA::ioRegisterDisplayControl->SetBackgroundEnabled(id, false);
 		}
 	}
 }

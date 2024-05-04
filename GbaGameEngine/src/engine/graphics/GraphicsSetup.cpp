@@ -1,15 +1,16 @@
 #include "GraphicsSetup.h"
-#include "engine/gba/registers/display/GBADisplayControl.h"
+#include "GBASDK/DisplayControl.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 
 void GraphicsSetup::InitialiseStandardGraphics()
 {
-	using namespace GBA;
 	using namespace GBA::Gfx;
-	using namespace GBA::DisplayOptions;
 
 	// We don't need to enable background manually here. That happens during tilemap rendering automatically.
-	DisplayControl::SetDisplayOptions(Mode0 | Sprites | MappingMode1D);
+	GBA::ioRegisterDisplayControl->forceScreenBlank = false;
+	GBA::ioRegisterDisplayControl->videoMode = GBA::VideoMode::Mode0;
+	GBA::ioRegisterDisplayControl->enableSprites = true;
+	GBA::ioRegisterDisplayControl->objectMappingMode = GBA::ObjectMappingMode::OneDimensional;
 
 	{
 		auto& palette = *PaletteBank::EditBackgroundPalette();
