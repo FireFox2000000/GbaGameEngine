@@ -2,7 +2,7 @@
 
 namespace GBA
 {
-	enum class ButtonState
+	enum class ButtonState : unsigned char
 	{
 		Pressed,
 		Released
