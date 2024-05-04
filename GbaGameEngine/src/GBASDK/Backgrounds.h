@@ -59,8 +59,8 @@ namespace GBA
 	{
 	private:
 		// (0-511)
-		short xOffset; //  : 9, : 7;
-		short yOffset; //  : 9, : 7;
+		short xOffset; //  : 9, : 7 unused;
+		short yOffset; //  : 9, : 7 unused;
 
 	public:
 		inline void SetXOffset(short val) { xOffset = val; }
