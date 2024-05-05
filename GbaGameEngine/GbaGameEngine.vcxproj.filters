@@ -262,6 +262,7 @@
     <ClInclude Include="src\GBASDK\GBA.h" />
     <ClInclude Include="src\GBASDK\Bios.h" />
     <ClInclude Include="src\GBASDK\Interrupts.h" />
+    <ClInclude Include="src\GBASDK\ObjectAttributeMemory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
