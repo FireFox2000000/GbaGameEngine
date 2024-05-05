@@ -41,7 +41,7 @@ namespace GBA
 			GBABiosSystemCall(0x01);
 		}
 
-		// Ensure VBlank interrupt is actually enabled
+		// Ensure VBlank interrupt is actually enabled before calling this
 		inline void VBlankIntrWait()
 		{
 			GBABiosSystemCall(0x05);
