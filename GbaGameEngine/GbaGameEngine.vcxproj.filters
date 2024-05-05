@@ -107,7 +107,7 @@
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
     <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
-    <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
+    <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
     <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\engine\graphics\font\FontLookupFunctions.h" />

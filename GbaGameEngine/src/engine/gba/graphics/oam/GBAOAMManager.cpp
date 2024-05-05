@@ -3,11 +3,13 @@
 #include "engine/engine/engine.h"
 #include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
-#include "engine/gba/registers/clock/GBATimer.h"
 #include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
-#include "GBASDK/Timers.h"
 
 //#define RENDER_PROFILE
+#if defined(RENDER_PROFILE)
+#include "engine/gba/config/GBATimerId.h"
+#include "GBASDK/Timers.h"
+#endif
 
 namespace GBA
 {
@@ -94,7 +96,7 @@ namespace GBA
 		void OAMManager::DoMasterRenderIntoMemory()
 		{
 #ifdef RENDER_PROFILE
-			TimerControl& profilerClock = GBA::ioRegisterTimers->at(GBA::TimerId::Profile);
+			TimerControl& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
 			profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
 
 			profilerClock.isEnabled = true;

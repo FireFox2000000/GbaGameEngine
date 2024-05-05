@@ -1,10 +1,15 @@
 #include "GBAVram.h"
 #include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/algorithm/Compression.h"
-#include "engine/gba/registers/clock/GBATimer.h"
 
 //#define DECOMPRESSION_PROFILE
 //#define VRAM_TRANSFER_PROFILE
+
+#if defined(DECOMPRESSION_PROFILE) || defined(VRAM_TRANSFER_PROFILE)
+#include "engine/gba/config/GBATimerId.h"
+#include "GBASDK/Timers.h"
+#endif
+
 using namespace GBA::Gfx;
 
 const int ScreenEntrySize = 2048;
@@ -107,16 +112,15 @@ namespace GBA
 		u32 byteLength = dataLength * sizeof(u16);
 
 #ifdef VRAM_TRANSFER_PROFILE
-		auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-		profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-
-		profilerClock.SetActive(true);
+		auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
+		profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
+		profilerClock.isEnabled = true;
 #endif
 		// Transfer memory
 		VramSafeMemCopy((u16*)&s_screenBlockPool[dest][0], src, byteLength);
 #ifdef VRAM_TRANSFER_PROFILE
-		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentTimerCount());
-		profilerClock.SetActive(false);
+		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentCount());
+		profilerClock.isEnabled = false;
 #endif
 	}
 
@@ -275,14 +279,14 @@ namespace GBA
 		if (compressionType == Compression::Type::BitPacked)
 		{
 #ifdef DECOMPRESSION_PROFILE
-			auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-			profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-			profilerClock.SetActive(true);
+			auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
+			profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
+			profilerClock.isEnabled = true;
 #endif
 			Compression::BitUnpack((void*)tileMem, pixelMap, pixelMapSize * sizeof(pixelMapSize), bitPackedSrcBpp, 4);
 #ifdef DECOMPRESSION_PROFILE
-			DEBUG_LOGFORMAT("[Profile Compression::BitUnpack] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			DEBUG_LOGFORMAT("[Profile Compression::BitUnpack] = %d", profilerClock.GetCurrentCount());
+			profilerClock.isEnabled = false;
 #endif
 			return true;
 		}
@@ -290,9 +294,9 @@ namespace GBA
 		else if ((void*)(tileMem + pixelMapSize) <= (void*)s_charBlockPool.end())
 		{
 #ifdef DECOMPRESSION_PROFILE
-			auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-			profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-			profilerClock.SetActive(true);
+			auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
+			profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
+			profilerClock.isEnabled = true;
 #endif
 			// Just throw it directly in
 			for (u32 i = 0; i < pixelMapSize; ++i)
@@ -300,8 +304,8 @@ namespace GBA
 				tileMem[i] = *(pixelMap + i);
 			}
 #ifdef DECOMPRESSION_PROFILE
-			DEBUG_LOGFORMAT("[Profile direct data copy] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			DEBUG_LOGFORMAT("[Profile direct data copy] = %d", profilerClock.GetCurrentCount());
+			profilerClock.isEnabled = false;
 #endif
 			return true;
 		}

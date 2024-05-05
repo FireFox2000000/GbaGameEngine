@@ -300,7 +300,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
     <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
-    <ClInclude Include="src\engine\gba\registers\clock\GBATimer.h" />
+    <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
     <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
     <ClInclude Include="src\external\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\external\tonc\include\tonc_asminc.h" />

@@ -3,6 +3,8 @@
 
 namespace GBA
 {
+	constexpr unsigned long SYSTEM_FREQUENCY = 0x1000000;
+
 	enum class ClockFrequency : unsigned
 	{
 		Cycle_1,

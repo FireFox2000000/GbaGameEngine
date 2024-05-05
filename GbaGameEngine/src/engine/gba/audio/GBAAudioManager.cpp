@@ -1,7 +1,7 @@
 #include "GBAAudioManager.h"
 #include "engine/gba/registers/RegisterMap.h"
 #include "engine/io/filestream/CppFileReader.h"
-#include "engine/gba/registers/clock/GBATimer.h"
+#include "engine/gba/config/GBATimerId.h"
 #include "GBASDK/Timers.h"
 
 struct SoundStatusRegister
@@ -36,17 +36,17 @@ GBA::Audio::AudioManager::SoundProperties::SoundProperties()
 	attributes[AudioChannelProperties::Attributes::Volume] = 1.0f;
 }
 
-GBA::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTimer)
+GBATimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTimer)
 {
 	switch (dmaTimer)
 	{
 	case GBA::Audio::DirectSound::DSoundTimer::Sound0:
 	{
-		return GBA::TimerId::Sound0;
+		return GBATimerId::Sound0;
 	}
 	case GBA::Audio::DirectSound::DSoundTimer::Sound1:
 	{
-		return GBA::TimerId::Sound1;
+		return GBATimerId::Sound1;
 	}
 	default:
 	{
@@ -55,7 +55,7 @@ GBA::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTi
 	}
 
 	DEBUG_ERROR("Unable to get gba timer for direct sound");
-	return GBA::TimerId::Sound0;
+	return GBATimerId::Sound0;
 }
 
 void GBA::Audio::AudioManager::Init()
@@ -318,7 +318,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 ) const
 {
 	// Direct sound timer and GBA timer must be set to the same timer, cannot mix these
-	GBA::TimerId timerId = GetTimerIdForDirectSound(dmaTimer);
+	GBATimerId timerId = GetTimerIdForDirectSound(dmaTimer);
 
 	// Reset timer and dma in case there's any previous sound playing
 	auto& timer = GBA::ioRegisterTimers->at(timerId);

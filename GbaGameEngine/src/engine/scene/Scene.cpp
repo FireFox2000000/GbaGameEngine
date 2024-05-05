@@ -10,7 +10,8 @@
 
 //#define RENDER_PROFILE
 #ifdef RENDER_PROFILE
-#include "engine/gba/registers/clock/GBATimer.h"
+#include "engine/gba/config/GBATimerId.h"
+#include "GBASDK/Timers.h"
 #endif
 
 Scene::Scene()
@@ -40,21 +41,21 @@ void Scene::FixedUpdate()
 void Scene::PreRender()
 {
 #ifdef RENDER_PROFILE
-	auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-	profilerClock.SetFrequency(GBA::Timers::Cycle_64);
-	profilerClock.SetActive(true);
+	auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
+	profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
+	profilerClock.isEnabled = true;
 #endif
 	System::SpriteRenderer::Render(&m_mainCamera);
 #ifdef RENDER_PROFILE
-	DEBUG_LOGFORMAT("[Profile Prerender System::SpriteRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
-	profilerClock.SetActive(false);
+	DEBUG_LOGFORMAT("[Profile Prerender System::SpriteRenderer::Render] = %d", profilerClock.GetCurrentCount());
+	profilerClock.isEnabled = false;
 
-	profilerClock.SetActive(true);
+	profilerClock.isEnabled = true;
 #endif
 	System::UI::TextRenderer::Render();
 #ifdef RENDER_PROFILE
-	DEBUG_LOGFORMAT("[Profile Prerender System::UI::TextRenderer::Render] = %d", profilerClock.GetCurrentTimerCount());
-	profilerClock.SetActive(false);
+	DEBUG_LOGFORMAT("[Profile Prerender System::UI::TextRenderer::Render] = %d", profilerClock.GetCurrentCount());
+	profilerClock.isEnabled = false;
 #endif
 }
 

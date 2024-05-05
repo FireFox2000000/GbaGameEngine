@@ -1,5 +1,5 @@
 #include "Time.h"
-#include "engine/gba/registers/clock/GBATimer.h"
+#include "engine/gba/config/GBATimerId.h"
 #include "GBASDK/Timers.h"
 
 constexpr u16 MS_TIMER_START = 0x0;
@@ -21,8 +21,8 @@ void Time::Start()
 	// Overflow every ~1 second:
 	// 0x4000 ticks @ FREQ_1024
 
-	auto& clockMs = GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock1);
-	auto& clockSeconds = GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock2);
+	auto& clockMs = GBA::ioRegisterTimers->at(GBATimerId::SystemClock1);
+	auto& clockSeconds = GBA::ioRegisterTimers->at(GBATimerId::SystemClock2);
 
 	clockMs.SetInitialCount(SysClock1StartTicks);
 	clockMs.frequency = GBA::ClockFrequency::Cycle_256;
@@ -83,8 +83,8 @@ Time::InternalSnapshot Time::CaptureSystemTimeSnapshot()
 {
 	return 
 	{ 
-		GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock1).GetCurrentCount(), 
-		GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock2).GetCurrentCount() 
+		GBA::ioRegisterTimers->at(GBATimerId::SystemClock1).GetCurrentCount(), 
+		GBA::ioRegisterTimers->at(GBATimerId::SystemClock2).GetCurrentCount() 
 	};
 }
 
