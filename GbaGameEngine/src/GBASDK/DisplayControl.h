@@ -1,7 +1,7 @@
 #pragma once
 namespace GBA
 {
-	enum class VideoMode : unsigned char
+	enum class VideoMode : unsigned
 	{
 		Mode0,	// Tile mode
 		Mode1,	// Tile mode
@@ -19,13 +19,13 @@ namespace GBA
 		*/
 	};
 
-	enum class CGBMode : unsigned char
+	enum class CGBMode : unsigned
 	{
 		GameBoyAdvance,
 		GameBoyColour
 	};
 
-	enum class ObjectMappingMode : unsigned char
+	enum class ObjectMappingMode : unsigned
 	{
 		TwoDimensional,
 		OneDimensional
