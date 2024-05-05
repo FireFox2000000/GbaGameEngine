@@ -221,7 +221,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\emulator\VisualBoyAdvance.h" />
     <ClInclude Include="src\engine\gba\audio\GBADmgSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBADmgMidiPlayer.h" />
-    <ClInclude Include="src\engine\gba\GBAAttributes.h" />
     <ClInclude Include="src\engine\gba\bios\GBABios.h" />
     <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />
     <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
@@ -365,6 +364,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\GBASDK\Backgrounds.h" />
     <ClInclude Include="src\GBASDK\DisplayControl.h" />
     <ClInclude Include="src\GBASDK\DisplayStatus.h" />
+    <ClInclude Include="src\GBASDK\GBA.h" />
     <ClInclude Include="src\GBASDK\Keypad.h" />
     <ClInclude Include="src\GBASDK\Timers.h" />
     <ClInclude Include="src\GBASDK\VCount.h" />

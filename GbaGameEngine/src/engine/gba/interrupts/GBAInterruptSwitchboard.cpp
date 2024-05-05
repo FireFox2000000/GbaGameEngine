@@ -1,4 +1,5 @@
 #include "GBAInterruptSwitchboard.h"
+#include "GBASDK/GBA.h"
 
 static constexpr int MAX_HANDLERS_PER_INTERRUPT = 1;
 static Array<FixedList<GBA::InterruptSwitchboard::InterruptHandler, MAX_HANDLERS_PER_INTERRUPT>, GBA::Interrupts::Count> m_interruptHandlers;
@@ -8,7 +9,7 @@ void GBA::InterruptSwitchboard::RegisterHandler(GBA::Interrupts::InterruptType i
 	m_interruptHandlers[interruptType].Add(handler);
 }
 
-ARM_IWRAM_CODE void HandleInterrupts()
+GBA_ARM_IWRAM_CODE void HandleInterrupts()
 {
 	u16 interrupts = GBA::Interrupts::GetActiveInterrupts();
 

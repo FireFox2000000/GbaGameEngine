@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "engine/gba/GBAAttributes.h"
+#include "GBASDK/GBA.h"
 
 /*!	\defgroup grpNocash no$gba debugging
 	\ingroup grpCore
@@ -27,7 +27,7 @@
 // GLOBALS 
 // --------------------------------------------------------------------
 
-extern EWRAM_DATA char nocash_buffer[80];
+extern GBA_EWRAM_DATA char nocash_buffer[80];
 
 // --------------------------------------------------------------------
 // PROTOTYPES 
@@ -41,7 +41,7 @@ extern EWRAM_DATA char nocash_buffer[80];
 extern "C" int nocash_puts(const char *str);
 
 //! Print the current \a nocash_buffer to the no$gba debugger.
-extern "C" EWRAM_CODE void nocash_message();
+extern "C" GBA_EWRAM_CODE void nocash_message();
 
 /*!	\}	*/
 

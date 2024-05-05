@@ -1,5 +1,4 @@
 #pragma once
-#include "engine/gba/GBAAttributes.h"
 #include "engine/gba/bios/GBABios.h"
 
 namespace VisualBoyAdvance

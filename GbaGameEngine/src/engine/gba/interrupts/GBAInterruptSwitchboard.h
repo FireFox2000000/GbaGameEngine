@@ -4,7 +4,6 @@
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/base/core/stl/Bitmask.h"
-#include "engine/gba/GBAAttributes.h"
 
 #include <functional>
 

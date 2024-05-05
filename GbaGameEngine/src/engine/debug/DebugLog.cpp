@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "engine/base/Macros.h"
-#include "engine/gba/GBAAttributes.h"
+#include "GBASDK/GBA.h"
 
 #ifdef NOCASH_GBA
 #include "engine/emulator/NoCashEmulator.h"
@@ -11,7 +11,7 @@
 #include "engine/emulator/VisualBoyAdvance.h"
 #endif
 
-EWRAM_DATA char buffer[256];
+GBA_EWRAM_DATA char buffer[256];
 
 using namespace std;
 

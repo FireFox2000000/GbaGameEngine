@@ -231,7 +231,6 @@
     <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
     <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />
     <ClInclude Include="src\engine\gba\bios\GBABios.h" />
-    <ClInclude Include="src\engine\gba\GBAAttributes.h" />
     <ClInclude Include="src\engine\input\IInputDevice.h" />
     <ClInclude Include="src\engine\input\GbaKeypadDevice.h" />
     <ClInclude Include="src\engine\input\InputManager.h" />
@@ -264,6 +263,7 @@
     <ClInclude Include="src\GBASDK\Keypad.h" />
     <ClInclude Include="src\GBASDK\Timers.h" />
     <ClInclude Include="src\GBASDK\VCount.h" />
+    <ClInclude Include="src\GBASDK\GBA.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
