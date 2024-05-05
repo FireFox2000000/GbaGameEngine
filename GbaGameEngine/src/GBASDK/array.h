@@ -33,7 +33,7 @@ namespace GBA
 			SetAllTo(initialValue);
 		}
 
-		array(const Array<T, SIZE>& that) { *this = that; }
+		array(const array<T, SIZE>& that) { *this = that; }
 
 		array(const std::initializer_list<T>& l)
 		{
