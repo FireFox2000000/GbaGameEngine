@@ -1,19 +1,15 @@
 #pragma once
-
-#include "GBAInterrupts.h"
-#include "engine/base/core/stl/Array.h"
-#include "engine/base/core/stl/List.h"
-#include "engine/base/core/stl/Bitmask.h"
-
 #include <functional>
 
 namespace GBA
 {
+	//struct Interrupts;
+
 	namespace InterruptSwitchboard
 	{
 		using InterruptHandler = std::function<void()>;
 
 		void Init();
-		void RegisterHandler(Interrupts::InterruptType interruptType, InterruptHandler handler);
+		// void RegisterHandler(const Interrupts& interrupts, InterruptHandler handler);
 	};
 }

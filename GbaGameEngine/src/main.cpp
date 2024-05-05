@@ -20,6 +20,7 @@
 #include "game/data/FileRegistry.h"
 
 #include "GBASDK/DisplayStatus.h"
+#include "GBASDK/Interrupts.h"
 
 static void RegisterInterrupts();
 
@@ -35,7 +36,6 @@ int main()
 {
 	GBA::InterruptSwitchboard::Init();
 	RegisterInterrupts();
-	GBA::Interrupts::EnableInterrupts();
 
 	Engine& engine = Engine::GetInstance();
 	std::unique_ptr<FileRegistry> fileRegistry = std::make_unique<FileRegistry>();
@@ -112,7 +112,7 @@ int main()
 		entityManager->InternalFinaliseDestroy();
 
 		// Main update
-		GBA::Bios::VBlankIntrWait();
+		GBA::Bios::VBlankInterruptWait();
 
 		// VBlank, must be under 83776 cycles no matter what
 		{
@@ -159,14 +159,12 @@ int main()
 void EnableVBlankIntr()
 {
 	GBA::ioRegisterDisplayStatus->vBlankInterruptRequestEnabled = true;
-	GBA::Interrupts::EnableInterrupt(GBA::Interrupts::VBlank);
+	GBA::ioRegisterInterruptEnable->vBlank = true;
 }
 
 void RegisterInterrupts()
 {
-	GBA::Interrupts::DisableInterrupts();
-
+	GBA::ioRegisterInterruptMasterEnable->status = GBA::InterruptMasterEnable::Status::DisableAll;
 	EnableVBlankIntr();
-
-	GBA::Interrupts::EnableInterrupts();
+	GBA::ioRegisterInterruptMasterEnable->status = GBA::InterruptMasterEnable::Status::InterruptEnableRegister;
 }

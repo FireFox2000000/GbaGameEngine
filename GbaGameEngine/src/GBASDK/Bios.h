@@ -1,4 +1,5 @@
 #pragma once
+#include "GBASDK/Interrupts.h"
 
 // We leave this defined for custom bios calls, used for emulator specific functions
 #if	defined	(__thumb__)
@@ -41,8 +42,31 @@ namespace GBA
 			GBABiosSystemCall(0x01);
 		}
 
-		// Ensure VBlank interrupt is actually enabled before calling this
-		inline void VBlankIntrWait()
+		/// <summary>
+		// When using InterruptWait, the user interrupt handler MUST update 
+		// the BIOS Interrupt Flags value in RAM when acknowleding processed interrupt(s),
+		// by writing a value to the IF register (GBA::ioRegisterBiosInterruptFlags). 
+		// The same value should be also ORed to the BIOS Interrupt Flags value, 
+		// at this register
+		/// </summary>
+		// <param name="waitUntilNew">
+		// false = Return immediately if an old flag was already set (NDS9: bugged!)
+		// true = Discard old flags, wait until a NEW flag becomes set
+		// </param>
+		inline void InterruptWait(bool waitUntilNew, Interrupts interrupts)
+		{
+			GBABiosSystemCall(0x04);
+		}
+		 
+		/// <summary>
+		// Ensure VBlank interrupt is actually enabled before calling this.
+		// When using VBlankInterruptWait, the user interrupt handler MUST update 
+		// the BIOS Interrupt Flags value in RAM when acknowleding processed interrupt(s),
+		// by writing a value to the IF register (GBA::ioRegisterBiosInterruptFlags). 
+		// The same value should be also ORed to the BIOS Interrupt Flags value, 
+		// at this register
+		/// </summary>
+		inline void VBlankInterruptWait()
 		{
 			GBABiosSystemCall(0x05);
 		}

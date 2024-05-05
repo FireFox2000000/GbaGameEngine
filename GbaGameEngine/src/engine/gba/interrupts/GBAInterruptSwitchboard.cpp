@@ -1,31 +1,37 @@
 #include "GBAInterruptSwitchboard.h"
 #include "GBASDK/GBA.h"
+#include "GBASDK/Interrupts.h"
+#include "engine/base/core/stl/Array.h"
+#include "engine/base/core/stl/List.h"
 
-static constexpr int MAX_HANDLERS_PER_INTERRUPT = 1;
-static Array<FixedList<GBA::InterruptSwitchboard::InterruptHandler, MAX_HANDLERS_PER_INTERRUPT>, GBA::Interrupts::Count> m_interruptHandlers;
+//static constexpr int MAX_HANDLERS_PER_INTERRUPT = 1;
+//static Array<FixedList<GBA::InterruptSwitchboard::InterruptHandler, MAX_HANDLERS_PER_INTERRUPT>, GBA::Interrupts::Count> m_interruptHandlers;
 
-void GBA::InterruptSwitchboard::RegisterHandler(GBA::Interrupts::InterruptType interruptType, GBA::InterruptSwitchboard::InterruptHandler handler)
-{
-	m_interruptHandlers[interruptType].Add(handler);
-}
+//void GBA::InterruptSwitchboard::RegisterHandler(const Interrupts& interrupts, GBA::InterruptSwitchboard::InterruptHandler handler)
+//{
+//	m_interruptHandlers[interruptType].Add(handler);
+//}
 
 GBA_ARM_IWRAM_CODE void HandleInterrupts()
 {
-	u16 interrupts = GBA::Interrupts::GetActiveInterrupts();
+	GBA::Interrupts activeInterrupts;
+	activeInterrupts.data = GBA::ioRegisterInterruptEnable->data & GBA::ioRegisterInterruptRequestFlags->data;
 
-	if (GBA::Interrupts::IsInterruptActive(GBA::Interrupts::VBlank))
+	if (activeInterrupts.vBlank)
 	{
-		for (auto& handler : m_interruptHandlers[GBA::Interrupts::VBlank])
-		{
-			handler();
-		}
+		//for (auto& handler : m_interruptHandlers[GBA::Interrupts::VBlank])
+		//{
+		//	handler();
+		//}
 	}
 
-	GBA::Interrupts::AcknowledgeInterrupts(interrupts);
+	GBA::ioRegisterInterruptRequestFlags->AcknowledgeInterrupts(activeInterrupts);
+
+	// Acknowledge bios as we're using VBlankInterruptWait
+	GBA::ioRegisterBiosInterruptFlags->AcknowledgeInterrupts(activeInterrupts);
 }
 
 void GBA::InterruptSwitchboard::Init()
 {
-	GBA::Interrupts::DisableInterrupts();
-	GBA::Interrupts::RegisterInterruptHandler(HandleInterrupts);
+	*GBA::ioRegisterInterruptHandler = HandleInterrupts;
 }

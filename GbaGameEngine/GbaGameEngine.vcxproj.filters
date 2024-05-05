@@ -71,7 +71,6 @@
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeIn.cpp" />
-    <ClCompile Include="src\engine\gba\interrupts\GBAInterrupts.cpp" />
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
     <ClCompile Include="src\engine\input\GbaKeypadDevice.cpp" />
     <ClCompile Include="src\engine\input\InputManager.cpp" />
@@ -228,7 +227,6 @@
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeIn.h" />
     <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
-    <ClInclude Include="src\engine\gba\interrupts\GBAInterrupts.h" />
     <ClInclude Include="src\engine\input\IInputDevice.h" />
     <ClInclude Include="src\engine\input\GbaKeypadDevice.h" />
     <ClInclude Include="src\engine\input\InputManager.h" />
@@ -263,6 +261,7 @@
     <ClInclude Include="src\GBASDK\VCount.h" />
     <ClInclude Include="src\GBASDK\GBA.h" />
     <ClInclude Include="src\GBASDK\Bios.h" />
+    <ClInclude Include="src\GBASDK\Interrupts.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
