@@ -52,7 +52,7 @@ endif
 retail:	CFLAGS += -DRETAIL
 retail:	CXXFLAGS += -DRETAIL
 
-CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++17
+CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++20
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)

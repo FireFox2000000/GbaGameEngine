@@ -75,6 +75,7 @@ make all</NMakeReBuildCommandLine>
     <NMakeAssemblySearchPath>
     </NMakeAssemblySearchPath>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
+    <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
@@ -90,6 +91,7 @@ make</NMakeBuildCommandLine>
 make all</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
+    <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
