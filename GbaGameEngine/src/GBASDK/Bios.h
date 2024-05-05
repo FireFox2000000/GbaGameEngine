@@ -13,14 +13,14 @@ namespace GBA
 	{
 		struct ResetFlags
 		{
-			bool Clear256KOnBoardWRAM : 1;	// Don't use when returning to WRAM
-			bool Clear32KInChipWRAM : 1;	// Excluding last 200h bytes
-			bool ClearPalette : 1;
-			bool CLearVRAM : 1;
-			bool ClearOAM : 1;
-			bool ResetSIORegisters : 1;
-			bool ResetSoundRegisters : 1;
-			bool ResetOtherRegisters : 1;
+			bool clear256KOnBoardWRAM : 1;	// Don't use when returning to WRAM
+			bool clear32KInChipWRAM : 1;	// Excluding last 200h bytes
+			bool clearPalette : 1;
+			bool cLearVRAM : 1;
+			bool clearOAM : 1;
+			bool resetSIORegisters : 1;
+			bool resetSoundRegisters : 1;
+			bool resetOtherRegisters : 1;
 		};
 
 		// Don't let the compiler optimise seemingly empty bios call statements away
