@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/gba/bios/GBABios.h"
+#include "GBASDK/Bios.h"
 
 namespace VisualBoyAdvance
 {
@@ -10,7 +10,7 @@ namespace VisualBoyAdvance
 	// Will crash on actual hardware
 	inline void AGBPrint(const char* message)
 	{
-		BiosSystemCall(0xFF);
+		GBABiosSystemCall(0xFF);
 	}
 }
 

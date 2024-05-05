@@ -8,7 +8,7 @@
 #include "engine/physics/PhysicsConfig.h"
 
 #include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
-#include "engine/gba/bios/GBABios.h"
+#include "GBASDK/Bios.h"
 
 #include "engine/input/InputManager.h"
 
