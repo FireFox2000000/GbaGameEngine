@@ -24,18 +24,18 @@ namespace GBA
 		typedef const T* const_iterator;
 		typedef volatile T* volatile_iterator;
 
-		Array()
+		array()
 		{
 		}
 
-		Array(const T& initialValue)
+		array(const T& initialValue)
 		{
 			SetAllTo(initialValue);
 		}
 
-		Array(const Array<T, SIZE>& that) { *this = that; }
+		array(const Array<T, SIZE>& that) { *this = that; }
 
-		Array(const std::initializer_list<T>& l)
+		array(const std::initializer_list<T>& l)
 		{
 			u32 i = 0;
 			for (auto& val : l)
@@ -48,7 +48,7 @@ namespace GBA
 			}
 		}
 
-		~Array() {}
+		~array() {}
 
 		const T* data() const
 		{
@@ -68,6 +68,10 @@ namespace GBA
 		inline T& operator[](u32 index) { return Get(index); }
 		inline const T& operator[](u32 index) const { return Get(index); }
 		inline volatile T& operator[](u32 index) volatile { return Get(index); }
+
+		inline T& at(u32 index) { return Get(index); }
+		inline const T& at(u32 index) const { return Get(index); }
+		inline volatile T& at(u32 index) volatile { return Get(index); }
 
 		inline int IndexOf(T* item)
 		{
