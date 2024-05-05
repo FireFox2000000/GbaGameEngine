@@ -6,7 +6,6 @@
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
-    <ClCompile Include="src\engine\gba\registers\clock\GBATimer.cpp" />
     <ClCompile Include="src\engine\graphics\font\Font.cpp" />
     <ClCompile Include="src\engine\graphics\font\FontLookupFunctions.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />

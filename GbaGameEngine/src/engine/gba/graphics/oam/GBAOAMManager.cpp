@@ -5,6 +5,7 @@
 #include "engine/gba/graphics/sprite/GBASprite.h"
 #include "engine/gba/registers/clock/GBATimer.h"
 #include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
+#include "GBASDK/Timers.h"
 
 //#define RENDER_PROFILE
 
@@ -93,38 +94,38 @@ namespace GBA
 		void OAMManager::DoMasterRenderIntoMemory()
 		{
 #ifdef RENDER_PROFILE
-			auto& profilerClock = GBA::Timers::GetTimer(GBA::Timers::Profile);
-			profilerClock.SetFrequency(GBA::Timers::Cycle_64);
+			TimerControl& profilerClock = GBA::ioRegisterTimers->at(GBA::TimerId::Profile);
+			profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
 
-			profilerClock.SetActive(true);
+			profilerClock.isEnabled = true;
 #endif
 			UnloadUnusedSprites();
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile UnloadUnusedSprites] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			DEBUG_LOGFORMAT("[Profile UnloadUnusedSprites] = %d", profilerClock.GetCurrentCount());
+			profilerClock.isEnabled = false;
 
-			profilerClock.SetActive(true);
+			profilerClock.isEnabled = true;
 #endif
 			LoadNewSprites();
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile LoadNewSprites] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			DEBUG_LOGFORMAT("[Profile LoadNewSprites] = %d", profilerClock.GetCurrentCount());
+			profilerClock.isEnabled = false;
 
-			profilerClock.SetActive(true);
+			profilerClock.isEnabled = true;
 #endif
 			TransferRenderListIntoMemory();
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile TransferRenderListIntoMemory] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			DEBUG_LOGFORMAT("[Profile TransferRenderListIntoMemory] = %d", profilerClock.GetCurrentCount());
+			profilerClock.isEnabled = false;
 
-			profilerClock.SetActive(true);
+			profilerClock.isEnabled = true;
 #endif
 			m_spriteRenderDoubleBuffer.Flip();
 
 			m_spriteRenderDoubleBuffer.GetPrimary().Clear();
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile Flip + Clear] = %d", profilerClock.GetCurrentTimerCount());
-			profilerClock.SetActive(false);
+			DEBUG_LOGFORMAT("[Profile Flip + Clear] = %d", profilerClock.GetCurrentCount());
+			profilerClock.isEnabled = false; 
 #endif
 		}
 

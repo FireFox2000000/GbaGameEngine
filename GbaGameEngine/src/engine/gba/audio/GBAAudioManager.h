@@ -8,7 +8,6 @@
 #include "engine/audio/AudioChannelProperties.h"
 
 #include "engine/gba/audio/GBADirectSound.h"
-#include "engine/gba/registers/clock/GBATimer.h"
 #include "engine/gba/memory/GBADirectMemoryAccess.h"
 #include "engine/time/Time.h"
 

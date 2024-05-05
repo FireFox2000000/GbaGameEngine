@@ -1,7 +1,6 @@
 #include "Time.h"
 #include "engine/gba/registers/clock/GBATimer.h"
-
-using namespace GBA;
+#include "GBASDK/Timers.h"
 
 constexpr u16 MS_TIMER_START = 0x0;
 constexpr u16 SysClock1StartTicks = u16(-MS_TIMER_START);
@@ -22,15 +21,15 @@ void Time::Start()
 	// Overflow every ~1 second:
 	// 0x4000 ticks @ FREQ_1024
 
-	auto& clockMs = Timers::GetTimer(Timers::SystemClock1);
-	auto& clockSeconds = Timers::GetTimer(Timers::SystemClock2);
+	auto& clockMs = GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock1);
+	auto& clockSeconds = GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock2);
 
-	clockMs.SetInitialTimerCount(SysClock1StartTicks);
-	clockMs.SetFrequency(Timers::Cycle_256);
-	clockMs.SetActive(true);
+	clockMs.SetInitialCount(SysClock1StartTicks);
+	clockMs.frequency = GBA::ClockFrequency::Cycle_256;
+	clockMs.isEnabled = true;
 
-	clockSeconds.SetCascadeMode(true);
-	clockSeconds.SetActive(true);
+	clockSeconds.cascadeModeEnabled = true;
+	clockSeconds.isEnabled = true;
 }
 
 void Time::Advance()
@@ -82,7 +81,11 @@ TimeValue Time::GetTimeSinceStartup() const volatile
 
 Time::InternalSnapshot Time::CaptureSystemTimeSnapshot()
 {
-	return { Timers::GetTimer(Timers::SystemClock1).GetCurrentTimerCount(), Timers::GetTimer(Timers::SystemClock2).GetCurrentTimerCount() };
+	return 
+	{ 
+		GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock1).GetCurrentCount(), 
+		GBA::ioRegisterTimers->at(GBA::TimerId::SystemClock2).GetCurrentCount() 
+	};
 }
 
 u32 Time::InternalSnapshot::TotalCycles() const

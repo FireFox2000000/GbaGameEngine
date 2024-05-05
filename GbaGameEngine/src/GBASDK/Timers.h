@@ -3,7 +3,7 @@
 
 namespace GBA
 {
-	enum class ClockFrequency
+	enum class ClockFrequency : unsigned
 	{
 		Cycle_1,
 		Cycle_64,
@@ -16,7 +16,7 @@ namespace GBA
 	private:
 		// Writing to this value sets the initial timer count, it does not set the current timer value
 		// Reading from this value returns the current timer count
-		unsigned short counter;
+		volatile unsigned short counter;
 
 	public:
 		ClockFrequency frequency : 2;

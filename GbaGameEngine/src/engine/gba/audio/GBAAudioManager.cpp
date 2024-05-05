@@ -1,6 +1,8 @@
 #include "GBAAudioManager.h"
 #include "engine/gba/registers/RegisterMap.h"
 #include "engine/io/filestream/CppFileReader.h"
+#include "engine/gba/registers/clock/GBATimer.h"
+#include "GBASDK/Timers.h"
 
 struct SoundStatusRegister
 {
@@ -34,17 +36,17 @@ GBA::Audio::AudioManager::SoundProperties::SoundProperties()
 	attributes[AudioChannelProperties::Attributes::Volume] = 1.0f;
 }
 
-GBA::Timers::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTimer)
+GBA::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTimer)
 {
 	switch (dmaTimer)
 	{
 	case GBA::Audio::DirectSound::DSoundTimer::Sound0:
 	{
-		return GBA::Timers::Sound0;
+		return GBA::TimerId::Sound0;
 	}
 	case GBA::Audio::DirectSound::DSoundTimer::Sound1:
 	{
-		return GBA::Timers::Sound1;
+		return GBA::TimerId::Sound1;
 	}
 	default:
 	{
@@ -53,7 +55,7 @@ GBA::Timers::TimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTim
 	}
 
 	DEBUG_ERROR("Unable to get gba timer for direct sound");
-	return GBA::Timers::Sound0;
+	return GBA::TimerId::Sound0;
 }
 
 void GBA::Audio::AudioManager::Init()
@@ -224,8 +226,8 @@ void GBA::Audio::AudioManager::Pause(const tChannelHandle & handle)
 	// Stop playback but leave active for easy resume.
 	const auto* stream = GetDirectSoundChannel(handle);
 	auto timerId = GetTimerIdForDirectSound(stream->dmaTimerId);
-	auto& timer = GBA::Timers::GetTimer(timerId);
-	timer.SetActive(false);
+	auto& timer = GBA::ioRegisterTimers->at(timerId);
+	timer.isEnabled = false;
 }
 
 void GBA::Audio::AudioManager::Resume(const tChannelHandle & handle)
@@ -316,12 +318,12 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 ) const
 {
 	// Direct sound timer and GBA timer must be set to the same timer, cannot mix these
-	GBA::Timers::TimerId timerId = GetTimerIdForDirectSound(dmaTimer);
+	GBA::TimerId timerId = GetTimerIdForDirectSound(dmaTimer);
 
 	// Reset timer and dma in case there's any previous sound playing
-	auto& timer = GBA::Timers::GetTimer(timerId);
+	auto& timer = GBA::ioRegisterTimers->at(timerId);
+	timer.isEnabled = false; 
 
-	timer.SetActive(false); 
 	DirectMemoryAccess::Reset(dmaChannel);
 
 	const u8* src = (samples + repeatParams.sampleStartOffset);
@@ -337,14 +339,14 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 		DirectMemoryAccess::Mode::Special);		// "Special" sets the transfer to happen based on the sound timers
 
 	// Set the timer to overflow each time we need a new sample
-	timer.SetInitialTimerCount(65536 - repeatParams.ticksPerSampleTransfer);
+	timer.SetInitialCount(65536 - repeatParams.ticksPerSampleTransfer);
 
 	// Capture real start time just before we enable timer so it's accurate
 	auto startTime = Time::CaptureSystemTimeSnapshot();
 
 	// Start audio transfers
-	timer.SetFrequency(GBA::Timers::Cycle_1);
-	timer.SetActive(true);
+	timer.frequency = GBA::ClockFrequency::Cycle_1;
+	timer.isEnabled = true;
 
 	// Calculate EOF system time so that we know when to stop or repeat the sound channel, otherwise we'll end up continuing into playing garbage
 	auto endTime = startTime;
