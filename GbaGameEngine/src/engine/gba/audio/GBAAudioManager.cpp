@@ -226,7 +226,7 @@ void GBA::Audio::AudioManager::Pause(const tChannelHandle & handle)
 	// Stop playback but leave active for easy resume.
 	const auto* stream = GetDirectSoundChannel(handle);
 	auto timerId = GetTimerIdForDirectSound(stream->dmaTimerId);
-	auto& timer = GBA::ioRegisterTimers->at(timerId);
+	auto& timer = *GBA::ioRegisterTimers[timerId];
 	timer.isEnabled = false;
 }
 
@@ -321,7 +321,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 	GBATimerId timerId = GetTimerIdForDirectSound(dmaTimer);
 
 	// Reset timer and dma in case there's any previous sound playing
-	auto& timer = GBA::ioRegisterTimers->at(timerId);
+	auto& timer = *GBA::ioRegisterTimers[timerId];
 	timer.isEnabled = false; 
 
 	DirectMemoryAccess::Reset(dmaChannel);

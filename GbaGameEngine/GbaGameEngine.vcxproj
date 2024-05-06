@@ -356,7 +356,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\scripts\states\CutsceneState.h" />
     <ClInclude Include="src\game\scripts\states\DialogueState.h" />
     <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
-    <ClInclude Include="src\GBASDK\array.h" />
     <ClInclude Include="src\GBASDK\Backgrounds.h" />
     <ClInclude Include="src\GBASDK\Bios.h" />
     <ClInclude Include="src\GBASDK\DisplayControl.h" />

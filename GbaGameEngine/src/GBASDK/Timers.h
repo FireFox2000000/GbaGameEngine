@@ -1,5 +1,4 @@
 #pragma once
-#include "array.h"
 
 namespace GBA
 {
@@ -32,5 +31,5 @@ namespace GBA
 	};
 
 	// Read/write
-	array<TimerControl, 4>* const ioRegisterTimers = reinterpret_cast<array<TimerControl, 4>*>(0x4000100);
+	TimerControl (*const ioRegisterTimers)[4] = reinterpret_cast<TimerControl(* const)[4]>(0x4000100);
 }

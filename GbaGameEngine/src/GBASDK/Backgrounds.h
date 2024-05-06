@@ -1,5 +1,4 @@
 #pragma once
-#include "array.h"
 
 namespace GBA
 {
@@ -68,8 +67,8 @@ namespace GBA
 	};
 
 	// Read/write
-	array<BackgroundControl, 4>* const ioRegisterBackgroundControls = reinterpret_cast<array<BackgroundControl, 4>*>(0x4000008);
+	BackgroundControl (*const ioRegisterBackgroundControls)[4] = reinterpret_cast<BackgroundControl(*const)[4]>(0x4000008);
 
 	// Write-only
-	array<BackgroundScroll, 4>* const ioRegisterBackgroundScrolls = reinterpret_cast<array<BackgroundScroll, 4>*>(0x4000010);
+	BackgroundScroll (*const ioRegisterBackgroundScrolls)[4] = reinterpret_cast<BackgroundScroll(*const)[4]>(0x4000010);
 }
