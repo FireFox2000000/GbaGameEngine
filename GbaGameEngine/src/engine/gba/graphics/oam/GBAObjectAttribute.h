@@ -85,6 +85,7 @@ namespace GBA
 					;
 				u16 : 16;
 			};
+			static_assert(sizeof(Attr) == 8, "");
 
 			struct AffineAttr
 			{
