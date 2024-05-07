@@ -24,6 +24,8 @@ namespace GBA
 			bool resetOtherRegisters : 1;
 		};
 
+		static_assert(sizeof(ResetFlags) == 1, "ResetFlags struct malformed");
+
 		// Don't let the compiler optimise seemingly empty bios call statements away
 #pragma GCC push_options
 #pragma GCC optimize ("O0")

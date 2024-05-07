@@ -1,7 +1,7 @@
 #pragma once
 namespace GBA
 {
-	enum class VideoMode : unsigned
+	enum class VideoMode : unsigned char
 	{
 		Mode0,	// Tile mode
 		Mode1,	// Tile mode
@@ -19,13 +19,13 @@ namespace GBA
 		*/
 	};
 
-	enum class CGBMode : unsigned
+	enum class CGBMode : unsigned char
 	{
 		GameBoyAdvance,
 		GameBoyColour
 	};
 
-	enum class ObjectMappingMode : unsigned
+	enum class ObjectMappingMode : unsigned char
 	{
 		TwoDimensional,
 		OneDimensional
@@ -89,6 +89,8 @@ namespace GBA
 			}
 		}
 	};
+
+	static_assert(sizeof(DisplayControl) == 2, "DisplayControl struct malformed");
 
 	// Read/write
 	// Note that the default state for this register appears to have the forceScreenBlank bit set

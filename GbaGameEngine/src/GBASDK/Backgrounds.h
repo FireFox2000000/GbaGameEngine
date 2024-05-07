@@ -2,7 +2,7 @@
 
 namespace GBA
 {
-	enum class BackgroundDrawPriority
+	enum class BackgroundDrawPriority : unsigned char
 	{
 		Layer0,	// Highest
 		Layer1,
@@ -10,7 +10,7 @@ namespace GBA
 		Layer3	// Lowest
 	};
 
-	enum class CharacterBaseBlock
+	enum class CharacterBaseBlock : unsigned char
 	{
 		Bg0,
 		Bg1,
@@ -18,13 +18,13 @@ namespace GBA
 		Bg3,
 	};
 
-	enum class ColourMode
+	enum class ColourMode : unsigned char
 	{
 		Mode16x16,
 		Mode256x1
 	};
 
-	enum class BackgroundSize
+	enum class BackgroundSize : unsigned char
 	{
 		REG_32x32 = 0,
 		REG_64x32 = 1,
@@ -46,7 +46,7 @@ namespace GBA
 		char : 2; // unused
 		bool mosaic : 1;
 		ColourMode colourMode : 1;
-		unsigned short screenBaseBlock : 5;
+		unsigned char screenBaseBlock : 5;
 
 		// BG2/BG3 controllers only
 		bool affineWrappingEnabled : 1;
@@ -65,6 +65,9 @@ namespace GBA
 		inline void SetXOffset(short val) { xOffset = val; }
 		inline void SetYOffset(short val) { yOffset = val; }
 	};
+
+	static_assert(sizeof(BackgroundControl) == 2, "BackgroundControl struct malformed");
+	static_assert(sizeof(BackgroundScroll) == 4, "BackgroundScroll struct malformed");
 
 	// Read/write
 	BackgroundControl (*const ioRegisterBackgroundControls)[4] = reinterpret_cast<BackgroundControl(*const)[4]>(0x4000008);

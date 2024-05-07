@@ -32,6 +32,7 @@ namespace GBA
 		};
 	};
 
+
 	struct InterruptRequestFlagsRegister : Interrupts
 	{
 		inline void AcknowledgeInterrupts(Interrupts interrupts) volatile
@@ -66,6 +67,11 @@ namespace GBA
 
 		Status status;	// Only the first bit is actually used here. 
 	};
+
+	static_assert(sizeof(Interrupts) == 2, "Interrupts struct malformed");
+	static_assert(sizeof(InterruptRequestFlagsRegister) == 2, "InterruptRequestFlagsRegister struct malformed");
+	static_assert(sizeof(BiosInterruptRequestFlagsRegister) == 2, "BiosInterruptRequestFlagsRegister struct malformed");
+	static_assert(sizeof(InterruptMasterEnable) == 2, "InterruptMasterEnable struct malformed");
 
 	using InterruptHandlerFnPtr = void (*)(void);
 

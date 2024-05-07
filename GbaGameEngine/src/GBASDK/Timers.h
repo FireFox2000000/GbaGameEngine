@@ -2,7 +2,7 @@
 
 namespace GBA
 {
-	enum class ClockFrequency : unsigned
+	enum class ClockFrequency : unsigned char
 	{
 		Cycle_1,
 		Cycle_64,
@@ -29,6 +29,8 @@ namespace GBA
 		inline void SetInitialCount(unsigned short value) volatile { counter = value; }
 		inline unsigned short GetCurrentCount() const volatile { return counter; }
 	};
+
+	static_assert(sizeof(TimerControl) == 4, "TimerControl struct malformed");
 
 	// Read/write
 	TimerControl (*const ioRegisterTimers)[4] = reinterpret_cast<TimerControl(* const)[4]>(0x4000100);

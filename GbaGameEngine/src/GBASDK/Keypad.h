@@ -2,7 +2,7 @@
 
 namespace GBA
 {
-	enum class ButtonState : unsigned
+	enum class ButtonState : unsigned char
 	{
 		Pressed,
 		Released
@@ -22,6 +22,8 @@ namespace GBA
 			L : 1,
 			: 6;	// unused
 	};
+
+	static_assert(sizeof(Keypad) == 2, "Keypad struct malformed");
 
 	// Read-only
 	const volatile Keypad* const ioRegisterKeypad = reinterpret_cast<Keypad*>(0x4000130);
