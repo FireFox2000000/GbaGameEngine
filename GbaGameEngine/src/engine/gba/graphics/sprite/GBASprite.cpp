@@ -45,8 +45,8 @@ namespace GBA
 		{
 		}
 
-		Sprite::Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode)
-			: m_attributes(shape | (sizeMode << 2))
+		Sprite::Sprite(ObjectShape shape, ObjectSize sizeMode)
+			: m_attributes(static_cast<int>(shape) | (static_cast<int>(sizeMode) << 2))
 			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
 			, m_atlus(NULL)
 			, m_pixelMapData(NULL)
@@ -60,14 +60,14 @@ namespace GBA
 			DEBUG_ASSERTMSG(!IsLoaded(), "Sprite was destroyed while it was still loaded in video memory!");
 		}
 
-		Attributes::Shape Sprite::GetShape() const
+		ObjectShape Sprite::GetShape() const
 		{
-			return (Attributes::Shape)(m_attributes & ~(0xFF << 2));
+			return static_cast<ObjectShape>(m_attributes & ~(0xFF << 2));
 		}
 
-		Attributes::SizeMode Sprite::GetSizeMode() const
+		ObjectSize Sprite::GetSizeMode() const
 		{
-			return (Attributes::SizeMode)(m_attributes >> 2);
+			return static_cast<ObjectSize>(m_attributes >> 2);
 		}
 
 		tTileId Sprite::GetTileIndex() const

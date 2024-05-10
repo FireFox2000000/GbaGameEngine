@@ -15,7 +15,6 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		OAMManager::ObjAttrPool& OAMManager::s_objectAttrPool = *reinterpret_cast<OAMManager::ObjAttrPool*>(OAM_RAM);
 		OAMManager::ObjAffinePool& OAMManager::s_objectAffinePool = *reinterpret_cast<OAMManager::ObjAffinePool*>(OAM_RAM);
 
 		OAMManager::OAMManager()
@@ -62,23 +61,23 @@ namespace GBA
 			// Fast copy ObjectAttributes into memory
 			{
 				u32 byteCount = sizeof(ObjectAttribute) * objectCount;
-				VramSafeMemCopy((void*)&s_objectAttrPool, m_masterSpriteRenderList.oamProperties.GetContainer(), byteCount);
+				VramSafeMemCopy((void*)GBA::objectAttributes, m_masterSpriteRenderList.oamProperties.GetContainer(), byteCount);
 
 				// Remove the rest of the objects by clearing them
-				VramSafeMemSet((void*)&s_objectAttrPool[objectCount], (u8)0, sizeof(s_objectAttrPool) - byteCount);
+				VramSafeMemSet((void*)&(GBA::objectAttributes->attributes[objectCount]), static_cast<u8>(0), sizeof(GBA::objectAttributes->attributes) - byteCount);
 			}
 
 			const auto& sprites = m_masterSpriteRenderList.sprite;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
-				vObjectAttribute& oamSpriteHandle = s_objectAttrPool[i];
+				GBA::ObjectAttribute& oamSpriteHandle = GBA::objectAttributes->attributes[i];
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
-				oamSpriteHandle.SetPaletteIndex(sprite->m_atlus->GetPaletteIndex());
-				oamSpriteHandle.SetTileIndex(sprite->GetTileIndex());
-				oamSpriteHandle.SetShape(sprite->GetShape());
-				oamSpriteHandle.SetSizeMode(sprite->GetSizeMode());
+				oamSpriteHandle.palleteBankIndex = sprite->m_atlus->GetPaletteIndex();
+				oamSpriteHandle.tileId = sprite->GetTileIndex();
+				oamSpriteHandle.shape = sprite->GetShape();
+				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
 
 			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so. 
@@ -160,7 +159,8 @@ namespace GBA
 			DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamProperties.Count() < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
 
 			// Todo, can't render more than 128, will currently crash if this is exceeded
-			ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew();
+			// TODO - Reset memory back to 0
+			ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew(ObjectAttribute{});
 			m_masterSpriteRenderList.sprite.Add(sprite);
 
 			return properties;

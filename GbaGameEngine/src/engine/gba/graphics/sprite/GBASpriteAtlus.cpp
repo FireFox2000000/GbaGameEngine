@@ -115,11 +115,11 @@ namespace GBA
 					lastAddedNode->next = node;
 				}
 
-				Attributes::Shape shape;
-				Attributes::SizeMode sizeMode;
+				ObjectShape shape;
+				ObjectSize sizeMode;
 				AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), shape, sizeMode);
 
-				node->sprite.m_attributes = shape | (sizeMode << 2);
+				node->sprite.m_attributes = static_cast<int>(shape) | (static_cast<int>(sizeMode) << 2);
 				node->sprite.m_tileSize = AttributeFunctions::GetTileSize(shape, sizeMode);
 				node->sprite.m_atlus = atlus;
 				node->sprite.m_pixelMapData = data + offsets[i];

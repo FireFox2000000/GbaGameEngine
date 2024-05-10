@@ -1,7 +1,8 @@
 #pragma once
-#include "engine/gba/graphics/oam/GBAObjectAttribute.h"
+#include "engine/math/Vector2.h" 
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
+#include "GBASDK/ObjectAttributeMemory.h"
 
 namespace GBA
 {
@@ -46,11 +47,11 @@ namespace GBA
 			SpriteAtlus* EditAtlus();
 		public:
 			Sprite();
-			Sprite(Attributes::Shape shape, Attributes::SizeMode sizeMode);
+			Sprite(ObjectShape shape, ObjectSize sizeMode);
 			~Sprite();
 
-			Attributes::Shape GetShape() const;
-			Attributes::SizeMode GetSizeMode() const;
+			ObjectShape GetShape() const;
+			ObjectSize GetSizeMode() const;
 			tTileId GetTileIndex() const;
 			tPaletteIndex GetPaletteIndex() const;
 			const SpriteAtlus* GetAtlus() const;

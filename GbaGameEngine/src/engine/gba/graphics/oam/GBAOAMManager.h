@@ -2,18 +2,19 @@
 
 #include "engine/base/core/stl/DoubleBuffer.h"
 #include "engine/base/core/stl/List.h"
-#include "engine/gba/graphics/oam/GBAObjectAttribute.h"
 #include "engine/gba/graphics/oam/GBAObjectAffine.h"
 #include "engine/gba/graphics/sprite/GBASpriteGraphicsMemoryManager.h"
 #include "engine/math/Matrix2x2.h"
+#include "GBASDK/ObjectAttributeMemory.h"
 
 namespace GBA
 {
+	struct ObjectAttribute;
+
 	namespace Gfx
 	{
 		class Sprite;
 
-		using vObjectAttribute = volatile ObjectAttribute;
 		using vObjectAffine = volatile ObjectAffine;
 
 		/* Responsible for loading sprites into vram and drawing them.
@@ -33,12 +34,10 @@ namespace GBA
 				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
 			};
 
-			using ObjAttrPool = Array<vObjectAttribute, OBJ_ATTR_COUNT>;
 			using ObjAffinePool = Array<vObjectAffine, OBJ_AFFINE_COUNT>;
 
 			typedef FixedList<Sprite*, OBJ_ATTR_COUNT> tSpriteBuffer;
 
-			static ObjAttrPool& s_objectAttrPool;
 			static ObjAffinePool& s_objectAffinePool;
 
 			Array<bool, OBJ_ATTR_COUNT> m_objAttrEnabledTracker;

@@ -39,9 +39,7 @@ namespace GBA
 		Form0,
 		Form1,
 		Form2,
-		Form3,
-
-		SizeCount
+		Form3
 	};
 
 	struct ObjectAttribute
@@ -113,7 +111,7 @@ namespace GBA
 
 	public:
 		ObjectAttributeAffine() : paFixedPoint8(0), pbFixedPoint8(0), pcFixedPoint8(0), pdFixedPoint8(0) {}
-	} __attribute__(aligned(4));	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
+	} __attribute__((aligned(4)));	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
 
 	static_assert(sizeof(ObjectAttribute) == 8, "ObjectAttribute struct malformed");
 	static_assert(sizeof(ObjectAttributeAffine) == 32, "ObjectAttributeAffine struct malformed");
