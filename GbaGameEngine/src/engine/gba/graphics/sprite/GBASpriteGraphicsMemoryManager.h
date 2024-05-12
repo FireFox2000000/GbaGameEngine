@@ -15,7 +15,7 @@ namespace GBA
 		// Keeps a reference per sprite atlus of what's loaded, so the atlus/palette will automatically unload once all sprites that reference the same atlus are unloaded.
 		class SpriteGraphicsMemoryManager
 		{
-			Array<u32, sizeof(ColourPalette16) / sizeof(Rgb16)> m_paletteRefTracker;
+			Array<u32, sizeof(ColourPalette16) / sizeof(GBA::ColourRGB16)> m_paletteRefTracker;
 
 		public:
 			SpriteGraphicsMemoryManager();

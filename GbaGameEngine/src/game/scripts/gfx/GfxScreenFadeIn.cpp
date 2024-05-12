@@ -7,7 +7,7 @@
 GfxScreenFadeIn::GfxScreenFadeIn(const Colour& destColour, float fadeSpeed)
 	: m_invSpeed(1.0f / fadeSpeed)
 {
-	m_startColour = Colour::RGB16(destColour.r, destColour.g, destColour.b);
+	m_startColour = destColour.RGB16();
 	m_startColourDecompressed = Colour::DecompressRgb16(m_startColour);
 }
 
@@ -18,12 +18,14 @@ void GfxScreenFadeIn::CapturePalettes()
 	ColourPalette256 originalPalettes;
 
 	// Take a snapshot of the current palettes
-	VramSafeMemCopy(&m_originalPalettes.GetPrimary(), (void*)m_destPalettes.GetPrimary(), m_destPalettes.GetPrimary()->Count() * sizeof(Rgb16));
+	VramSafeMemCopy(&m_originalPalettes.GetPrimary(), (void*)m_destPalettes.GetPrimary(), ARRAY_SIZE(*m_destPalettes.GetPrimary()) * sizeof(*(*m_destPalettes.GetPrimary())));
 
 	// Set the palettes to the start colour
 	{
 		auto& palette = m_destPalettes.GetPrimary();
-		VramSafeMemSet((void*)m_destPalettes.GetPrimary(), m_startColour, palette->Count());
+
+		static_assert(sizeof(m_startColour) == sizeof(u16), "VramSafeMemSet parameter incorrect");
+		VramSafeMemSet((void*)m_destPalettes.GetPrimary(), m_startColour, ARRAY_SIZE(*palette));
 	}
 
 	m_originalPalettes.Flip();
@@ -40,7 +42,7 @@ void GfxScreenFadeIn::FadePalettes()
 {
 	// Now we can actually apply the lerp
 	{
-		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_destPaletteResult, m_destPaletteResult.Count() * sizeof(Rgb16));
+		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_destPaletteResult, ARRAY_SIZE(m_destPaletteResult) * sizeof(*m_destPaletteResult));
 	}
 
 	// Interpolate the background and sprite palettes on different frames to reduce workload. 
@@ -98,7 +100,7 @@ void GfxScreenFadeIn::Update()
 		auto& srcPalette = m_originalPalettes.GetPrimary();
 
 		// Perform the heavy calcs here before rendering
-		for (u32 i = 0; i < srcPalette.Count(); ++i)
+		for (u32 i = 0; i < ARRAY_SIZE(srcPalette); ++i)
 		{
 			auto decompressedSrc = Colour::DecompressRgb16(srcPalette[i]);
 			m_destPaletteResult[i] = Colour::LerpRgb16(m_startColourDecompressed, decompressedSrc, m_t);

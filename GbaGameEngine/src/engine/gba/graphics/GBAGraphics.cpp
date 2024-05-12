@@ -42,6 +42,8 @@ namespace GBA
 			auto* affineProperties = m_oamManager.AddToAffineRenderList(&affineIndex);
 			DEBUG_ASSERTMSGFORMAT(affineIndex < 32, "Affine index out of range %d", affineIndex);
 
+			// Set as double rendering to avoid clipping artifact.
+			renderProperties->objectMode = GBA::ObjectMode::AffineDoubleRendering;
 			renderProperties->affineIndex = affineIndex;
 
 			DEBUG_ASSERTMSG(scale.x != 0 && scale.y != 0, "Trying to render affine sprite of scale 0");
@@ -52,8 +54,8 @@ namespace GBA
 			u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
 			affineProperties->SetTransformation(gbaInvertedScale, -gbaRotation);
 
-			// Set as double rendering to avoid clipping artifact. Also requires anchorpoint changes as this will physically double the sprite size
-			renderProperties->objectMode = GBA::ObjectMode::AffineDoubleRendering;
+			// Double rendering requires anchorpoint changes as AffineDoubleRendering will 
+			// physically double the sprite size
 			anchorPoint *= 2;
 		}
 		else

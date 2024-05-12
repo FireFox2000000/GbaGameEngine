@@ -9,7 +9,7 @@ constexpr int BgPaletteBufferIndex = 0;
 GfxScreenFadeOut::GfxScreenFadeOut(const Colour& destColour, float fadeSpeed)
 	: m_invSpeed(1.0f / fadeSpeed)
 {
-	auto destColourRgb16 = Colour::RGB16(destColour.r, destColour.g, destColour.b);
+	auto destColourRgb16 = destColour.RGB16();
 	m_destColourDecompressed = Colour::DecompressRgb16(destColourRgb16);
 }
 
@@ -20,7 +20,7 @@ void GfxScreenFadeOut::CapturePalettes()
 	ColourPalette256 originalPalettes;
 
 	// Take a snapshot of the current palettes
-	VramSafeMemCopy(&m_originalPalettes.GetPrimary(), (void*)m_destPalettes.GetPrimary(), m_destPalettes.GetPrimary()->Count() * sizeof(Rgb16));
+	VramSafeMemCopy(&m_originalPalettes.GetPrimary(), (void*)m_destPalettes.GetPrimary(), ARRAY_SIZE(*m_destPalettes.GetPrimary()) * sizeof(*(*m_destPalettes.GetPrimary())));
 
 	m_originalPalettes.Flip();
 	m_destPalettes.Flip();
@@ -36,7 +36,7 @@ void GfxScreenFadeOut::FadePalettes()
 {
 	// Now we can actually apply the lerp
 	{
-		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_destPaletteResult, m_destPaletteResult.Count() * sizeof(Rgb16));
+		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_destPaletteResult, ARRAY_SIZE(m_destPaletteResult) * sizeof(*m_destPaletteResult));
 	}
 
 	// Interpolate the background and sprite palettes on different frames to reduce workload. 
@@ -73,7 +73,7 @@ void GfxScreenFadeOut::Update()
 		auto& srcPalette = m_originalPalettes.GetPrimary();
 
 		// Perform the heavy calcs here before rendering
-		for (u32 i = 0; i < srcPalette.Count(); ++i)
+		for (u32 i = 0; i < ARRAY_SIZE(srcPalette); ++i)
 		{
 			auto decompressedSrc = Colour::DecompressRgb16(srcPalette[i]);
 			m_destPaletteResult[i] = Colour::LerpRgb16(decompressedSrc, m_destColourDecompressed, m_t);
@@ -125,7 +125,7 @@ void GfxScreenFadeOut::LateRender()
 			m_destPalettes.Flip();
 		}
 
-		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), m_originalPalettes.GetPrimary().Count() * sizeof(Rgb16));
+		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), ARRAY_SIZE(m_originalPalettes.GetPrimary()) * sizeof(*m_originalPalettes.GetPrimary()));
 		AdvanceState();
 		break;
 	}

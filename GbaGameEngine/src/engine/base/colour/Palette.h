@@ -7,5 +7,5 @@
 typedef u8 tPaletteIndex;
 const static u8 INVALID_PALETTE_INDEX = 255;
 
-typedef Array<Rgb16, 16> ColourPalette16;
-typedef Array<Rgb16, 256> ColourPalette256;
+typedef Array<GBA::ColourRGB16, 16> ColourPalette16;
+typedef Array<GBA::ColourRGB16, 256> ColourPalette256;

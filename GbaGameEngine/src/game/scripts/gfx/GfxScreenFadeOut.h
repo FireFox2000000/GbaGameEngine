@@ -21,9 +21,9 @@ class GfxScreenFadeOut : public IPostProcessingGfxTask
 	int m_originalPalettesCaptured = 0;
 	int m_fadeCompleteCount = 0;	// Need to make sure both double-buffers get rendered with t == 1 by the end
 
-	DoubleBuffer<ColourPalette256> m_originalPalettes;
-	DoubleBuffer<volatile ColourPalette256*> m_destPalettes;
-	ColourPalette256 m_destPaletteResult;	// Pre-calc our lerp results into here and then memcpy into vram during render. Otherwise we get uncomfortably close to VBlank limit. 
+	DoubleBuffer<GBA::ColourPalette> m_originalPalettes;
+	DoubleBuffer<GBA::ColourPalette*> m_destPalettes;
+	GBA::ColourPalette m_destPaletteResult;	// Pre-calc our lerp results into here and then memcpy into vram during render. Otherwise we get uncomfortably close to VBlank limit. 
 
 	ColourRgb16Decompressed m_destColourDecompressed;
 	Colour::tColourLerpT m_t = 0;

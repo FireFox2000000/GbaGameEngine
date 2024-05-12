@@ -50,7 +50,7 @@ public:
 
 	const T* GetContainer() const
 	{
-		return &m_buffer;
+		return &m_buffer[0];
 	}
 
 	static inline constexpr u32 Count() { return SIZE; }

@@ -3,30 +3,7 @@
 #include "engine/base/Macros.h"
 #include "engine/math/Math.h"
 #include "engine/base/core/stl/FixedPoint.h"
-
-struct Rgb16
-{
-	u16 r : 5
-		, g : 5
-		, b : 6
-		;
-
-	Rgb16() = default;
-	Rgb16(u16 val);
-	Rgb16(u8 r, u8 g, u8 b);
-	Rgb16(const Rgb16& that);
-
-	bool operator==(const Rgb16& that);
-	bool operator==(const volatile Rgb16& that) volatile;
-
-	void operator = (const Rgb16& that);
-	void operator = (const Rgb16& that) volatile;
-
-	operator u16() const;
-};
-
-// No guards, RGB16 method
-#define MAKE_RGB16(r, g, b) ((r) + ((g) << 5) + ((b) << 10))
+#include "GBASDK/ColourPalettes.h"
 
 struct ColourRgb16Decompressed
 {
@@ -43,9 +20,6 @@ private:
 	static u8 LerpU8(u8 a, u8 b, Colour::tColourLerpT t);
 
 public:
-	// Values must be between 0 and 31
-	static Rgb16 RGB16(u8 r, u8 g, u8 b);
-
 	u8 r, g, b, a;
 
 	Colour();
@@ -53,7 +27,7 @@ public:
 	Colour(u8 r, u8 g, u8 b);
 	~Colour();
 
-	Rgb16 RGB16() const { return Colour::RGB16(ScaleToMaxRgb16(r), ScaleToMaxRgb16(g), ScaleToMaxRgb16(b)); }
+	GBA::ColourRGB16 RGB16() const { return { ScaleToMaxRgb16(r), ScaleToMaxRgb16(g), ScaleToMaxRgb16(b) }; }
 
 	const static Colour White;
 	const static Colour Black;
@@ -61,7 +35,7 @@ public:
 	const static Colour Green;
 	const static Colour Blue;
 
-	static Rgb16 LerpRgb16(const ColourRgb16Decompressed& from, const ColourRgb16Decompressed& to, tColourLerpT t)
+	static GBA::ColourRGB16 LerpRgb16(const ColourRgb16Decompressed& from, const ColourRgb16Decompressed& to, tColourLerpT t)
 	{
 		// Lerp
 		u8 r = LerpU8(from.r, to.r, t);
@@ -69,12 +43,20 @@ public:
 		u8 b = LerpU8(from.b, to.b, t);
 
 		// Recompress
-		return Rgb16(r, g, b);
+		return GBA::ColourRGB16{ r, g, b };
 	}
 
-	static ColourRgb16Decompressed DecompressRgb16(Rgb16 rgbColour);
+	static inline ColourRgb16Decompressed DecompressRgb16(GBA::ColourRGB16 rgbColour)
+	{
+		ColourRgb16Decompressed colour;
+		colour.r = rgbColour.r;
+		colour.g = rgbColour.g;
+		colour.b = rgbColour.b;
 
-	static inline Rgb16 LerpRgb16(Rgb16 from, Rgb16 to, tColourLerpT t)
+		return colour;
+	}
+
+	static inline GBA::ColourRGB16 LerpRgb16(GBA::ColourRGB16 from, GBA::ColourRGB16 to, tColourLerpT t)
 	{
 		if (from == to) return from;
 

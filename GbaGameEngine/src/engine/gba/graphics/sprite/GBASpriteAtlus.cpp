@@ -72,7 +72,7 @@ namespace GBA
 			const u8 paletteLength = reader.Read<u8>();
 			const u32 dataLength = reader.Read<u32>();
 			const u32 compressionFlags = reader.Read<u32>();
-			const u16* palette = reader.ReadAddress<u16>(paletteLength);
+			const GBA::ColourRGB16* palette = reader.ReadAddress<GBA::ColourRGB16>(paletteLength);
 			const u8* widthMap = reader.ReadAddress<u8>(spriteCount);
 			const u8* heightMap = reader.ReadAddress<u8>(spriteCount);
 			const u32* offsets = reader.ReadAddress<u32>(spriteCount);

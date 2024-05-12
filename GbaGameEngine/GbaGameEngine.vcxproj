@@ -361,6 +361,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\GBASDK\Interrupts.h" />
     <ClInclude Include="src\GBASDK\Keypad.h" />
     <ClInclude Include="src\GBASDK\ObjectAttributeMemory.h" />
+    <ClInclude Include="src\GBASDK\ColourPalettes.h" />
     <ClInclude Include="src\GBASDK\Timers.h" />
     <ClInclude Include="src\GBASDK\VCount.h" />
   </ItemGroup>

@@ -42,7 +42,7 @@ namespace GBA
 					return;		// Out of palette space!
 				}
 
-				ColourPalette16 palette(0);
+				ColourPalette16 palette(GBA::ColourRGB16{ 0, 0, 0 });
 
 				for (u32 i = 0; i < atlus->m_paletteLength; ++i)
 				{
