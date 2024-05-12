@@ -38,7 +38,7 @@ namespace GBA
 
 		Sprite::Sprite()
 			: m_objectShape(GBA::ObjectShape::Square)
-			, m_objectSize(GBA::ObjectSize::Form0)
+			, m_objectSize(GBA::ObjectSize::Smallest)
 			, m_tileSize(GBAAttrFnVector2())
 			, m_atlus(NULL)
 			, m_pixelMapData(NULL)

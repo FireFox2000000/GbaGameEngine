@@ -18,14 +18,14 @@ constexpr GBA::ObjectAttribute MakeDefaultAttribute()
 	attr.screenPosY = 0;
 	attr.objectMode = GBA::ObjectMode::Normal;
 	attr.gfxMode = GBA::GfxMode::Normal;
-	attr.mosaicEnabled = false;
+	attr.mosaic = GBA::MosaicState::Off;
 	attr.colourMode = GBA::ColourMode::FourBitsPerPixel;
 	attr.shape = GBA::ObjectShape::Square;
 
 	attr.screenPosX = 0;
-	attr.flipHorizontal = false;
-	attr.flipVertical = false;
-	attr.size = GBA::ObjectSize::Form0;
+	attr.flipHorizontal = GBA::FlippedState::Normal;
+	attr.flipVertical = GBA::FlippedState::Normal;
+	attr.size = GBA::ObjectSize::Smallest;
 
 	attr.tileId = 0;
 	attr.priority = 0;
