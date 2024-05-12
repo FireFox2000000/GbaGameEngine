@@ -5,7 +5,7 @@
 #if	defined	(__thumb__)
 #define	GBA_BiosSystemCall(Number)	 __asm ("SWI	  "#Number"\n" :::  "r0", "r1", "r2", "r3")
 #else
-#define	GBA_BiosSystemCall(Number)	 __asm ("SWI	  "#Number"	<< 16\n" :::"r0", "r1", "r2", "r3")
+#define	GBA_BiosSystemCall(Number)	 __asm ("SWI	  "#Number"	<< 16\n" ::: "r0", "r1", "r2", "r3")
 #endif
 
 #ifdef __GNUC__
