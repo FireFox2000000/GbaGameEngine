@@ -149,7 +149,7 @@ const GBA::DMG::Midi::NoteEvent* Midi::FallOfFall::begin()
 
 const GBA::DMG::Midi::NoteEvent* Midi::FallOfFall::end()
 {
-	constexpr int TotalEvents = sizeof(NoteEvents) / sizeof(*NoteEvents);
+	constexpr int TotalEvents = ARRAY_SIZE(NoteEvents);
 	return begin() + TotalEvents;
 }
 

@@ -24,8 +24,8 @@ namespace GBA
 		class OAMManager
 		{
 		public:
-			static const int OBJ_ATTR_COUNT = 128;
-			static const int OBJ_AFFINE_COUNT = 32;
+			static constexpr int OBJ_ATTR_COUNT = ARRAY_SIZE(GBA::objectAttributes->attributes);
+			static constexpr int OBJ_AFFINE_COUNT = 32;
 
 		private:
 			struct OAMSpriteRenderPropertiesSOA
