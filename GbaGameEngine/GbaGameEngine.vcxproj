@@ -361,6 +361,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\GBASDK\DisplayControl.h" />
     <ClInclude Include="src\GBASDK\DisplayStatus.h" />
     <ClInclude Include="src\GBASDK\GBA.h" />
+    <ClInclude Include="src\GBASDK\internal\Internal.h" />
     <ClInclude Include="src\GBASDK\Interrupts.h" />
     <ClInclude Include="src\GBASDK\Keypad.h" />
     <ClInclude Include="src\GBASDK\ObjectAttributeMemory.h" />

@@ -1,17 +1,17 @@
 #pragma once
 #include "GBASDK/Bios.h"
+#include "GBASDK/internal/Internal.h"
 
 namespace VisualBoyAdvance
 {
 	// Don't let the compiler optimise seemingly empty bios call statements away
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
+GBA_OPTIONS_PUSH_OPTIMIZE_O0
 
 	// Will crash on actual hardware
 	inline void AGBPrint(const char* message)
 	{
-		GBABiosSystemCall(0xFF);
+		GBA_BiosSystemCall(0xFF);
 	}
-}
 
-#pragma GCC pop_options
+GBA_OPTIONS_POP
+}

@@ -1,12 +1,6 @@
 #pragma once
 #include "GBASDK/Interrupts.h"
-
-// We leave this defined for custom bios calls, used for emulator specific functions
-#if	defined	(__thumb__)
-#define	GBABiosSystemCall(Number)	 __asm ("SWI	  "#Number"\n" :::  "r0", "r1", "r2", "r3")
-#else
-#define	GBABiosSystemCall(Number)	 __asm ("SWI	  "#Number"	<< 16\n" :::"r0", "r1", "r2", "r3")
-#endif
+#include "internal/Internal.h"
 
 namespace GBA
 {
@@ -27,21 +21,18 @@ namespace GBA
 		static_assert(sizeof(ResetFlags) == 1, "ResetFlags struct malformed");
 
 		// Don't let the compiler optimise seemingly empty bios call statements away
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wreturn-type"
+GBA_OPTIONS_PUSH_OPTIMIZE_O0
+GBA_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 
 		inline void SoftReset()
 		{
-			GBABiosSystemCall(0x00);
+			GBA_BiosSystemCall(0x00);
 		}
 
 		inline void RegisterRamReset(ResetFlags flags)
 		{
 			static_assert(sizeof(flags) == sizeof(unsigned char), "ResetFlags struct layout is not correct");
-			GBABiosSystemCall(0x01);
+			GBA_BiosSystemCall(0x01);
 		}
 
 		/// <summary>
@@ -57,7 +48,7 @@ namespace GBA
 		// </param>
 		inline void InterruptWait(bool waitUntilNew, Interrupts interrupts)
 		{
-			GBABiosSystemCall(0x04);
+			GBA_BiosSystemCall(0x04);
 		}
 		 
 		/// <summary>
@@ -70,33 +61,32 @@ namespace GBA
 		/// </summary>
 		inline void VBlankInterruptWait()
 		{
-			GBABiosSystemCall(0x05);
+			GBA_BiosSystemCall(0x05);
 		}
 
 		inline int Div(int num, int denom)
 		{
-			GBABiosSystemCall(0x06);
+			GBA_BiosSystemCall(0x06);
 			// Apparently this returns 3 numbers?...
 		}
 
 		// Same as Div (SWI 06h), but incoming parameters are exchanged, r1/r0 (r0=Denom, r1=number). For compatibility with ARM's library. Slightly slower (3 clock cycles) than SWI 06h
 		inline int DivArm(int denom, int num)
 		{
-			GBABiosSystemCall(0x07);
+			GBA_BiosSystemCall(0x07);
 		}
 
 		inline unsigned short Sqrt(unsigned long val)
 		{
-			GBABiosSystemCall(0x08);
+			GBA_BiosSystemCall(0x08);
 		}
 
 		inline void HardReset()
 		{
-			GBABiosSystemCall(0x26);
+			GBA_BiosSystemCall(0x26);
 		}
 
-#pragma GCC diagnostic pop
-
-#pragma GCC pop_options
+GBA_DIAGNOSTIC_POP
+GBA_OPTIONS_POP
 	}
 }
