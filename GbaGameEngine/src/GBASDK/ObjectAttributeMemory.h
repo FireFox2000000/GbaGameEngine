@@ -108,7 +108,7 @@ GBA_DIAGNOSTIC_POP
 		// Has no effect if the colorMode == EightBitsPerPixel
 		unsigned short palleteBankIndex : 4;
 
-		/*** Unused, affine data ***/
+		/*** Unused, ObjectAttributeAffine data ***/
 		unsigned short : 16;
 
 	} GBA_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
@@ -116,18 +116,25 @@ GBA_DIAGNOSTIC_POP
 	class ObjectAttributeAffine
 	{
 	private:
-		// fills map to ObjectAttribute properties. DO NOT TOUCH THESE. Only need to fill out pa-pd.
+		// fills map to ObjectAttribute properties.
 		unsigned short fill0[3];
-		short paFixedPoint8;
-		unsigned short fill1[3];
-		short pbFixedPoint8;
-		unsigned short fill2[3];
-		short pcFixedPoint8;
-		unsigned short fill3[3];
-		short pdFixedPoint8;
-
 	public:
-		ObjectAttributeAffine() : paFixedPoint8(0), pbFixedPoint8(0), pcFixedPoint8(0), pdFixedPoint8(0) {}
+		short paFixedPoint8;
+	private:
+		// fills map to ObjectAttribute properties.
+		unsigned short fill1[3];
+	public:
+		short pbFixedPoint8;
+	private:
+		// fills map to ObjectAttribute properties.
+		unsigned short fill2[3];
+	public:
+		short pcFixedPoint8;
+	private:
+		// fills map to ObjectAttribute properties.
+		unsigned short fill3[3];
+	public:
+		short pdFixedPoint8;
 	} GBA_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
 
 	static_assert(sizeof(ObjectAttribute) == 8, "ObjectAttribute struct malformed");

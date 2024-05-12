@@ -40,8 +40,6 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		OAMManager::ObjAffinePool& OAMManager::s_objectAffinePool = *reinterpret_cast<OAMManager::ObjAffinePool*>(OAM_RAM);
-
 		OAMManager::OAMManager()
 			: m_objAttrEnabledTracker(false)
 			, m_objAttrEnabledSearchIndex(0)
@@ -108,8 +106,11 @@ namespace GBA
 			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so. 
 			for (u32 i = 0; i < m_affineTransformationList.Count(); ++i)
 			{
-				vObjectAffine& oamAffineHandle = s_objectAffinePool[i];
-				oamAffineHandle.SetTransformation(m_affineTransformationList[i]);
+				ObjectAttributeAffine& oamAffineHandle = GBA::objectAttributeMemory->affineAttributes[i];
+				oamAffineHandle.paFixedPoint8 = m_affineTransformationList[i].a.GetStorage();
+				oamAffineHandle.pbFixedPoint8 = m_affineTransformationList[i].b.GetStorage();
+				oamAffineHandle.pcFixedPoint8 = m_affineTransformationList[i].c.GetStorage();
+				oamAffineHandle.pdFixedPoint8 = m_affineTransformationList[i].d.GetStorage();
 			}
 
 			m_masterSpriteRenderList.oamProperties.Clear();
