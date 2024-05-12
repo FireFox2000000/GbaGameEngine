@@ -24,7 +24,7 @@ namespace GBA
 		class OAMManager
 		{
 		public:
-			static constexpr int OBJ_ATTR_COUNT = ARRAY_SIZE(GBA::objectAttributes->attributes);
+			static constexpr int OBJ_ATTR_COUNT = ARRAY_SIZE(GBA::objectAttributeMemory->attributes);
 			static constexpr int OBJ_AFFINE_COUNT = 32;
 
 		private:

@@ -126,7 +126,7 @@ namespace GBA
 		ObjectAttributeAffine affineAttributes[32];
 	};
 	
-	UObjectAttributes* const objectAttributes = reinterpret_cast<UObjectAttributes* const>(0x07000000);
+	UObjectAttributes* const objectAttributeMemory = reinterpret_cast<UObjectAttributes* const>(0x07000000);
 }
 
 #undef GBA_ALIGN
