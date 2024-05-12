@@ -37,7 +37,8 @@ namespace GBA
 		}
 
 		Sprite::Sprite()
-			: m_attributes(0)
+			: m_objectShape(GBA::ObjectShape::Square)
+			, m_objectSize(GBA::ObjectSize::Form0)
 			, m_tileSize(GBAAttrFnVector2())
 			, m_atlus(NULL)
 			, m_pixelMapData(NULL)
@@ -46,7 +47,8 @@ namespace GBA
 		}
 
 		Sprite::Sprite(ObjectShape shape, ObjectSize sizeMode)
-			: m_attributes(static_cast<int>(shape) | (static_cast<int>(sizeMode) << 2))
+			: m_objectShape(shape)
+			, m_objectSize(sizeMode)
 			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
 			, m_atlus(NULL)
 			, m_pixelMapData(NULL)
@@ -62,12 +64,12 @@ namespace GBA
 
 		ObjectShape Sprite::GetShape() const
 		{
-			return static_cast<ObjectShape>(m_attributes & ~(0xFF << 2));
+			return m_objectShape;
 		}
 
 		ObjectSize Sprite::GetSizeMode() const
 		{
-			return static_cast<ObjectSize>(m_attributes >> 2);
+			return m_objectSize;
 		}
 
 		tTileId Sprite::GetTileIndex() const

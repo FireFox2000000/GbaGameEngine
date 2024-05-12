@@ -35,9 +35,10 @@ namespace GBA
 			friend class SpriteAtlus;
 			friend class OAMManager;
 
-			u8 m_attributes;		// First 2 bits stores Attributes::Shape, next 2 bits stores Attributes::SizeMode
-			Vector2<u8> m_tileSize;
+			ObjectShape m_objectShape;
+			ObjectSize m_objectSize;
 
+			Vector2<u8> m_tileSize;
 			RenderData m_renderData;
 
 			SpriteAtlus* m_atlus;

@@ -119,7 +119,8 @@ namespace GBA
 				ObjectSize sizeMode;
 				AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), shape, sizeMode);
 
-				node->sprite.m_attributes = static_cast<int>(shape) | (static_cast<int>(sizeMode) << 2);
+				node->sprite.m_objectShape = shape;
+				node->sprite.m_objectSize = sizeMode;
 				node->sprite.m_tileSize = AttributeFunctions::GetTileSize(shape, sizeMode);
 				node->sprite.m_atlus = atlus;
 				node->sprite.m_pixelMapData = data + offsets[i];
