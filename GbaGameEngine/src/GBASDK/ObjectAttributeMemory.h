@@ -1,5 +1,7 @@
 #pragma once
 
+#define GBA_ALIGN(n) __attribute__((aligned(n)))
+
 namespace GBA
 {
 	enum class ObjectMode : unsigned char
@@ -56,24 +58,26 @@ namespace GBA
 
 		/*** Attr 1 ***/
 
-		// 0 - 511
 		union
 		{
 			struct
 			{
-				unsigned short screenPosX : 9;
-				// 0 - 31
-				// Affine index is only used if objectMode == ObjectMode::Affine
-				unsigned short affineIndex : 5;
+				// 0 - 511
+				unsigned short screenPosX : 9;	
+				unsigned short : 3;
+				// Only available if objectMode != ObjectMode::Affine
+				unsigned short flipHorizontal : 1;
+				// Only available if objectMode != ObjectMode::Affine
+				unsigned short flipVertical : 1;
 				ObjectSize size : 2;
 			};
 			struct
 			{
 				bool : 8;
-				bool : 4;
-				// Only used if objectMode != ObjectMode::Affine
-				bool flipHorizontal : 1;
-				bool flipVertical : 1;
+				bool : 1;
+				// 0 - 31
+				// Affine index is only used if objectMode == ObjectMode::Affine
+				unsigned char affineIndex : 5;
 				bool : 2;
 			};
 		};
@@ -82,19 +86,19 @@ namespace GBA
 		
 		// 0 - 1023
 		// Base tile-index of sprite. Note that in bitmap modes this must be 512 or higher.
-		unsigned short tileId : 10,
+		unsigned short tileId : 10;
 
 		// 0 - 3
 		// 0 = Highest
-		priority : 2,
+		unsigned short priority : 2;
 
 		// Has no effect if the colorMode == EightBitsPerPixel
-		palleteBankIndex : 4;
+		unsigned short palleteBankIndex : 4;
 
 		/*** Unused, affine data ***/
 		unsigned short : 16;
 
-	} __attribute__((aligned(4)));	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
+	} GBA_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
 
 	class ObjectAttributeAffine
 	{
@@ -111,7 +115,7 @@ namespace GBA
 
 	public:
 		ObjectAttributeAffine() : paFixedPoint8(0), pbFixedPoint8(0), pcFixedPoint8(0), pdFixedPoint8(0) {}
-	} __attribute__((aligned(4)));	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
+	} GBA_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
 
 	static_assert(sizeof(ObjectAttribute) == 8, "ObjectAttribute struct malformed");
 	static_assert(sizeof(ObjectAttributeAffine) == 32, "ObjectAttributeAffine struct malformed");
@@ -124,3 +128,5 @@ namespace GBA
 	
 	UObjectAttributes* const objectAttributes = reinterpret_cast<UObjectAttributes* const>(0x07000000);
 }
+
+#undef GBA_ALIGN

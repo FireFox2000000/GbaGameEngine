@@ -11,6 +11,31 @@
 #include "GBASDK/Timers.h"
 #endif
 
+constexpr GBA::ObjectAttribute MakeDefaultAttribute()
+{
+	GBA::ObjectAttribute attr{};
+
+	attr.screenPosY = 0;
+	attr.objectMode = GBA::ObjectMode::Normal;
+	attr.gfxMode = GBA::GfxMode::Normal;
+	attr.mosaicEnabled = false;
+	attr.colourMode = GBA::ColourMode::FourBitsPerPixel;
+	attr.shape = GBA::ObjectShape::Square;
+
+	attr.screenPosX = 0;
+	attr.flipHorizontal = false;
+	attr.flipVertical = false;
+	attr.size = GBA::ObjectSize::Form0;
+
+	attr.tileId = 0;
+	attr.priority = 0;
+	attr.palleteBankIndex = 0;
+
+	return attr;
+}
+
+constexpr GBA::ObjectAttribute DEFAULT_ATTR = MakeDefaultAttribute();
+
 namespace GBA
 {
 	namespace Gfx
@@ -158,9 +183,8 @@ namespace GBA
 
 			DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamProperties.Count() < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
 
-			// Todo, can't render more than 128, will currently crash if this is exceeded
-			// TODO - Reset memory back to 0
-			ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew(ObjectAttribute{});
+			// Can't render more than 128, will currently crash if this is exceeded
+			ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew(DEFAULT_ATTR);
 			m_masterSpriteRenderList.sprite.Add(sprite);
 
 			return properties;
