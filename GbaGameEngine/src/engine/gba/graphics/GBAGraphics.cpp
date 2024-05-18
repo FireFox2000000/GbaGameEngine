@@ -63,12 +63,12 @@ namespace GBA
 			// renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjNormal);	// Implicit from reconstruction in AddToRenderList, no need to call this unless we want to waste cycles
 			if (scale.x < 0)
 			{
-				renderProperties->flipHorizontal = GBA::FlippedState::Mirrored;
+				renderProperties->flipHorizontal = GBA::ObjectFlippedState::Mirrored;
 			}
 
 			if (scale.y < 0)
 			{
-				renderProperties->flipVertical = GBA::FlippedState::Mirrored;
+				renderProperties->flipVertical = GBA::ObjectFlippedState::Mirrored;
 			}
 		}
 

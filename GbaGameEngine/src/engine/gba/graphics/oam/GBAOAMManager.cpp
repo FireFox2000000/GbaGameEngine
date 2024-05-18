@@ -23,11 +23,11 @@ constexpr GBA::ObjectAttribute MakeDefaultAttribute()
 	attr.shape = GBA::ObjectShape::Square;
 
 	attr.screenPosX = 0;
-	attr.flipHorizontal = GBA::FlippedState::Normal;
-	attr.flipVertical = GBA::FlippedState::Normal;
+	attr.flipHorizontal = GBA::ObjectFlippedState::Normal;
+	attr.flipVertical = GBA::ObjectFlippedState::Normal;
 	attr.size = GBA::ObjectSize::Smallest;
 
-	attr.tileId = 0;
+	attr.baseTileIndex = 0;
 	attr.priority = 0;
 	attr.palleteBankIndex = 0;
 
@@ -98,7 +98,7 @@ namespace GBA
 
 				// Set just-loaded specific properties
 				oamSpriteHandle.palleteBankIndex = sprite->m_atlus->GetPaletteIndex();
-				oamSpriteHandle.tileId = sprite->GetTileIndex();
+				oamSpriteHandle.baseTileIndex = sprite->GetTileIndex();
 				oamSpriteHandle.shape = sprite->GetShape();
 				oamSpriteHandle.size = sprite->GetSizeMode();
 			}

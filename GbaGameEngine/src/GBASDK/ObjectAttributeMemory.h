@@ -49,7 +49,7 @@ namespace GBA
 		Largest
 	};
 
-	enum class FlippedState : unsigned short
+	enum class ObjectFlippedState : unsigned short
 	{
 		Normal,
 		Mirrored
@@ -79,9 +79,9 @@ GBA_DIAGNOSTIC_PUSH_IGNORE_WARNING_ANON_STRUCTS
 				unsigned short screenPosX : 9;	
 				unsigned short : 3;
 				// Only available if objectMode != ObjectMode::Affine
-				FlippedState flipHorizontal : 1;
+				ObjectFlippedState flipHorizontal : 1;
 				// Only available if objectMode != ObjectMode::Affine
-				FlippedState flipVertical : 1;
+				ObjectFlippedState flipVertical : 1;
 				ObjectSize size : 2;
 			};
 			struct
@@ -98,8 +98,9 @@ GBA_DIAGNOSTIC_POP
 		/*** Attr 2 ***/
 		
 		// 0 - 1023
-		// Base tile-index of sprite. Note that in bitmap modes this must be 512 or higher.
-		unsigned short tileId : 10;
+		// Index of vram::objectTiles (BaseTile) array that the tile data was loaded into. 
+		// Note that in bitmap modes 3-5 this must be 512 or higher.
+		unsigned short baseTileIndex : 10;
 
 		// 0 - 3
 		// 0 = Highest

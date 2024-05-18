@@ -83,6 +83,7 @@ namespace GBA
 		tTileId tileIndex = FindNextFreeSpriteTileSpace(tileCount);
 		if (tileIndex != INVALID_TILE_ID)
 		{
+			// This should be set to sprite higher in bitmap modes
 			TileBlockGroups tileBlockGroup = SpriteLower;
 
 			LoadTiles(pixelMap, pixelMapSize, compressionFlags, tileBlockGroup, tileIndex);

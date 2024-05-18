@@ -17,6 +17,13 @@ namespace GBA
 		*	1		|	reg	|	reg	|	aff	|	-
 		*	2		|	-	|	-	|	aff	|	aff
 		*/
+
+		/*	Bitmap mode characteristics
+			mode	width	height	bpp		size		page-flip
+			3		240		160		16		1x 12C00h	No
+			4		240		160		8		2x 9600h	Yes
+			5		160		128		16		2x A000h	Yes
+		*/
 	};
 
 	enum class CGBMode : unsigned char

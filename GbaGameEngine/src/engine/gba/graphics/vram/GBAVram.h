@@ -17,7 +17,7 @@ namespace GBA
 		Bg2,
 		Bg3,
 		SpriteLower,		// May be used by backgrounds in bitmap modes
-		SpriteHigher,
+		SpriteHigher,		// This is the only available sprite vram in bitmap modes
 
 		BlockGroupCount
 	};
