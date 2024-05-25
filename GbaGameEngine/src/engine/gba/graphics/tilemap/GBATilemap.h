@@ -2,8 +2,10 @@
 #include "engine/gba/graphics/background/GBABackground.h"
 #include "engine/gba/registers/display/GBABackgroundControl.h"
 
-namespace GBA {
+namespace GBA 
+{
 	class Graphics;
+	struct BackgroundTilemapEntry;
 }
 
 namespace GBA
@@ -20,7 +22,7 @@ namespace GBA
 
 			struct FileDataMap
 			{
-				const u16* m_tileMapData = NULL;
+				const GBA::BackgroundTilemapEntry* m_tileMapData = nullptr;
 				u16 m_tileMapDataLength = 0;
 				bool m_isDynamicallyRendered = false;		// i.e. not GBA nested
 				Vector2<u8> m_sizeInTiles;
@@ -56,7 +58,7 @@ namespace GBA
 			const Vector2<u8>& GetSizeInTiles() const;
 			const TilemapSet* GetTilemapSet() const;
 			u16 GetTileMapLength() const;
-			const u16* GetTileMapData() const;
+			const GBA::BackgroundTilemapEntry* GetTileMapData() const;
 			GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
 			GBA::BackgroundControl::Backgrounds GetAssignedBackgroundSlot() const;
 		};

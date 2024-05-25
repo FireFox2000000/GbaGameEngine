@@ -1,5 +1,6 @@
 #include "GBATilemapSet.h"
 #include "engine/base/core/stl/Bitmask.h"
+#include "GBASDK/Vram.h"
 
 using namespace GBA::Gfx;
 
@@ -11,15 +12,15 @@ TilemapSet::TilemapSet()
 TilemapSet::TilemapSet(
 	const u8 paletteBankIndex
 	, const u8 paletteLength
-	, const u16 * palette
+	, const u16* palette
 	, const u32 tilesetLength
-	, const u32 * tileset
+	, const GBA::UPixelData* tileset
 	, const u32 tileSetDataCompressionFlags
 	, const u8 mapCount
 	, const u8 mapIsDynamicMask
-	, const u8 * mapTileWidths
-	, const u8 * mapTileHeights
-	, const u16 * mapData
+	, const u8* mapTileWidths
+	, const u8* mapTileHeights
+	, const GBA::BackgroundTilemapEntry* mapData
 )
 {
 	m_file.m_paletteBankIndex = paletteBankIndex;

@@ -1,6 +1,7 @@
 #include "GBAVram.h"
 #include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/algorithm/Compression.h"
+#include "GBASDK/Vram.h"
 
 //#define DECOMPRESSION_PROFILE
 //#define VRAM_TRANSFER_PROFILE
@@ -26,7 +27,6 @@ namespace GBA
 {
 	volatile CharBlockPool& s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(VRAM);
 	volatile CharBlockPool8& s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(VRAM);
-	volatile ScreenBlockPool& s_screenBlockPool = *reinterpret_cast<volatile ScreenBlockPool*>(VRAM);
 
 	Vram::Vram()
 		: m_spriteTileMemTracker(Free)
@@ -108,29 +108,6 @@ namespace GBA
 		}
 	}
 
-	void Vram::LoadBackgroundMem(const u16* src, tScreenBaseBlockIndex dest, u32 dataLength)
-	{
-		u32 byteLength = dataLength * sizeof(u16);
-
-#ifdef VRAM_TRANSFER_PROFILE
-		auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
-		profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
-		profilerClock.isEnabled = true;
-#endif
-		// Transfer memory
-		VramSafeMemCopy((u16*)&s_screenBlockPool[dest][0], src, byteLength);
-#ifdef VRAM_TRANSFER_PROFILE
-		DEBUG_LOGFORMAT("[Profile VRAM transfer] = %d", profilerClock.GetCurrentCount());
-		profilerClock.isEnabled = false;
-#endif
-	}
-
-	void Vram::SetBackgroundMem(const u16 src, tScreenBaseBlockIndex dest, u32 dataLength)
-	{
-		u32 byteLength = dataLength * sizeof(u16);
-		VramSafeMemSet((u16*)&s_screenBlockPool[dest][0], src, byteLength);
-	}
-
 	tScreenBaseBlockIndex Vram::AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned)
 	{
 		tScreenBaseBlockIndex allocatedIndex = INVALID_SBB_ID;
@@ -191,16 +168,17 @@ namespace GBA
 		return cbbIndex;
 	}
 
-	void Vram::LoadBackgroundTileSetMem(const u32 * tileset, u32 tileSetLength, TileBlockGroups cbbIndex)
+	void Vram::LoadBackgroundTileSetMem(const GBA::UPixelData* tileset, u32 tileSetLength, TileBlockGroups cbbIndex)
 	{
-		u32 dataLength = tileSetLength * 2;	// We cast the data from a u32[] to a u16[]. Double the length to account for this.
-		LoadBackgroundMem((u16*)tileset, cbbIndex * ScreenBlocksPerCharBlock, dataLength);
+		auto* dest = GBA::vram->videoMode2.backgroundMapsAndTiles.characterBaseBlocks[cbbIndex];
+		u32 byteLength = tileSetLength * sizeof(*tileset);
+		VramSafeMemCopy(dest, tileset, byteLength);
 	}
 
-	void Vram::SetBackgroundTileSetMem(const u16 value, u32 tileSetLength, TileBlockGroups cbbIndex)
+	void Vram::SetBackgroundTileSetMem(const GBA::UPixelData value, u32 tileSetLength, TileBlockGroups cbbIndex)
 	{
-		u32 dataLength = tileSetLength * 2;	// We cast the data from a u32[] to a u16[]. Double the length to account for this.
-		SetBackgroundMem(value, cbbIndex * ScreenBlocksPerCharBlock, dataLength);
+		auto* dest = GBA::vram->videoMode2.backgroundMapsAndTiles.characterBaseBlocks[cbbIndex];
+		VramSafeMemSet(dest->pixelData, value, tileSetLength);
 	}
 
 	tScreenBaseBlockIndex Vram::AllocBackgroundTileMapMem(u32 tileCount)
@@ -213,24 +191,29 @@ namespace GBA
 		return sbbIndex;
 	}
 
-	void Vram::LoadBackgroundTileMapMem(const u16 * mapData, u32 mapDataLength, tScreenBaseBlockIndex sbbIndex)
+	void Vram::LoadBackgroundTileMapMem(const BackgroundTilemapEntry* mapData, u32 mapDataLength, tScreenBaseBlockIndex sbbIndex)
 	{
-		LoadBackgroundMem(mapData, sbbIndex, mapDataLength);
+		auto* dest = GBA::vram->videoMode2.backgroundMapsAndTiles.screenBaseBlocks[sbbIndex];
+		u32 byteLength = mapDataLength * sizeof(*mapData);
+		VramSafeMemCopy(dest, mapData, byteLength);
 	}
 
-	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data)
+	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, BackgroundTilemapEntry data)
 	{
-		s_screenBlockPool[sbbIndex][offset] = data;
+		GBA::vram->videoMode2.backgroundMapsAndTiles.screenBaseBlocks[sbbIndex][offset] = data;
 	}
 
-	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data, int dataCount)
+	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, BackgroundTilemapEntry data, int dataCount)
 	{
-		VramSafeMemSet((u16*)&s_screenBlockPool[sbbIndex][offset], data, dataCount);
+		auto* dest = &(GBA::vram->videoMode2.backgroundMapsAndTiles.screenBaseBlocks[sbbIndex][offset]);
+		VramSafeMemSet(dest, data, dataCount);
 	}
 
-	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize)
+	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const BackgroundTilemapEntry* data, int dataSize)
 	{
-		VramSafeMemCopy((u16*)&s_screenBlockPool[sbbIndex][offset], data, sizeof(u16) * dataSize);
+		auto* dest = &(GBA::vram->videoMode2.backgroundMapsAndTiles.screenBaseBlocks[sbbIndex][offset]);
+
+		VramSafeMemCopy(reinterpret_cast<u16*>(dest), data, sizeof(*data) * dataSize);
 	}
 
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)

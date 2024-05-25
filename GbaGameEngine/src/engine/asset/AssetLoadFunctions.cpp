@@ -5,6 +5,7 @@
 #include "engine/engine/Engine.h"
 #include "engine/base/core/stl/Pool.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
+#include "GBASDK/Vram.h"
 
 using namespace GBA::Gfx;
 
@@ -21,7 +22,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	u32 compressionFlags = reader.Read<u32>();
 
 	u32 tilesetLength = reader.Read<u32>();
-	u32* tileset = reader.ReadAddress<u32>(tilesetLength);
+	GBA::UPixelData* tileset = reader.ReadAddress<GBA::UPixelData>(tilesetLength);
 
 	// Read maps
 	u8 mapCount = reader.Read<u8>();
@@ -29,7 +30,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	u8 mapIsDynamicMask = reader.Read<u8>();
 	u8* widthMap = reader.ReadAddress<u8>(mapCount);
 	u8* heightMap = reader.ReadAddress<u8>(mapCount);
-	u16* mapData = reader.ReadAddress<u16>(tileMapDataLength);
+	GBA::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBA::BackgroundTilemapEntry>(tileMapDataLength);
 
 	DEBUG_LOGFORMAT("Loaded tilemap set of size %.2fkb", BYTES_TO_KB(tilesetLength * sizeof(u32)));
 	DEBUG_LOGFORMAT("Loaded tilemap data of size %.2fkb", BYTES_TO_KB(tileMapDataLength * sizeof(u16)));

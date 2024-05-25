@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/gba/graphics/tilemap/GBATilemapSet.h"
+#include "GBASDK/Vram.h"
 #include <string>
 
 class UiRenderer
@@ -19,7 +20,7 @@ class UiRenderer
 	GBA::Gfx::TilemapSet m_tilemapSet;
 	GBA::BackgroundControl::Backgrounds m_backgroundId;
 	GBA::tScreenBaseBlockIndex m_mapSbbIndex = GBA::INVALID_SBB_ID;
-	u16 m_clearScreenEntry;
+	GBA::BackgroundTilemapEntry m_clearScreenEntry;
 	FontProperties m_fontProperties;
 
 	void Init();

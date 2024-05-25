@@ -4,6 +4,7 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/screen/Screen.h"
 #include "engine/time/Time.h"
+#include "GBASDK/Vram.h"
 
 //#define LOG_RENDER_ROWCOLS
 //#define PROFILE_RENDER
@@ -251,7 +252,7 @@ static inline void CopyFromMapToVramSingle(
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const u16* srcMapData
+	, const GBA::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size		// Unused, just for compatibility with the other functions. Should be equal to exactly 1. 
 )
@@ -265,7 +266,7 @@ static inline void CopyFromMapToVramLoop(
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const u16* srcMapData
+	, const GBA::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size
 )
@@ -282,7 +283,7 @@ static inline void CopyFromMapToVramMemCpy(
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const u16* srcMapData
+	, const GBA::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size
 )
@@ -296,16 +297,17 @@ typedef void(*Fn)(GBA::Vram& vram
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const u16* srcMapData
+	, const GBA::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size); // signature for all valid template params
+
 template<Fn fn>
 static inline void CopyMapWrappedRowToVram(
 	GBA::Vram& vram
 	, GBA::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgColStart
-	, const u16* srcMapData
+	, const GBA::BackgroundTilemapEntry* srcMapData
 	, u8 mapWidth
 	, int srcMapRowToCopy
 	, int srcMapColOffset
@@ -403,7 +405,7 @@ namespace GBA
 #endif
 				// "Optimised" tile transferring.
 				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
-				const u16* tileMapData = tilemap->GetTileMapData();
+				const auto* tileMapData = tilemap->GetTileMapData();
 				auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
 
 				auto DrawYRowTiles = [&](int start, int end
@@ -419,7 +421,7 @@ namespace GBA
 					int tilemapYWrappingOffsetPoint = wrapPointsY.tilemapYWrappingOffsetPoint;
 
 					auto LoopColumns = [&](int destBgRow
-						, const u16* srcMapData
+						, const GBA::BackgroundTilemapEntry* srcMapData
 						, u8 mapWidth
 						, int srcMapColOffset
 						, int size)

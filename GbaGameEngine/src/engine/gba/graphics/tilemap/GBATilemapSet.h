@@ -5,6 +5,11 @@
 
 namespace GBA
 {
+	union UPixelData;
+}
+
+namespace GBA
+{
 	namespace Gfx
 	{
 		class TilemapSet
@@ -16,11 +21,11 @@ namespace GBA
 
 			struct FileDataMap
 			{
-				const u16* m_palette = NULL;
+				const u16* m_palette = nullptr;
 				u8 m_paletteLength = 0;
 				u8 m_paletteBankIndex = 0;
 
-				const u32* m_tileset = NULL;
+				const GBA::UPixelData* m_tileset = nullptr;
 				u32 m_tilesetLength = 0;
 
 				u32 m_tileSetDataCompressionFlags = 0;
@@ -44,13 +49,13 @@ namespace GBA
 				const u8 paletteLength,
 				const u16* palette,
 				const u32 tilesetLength,
-				const u32* tileset,
+				const GBA::UPixelData* tileset,
 				const u32 tileSetDataCompressionFlags,
 				const u8 mapCount,
 				const u8 mapIsDynamicMask,
 				const u8* mapTileWidths,
 				const u8* mapTileHeights,
-				const u16* mapData
+				const GBA::BackgroundTilemapEntry* mapData
 			);
 
 			TilemapSet(const TilemapSet & that);

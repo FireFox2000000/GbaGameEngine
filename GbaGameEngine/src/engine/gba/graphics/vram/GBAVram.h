@@ -7,6 +7,9 @@
 
 namespace GBA
 {
+	struct BackgroundTilemapEntry;
+	union UPixelData;
+
 	// Charblocks/Character base block: region of memory for tilesets to be placed. 
 	// ScreenBlocks: region of memory for screen entires to be placed.
 
@@ -61,8 +64,6 @@ namespace GBA
 
 		Vram();
 
-		void LoadBackgroundMem(const u16* src, tScreenBaseBlockIndex dest, u32 dataLength);
-		void SetBackgroundMem(const u16 src, tScreenBaseBlockIndex dest, u32 dataLength);
 		tScreenBaseBlockIndex AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned);
 
 	public:
@@ -81,11 +82,11 @@ namespace GBA
 			u32 tileSetLength);
 
 		void LoadBackgroundTileSetMem(
-			const u32* tileset,
+			const GBA::UPixelData* tileset,
 			u32 tileSetLength,
 			TileBlockGroups cbbIndex);
 
-		void SetBackgroundTileSetMem(const u16 value, u32 tileSetLength, TileBlockGroups cbbIndex);
+		void SetBackgroundTileSetMem(const GBA::UPixelData value, u32 tileSetLength, TileBlockGroups cbbIndex);
 
 		/// <summary>
 		/// Allocates screenblocks for tile map memory
@@ -95,24 +96,24 @@ namespace GBA
 		/// </summary>
 		tScreenBaseBlockIndex AllocBackgroundTileMapMem(u32 tileCount);
 
-		void LoadBackgroundTileMapMem(const u16* mapData,
+		void LoadBackgroundTileMapMem(const BackgroundTilemapEntry* mapData,
 			u32 mapDataLength,
 			tScreenBaseBlockIndex sbbIndex);
 
 		/// <summary>
 		/// Vram memset a single tile
 		/// </summary>
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, BackgroundTilemapEntry data);
 
 		/// <summary>
 		/// Vram memset the same data
 		/// </summary>
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, u16 data, int dataCount);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, BackgroundTilemapEntry data, int dataCount);
 
 		/// <summary>
 		/// Vram copy an array of data
 		/// </summary>
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const u16* data, int dataSize);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const BackgroundTilemapEntry* data, int dataSize);
 
 		/*void AllocBackgroundMem(
 			const u32* tileset,

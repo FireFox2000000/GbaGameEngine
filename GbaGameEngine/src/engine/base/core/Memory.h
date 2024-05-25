@@ -32,37 +32,24 @@ inline static void VramSafeMemCopy(void* dest, const void* src, u32 size)
 	tonccpy(dest, src, size);
 }
 
-/// <summary>
-/// VRAM-safe memset, byte version
-/// </summary>
-/// <param name="dest"></param>
-/// <param name="val"></param>
-/// <param name="size">Size in bytes.</param>
-inline static void VramSafeMemSet(void* dest, const u8 val, u32 size)
+template <typename T>
+inline static void VramSafeMemSet(T* dest, const T val, u32 size)
 {
-	toncset(dest, val, size);
-}
-
-/// <summary>
-/// VRAM-safe memset, halfword version
-/// </summary>
-/// <param name="dest"></param>
-/// <param name="val"></param>
-/// <param name="size">Size in hwords.</param>
-inline static void VramSafeMemSet(void* dest, const u16 val, u32 size)
-{
-	toncset16(dest, val, size);
-}
-
-/// <summary>
-/// VRAM-safe memset, word version
-/// </summary>
-/// <param name="dest"></param>
-/// <param name="val"></param>
-/// <param name="size">Size in words.</param>
-inline static void VramSafeMemSet(void* dest, const u32 val, u32 size)
-{
-	toncset32(dest, val, size);
+	if constexpr ((sizeof(val) % sizeof(u32)) == 0)
+	{
+		constexpr int words = sizeof(val) / sizeof(u32);
+		toncset32(dest, *reinterpret_cast<const u32*>(&val), words * size);
+	}
+	else if constexpr ((sizeof(val) == sizeof(u16)) == 0)
+	{
+		constexpr int hwords = sizeof(val) / sizeof(u16);
+		toncset16(dest, *reinterpret_cast<const u16*>(&val), hwords * size);
+	}
+	else
+	{
+		constexpr int bytes = sizeof(val) / sizeof(u8);
+		toncset(dest, *reinterpret_cast<const u8*>(&val), bytes * size);
+	}
 }
 
 inline static void SafeFree(void* ptr)

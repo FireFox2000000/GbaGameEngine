@@ -87,7 +87,7 @@ namespace GBA
 				VramSafeMemCopy((void*)GBA::objectAttributeMemory, m_masterSpriteRenderList.oamProperties.GetContainer(), byteCount);
 
 				// Remove the rest of the objects by clearing them
-				VramSafeMemSet((void*)&(GBA::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBA::objectAttributeMemory->attributes) - byteCount);
+				VramSafeMemSet(&(GBA::objectAttributeMemory->attributes[objectCount]), DEFAULT_ATTR, ARRAY_SIZE(GBA::objectAttributeMemory->attributes) - objectCount);
 			}
 
 			const auto& sprites = m_masterSpriteRenderList.sprite;

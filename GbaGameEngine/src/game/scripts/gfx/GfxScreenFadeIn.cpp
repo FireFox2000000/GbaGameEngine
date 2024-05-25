@@ -22,10 +22,8 @@ void GfxScreenFadeIn::CapturePalettes()
 
 	// Set the palettes to the start colour
 	{
-		auto& palette = m_destPalettes.GetPrimary();
-
-		static_assert(sizeof(m_startColour) == sizeof(u16), "VramSafeMemSet parameter incorrect");
-		VramSafeMemSet((void*)m_destPalettes.GetPrimary(), m_startColour, ARRAY_SIZE(*palette));
+		auto* palette = m_destPalettes.GetPrimary();
+		VramSafeMemSet(*palette, m_startColour, ARRAY_SIZE(*palette));
 	}
 
 	m_originalPalettes.Flip();

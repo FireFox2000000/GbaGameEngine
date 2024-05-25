@@ -13,7 +13,7 @@ void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* 
 {
 	using namespace GBA;
 
-	const u16* mapData = tilemap->GetTileMapData();
+	const auto* mapData = tilemap->GetTileMapData();
 	const auto imageSize = tilemap->GetSizeInTiles();
 
 	auto& vram = Vram::GetInstance();
@@ -100,10 +100,10 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();
-		u16 clearScreenEntry = reader.Read<u16>();
+		GBA::BackgroundTilemapEntry clearScreenEntry = reader.Read<GBA::BackgroundTilemapEntry>();
 
 		u32 tilesetLength = reader.Read<u32>();
-		u32* tileset = reader.ReadAddress<u32>(tilesetLength);
+		GBA::UPixelData* tileset = reader.ReadAddress<GBA::UPixelData>(tilesetLength);
 
 		// Read maps
 		u8 mapCount = reader.Read<u8>();
@@ -111,7 +111,7 @@ void UiRenderer::LoadAtlus(const u32* file)
 		u8 mapIsDynamicMask = 0;
 		u8* widthMap = reader.ReadAddress<u8>(mapCount);
 		u8* heightMap = reader.ReadAddress<u8>(mapCount);
-		u16* mapData = reader.ReadAddress<u16>(tileMapDataLength);
+		GBA::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBA::BackgroundTilemapEntry>(tileMapDataLength);
 
 		m_tilemapSet = TilemapSet(
 			paletteBankIndexOffset
