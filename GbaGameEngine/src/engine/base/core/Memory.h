@@ -36,6 +36,8 @@ inline static void VramSafeMemCopy(T* dest, const T* src, u32 size)
 template <typename T>
 inline static void VramSafeMemSet(T* dest, const T val, u32 size)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 	if constexpr (sizeof(val) == sizeof(u32))
 	{
 		toncset32(dest, *reinterpret_cast<const u32*>(&val), size);
@@ -52,6 +54,7 @@ inline static void VramSafeMemSet(T* dest, const T val, u32 size)
 	{
 		static_assert(sizeof(val) < 0, "VramSafeMemSet size not valid");
 	}
+#pragma GCC diagnostic pop
 }
 
 inline static void SafeFree(void* ptr)
