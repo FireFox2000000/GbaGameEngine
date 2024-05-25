@@ -6,6 +6,7 @@
 namespace GBA
 {
 	union UPixelData;
+	struct ColourRGB16;
 }
 
 namespace GBA
@@ -21,7 +22,7 @@ namespace GBA
 
 			struct FileDataMap
 			{
-				const u16* m_palette = nullptr;
+				const GBA::ColourRGB16* m_palette = nullptr;
 				u8 m_paletteLength = 0;
 				u8 m_paletteBankIndex = 0;
 
@@ -47,7 +48,7 @@ namespace GBA
 			TilemapSet(
 				const u8 paletteBankIndex,
 				const u8 paletteLength,
-				const u16* palette,
+				const GBA::ColourRGB16* palette,
 				const u32 tilesetLength,
 				const GBA::UPixelData* tileset,
 				const u32 tileSetDataCompressionFlags,

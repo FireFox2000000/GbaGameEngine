@@ -96,7 +96,7 @@ void UiRenderer::LoadAtlus(const u32* file)
 		// Read palette
 		u8 paletteBankIndexOffset = reader.Read<u8>();
 		u8 paletteLength = reader.Read<u8>();
-		u16* palette = reader.ReadAddress<u16>(paletteLength);
+		GBA::ColourRGB16* palette = reader.ReadAddress<GBA::ColourRGB16>(paletteLength);
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();

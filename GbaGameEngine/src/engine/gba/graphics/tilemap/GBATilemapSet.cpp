@@ -12,7 +12,7 @@ TilemapSet::TilemapSet()
 TilemapSet::TilemapSet(
 	const u8 paletteBankIndex
 	, const u8 paletteLength
-	, const u16* palette
+	, const ColourRGB16* palette
 	, const u32 tilesetLength
 	, const GBA::UPixelData* tileset
 	, const u32 tileSetDataCompressionFlags
