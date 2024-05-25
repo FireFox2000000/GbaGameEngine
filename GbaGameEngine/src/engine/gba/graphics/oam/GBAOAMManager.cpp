@@ -84,10 +84,10 @@ namespace GBA
 			// Fast copy ObjectAttributes into memory
 			{
 				u32 byteCount = sizeof(ObjectAttribute) * objectCount;
-				VramSafeMemCopy((void*)GBA::objectAttributeMemory, m_masterSpriteRenderList.oamProperties.GetContainer(), byteCount);
+				VramSafeMemCopy(GBA::objectAttributeMemory, m_masterSpriteRenderList.oamProperties.GetContainer(), byteCount);
 
 				// Remove the rest of the objects by clearing them
-				VramSafeMemSet(&(GBA::objectAttributeMemory->attributes[objectCount]), DEFAULT_ATTR, ARRAY_SIZE(GBA::objectAttributeMemory->attributes) - objectCount);
+				VramSafeMemSet((u8*)&(GBA::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBA::objectAttributeMemory->attributes) - byteCount);
 			}
 
 			const auto& sprites = m_masterSpriteRenderList.sprite;
