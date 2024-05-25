@@ -35,20 +35,21 @@ inline static void VramSafeMemCopy(void* dest, const void* src, u32 size)
 template <typename T>
 inline static void VramSafeMemSet(T* dest, const T val, u32 size)
 {
-	if constexpr ((sizeof(val) % sizeof(u32)) == 0)
+	if constexpr (sizeof(val) == sizeof(u32))
 	{
-		constexpr int words = sizeof(val) / sizeof(u32);
-		toncset32(dest, *reinterpret_cast<const u32*>(&val), words * size);
+		toncset32(dest, *reinterpret_cast<const u32*>(&val), size);
 	}
-	else if constexpr ((sizeof(val) == sizeof(u16)) == 0)
+	else if constexpr (sizeof(val) == sizeof(u16))
 	{
-		constexpr int hwords = sizeof(val) / sizeof(u16);
-		toncset16(dest, *reinterpret_cast<const u16*>(&val), hwords * size);
+		toncset16(dest, *reinterpret_cast<const u16*>(&val), size);
+	}
+	else if constexpr (sizeof(val) == sizeof(u8))
+	{
+		toncset(dest, *reinterpret_cast<const u8*>(&val), size);
 	}
 	else
 	{
-		constexpr int bytes = sizeof(val) / sizeof(u8);
-		toncset(dest, *reinterpret_cast<const u8*>(&val), bytes * size);
+		static_assert(sizeof(val) < 0, "VramSafeMemSet size not valid");
 	}
 }
 
