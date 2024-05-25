@@ -34,3 +34,5 @@
 #define GBA_OPTIONS_PUSH_OPTIMIZE_O0
 #define GBA_OPTIONS_POP
 #endif
+
+#define GBA_KILOBYTES_TO_BYTES(kbytes) (static_cast<int>((kbytes) * 1024))

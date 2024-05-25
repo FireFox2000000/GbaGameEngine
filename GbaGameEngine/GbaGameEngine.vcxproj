@@ -364,6 +364,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\GBASDK\ColourPalettes.h" />
     <ClInclude Include="src\GBASDK\Timers.h" />
     <ClInclude Include="src\GBASDK\VCount.h" />
+    <ClInclude Include="src\GBASDK\Vram.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

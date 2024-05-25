@@ -260,6 +260,7 @@
     <ClInclude Include="src\GBASDK\ObjectAttributeMemory.h" />
     <ClInclude Include="src\GBASDK\internal\Internal.h" />
     <ClInclude Include="src\GBASDK\ColourPalettes.h" />
+    <ClInclude Include="src\GBASDK\Vram.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
