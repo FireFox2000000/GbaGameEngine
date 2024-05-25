@@ -20,7 +20,7 @@ void GfxScreenFadeOut::CapturePalettes()
 	ColourPalette256 originalPalettes;
 
 	// Take a snapshot of the current palettes
-	VramSafeMemCopy(&m_originalPalettes.GetPrimary(), (void*)m_destPalettes.GetPrimary(), ARRAY_SIZE(*m_destPalettes.GetPrimary()) * sizeof(*(*m_destPalettes.GetPrimary())));
+	VramSafeMemCopy(m_originalPalettes.GetPrimary(), *m_destPalettes.GetPrimary(), ARRAY_SIZE(*m_destPalettes.GetPrimary()));
 
 	m_originalPalettes.Flip();
 	m_destPalettes.Flip();
@@ -36,7 +36,7 @@ void GfxScreenFadeOut::FadePalettes()
 {
 	// Now we can actually apply the lerp
 	{
-		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_destPaletteResult, ARRAY_SIZE(m_destPaletteResult) * sizeof(*m_destPaletteResult));
+		VramSafeMemCopy(*m_destPalettes.GetPrimary(), m_destPaletteResult, ARRAY_SIZE(m_destPaletteResult));
 	}
 
 	// Interpolate the background and sprite palettes on different frames to reduce workload. 
@@ -125,7 +125,7 @@ void GfxScreenFadeOut::LateRender()
 			m_destPalettes.Flip();
 		}
 
-		VramSafeMemCopy((void*)m_destPalettes.GetPrimary(), &m_originalPalettes.GetPrimary(), ARRAY_SIZE(m_originalPalettes.GetPrimary()) * sizeof(*m_originalPalettes.GetPrimary()));
+		VramSafeMemCopy(*m_destPalettes.GetPrimary(), m_originalPalettes.GetPrimary(), ARRAY_SIZE(m_originalPalettes.GetPrimary()));
 		AdvanceState();
 		break;
 	}

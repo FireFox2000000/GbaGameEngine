@@ -171,8 +171,7 @@ namespace GBA
 	void Vram::LoadBackgroundTileSetMem(const GBA::UPixelData* tileset, u32 tileSetLength, TileBlockGroups cbbIndex)
 	{
 		auto* dest = GBA::vram->videoMode2.backgroundMapsAndTiles.characterBaseBlocks[cbbIndex];
-		u32 byteLength = tileSetLength * sizeof(*tileset);
-		VramSafeMemCopy(dest, tileset, byteLength);
+		VramSafeMemCopy(dest->pixelData, tileset, tileSetLength);
 	}
 
 	void Vram::SetBackgroundTileSetMem(const GBA::UPixelData value, u32 tileSetLength, TileBlockGroups cbbIndex)
@@ -212,8 +211,7 @@ namespace GBA
 	void Vram::SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const BackgroundTilemapEntry* data, int dataSize)
 	{
 		auto* dest = &(GBA::vram->videoMode2.backgroundMapsAndTiles.screenBaseBlocks[sbbIndex][offset]);
-
-		VramSafeMemCopy(reinterpret_cast<u16*>(dest), data, sizeof(*data) * dataSize);
+		VramSafeMemCopy(dest, data, dataSize);
 	}
 
 	void Vram::FreeBackgroundTileSetMem(TileBlockGroups cbbIndex)

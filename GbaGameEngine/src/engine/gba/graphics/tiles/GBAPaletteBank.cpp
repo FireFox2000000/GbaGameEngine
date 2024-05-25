@@ -11,8 +11,7 @@ static void LoadPalette(GBA::ColourRGB16* block, const Array<GBA::ColourRGB16, S
 {
 	if (block)
 	{
-		const GBA::ColourRGB16* src = palette.GetContainer();
-		VramSafeMemCopy(block, src, SIZE * sizeof(*block));
+		VramSafeMemCopy(block, palette.GetContainer(), SIZE);
 	}
 }
 
@@ -31,14 +30,14 @@ namespace GBA
 		}
 
 		// 256 colours
-		void PaletteBank::LoadBackgroundPalette(const u16* palette, u8 arrLength)
+		void PaletteBank::LoadBackgroundPalette(const ColourRGB16* palette, u8 arrLength)
 		{
-			VramSafeMemCopy(GBA::colourPaletteBackgrounds, palette, arrLength * sizeof(u16));
+			VramSafeMemCopy(*GBA::colourPaletteBackgrounds, palette, arrLength);
 		}
 
-		void PaletteBank::LoadBackgroundPalette(tPaletteIndex blockIndex, const u16 * palette, u8 arrLength)
+		void PaletteBank::LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourRGB16* palette, u8 arrLength)
 		{
-			VramSafeMemCopy((*GBA::colourPaletteBackgrounds) + (blockIndex * c_ColourCount4bbp), palette, arrLength * sizeof(u16));
+			VramSafeMemCopy((*GBA::colourPaletteBackgrounds) + (blockIndex * c_ColourCount4bbp), palette, arrLength);
 		}
 
 		void PaletteBank::LoadSpritePalette(tPaletteIndex blockIndex, const ColourPalette16& palette)

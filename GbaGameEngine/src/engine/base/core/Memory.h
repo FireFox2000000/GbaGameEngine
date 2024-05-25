@@ -27,9 +27,10 @@ inline static void MemCopy(void* dest, const void* src, u32 size)
 	std::memcpy(dest, src, size);
 }
 
-inline static void VramSafeMemCopy(void* dest, const void* src, u32 size)
+template <typename T>
+inline static void VramSafeMemCopy(T* dest, const T* src, u32 size)
 {
-	tonccpy(dest, src, size);
+	tonccpy(dest, src, sizeof(T) * size);
 }
 
 template <typename T>

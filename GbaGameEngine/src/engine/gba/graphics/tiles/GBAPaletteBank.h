@@ -17,8 +17,8 @@ namespace GBA
 		public:
 			static void LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourPalette16& palette);
 			static void LoadBackgroundPalette(const ColourPalette256& palette);
-			static void LoadBackgroundPalette(const u16* palette, u8 arrLength);
-			static void LoadBackgroundPalette(tPaletteIndex blockIndex, const u16* palette, u8 arrLength);
+			static void LoadBackgroundPalette(const ColourRGB16* palette, u8 arrLength);
+			static void LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourRGB16* palette, u8 arrLength);
 
 			static void LoadSpritePalette(tPaletteIndex blockIndex, const ColourPalette16& palette);
 			static void LoadSpritePalette(const ColourPalette256& palette);
