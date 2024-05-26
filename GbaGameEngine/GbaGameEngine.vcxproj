@@ -135,7 +135,6 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
@@ -239,7 +238,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
-    <ClInclude Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.h" />
     <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />

@@ -62,7 +62,6 @@
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
     <ClCompile Include="src\engine\render\UiRenderer.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.cpp" />
     <ClCompile Include="src\game\data\FileRegistry.cpp" />
     <ClCompile Include="src\engine\io\FileSystem.cpp" />
     <ClCompile Include="src\game\scripts\gfx\GfxScreenFadeOut.cpp" />
@@ -213,7 +212,6 @@
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
-    <ClInclude Include="src\engine\gba\graphics\tilemap\GBAScreenEntry.h" />
     <ClInclude Include="src\game\data\FileRegistry.h" />
     <ClInclude Include="src\engine\io\File.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
