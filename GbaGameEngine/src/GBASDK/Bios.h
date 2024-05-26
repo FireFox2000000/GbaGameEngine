@@ -68,6 +68,11 @@ GBA_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 		{
 			GBA_BiosSystemCall(0x06);
 			// Apparently this returns 3 numbers?...
+			// r0  Number DIV Denom; signed
+			// r1  Number MOD Denom; signed
+			// r3  ABS(Number DIV Denom); unsigned
+			// For example, incoming -1234, 10 should return -123, -4, +123.
+			// TODO implement - https://github.com/yoyz/gba/blob/6b171695033ec2ea486c495e737c2e394d40b7d2/tonclib/code/tonclib/asm/tonc_bios_ex.s#L55
 		}
 
 		// Same as Div (SWI 06h), but incoming parameters are exchanged, r1/r0 (r0=Denom, r1=number). For compatibility with ARM's library. Slightly slower (3 clock cycles) than SWI 06h
