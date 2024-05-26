@@ -139,6 +139,7 @@ namespace GBA
 	private:
 		char unusedFrameBuffer1[GBA_KILOBYTES_TO_BYTES(2.5f)];
 
+	public:
 		BaseTile objectTiles[TILES_PER_BLOCK];
 
 		static_assert(sizeof(frameBuffer0) + sizeof(unusedFrameBuffer0) == GBA_KILOBYTES_TO_BYTES(40),
