@@ -3,6 +3,7 @@
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
 #include "engine/io/filestream/CppFileReader.h"
 #include "engine/base/core/stl/Pool.h"
+#include "GBASDK/Vram.h"
 
 namespace GBA
 {
@@ -76,7 +77,7 @@ namespace GBA
 			const u8* widthMap = reader.ReadAddress<u8>(spriteCount);
 			const u8* heightMap = reader.ReadAddress<u8>(spriteCount);
 			const u32* offsets = reader.ReadAddress<u32>(spriteCount);
-			const u32* data = reader.ReadAddress<u32>(dataLength);
+			const GBA::UPixelData* data = reader.ReadAddress<GBA::UPixelData>(dataLength);
 
 			DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength * sizeof(u32)));
 

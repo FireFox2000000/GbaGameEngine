@@ -40,8 +40,8 @@ namespace GBA
 			: m_objectShape(GBA::ObjectShape::Square)
 			, m_objectSize(GBA::ObjectSize::Smallest)
 			, m_tileSize(GBAAttrFnVector2())
-			, m_atlus(NULL)
-			, m_pixelMapData(NULL)
+			, m_atlus(nullptr)
+			, m_pixelMapData(nullptr)
 			, m_pixelMapDataLength(0)
 		{
 		}

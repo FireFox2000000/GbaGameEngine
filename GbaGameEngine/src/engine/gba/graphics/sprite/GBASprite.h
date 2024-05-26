@@ -6,6 +6,11 @@
 
 namespace GBA
 {
+	union UPixelData;
+}
+
+namespace GBA
+{
 	namespace Gfx
 	{
 		class SpriteAtlus;
@@ -42,7 +47,7 @@ namespace GBA
 			RenderData m_renderData;
 
 			SpriteAtlus* m_atlus;
-			const u32* m_pixelMapData;
+			const GBA::UPixelData* m_pixelMapData;
 			u32 m_pixelMapDataLength;
 
 			SpriteAtlus* EditAtlus();

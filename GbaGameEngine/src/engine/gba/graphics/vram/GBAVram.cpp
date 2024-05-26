@@ -1,7 +1,5 @@
 #include "GBAVram.h"
-#include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/algorithm/Compression.h"
-#include "GBASDK/Vram.h"
 
 //#define DECOMPRESSION_PROFILE
 //#define VRAM_TRANSFER_PROFILE
@@ -15,19 +13,19 @@ using namespace GBA::Gfx;
 
 const int ScreenEntrySize = 2048;
 
-using CharBlockPool = Array<GBA::Vram::CharBlock, GBA::BlockGroupCount>;
-using CharBlockPool8 = Array<GBA::Vram::CharBlock8, GBA::BlockGroupCount>;
+static constexpr int CharBlockSize = 512;
+static constexpr int CharBlock8Size = 256;
 
+using CharBlock = Array<GBA::Gfx::Tile::Tile, CharBlockSize>;
+using CharBlock8 = Array<GBA::Gfx::Tile::Tile8, CharBlock8Size>;
+using CharBlockPool = Array<CharBlock, GBA::BlockGroupCount>;
+using CharBlockPool8 = Array<CharBlock8, GBA::BlockGroupCount>;
 using ScreenBlock = Array<u16, ScreenEntrySize / sizeof(u16)>;
-using ScreenBlockPool = Array<ScreenBlock, GBA::Vram::MaxScreenBlocks>;
 
 const int ScreenBlocksPerCharBlock = 8;
 
 namespace GBA
 {
-	volatile CharBlockPool& s_charBlockPool = *reinterpret_cast<volatile CharBlockPool*>(VRAM);
-	volatile CharBlockPool8& s_charBlockPool8 = *reinterpret_cast<volatile CharBlockPool8*>(VRAM);
-
 	Vram::Vram()
 		: m_spriteTileMemTracker(Free)
 		, m_screenEntryTracker(Free)
@@ -62,7 +60,7 @@ namespace GBA
 		return INVALID_TILE_ID;
 	}
 
-	tTileId Vram::AllocSpriteMem(const u32 * pixelMap, u32 pixelMapSize, u32 compressionFlags)
+	tTileId Vram::AllocSpriteMem(const GBA::UPixelData* pixelMap, u32 pixelMapSize, u32 compressionFlags)
 	{
 		Compression::Type compressionType = Compression::GetCompressionType(compressionFlags);
 
@@ -162,7 +160,7 @@ namespace GBA
 			return TileBlockGroups::BlockGroupCount;
 		}
 
-		TileBlockGroups cbbIndex = static_cast<TileBlockGroups>(tileSbbIndex / ScreenBlocksPerCharBlock);
+		TileBlockGroups cbbIndex = static_cast<TileBlockGroups>(GBA::VramTileMode::ScreenBaseBlockToCharacterBaseBlock(tileSbbIndex));
 		DEBUG_LOGFORMAT("Loaded bg tileset into slot %d", (int)cbbIndex);
 
 		return cbbIndex;
@@ -218,7 +216,7 @@ namespace GBA
 	{
 		if (cbbIndex == TileBlockGroups::BlockGroupCount) return;
 
-		u32 cbbSeIndex = cbbIndex * ScreenBlocksPerCharBlock;
+		u32 cbbSeIndex = GBA::VramTileMode::CharacterBaseBlockToScreenBaseBlock(cbbIndex);
 		FreeBackgroundTileMapMem(cbbSeIndex);
 	}
 
@@ -240,20 +238,21 @@ namespace GBA
 		m_screenEntryTracker.SetAllTo(AllocState::Free);
 	}
 
-	volatile GBA::Vram::CharBlock* Vram::EditTileBlock(TileBlockGroups group)
+	bool Vram::LoadTiles(const GBA::UPixelData* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex)
 	{
-		return &(s_charBlockPool[int(group)]);
-	}
+		GBA::BaseTile* tileBlock = nullptr;
 
-	volatile GBA::Vram::CharBlock8* Vram::EditTileBlock8(TileBlockGroups group)
-	{
-		return &(s_charBlockPool8[int(group)]);
-	}
+		if (tileBlockGroup >= TileBlockGroups::SpriteLower)
+		{
+			tileBlock = GBA::vram->videoMode2.objectTiles;
+		}
+		else
+		{
+			tileBlock = GBA::vram->videoMode2.backgroundMapsAndTiles.characterBaseBlocks[tileBlockGroup];
+		}
 
-	bool Vram::LoadTiles(const u32 * pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex)
-	{
-		volatile Tile::Tile* tileBlock = EditTileBlock(tileBlockGroup)->At(0);
-		vu32 *tileMem = reinterpret_cast<vu32*>(tileBlock + startTileIndex);			// Allow tiles to bleed over into further char blocks
+		// Allow tiles to bleed over into further char blocks
+		GBA::UPixelData* tileMem = (tileBlock + startTileIndex)->pixelData;
 
 		Compression::Type compressionType = Compression::GetCompressionType(compressionFlags);
 		u8 bitPackedSrcBpp = Compression::GetBitPackedSrcBpp(compressionFlags);
@@ -265,7 +264,7 @@ namespace GBA
 			profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
 			profilerClock.isEnabled = true;
 #endif
-			Compression::BitUnpack((void*)tileMem, pixelMap, pixelMapSize * sizeof(pixelMapSize), bitPackedSrcBpp, 4);
+			Compression::BitUnpack(tileMem, pixelMap, pixelMapSize * sizeof(pixelMapSize), bitPackedSrcBpp, 4);
 #ifdef DECOMPRESSION_PROFILE
 			DEBUG_LOGFORMAT("[Profile Compression::BitUnpack] = %d", profilerClock.GetCurrentCount());
 			profilerClock.isEnabled = false;
@@ -273,7 +272,7 @@ namespace GBA
 			return true;
 		}
 		// Compression::Type::None
-		else if ((void*)(tileMem + pixelMapSize) <= (void*)s_charBlockPool.end())
+		else if ((u8*)(tileMem + pixelMapSize) <= ((u8*)(GBA::vram) + sizeof(GBA::vram->videoMode2)))
 		{
 #ifdef DECOMPRESSION_PROFILE
 			auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
@@ -292,19 +291,7 @@ namespace GBA
 			return true;
 		}
 
+		DEBUG_ASSERTMSG(false, "OUT OF VRAM");
 		return false; // NOT ENOUGH SPACE, OUT OF VRAM!
 	}
-
-	//bool TileBank::LoadTiles(const List<u32>& pixelMap, TileBlockGroups tileBlockGroup, u16 startTileIndex)
-	//{
-	//	return LoadTiles(pixelMap.begin(), pixelMap.Count(), tileBlockGroup, startTileIndex);
-	//}
-	//
-	//bool TileBank::LoadSpriteTiles(const tSpriteData& pixelMap, tTileId tileId)
-	//{
-	//	if (tileId < CharBlockSize)
-	//		return LoadTiles(pixelMap, SpriteLower, tileId);
-	//	else
-	//		return LoadTiles(pixelMap, SpriteHigher, tileId - CharBlockSize);
-	//}
 }

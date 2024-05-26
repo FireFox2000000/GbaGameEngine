@@ -93,6 +93,11 @@ namespace GBA
 			return sbb / 8;
 		}
 
+		static unsigned int constexpr CharacterBaseBlockToScreenBaseBlock(unsigned int cbb)
+		{
+			return cbb * 8;
+		}
+
 		static_assert(sizeof(backgroundMapsAndTiles) == GBA_KILOBYTES_TO_BYTES(64),
 			"BackgroundMapsAndTiles size must be 64Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
 		static_assert(sizeof(objectTiles) == GBA_KILOBYTES_TO_BYTES(32), 
