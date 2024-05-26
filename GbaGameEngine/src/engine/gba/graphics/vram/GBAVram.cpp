@@ -11,18 +11,9 @@
 
 using namespace GBA::Gfx;
 
-const int ScreenEntrySize = 2048;
-
-static constexpr int CharBlockSize = 512;
-static constexpr int CharBlock8Size = 256;
-
-using CharBlock = Array<GBA::Gfx::Tile::Tile, CharBlockSize>;
-using CharBlock8 = Array<GBA::Gfx::Tile::Tile8, CharBlock8Size>;
-using CharBlockPool = Array<CharBlock, GBA::BlockGroupCount>;
-using CharBlockPool8 = Array<CharBlock8, GBA::BlockGroupCount>;
-using ScreenBlock = Array<u16, ScreenEntrySize / sizeof(u16)>;
-
-const int ScreenBlocksPerCharBlock = 8;
+constexpr int ScreenBlocksPerCharBlock = 
+	ARRAY_SIZE(GBA::VramTileMode::UBackgroundMapsAndTiles::screenBaseBlocks) / 
+	ARRAY_SIZE(GBA::VramTileMode::UBackgroundMapsAndTiles::characterBaseBlocks);
 
 namespace GBA
 {
@@ -110,7 +101,8 @@ namespace GBA
 	{
 		tScreenBaseBlockIndex allocatedIndex = INVALID_SBB_ID;
 		u32 byteLength = dataLengthAsU16 * sizeof(u16);
-		int totalScreenBlocksNeeded = ceil((float)byteLength / sizeof(ScreenBlock));
+		constexpr int screenBlockSize = sizeof(GBA::vram->videoMode2.backgroundMapsAndTiles.screenBaseBlocks[0]);
+		int totalScreenBlocksNeeded = ceil((float)byteLength / screenBlockSize);
 		int sbbOffset = charBlockAligned ? ScreenBlocksPerCharBlock : 1;
 
 		// Find the next free slots
