@@ -4,9 +4,6 @@
 
 namespace GBA
 {
-	// Cannot write to vram in byte-size, reads are fine. 
-	// Writes must be performed in 2 or 4 byte sizes.
-
 	static constexpr int TILES_PER_BLOCK = 512;
 	static constexpr int PIXELS_PER_TILE = 8 * 8;
 	static constexpr int BYTES_PER_TILE_4BBP = PIXELS_PER_TILE / 2;
@@ -191,5 +188,7 @@ namespace GBA
 		VramBitmapMode5 videoMode5;
 	};
 
+	// Cannot write to vram in byte-size, reads are fine. 
+	// Writes must be performed in 2 or 4 byte sizes.
 	UVram* const vram = reinterpret_cast<UVram*>(0x06000000);
 }
