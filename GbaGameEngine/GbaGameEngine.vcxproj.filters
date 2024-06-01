@@ -50,7 +50,6 @@
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemapSet.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
-    <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
     <ClCompile Include="src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
@@ -199,7 +198,7 @@
     <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
-    <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
+    <ClInclude Include="src\engine\gba\config\GBADMAChannelID.h" />
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
     <ClInclude Include="src\engine\base\core\stl\Pool.h" />
@@ -259,6 +258,7 @@
     <ClInclude Include="src\GBASDK\internal\Internal.h" />
     <ClInclude Include="src\GBASDK\ColourPalettes.h" />
     <ClInclude Include="src\GBASDK\Vram.h" />
+    <ClInclude Include="src\GBASDK\DirectMemoryAccess.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -137,7 +137,6 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
     <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
-    <ClCompile Include="src\engine\gba\memory\GBADirectMemoryAccess.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\io\FileSystem.cpp" />
@@ -238,7 +237,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
-    <ClInclude Include="src\engine\gba\memory\GBADirectMemoryAccess.h" />
+    <ClInclude Include="src\engine\gba\config\GBADMAChannelID.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
@@ -352,6 +351,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\game\scripts\util\CommandQueue.h" />
     <ClInclude Include="src\GBASDK\Backgrounds.h" />
     <ClInclude Include="src\GBASDK\Bios.h" />
+    <ClInclude Include="src\GBASDK\DirectMemoryAccess.h" />
     <ClInclude Include="src\GBASDK\DisplayControl.h" />
     <ClInclude Include="src\GBASDK\DisplayStatus.h" />
     <ClInclude Include="src\GBASDK\GBA.h" />

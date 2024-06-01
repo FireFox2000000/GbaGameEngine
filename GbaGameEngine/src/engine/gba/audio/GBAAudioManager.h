@@ -8,7 +8,7 @@
 #include "engine/audio/AudioChannelProperties.h"
 
 #include "engine/gba/audio/GBADirectSound.h"
-#include "engine/gba/memory/GBADirectMemoryAccess.h"
+#include "engine/gba/config/GBADMAChannelID.h"
 #include "engine/time/Time.h"
 
 namespace GBA
@@ -44,7 +44,7 @@ namespace GBA
 
 				// Only set if the channel is active
 				GBA::Audio::DirectSound::Channels soundChannelId = GBA::Audio::DirectSound::Channels::ChannelCount;
-				GBA::DirectMemoryAccess::Channels dmaChannelId = GBA::DirectMemoryAccess::Channels::Count;
+				GBA::DMAChannelID dmaChannelId = GBA::DMAChannelID::Invalid;
 				GBA::Audio::DirectSound::DSoundTimer dmaTimerId = GBA::Audio::DirectSound::DSoundTimer::SoundTimerCount;
 			};
 
@@ -69,7 +69,7 @@ namespace GBA
 			Pool<DirectSoundChannel, MAX_DIRECTSOUND_CHANNELS> m_directSoundChannelPool;
 			ActiveChannelSOA m_activeChannels;
 			FixedList<DirectSound::Channels, DirectSound::Channels::ChannelCount> m_availableDSoundChannels;
-			FixedList<DirectMemoryAccess::Channels, DirectMemoryAccess::Channels::SoundCount> m_availableDMAChannels;
+			FixedList<DMAChannelID, static_cast<int>(DMAChannelID::SoundCount)> m_availableDMAChannels;
 			FixedList<DirectSound::DSoundTimer, DirectSound::DSoundTimer::SoundTimerCount> m_availableDSoundTimers;
 
 			const DirectSoundChannel* GetDirectSoundChannel(tChannelHandle handle);
@@ -86,7 +86,7 @@ namespace GBA
 			// Internal usage, simply starts playback on the GBA channel. Does not mark the channel as active or change flags etc. 
 			void PlayDirectSound(
 				DirectSound::Channels soundChannel
-				, DirectMemoryAccess::Channels dmaChannel
+				, DMAChannelID dmaChannel
 				, DirectSound::DSoundTimer dmaTimer
 				, const u8* samples
 				, const RepeatParams& repeatParams
