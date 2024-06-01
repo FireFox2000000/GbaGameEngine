@@ -24,6 +24,24 @@ volatile SoundStatusRegister& soundStatus = (*reinterpret_cast<volatile SoundSta
 // Calculate and remove 0.03 seconds worth of ticks to account for framerate variations at 30fps, otherwise we may end up putting garbage into the speakers briefly.
 constexpr int EndTimeOffset = (CLOCK * 0.03f);
 
+namespace
+{
+	volatile GBA::DMARegister1And2* const GetDMARegister(GBA::DMAChannelID channelId)
+	{
+		switch (channelId)
+		{
+		case GBA::DMAChannelID::Sound0: return GBA::ioRegisterDMA1;
+		case GBA::DMAChannelID::Sound1: return GBA::ioRegisterDMA2;
+
+		default:
+		{
+			DEBUG_ASSERTMSGFORMAT(false, "Unhandled DMAChannelID %d", channelId);
+			return nullptr;
+		}
+		}
+	}
+}
+
 GBA::Audio::AudioManager::AudioManager() 
 	: m_availableDSoundChannels({ DirectSound::Channels::ChannelA, DirectSound::Channels::ChannelB })
 	, m_availableDMAChannels({ DMAChannelID::Sound0, DMAChannelID::Sound1 })
@@ -271,7 +289,7 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 			{
 				const auto* dSoundChannel = GetDirectSoundChannel(handle);
 
-				(*GBA::ioRegisterDMA)[static_cast<int>(dSoundChannel->dmaChannelId)].control.enabled = GBA::DMAEnabled::Off;
+				GetDMARegister(dSoundChannel->dmaChannelId)->control.enabled = GBA::DMAEnabled::Off;
 
 				// Return direct sound channel as available again.
 				m_availableDSoundChannels.Add(dSoundChannel->soundChannelId);
@@ -320,7 +338,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 {
 	// Direct sound timer and GBA timer must be set to the same timer, cannot mix these
 	GBATimerId timerId = GetTimerIdForDirectSound(dmaTimer);
-	volatile GBA::DMARegister& channel = (*GBA::ioRegisterDMA)[static_cast<int>(dmaChannel)];
+	volatile GBA::DMARegister1And2& dmaRegister = *GetDMARegister(dmaChannel);
 
 	const u8* src = (samples + repeatParams.sampleStartOffset);
 	vu32* dst = DirectSound::GetDestinationBuffer(soundChannel);
@@ -330,23 +348,23 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 	timer.isEnabled = false; 
 
 	// And halt any transfer currently in progress
-	channel.control.enabled = GBA::DMAEnabled::Off;
+	dmaRegister.control.enabled = GBA::DMAEnabled::Off;
 	{
-		channel.dst = dst;
-		channel.src = src;
+		dmaRegister.dst = dst;
+		dmaRegister.src = src;
 
-		channel.control.destinationAdjustment = GBA::DMADesinationAdjustment::Fixed;
-		channel.control.sourceAdjustment = GBA::DMASourceAdjustment::Increment;
-		channel.control.repeat = GBA::DMARepeat::On;
-		channel.control.transferType = GBA::DMATransferType::CopyBy32Bits;
-		// "Special" sets the transfer to happen based on the sound timers
-		channel.control.timingMode = GBA::DMATimingMode::Special;
-		channel.control.raiseInterruptUponCompletion = GBA::DMAInterrupt::Disabled;
+		dmaRegister.control.destinationAdjustment = GBA::DMADesinationAdjustment::Fixed;
+		dmaRegister.control.sourceAdjustment = GBA::DMASourceAdjustment::Increment;
+		dmaRegister.control.repeat = GBA::DMARepeat::On;
+		dmaRegister.control.transferType = GBA::DMATransferType::CopyBy32Bits;
+		// Set the transfer to happen based on the sound timers
+		dmaRegister.control.timingMode = GBA::DMATimingModeSound::SoundFIFO;
+		dmaRegister.control.raiseInterruptUponCompletion = GBA::DMAInterrupt::Disabled;
 		// We're either looping or manually stopping based on AudioManager::OnActiveChannelReachedEof
-		channel.unitTransferCount = GBA::DMA_UNIT_TRANSFER_COUNT_MAX;
+		dmaRegister.unitTransferCount = GBA::DMA_UNIT_TRANSFER_COUNT_MAX;
 	}
 	// Finally start the transfer
-	channel.control.enabled = GBA::DMAEnabled::On;
+	dmaRegister.control.enabled = GBA::DMAEnabled::On;
 
 	// Set the timer to overflow each time we need a new sample
 	timer.SetInitialCount(65536 - repeatParams.ticksPerSampleTransfer);
