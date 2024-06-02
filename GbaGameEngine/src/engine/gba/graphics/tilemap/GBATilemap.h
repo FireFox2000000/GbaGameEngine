@@ -1,6 +1,7 @@
 #pragma once
-#include "engine/gba/graphics/background/GBABackground.h"
-#include "engine/gba/registers/display/GBABackgroundControl.h"
+#include "engine/math/Vector2.h"
+#include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/gba/registers/display/GBABackgroundAllocator.h"
 
 namespace GBA 
 {
@@ -16,10 +17,7 @@ namespace GBA
 
 		class Tilemap
 		{
-			friend class TilemapSet;
-			friend class TilemapManager;
-			friend class GBA::Graphics;
-
+		public:
 			struct FileDataMap
 			{
 				const GBA::BackgroundTilemapEntry* m_tileMapData = nullptr;
@@ -28,11 +26,16 @@ namespace GBA
 				Vector2<u8> m_sizeInTiles;
 			};
 
+		private:
+			friend class TilemapSet;
+			friend class TilemapManager;
+			friend class GBA::Graphics;
+
 			struct RenderData
 			{
 				// Runtime assigned render data when loaded
 				GBA::tScreenBaseBlockIndex m_mapSbbIndex = GBA::INVALID_SBB_ID;
-				GBA::BackgroundControl::Backgrounds m_backgroundSlotId = GBA::BackgroundControl::Count;
+				int m_backgroundSlotId = GBA::BackgroundAllocator::INVALID_BACKGROUND;
 
 				/*
 				* Used for rendering optimisations to track what's currently already loaded into memory.
@@ -48,8 +51,6 @@ namespace GBA
 			FileDataMap m_file;
 			RenderData m_renderData;
 
-			GBA::Gfx::Background::ControlRegister::Size GetSize() const;
-
 		public:
 			Tilemap();
 
@@ -60,7 +61,8 @@ namespace GBA
 			u16 GetTileMapLength() const;
 			const GBA::BackgroundTilemapEntry* GetTileMapData() const;
 			GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
-			GBA::BackgroundControl::Backgrounds GetAssignedBackgroundSlot() const;
+			int GetAssignedBackgroundSlot() const;
+			const FileDataMap& GetFile() const { return m_file; }
 		};
 	}
 }

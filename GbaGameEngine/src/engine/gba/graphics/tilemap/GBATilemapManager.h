@@ -1,7 +1,11 @@
 #pragma once
 #include "engine/base/core/stl/Array.h"
-#include "engine/gba/registers/display/GBABackgroundControl.h"
 #include "engine/math/Vector2.h"
+
+namespace GBA
+{
+	enum class BackgroundSize : unsigned char;
+}
 
 namespace GBA
 {
@@ -12,9 +16,9 @@ namespace GBA
 
 		class TilemapManager
 		{
-			Array<u8, GBA::BackgroundControl::Backgrounds::Count> m_tilesetRefCounter;
+			Array<u8, 4> m_tilesetRefCounter;
 
-			void Load(Tilemap& out_tilemap, u32 tilesToAlloc, GBA::Gfx::Background::ControlRegister::Size size, bool isAffine, bool copyMapDirectlyToMemory);
+			void Load(Tilemap& out_tilemap, u32 tilesToAlloc, GBA::BackgroundSize size, bool isAffine, bool copyMapDirectlyToMemory);
 
 			// Loads tileset into memory and allocates space for the background. Actual map will load in chunks. 
 			void LoadStaticMap(Tilemap& out_tilemap);

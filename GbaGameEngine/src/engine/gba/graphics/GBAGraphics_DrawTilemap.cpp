@@ -5,6 +5,7 @@
 #include "engine/screen/Screen.h"
 #include "engine/time/Time.h"
 #include "GBASDK/Vram.h"
+#include "GBASDK/Backgrounds.h"
 
 //#define LOG_RENDER_ROWCOLS
 //#define PROFILE_RENDER
@@ -364,7 +365,8 @@ namespace GBA
 		newPosition -= drawParams.screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
 		Vector2<int> finalPos(newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt());
-		BackgroundControl::SetBackgroundScrollingPosition(tilemap->GetAssignedBackgroundSlot(), finalPos.x, finalPos.y);
+		(*GBA::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].xOffset = finalPos.x;
+		(*GBA::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].yOffset = finalPos.y;
 
 		if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 		{

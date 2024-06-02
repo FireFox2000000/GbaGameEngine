@@ -1,13 +1,15 @@
 #include "UiRenderer.h"
 #include "engine/io/filestream/CppFileReader.h"
-#include "engine/gba/registers/display/GBABackgroundControl.h"
+#include "engine/gba/registers/display/GBABackgroundAllocator.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
 #include "engine/graphics/font/FontLookupFunctions.h"
+#include "engine/gba/config/GBADrawPriorityID.h"
 #include "GBASDK/DisplayControl.h"
+#include "GBASDK/Backgrounds.h"
 
-constexpr int BackgroundSize = 32;
+constexpr int DynamicBackgroundSize = 32;
 
 void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* tilemap, GBA::tScreenBaseBlockIndex mapSbbIndex)
 {
@@ -23,7 +25,7 @@ void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* 
 		for (int y = 0; y < imageSize.y; ++y)
 		{
 			int mapDataIndex = imageSize.x * y + x;
-			int screenOffset = (screenPosition.y + y) * BackgroundSize + (screenPosition.x + x);
+			int screenOffset = (screenPosition.y + y) * DynamicBackgroundSize + (screenPosition.x + x);
 			vram.SetBackgroundTileData(mapSbbIndex, screenOffset, mapData[mapDataIndex]);
 		}
 	}
@@ -43,7 +45,7 @@ UiRenderer::~UiRenderer()
 	UnloadTilemapSet();
 
 	// Free gba background
-	GBA::BackgroundControl::FreeBackground(m_backgroundId);
+	GBA::BackgroundAllocator::FreeBackground(m_backgroundId);
 	GBA::Vram::GetInstance().FreeBackgroundTileMapMem(m_mapSbbIndex);
 }
 
@@ -56,12 +58,12 @@ void UiRenderer::AllocateMemory()
 {
 	using namespace GBA;
 
-	m_backgroundId = GBA::BackgroundControl::ReserveBackground();
+	m_backgroundId = GBA::BackgroundAllocator::ReserveBackground();
 
-	auto& controlRegister = BackgroundControl::GetBgControlRegister(m_backgroundId);
-	controlRegister.SetSize(Gfx::Background::ControlRegister::REG_32x32);
-	controlRegister.SetPriority(GBA::Gfx::DrawPriority::Layer0);
-	controlRegister.SetAffineWrapping(false);
+	auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[m_backgroundId];
+	controlRegister.size = GBA::BackgroundSize::Regular32x32;
+	controlRegister.priority = static_cast<int>(GBA::DrawPriorityID::BgUI);
+	controlRegister.affineWrappingEnabled = false;
 }
 
 void UiRenderer::UnloadTilemapSet()
@@ -137,26 +139,25 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 		// Although we're allocating the same memory each time, call this after allocating the tileset so that our tilemap memory is located directly after the tileset
 		// Otherwise we're going to eat up a whole charblock if this is called beforehand
-		m_mapSbbIndex = GBA::Vram::GetInstance().AllocBackgroundTileMapMem(BackgroundSize * BackgroundSize);
+		m_mapSbbIndex = GBA::Vram::GetInstance().AllocBackgroundTileMapMem(DynamicBackgroundSize * DynamicBackgroundSize);
 	}
 
 	// Assign control register
 	{
-		GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(m_tilemapSet.m_file.m_tileSetDataCompressionFlags);
-		auto& controlRegister = BackgroundControl::GetBgControlRegister(m_backgroundId);
-		controlRegister.SetColourMode(colourMode);
-		controlRegister.SetCharacterBaseBlock(m_tilemapSet.GetTileSetCharacterBaseBlock());
-		controlRegister.SetScreenBaseBlock(m_mapSbbIndex);
+		auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[m_backgroundId];
+		controlRegister.colourMode = m_tilemapSet.m_file.m_backgroundColourMode;
+		controlRegister.vramCharacterBaseBlockIndex = m_tilemapSet.GetTileSetCharacterBaseBlock();
+		controlRegister.vramScreenBaseBlockIndex = m_mapSbbIndex;
 
-		controlRegister.SetSize(Gfx::Background::ControlRegister::REG_32x32);
-		controlRegister.SetPriority(GBA::Gfx::DrawPriority::Layer0);
-		controlRegister.SetAffineWrapping(false);
+		controlRegister.size = GBA::BackgroundSize::Regular32x32;
+		controlRegister.priority = static_cast<int>(GBA::DrawPriorityID::BgUI);
+		controlRegister.affineWrappingEnabled = false;
 
 		GBA::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, true);
 	}
 
-	// Clear the screen of any preivous data or default will be first tile, need to set to the clear tile. 
-	ClearRegion(0, 0, BackgroundSize, BackgroundSize);
+	// Clear the screen of any previous data or default will be first tile, need to set to the clear tile. 
+	ClearRegion(0, 0, DynamicBackgroundSize, DynamicBackgroundSize);
 }
 
 void UiRenderer::DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const
@@ -173,7 +174,7 @@ void UiRenderer::ClearRegion(int x, int y, int width, int height) const
 
 	for (int curY = 0; curY < height; ++curY)
 	{
-		int screenOffset = (y + curY) * BackgroundSize + x;
+		int screenOffset = (y + curY) * DynamicBackgroundSize + x;
 		vram.SetBackgroundTileData(m_mapSbbIndex, screenOffset, m_clearScreenEntry, width);
 	}
 }

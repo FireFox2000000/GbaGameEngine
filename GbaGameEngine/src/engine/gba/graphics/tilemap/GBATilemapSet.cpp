@@ -1,6 +1,8 @@
 #include "GBATilemapSet.h"
 #include "engine/base/core/stl/Bitmask.h"
+#include "engine/algorithm/Compression.h"
 #include "GBASDK/Vram.h"
+#include "GBASDK/Backgrounds.h"
 
 using namespace GBA::Gfx;
 
@@ -27,7 +29,7 @@ TilemapSet::TilemapSet(
 	m_file.m_paletteLength = paletteLength;
 	m_file.m_palette = palette;
 
-	m_file.m_tileSetDataCompressionFlags = tileSetDataCompressionFlags;
+	m_file.m_backgroundColourMode = Compression::GetBitPackedSrcBpp(tileSetDataCompressionFlags) > 4 ? GBA::BackgroundColourMode::Mode256x1 : GBA::BackgroundColourMode::Mode16x16;
 	m_file.m_tilesetLength = tilesetLength;
 	m_file.m_tileset = tileset;
 

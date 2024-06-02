@@ -1,6 +1,5 @@
 #pragma once
 #include "Renderer.h"
-#include "engine/gba/registers/display/GBABackgroundControl.h"
 
 class GameObject;
 

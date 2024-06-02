@@ -1,13 +1,44 @@
 #include "GBATilemapManager.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVram.h"
-#include "engine/gba/registers/display/GBABackgroundControl.h"
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/gba/graphics/tilemap/GBATilemapSet.h"
+#include "engine/gba/registers/display/GBABackgroundAllocator.h"
+#include "GBASDK/Backgrounds.h"
 
 using namespace GBA::Gfx;
 
 const Vector2<u8> TilemapManager::VARIABLE_TILEMAP_SIZE = Vector2<u8>(32, 32);
+
+namespace
+{
+	using tTileSize = Vector2<u8>;
+	const Array<tTileSize, 4> c_SIZEMAP = {
+		tTileSize(32, 32),	tTileSize(64, 32),	tTileSize(32, 64),	tTileSize(64, 64),
+	};
+
+	GBA::BackgroundSize GetRegSizeFromTileSize(u8 width, u8 height)
+	{
+		tTileSize tileSize(width, height);
+
+		for (u8 i = 0; i < c_SIZEMAP.Count(); ++i)
+		{
+			if (c_SIZEMAP[i] == tileSize)
+			{
+				return GBA::BackgroundSize(i);
+			}
+		}
+
+		DEBUG_ERROR("Invalid size, cannot determine GBA Control Register size");
+
+		return GBA::BackgroundSize(-1);
+	}
+
+	GBA::BackgroundSize GetTilemapSize(const Tilemap& tilemap)
+	{
+		return GetRegSizeFromTileSize(tilemap.GetFile().m_sizeInTiles.x, tilemap.GetFile().m_sizeInTiles.y);
+	}
+}
 
 TilemapManager::TilemapManager()
 	: m_tilesetRefCounter(0)
@@ -20,12 +51,12 @@ TilemapManager::~TilemapManager()
 
 void TilemapManager::LoadStaticMap(Tilemap & out_tilemap)
 {
-	Load(out_tilemap, out_tilemap.m_file.m_tileMapDataLength, out_tilemap.GetSize(), false, true);
+	Load(out_tilemap, out_tilemap.m_file.m_tileMapDataLength, GetTilemapSize(out_tilemap), false, true);
 }
 
 void TilemapManager::LoadDynamicMap(Tilemap & out_tilemap)
 {
-	Load(out_tilemap, VARIABLE_TILEMAP_SIZE.x * VARIABLE_TILEMAP_SIZE.y, GBA::Gfx::Background::ControlRegister::Size::REG_32x32, false, false);
+	Load(out_tilemap, VARIABLE_TILEMAP_SIZE.x * VARIABLE_TILEMAP_SIZE.y, GBA::BackgroundSize::Regular32x32, false, false);
 }
 
 void TilemapManager::LoadTilemap(Tilemap & out_tilemap)
@@ -60,7 +91,7 @@ void TilemapManager::LoadTileset(TilemapSet* tilemapSet)
 	}
 }
 
-void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Background::ControlRegister::Size size, bool isAffine, bool copyMapDirectlyToMemory)
+void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::BackgroundSize size, bool isAffine, bool copyMapDirectlyToMemory)
 {
 	using namespace GBA;
 
@@ -107,9 +138,9 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 
 		// Assign background slot
 		{
-			out_tilemap.m_renderData.m_backgroundSlotId = GBA::BackgroundControl::ReserveBackground();
+			out_tilemap.m_renderData.m_backgroundSlotId = GBA::BackgroundAllocator::ReserveBackground();
 
-			DEBUG_ASSERTMSG(out_tilemap.m_renderData.m_backgroundSlotId < GBA::BackgroundControl::Count, "Failed to assign background slot id, out of backgrounds");
+			DEBUG_ASSERTMSG(out_tilemap.m_renderData.m_backgroundSlotId != GBA::BackgroundAllocator::INVALID_BACKGROUND, "Failed to assign background slot id, out of backgrounds");
 		}
 
 		addRefCount = true;
@@ -122,12 +153,13 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Gfx::Bac
 
 	// Finally put our tilemap into the registers
 	{
-		GBA::Gfx::Background::ControlRegister::ColourMode colourMode = GBA::Gfx::Background::GetColourModeFromCompression(tilemapSet->m_file.m_tileSetDataCompressionFlags);
-		auto& controlRegister = BackgroundControl::GetBgControlRegister(out_tilemap.GetAssignedBackgroundSlot());
-		controlRegister.SetColourMode(colourMode);
-		controlRegister.SetCharacterBaseBlock(tilemapSet->GetTileSetCharacterBaseBlock());
-		controlRegister.SetScreenBaseBlock(out_tilemap.GetMapScreenBaseBlockIndex());
-		controlRegister.SetSize(size);
+		GBA::BackgroundColourMode colourMode = tilemapSet->m_file.m_backgroundColourMode;
+		auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[out_tilemap.GetAssignedBackgroundSlot()];
+		controlRegister.colourMode = colourMode;
+		controlRegister.vramCharacterBaseBlockIndex = tilemapSet->GetTileSetCharacterBaseBlock();
+		controlRegister.vramScreenBaseBlockIndex = out_tilemap.GetMapScreenBaseBlockIndex();
+		controlRegister.size = size;
+		controlRegister.mosaic = false;
 	}
 }
 
@@ -147,8 +179,8 @@ void TilemapManager::Unload(Tilemap * tilemap)
 
 		// Free background slot
 		{
-			GBA::BackgroundControl::FreeBackground(tilemap->m_renderData.m_backgroundSlotId);
-			tilemap->m_renderData.m_backgroundSlotId = GBA::BackgroundControl::Count;
+			GBA::BackgroundAllocator::FreeBackground(tilemap->m_renderData.m_backgroundSlotId);
+			tilemap->m_renderData.m_backgroundSlotId = GBA::BackgroundAllocator::INVALID_BACKGROUND;
 		}
 
 		TilemapSet* tilemapSet = tilemap->EditTilemapSet();

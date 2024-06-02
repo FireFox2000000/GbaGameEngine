@@ -7,6 +7,7 @@ namespace GBA
 {
 	union UPixelData;
 	struct ColourRGB16;
+	enum class BackgroundColourMode : unsigned char;
 }
 
 namespace GBA
@@ -29,7 +30,7 @@ namespace GBA
 				const GBA::UPixelData* m_tileset = nullptr;
 				u32 m_tilesetLength = 0;
 
-				u32 m_tileSetDataCompressionFlags = 0;
+				GBA::BackgroundColourMode m_backgroundColourMode;
 			};
 
 			struct RenderData

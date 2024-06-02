@@ -136,8 +136,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
-    <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
+    <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\io\FileSystem.cpp" />
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
@@ -283,15 +282,14 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
-    <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
+    <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
-    <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
     <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
-    <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
+    <ClInclude Include="src\engine\gba\registers\display\GBABackgroundAllocator.h" />
     <ClInclude Include="src\external\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\external\tonc\include\tonc_asminc.h" />
     <ClInclude Include="src\external\tonc\include\tonc_nocash.h" />

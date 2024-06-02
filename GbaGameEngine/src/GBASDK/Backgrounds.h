@@ -2,51 +2,41 @@
 
 namespace GBA
 {
-	enum class BackgroundDrawPriority : unsigned char
+	enum class BackgroundColourMode : unsigned char
 	{
-		Layer0,	// Highest
-		Layer1,
-		Layer2,
-		Layer3	// Lowest
-	};
-
-	enum class CharacterBaseBlock : unsigned char
-	{
-		Bg0,
-		Bg1,
-		Bg2,
-		Bg3,
-	};
-
-	enum class ColourMode : unsigned char
-	{
+		// 4 bits-per-pixel
 		Mode16x16,
+
+		// 8 bits per pixel
 		Mode256x1
 	};
 
 	enum class BackgroundSize : unsigned char
 	{
-		REG_32x32 = 0,
-		REG_64x32 = 1,
-		REG_32x64 = 2,
-		REG_64x64 = 3,
-		REGSize_Count = 4,
+		Regular32x32 = 0,
+		Regular64x32 = 1,
+		Regular32x64 = 2,
+		Regular64x64 = 3,
 
-		AFF_16x16 = 0,
-		AFF_32x32 = 1,
-		AFF_64x64 = 2,
-		AFF_128x128 = 3,
-		AFFSize_Count = 4,
+		Affine16x16 = 0,
+		Affine32x32 = 1,
+		Affine64x64 = 2,
+		Affine128x128 = 3,
 	};
 
 	struct BackgroundControl
 	{
-		BackgroundDrawPriority priority : 2;
-		CharacterBaseBlock characterBaseBlock : 2;
+		// Lower value == higher priority
+		unsigned char priority : 2;
+
+		// 0-3
+		char vramCharacterBaseBlockIndex : 2;
 		char : 2; // unused
 		bool mosaic : 1;
-		ColourMode colourMode : 1;
-		unsigned char screenBaseBlock : 5;
+		BackgroundColourMode colourMode : 1;
+
+		// 0-31
+		unsigned char vramScreenBaseBlockIndex : 5;
 
 		// BG2/BG3 controllers only
 		bool affineWrappingEnabled : 1;
@@ -56,14 +46,10 @@ namespace GBA
 
 	struct BackgroundScroll
 	{
-	private:
-		// (0-511)
-		short xOffset; //  : 9, : 7 unused;
-		short yOffset; //  : 9, : 7 unused;
-
-	public:
-		inline void SetXOffset(short val) { xOffset = val; }
-		inline void SetYOffset(short val) { yOffset = val; }
+		// Write-only (0-511)
+		short xOffset : 9, : 7;
+		// Write-only (0-511)
+		short yOffset : 9, : 7;
 	};
 
 	static_assert(sizeof(BackgroundControl) == 2, "BackgroundControl struct malformed");

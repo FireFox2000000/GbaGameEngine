@@ -5,7 +5,6 @@
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\background\GBABackground.cpp" />
     <ClCompile Include="src\engine\graphics\font\Font.cpp" />
     <ClCompile Include="src\engine\graphics\font\FontLookupFunctions.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />
@@ -29,7 +28,7 @@
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\engine\gba\registers\display\GBABackgroundControl.cpp" />
+    <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
@@ -100,7 +99,6 @@
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
-    <ClInclude Include="src\engine\gba\graphics\background\GBABackground.h" />
     <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
     <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
@@ -133,7 +131,7 @@
     <ClInclude Include="src\engine\base\Macros.h" />
     <ClInclude Include="src\engine\base\Typedefs.h" />
     <ClInclude Include="src\engine\math\Vector2.h" />
-    <ClInclude Include="src\engine\gba\registers\display\GBABackgroundControl.h" />
+    <ClInclude Include="src\engine\gba\registers\display\GBABackgroundAllocator.h" />
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
@@ -145,7 +143,7 @@
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\graphics\Graphics.h" />
-    <ClInclude Include="src\engine\gba\graphics\GBADrawPriority.h" />
+    <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
     <ClInclude Include="src\engine\gba\graphics\GBAGraphics.h" />
     <ClInclude Include="src\engine\time\TimeValue.h" />
     <ClInclude Include="src\external\tonc\include\tonc_asminc.h" />

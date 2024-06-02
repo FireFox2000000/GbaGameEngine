@@ -2,6 +2,7 @@
 #include "engine/screen/Screen.h"
 #include "engine/gameobject/GameObject.h"
 #include "engine/gameobject/transformation/Transform.h"
+#include "engine/gba/config/GBADrawPriorityID.h"
 #include "GBASDK/ObjectAttributeMemory.h"
 
 namespace GBA
@@ -79,7 +80,7 @@ namespace GBA
 		newPosition += drawParams.screenSpaceOffset;											// Convert to screen space
 		newPosition += anchorPoint;				// Offset by sprite size to render from the center
 
-		renderProperties->priority = DrawPriority::Layer2;
+		renderProperties->priority = static_cast<int>(GBA::DrawPriorityID::ObjSprite);
 		renderProperties->screenPosX = newPosition.x.ToRoundedInt();
 		renderProperties->screenPosY = newPosition.y.ToRoundedInt();
 	}
@@ -90,7 +91,7 @@ namespace GBA
 
 		ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
-		renderProperties->priority = DrawPriority::Layer1;
+		renderProperties->priority = static_cast<int>(GBA::DrawPriorityID::ObjFontSprite);
 		renderProperties->screenPosX = position.x.ToRoundedInt();
 		renderProperties->screenPosY = position.y.ToRoundedInt();
 	}

@@ -100,7 +100,7 @@ GBA_DIAGNOSTIC_POP
 		// 0 - 1023
 		// Index of vram::objectTiles (BaseTile) array that the tile data was loaded into. 
 		// Note that in bitmap modes 3-5 this must be 512 or higher.
-		unsigned short baseTileIndex : 10;
+		unsigned short vramObjectTileIndex : 10;
 
 		// 0 - 3
 		// 0 = Highest

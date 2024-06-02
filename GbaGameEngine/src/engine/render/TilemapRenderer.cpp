@@ -2,6 +2,7 @@
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/Macros.h"
 #include "engine/graphics/Graphics.h"
+#include "GBASDK/Backgrounds.h"
 
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
@@ -82,12 +83,12 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 			// Update extra effects
 			if (tilemapRenderer.GetDirty())
 			{
-				auto& controlRegister = GBA::BackgroundControl::GetBgControlRegister(tilemap->GetAssignedBackgroundSlot());
+				auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[tilemap->GetAssignedBackgroundSlot()];
 
 				// SetAffineWrapping
 				// SetMosaic
 				// SetPriority
-				controlRegister.SetAffineWrapping(tilemapRenderer.GetWrappingEnabled());
+				controlRegister.affineWrappingEnabled = tilemapRenderer.GetWrappingEnabled();
 				
 				GBA::ioRegisterDisplayControl->SetBackgroundEnabled(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
 

@@ -13,11 +13,6 @@ TilemapSet* GBA::Gfx::Tilemap::EditTilemapSet()
 	return m_tilemapSet;
 }
 
-Background::ControlRegister::Size Tilemap::GetSize() const
-{
-	return Background::GetRegSizeFromTileSize(m_file.m_sizeInTiles.x, m_file.m_sizeInTiles.y);
-}
-
 bool Tilemap::IsLoaded() const
 {
 	return GetMapScreenBaseBlockIndex() != GBA::INVALID_SBB_ID && m_tilemapSet->IsLoaded();
@@ -53,7 +48,7 @@ GBA::tScreenBaseBlockIndex GBA::Gfx::Tilemap::GetMapScreenBaseBlockIndex() const
 	return m_renderData.m_mapSbbIndex;
 }
 
-GBA::BackgroundControl::Backgrounds GBA::Gfx::Tilemap::GetAssignedBackgroundSlot() const
+int GBA::Gfx::Tilemap::GetAssignedBackgroundSlot() const
 {
 	return m_renderData.m_backgroundSlotId;
 }
