@@ -1,6 +1,6 @@
 #include "GBATilemapManager.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
-#include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/gba/graphics/vram/GBAVramAllocator.h"
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/gba/graphics/tilemap/GBATilemapSet.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
@@ -82,7 +82,7 @@ void TilemapManager::LoadTileset(TilemapSet* tilemapSet)
 {
 	using namespace GBA;
 
-	auto& vram = Vram::GetInstance();
+	auto& vram = VramAllocator::GetInstance();
 	tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tilesetLength);
 
 	if (tilemapSet->m_renderData.m_tileSetCharacterBaseBlock != TileBlockGroups::BlockGroupCount)	// Check that the alloc was actually successfull
@@ -129,11 +129,11 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Backgrou
 	// Load local map data
 	if (!out_tilemap.IsLoaded())
 	{
-		out_tilemap.m_renderData.m_mapSbbIndex = Vram::GetInstance().AllocBackgroundTileMapMem(tilesToAlloc);
+		out_tilemap.m_renderData.m_mapSbbIndex = VramAllocator::GetInstance().AllocBackgroundTileMapMem(tilesToAlloc);
 
 		if (copyMapDirectlyToMemory)
 		{
-			Vram::GetInstance().LoadBackgroundTileMapMem(out_tilemap.m_file.m_tileMapData, out_tilemap.m_file.m_tileMapDataLength, out_tilemap.m_renderData.m_mapSbbIndex);
+			VramAllocator::GetInstance().LoadBackgroundTileMapMem(out_tilemap.m_file.m_tileMapData, out_tilemap.m_file.m_tileMapDataLength, out_tilemap.m_renderData.m_mapSbbIndex);
 		}
 
 		// Assign background slot
@@ -173,8 +173,8 @@ void TilemapManager::Unload(Tilemap * tilemap)
 
 		// Free map memory
 		{
-			Vram::GetInstance().FreeBackgroundTileMapMem(tilemap->m_renderData.m_mapSbbIndex);
-			tilemap->m_renderData.m_mapSbbIndex = INVALID_SBB_ID;
+			VramAllocator::GetInstance().FreeBackgroundTileMapMem(tilemap->m_renderData.m_mapSbbIndex);
+			tilemap->m_renderData.m_mapSbbIndex = VramAllocator::INVALID_SBB_ID;
 		}
 
 		// Free background slot
@@ -189,7 +189,7 @@ void TilemapManager::Unload(Tilemap * tilemap)
 		// Free tilemap set memory
 		if (m_tilesetRefCounter[tilemapSet->m_renderData.m_tileSetCharacterBaseBlock] <= 0)
 		{
-			Vram::GetInstance().FreeBackgroundTileSetMem(tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
+			VramAllocator::GetInstance().FreeBackgroundTileSetMem(tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
 			tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = TilemapSet::INVALID_TILESET_CBB;
 		}
 	}

@@ -249,8 +249,8 @@ MapWrappingPoints CalculateMapWrappingPoints(
 }
 
 static inline void CopyFromMapToVramSingle(
-	GBA::Vram& vram
-	, GBA::tScreenBaseBlockIndex sbbIndex
+	GBA::VramAllocator& vram
+	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
 	, const GBA::BackgroundTilemapEntry* srcMapData
@@ -263,8 +263,8 @@ static inline void CopyFromMapToVramSingle(
 }
 
 static inline void CopyFromMapToVramLoop(
-	GBA::Vram& vram
-	, GBA::tScreenBaseBlockIndex sbbIndex
+	GBA::VramAllocator& vram
+	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
 	, const GBA::BackgroundTilemapEntry* srcMapData
@@ -280,8 +280,8 @@ static inline void CopyFromMapToVramLoop(
 }
 
 static inline void CopyFromMapToVramMemCpy(
-	GBA::Vram& vram
-	, GBA::tScreenBaseBlockIndex sbbIndex
+	GBA::VramAllocator& vram
+	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
 	, const GBA::BackgroundTilemapEntry* srcMapData
@@ -294,8 +294,8 @@ static inline void CopyFromMapToVramMemCpy(
 }
 
 // Pass function via template rather than function pointer so it can be inlined for SPEEEEEED
-typedef void(*Fn)(GBA::Vram& vram
-	, GBA::tScreenBaseBlockIndex sbbIndex
+typedef void(*Fn)(GBA::VramAllocator& vram
+	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
 	, const GBA::BackgroundTilemapEntry* srcMapData
@@ -304,8 +304,8 @@ typedef void(*Fn)(GBA::Vram& vram
 
 template<Fn fn>
 static inline void CopyMapWrappedRowToVram(
-	GBA::Vram& vram
-	, GBA::tScreenBaseBlockIndex sbbIndex
+	GBA::VramAllocator& vram
+	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgColStart
 	, const GBA::BackgroundTilemapEntry* srcMapData
@@ -351,7 +351,7 @@ namespace GBA
 		, const DrawParams& drawParams
 	)
 	{
-		auto& vram = GBA::Vram::GetInstance();
+		auto& vram = GBA::VramAllocator::GetInstance();
 
 		const auto tileMapSizeInTiles = tilemap->GetSizeInTiles();
 

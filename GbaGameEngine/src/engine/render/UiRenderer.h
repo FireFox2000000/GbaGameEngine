@@ -19,7 +19,7 @@ class UiRenderer
 
 	GBA::Gfx::TilemapSet m_tilemapSet;
 	int m_backgroundId;
-	GBA::tScreenBaseBlockIndex m_mapSbbIndex = GBA::INVALID_SBB_ID;
+	GBA::VramAllocator::tScreenBaseBlockIndex m_mapSbbIndex = GBA::VramAllocator::INVALID_SBB_ID;
 	GBA::BackgroundTilemapEntry m_clearScreenEntry;
 	FontProperties m_fontProperties;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/math/Vector2.h"
-#include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/gba/graphics/vram/GBAVramAllocator.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
 
 namespace GBA 
@@ -34,7 +34,7 @@ namespace GBA
 			struct RenderData
 			{
 				// Runtime assigned render data when loaded
-				GBA::tScreenBaseBlockIndex m_mapSbbIndex = GBA::INVALID_SBB_ID;
+				GBA::VramAllocator::tScreenBaseBlockIndex m_mapSbbIndex = GBA::VramAllocator::INVALID_SBB_ID;
 				int m_backgroundSlotId = GBA::BackgroundAllocator::INVALID_BACKGROUND;
 
 				/*
@@ -60,7 +60,7 @@ namespace GBA
 			const TilemapSet* GetTilemapSet() const;
 			u16 GetTileMapLength() const;
 			const GBA::BackgroundTilemapEntry* GetTileMapData() const;
-			GBA::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
+			GBA::VramAllocator::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
 			int GetAssignedBackgroundSlot() const;
 			const FileDataMap& GetFile() const { return m_file; }
 		};

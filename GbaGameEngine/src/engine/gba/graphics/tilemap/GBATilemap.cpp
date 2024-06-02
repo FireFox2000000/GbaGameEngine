@@ -15,7 +15,7 @@ TilemapSet* GBA::Gfx::Tilemap::EditTilemapSet()
 
 bool Tilemap::IsLoaded() const
 {
-	return GetMapScreenBaseBlockIndex() != GBA::INVALID_SBB_ID && m_tilemapSet->IsLoaded();
+	return GetMapScreenBaseBlockIndex() != GBA::VramAllocator::INVALID_SBB_ID && m_tilemapSet->IsLoaded();
 }
 
 bool GBA::Gfx::Tilemap::IsDynamicallyRendered() const
@@ -43,7 +43,7 @@ const GBA::BackgroundTilemapEntry* GBA::Gfx::Tilemap::GetTileMapData() const
 	return m_file.m_tileMapData;
 }
 
-GBA::tScreenBaseBlockIndex GBA::Gfx::Tilemap::GetMapScreenBaseBlockIndex() const
+GBA::VramAllocator::tScreenBaseBlockIndex GBA::Gfx::Tilemap::GetMapScreenBaseBlockIndex() const
 {
 	return m_renderData.m_mapSbbIndex;
 }

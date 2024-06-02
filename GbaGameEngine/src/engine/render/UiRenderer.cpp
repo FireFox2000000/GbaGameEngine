@@ -2,7 +2,7 @@
 #include "engine/io/filestream/CppFileReader.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
-#include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/gba/graphics/vram/GBAVramAllocator.h"
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
 #include "engine/graphics/font/FontLookupFunctions.h"
 #include "engine/gba/config/GBADrawPriorityID.h"
@@ -11,14 +11,14 @@
 
 constexpr int DynamicBackgroundSize = 32;
 
-void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* tilemap, GBA::tScreenBaseBlockIndex mapSbbIndex)
+void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* tilemap, GBA::VramAllocator::tScreenBaseBlockIndex mapSbbIndex)
 {
 	using namespace GBA;
 
 	const auto* mapData = tilemap->GetTileMapData();
 	const auto imageSize = tilemap->GetSizeInTiles();
 
-	auto& vram = Vram::GetInstance();
+	auto& vram = VramAllocator::GetInstance();
 
 	for (int x = 0; x < imageSize.x; ++x)
 	{
@@ -46,7 +46,7 @@ UiRenderer::~UiRenderer()
 
 	// Free gba background
 	GBA::BackgroundAllocator::FreeBackground(m_backgroundId);
-	GBA::Vram::GetInstance().FreeBackgroundTileMapMem(m_mapSbbIndex);
+	GBA::VramAllocator::GetInstance().FreeBackgroundTileMapMem(m_mapSbbIndex);
 }
 
 void UiRenderer::Init()
@@ -71,8 +71,8 @@ void UiRenderer::UnloadTilemapSet()
 	// Palette doesn't need to be freed, auto overwritten since palette allocation isn't dynamic. 
 
 	// Free tileset
-	GBA::Vram::GetInstance().FreeBackgroundTileMapMem(m_mapSbbIndex);
-	GBA::Vram::GetInstance().FreeBackgroundTileSetMem(m_tilemapSet.m_renderData.m_tileSetCharacterBaseBlock);
+	GBA::VramAllocator::GetInstance().FreeBackgroundTileMapMem(m_mapSbbIndex);
+	GBA::VramAllocator::GetInstance().FreeBackgroundTileSetMem(m_tilemapSet.m_renderData.m_tileSetCharacterBaseBlock);
 }
 
 void UiRenderer::LoadAtlus(const u32* file)
@@ -139,7 +139,7 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 		// Although we're allocating the same memory each time, call this after allocating the tileset so that our tilemap memory is located directly after the tileset
 		// Otherwise we're going to eat up a whole charblock if this is called beforehand
-		m_mapSbbIndex = GBA::Vram::GetInstance().AllocBackgroundTileMapMem(DynamicBackgroundSize * DynamicBackgroundSize);
+		m_mapSbbIndex = GBA::VramAllocator::GetInstance().AllocBackgroundTileMapMem(DynamicBackgroundSize * DynamicBackgroundSize);
 	}
 
 	// Assign control register
@@ -170,7 +170,7 @@ void UiRenderer::DrawUiElement(const Vector2<int>& screenPositionInTiles, int ui
 
 void UiRenderer::ClearRegion(int x, int y, int width, int height) const
 {
-	auto& vram = GBA::Vram::GetInstance();
+	auto& vram = GBA::VramAllocator::GetInstance();
 
 	for (int curY = 0; curY < height; ++curY)
 	{

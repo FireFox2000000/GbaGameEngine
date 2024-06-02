@@ -4,7 +4,7 @@
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\vram\GBAVramAllocator.cpp" />
     <ClCompile Include="src\engine\graphics\font\Font.cpp" />
     <ClCompile Include="src\engine\graphics\font\FontLookupFunctions.cpp" />
     <ClCompile Include="src\engine\render\TextRenderer.cpp" />
@@ -98,7 +98,7 @@
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
-    <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
+    <ClInclude Include="src\engine\gba\graphics\vram\GBAVramAllocator.h" />
     <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
     <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />

@@ -57,16 +57,12 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
-	auto& vram = GBA::Vram::GetInstance();
 	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 
 	entityManager->InvokeEach<Component::Transform, Component::TilemapRenderer>(
-		[&drawParams
-		, &vram
-		, &gfx
-		]
+		[&drawParams, &gfx]
 	(Component::Transform& transform, Component::TilemapRenderer& tilemapRenderer)
 		{
 			Tilemap* tilemap = tilemapRenderer.GetTilemap();

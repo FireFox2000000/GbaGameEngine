@@ -135,7 +135,7 @@ make all</NMakeReBuildCommandLine>
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\vram\GBAVram.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\vram\GBAVramAllocator.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\io\FileSystem.cpp" />
@@ -287,7 +287,7 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
-    <ClInclude Include="src\engine\gba\graphics\vram\GBAVram.h" />
+    <ClInclude Include="src\engine\gba\graphics\vram\GBAVramAllocator.h" />
     <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
     <ClInclude Include="src\engine\gba\registers\display\GBABackgroundAllocator.h" />
     <ClInclude Include="src\external\tonc\memory\tonccpy.h" />

@@ -2,7 +2,7 @@
 #include "GBASprite.h"
 #include "GBASpriteAtlus.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
-#include "engine/gba/graphics/vram/GBAVram.h"
+#include "engine/gba/graphics/vram/GBAVramAllocator.h"
 
 namespace GBA
 {
@@ -59,7 +59,7 @@ namespace GBA
 			++m_paletteRefTracker[paletteId];
 
 			u32 compressionFlags = out_sprite.m_atlus->GetSpriteDataCompressionFlags();
-			tTileId tileIndex = GBA::Vram::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, compressionFlags);
+			tTileId tileIndex = GBA::VramAllocator::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, compressionFlags);
 
 			if (tileIndex != INVALID_TILE_ID)
 			{
@@ -82,7 +82,7 @@ namespace GBA
 
 			// Remove tile references
 			tTileId index = sprite->m_renderData.GetTileIndex();
-			GBA::Vram::GetInstance().FreeSpriteMem(index);
+			GBA::VramAllocator::GetInstance().FreeSpriteMem(index);
 			sprite->m_renderData.SetTileIndex(INVALID_TILE_ID);
 
 			// Decrease palette references
