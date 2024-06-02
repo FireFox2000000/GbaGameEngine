@@ -20,6 +20,7 @@ include $(DEVKITARM)/gba_rules
 # the makefile is found
 #
 #---------------------------------------------------------------------------------
+TARGET_DIR	:= $(CURDIR)/bin
 TARGET		:= $(notdir $(CURDIR))
 BUILD		:= build
 ifneq ($(BUILD),$(notdir $(CURDIR)))
@@ -76,7 +77,7 @@ LIBDIRS	:=
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
+export OUTPUT	:=	$(TARGET_DIR)/$(TARGET)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 			$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
@@ -130,12 +131,13 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 $(BUILD):
 	sh scripts/update_gamefiles.sh src/game/data src/game/data/GameFiles.gen.h
 	@[ -d $@ ] || mkdir -p $@
+	@[ -d $(TARGET_DIR) ] || mkdir -p $(TARGET_DIR)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
+	@rm -fr $(BUILD) $(TARGET_DIR)/$(TARGET).elf $(TARGET_DIR)/$(TARGET).gba
 
 
 #---------------------------------------------------------------------------------
