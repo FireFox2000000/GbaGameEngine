@@ -1,7 +1,6 @@
 #include "GBAOAMManager.h"
 #include "engine/base/Macros.h"
 #include "engine/engine/engine.h"
-#include "engine/gba/memory/GBAMemoryLocations.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
 #include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
 

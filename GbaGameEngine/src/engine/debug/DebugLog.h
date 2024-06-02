@@ -1,7 +1,5 @@
 #pragma once
 
-#include "engine/gba/memory/GBAMemoryLocations.h"
-
 namespace Debug
 {
 	void Log(const char* message);

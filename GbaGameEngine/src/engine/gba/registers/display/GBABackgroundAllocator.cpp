@@ -1,5 +1,4 @@
 #include "GBABackgroundAllocator.h"
-#include "engine/gba/registers/RegisterMap.h"
 #include "GBASDK/DisplayControl.h"
 
 constexpr int MAX_BACKGROUNDS = 4;
