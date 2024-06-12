@@ -1,5 +1,5 @@
 #pragma once
-#include "ColourPalettes.h"
+#include "ColourRGB16.h"
 #include "internal/Internal.h"
 
 namespace GBA
