@@ -2,7 +2,7 @@
 #include "Interrupts.h"
 #include "internal/Internal.h"
 
-namespace GBA
+namespace GBATEK
 {
 	namespace Bios
 	{
@@ -21,18 +21,18 @@ namespace GBA
 		static_assert(sizeof(ResetFlags) == 1, "ResetFlags struct malformed");
 
 		// Don't let the compiler optimise seemingly empty bios call statements away
-GBA_OPTIONS_PUSH_OPTIMIZE_O0
-GBA_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
+GBATEK_OPTIONS_PUSH_OPTIMIZE_O0
+GBATEK_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 
 		inline void SoftReset()
 		{
-			GBA_BiosSystemCall(0x00);
+			GBATEK_BiosSystemCall(0x00);
 		}
 
 		inline void RegisterRamReset(ResetFlags flags)
 		{
 			static_assert(sizeof(flags) == sizeof(unsigned char), "ResetFlags struct layout is not correct");
-			GBA_BiosSystemCall(0x01);
+			GBATEK_BiosSystemCall(0x01);
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ GBA_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 		// </param>
 		inline void InterruptWait(bool waitUntilNew, Interrupts interrupts)
 		{
-			GBA_BiosSystemCall(0x04);
+			GBATEK_BiosSystemCall(0x04);
 		}
 		 
 		/// <summary>
@@ -61,12 +61,12 @@ GBA_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 		/// </summary>
 		inline void VBlankInterruptWait()
 		{
-			GBA_BiosSystemCall(0x05);
+			GBATEK_BiosSystemCall(0x05);
 		}
 
 		inline int Div(int num, int denom)
 		{
-			GBA_BiosSystemCall(0x06);
+			GBATEK_BiosSystemCall(0x06);
 			// Apparently this returns 3 numbers?...
 			// r0  Number DIV Denom; signed
 			// r1  Number MOD Denom; signed
@@ -78,20 +78,20 @@ GBA_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 		// Same as Div (SWI 06h), but incoming parameters are exchanged, r1/r0 (r0=Denom, r1=number). For compatibility with ARM's library. Slightly slower (3 clock cycles) than SWI 06h
 		inline int DivArm(int denom, int num)
 		{
-			GBA_BiosSystemCall(0x07);
+			GBATEK_BiosSystemCall(0x07);
 		}
 
 		inline unsigned short Sqrt(unsigned long val)
 		{
-			GBA_BiosSystemCall(0x08);
+			GBATEK_BiosSystemCall(0x08);
 		}
 
 		inline void HardReset()
 		{
-			GBA_BiosSystemCall(0x26);
+			GBATEK_BiosSystemCall(0x26);
 		}
 
-GBA_DIAGNOSTIC_POP
-GBA_OPTIONS_POP
+GBATEK_DIAGNOSTIC_POP
+GBATEK_OPTIONS_POP
 	}
 }

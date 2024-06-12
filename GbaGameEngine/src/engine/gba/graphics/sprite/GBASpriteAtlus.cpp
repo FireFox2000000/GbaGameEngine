@@ -73,11 +73,11 @@ namespace GBA
 			const u8 paletteLength = reader.Read<u8>();
 			const u32 dataLength = reader.Read<u32>();
 			const u32 compressionFlags = reader.Read<u32>();
-			const GBA::ColourRGB16* palette = reader.ReadAddress<GBA::ColourRGB16>(paletteLength);
+			const GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
 			const u8* widthMap = reader.ReadAddress<u8>(spriteCount);
 			const u8* heightMap = reader.ReadAddress<u8>(spriteCount);
 			const u32* offsets = reader.ReadAddress<u32>(spriteCount);
-			const GBA::UPixelData* data = reader.ReadAddress<GBA::UPixelData>(dataLength);
+			const GBATEK::UPixelData* data = reader.ReadAddress<GBATEK::UPixelData>(dataLength);
 
 			DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength * sizeof(u32)));
 
@@ -116,8 +116,8 @@ namespace GBA
 					lastAddedNode->next = node;
 				}
 
-				ObjectShape shape;
-				ObjectSize sizeMode;
+				GBATEK::ObjectShape shape;
+				GBATEK::ObjectSize sizeMode;
 				AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), shape, sizeMode);
 
 				node->sprite.m_objectShape = shape;

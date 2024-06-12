@@ -5,13 +5,13 @@
 namespace VisualBoyAdvance
 {
 	// Don't let the compiler optimise seemingly empty bios call statements away
-GBA_OPTIONS_PUSH_OPTIMIZE_O0
+GBATEK_OPTIONS_PUSH_OPTIMIZE_O0
 
 	// Will crash on actual hardware
 	inline void AGBPrint(const char* message)
 	{
-		GBA_BiosSystemCall(0xFF);
+		GBATEK_BiosSystemCall(0xFF);
 	}
 
-GBA_OPTIONS_POP
+GBATEK_OPTIONS_POP
 }

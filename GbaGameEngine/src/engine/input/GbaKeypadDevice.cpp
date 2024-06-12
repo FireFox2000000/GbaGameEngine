@@ -14,16 +14,16 @@ void Input::GbaKeypadDevice::Update()
 	auto& current = m_inputState.GetPrimary();
 	current = 0;
 
-	current |= (GBA::ioRegisterKeypad->A == GBA::ButtonState::Pressed) ? Buttons::A : 0;
-	current |= Buttons::B * (GBA::ioRegisterKeypad->B == GBA::ButtonState::Pressed);
-	current |= Buttons::Select * (GBA::ioRegisterKeypad->Select == GBA::ButtonState::Pressed);
-	current |= Buttons::Start * (GBA::ioRegisterKeypad->Start == GBA::ButtonState::Pressed);
-	current |= (GBA::ioRegisterKeypad->Right == GBA::ButtonState::Pressed) ? Buttons::Right : 0;
-	current |= (GBA::ioRegisterKeypad->Left == GBA::ButtonState::Pressed) ? Buttons::Left : 0;
-	current |= (GBA::ioRegisterKeypad->Up == GBA::ButtonState::Pressed) ? Buttons::Up : 0;
-	current |= (GBA::ioRegisterKeypad->Down == GBA::ButtonState::Pressed) ? Buttons::Down : 0;
-	current |= Buttons::R * (GBA::ioRegisterKeypad->R == GBA::ButtonState::Pressed);
-	current |= Buttons::L * (GBA::ioRegisterKeypad->L == GBA::ButtonState::Pressed);
+	current |= (GBATEK::ioRegisterKeypad->A == GBATEK::ButtonState::Pressed) ? Buttons::A : 0;
+	current |= Buttons::B * (GBATEK::ioRegisterKeypad->B == GBATEK::ButtonState::Pressed);
+	current |= Buttons::Select * (GBATEK::ioRegisterKeypad->Select == GBATEK::ButtonState::Pressed);
+	current |= Buttons::Start * (GBATEK::ioRegisterKeypad->Start == GBATEK::ButtonState::Pressed);
+	current |= (GBATEK::ioRegisterKeypad->Right == GBATEK::ButtonState::Pressed) ? Buttons::Right : 0;
+	current |= (GBATEK::ioRegisterKeypad->Left == GBATEK::ButtonState::Pressed) ? Buttons::Left : 0;
+	current |= (GBATEK::ioRegisterKeypad->Up == GBATEK::ButtonState::Pressed) ? Buttons::Up : 0;
+	current |= (GBATEK::ioRegisterKeypad->Down == GBATEK::ButtonState::Pressed) ? Buttons::Down : 0;
+	current |= Buttons::R * (GBATEK::ioRegisterKeypad->R == GBATEK::ButtonState::Pressed);
+	current |= Buttons::L * (GBATEK::ioRegisterKeypad->L == GBATEK::ButtonState::Pressed);
 }
 
 bool TestKey(Input::GbaKeypadDevice::Buttons key, const u32 inputChannel)

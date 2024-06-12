@@ -26,12 +26,12 @@ constexpr int EndTimeOffset = (CLOCK * 0.03f);
 
 namespace
 {
-	volatile GBA::DMARegister1And2* const GetDMARegister(GBA::DMAChannelID channelId)
+	volatile GBATEK::DMARegister1And2* const GetDMARegister(GBA::DMAChannelID channelId)
 	{
 		switch (channelId)
 		{
-		case GBA::DMAChannelID::Sound0: return GBA::ioRegisterDMA1;
-		case GBA::DMAChannelID::Sound1: return GBA::ioRegisterDMA2;
+		case GBA::DMAChannelID::Sound0: return GBATEK::ioRegisterDMA1;
+		case GBA::DMAChannelID::Sound1: return GBATEK::ioRegisterDMA2;
 
 		default:
 		{
@@ -245,7 +245,7 @@ void GBA::Audio::AudioManager::Pause(const tChannelHandle & handle)
 	// Stop playback but leave active for easy resume.
 	const auto* stream = GetDirectSoundChannel(handle);
 	auto timerId = GetTimerIdForDirectSound(stream->dmaTimerId);
-	auto& timer = *GBA::ioRegisterTimers[timerId];
+	auto& timer = *GBATEK::ioRegisterTimers[timerId];
 	timer.isEnabled = false;
 }
 
@@ -289,7 +289,7 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 			{
 				const auto* dSoundChannel = GetDirectSoundChannel(handle);
 
-				GetDMARegister(dSoundChannel->dmaChannelId)->control.enabled = GBA::DMAEnabled::Off;
+				GetDMARegister(dSoundChannel->dmaChannelId)->control.enabled = GBATEK::DMAEnabled::Off;
 
 				// Return direct sound channel as available again.
 				m_availableDSoundChannels.Add(dSoundChannel->soundChannelId);
@@ -338,33 +338,33 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 {
 	// Direct sound timer and GBA timer must be set to the same timer, cannot mix these
 	GBATimerId timerId = GetTimerIdForDirectSound(dmaTimer);
-	volatile GBA::DMARegister1And2& dmaRegister = *GetDMARegister(dmaChannel);
+	volatile GBATEK::DMARegister1And2& dmaRegister = *GetDMARegister(dmaChannel);
 
 	const u8* src = (samples + repeatParams.sampleStartOffset);
 	vu32* dst = DirectSound::GetDestinationBuffer(soundChannel);
 
 	// Reset timer and dma in case there's any previous sound playing
-	auto& timer = *GBA::ioRegisterTimers[timerId];
+	auto& timer = *GBATEK::ioRegisterTimers[timerId];
 	timer.isEnabled = false; 
 
 	// And halt any transfer currently in progress
-	dmaRegister.control.enabled = GBA::DMAEnabled::Off;
+	dmaRegister.control.enabled = GBATEK::DMAEnabled::Off;
 	{
 		dmaRegister.dst = dst;
 		dmaRegister.src = src;
 
-		dmaRegister.control.destinationAdjustment = GBA::DMADesinationAdjustment::Fixed;
-		dmaRegister.control.sourceAdjustment = GBA::DMASourceAdjustment::Increment;
-		dmaRegister.control.repeat = GBA::DMARepeat::On;
-		dmaRegister.control.transferType = GBA::DMATransferType::CopyBy32Bits;
+		dmaRegister.control.destinationAdjustment = GBATEK::DMADesinationAdjustment::Fixed;
+		dmaRegister.control.sourceAdjustment = GBATEK::DMASourceAdjustment::Increment;
+		dmaRegister.control.repeat = GBATEK::DMARepeat::On;
+		dmaRegister.control.transferType = GBATEK::DMATransferType::CopyBy32Bits;
 		// Set the transfer to happen based on the sound timers
-		dmaRegister.control.timingMode = GBA::DMATimingModeSound::SoundFIFO;
-		dmaRegister.control.raiseInterruptUponCompletion = GBA::DMAInterrupt::Disabled;
+		dmaRegister.control.timingMode = GBATEK::DMATimingModeSound::SoundFIFO;
+		dmaRegister.control.raiseInterruptUponCompletion = GBATEK::DMAInterrupt::Disabled;
 		// We're either looping or manually stopping based on AudioManager::OnActiveChannelReachedEof
-		dmaRegister.unitTransferCount = GBA::DMA_UNIT_TRANSFER_COUNT_MAX;
+		dmaRegister.unitTransferCount = GBATEK::DMA_UNIT_TRANSFER_COUNT_MAX;
 	}
 	// Finally start the transfer
-	dmaRegister.control.enabled = GBA::DMAEnabled::On;
+	dmaRegister.control.enabled = GBATEK::DMAEnabled::On;
 
 	// Set the timer to overflow each time we need a new sample
 	timer.SetInitialCount(65536 - repeatParams.ticksPerSampleTransfer);
@@ -373,7 +373,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(
 	auto startTime = Time::CaptureSystemTimeSnapshot();
 
 	// Start audio transfers
-	timer.frequency = GBA::ClockFrequency::Cycle_1;
+	timer.frequency = GBATEK::ClockFrequency::Cycle_1;
 	timer.isEnabled = true;
 
 	// Calculate EOF system time so that we know when to stop or repeat the sound channel, otherwise we'll end up continuing into playing garbage

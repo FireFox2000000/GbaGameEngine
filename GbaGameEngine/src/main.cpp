@@ -112,7 +112,7 @@ int main()
 		entityManager->InternalFinaliseDestroy();
 
 		// Main update
-		GBA::Bios::VBlankInterruptWait();
+		GBATEK::Bios::VBlankInterruptWait();
 
 		// VBlank, must be under 83776 cycles no matter what
 		{
@@ -138,7 +138,7 @@ int main()
 		{
 			engine.GetComponent<Graphics>()->PrepareForSceneChange();
 			sceneManager->Dispose();
-			GBA::Bios::SoftReset();
+			GBATEK::Bios::SoftReset();
 		}
 
 		if (sceneManager->HasSceneChangeQueued())
@@ -158,13 +158,13 @@ int main()
 
 void EnableVBlankIntr()
 {
-	GBA::ioRegisterDisplayStatus->vBlankInterruptRequestEnabled = true;
-	GBA::ioRegisterInterruptEnable->vBlank = true;
+	GBATEK::ioRegisterDisplayStatus->vBlankInterruptRequestEnabled = true;
+	GBATEK::ioRegisterInterruptEnable->vBlank = true;
 }
 
 void RegisterInterrupts()
 {
-	GBA::ioRegisterInterruptMasterEnable->status = GBA::InterruptMasterEnable::Status::DisableAll;
+	GBATEK::ioRegisterInterruptMasterEnable->status = GBATEK::InterruptMasterEnable::Status::DisableAll;
 	EnableVBlankIntr();
-	GBA::ioRegisterInterruptMasterEnable->status = GBA::InterruptMasterEnable::Status::InterruptEnableRegister;
+	GBATEK::ioRegisterInterruptMasterEnable->status = GBATEK::InterruptMasterEnable::Status::InterruptEnableRegister;
 }

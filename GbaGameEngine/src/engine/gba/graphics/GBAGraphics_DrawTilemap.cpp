@@ -253,7 +253,7 @@ static inline void CopyFromMapToVramSingle(
 	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const GBA::BackgroundTilemapEntry* srcMapData
+	, const GBATEK::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size		// Unused, just for compatibility with the other functions. Should be equal to exactly 1. 
 )
@@ -267,7 +267,7 @@ static inline void CopyFromMapToVramLoop(
 	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const GBA::BackgroundTilemapEntry* srcMapData
+	, const GBATEK::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size
 )
@@ -284,7 +284,7 @@ static inline void CopyFromMapToVramMemCpy(
 	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const GBA::BackgroundTilemapEntry* srcMapData
+	, const GBATEK::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size
 )
@@ -298,7 +298,7 @@ typedef void(*Fn)(GBA::VramAllocator& vram
 	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgCol
-	, const GBA::BackgroundTilemapEntry* srcMapData
+	, const GBATEK::BackgroundTilemapEntry* srcMapData
 	, int srcMapIndex
 	, int size); // signature for all valid template params
 
@@ -308,7 +308,7 @@ static inline void CopyMapWrappedRowToVram(
 	, GBA::VramAllocator::tScreenBaseBlockIndex sbbIndex
 	, int destBgRow
 	, int destBgColStart
-	, const GBA::BackgroundTilemapEntry* srcMapData
+	, const GBATEK::BackgroundTilemapEntry* srcMapData
 	, u8 mapWidth
 	, int srcMapRowToCopy
 	, int srcMapColOffset
@@ -365,8 +365,8 @@ namespace GBA
 		newPosition -= drawParams.screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
 		Vector2<int> finalPos(newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt());
-		(*GBA::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].xOffset = finalPos.x;
-		(*GBA::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].yOffset = finalPos.y;
+		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].xOffset = finalPos.x;
+		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].yOffset = finalPos.y;
 
 		if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 		{
@@ -423,7 +423,7 @@ namespace GBA
 					int tilemapYWrappingOffsetPoint = wrapPointsY.tilemapYWrappingOffsetPoint;
 
 					auto LoopColumns = [&](int destBgRow
-						, const GBA::BackgroundTilemapEntry* srcMapData
+						, const GBATEK::BackgroundTilemapEntry* srcMapData
 						, u8 mapWidth
 						, int srcMapColOffset
 						, int size)

@@ -11,6 +11,9 @@ namespace GBA
 	{
 		tTileId Sprite::RenderData::GetTileIndex() const
 		{
+#ifdef RETAIL
+			asdasd
+#endif
 			return m_tileIndex;
 		}
 
@@ -37,8 +40,8 @@ namespace GBA
 		}
 
 		Sprite::Sprite()
-			: m_objectShape(GBA::ObjectShape::Square)
-			, m_objectSize(GBA::ObjectSize::Smallest)
+			: m_objectShape(GBATEK::ObjectShape::Square)
+			, m_objectSize(GBATEK::ObjectSize::Smallest)
 			, m_tileSize(GBAAttrFnVector2())
 			, m_atlus(nullptr)
 			, m_pixelMapData(nullptr)
@@ -46,7 +49,7 @@ namespace GBA
 		{
 		}
 
-		Sprite::Sprite(ObjectShape shape, ObjectSize sizeMode)
+		Sprite::Sprite(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode)
 			: m_objectShape(shape)
 			, m_objectSize(sizeMode)
 			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
@@ -62,12 +65,12 @@ namespace GBA
 			DEBUG_ASSERTMSG(!IsLoaded(), "Sprite was destroyed while it was still loaded in video memory!");
 		}
 
-		ObjectShape Sprite::GetShape() const
+		GBATEK::ObjectShape Sprite::GetShape() const
 		{
 			return m_objectShape;
 		}
 
-		ObjectSize Sprite::GetSizeMode() const
+		GBATEK::ObjectSize Sprite::GetSizeMode() const
 		{
 			return m_objectSize;
 		}

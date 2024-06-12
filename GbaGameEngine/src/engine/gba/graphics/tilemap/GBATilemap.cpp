@@ -38,7 +38,7 @@ u16 GBA::Gfx::Tilemap::GetTileMapLength() const
 	return m_file.m_tileMapDataLength;
 }
 
-const GBA::BackgroundTilemapEntry* GBA::Gfx::Tilemap::GetTileMapData() const
+const GBATEK::BackgroundTilemapEntry* GBA::Gfx::Tilemap::GetTileMapData() const
 {
 	return m_file.m_tileMapData;
 }

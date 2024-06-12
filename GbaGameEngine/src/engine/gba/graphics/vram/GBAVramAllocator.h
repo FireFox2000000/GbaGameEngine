@@ -6,11 +6,14 @@
 #include "engine/gba/graphics/tiles/GBATile.h"
 #include "gbatek/Vram.h"
 
-namespace GBA
+namespace GBATEK
 {
 	struct BackgroundTilemapEntry;
 	union UPixelData;
+}
 
+namespace GBA
+{
 	// Charblocks/Character base block: region of memory for tilesets to be placed. 
 	// ScreenBlocks: region of memory for screen entires to be placed.
 
@@ -35,7 +38,7 @@ namespace GBA
 		static constexpr tScreenBaseBlockIndex INVALID_SBB_ID = -1;
 
 	private:
-		bool LoadTiles(const GBA::UPixelData* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex);
+		bool LoadTiles(const GBATEK::UPixelData* pixelMap, u32 pixelMapSize, u32 compressionFlags, TileBlockGroups tileBlockGroup, u16 startTileIndex);
 
 		enum AllocState
 		{
@@ -47,12 +50,12 @@ namespace GBA
 		// Sprite tile mem allocator
 		// See "OBJ Sprite Memory Management" - https://www.gamasutra.com/view/feature/131491/gameboy_advance_resource_management.php?print=1
 		// This will be wrong in bitmap modes, will only have half memory
-		static constexpr u32 MAX_SPRITE_TILES = ARRAY_SIZE(GBA::VramTileMode::objectTiles);
+		static constexpr u32 MAX_SPRITE_TILES = ARRAY_SIZE(GBATEK::VramTileMode::objectTiles);
 		Array<AllocState, MAX_SPRITE_TILES> m_spriteTileMemTracker;
 		GBA::Gfx::tTileId FindNextFreeSpriteTileSpace(u8 tileCount) const;
 
 		// Background tile mem allocator
-		static constexpr u32 MaxScreenBlocks = ARRAY_SIZE(GBA::VramTileMode::UBackgroundMapsAndTiles::screenBaseBlocks);
+		static constexpr u32 MaxScreenBlocks = ARRAY_SIZE(GBATEK::VramTileMode::UBackgroundMapsAndTiles::screenBaseBlocks);
 		Array<AllocState, MaxScreenBlocks> m_screenEntryTracker;
 
 		VramAllocator();
@@ -60,7 +63,7 @@ namespace GBA
 		tScreenBaseBlockIndex AllocBackgroundMem(u32 dataLengthAsU16, bool charBlockAligned);
 
 	public:
-		GBA::Gfx::tTileId AllocSpriteMem(const GBA::UPixelData* pixelMap, u32 pixelMapSize, u32 compressionFlags);
+		GBA::Gfx::tTileId AllocSpriteMem(const GBATEK::UPixelData* pixelMap, u32 pixelMapSize, u32 compressionFlags);
 		void FreeSpriteMem(GBA::Gfx::tTileId index);
 
 		/// <summary>
@@ -74,11 +77,11 @@ namespace GBA
 		TileBlockGroups AllocBackgroundTileSetMem(u32 tileSetLength);
 
 		void LoadBackgroundTileSetMem(
-			const GBA::UPixelData* tileset,
+			const GBATEK::UPixelData* tileset,
 			u32 tileSetLength,
 			TileBlockGroups cbbIndex);
 
-		void SetBackgroundTileSetMem(const GBA::UPixelData value, u32 tileSetLength, TileBlockGroups cbbIndex);
+		void SetBackgroundTileSetMem(const GBATEK::UPixelData value, u32 tileSetLength, TileBlockGroups cbbIndex);
 
 		/// <summary>
 		/// Allocates screenblocks for tile map memory
@@ -88,24 +91,24 @@ namespace GBA
 		/// </summary>
 		tScreenBaseBlockIndex AllocBackgroundTileMapMem(u32 tileCount);
 
-		void LoadBackgroundTileMapMem(const BackgroundTilemapEntry* mapData,
+		void LoadBackgroundTileMapMem(const GBATEK::BackgroundTilemapEntry* mapData,
 			u32 mapDataLength,
 			tScreenBaseBlockIndex sbbIndex);
 
 		/// <summary>
 		/// Vram memset a single tile
 		/// </summary>
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, BackgroundTilemapEntry data);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, GBATEK::BackgroundTilemapEntry data);
 
 		/// <summary>
 		/// Vram memset the same data
 		/// </summary>
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, BackgroundTilemapEntry data, int dataCount);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, GBATEK::BackgroundTilemapEntry data, int dataCount);
 
 		/// <summary>
 		/// Vram copy an array of data
 		/// </summary>
-		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const BackgroundTilemapEntry* data, int dataSize);
+		void SetBackgroundTileData(tScreenBaseBlockIndex sbbIndex, u32 offset, const GBATEK::BackgroundTilemapEntry* data, int dataSize);
 
 		void FreeBackgroundTileSetMem(TileBlockGroups cbbIndex);
 		void FreeBackgroundTileMapMem(tScreenBaseBlockIndex sbbIndex);

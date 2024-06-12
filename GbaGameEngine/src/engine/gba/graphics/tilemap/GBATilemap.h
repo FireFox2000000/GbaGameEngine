@@ -6,6 +6,10 @@
 namespace GBA 
 {
 	class Graphics;
+}
+
+namespace GBATEK
+{
 	struct BackgroundTilemapEntry;
 }
 
@@ -20,7 +24,7 @@ namespace GBA
 		public:
 			struct FileDataMap
 			{
-				const GBA::BackgroundTilemapEntry* m_tileMapData = nullptr;
+				const GBATEK::BackgroundTilemapEntry* m_tileMapData = nullptr;
 				u16 m_tileMapDataLength = 0;
 				bool m_isDynamicallyRendered = false;		// i.e. not GBA nested
 				Vector2<u8> m_sizeInTiles;
@@ -59,7 +63,7 @@ namespace GBA
 			const Vector2<u8>& GetSizeInTiles() const;
 			const TilemapSet* GetTilemapSet() const;
 			u16 GetTileMapLength() const;
-			const GBA::BackgroundTilemapEntry* GetTileMapData() const;
+			const GBATEK::BackgroundTilemapEntry* GetTileMapData() const;
 			GBA::VramAllocator::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
 			int GetAssignedBackgroundSlot() const;
 			const FileDataMap& GetFile() const { return m_file; }

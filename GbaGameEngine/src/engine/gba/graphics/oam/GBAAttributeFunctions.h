@@ -11,12 +11,12 @@ namespace GBA
 	{
 		namespace AttributeFunctions
 		{
-			GBAAttrFnVector2 GetTileSize(ObjectShape shape, ObjectSize sizeMode);
-			GBAAttrFnVector2 GetPixelSize(ObjectShape shape, ObjectSize sizeMode);
+			GBAAttrFnVector2 GetTileSize(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode);
+			GBAAttrFnVector2 GetPixelSize(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode);
 			GBAAttrFnVector2 GetPixelSize(const GBAAttrFnVector2& tileSize);
 
-			void GetSizeAttributesFromTileSize(const GBAAttrFnVector2& tileSize, ObjectShape& out_shape, ObjectSize& out_sizeMode);
-			void GetSizeAttributesFromPixelSize(const GBAAttrFnVector2& pixelSize, ObjectShape& out_shape, ObjectSize& out_sizeMode);
+			void GetSizeAttributesFromTileSize(const GBAAttrFnVector2& tileSize, GBATEK::ObjectShape& out_shape, GBATEK::ObjectSize& out_sizeMode);
+			void GetSizeAttributesFromPixelSize(const GBAAttrFnVector2& pixelSize, GBATEK::ObjectShape& out_shape, GBATEK::ObjectSize& out_sizeMode);
 		}
 	}
 }

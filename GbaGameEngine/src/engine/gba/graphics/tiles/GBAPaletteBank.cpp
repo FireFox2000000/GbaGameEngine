@@ -6,7 +6,7 @@ constexpr int c_BlockCount4bbp = 16;
 constexpr int c_ColourCount4bbp = 16;
 
 template<u32 SIZE>
-static void LoadPalette(GBA::ColourRGB16* block, const Array<GBA::ColourRGB16, SIZE>& palette)
+static void LoadPalette(GBATEK::ColourRGB16* block, const Array<GBATEK::ColourRGB16, SIZE>& palette)
 {
 	if (block)
 	{
@@ -20,43 +20,43 @@ namespace GBA
 	{
 		void PaletteBank::LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourPalette16& palette)
 		{
-			LoadPalette((*GBA::colourPaletteBackgrounds) + (blockIndex * 16), palette);
+			LoadPalette((*GBATEK::colourPaletteBackgrounds) + (blockIndex * 16), palette);
 		}
 
 		void PaletteBank::LoadBackgroundPalette(const ColourPalette256& palette)
 		{
-			LoadPalette(*GBA::colourPaletteBackgrounds, palette);
+			LoadPalette(*GBATEK::colourPaletteBackgrounds, palette);
 		}
 
 		// 256 colours
-		void PaletteBank::LoadBackgroundPalette(const ColourRGB16* palette, u8 arrLength)
+		void PaletteBank::LoadBackgroundPalette(const GBATEK::ColourRGB16* palette, u8 arrLength)
 		{
-			VramSafeMemCopy(*GBA::colourPaletteBackgrounds, palette, arrLength);
+			VramSafeMemCopy(*GBATEK::colourPaletteBackgrounds, palette, arrLength);
 		}
 
-		void PaletteBank::LoadBackgroundPalette(tPaletteIndex blockIndex, const ColourRGB16* palette, u8 arrLength)
+		void PaletteBank::LoadBackgroundPalette(tPaletteIndex blockIndex, const GBATEK::ColourRGB16* palette, u8 arrLength)
 		{
-			VramSafeMemCopy((*GBA::colourPaletteBackgrounds) + (blockIndex * c_ColourCount4bbp), palette, arrLength);
+			VramSafeMemCopy((*GBATEK::colourPaletteBackgrounds) + (blockIndex * c_ColourCount4bbp), palette, arrLength);
 		}
 
 		void PaletteBank::LoadSpritePalette(tPaletteIndex blockIndex, const ColourPalette16& palette)
 		{
-			LoadPalette((*GBA::colourPaletteObjects) + (blockIndex * c_ColourCount4bbp), palette);
+			LoadPalette((*GBATEK::colourPaletteObjects) + (blockIndex * c_ColourCount4bbp), palette);
 		}
 
 		void PaletteBank::LoadSpritePalette(const ColourPalette256& palette)
 		{
-			LoadPalette(*GBA::colourPaletteObjects, palette);
+			LoadPalette(*GBATEK::colourPaletteObjects, palette);
 		}
 
-		GBA::ColourPalette* PaletteBank::EditSpritePalette()
+		GBATEK::ColourPalette* PaletteBank::EditSpritePalette()
 		{
-			return GBA::colourPaletteObjects;
+			return GBATEK::colourPaletteObjects;
 		}
 
-		GBA::ColourPalette* PaletteBank::EditBackgroundPalette()
+		GBATEK::ColourPalette* PaletteBank::EditBackgroundPalette()
 		{
-			return GBA::colourPaletteBackgrounds;
+			return GBATEK::colourPaletteBackgrounds;
 		}
 	}
 }

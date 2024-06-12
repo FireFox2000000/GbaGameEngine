@@ -7,14 +7,14 @@ void GraphicsSetup::InitialiseStandardGraphics()
 	using namespace GBA::Gfx;
 
 	// We don't need to enable background manually here. That happens during tilemap rendering automatically.
-	GBA::ioRegisterDisplayControl->forceScreenBlank = false;
-	GBA::ioRegisterDisplayControl->videoMode = GBA::VideoMode::Mode0;
-	GBA::ioRegisterDisplayControl->enableSprites = true;
-	GBA::ioRegisterDisplayControl->objectMappingMode = GBA::ObjectMappingMode::OneDimensional;
+	GBATEK::ioRegisterDisplayControl->forceScreenBlank = false;
+	GBATEK::ioRegisterDisplayControl->videoMode = GBATEK::VideoMode::Mode0;
+	GBATEK::ioRegisterDisplayControl->enableSprites = true;
+	GBATEK::ioRegisterDisplayControl->objectMappingMode = GBATEK::ObjectMappingMode::OneDimensional;
 
 	{
 		auto& palette = *PaletteBank::EditBackgroundPalette();
-		constexpr GBA::ColourRGB16 alpha = { 0, 0, 0 };
+		constexpr GBATEK::ColourRGB16 alpha = { 0, 0, 0 };
 		VramSafeMemSet(&palette[0], alpha, 1);			// When no background are active the gba's default is to render the colour in this slot as the background
 	}
 	//{

@@ -27,7 +27,7 @@ public:
 	Colour(u8 r, u8 g, u8 b);
 	~Colour();
 
-	GBA::ColourRGB16 RGB16() const { return { ScaleToMaxRgb16(r), ScaleToMaxRgb16(g), ScaleToMaxRgb16(b) }; }
+	GBATEK::ColourRGB16 RGB16() const { return { ScaleToMaxRgb16(r), ScaleToMaxRgb16(g), ScaleToMaxRgb16(b) }; }
 
 	const static Colour White;
 	const static Colour Black;
@@ -35,7 +35,7 @@ public:
 	const static Colour Green;
 	const static Colour Blue;
 
-	static GBA::ColourRGB16 LerpRgb16(const ColourRgb16Decompressed& from, const ColourRgb16Decompressed& to, tColourLerpT t)
+	static GBATEK::ColourRGB16 LerpRgb16(const ColourRgb16Decompressed& from, const ColourRgb16Decompressed& to, tColourLerpT t)
 	{
 		// Lerp
 		u8 r = LerpU8(from.r, to.r, t);
@@ -43,10 +43,10 @@ public:
 		u8 b = LerpU8(from.b, to.b, t);
 
 		// Recompress
-		return GBA::ColourRGB16{ r, g, b };
+		return GBATEK::ColourRGB16{ r, g, b };
 	}
 
-	static inline ColourRgb16Decompressed DecompressRgb16(GBA::ColourRGB16 rgbColour)
+	static inline ColourRgb16Decompressed DecompressRgb16(GBATEK::ColourRGB16 rgbColour)
 	{
 		ColourRgb16Decompressed colour;
 		colour.r = rgbColour.r;
@@ -56,7 +56,7 @@ public:
 		return colour;
 	}
 
-	static inline GBA::ColourRGB16 LerpRgb16(GBA::ColourRGB16 from, GBA::ColourRGB16 to, tColourLerpT t)
+	static inline GBATEK::ColourRGB16 LerpRgb16(GBATEK::ColourRGB16 from, GBATEK::ColourRGB16 to, tColourLerpT t)
 	{
 		if (from == to) return from;
 

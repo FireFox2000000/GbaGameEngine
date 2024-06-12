@@ -14,22 +14,22 @@ TilemapSet::TilemapSet()
 TilemapSet::TilemapSet(
 	const u8 paletteBankIndex
 	, const u8 paletteLength
-	, const ColourRGB16* palette
+	, const GBATEK::ColourRGB16* palette
 	, const u32 tilesetLength
-	, const GBA::UPixelData* tileset
+	, const GBATEK::UPixelData* tileset
 	, const u32 tileSetDataCompressionFlags
 	, const u8 mapCount
 	, const u8 mapIsDynamicMask
 	, const u8* mapTileWidths
 	, const u8* mapTileHeights
-	, const GBA::BackgroundTilemapEntry* mapData
+	, const GBATEK::BackgroundTilemapEntry* mapData
 )
 {
 	m_file.m_paletteBankIndex = paletteBankIndex;
 	m_file.m_paletteLength = paletteLength;
 	m_file.m_palette = palette;
 
-	m_file.m_backgroundColourMode = Compression::GetBitPackedSrcBpp(tileSetDataCompressionFlags) > 4 ? GBA::BackgroundColourMode::Mode256x1 : GBA::BackgroundColourMode::Mode16x16;
+	m_file.m_backgroundColourMode = Compression::GetBitPackedSrcBpp(tileSetDataCompressionFlags) > 4 ? GBATEK::BackgroundColourMode::Mode256x1 : GBATEK::BackgroundColourMode::Mode16x16;
 	m_file.m_tilesetLength = tilesetLength;
 	m_file.m_tileset = tileset;
 

@@ -12,10 +12,10 @@
 //	m_interruptHandlers[interruptType].Add(handler);
 //}
 
-GBA_ARM_IWRAM_CODE void HandleInterrupts()
+GBATEK_ARM_IWRAM_CODE void HandleInterrupts()
 {
-	GBA::Interrupts activeInterrupts;
-	activeInterrupts.data = GBA::ioRegisterInterruptEnable->data & GBA::ioRegisterInterruptRequestFlags->data;
+	GBATEK::Interrupts activeInterrupts;
+	activeInterrupts.data = GBATEK::ioRegisterInterruptEnable->data & GBATEK::ioRegisterInterruptRequestFlags->data;
 
 	if (activeInterrupts.vBlank)
 	{
@@ -25,13 +25,13 @@ GBA_ARM_IWRAM_CODE void HandleInterrupts()
 		//}
 	}
 
-	GBA::ioRegisterInterruptRequestFlags->AcknowledgeInterrupts(activeInterrupts);
+	GBATEK::ioRegisterInterruptRequestFlags->AcknowledgeInterrupts(activeInterrupts);
 
 	// Acknowledge bios as we're using VBlankInterruptWait
-	GBA::ioRegisterBiosInterruptFlags->AcknowledgeInterrupts(activeInterrupts);
+	GBATEK::ioRegisterBiosInterruptFlags->AcknowledgeInterrupts(activeInterrupts);
 }
 
 void GBA::InterruptSwitchboard::Init()
 {
-	*GBA::ioRegisterInterruptHandler = HandleInterrupts;
+	*GBATEK::ioRegisterInterruptHandler = HandleInterrupts;
 }

@@ -2,7 +2,7 @@
 #include "ColourRGB16.h"
 #include "internal/Internal.h"
 
-namespace GBA
+namespace GBATEK
 {
 	static constexpr int TILES_PER_BLOCK = 512;
 	static constexpr int PIXELS_PER_TILE = 8 * 8;
@@ -73,9 +73,9 @@ namespace GBA
 			// multiple screen base blocks
 			BackgroundTilemapEntry screenBaseBlocks[32][1024];
 
-			static_assert(sizeof(characterBaseBlocks) == GBA_KILOBYTES_TO_BYTES(64),
+			static_assert(sizeof(characterBaseBlocks) == GBATEK_KILOBYTES_TO_BYTES(64),
 				"characterBaseBlocks size must be 64Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-			static_assert(sizeof(screenBaseBlocks) == GBA_KILOBYTES_TO_BYTES(64),
+			static_assert(sizeof(screenBaseBlocks) == GBATEK_KILOBYTES_TO_BYTES(64),
 				"screenBaseBlocks size must be 64Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
 		};
 
@@ -95,9 +95,9 @@ namespace GBA
 			return cbb * 8;
 		}
 
-		static_assert(sizeof(backgroundMapsAndTiles) == GBA_KILOBYTES_TO_BYTES(64),
+		static_assert(sizeof(backgroundMapsAndTiles) == GBATEK_KILOBYTES_TO_BYTES(64),
 			"BackgroundMapsAndTiles size must be 64Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(objectTiles) == GBA_KILOBYTES_TO_BYTES(32), 
+		static_assert(sizeof(objectTiles) == GBATEK_KILOBYTES_TO_BYTES(32),
 			"ObjectTiles size must be 32Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
 	};
 
@@ -108,16 +108,16 @@ namespace GBA
 		ColourRGB16 frameBuffer[240 * 160];
 
 	private:
-		char unusedFrameBuffer[GBA_KILOBYTES_TO_BYTES(5)];
+		char unusedFrameBuffer[GBATEK_KILOBYTES_TO_BYTES(5)];
 
 	public:
 		BaseTile objectTiles[TILES_PER_BLOCK];
 
-		static_assert(sizeof(frameBuffer) + sizeof(unusedFrameBuffer) == GBA_KILOBYTES_TO_BYTES(80),
+		static_assert(sizeof(frameBuffer) + sizeof(unusedFrameBuffer) == GBATEK_KILOBYTES_TO_BYTES(80),
 			"Frame buffer size must be 80Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(frameBuffer) + sizeof(unusedFrameBuffer) == GBA_KILOBYTES_TO_BYTES(80),
+		static_assert(sizeof(frameBuffer) + sizeof(unusedFrameBuffer) == GBATEK_KILOBYTES_TO_BYTES(80),
 			"Frame buffer size must be 80Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(objectTiles) == GBA_KILOBYTES_TO_BYTES(16),
+		static_assert(sizeof(objectTiles) == GBATEK_KILOBYTES_TO_BYTES(16),
 			"ObjectTiles size must be 16Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
 	};
 
@@ -128,22 +128,22 @@ namespace GBA
 		// Read-only, must write in blocks of 16 or 32 bits
 		char frameBuffer0[240 * 160];
 	private:
-		char unusedFrameBuffer0[GBA_KILOBYTES_TO_BYTES(2.5f)];
+		char unusedFrameBuffer0[GBATEK_KILOBYTES_TO_BYTES(2.5f)];
 
 	public:
 		// Read-only, must write in blocks of 16 or 32 bits
 		char frameBuffer1[240 * 160];
 	private:
-		char unusedFrameBuffer1[GBA_KILOBYTES_TO_BYTES(2.5f)];
+		char unusedFrameBuffer1[GBATEK_KILOBYTES_TO_BYTES(2.5f)];
 
 	public:
 		BaseTile objectTiles[TILES_PER_BLOCK];
 
-		static_assert(sizeof(frameBuffer0) + sizeof(unusedFrameBuffer0) == GBA_KILOBYTES_TO_BYTES(40),
+		static_assert(sizeof(frameBuffer0) + sizeof(unusedFrameBuffer0) == GBATEK_KILOBYTES_TO_BYTES(40),
 			"Frame buffer 0 size must be 40Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(frameBuffer1) + sizeof(unusedFrameBuffer1) == GBA_KILOBYTES_TO_BYTES(40),
+		static_assert(sizeof(frameBuffer1) + sizeof(unusedFrameBuffer1) == GBATEK_KILOBYTES_TO_BYTES(40),
 			"Frame buffer 1 size must be 40Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(objectTiles) == GBA_KILOBYTES_TO_BYTES(16),
+		static_assert(sizeof(objectTiles) == GBATEK_KILOBYTES_TO_BYTES(16),
 			"ObjectTiles size must be 16Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
 	};
 
@@ -159,11 +159,11 @@ namespace GBA
 		// Note that GBA::ObjectAttribute::tileId must be 512 + this index
 		BaseTile objectTiles[TILES_PER_BLOCK];
 
-		static_assert(sizeof(frameBuffer0) == GBA_KILOBYTES_TO_BYTES(40),
+		static_assert(sizeof(frameBuffer0) == GBATEK_KILOBYTES_TO_BYTES(40),
 			"Frame buffer 0 size must be 40Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(frameBuffer1) == GBA_KILOBYTES_TO_BYTES(40),
+		static_assert(sizeof(frameBuffer1) == GBATEK_KILOBYTES_TO_BYTES(40),
 			"Frame buffer 1 size must be 40Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
-		static_assert(sizeof(objectTiles) == GBA_KILOBYTES_TO_BYTES(16),
+		static_assert(sizeof(objectTiles) == GBATEK_KILOBYTES_TO_BYTES(16),
 			"ObjectTiles size must be 16Kb - https://www.akkit.org/info/gbatek.htm#lcdvramoverview");
 	};
 

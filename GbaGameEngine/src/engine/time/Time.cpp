@@ -21,11 +21,11 @@ void Time::Start()
 	// Overflow every ~1 second:
 	// 0x4000 ticks @ FREQ_1024
 
-	auto& clockMs = (*GBA::ioRegisterTimers)[GBATimerId::SystemClock1];
-	auto& clockSeconds = (*GBA::ioRegisterTimers)[GBATimerId::SystemClock2];
+	auto& clockMs = (*GBATEK::ioRegisterTimers)[GBATimerId::SystemClock1];
+	auto& clockSeconds = (*GBATEK::ioRegisterTimers)[GBATimerId::SystemClock2];
 
 	clockMs.SetInitialCount(SysClock1StartTicks);
-	clockMs.frequency = GBA::ClockFrequency::Cycle_256;
+	clockMs.frequency = GBATEK::ClockFrequency::Cycle_256;
 	clockMs.isEnabled = true;
 
 	clockSeconds.cascadeModeEnabled = true;
@@ -83,8 +83,8 @@ Time::InternalSnapshot Time::CaptureSystemTimeSnapshot()
 {
 	return 
 	{ 
-		(*GBA::ioRegisterTimers)[GBATimerId::SystemClock1].GetCurrentCount(), 
-		(*GBA::ioRegisterTimers)[GBATimerId::SystemClock2].GetCurrentCount() 
+		(*GBATEK::ioRegisterTimers)[GBATimerId::SystemClock1].GetCurrentCount(),
+		(*GBATEK::ioRegisterTimers)[GBATimerId::SystemClock2].GetCurrentCount()
 	};
 }
 

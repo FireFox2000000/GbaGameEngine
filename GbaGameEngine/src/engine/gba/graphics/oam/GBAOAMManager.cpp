@@ -10,21 +10,21 @@
 #include "gbatek/Timers.h"
 #endif
 
-constexpr GBA::ObjectAttribute MakeDefaultAttribute()
+constexpr GBATEK::ObjectAttribute MakeDefaultAttribute()
 {
-	GBA::ObjectAttribute attr{};
+	GBATEK::ObjectAttribute attr{};
 
 	attr.screenPosY = 0;
-	attr.objectMode = GBA::ObjectMode::Normal;
-	attr.gfxMode = GBA::GfxMode::Normal;
-	attr.mosaic = GBA::MosaicState::Off;
-	attr.colourMode = GBA::ColourMode::FourBitsPerPixel;
-	attr.shape = GBA::ObjectShape::Square;
+	attr.objectMode = GBATEK::ObjectMode::Normal;
+	attr.gfxMode = GBATEK::GfxMode::Normal;
+	attr.mosaic = GBATEK::MosaicState::Off;
+	attr.colourMode = GBATEK::ColourMode::FourBitsPerPixel;
+	attr.shape = GBATEK::ObjectShape::Square;
 
 	attr.screenPosX = 0;
-	attr.flipHorizontal = GBA::ObjectFlippedState::Normal;
-	attr.flipVertical = GBA::ObjectFlippedState::Normal;
-	attr.size = GBA::ObjectSize::Smallest;
+	attr.flipHorizontal = GBATEK::ObjectFlippedState::Normal;
+	attr.flipVertical = GBATEK::ObjectFlippedState::Normal;
+	attr.size = GBATEK::ObjectSize::Smallest;
 
 	attr.vramObjectTileIndex = 0;
 	attr.priority = 0;
@@ -33,7 +33,7 @@ constexpr GBA::ObjectAttribute MakeDefaultAttribute()
 	return attr;
 }
 
-constexpr GBA::ObjectAttribute DEFAULT_ATTR = MakeDefaultAttribute();
+constexpr GBATEK::ObjectAttribute DEFAULT_ATTR = MakeDefaultAttribute();
 
 namespace GBA
 {
@@ -82,17 +82,17 @@ namespace GBA
 
 			// Fast copy ObjectAttributes into memory
 			{
-				u32 byteCount = sizeof(ObjectAttribute) * objectCount;
-				VramSafeMemCopy(GBA::objectAttributeMemory->attributes, m_masterSpriteRenderList.oamProperties.GetContainer(), objectCount);
+				u32 byteCount = sizeof(GBATEK::ObjectAttribute) * objectCount;
+				VramSafeMemCopy(GBATEK::objectAttributeMemory->attributes, m_masterSpriteRenderList.oamProperties.GetContainer(), objectCount);
 
 				// Remove the rest of the objects by clearing them
-				VramSafeMemSet((u8*)&(GBA::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBA::objectAttributeMemory->attributes) - byteCount);
+				VramSafeMemSet((u8*)&(GBATEK::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBATEK::objectAttributeMemory->attributes) - byteCount);
 			}
 
 			const auto& sprites = m_masterSpriteRenderList.sprite;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
-				GBA::ObjectAttribute& oamSpriteHandle = GBA::objectAttributeMemory->attributes[i];
+				GBATEK::ObjectAttribute& oamSpriteHandle = GBATEK::objectAttributeMemory->attributes[i];
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
@@ -105,7 +105,7 @@ namespace GBA
 			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so. 
 			for (u32 i = 0; i < m_affineTransformationList.Count(); ++i)
 			{
-				ObjectAttributeAffine& oamAffineHandle = GBA::objectAttributeMemory->affineAttributes[i];
+				GBATEK::ObjectAttributeAffine& oamAffineHandle = GBATEK::objectAttributeMemory->affineAttributes[i];
 				oamAffineHandle.paFixedPoint8 = m_affineTransformationList[i].a.GetStorage();
 				oamAffineHandle.pbFixedPoint8 = m_affineTransformationList[i].b.GetStorage();
 				oamAffineHandle.pcFixedPoint8 = m_affineTransformationList[i].c.GetStorage();
@@ -171,7 +171,7 @@ namespace GBA
 			m_spriteRenderDoubleBuffer.GetSecondary().Clear();
 		}
 
-		ObjectAttribute* OAMManager::AddToRenderList(Sprite* sprite)
+		GBATEK::ObjectAttribute* OAMManager::AddToRenderList(Sprite* sprite)
 		{
 			OAMManager::tSpriteBuffer& buffer = m_spriteRenderDoubleBuffer.GetPrimary();
 
@@ -184,7 +184,7 @@ namespace GBA
 			DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamProperties.Count() < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
 
 			// Can't render more than 128, will currently crash if this is exceeded
-			ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew(DEFAULT_ATTR);
+			GBATEK::ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew(DEFAULT_ATTR);
 			m_masterSpriteRenderList.sprite.Add(sprite);
 
 			return properties;

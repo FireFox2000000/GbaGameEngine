@@ -40,7 +40,7 @@ UiRenderer::~UiRenderer()
 {
 	DEBUG_LOG("Unloading UiRenderer");
 
-	GBA::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, false);
+	GBATEK::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, false);
 
 	UnloadTilemapSet();
 
@@ -60,8 +60,8 @@ void UiRenderer::AllocateMemory()
 
 	m_backgroundId = GBA::BackgroundAllocator::ReserveBackground();
 
-	auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[m_backgroundId];
-	controlRegister.size = GBA::BackgroundSize::Regular32x32;
+	auto& controlRegister = (*GBATEK::ioRegisterBackgroundControls)[m_backgroundId];
+	controlRegister.size = GBATEK::BackgroundSize::Regular32x32;
 	controlRegister.priority = static_cast<int>(GBA::DrawPriorityID::BgUI);
 	controlRegister.affineWrappingEnabled = false;
 }
@@ -98,14 +98,14 @@ void UiRenderer::LoadAtlus(const u32* file)
 		// Read palette
 		u8 paletteBankIndexOffset = reader.Read<u8>();
 		u8 paletteLength = reader.Read<u8>();
-		GBA::ColourRGB16* palette = reader.ReadAddress<GBA::ColourRGB16>(paletteLength);
+		GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();
-		GBA::BackgroundTilemapEntry clearScreenEntry = reader.Read<GBA::BackgroundTilemapEntry>();
+		GBATEK::BackgroundTilemapEntry clearScreenEntry = reader.Read<GBATEK::BackgroundTilemapEntry>();
 
 		u32 tilesetLength = reader.Read<u32>();
-		GBA::UPixelData* tileset = reader.ReadAddress<GBA::UPixelData>(tilesetLength);
+		GBATEK::UPixelData* tileset = reader.ReadAddress<GBATEK::UPixelData>(tilesetLength);
 
 		// Read maps
 		u8 mapCount = reader.Read<u8>();
@@ -113,7 +113,7 @@ void UiRenderer::LoadAtlus(const u32* file)
 		u8 mapIsDynamicMask = 0;
 		u8* widthMap = reader.ReadAddress<u8>(mapCount);
 		u8* heightMap = reader.ReadAddress<u8>(mapCount);
-		GBA::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBA::BackgroundTilemapEntry>(tileMapDataLength);
+		GBATEK::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
 
 		m_tilemapSet = TilemapSet(
 			paletteBankIndexOffset
@@ -144,16 +144,16 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 	// Assign control register
 	{
-		auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[m_backgroundId];
+		auto& controlRegister = (*GBATEK::ioRegisterBackgroundControls)[m_backgroundId];
 		controlRegister.colourMode = m_tilemapSet.m_file.m_backgroundColourMode;
 		controlRegister.vramCharacterBaseBlockIndex = m_tilemapSet.GetTileSetCharacterBaseBlock();
 		controlRegister.vramScreenBaseBlockIndex = m_mapSbbIndex;
 
-		controlRegister.size = GBA::BackgroundSize::Regular32x32;
+		controlRegister.size = GBATEK::BackgroundSize::Regular32x32;
 		controlRegister.priority = static_cast<int>(GBA::DrawPriorityID::BgUI);
 		controlRegister.affineWrappingEnabled = false;
 
-		GBA::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, true);
+		GBATEK::ioRegisterDisplayControl->SetBackgroundEnabled(m_backgroundId, true);
 	}
 
 	// Clear the screen of any previous data or default will be first tile, need to set to the clear tile. 

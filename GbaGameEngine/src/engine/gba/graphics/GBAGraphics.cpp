@@ -33,7 +33,7 @@ namespace GBA
 	)
 	{
 		using namespace GBA::Gfx;
-		ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
+		GBATEK::ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
 		if (hasAffineTransformation)
 		{
@@ -44,7 +44,7 @@ namespace GBA
 			DEBUG_ASSERTMSGFORMAT(affineIndex < 32, "Affine index out of range %d", affineIndex);
 
 			// Set as double rendering to avoid clipping artifact.
-			renderProperties->objectMode = GBA::ObjectMode::AffineDoubleRendering;
+			renderProperties->objectMode = GBATEK::ObjectMode::AffineDoubleRendering;
 			renderProperties->affineIndex = affineIndex;
 
 			DEBUG_ASSERTMSG(scale.x != 0 && scale.y != 0, "Trying to render affine sprite of scale 0");
@@ -64,12 +64,12 @@ namespace GBA
 			// renderProperties->SetObjectMode(GBA::Gfx::Attributes::ObjectMode::ObjNormal);	// Implicit from reconstruction in AddToRenderList, no need to call this unless we want to waste cycles
 			if (scale.x < 0)
 			{
-				renderProperties->flipHorizontal = GBA::ObjectFlippedState::Mirrored;
+				renderProperties->flipHorizontal = GBATEK::ObjectFlippedState::Mirrored;
 			}
 
 			if (scale.y < 0)
 			{
-				renderProperties->flipVertical = GBA::ObjectFlippedState::Mirrored;
+				renderProperties->flipVertical = GBATEK::ObjectFlippedState::Mirrored;
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace GBA
 	{
 		using namespace GBA::Gfx;
 
-		ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
+		GBATEK::ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
 		renderProperties->priority = static_cast<int>(GBA::DrawPriorityID::ObjFontSprite);
 		renderProperties->screenPosX = position.x.ToRoundedInt();

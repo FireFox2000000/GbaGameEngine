@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GBA
+namespace GBATEK
 {
 	enum class ClockFrequency : unsigned char
 	{

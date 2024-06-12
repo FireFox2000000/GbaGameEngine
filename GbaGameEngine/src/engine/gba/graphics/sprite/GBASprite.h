@@ -4,7 +4,7 @@
 #include "engine/gba/graphics/tiles/GBATile.h"
 #include "gbatek/ObjectAttributeMemory.h"
 
-namespace GBA
+namespace GBATEK
 {
 	union UPixelData;
 }
@@ -40,24 +40,24 @@ namespace GBA
 			friend class SpriteAtlus;
 			friend class OAMManager;
 
-			ObjectShape m_objectShape;
-			ObjectSize m_objectSize;
+			GBATEK::ObjectShape m_objectShape;
+			GBATEK::ObjectSize m_objectSize;
 
 			Vector2<u8> m_tileSize;
 			RenderData m_renderData;
 
 			SpriteAtlus* m_atlus;
-			const GBA::UPixelData* m_pixelMapData;
+			const GBATEK::UPixelData* m_pixelMapData;
 			u32 m_pixelMapDataLength;
 
 			SpriteAtlus* EditAtlus();
 		public:
 			Sprite();
-			Sprite(ObjectShape shape, ObjectSize sizeMode);
+			Sprite(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode);
 			~Sprite();
 
-			ObjectShape GetShape() const;
-			ObjectSize GetSizeMode() const;
+			GBATEK::ObjectShape GetShape() const;
+			GBATEK::ObjectSize GetSizeMode() const;
 			tTileId GetTileIndex() const;
 			tPaletteIndex GetPaletteIndex() const;
 			const SpriteAtlus* GetAtlus() const;

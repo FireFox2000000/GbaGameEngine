@@ -2,7 +2,7 @@
 #include "engine/base/core/stl/Array.h"
 #include "engine/math/Vector2.h"
 
-namespace GBA
+namespace GBATEK
 {
 	enum class BackgroundSize : unsigned char;
 }
@@ -18,7 +18,7 @@ namespace GBA
 		{
 			Array<u8, 4> m_tilesetRefCounter;
 
-			void Load(Tilemap& out_tilemap, u32 tilesToAlloc, GBA::BackgroundSize size, bool isAffine, bool copyMapDirectlyToMemory);
+			void Load(Tilemap& out_tilemap, u32 tilesToAlloc, GBATEK::BackgroundSize size, bool isAffine, bool copyMapDirectlyToMemory);
 
 			// Loads tileset into memory and allocates space for the background. Actual map will load in chunks. 
 			void LoadStaticMap(Tilemap& out_tilemap);

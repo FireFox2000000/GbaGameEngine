@@ -27,7 +27,7 @@
 // GLOBALS 
 // --------------------------------------------------------------------
 
-extern GBA_EWRAM_DATA char nocash_buffer[80];
+extern GBATEK_EWRAM_DATA char nocash_buffer[80];
 
 // --------------------------------------------------------------------
 // PROTOTYPES 
@@ -41,7 +41,7 @@ extern GBA_EWRAM_DATA char nocash_buffer[80];
 extern "C" int nocash_puts(const char *str);
 
 //! Print the current \a nocash_buffer to the no$gba debugger.
-extern "C" GBA_EWRAM_CODE void nocash_message();
+extern "C" GBATEK_EWRAM_CODE void nocash_message();
 
 /*!	\}	*/
 

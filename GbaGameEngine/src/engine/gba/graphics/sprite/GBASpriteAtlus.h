@@ -18,7 +18,7 @@ namespace GBA
 		{
 			friend class SpriteGraphicsMemoryManager;
 
-			const GBA::ColourRGB16* m_palette;
+			const GBATEK::ColourRGB16* m_palette;
 			u8 m_paletteLength;
 			u32 m_spriteDataCompressionFlags;
 			SpriteNode* m_spritesLLHead;

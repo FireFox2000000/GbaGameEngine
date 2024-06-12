@@ -6,10 +6,13 @@
 #include "engine/math/Matrix2x2.h"
 #include "gbatek/ObjectAttributeMemory.h"
 
-namespace GBA
+namespace GBATEK
 {
 	struct ObjectAttribute;
+}
 
+namespace GBA
+{
 	namespace Gfx
 	{
 		class Sprite;
@@ -21,13 +24,13 @@ namespace GBA
 		class OAMManager
 		{
 		public:
-			static constexpr int OBJ_ATTR_COUNT = ARRAY_SIZE(GBA::objectAttributeMemory->attributes);
-			static constexpr int OBJ_AFFINE_COUNT = ARRAY_SIZE(GBA::objectAttributeMemory->affineAttributes);
+			static constexpr int OBJ_ATTR_COUNT = ARRAY_SIZE(GBATEK::objectAttributeMemory->attributes);
+			static constexpr int OBJ_AFFINE_COUNT = ARRAY_SIZE(GBATEK::objectAttributeMemory->affineAttributes);
 
 		private:
 			struct OAMSpriteRenderPropertiesSOA
 			{
-				FixedList<ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
+				FixedList<GBATEK::ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
 				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
 			};
 
@@ -58,7 +61,7 @@ namespace GBA
 
 			// Use this to draw a sprite to the screen for the current frame.
 			// Does not perform sprite screen culling, this is a post-culling step.
-			ObjectAttribute* AddToRenderList(Sprite* sprite);
+			GBATEK::ObjectAttribute* AddToRenderList(Sprite* sprite);
 
 			Matrix2x2* AddToAffineRenderList(u8* out_index);
 		};

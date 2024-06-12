@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GBA
+namespace GBATEK
 {
 	struct VCount
 	{

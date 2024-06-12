@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GBA
+namespace GBATEK
 {
 	enum class BackgroundColourMode : unsigned char
 	{

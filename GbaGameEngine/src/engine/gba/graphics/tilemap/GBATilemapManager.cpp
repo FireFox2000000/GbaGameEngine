@@ -17,7 +17,7 @@ namespace
 		tTileSize(32, 32),	tTileSize(64, 32),	tTileSize(32, 64),	tTileSize(64, 64),
 	};
 
-	GBA::BackgroundSize GetRegSizeFromTileSize(u8 width, u8 height)
+	GBATEK::BackgroundSize GetRegSizeFromTileSize(u8 width, u8 height)
 	{
 		tTileSize tileSize(width, height);
 
@@ -25,16 +25,16 @@ namespace
 		{
 			if (c_SIZEMAP[i] == tileSize)
 			{
-				return GBA::BackgroundSize(i);
+				return GBATEK::BackgroundSize(i);
 			}
 		}
 
 		DEBUG_ERROR("Invalid size, cannot determine GBA Control Register size");
 
-		return GBA::BackgroundSize(-1);
+		return GBATEK::BackgroundSize(-1);
 	}
 
-	GBA::BackgroundSize GetTilemapSize(const Tilemap& tilemap)
+	GBATEK::BackgroundSize GetTilemapSize(const Tilemap& tilemap)
 	{
 		return GetRegSizeFromTileSize(tilemap.GetFile().m_sizeInTiles.x, tilemap.GetFile().m_sizeInTiles.y);
 	}
@@ -56,7 +56,7 @@ void TilemapManager::LoadStaticMap(Tilemap & out_tilemap)
 
 void TilemapManager::LoadDynamicMap(Tilemap & out_tilemap)
 {
-	Load(out_tilemap, VARIABLE_TILEMAP_SIZE.x * VARIABLE_TILEMAP_SIZE.y, GBA::BackgroundSize::Regular32x32, false, false);
+	Load(out_tilemap, VARIABLE_TILEMAP_SIZE.x * VARIABLE_TILEMAP_SIZE.y, GBATEK::BackgroundSize::Regular32x32, false, false);
 }
 
 void TilemapManager::LoadTilemap(Tilemap & out_tilemap)
@@ -91,7 +91,7 @@ void TilemapManager::LoadTileset(TilemapSet* tilemapSet)
 	}
 }
 
-void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::BackgroundSize size, bool isAffine, bool copyMapDirectlyToMemory)
+void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBATEK::BackgroundSize size, bool isAffine, bool copyMapDirectlyToMemory)
 {
 	using namespace GBA;
 
@@ -153,8 +153,8 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBA::Backgrou
 
 	// Finally put our tilemap into the registers
 	{
-		GBA::BackgroundColourMode colourMode = tilemapSet->m_file.m_backgroundColourMode;
-		auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[out_tilemap.GetAssignedBackgroundSlot()];
+		GBATEK::BackgroundColourMode colourMode = tilemapSet->m_file.m_backgroundColourMode;
+		auto& controlRegister = (*GBATEK::ioRegisterBackgroundControls)[out_tilemap.GetAssignedBackgroundSlot()];
 		controlRegister.colourMode = colourMode;
 		controlRegister.vramCharacterBaseBlockIndex = tilemapSet->GetTileSetCharacterBaseBlock();
 		controlRegister.vramScreenBaseBlockIndex = out_tilemap.GetMapScreenBaseBlockIndex();

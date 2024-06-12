@@ -1,7 +1,7 @@
 #pragma once
 #include "internal/Internal.h"
 
-namespace GBA
+namespace GBATEK
 {
 	enum class ObjectMode : unsigned short
 	{
@@ -72,7 +72,7 @@ namespace GBA
 		union
 		{
 			// Disable "warning GAB0A7ABD: ISO C++ prohibits anonymous structs [-Wpedantic]"
-GBA_DIAGNOSTIC_PUSH_IGNORE_WARNING_ANON_STRUCTS
+GBATEK_DIAGNOSTIC_PUSH_IGNORE_WARNING_ANON_STRUCTS
 			struct
 			{
 				// 0 - 511
@@ -92,7 +92,7 @@ GBA_DIAGNOSTIC_PUSH_IGNORE_WARNING_ANON_STRUCTS
 				unsigned short affineIndex : 5;
 				unsigned short : 2;
 			};
-GBA_DIAGNOSTIC_POP
+GBATEK_DIAGNOSTIC_POP
 		};
 
 		/*** Attr 2 ***/
@@ -112,7 +112,7 @@ GBA_DIAGNOSTIC_POP
 		/*** Unused, ObjectAttributeAffine data ***/
 		unsigned short : 16;
 
-	} GBA_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
+	} GBATEK_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
 
 	class ObjectAttributeAffine
 	{
@@ -136,7 +136,7 @@ GBA_DIAGNOSTIC_POP
 		unsigned short fill3[3];
 	public:
 		short pdFixedPoint8;
-	} GBA_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
+	} GBATEK_ALIGN(4);	// See https://www.coranac.com/tonc/text/bitmaps.htm#ssec-data-align
 
 	static_assert(sizeof(ObjectAttribute) == 8, "ObjectAttribute struct malformed");
 	static_assert(sizeof(ObjectAttributeAffine) == 32, "ObjectAttributeAffine struct malformed");
@@ -150,4 +150,4 @@ GBA_DIAGNOSTIC_POP
 	UObjectAttributeMemory* const objectAttributeMemory = reinterpret_cast<UObjectAttributeMemory* const>(0x07000000);
 }
 
-#undef GBA_ALIGN
+#undef GBATEK_ALIGN

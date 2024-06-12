@@ -1,5 +1,5 @@
 #pragma once
-namespace GBA
+namespace GBATEK
 {
 	struct ColourRGB16
 	{

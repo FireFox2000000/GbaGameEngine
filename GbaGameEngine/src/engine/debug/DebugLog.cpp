@@ -11,7 +11,7 @@
 #include "engine/emulator/VisualBoyAdvance.h"
 #endif
 
-GBA_EWRAM_DATA char buffer[256];
+GBATEK_EWRAM_DATA char buffer[256];
 
 using namespace std;
 

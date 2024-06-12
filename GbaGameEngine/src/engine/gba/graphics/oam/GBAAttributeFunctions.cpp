@@ -16,11 +16,11 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		GBAAttrFnVector2 AttributeFunctions::GetTileSize(ObjectShape shape, ObjectSize sizeMode) {
+		GBAAttrFnVector2 AttributeFunctions::GetTileSize(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode) {
 			return c_SIZEMAP[static_cast<int>(shape) * SIZE_COUNT + static_cast<int>(sizeMode)];
 		}
 
-		GBAAttrFnVector2 AttributeFunctions::GetPixelSize(ObjectShape shape, ObjectSize sizeMode) {
+		GBAAttrFnVector2 AttributeFunctions::GetPixelSize(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode) {
 			return GetPixelSize(GetTileSize(shape, sizeMode));
 		}
 
@@ -29,20 +29,20 @@ namespace GBA
 			return tileSize * Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
 		}
 
-		void AttributeFunctions::GetSizeAttributesFromTileSize(const GBAAttrFnVector2 & tileSize, ObjectShape& out_shape, ObjectSize& out_sizeMode)
+		void AttributeFunctions::GetSizeAttributesFromTileSize(const GBAAttrFnVector2 & tileSize, GBATEK::ObjectShape& out_shape, GBATEK::ObjectSize& out_sizeMode)
 		{
 			for (u8 i = 0; i < c_SIZEMAP_COUNT; ++i)
 			{
 				if (c_SIZEMAP[i] == tileSize)
 				{
-					out_shape = ObjectShape(i / SIZE_COUNT);
-					out_sizeMode = ObjectSize(i % SIZE_COUNT);
+					out_shape = GBATEK::ObjectShape(i / SIZE_COUNT);
+					out_sizeMode = GBATEK::ObjectSize(i % SIZE_COUNT);
 					return;
 				}
 			}
 		}
 
-		void AttributeFunctions::GetSizeAttributesFromPixelSize(const GBAAttrFnVector2& pixelSize, ObjectShape& out_shape, ObjectSize& out_sizeMode)
+		void AttributeFunctions::GetSizeAttributesFromPixelSize(const GBAAttrFnVector2& pixelSize, GBATEK::ObjectShape& out_shape, GBATEK::ObjectSize& out_sizeMode)
 		{
 			const GBAAttrFnVector2 tileSize = pixelSize / Tile::PIXELS_SQRROOT_PER_TILE;
 			GetSizeAttributesFromTileSize(tileSize, out_shape, out_sizeMode);

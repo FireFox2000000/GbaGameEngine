@@ -79,14 +79,14 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 			// Update extra effects
 			if (tilemapRenderer.GetDirty())
 			{
-				auto& controlRegister = (*GBA::ioRegisterBackgroundControls)[tilemap->GetAssignedBackgroundSlot()];
+				auto& controlRegister = (*GBATEK::ioRegisterBackgroundControls)[tilemap->GetAssignedBackgroundSlot()];
 
 				// SetAffineWrapping
 				// SetMosaic
 				// SetPriority
 				controlRegister.affineWrappingEnabled = tilemapRenderer.GetWrappingEnabled();
 				
-				GBA::ioRegisterDisplayControl->SetBackgroundEnabled(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
+				GBATEK::ioRegisterDisplayControl->SetBackgroundEnabled(tilemap->GetAssignedBackgroundSlot(), tilemapRenderer.GetVisible());
 
 				tilemapRenderer.ClearDirty();
 			}

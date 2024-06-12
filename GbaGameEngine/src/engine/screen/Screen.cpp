@@ -3,11 +3,11 @@
 
 Vector2<int> Screen::GetResolution()
 {
-	GBA::VideoMode mode = GBA::ioRegisterDisplayControl->videoMode;
+	GBATEK::VideoMode mode = GBATEK::ioRegisterDisplayControl->videoMode;
 
 	switch (mode)
 	{
-	case (GBA::VideoMode::Mode5): return { 160, 128 };
+	case (GBATEK::VideoMode::Mode5): return { 160, 128 };
 	default: return { 240, 160 };
 	}
 }

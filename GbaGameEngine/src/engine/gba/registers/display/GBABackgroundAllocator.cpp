@@ -7,9 +7,9 @@ Bitmask<u8> GetBackgroundsForCurrentVideoMode()
 {
 	Bitmask<u8> mask;
 
-	switch (GBA::ioRegisterDisplayControl->videoMode)
+	switch (GBATEK::ioRegisterDisplayControl->videoMode)
 	{
-	case GBA::VideoMode::Mode0:
+	case GBATEK::VideoMode::Mode0:
 	{
 		mask.SetBit(0);
 		mask.SetBit(1);
@@ -17,14 +17,14 @@ Bitmask<u8> GetBackgroundsForCurrentVideoMode()
 		mask.SetBit(3);
 		break;
 	}
-	case GBA::VideoMode::Mode1:
+	case GBATEK::VideoMode::Mode1:
 	{
 		mask.SetBit(0);
 		mask.SetBit(1);
 		mask.SetBit(2);
 		break;
 	}
-	case GBA::VideoMode::Mode2:
+	case GBATEK::VideoMode::Mode2:
 	{
 		mask.SetBit(2);
 		mask.SetBit(3);
@@ -73,7 +73,7 @@ namespace GBA
 		if (id < MAX_BACKGROUNDS)
 		{
 			s_backgroundPoolTracker.ClearBit(id);	// Clear the bit
-			GBA::ioRegisterDisplayControl->SetBackgroundEnabled(id, false);
+			GBATEK::ioRegisterDisplayControl->SetBackgroundEnabled(id, false);
 		}
 	}
 }

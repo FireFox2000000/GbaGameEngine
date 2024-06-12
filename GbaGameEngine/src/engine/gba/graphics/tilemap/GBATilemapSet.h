@@ -3,7 +3,7 @@
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/colour/Palette.h"
 
-namespace GBA
+namespace GBATEK
 {
 	union UPixelData;
 	struct ColourRGB16;
@@ -23,14 +23,14 @@ namespace GBA
 
 			struct FileDataMap
 			{
-				const GBA::ColourRGB16* m_palette = nullptr;
+				const GBATEK::ColourRGB16* m_palette = nullptr;
 				u8 m_paletteLength = 0;
 				u8 m_paletteBankIndex = 0;
 
-				const GBA::UPixelData* m_tileset = nullptr;
+				const GBATEK::UPixelData* m_tileset = nullptr;
 				u32 m_tilesetLength = 0;
 
-				GBA::BackgroundColourMode m_backgroundColourMode;
+				GBATEK::BackgroundColourMode m_backgroundColourMode;
 			};
 
 			struct RenderData
@@ -49,15 +49,15 @@ namespace GBA
 			TilemapSet(
 				const u8 paletteBankIndex,
 				const u8 paletteLength,
-				const GBA::ColourRGB16* palette,
+				const GBATEK::ColourRGB16* palette,
 				const u32 tilesetLength,
-				const GBA::UPixelData* tileset,
+				const GBATEK::UPixelData* tileset,
 				const u32 tileSetDataCompressionFlags,
 				const u8 mapCount,
 				const u8 mapIsDynamicMask,
 				const u8* mapTileWidths,
 				const u8* mapTileHeights,
-				const GBA::BackgroundTilemapEntry* mapData
+				const GBATEK::BackgroundTilemapEntry* mapData
 			);
 
 			TilemapSet(const TilemapSet & that);
