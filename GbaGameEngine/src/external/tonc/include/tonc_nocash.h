@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "GBASDK/GBA.h"
+#include "gbatek/GBA.h"
 
 /*!	\defgroup grpNocash no$gba debugging
 	\ingroup grpCore

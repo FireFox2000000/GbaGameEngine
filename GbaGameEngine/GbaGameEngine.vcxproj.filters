@@ -243,20 +243,21 @@
     <ClInclude Include="src\game\scripts\states\BgFadeOutState.h" />
     <ClInclude Include="src\game\scripts\states\BgFadeInState.h" />
     <ClInclude Include="src\game\scripts\states\CutsceneState.h" />
-    <ClInclude Include="src\GBASDK\Backgrounds.h" />
-    <ClInclude Include="src\GBASDK\DisplayControl.h" />
-    <ClInclude Include="src\GBASDK\DisplayStatus.h" />
-    <ClInclude Include="src\GBASDK\Keypad.h" />
-    <ClInclude Include="src\GBASDK\Timers.h" />
-    <ClInclude Include="src\GBASDK\VCount.h" />
-    <ClInclude Include="src\GBASDK\GBA.h" />
-    <ClInclude Include="src\GBASDK\Bios.h" />
-    <ClInclude Include="src\GBASDK\Interrupts.h" />
-    <ClInclude Include="src\GBASDK\ObjectAttributeMemory.h" />
-    <ClInclude Include="src\GBASDK\internal\Internal.h" />
-    <ClInclude Include="src\GBASDK\ColourPalettes.h" />
-    <ClInclude Include="src\GBASDK\Vram.h" />
-    <ClInclude Include="src\GBASDK\DirectMemoryAccess.h" />
+    <ClInclude Include="src\gbatek\Backgrounds.h" />
+    <ClInclude Include="src\gbatek\DisplayControl.h" />
+    <ClInclude Include="src\gbatek\DisplayStatus.h" />
+    <ClInclude Include="src\gbatek\Keypad.h" />
+    <ClInclude Include="src\gbatek\Timers.h" />
+    <ClInclude Include="src\gbatek\VCount.h" />
+    <ClInclude Include="src\gbatek\GBA.h" />
+    <ClInclude Include="src\gbatek\Bios.h" />
+    <ClInclude Include="src\gbatek\Interrupts.h" />
+    <ClInclude Include="src\gbatek\ObjectAttributeMemory.h" />
+    <ClInclude Include="src\gbatek\internal\Internal.h" />
+    <ClInclude Include="src\gbatek\ColourPalettes.h" />
+    <ClInclude Include="src\gbatek\Vram.h" />
+    <ClInclude Include="src\gbatek\DirectMemoryAccess.h" />
+    <ClInclude Include="src\gbatek\ColourRGB16.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

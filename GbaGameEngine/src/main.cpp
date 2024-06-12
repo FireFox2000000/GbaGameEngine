@@ -8,7 +8,7 @@
 #include "engine/physics/PhysicsConfig.h"
 
 #include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
-#include "GBASDK/Bios.h"
+#include "gbatek/Bios.h"
 
 #include "engine/input/InputManager.h"
 
@@ -19,8 +19,8 @@
 
 #include "game/data/FileRegistry.h"
 
-#include "GBASDK/DisplayStatus.h"
-#include "GBASDK/Interrupts.h"
+#include "gbatek/DisplayStatus.h"
+#include "gbatek/Interrupts.h"
 
 static void RegisterInterrupts();
 

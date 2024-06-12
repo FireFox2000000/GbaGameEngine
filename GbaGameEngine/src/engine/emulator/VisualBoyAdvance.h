@@ -1,6 +1,6 @@
 #pragma once
-#include "GBASDK/Bios.h"
-#include "GBASDK/internal/Internal.h"
+#include "gbatek/Bios.h"
+#include "gbatek/internal/Internal.h"
 
 namespace VisualBoyAdvance
 {

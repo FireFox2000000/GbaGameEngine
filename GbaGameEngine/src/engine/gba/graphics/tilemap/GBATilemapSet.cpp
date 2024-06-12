@@ -1,8 +1,8 @@
 #include "GBATilemapSet.h"
 #include "engine/base/core/stl/Bitmask.h"
 #include "engine/algorithm/Compression.h"
-#include "GBASDK/Vram.h"
-#include "GBASDK/Backgrounds.h"
+#include "gbatek/Vram.h"
+#include "gbatek/Backgrounds.h"
 
 using namespace GBA::Gfx;
 

@@ -3,7 +3,7 @@
 #include "engine/base/Macros.h"
 #include "engine/math/Math.h"
 #include "engine/base/core/stl/FixedPoint.h"
-#include "GBASDK/ColourPalettes.h"
+#include "gbatek/ColourPalettes.h"
 
 struct ColourRgb16Decompressed
 {

@@ -6,8 +6,8 @@
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
 #include "engine/graphics/font/FontLookupFunctions.h"
 #include "engine/gba/config/GBADrawPriorityID.h"
-#include "GBASDK/DisplayControl.h"
-#include "GBASDK/Backgrounds.h"
+#include "gbatek/DisplayControl.h"
+#include "gbatek/Backgrounds.h"
 
 constexpr int DynamicBackgroundSize = 32;
 

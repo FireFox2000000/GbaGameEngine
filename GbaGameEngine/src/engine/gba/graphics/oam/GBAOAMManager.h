@@ -4,7 +4,7 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/sprite/GBASpriteGraphicsMemoryManager.h"
 #include "engine/math/Matrix2x2.h"
-#include "GBASDK/ObjectAttributeMemory.h"
+#include "gbatek/ObjectAttributeMemory.h"
 
 namespace GBA
 {

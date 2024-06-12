@@ -1,5 +1,5 @@
 #pragma once
-#include "GBASDK/Interrupts.h"
+#include "Interrupts.h"
 #include "internal/Internal.h"
 
 namespace GBA

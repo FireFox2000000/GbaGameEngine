@@ -3,7 +3,7 @@
 #include "engine/gameobject/GameObject.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/gba/config/GBADrawPriorityID.h"
-#include "GBASDK/ObjectAttributeMemory.h"
+#include "gbatek/ObjectAttributeMemory.h"
 
 namespace GBA
 {

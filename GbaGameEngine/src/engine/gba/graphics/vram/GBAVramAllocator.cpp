@@ -6,7 +6,7 @@
 
 #if defined(DECOMPRESSION_PROFILE) || defined(VRAM_TRANSFER_PROFILE)
 #include "engine/gba/config/GBATimerId.h"
-#include "GBASDK/Timers.h"
+#include "gbatek/Timers.h"
 #endif
 
 using namespace GBA::Gfx;

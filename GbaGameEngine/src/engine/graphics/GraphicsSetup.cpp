@@ -1,5 +1,5 @@
 #include "GraphicsSetup.h"
-#include "GBASDK/DisplayControl.h"
+#include "gbatek/DisplayControl.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 
 void GraphicsSetup::InitialiseStandardGraphics()

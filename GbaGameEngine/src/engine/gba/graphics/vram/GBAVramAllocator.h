@@ -4,7 +4,7 @@
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
-#include "GBASDK/Vram.h"
+#include "gbatek/Vram.h"
 
 namespace GBA
 {

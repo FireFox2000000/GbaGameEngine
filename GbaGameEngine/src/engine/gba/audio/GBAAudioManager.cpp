@@ -2,8 +2,8 @@
 #include "engine/gba/registers/RegisterMap.h"
 #include "engine/io/filestream/CppFileReader.h"
 #include "engine/gba/config/GBATimerId.h"
-#include "GBASDK/Timers.h"
-#include "GBASDK/DirectMemoryAccess.h"
+#include "gbatek/Timers.h"
+#include "gbatek/DirectMemoryAccess.h"
 
 struct SoundStatusRegister
 {

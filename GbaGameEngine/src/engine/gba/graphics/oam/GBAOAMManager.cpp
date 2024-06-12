@@ -7,7 +7,7 @@
 //#define RENDER_PROFILE
 #if defined(RENDER_PROFILE)
 #include "engine/gba/config/GBATimerId.h"
-#include "GBASDK/Timers.h"
+#include "gbatek/Timers.h"
 #endif
 
 constexpr GBA::ObjectAttribute MakeDefaultAttribute()

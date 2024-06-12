@@ -2,7 +2,7 @@
 #include "engine/math/Vector2.h" 
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
-#include "GBASDK/ObjectAttributeMemory.h"
+#include "gbatek/ObjectAttributeMemory.h"
 
 namespace GBA
 {

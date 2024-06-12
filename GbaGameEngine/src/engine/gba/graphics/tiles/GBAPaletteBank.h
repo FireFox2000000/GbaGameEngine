@@ -2,7 +2,7 @@
 
 #include "engine/base/Typedefs.h"
 #include "engine/base/colour/Palette.h"
-#include "GBASDK/ColourPalettes.h"
+#include "gbatek/ColourPalettes.h"
 
 namespace GBA
 {

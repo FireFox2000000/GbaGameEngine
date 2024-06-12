@@ -1,5 +1,5 @@
 #include "GBABackgroundAllocator.h"
-#include "GBASDK/DisplayControl.h"
+#include "gbatek/DisplayControl.h"
 
 constexpr int MAX_BACKGROUNDS = 4;
 

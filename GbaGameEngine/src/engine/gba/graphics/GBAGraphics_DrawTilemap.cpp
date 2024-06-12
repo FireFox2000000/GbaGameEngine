@@ -4,8 +4,8 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/screen/Screen.h"
 #include "engine/time/Time.h"
-#include "GBASDK/Vram.h"
-#include "GBASDK/Backgrounds.h"
+#include "gbatek/Vram.h"
+#include "gbatek/Backgrounds.h"
 
 //#define LOG_RENDER_ROWCOLS
 //#define PROFILE_RENDER

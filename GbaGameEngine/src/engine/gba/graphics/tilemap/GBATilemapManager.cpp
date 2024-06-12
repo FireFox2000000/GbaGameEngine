@@ -4,7 +4,7 @@
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/gba/graphics/tilemap/GBATilemapSet.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
-#include "GBASDK/Backgrounds.h"
+#include "gbatek/Backgrounds.h"
 
 using namespace GBA::Gfx;
 

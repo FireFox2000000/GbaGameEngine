@@ -1,5 +1,5 @@
 #include "Screen.h"
-#include "GBASDK/DisplayControl.h"
+#include "gbatek/DisplayControl.h"
 
 Vector2<int> Screen::GetResolution()
 {

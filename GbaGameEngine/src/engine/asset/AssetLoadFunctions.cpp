@@ -5,7 +5,7 @@
 #include "engine/engine/Engine.h"
 #include "engine/base/core/stl/Pool.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
-#include "GBASDK/Vram.h"
+#include "gbatek/Vram.h"
 
 using namespace GBA::Gfx;
 

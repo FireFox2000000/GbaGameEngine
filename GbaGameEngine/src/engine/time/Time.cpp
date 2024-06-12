@@ -1,6 +1,6 @@
 #include "Time.h"
 #include "engine/gba/config/GBATimerId.h"
-#include "GBASDK/Timers.h"
+#include "gbatek/Timers.h"
 
 constexpr u16 MS_TIMER_START = 0x0;
 constexpr u16 SysClock1StartTicks = u16(-MS_TIMER_START);

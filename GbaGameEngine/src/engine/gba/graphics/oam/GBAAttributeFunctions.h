@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/math/Vector2.h"
-#include "GBASDK/ObjectAttributeMemory.h"
+#include "gbatek/ObjectAttributeMemory.h"
 
 typedef Vector2<u8> GBAAttrFnVector2;
 

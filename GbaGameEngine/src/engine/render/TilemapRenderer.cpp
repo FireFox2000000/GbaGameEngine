@@ -2,7 +2,7 @@
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/Macros.h"
 #include "engine/graphics/Graphics.h"
-#include "GBASDK/Backgrounds.h"
+#include "gbatek/Backgrounds.h"
 
 void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
@@ -46,7 +46,7 @@ bool Component::TilemapRenderer::GetVisible() const
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
-#include "GBASDK/DisplayControl.h"
+#include "gbatek/DisplayControl.h"
 
 void System::TilemapRenderer::VBlankRender(GameObject* camera)
 {

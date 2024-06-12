@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/gba/graphics/tilemap/GBATilemapSet.h"
-#include "GBASDK/Vram.h"
+#include "gbatek/Vram.h"
 #include <string>
 
 class UiRenderer

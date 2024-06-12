@@ -1,7 +1,7 @@
 #include "GbaKeypadDevice.h"
 
 #include "GbaKeypadMap.h"
-#include "GBASDK/Keypad.h"
+#include "gbatek/Keypad.h"
 
 bool Input::GbaKeypadDevice::IsConnected() const
 {

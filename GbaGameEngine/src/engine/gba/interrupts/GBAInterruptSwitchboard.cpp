@@ -1,6 +1,6 @@
 #include "GBAInterruptSwitchboard.h"
-#include "GBASDK/GBA.h"
-#include "GBASDK/Interrupts.h"
+#include "gbatek/GBA.h"
+#include "gbatek/Interrupts.h"
 #include "engine/base/core/stl/Array.h"
 #include "engine/base/core/stl/List.h"
 

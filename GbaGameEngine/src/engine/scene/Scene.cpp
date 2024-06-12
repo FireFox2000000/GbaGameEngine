@@ -11,7 +11,7 @@
 //#define RENDER_PROFILE
 #ifdef RENDER_PROFILE
 #include "engine/gba/config/GBATimerId.h"
-#include "GBASDK/Timers.h"
+#include "gbatek/Timers.h"
 #endif
 
 Scene::Scene()

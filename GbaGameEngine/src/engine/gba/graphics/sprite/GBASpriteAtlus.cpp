@@ -3,7 +3,7 @@
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
 #include "engine/io/filestream/CppFileReader.h"
 #include "engine/base/core/stl/Pool.h"
-#include "GBASDK/Vram.h"
+#include "gbatek/Vram.h"
 
 namespace GBA
 {

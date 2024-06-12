@@ -76,7 +76,7 @@ namespace GBA
 	using InterruptHandlerFnPtr = void (*)(void);
 
 	// Note that the code pointed to here must be ARM code
-	// Mark your function with GBA_ARM_IWRAM_CODE from GBASDK/GBA.h to be compatible
+	// Mark your function with GBA_ARM_IWRAM_CODE from gbatek/GBA.h to be compatible
 	InterruptHandlerFnPtr* const ioRegisterInterruptHandler = reinterpret_cast<InterruptHandlerFnPtr*>(0x03007FFC);
 	
 	Interrupts* const ioRegisterInterruptEnable = reinterpret_cast<Interrupts*>(0x4000200);

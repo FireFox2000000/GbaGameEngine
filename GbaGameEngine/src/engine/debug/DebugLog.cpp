@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "engine/base/Macros.h"
-#include "GBASDK/GBA.h"
+#include "gbatek/GBA.h"
 
 #ifdef NOCASH_GBA
 #include "engine/emulator/NoCashEmulator.h"
