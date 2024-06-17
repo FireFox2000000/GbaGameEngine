@@ -37,10 +37,8 @@ void Debug::Log(const char * message)
 #elif defined(VBA_GBA)
 	VisualBoyAdvance::AGBPrint(message);
 	VisualBoyAdvance::AGBPrint("\n");
-#elif defined(RETAIL)
-
-#else
-	"Implement me!!"
+#elif defined(ENABLE_LOGGING)
+	static_assert(false, "Logging method not implemented");
 #endif
 }
 

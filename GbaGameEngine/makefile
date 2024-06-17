@@ -20,8 +20,10 @@ include $(DEVKITARM)/gba_rules
 # the makefile is found
 #
 #---------------------------------------------------------------------------------
-TARGET_DIR	:= $(CURDIR)/bin
+OUTPUT_DIR	:= default_output_dir
+TARGET_DIR	:= $(OUTPUT_DIR)
 TARGET		:= $(notdir $(CURDIR))
+BUILD_DIR   := $(OUTPUT_DIR)
 BUILD		:= build
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 SOURCES		:= $(shell find src -type d)
@@ -31,27 +33,15 @@ DATA		:=
 MUSIC		:=
 
 #---------------------------------------------------------------------------------
-# use "make BUILD_TYPE=RETAIL" to remove debugging overhead.
-#---------------------------------------------------------------------------------
-BUILD_TYPE = 0
-
-#---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-mthumb -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O2 -flto -pedantic\
+CFLAGS	+=	-g -Wall -O2 -flto -pedantic\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
-		$(ARCH)
+		$(ARCH) $(CFLAGSAPPENDED)
 
 CFLAGS	+=	$(INCLUDE)
-
-ifeq ($(BUILD_TYPE),RETAIL)
-CFLAGS	+=	-DRETAIL
-endif
-
-retail:	CFLAGS += -DRETAIL
-retail:	CXXFLAGS += -DRETAIL
 
 CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++17
 
@@ -77,13 +67,13 @@ LIBDIRS	:=
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
-export OUTPUT	:=	$(TARGET_DIR)/$(TARGET)
+export OUTPUT	:=	$(CURDIR)/$(TARGET_DIR)/$(TARGET)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 			$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
 			$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir))
 
-export DEPSDIR	:=	$(CURDIR)/$(BUILD)
+export DEPSDIR	:=	$(CURDIR)/$(BUILD_DIR)/$(BUILD)
 
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
@@ -120,32 +110,26 @@ export HFILES += $(addsuffix .hpp,$(subst .,_,$(BINFILES)))
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD)
+					-I$(CURDIR)/$(BUILD_DIR)/$(BUILD)
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
+PREMAKE := 	@echo "Running premake...";	\
+	sh scripts/update_gamefiles.sh src/game/data src/game/data/GameFiles.gen.h; \
+	-d $(BUILD_DIR)/$(BUILD) || mkdir -p $(BUILD_DIR)/$(BUILD); \
+	-d $(TARGET_DIR) || mkdir -p $(TARGET_DIR); \
+
 .PHONY: $(BUILD) clean
-.PHONY: $(BUILD) retail
 
 #---------------------------------------------------------------------------------
 $(BUILD):
-	sh scripts/update_gamefiles.sh src/game/data src/game/data/GameFiles.gen.h
-	@[ -d $@ ] || mkdir -p $@
-	@[ -d $(TARGET_DIR) ] || mkdir -p $(TARGET_DIR)
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	$(PREMAKE)
+	@$(MAKE) --no-print-directory -C $(BUILD_DIR)/$(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET_DIR)/$(TARGET).elf $(TARGET_DIR)/$(TARGET).gba
-
-
-#---------------------------------------------------------------------------------
-
-retail:
-	@echo $(CXXFLAGS)
-	@[ -d $@ ] || mkdir -p $@
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@rm -fr $(BUILD_DIR)/$(BUILD) $(TARGET_DIR)/$(TARGET).elf $(TARGET_DIR)/$(TARGET).gba
 
 #---------------------------------------------------------------------------------
 else

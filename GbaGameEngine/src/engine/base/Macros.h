@@ -29,7 +29,7 @@
 #endif
 
 #ifdef NOCASH_GBA
-#include "engine/nocashemulator/NoCashEmulator.h"
+#include "engine/emulator/NoCashEmulator.h"
 #define BREAKPOINT() NoCashEmulator::NativeBreakpoint()
 #else
 #define BREAKPOINT()

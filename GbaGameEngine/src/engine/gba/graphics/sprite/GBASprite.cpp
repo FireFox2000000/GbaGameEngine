@@ -11,9 +11,6 @@ namespace GBA
 	{
 		tTileId Sprite::RenderData::GetTileIndex() const
 		{
-#ifdef RETAIL
-			asdasd
-#endif
 			return m_tileIndex;
 		}
 
