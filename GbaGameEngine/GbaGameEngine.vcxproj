@@ -65,8 +65,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=debug CFLAGSAPPENDED="-DDEBUG"</NMakeBuildCommandLine>
-    <NMakeCleanCommandLine>make clean OUTPUT_DIR=debug</NMakeCleanCommandLine>
+make OUTPUT_DIR=$(Configuration) CFLAGSAPPENDED="-DDEBUG"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>DEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>
