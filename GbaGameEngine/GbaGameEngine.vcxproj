@@ -65,10 +65,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) CFLAGSAPPENDED="-DDEBUG"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_VisualBoyAdvance"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>DEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>DEBUG;Platform_VisualBoyAdvance$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>
     </NMakeIncludeSearchPath>
     <NMakeAssemblySearchPath>
@@ -83,11 +83,10 @@ make OUTPUT_DIR=$(Configuration) CFLAGSAPPENDED="-DDEBUG"</NMakeBuildCommandLine
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>%PATH%
-make</NMakeBuildCommandLine>
-    <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>make clean &amp;&amp; %PATH%
-make all</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DRELEASE"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>RELEASE$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -198,7 +197,6 @@ make all</NMakeReBuildCommandLine>
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
     <ClInclude Include="src\engine\audio\music\Note.h" />
-    <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\stl\Bitmask.h" />
     <ClInclude Include="src\engine\base\core\Memory.h" />

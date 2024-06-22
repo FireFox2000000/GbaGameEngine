@@ -39,7 +39,7 @@ ARCH	:=	-mthumb -mthumb-interwork
 
 CFLAGS	+=	-g -Wall -O2 -flto -pedantic\
 		-mcpu=arm7tdmi -mtune=arm7tdmi\
-		$(ARCH) $(CFLAGSAPPENDED)
+		$(ARCH) $(PREPROCESSOR_DEFINES)
 
 CFLAGS	+=	$(INCLUDE)
 

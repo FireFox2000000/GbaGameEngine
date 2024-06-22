@@ -5,9 +5,9 @@
 #include "engine/base/Macros.h"
 #include "gbatek/GBA.h"
 
-#ifdef NOCASH_GBA
+#ifdef Platform_NoCash
 #include "engine/emulator/NoCashEmulator.h"
-#elif defined(VBA_GBA)
+#elif defined(Platform_VisualBoyAdvance)
 #include "engine/emulator/VisualBoyAdvance.h"
 #endif
 
@@ -31,13 +31,13 @@ inline void VLogFormat(const char* format, va_list args)
 
 void Debug::Log(const char * message)
 {
-#ifdef NOCASH_GBA
+#ifdef Platform_NoCash
 	// Write to the nocash GBA emulator TTY message service.
 	NoCashEmulator::PutS(message);
-#elif defined(VBA_GBA)
+#elif defined(Platform_VisualBoyAdvance)
 	VisualBoyAdvance::AGBPrint(message);
 	VisualBoyAdvance::AGBPrint("\n");
-#elif defined(ENABLE_LOGGING)
+#elif !defined(RELEASE)
 	static_assert(false, "Logging method not implemented");
 #endif
 }

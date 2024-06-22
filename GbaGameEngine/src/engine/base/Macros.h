@@ -1,6 +1,4 @@
 #pragma once
-#include "engine/base/BuildConfig.h"
-#include <type_traits>
 
 #define UNUSED(x) ((void)(x))		// Disable compiler warnings on unused variables
 
@@ -24,11 +22,11 @@
 #	define NULL nullptr
 #endif
 
-#ifdef ENABLE_LOGGING
+#if defined(PROFILE) || defined(DEBUG)
 #include "engine/debug/DebugLog.h"
 #endif
 
-#ifdef NOCASH_GBA
+#ifdef Platform_NoCash
 #include "engine/emulator/NoCashEmulator.h"
 #define BREAKPOINT() NoCashEmulator::NativeBreakpoint()
 #else

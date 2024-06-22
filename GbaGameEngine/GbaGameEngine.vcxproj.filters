@@ -89,7 +89,6 @@
     <ClInclude Include="src\engine\algorithm\Compression.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
-    <ClInclude Include="src\engine\base\BuildConfig.h" />
     <ClInclude Include="src\engine\base\colour\Palette.h" />
     <ClInclude Include="src\engine\base\core\Memory.h" />
     <ClInclude Include="src\engine\base\core\stl\FixedPoint.h" />
