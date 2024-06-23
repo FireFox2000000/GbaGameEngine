@@ -1,14 +1,10 @@
 #ifndef ENTT_CORE_MONOSTATE_HPP
 #define ENTT_CORE_MONOSTATE_HPP
 
-
-#include <cassert>
 #include "../config/config.h"
-#include "hashed_string.hpp"
-
+#include "fwd.hpp"
 
 namespace entt {
-
 
 /**
  * @brief Minimal implementation of the monostate pattern.
@@ -21,7 +17,7 @@ namespace entt {
  * both during an assignment and when they try to read back their data.
  * Otherwise, they can incur in unexpected results.
  */
-template<hashed_string::hash_type>
+template<id_type>
 struct monostate {
     /**
      * @brief Assigns a value of a specific type to a given key.
@@ -29,7 +25,7 @@ struct monostate {
      * @param val User data to assign to the given key.
      */
     template<typename Type>
-    void operator=(Type val) const ENTT_NOEXCEPT {
+    void operator=(Type val) const noexcept {
         value<Type> = val;
     }
 
@@ -39,25 +35,22 @@ struct monostate {
      * @return Stored value, if any.
      */
     template<typename Type>
-    operator Type() const ENTT_NOEXCEPT {
+    operator Type() const noexcept {
         return value<Type>;
     }
 
 private:
     template<typename Type>
-    inline static maybe_atomic_t<Type> value{};
+    inline static ENTT_MAYBE_ATOMIC(Type) value{};
 };
-
 
 /**
  * @brief Helper variable template.
  * @tparam Value Value used to differentiate between different variables.
  */
-template<hashed_string::hash_type Value>
+template<id_type Value>
 inline monostate<Value> monostate_v = {};
 
+} // namespace entt
 
-}
-
-
-#endif // ENTT_CORE_MONOSTATE_HPP
+#endif

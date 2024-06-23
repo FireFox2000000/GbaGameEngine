@@ -23,13 +23,13 @@ namespace ECS
 		template<typename Component, typename... Args>
 		inline Component& AddComponent(const Entity entity, Args&& ... args)
 		{
-			return m_registry.assign_or_replace<Component, Args...>(entity, std::forward<Args>(args)...);
+			return m_registry.emplace_or_replace<Component, Args...>(entity, std::forward<Args>(args)...);
 		}
 
 		template<typename Component>
 		inline void RemoveComponent(const Entity entity)
 		{
-			return m_registry.remove<Component>(entity);
+			m_registry.remove<Component>(entity);
 		}
 
 		template<typename Component>
@@ -47,7 +47,7 @@ namespace ECS
 		template<typename Component>
 		inline bool HasComponent(const Entity entity)
 		{
-			return m_registry.has<Component>(entity);
+			return m_registry.try_get<Component>(entity);
 		}
 
 		template<typename... Component>
@@ -58,11 +58,6 @@ namespace ECS
 		template<typename... Component, typename Func>
 		inline void InvokeEach(Func func) {
 			m_registry.view<Component...>().each(func);
-		}
-
-		size_t Alive()
-		{
-			return m_registry.alive();
 		}
 	};
 }

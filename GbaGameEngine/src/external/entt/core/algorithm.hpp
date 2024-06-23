@@ -1,14 +1,14 @@
 #ifndef ENTT_CORE_ALGORITHM_HPP
 #define ENTT_CORE_ALGORITHM_HPP
 
-
-#include <functional>
 #include <algorithm>
+#include <functional>
+#include <iterator>
 #include <utility>
-
+#include <vector>
+#include "utility.hpp"
 
 namespace entt {
-
 
 /**
  * @brief Function object to wrap `std::sort` in a class type.
@@ -33,11 +33,10 @@ struct std_sort {
      * @param args Arguments to forward to the sort function, if any.
      */
     template<typename It, typename Compare = std::less<>, typename... Args>
-    void operator()(It first, It last, Compare compare = Compare{}, Args &&... args) const {
+    void operator()(It first, It last, Compare compare = Compare{}, Args &&...args) const {
         std::sort(std::forward<Args>(args)..., std::move(first), std::move(last), std::move(compare));
     }
 };
-
 
 /*! @brief Function object for performing insertion sort. */
 struct insertion_sort {
@@ -54,25 +53,86 @@ struct insertion_sort {
      */
     template<typename It, typename Compare = std::less<>>
     void operator()(It first, It last, Compare compare = Compare{}) const {
-        if(first != last) {
-            auto it = first + 1;
+        if(first < last) {
+            for(auto it = first + 1; it < last; ++it) {
+                auto value = std::move(*it);
+                auto pre = it;
 
-            while(it != last) {
-                auto pre = it++;
-                auto value = *pre;
-
-                while(pre-- != first && compare(value, *pre)) {
-                    *(pre+1) = *pre;
+                for(; pre > first && compare(value, *(pre - 1)); --pre) {
+                    *pre = std::move(*(pre - 1));
                 }
 
-                *(pre+1) = value;
+                *pre = std::move(value);
             }
         }
     }
 };
 
+/**
+ * @brief Function object for performing LSD radix sort.
+ * @tparam Bit Number of bits processed per pass.
+ * @tparam N Maximum number of bits to sort.
+ */
+template<std::size_t Bit, std::size_t N>
+struct radix_sort {
+    static_assert((N % Bit) == 0, "The maximum number of bits to sort must be a multiple of the number of bits processed per pass");
 
-}
+    /**
+     * @brief Sorts the elements in a range.
+     *
+     * Sorts the elements in a range using the given _getter_ to access the
+     * actual data to be sorted.
+     *
+     * This implementation is inspired by the online book
+     * [Physically Based Rendering](http://www.pbr-book.org/3ed-2018/Primitives_and_Intersection_Acceleration/Bounding_Volume_Hierarchies.html#RadixSort).
+     *
+     * @tparam It Type of random access iterator.
+     * @tparam Getter Type of _getter_ function object.
+     * @param first An iterator to the first element of the range to sort.
+     * @param last An iterator past the last element of the range to sort.
+     * @param getter A valid _getter_ function object.
+     */
+    template<typename It, typename Getter = identity>
+    void operator()(It first, It last, Getter getter = Getter{}) const {
+        if(first < last) {
+            constexpr auto passes = N / Bit;
 
+            using value_type = typename std::iterator_traits<It>::value_type;
+            std::vector<value_type> aux(std::distance(first, last));
 
-#endif // ENTT_CORE_ALGORITHM_HPP
+            auto part = [getter = std::move(getter)](auto from, auto to, auto out, auto start) {
+                constexpr auto mask = (1 << Bit) - 1;
+                constexpr auto buckets = 1 << Bit;
+
+                std::size_t index[buckets]{};
+                std::size_t count[buckets]{};
+
+                for(auto it = from; it != to; ++it) {
+                    ++count[(getter(*it) >> start) & mask];
+                }
+
+                for(std::size_t pos{}, end = buckets - 1u; pos < end; ++pos) {
+                    index[pos + 1u] = index[pos] + count[pos];
+                }
+
+                for(auto it = from; it != to; ++it) {
+                    out[index[(getter(*it) >> start) & mask]++] = std::move(*it);
+                }
+            };
+
+            for(std::size_t pass = 0; pass < (passes & ~1); pass += 2) {
+                part(first, last, aux.begin(), pass * Bit);
+                part(aux.begin(), aux.end(), first, (pass + 1) * Bit);
+            }
+
+            if constexpr(passes & 1) {
+                part(first, last, aux.begin(), (passes - 1) * Bit);
+                std::move(aux.begin(), aux.end(), first);
+            }
+        }
+    }
+};
+
+} // namespace entt
+
+#endif
