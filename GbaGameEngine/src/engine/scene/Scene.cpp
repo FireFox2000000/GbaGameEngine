@@ -7,12 +7,9 @@
 #include "engine/render/TilemapRenderer.h"
 #include "engine/graphics/Graphics.h"
 #include "engine/physics/PhysicsResolve.h"
+#include "engine/debug/Profiler.h"
 
 //#define RENDER_PROFILE
-#ifdef RENDER_PROFILE
-#include "engine/gba/config/GBATimerId.h"
-#include "gbatek/Timers.h"
-#endif
 
 Scene::Scene()
 	: m_mainCamera()
@@ -40,23 +37,18 @@ void Scene::FixedUpdate()
 
 void Scene::PreRender()
 {
+	{
 #ifdef RENDER_PROFILE
-	auto& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
-	profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
-	profilerClock.isEnabled = true;
+		PROFILE_SCOPED_CLOCK_64(Prerender_System_SpriteRenderer_Render);
 #endif
-	System::SpriteRenderer::Render(&m_mainCamera);
+		System::SpriteRenderer::Render(&m_mainCamera);
+	}
+	{
 #ifdef RENDER_PROFILE
-	DEBUG_LOGFORMAT("[Profile Prerender System::SpriteRenderer::Render] = %d", profilerClock.GetCurrentCount());
-	profilerClock.isEnabled = false;
-
-	profilerClock.isEnabled = true;
+		PROFILE_SCOPED_CLOCK_64(Prerender_System_UI_TextRenderer__Render);
 #endif
-	System::UI::TextRenderer::Render();
-#ifdef RENDER_PROFILE
-	DEBUG_LOGFORMAT("[Profile Prerender System::UI::TextRenderer::Render] = %d", profilerClock.GetCurrentCount());
-	profilerClock.isEnabled = false;
-#endif
+		System::UI::TextRenderer::Render();
+	}
 }
 
 void Scene::Render()
