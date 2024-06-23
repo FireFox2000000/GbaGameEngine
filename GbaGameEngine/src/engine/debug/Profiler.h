@@ -57,7 +57,7 @@ public:
 #define PROFILE_SCOPED_CLOCK_64(label) auto __scopeProfiler##label = ScopedProfilerPrecise(#label, GBATEK::ClockFrequency::Cycle_64)
 
 #define PROFILE_START(label) \
-		auto __profileStart##label = Time::CaptureSystemTimeSnapshot();
+		auto __profileStart##label = Time::CaptureSystemTimeSnapshot()
 
 #define PROFILE_STOP(label) \
 { \
