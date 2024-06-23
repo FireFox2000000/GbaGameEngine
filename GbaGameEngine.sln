@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GbaGameEngine", "GbaGameEngine\GbaGameEngine.vcxproj", "{DCEC00CF-8A78-43BE-A574-2677F76EFA82}"
 EndProject
@@ -12,6 +12,9 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Profile|Any CPU = Profile|Any CPU
+		Profile|x64 = Profile|x64
+		Profile|x86 = Profile|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
@@ -23,6 +26,12 @@ Global
 		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Debug|x64.Build.0 = Debug|x64
 		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Debug|x86.ActiveCfg = Debug|Win32
 		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Debug|x86.Build.0 = Debug|Win32
+		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Profile|Any CPU.ActiveCfg = Profile|x64
+		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Profile|Any CPU.Build.0 = Profile|x64
+		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Profile|x64.ActiveCfg = Profile|x64
+		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Profile|x64.Build.0 = Profile|x64
+		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Profile|x86.ActiveCfg = Profile|Win32
+		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Profile|x86.Build.0 = Profile|Win32
 		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Release|Any CPU.ActiveCfg = Release|Win32
 		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Release|Any CPU.Build.0 = Release|Win32
 		{DCEC00CF-8A78-43BE-A574-2677F76EFA82}.Release|x64.ActiveCfg = Release|x64
@@ -35,6 +44,12 @@ Global
 		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Debug|x64.Build.0 = Debug|Any CPU
 		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Debug|x86.Build.0 = Debug|Any CPU
+		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Profile|Any CPU.ActiveCfg = Profile|Any CPU
+		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Profile|Any CPU.Build.0 = Profile|Any CPU
+		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Profile|x64.ActiveCfg = Profile|Any CPU
+		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Profile|x64.Build.0 = Profile|Any CPU
+		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Profile|x86.ActiveCfg = Profile|Any CPU
+		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Profile|x86.Build.0 = Profile|Any CPU
 		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E6090E6-ED06-4CBF-9BE5-62722E99955A}.Release|x64.ActiveCfg = Release|Any CPU
