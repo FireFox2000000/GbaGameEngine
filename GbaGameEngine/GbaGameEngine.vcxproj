@@ -105,6 +105,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_Visual
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>DEBUG;Platform_VisualBoyAdvance;__GNUC__$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+	<IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>%PATH%
@@ -128,6 +129,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DRELEASE  -DNDEBUG"</NMa
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>RELEASE;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+	<IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <NMakeBuildCommandLine>%PATH%
@@ -135,6 +137,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_Visu
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>PROFILE;Platform_VisualBoyAdvance;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+	<IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
