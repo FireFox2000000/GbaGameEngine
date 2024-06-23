@@ -30,11 +30,11 @@
 #endif
 
 #ifndef ENTT_SPARSE_PAGE
-#    define ENTT_SPARSE_PAGE 4096
+#    define ENTT_SPARSE_PAGE 32
 #endif
 
 #ifndef ENTT_PACKED_PAGE
-#    define ENTT_PACKED_PAGE 1024
+#    define ENTT_PACKED_PAGE 4
 #endif
 
 #ifdef ENTT_DISABLE_ASSERT
