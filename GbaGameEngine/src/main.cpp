@@ -6,6 +6,7 @@
 #include "engine/audio/AudioManager.h"
 #include "engine/io/FileSystem.h"
 #include "engine/physics/PhysicsConfig.h"
+#include "engine/debug/Profiler.h"
 
 #include "engine/gba/interrupts/GBAInterruptSwitchboard.h"
 #include "gbatek/Bios.h"
@@ -25,7 +26,6 @@
 static void RegisterInterrupts();
 
 #define VBLANK_SCNLNE_START 160
-//#define TEST_PROFILING
 //#define DEBUG_COLLIDERS
 
 #ifdef DEBUG_COLLIDERS
@@ -60,95 +60,79 @@ int main()
 	SceneManager* sceneManager = engine.GetComponent<SceneManager>();
 	sceneManager->ChangeScene<LevelSelectorScene>();
 
-#ifdef TEST_PROFILING
-	auto profileStart = Time::CaptureSystemTimeSnapshot();
-#endif
-
 	s32 timeToNextFixedUpdateMicroSeconds = 0;
 	constexpr u32 fixedUpdateDtMicroseconds = SECONDS_TO_MICROSECONDS(PhysicsConfig::c_fixedUpdateRate.ToFloat());
 
 	// Update loop
 	while (true)
 	{
-		//auto systemTime = Time::CaptureSystemTimeSnapshot();
-		//DEBUG_LOGFORMAT("Current time = (%d, %d)", systemTime.systemClockCount1, systemTime.systemClockCount2);
-
-		// VDraw, should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
-		{
-			// General update
-			inputManager->Update();
-
-			sceneManager->UpdateScene();
-
-			const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
-
-			timeToNextFixedUpdateMicroSeconds += dtMicroSeconds;
-			while (timeToNextFixedUpdateMicroSeconds > (s32)fixedUpdateDtMicroseconds)
-			{
-				timeToNextFixedUpdateMicroSeconds -= fixedUpdateDtMicroseconds;
-
-				// Perform fixed update
-				sceneManager->FixedUpdateScene();
-			}
-
-			audioManager->Update();
-
-#ifdef DEBUG_COLLIDERS
-			m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
-#endif
-
-			sceneManager->PreRenderScene();
-
-#ifdef TEST_PROFILING
-			auto profileStop = Time::CaptureSystemTimeSnapshot();
-			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
-			PROFILE_LOGFORMAT("[Profile VDraw] = %d", profileResult);
-#endif
-		}
-
-		audioManager->Update();
-
-		auto* entityManager = engine.GetEntityRegistry();
-		entityManager->InternalFinaliseDestroy();
-
 		// Main update
 		GBATEK::Bios::VBlankInterruptWait();
 
 		// VBlank, must be under 83776 cycles no matter what
 		{
-#ifdef TEST_PROFILING
-			profileStart = Time::CaptureSystemTimeSnapshot();
-#endif
+			PROFILE_SCOPED(Profile_VBlank);
+
 			sceneManager->RenderScene();
-
-#ifdef TEST_PROFILING
-			auto profileStop = Time::CaptureSystemTimeSnapshot();
-			u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
-			PROFILE_LOGFORMAT("[Profile VBlank] = %d", profileResult);
-#endif
 		}
 
-#ifdef TEST_PROFILING
-		profileStart = Time::CaptureSystemTimeSnapshot();	// loops back around to profile the end of VDraw
-#endif
-
-		audioManager->Update();
-
-		if (Input::GetInputDown(GameInputs::SoftReset, inputManager->GetDevices()))
+		// VDraw, should aim to be under 197120 cycles to target 60 fps. Can go beyond this for 30 fps
 		{
-			engine.GetComponent<Graphics>()->PrepareForSceneChange();
-			sceneManager->Dispose();
-			GBATEK::Bios::SoftReset();
-		}
+			PROFILE_SCOPED(Profile_VDraw);
 
-		if (sceneManager->HasSceneChangeQueued())
-		{
-			engine.GetComponent<Graphics>()->PrepareForSceneChange();
-			sceneManager->EnterQueuedScene();
-		}
+			// End frame
+			{
+				audioManager->Update();
 
-		// Calculate dt between frames
-		time->Advance();
+				if (Input::GetInputDown(GameInputs::SoftReset, inputManager->GetDevices()))
+				{
+					engine.GetComponent<Graphics>()->PrepareForSceneChange();
+					sceneManager->Dispose();
+					GBATEK::Bios::SoftReset();
+				}
+
+				if (sceneManager->HasSceneChangeQueued())
+				{
+					engine.GetComponent<Graphics>()->PrepareForSceneChange();
+					sceneManager->EnterQueuedScene();
+				}
+
+				// Calculate dt between frames
+				time->Advance();
+			}
+
+			// Start frame
+			{
+				// General update
+				inputManager->Update();
+
+				sceneManager->UpdateScene();
+
+				const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
+
+				timeToNextFixedUpdateMicroSeconds += dtMicroSeconds;
+				while (timeToNextFixedUpdateMicroSeconds > (s32)fixedUpdateDtMicroseconds)
+				{
+					timeToNextFixedUpdateMicroSeconds -= fixedUpdateDtMicroseconds;
+
+					// Perform fixed update
+					sceneManager->FixedUpdateScene();
+				}
+
+				audioManager->Update();
+
+#ifdef DEBUG_COLLIDERS
+				m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
+#endif
+
+				sceneManager->PreRenderScene();
+
+				audioManager->Update();
+
+				auto* entityManager = engine.GetEntityRegistry();
+				entityManager->InternalFinaliseDestroy();
+			}
+		}
 	}
 
 	sceneManager->Dispose();

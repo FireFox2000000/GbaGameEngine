@@ -4,6 +4,7 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/screen/Screen.h"
 #include "engine/time/Time.h"
+#include "engine/debug/Profiler.h"
 #include "gbatek/Vram.h"
 #include "gbatek/Backgrounds.h"
 
@@ -395,16 +396,15 @@ namespace GBA
 
 			if (!skipRender)
 			{
+				MapWrappingPoints wrappingPoints;
+				{
 #ifdef PROFILE_RENDER
-				auto profileStart = Time::CaptureSystemTimeSnapshot();
+					PROFILE_SCOPED("Profile Tilemap Renderer dynamic tile cache setup");
 #endif
-				// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
-				MapWrappingPoints wrappingPoints = CalculateMapWrappingPoints(tilemapRenderStartPos, drawParams.renderSize, tileMapSizeInTiles, renderData.lastRenderPos, renderData.lastRenderPosValid);
-#ifdef PROFILE_RENDER
-				auto profileStop = Time::CaptureSystemTimeSnapshot();
-				u32 profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
-				PROFILE_LOGFORMAT("[Profile Tilemap Renderer dynamic tile cache setup = %d", profileResult);
-#endif
+					// Tiles haven't been loaded in, need to plot them in manually for infinite tilemap spoofing
+					wrappingPoints = CalculateMapWrappingPoints(tilemapRenderStartPos, drawParams.renderSize, tileMapSizeInTiles, renderData.lastRenderPos, renderData.lastRenderPosValid);
+				}
+
 				// "Optimised" tile transferring.
 				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
 				const auto* tileMapData = tilemap->GetTileMapData();
@@ -430,7 +430,7 @@ namespace GBA
 					{
 						int tileMapYPos = start;
 						int y = start;
-						
+
 #define LOOP_THROUGH_ALL_ROWS(TransferMethod) \
 for (; y < MIN(end, tilemapYWrappingOffsetPoint + 1); ++y)\
 {\
@@ -487,63 +487,59 @@ for (; y < end; ++y)\
 						LoopColumns(0, tileMapData, tileMapSizeInTilesX, tilemapXStart + seg1Size, bgTileXEnd);
 					}
 				};
-
+				{
 #ifdef PROFILE_RENDER
-				profileStart = Time::CaptureSystemTimeSnapshot();
+					PROFILE_SCOPED(Profile Tilemap Renderer dynamic tile load);
 #endif
-				// Draw onto the GBA bg rows
-				if (!renderData.lastRenderPosValid)
-				{
-					// Cleanly render the full screen
-					DrawYRowTiles(
-						wrappingPoints.allRow.bgTileYStart,
-						wrappingPoints.allRow.yWrappingOffsetPoint,
-						wrappingPoints.allRow,
-						wrappingPoints.allColumn
-					);
-				}
-				else
-				{
-					// Draw the new rows (y direction)
-					// Do this first as drawing whole row is way more efficient than drawing the columns
+					// Draw onto the GBA bg rows
+					if (!renderData.lastRenderPosValid)
 					{
-						DrawYRowTiles(
-							wrappingPoints.newRow.bgTileYStart,
-							wrappingPoints.newRow.yWrappingOffsetPoint,
-							wrappingPoints.newRow,
-							wrappingPoints.allColumn
-						);
-
-						DrawYRowTiles(
-							0,
-							wrappingPoints.newRow.bgTileYEnd,
-							wrappingPoints.newRow,
-							wrappingPoints.allColumn
-						);
-					}
-
-					// Draw the new columns (x direction)
-					{
+						// Cleanly render the full screen
 						DrawYRowTiles(
 							wrappingPoints.allRow.bgTileYStart,
 							wrappingPoints.allRow.yWrappingOffsetPoint,
 							wrappingPoints.allRow,
-							wrappingPoints.newColumn
-						);
-
-						DrawYRowTiles(
-							0,
-							wrappingPoints.allRow.bgTileYEnd,
-							wrappingPoints.allRow,
-							wrappingPoints.newColumn
+							wrappingPoints.allColumn
 						);
 					}
+					else
+					{
+						// Draw the new rows (y direction)
+						// Do this first as drawing whole row is way more efficient than drawing the columns
+						{
+							DrawYRowTiles(
+								wrappingPoints.newRow.bgTileYStart,
+								wrappingPoints.newRow.yWrappingOffsetPoint,
+								wrappingPoints.newRow,
+								wrappingPoints.allColumn
+							);
+
+							DrawYRowTiles(
+								0,
+								wrappingPoints.newRow.bgTileYEnd,
+								wrappingPoints.newRow,
+								wrappingPoints.allColumn
+							);
+						}
+
+						// Draw the new columns (x direction)
+						{
+							DrawYRowTiles(
+								wrappingPoints.allRow.bgTileYStart,
+								wrappingPoints.allRow.yWrappingOffsetPoint,
+								wrappingPoints.allRow,
+								wrappingPoints.newColumn
+							);
+
+							DrawYRowTiles(
+								0,
+								wrappingPoints.allRow.bgTileYEnd,
+								wrappingPoints.allRow,
+								wrappingPoints.newColumn
+							);
+						}
+					}
 				}
-#ifdef PROFILE_RENDER
-				profileStop = Time::CaptureSystemTimeSnapshot();
-				profileResult = (profileStop.TotalCycles() - profileStart.TotalCycles()) * Time::ClockFreq;
-				PROFILE_LOGFORMAT("[Profile Tilemap Renderer dynamic tile load = %d", profileResult);
-#endif
 			}
 
 			renderData.lastRenderPos = tilemapRenderStartPos;

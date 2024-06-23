@@ -84,6 +84,7 @@
     <ClCompile Include="src\game\scripts\states\BgFadeOutState.cpp" />
     <ClCompile Include="src\game\scripts\states\BgFadeInState.cpp" />
     <ClCompile Include="src\game\scripts\states\CutsceneState.cpp" />
+    <ClCompile Include="src\engine\debug\Profiler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -257,6 +258,7 @@
     <ClInclude Include="src\gbatek\Vram.h" />
     <ClInclude Include="src\gbatek\DirectMemoryAccess.h" />
     <ClInclude Include="src\gbatek\ColourRGB16.h" />
+    <ClInclude Include="src\engine\debug\Profiler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

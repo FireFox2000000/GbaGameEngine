@@ -63,10 +63,12 @@ GBATimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTime
 	{
 		return GBATimerId::Sound0;
 	}
+#if !defined(PROFILE)
 	case GBA::Audio::DirectSound::DSoundTimer::Sound1:
 	{
 		return GBATimerId::Sound1;
 	}
+#endif
 	default:
 	{
 		break;

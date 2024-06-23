@@ -6,8 +6,7 @@
 
 //#define RENDER_PROFILE
 #if defined(RENDER_PROFILE)
-#include "engine/gba/config/GBATimerId.h"
-#include "gbatek/Timers.h"
+#include "engine/debug/Profiler.h"
 #endif
 
 constexpr GBATEK::ObjectAttribute MakeDefaultAttribute()
@@ -119,40 +118,31 @@ namespace GBA
 
 		void OAMManager::DoMasterRenderIntoMemory()
 		{
+			{
 #ifdef RENDER_PROFILE
-			TimerControl& profilerClock = GBA::ioRegisterTimers->at(GBATimerId::Profile);
-			profilerClock.frequency = GBA::ClockFrequency::Cycle_64;
-
-			profilerClock.isEnabled = true;
+				PROFILE_SCOPED_CLOCK_64("Profile UnloadUnusedSprites");
 #endif
-			UnloadUnusedSprites();
+				UnloadUnusedSprites();
+			}
+			{
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile UnloadUnusedSprites] = %d", profilerClock.GetCurrentCount());
-			profilerClock.isEnabled = false;
-
-			profilerClock.isEnabled = true;
+				PROFILE_SCOPED_CLOCK_64("Profile LoadNewSprites");
 #endif
-			LoadNewSprites();
+				LoadNewSprites();
+			}
+			{
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile LoadNewSprites] = %d", profilerClock.GetCurrentCount());
-			profilerClock.isEnabled = false;
-
-			profilerClock.isEnabled = true;
+				PROFILE_SCOPED_CLOCK_64("Profile TransferRenderListIntoMemory");
 #endif
-			TransferRenderListIntoMemory();
+				TransferRenderListIntoMemory();
+			}
+			{
 #ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile TransferRenderListIntoMemory] = %d", profilerClock.GetCurrentCount());
-			profilerClock.isEnabled = false;
-
-			profilerClock.isEnabled = true;
-#endif
-			m_spriteRenderDoubleBuffer.Flip();
-
-			m_spriteRenderDoubleBuffer.GetPrimary().Clear();
-#ifdef RENDER_PROFILE
-			DEBUG_LOGFORMAT("[Profile Flip + Clear] = %d", profilerClock.GetCurrentCount());
-			profilerClock.isEnabled = false; 
-#endif
+				PROFILE_SCOPED_CLOCK_64("Profile Flip + Clear");
+#endif		
+				m_spriteRenderDoubleBuffer.Flip();
+				m_spriteRenderDoubleBuffer.GetPrimary().Clear();
+			}
 		}
 
 		void OAMManager::UnloadAll()

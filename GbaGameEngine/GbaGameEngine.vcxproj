@@ -155,6 +155,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_Visu
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
     <ClCompile Include="src\engine\debug\DebugLog.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
+    <ClCompile Include="src\engine\debug\Profiler.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADmgMidiPlayer.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADmgSound.cpp" />
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
@@ -265,6 +266,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_Visu
     <ClInclude Include="src\engine\physics\PhysicsConfig.h" />
     <ClInclude Include="src\engine\physics\PhysicsResolve.h" />
     <ClInclude Include="src\engine\physics\Rigidbody.h" />
+    <ClInclude Include="src\engine\debug\Profiler.h" />
     <ClInclude Include="src\game\config\midi\MidiPrefabs.h" />
     <ClInclude Include="src\game\input\Input.h" />
     <ClInclude Include="src\engine\input\InputManager.h" />

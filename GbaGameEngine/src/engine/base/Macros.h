@@ -22,7 +22,7 @@
 #	define NULL nullptr
 #endif
 
-#if defined(PROFILE) || defined(DEBUG)
+#if defined(DEBUG)
 #include "engine/debug/DebugLog.h"
 #endif
 
@@ -67,10 +67,4 @@
 #else
 #define FATAL_ERROR()
 
-#endif
-
-#if defined(PROFILE) || defined(DEBUG)
-#define	PROFILE_LOGFORMAT(format, ...) { Debug::LogFormat(format, __VA_ARGS__); }
-#else
-#define	PROFILE_LOGFORMAT(format, ...)
 #endif
