@@ -13,7 +13,6 @@
 #define SET_BIT(mask, index) ((mask) |= BIT(index))
 #define CLEAR_BIT(mask, index) ((mask) &= ~BIT(index))
 
-#define STATIC_ASSERT(condition, message) static_assert(condition, message)
 #define IS_BASE_OF(base, derived) (std::is_base_of<base, derived>::value)
 
 #define ARRAY_SIZE(TArray) (sizeof((TArray)) / sizeof(*(TArray)))

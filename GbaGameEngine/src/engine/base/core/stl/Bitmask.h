@@ -10,13 +10,13 @@ class Bitmask
 public:
 	inline Bitmask()
 	{
-		STATIC_ASSERT(std::is_integral<T>::value, "Integral required.");
+		static_assert(std::is_integral<T>::value, "Integral required.");
 		m_storage = 0;
 	}
 
 	inline Bitmask(T mask)
 	{
-		STATIC_ASSERT(std::is_integral<T>::value, "Integral required.");
+		static_assert(std::is_integral<T>::value, "Integral required.");
 		m_storage = mask;
 	}
 

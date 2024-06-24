@@ -35,7 +35,7 @@ class FixedPoint
 public:
 	inline FixedPoint() : storage(0)
 	{
-		STATIC_ASSERT(std::is_integral<IntType>::value, "Integral required.");
+		static_assert(std::is_integral<IntType>::value, "Integral required.");
 	}
 
 	inline FixedPoint(const FixedPoint<IntType, FRACTIONAL_BITS>& that)
