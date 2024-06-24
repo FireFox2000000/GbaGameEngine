@@ -28,6 +28,30 @@ protected:
 		SafeFree(m_container);
 	}
 
+	MAllocMemoryPolicy(MAllocMemoryPolicy&& other)
+		: m_container(other.m_container)
+		, m_capacity(other.m_capacity)
+	{
+		other.m_container = nullptr;
+		other.m_capacity = 0;
+	}
+
+	MAllocMemoryPolicy& operator=(MAllocMemoryPolicy&& other)
+	{
+		if (this != &other)
+		{
+			SafeFree(m_container);
+
+			m_container = other.m_container;
+			m_capacity = other.m_capacity;
+
+			other.m_container = nullptr;
+			other.m_capacity = 0;
+		}
+
+		return *this;
+	}
+
 	bool Reallocate(u32 size, u32 count)
 	{
 		STATIC_ASSERT(std::is_trivially_copyable<T>::value, "Must be trivially constructable");
@@ -162,12 +186,29 @@ public:
 		: MemoryPolicy(initialCapacity)
 		, m_count(0)
 	{
-
 	}
 
 	ListBase(const ListBase<T, MemoryPolicy>& that) : ListBase<T, MemoryPolicy>()
 	{
 		*this = that;
+	}
+
+	ListBase(ListBase<T, MemoryPolicy>&& that) 
+		: MemoryPolicy(std::move(that))
+		, m_count(that.m_count)
+	{
+		that.m_count = 0;
+	}
+
+	ListBase<T, MemoryPolicy>& operator=(ListBase<T, MemoryPolicy>&& other)
+	{
+		if (this != &other)
+		{
+			MemoryPolicy::operator=(std::move(other));
+			other.m_count = 0;
+		}
+
+		return *this;
 	}
 
 	ListBase(std::initializer_list<T> l) : ListBase<T, MemoryPolicy>(l.size())
