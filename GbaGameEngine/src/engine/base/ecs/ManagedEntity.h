@@ -28,6 +28,11 @@ namespace ECS
 			s_managedEntityServiceLocation->DestroyEntity(m_entity);
 		}
 
+		/*
+		* No copying allowed, otherwise we may destroy the same entity twice
+		*/
+		ManagedEntity(const ManagedEntity&) = delete;
+
 		/**
 			* @brief Move constructor.
 			*
