@@ -24,7 +24,7 @@ const int totalTestSprites = 1;
 Scene0::Scene0()
 	: Scene()
 {
-	playerObject = std::make_unique<GameObject>();
+	m_playerObject = std::make_unique<GameObject>();
 }
 
 Scene0::~Scene0()
@@ -48,10 +48,10 @@ void Scene0::Enter()
 	// Load assets
 	DEBUG_LOG("Loading Shantae sprite atlus");
 	FilePtr shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
-	shantaeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(shantaeSpriteSheet);
+	m_shantaeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");
-	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(shantaeAtlus, 0, 12, 12));
+	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(m_shantaeAtlus, 0, 12, 12));
 
 	defaultIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
 	{
@@ -89,15 +89,15 @@ void Scene0::Enter()
 		}
 		*/
 		{
-			textObjectCollision = m_gameObjects.AddNew();
-			Component::Transform* transform = textObjectCollision->EditComponent<Component::Transform>();
+			m_textObjectCollision = m_gameObjects.AddNew();
+			Component::Transform* transform = m_textObjectCollision->EditComponent<Component::Transform>();
 			transform->SetPosition(0, -3);
 		
-			Component::SpriteRenderer& testBackgroundRenderer = textObjectCollision->AddComponent<Component::SpriteRenderer>();
+			Component::SpriteRenderer& testBackgroundRenderer = m_textObjectCollision->AddComponent<Component::SpriteRenderer>();
 			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
 
-			Component::Collider& collider = textObjectCollision->AddComponent<Component::Collider>();
+			Component::Collider& collider = m_textObjectCollision->AddComponent<Component::Collider>();
 			//collider.SetCircle(sprite->GetSize().x);
 			collider.SetAABB(
 				Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
@@ -125,7 +125,7 @@ void Scene0::Enter()
 			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8_bold);
 			textComponent.m_str = std::string("789 ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
 
-			this->textObject = testTextObject;
+			m_textObject = testTextObject;
 		}
 	}
 
@@ -136,26 +136,26 @@ void Scene0::Enter()
 		//position->x = -8;
 		//position->y = 0;
 
-		Component::SpriteRenderer& spriteRenderer = playerObject->AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = shantaeAtlus->GetSprite(1);
+		Component::SpriteRenderer& spriteRenderer = m_playerObject->AddComponent<Component::SpriteRenderer>();
+		Sprite* shantae0 = m_shantaeAtlus->GetSprite(1);
 		spriteRenderer.SetSprite(shantae0);
 
-		Component::SpriteAnimator& animator = playerObject->AddComponent<Component::SpriteAnimator>();
+		Component::SpriteAnimator& animator = m_playerObject->AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(defaultIdleAnim);
 
-		Component::Rigidbody& rigidbody = playerObject->AddComponent<Component::Rigidbody>();
+		Component::Rigidbody& rigidbody = m_playerObject->AddComponent<Component::Rigidbody>();
 		rigidbody.gravity = Vector2<tFixedPoint24>(0, -30);
 
-		Component::PlayerMovement& playerMovement = playerObject->AddComponent<Component::PlayerMovement>();
+		Component::PlayerMovement& playerMovement = m_playerObject->AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 		playerMovement.jumpInitVel = 22.0f;
 
-		Component::Transform* transform = playerObject->EditComponent<Component::Transform>();
+		Component::Transform* transform = m_playerObject->EditComponent<Component::Transform>();
 		transform->SetPosition(0, 5);
 		//transform->SetScale(1, 1);
 		//transform->SetRotationDegrees(180);
 
-		Component::Collider& collider = playerObject->AddComponent<Component::Collider>();
+		Component::Collider& collider = m_playerObject->AddComponent<Component::Collider>();
 		//collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
 		tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
 		collider.SetAABB(
@@ -179,23 +179,23 @@ void Scene0::Update()
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = shantaeAtlus->GetSprite(0);
+		Sprite* shantae0 = m_shantaeAtlus->GetSprite(0);
 		testBackgroundRenderer.SetSprite(shantae0);
 	
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
-	if (textObject && playerObject && true)
+	if (m_textObject && m_playerObject && true)
 	{
-		const auto* playerTransform = playerObject->GetComponent<Component::Transform>();
-		auto* textComponent = textObject->EditComponent<Component::UI::Text>();
+		const auto* playerTransform = m_playerObject->GetComponent<Component::Transform>();
+		auto* textComponent = m_textObject->EditComponent<Component::UI::Text>();
 
 		{
-			const Component::Collider* playerCollider = playerObject->GetComponent<Component::Collider>();
+			const Component::Collider* playerCollider = m_playerObject->GetComponent<Component::Collider>();
 
-			const auto* letterTransform = textObjectCollision->GetComponent<Component::Transform>();
-			const Component::Collider* letterCollider = textObjectCollision->GetComponent<Component::Collider>();
+			const auto* letterTransform = m_textObjectCollision->GetComponent<Component::Transform>();
+			const Component::Collider* letterCollider = m_textObjectCollision->GetComponent<Component::Collider>();
 
 			Collision collision;
 			if (CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider, &collision))
@@ -217,9 +217,9 @@ void Scene0::Update()
 		}
 	}
 
-	if (playerObject)
+	if (m_playerObject)
 	{
-		PlayerMovement::MoveHumanPlayerObject(*playerObject);
+		PlayerMovement::MoveHumanPlayerObject(*m_playerObject);
 	}
 
 	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
