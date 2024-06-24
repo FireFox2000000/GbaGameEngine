@@ -43,7 +43,7 @@ CFLAGS	+=	-g -Wall -O2 -flto -pedantic\
 
 CFLAGS	+=	$(INCLUDE)
 
-CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++17
+CXXFLAGS	:=	$(CFLAGS) -fno-exceptions -std=c++20
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map)
