@@ -28,7 +28,7 @@ class Scene0 : public Scene
 
 	FixedList<GameObject, 128> m_gameObjects;
 	FontLibrary m_fontLib;
-	std::unique_ptr<GameObject> m_playerObject;
+	GameObject m_playerObject;
 	GameObject* m_textObject;
 	GameObject* m_textObjectCollision;
 	AudioManager::tChannelHandle m_backgroundMusic;

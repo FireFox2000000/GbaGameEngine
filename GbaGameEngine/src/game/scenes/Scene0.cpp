@@ -24,7 +24,6 @@ const int totalTestSprites = 1;
 Scene0::Scene0()
 	: Scene()
 {
-	m_playerObject = std::make_unique<GameObject>();
 }
 
 Scene0::~Scene0()
@@ -136,26 +135,26 @@ void Scene0::Enter()
 		//position->x = -8;
 		//position->y = 0;
 
-		Component::SpriteRenderer& spriteRenderer = m_playerObject->AddComponent<Component::SpriteRenderer>();
+		Component::SpriteRenderer& spriteRenderer = m_playerObject.AddComponent<Component::SpriteRenderer>();
 		Sprite* shantae0 = m_shantaeAtlus->GetSprite(1);
 		spriteRenderer.SetSprite(shantae0);
 
-		Component::SpriteAnimator& animator = m_playerObject->AddComponent<Component::SpriteAnimator>();
+		Component::SpriteAnimator& animator = m_playerObject.AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(defaultIdleAnim);
 
-		Component::Rigidbody& rigidbody = m_playerObject->AddComponent<Component::Rigidbody>();
+		Component::Rigidbody& rigidbody = m_playerObject.AddComponent<Component::Rigidbody>();
 		rigidbody.gravity = Vector2<tFixedPoint24>(0, -30);
 
-		Component::PlayerMovement& playerMovement = m_playerObject->AddComponent<Component::PlayerMovement>();
+		Component::PlayerMovement& playerMovement = m_playerObject.AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 		playerMovement.jumpInitVel = 22.0f;
 
-		Component::Transform* transform = m_playerObject->EditComponent<Component::Transform>();
+		Component::Transform* transform = m_playerObject.EditComponent<Component::Transform>();
 		transform->SetPosition(0, 5);
 		//transform->SetScale(1, 1);
 		//transform->SetRotationDegrees(180);
 
-		Component::Collider& collider = m_playerObject->AddComponent<Component::Collider>();
+		Component::Collider& collider = m_playerObject.AddComponent<Component::Collider>();
 		//collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
 		tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
 		collider.SetAABB(
@@ -186,13 +185,13 @@ void Scene0::Update()
 		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
 	}
 
-	if (m_textObject && m_playerObject && true)
+	if (m_textObject && true)
 	{
-		const auto* playerTransform = m_playerObject->GetComponent<Component::Transform>();
+		const auto* playerTransform = m_playerObject.GetComponent<Component::Transform>();
 		auto* textComponent = m_textObject->EditComponent<Component::UI::Text>();
 
 		{
-			const Component::Collider* playerCollider = m_playerObject->GetComponent<Component::Collider>();
+			const Component::Collider* playerCollider = m_playerObject.GetComponent<Component::Collider>();
 
 			const auto* letterTransform = m_textObjectCollision->GetComponent<Component::Transform>();
 			const Component::Collider* letterCollider = m_textObjectCollision->GetComponent<Component::Collider>();
@@ -217,10 +216,7 @@ void Scene0::Update()
 		}
 	}
 
-	if (m_playerObject)
-	{
-		PlayerMovement::MoveHumanPlayerObject(*m_playerObject);
-	}
+	PlayerMovement::MoveHumanPlayerObject(m_playerObject);
 
 	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
