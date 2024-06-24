@@ -165,7 +165,7 @@ class ListBase : public MemoryPolicy
 			if (!GrowTo(Capacity() * 2))
 			{
 				DEBUG_ERROR("Unable to add element. List out of memory");
-				return NULL;
+				return nullptr;
 			}
 		}
 
@@ -245,11 +245,11 @@ public:
 	inline u32 Capacity() { return MemoryPolicy::Capacity(); }
 	inline u32 Capacity() const { return MemoryPolicy::Capacity(); }
 
-	inline iterator begin() { return Count() > 0 ? &Get(0) : NULL; }
-	inline const_iterator begin() const { return Count() > 0 ? &Get(0) : NULL; }
+	inline iterator begin() { return Count() > 0 ? &Get(0) : nullptr; }
+	inline const_iterator begin() const { return Count() > 0 ? &Get(0) : nullptr; }
 
-	inline iterator end() { return Count() > 0 ? &MemoryPolicy::Get(Count()) : NULL; }
-	inline const_iterator end() const { return Count() > 0 ? &MemoryPolicy::Get(Count()) : NULL; }
+	inline iterator end() { return Count() > 0 ? &MemoryPolicy::Get(Count()) : nullptr; }
+	inline const_iterator end() const { return Count() > 0 ? &MemoryPolicy::Get(Count()) : nullptr; }
 
 	inline T & operator[](u32 index) { return Get(index); }
 	inline const T & operator[](u32 index) const { return Get(index); }

@@ -18,7 +18,7 @@
 */
 void __toncset(void *dst, u32 fill, u32 size)
 {
-	if (size == 0 || dst == NULL)
+	if (size == 0 || dst == nullptr)
 		return;
 
 	u32 left = (u32)dst & 3;

@@ -49,7 +49,7 @@ namespace GBA
 				bool lastRenderPosValid = false;
 			};
 
-			TilemapSet* m_tilemapSet = NULL;
+			TilemapSet* m_tilemapSet = nullptr;
 			TilemapSet* EditTilemapSet();
 
 			FileDataMap m_file;

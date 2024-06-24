@@ -16,7 +16,7 @@
 */
 void tonccpy(void *dst, const void *src, u32 size)
 {
-	if (size == 0 || dst == NULL || src == NULL)
+	if (size == 0 || dst == nullptr || src == nullptr)
 		return;
 
 	u32 count;

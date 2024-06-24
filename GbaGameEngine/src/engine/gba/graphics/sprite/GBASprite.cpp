@@ -50,8 +50,8 @@ namespace GBA
 			: m_objectShape(shape)
 			, m_objectSize(sizeMode)
 			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
-			, m_atlus(NULL)
-			, m_pixelMapData(NULL)
+			, m_atlus(nullptr)
+			, m_pixelMapData(nullptr)
 			, m_pixelMapDataLength(0)
 		{
 			m_renderData.SetTileIndex(INVALID_TILE_ID);

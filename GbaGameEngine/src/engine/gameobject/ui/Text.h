@@ -10,7 +10,7 @@ namespace Component
 	{
 		struct Text
 		{
-			Font* m_font = NULL;
+			Font* m_font = nullptr;
 			std::string m_str;
 		};
 	}

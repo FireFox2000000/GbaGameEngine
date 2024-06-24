@@ -26,5 +26,5 @@ Engine::~Engine()
 {
 	m_engineComponentsRegistry.DestroyEntity(m_engineComponentsContainer);
 
-	ECS::ManagedEntity::ProvideEntityManagerService(NULL);
+	ECS::ManagedEntity::ProvideEntityManagerService(nullptr);
 }

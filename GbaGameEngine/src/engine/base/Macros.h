@@ -18,10 +18,6 @@
 
 #define ARRAY_SIZE(TArray) (sizeof((TArray)) / sizeof(*(TArray)))
 
-#ifndef NULL
-#	define NULL nullptr
-#endif
-
 #if defined(DEBUG)
 #include "engine/debug/DebugLog.h"
 #endif

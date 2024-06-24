@@ -59,7 +59,7 @@ inline static void VramSafeMemSet(T* dest, const T val, u32 size)
 
 inline static void SafeFree(void* ptr)
 {
-	if (ptr != NULL) std::free(ptr);
+	if (ptr != nullptr) std::free(ptr);
 }
 
 inline static void MoveMemory(void * dest, const void * src, u32 size)
