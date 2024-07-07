@@ -46,7 +46,7 @@ GBATEK_DIAGNOSTIC_PUSH_IGNORED_MISSING_RETURN
 		// false = Return immediately if an old flag was already set (NDS9: bugged!)
 		// true = Discard old flags, wait until a NEW flag becomes set
 		// </param>
-		inline void InterruptWait(bool waitUntilNew, Interrupts interrupts)
+		inline void InterruptWait(bool waitUntilNew, InterruptFlags interrupts)
 		{
 			GBATEK_BiosSystemCall(0x04);
 		}

@@ -14,10 +14,9 @@
 
 GBATEK_ARM_IWRAM_CODE void HandleInterrupts()
 {
-	GBATEK::Interrupts activeInterrupts;
-	activeInterrupts.data = GBATEK::ioRegisterInterruptEnable->data & GBATEK::ioRegisterInterruptRequestFlags->data;
+	GBATEK::InterruptFlags activeInterrupts = *GBATEK::ioRegisterInterruptEnable & GBATEK::ioRegisterInterruptRequestFlags->interrupts;
 
-	if (activeInterrupts.vBlank)
+	if ((activeInterrupts & GBATEK::InterruptFlags::VBlank) != GBATEK::InterruptFlags::None)
 	{
 		//for (auto& handler : m_interruptHandlers[GBA::Interrupts::VBlank])
 		//{

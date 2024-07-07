@@ -143,7 +143,7 @@ int main()
 void EnableVBlankIntr()
 {
 	GBATEK::ioRegisterDisplayStatus->vBlankInterruptRequestEnabled = true;
-	GBATEK::ioRegisterInterruptEnable->vBlank = true;
+	*GBATEK::ioRegisterInterruptEnable |= GBATEK::InterruptFlags::VBlank;
 }
 
 void RegisterInterrupts()
