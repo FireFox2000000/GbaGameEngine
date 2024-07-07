@@ -1,6 +1,8 @@
 #pragma once
-#include "engine/gba/audio/GBADmgSound.h"
+#include "GBATEK/DMGSound.h"
+#include "engine/audio/music/Note.h"
 #include "engine/gba/audio/GBADmgMidiPlayer.h"
+#include "engine/gba/audio/GBADmgSound.h"
 
 namespace Midi
 {
@@ -14,14 +16,14 @@ namespace Midi
 		}
 
 		template<class Channel>
-		Channel OverrideEnvelopeDirection(Channel prefab, GBA::DMG::SquareSound::EnvelopeStepDirection dir)
+		Channel OverrideEnvelopeDirection(Channel prefab, GBATEK::EnvelopeStepDirection dir)
 		{
 			prefab.control.envelopeDirection = dir;
 			prefab.frequency.reset = false;
 			return prefab;
 		}
 
-		GBA::DMG::SoundChannel1 OverrideSweepMode(GBA::DMG::SoundChannel1 prefab, GBA::DMG::SquareSound::Sweep::Mode mode);
+		GBA::DMG::Midi::SoundChannel1Prefab OverrideSweepMode(GBA::DMG::Midi::SoundChannel1Prefab prefab, GBATEK::SweepFrequencyDirection mode);
 
 		template<class Channel>
 		GBA::DMG::Midi::NoteEvent MakeNoteEvent(u32 deltaTick, Channel properties)
@@ -32,7 +34,7 @@ namespace Midi
 			return note;
 		};
 
-		GBA::DMG::SoundChannel2 OffNotePrefab();
-		GBA::DMG::SoundChannel4 DrumTomPrefab();
+		GBA::DMG::Midi::SoundChannel2Prefab OffNotePrefab();
+		GBA::DMG::Midi::SoundChannel4Prefab DrumTomPrefab();
 	}
 }

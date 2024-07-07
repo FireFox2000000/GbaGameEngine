@@ -1,4 +1,5 @@
 #pragma once
+#include "internal/Internal.h"
 
 namespace GBATEK
 {
@@ -47,9 +48,9 @@ namespace GBATEK
 	struct BackgroundScroll
 	{
 		// Write-only (0-511)
-		short xOffset : 9, : 7;
+		WriteOnly<short> xOffset;
 		// Write-only (0-511)
-		short yOffset : 9, : 7;
+		WriteOnly<short> yOffset;
 	};
 
 	static_assert(sizeof(BackgroundControl) == 2, "BackgroundControl struct malformed");

@@ -1,21 +1,23 @@
 #include "MidiFallOfFall.h"
 #include "MidiPrefabs.h"
+#include "engine/base/Macros.h"
+#include "engine/gba/audio/GBADmgSound.h"
 
 using namespace Midi::Prefabs;
 
-GBA::DMG::SoundChannel1 HeldNotePrefab();
+GBA::DMG::Midi::SoundChannel1Prefab HeldNotePrefab();
 
-GBA::DMG::SoundChannel2 HeldNotePrefab2()
+GBA::DMG::Midi::SoundChannel2Prefab HeldNotePrefab2()
 {
-	GBA::DMG::SoundChannel2 heldNote;
+	GBA::DMG::Midi::SoundChannel2Prefab heldNote;
 
-	heldNote.control.envelopeStepTime = 3;
-	heldNote.control.envelopeDirection = GBA::DMG::SquareSound::EnvelopeStepDirection::Decrease;
-	heldNote.control.envelopeInitialVolume = 15;
-	heldNote.control.waveDutyCycle = GBA::DMG::SquareSound::WaveDutyCycle::Cycle_3_4;
+	heldNote.squareSound.envelopeStepTime = 3;
+	heldNote.squareSound.envelopeDirection = GBATEK::EnvelopeStepDirection::Decrease;
+	heldNote.squareSound.envelopeInitialVolume = 15;
+	heldNote.squareSound.waveDutyCycle = GBATEK::WaveDutyCycle::Cycle_3_4;
 
 	heldNote.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 6);// FrequencyToRate(512);
-	heldNote.frequency.sustain = GBA::DMG::SquareSound::Frequency::Sustain::Hold;
+	heldNote.frequency.sustainMode = GBATEK::SustainMode::Forever;
 	heldNote.frequency.reset = true;
 
 	return heldNote;
@@ -76,66 +78,66 @@ const GBA::DMG::Midi::NoteEvent NoteEvents[] = {
 	*/
 	// Vibrato Test
 	MakeNoteEvent(TickStep8,	VibratoNote),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Increase)),
-	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBA::DMG::SquareSound::Sweep::Mode::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Increase)),
+	MakeNoteEvent(2,	OverrideSweepMode(VibratoNote, GBATEK::SweepFrequencyDirection::Decrease)),
 	MakeNoteEvent(TickStep2, OffNote),
 	
 };
@@ -153,21 +155,21 @@ const GBA::DMG::Midi::NoteEvent* Midi::FallOfFall::end()
 	return begin() + TotalEvents;
 }
 
-GBA::DMG::SoundChannel1 HeldNotePrefab()
+GBA::DMG::Midi::SoundChannel1Prefab HeldNotePrefab()
 {
-	GBA::DMG::SoundChannel1 heldNote;
+	GBA::DMG::Midi::SoundChannel1Prefab heldNote;
 
-	heldNote.sweep.mode = GBA::DMG::SquareSound::Sweep::Mode::Decrease;
+	heldNote.sweep.mode = GBATEK::SweepFrequencyDirection::Decrease;
 	heldNote.sweep.number = 7;
-	heldNote.sweep.stepTime = 1;
+	heldNote.sweep.stepTime128Hz = 1;
 
-	heldNote.control.envelopeStepTime = 7;
-	heldNote.control.envelopeDirection = GBA::DMG::SquareSound::EnvelopeStepDirection::Decrease;
-	heldNote.control.envelopeInitialVolume = 15;
-	heldNote.control.waveDutyCycle = GBA::DMG::SquareSound::WaveDutyCycle::Cycle_3_4;
+	heldNote.squareSound.envelopeStepTime = 7;
+	heldNote.squareSound.envelopeDirection = GBATEK::EnvelopeStepDirection::Decrease;
+	heldNote.squareSound.envelopeInitialVolume = 15;
+	heldNote.squareSound.waveDutyCycle = GBATEK::WaveDutyCycle::Cycle_3_4;
 
 	heldNote.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 6);// FrequencyToRate(512);
-	heldNote.frequency.sustain = GBA::DMG::SquareSound::Frequency::Sustain::Hold;
+	heldNote.frequency.sustainMode = GBATEK::SustainMode::Forever;
 	heldNote.frequency.reset = true;
 
 	return heldNote;

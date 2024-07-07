@@ -1,4 +1,5 @@
 #pragma once
+#include "internal/Internal.h"
 
 namespace GBATEK
 {
@@ -81,13 +82,13 @@ namespace GBATEK
 
 	struct DMARegister0
 	{
-		const void* src;
-		volatile void* dst;
+		WriteOnly<const void*> src;
+		WriteOnly<volatile void*> dst;
 
 		// Number of units to transfer
 		// Units are either 16 or 32 bits, based on DMATransferType
 		// A value of zero is treated as max length (ie. 0x4000, or 0x10000 for DMA3)
-		unsigned short unitTransferCount;
+		WriteOnly<unsigned short> unitTransferCount;
 
 		struct Control
 		{
@@ -111,9 +112,13 @@ namespace GBATEK
 
 	struct DMARegister1And2
 	{
+		// Write-only
 		const void* src;
+
+		// Write-only
 		volatile void* dst;
 
+		// Write-only
 		// Number of units to transfer
 		// Units are either 16 or 32 bits, based on DMATransferType
 		// A value of zero is treated as max length (ie. 0x4000, or 0x10000 for DMA3)
@@ -141,13 +146,13 @@ namespace GBATEK
 
 	struct DMARegister3
 	{
-		const void* src;
-		volatile void* dst;
+		WriteOnly<const void*> src;
+		WriteOnly<volatile void*> dst;
 
 		// Number of units to transfer
 		// Units are either 16 or 32 bits, based on DMATransferType
 		// A value of zero is treated as max length (ie. 0x4000, or 0x10000 for DMA3)
-		unsigned short unitTransferCount;
+		WriteOnly<unsigned short> unitTransferCount;
 
 		struct Control
 		{

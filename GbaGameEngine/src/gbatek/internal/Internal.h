@@ -36,3 +36,37 @@
 #endif
 
 #define GBATEK_KILOBYTES_TO_BYTES(kbytes) (static_cast<int>((kbytes) * 1024))
+
+namespace GBATEK
+{ 
+	template<typename T>
+	class WriteOnly
+	{
+	private:
+		T value;
+
+	public:
+		constexpr WriteOnly()
+		{
+		}
+
+		constexpr WriteOnly(T v) : value(v)
+		{
+		}
+
+		constexpr WriteOnly& operator=(T v)
+		{
+			value = v;
+			return *this;
+		}
+
+		constexpr volatile WriteOnly& operator=(T v) volatile
+		{
+			value = v;
+			return *this;
+		}
+
+		WriteOnly(const WriteOnly&) = delete;// { static_assert(false, "Cannot read from write-only value"); };
+		WriteOnly& operator=(const WriteOnly&) = delete;// { static_assert(false, "Cannot read from write-only value"); };
+	};
+}

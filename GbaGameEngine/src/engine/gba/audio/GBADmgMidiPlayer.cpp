@@ -1,5 +1,6 @@
 #include "GBADmgMidiPlayer.h"
-#include "engine/gba/registers/RegisterMap.h"
+#include "engine/base/Macros.h"
+#include "engine/math/Math.h"
 
 GBA::DMG::Midi::Player::Player(const NoteEvent* begin, const NoteEvent* end)
 	: m_file(nullptr)
@@ -46,20 +47,17 @@ void GBA::DMG::Midi::Player::Tick()
 			{
 				if (dataMask & BIT(1))
 				{
-					DMG::SweepRegister& sound1Sweep = (*reinterpret_cast<DMG::SweepRegister*>(REG_SND1_SWEEP));
-					sound1Sweep = m_fileStream.Read<DMG::SweepRegister>();
+					GBATEK::ioRegisterSoundChannel1->sweep = m_fileStream.Read<GBATEK::SweepSound>();
 				}
 
 				if (dataMask & BIT(2))
 				{
-					DMG::SquareSoundRegister& sound1Control = (*reinterpret_cast<DMG::SquareSoundRegister*>(REG_SND1_CONTROL));
-					sound1Control = m_fileStream.Read<DMG::SquareSoundRegister>();
+					GBATEK::ioRegisterSoundChannel1->write_controlRegister(m_fileStream.Read<GBATEK::SquareSound>());
 				}
 
 				if (dataMask & BIT(3))
 				{
-					DMG::FrequencyRegister& sound1Frequency = (*reinterpret_cast<DMG::FrequencyRegister*>(REG_SND1_FREQ));
-					sound1Frequency = m_fileStream.Read<DMG::FrequencyRegister>();
+					GBATEK::ioRegisterSoundChannel1->write_frequencyRegister(m_fileStream.Read<GBATEK::SoundFrequency>());
 				}
 				break;
 			}
@@ -68,14 +66,12 @@ void GBA::DMG::Midi::Player::Tick()
 			{
 				if (dataMask & BIT(1))
 				{
-					DMG::SquareSoundRegister& sound2Control = (*reinterpret_cast<DMG::SquareSoundRegister*>(REG_SND2_CONTROL));
-					sound2Control = m_fileStream.Read<DMG::SquareSoundRegister>();
+					GBATEK::ioRegisterSoundChannel2->write_controlRegister(m_fileStream.Read<GBATEK::SquareSound>());
 				}
 
 				if (dataMask & BIT(2))
 				{
-					DMG::FrequencyRegister& sound2Frequency = (*reinterpret_cast<DMG::FrequencyRegister*>(REG_SND2_FREQ));
-					sound2Frequency = m_fileStream.Read<DMG::FrequencyRegister>();
+					GBATEK::ioRegisterSoundChannel2->write_frequencyRegister(m_fileStream.Read<GBATEK::SoundFrequency>());
 				}
 				break;
 			}
@@ -104,39 +100,25 @@ void GBA::DMG::Midi::Player::OnNoteEventReached(const NoteEvent& noteEvent)
 {
 	switch (noteEvent.channelId)
 	{
-	case DMG::SoundChannels::Sound1:
+	case 1:
 	{
-		DMG::SweepRegister& sound1Sweep = (*reinterpret_cast<DMG::SweepRegister*>(REG_SND1_SWEEP));
-		DMG::SquareSoundRegister& sound1Control = (*reinterpret_cast<DMG::SquareSoundRegister*>(REG_SND1_CONTROL));
-		DMG::FrequencyRegister& sound1Frequency = (*reinterpret_cast<DMG::FrequencyRegister*>(REG_SND1_FREQ));
-
-		const auto& channel = noteEvent.channel.channel1;
-		sound1Sweep = channel.sweep;
-		sound1Control = channel.control;
-		sound1Frequency = channel.frequency;
-
+		GBATEK::ioRegisterSoundChannel1->sweep = noteEvent.channel.channel1.sweep;
+		GBATEK::ioRegisterSoundChannel1->write_controlRegister(noteEvent.channel.channel1.squareSound);
+		GBATEK::ioRegisterSoundChannel1->write_frequencyRegister(noteEvent.channel.channel1.frequency);
 		break;
 	}
 
-	case DMG::SoundChannels::Sound2:
+	case 2:
 	{
-		DMG::SquareSoundRegister& sound2Control = (*reinterpret_cast<DMG::SquareSoundRegister*>(REG_SND2_CONTROL));
-		DMG::FrequencyRegister& sound2Frequency = (*reinterpret_cast<DMG::FrequencyRegister*>(REG_SND2_FREQ));
-
-		const auto& channel = noteEvent.channel.channel2;
-		sound2Control = channel.control;
-		sound2Frequency = channel.frequency;
+		GBATEK::ioRegisterSoundChannel2->write_controlRegister(noteEvent.channel.channel2.squareSound);
+		GBATEK::ioRegisterSoundChannel2->write_frequencyRegister(noteEvent.channel.channel2.frequency);
 		break;
 	}
 
-	case DMG::SoundChannels::Sound4:
+	case 4:
 	{
-		auto& sound4Control = (*reinterpret_cast<DMG::NoiseControlRegister*>(REG_SND4_CONTROL));
-		auto& sound4Frequency = (*reinterpret_cast<DMG::NoiseFrequencyRegister*>(REG_SND4_FREQ));
-
-		const auto& channel = noteEvent.channel.channel4;
-		sound4Control = channel.control;
-		sound4Frequency = channel.frequency;
+		GBATEK::ioRegisterSoundChannel4->write_controlRegister(noteEvent.channel.channel4.control);
+		GBATEK::ioRegisterSoundChannel4->write_frequencyRegister(noteEvent.channel.channel4.frequency);
 		break;
 	}
 
@@ -155,20 +137,20 @@ void GBA::DMG::Midi::Player::OnNoteEventReached(const NoteEvent& noteEvent)
 	}
 }
 
-void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel1& properties)
+void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel1Prefab& properties)
 {
-	channelId = DMG::SoundChannels::Sound1;
+	channelId = 1;
 	channel.channel1 = properties;
 }
 
-void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel2& properties)
+void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel2Prefab& properties)
 {
-	channelId = DMG::SoundChannels::Sound2;
+	channelId = 2;
 	channel.channel2 = properties;
 }
 
-void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel4& properties)
+void GBA::DMG::Midi::NoteEvent::SetChannelProperties(const SoundChannel4Prefab& properties)
 {
-	channelId = DMG::SoundChannels::Sound4;
+	channelId = 4;
 	channel.channel4 = properties;
 }

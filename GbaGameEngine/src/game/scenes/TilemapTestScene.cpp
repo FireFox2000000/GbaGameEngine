@@ -12,6 +12,52 @@
 #include "engine/graphics/GraphicsSetup.h"
 #include "game/input/Input.h"
 
+#include "GBATEK/DMGSound.h"
+#include "engine/gba/audio/GBADmgSound.h"
+
+namespace
+{
+	void SetMasterVolume(float leftVolume, float rightVolume)
+	{
+		constexpr int DMG_VOL_MAX = 7;
+
+		int dmgVolumeValueL = int(leftVolume * DMG_VOL_MAX + 0.5f);
+		int dmgVolumeValueR = int(rightVolume * DMG_VOL_MAX + 0.5f);
+
+		GBATEK::ioRegisterSoundControl->masterVolumeL = dmgVolumeValueL;
+		GBATEK::ioRegisterSoundControl->masterVolumeR = dmgVolumeValueR;
+	}
+
+	void PlayTestSfx()
+	{
+		GBATEK::ioRegisterSoundControl->channel1LeftEnabled = GBATEK::DMGSoundEnable::Enabled;
+		GBATEK::ioRegisterSoundControl->channel1RightEnabled = GBATEK::DMGSoundEnable::Enabled;
+
+		SetMasterVolume(1.0f, 1.0f);
+
+		// NR10_REG = 0x1E;
+		GBATEK::ioRegisterSoundChannel1->sweep.number = 6;
+		GBATEK::ioRegisterSoundChannel1->sweep.mode = GBATEK::SweepFrequencyDirection::Decrease;
+		GBATEK::ioRegisterSoundChannel1->sweep.stepTime128Hz = 1;
+
+		// NR11_REG = 0x10;
+		// NR12_REG = 0xF3;
+		GBATEK::SquareSound control;
+		{
+			control.soundLength = GBA::DMG::CalculateSoundLengthSeconds(0.1875f);	// sound1Control.soundLength = 16;
+			control.waveDutyCycle = GBATEK::WaveDutyCycle::Cycle_1_8;
+			control.envelopeStepTime = 3;
+			control.envelopeDirection = GBATEK::EnvelopeStepDirection::Increase;
+			control.envelopeInitialVolume = 7;
+		}
+		GBATEK::ioRegisterSoundChannel1->write_controlRegister(control);
+
+		// NR13_REG = 0x00;
+		// NR14_REG = 0x87;
+		GBATEK::ioRegisterSoundChannel1->write_frequencyRegister(GBATEK::SoundFrequency{ GBA::DMG::FrequencyToRate(512), GBATEK::SustainMode::SoundLength, 1 });
+	}
+}
+
 TilemapTestScene::TilemapTestScene() : Scene()
 {
 }
@@ -52,8 +98,16 @@ void TilemapTestScene::Enter()
 		m_kickedFadeInTask = fadeTask;
 	}
 
-	GBA::DMG::EnableSoundChannels(GBA::DMG::SoundChannels::Sound1 | GBA::DMG::SoundChannels::Sound2 | GBA::DMG::SoundChannels::Sound4);
-	GBA::DMG::SetMasterVolume(1.0f);
+	GBATEK::ioRegisterSoundControl->channel1LeftEnabled = GBATEK::DMGSoundEnable::Enabled;
+	GBATEK::ioRegisterSoundControl->channel1RightEnabled = GBATEK::DMGSoundEnable::Enabled;
+
+	GBATEK::ioRegisterSoundControl->channel2LeftEnabled = GBATEK::DMGSoundEnable::Enabled;
+	GBATEK::ioRegisterSoundControl->channel2RightEnabled = GBATEK::DMGSoundEnable::Enabled;
+
+	GBATEK::ioRegisterSoundControl->channel4LeftEnabled = GBATEK::DMGSoundEnable::Enabled;
+	GBATEK::ioRegisterSoundControl->channel4RightEnabled = GBATEK::DMGSoundEnable::Enabled;
+
+	SetMasterVolume(1.0f, 1.0f);
 
 	m_fallOfFallMidi = std::make_unique<GBA::DMG::Midi::Player>(fileSystem->Open("audio/DmgMidiFallOfFall"));
 }
@@ -124,7 +178,7 @@ void TilemapTestScene::Update()
 
 	if (!m_kickedFadeOutTask && Input::GetInputDown(ExitTilemapTestScene, devices))
 	{
-		GBA::DMG::Test();
+		PlayTestSfx();
 		
 		Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 		std::shared_ptr<GfxScreenFadeOut> fadeTask = std::make_shared<GfxScreenFadeOut>(Colour::Black, 0.5f);

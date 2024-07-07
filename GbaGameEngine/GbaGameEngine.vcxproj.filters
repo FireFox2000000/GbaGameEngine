@@ -259,6 +259,7 @@
     <ClInclude Include="src\gbatek\DirectMemoryAccess.h" />
     <ClInclude Include="src\gbatek\ColourRGB16.h" />
     <ClInclude Include="src\engine\debug\Profiler.h" />
+    <ClInclude Include="src\gbatek\DMGSound.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
