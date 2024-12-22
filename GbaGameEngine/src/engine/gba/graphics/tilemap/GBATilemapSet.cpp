@@ -13,10 +13,8 @@ TilemapSet::TilemapSet()
 
 TilemapSet::TilemapSet(
 	const u8 paletteBankIndex
-	, const u8 paletteLength
-	, const GBATEK::ColourRGB16* palette
-	, const u32 tilesetLength
-	, const GBATEK::UPixelData* tileset
+	, const Span<const GBATEK::ColourRGB16> palette
+	, const Span<const GBATEK::UPixelData> tileset
 	, const u32 tileSetDataCompressionFlags
 	, const u8 mapCount
 	, const u8 mapIsDynamicMask
@@ -26,11 +24,9 @@ TilemapSet::TilemapSet(
 )
 {
 	m_file.m_paletteBankIndex = paletteBankIndex;
-	m_file.m_paletteLength = paletteLength;
 	m_file.m_palette = palette;
 
 	m_file.m_backgroundColourMode = Compression::GetBitPackedSrcBpp(tileSetDataCompressionFlags) > 4 ? GBATEK::BackgroundColourMode::Mode256x1 : GBATEK::BackgroundColourMode::Mode16x16;
-	m_file.m_tilesetLength = tilesetLength;
 	m_file.m_tileset = tileset;
 
 	m_maps.Reserve(mapCount);
@@ -49,9 +45,8 @@ TilemapSet::TilemapSet(
 		u16 totalTiles = widthInTiles * heightInTiles;
 
 		tilemap->m_file.m_sizeInTiles = Vector2<u8>(widthInTiles, heightInTiles);
+		tilemap->m_file.m_tileMapEntries = { &mapData[mapDataOffset], totalTiles };
 
-		tilemap->m_file.m_tileMapData = &mapData[mapDataOffset];
-		tilemap->m_file.m_tileMapDataLength = totalTiles;
 		mapDataOffset += totalTiles;
 	}
 }

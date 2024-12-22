@@ -1,4 +1,5 @@
 #include "UiRenderer.h"
+#include "engine/base/core/stl/Span.h"
 #include "engine/io/filestream/CppFileReader.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
@@ -15,7 +16,7 @@ void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* 
 {
 	using namespace GBA;
 
-	const auto* mapData = tilemap->GetTileMapData();
+	const auto mapEntries = tilemap->GetTileMapEntries();
 	const auto imageSize = tilemap->GetSizeInTiles();
 
 	auto& vram = VramAllocator::GetInstance();
@@ -26,7 +27,7 @@ void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* 
 		{
 			int mapDataIndex = imageSize.x * y + x;
 			int screenOffset = (screenPosition.y + y) * DynamicBackgroundSize + (screenPosition.x + x);
-			vram.SetBackgroundTileData(mapSbbIndex, screenOffset, mapData[mapDataIndex]);
+			vram.SetBackgroundTileData(mapSbbIndex, screenOffset, mapEntries[mapDataIndex]);
 		}
 	}
 }
@@ -98,14 +99,14 @@ void UiRenderer::LoadAtlus(const u32* file)
 		// Read palette
 		u8 paletteBankIndexOffset = reader.Read<u8>();
 		u8 paletteLength = reader.Read<u8>();
-		const GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
+		Span<const GBATEK::ColourRGB16> palette = reader.ReadSpan<GBATEK::ColourRGB16>(paletteLength);
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();
 		GBATEK::BackgroundTilemapEntry clearScreenEntry = reader.Read<GBATEK::BackgroundTilemapEntry>();
 
 		u32 tilesetLength = reader.Read<u32>();
-		const GBATEK::UPixelData* tileset = reader.ReadAddress<GBATEK::UPixelData>(tilesetLength);
+		Span<const GBATEK::UPixelData> tileset = reader.ReadSpan<GBATEK::UPixelData>(tilesetLength);
 
 		// Read maps
 		u8 mapCount = reader.Read<u8>();
@@ -117,9 +118,7 @@ void UiRenderer::LoadAtlus(const u32* file)
 
 		m_tilemapSet = TilemapSet(
 			paletteBankIndexOffset
-			, paletteLength
 			, palette
-			, tilesetLength
 			, tileset
 			, compressionFlags
 			, mapCount

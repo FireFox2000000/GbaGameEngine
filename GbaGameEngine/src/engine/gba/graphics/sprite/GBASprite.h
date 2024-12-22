@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/math/Vector2.h" 
+#include "engine/base/core/stl/Span.h"
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
 #include "gbatek/ObjectAttributeMemory.h"
@@ -47,8 +48,7 @@ namespace GBA
 			RenderData m_renderData;
 
 			SpriteAtlus* m_atlus;
-			const GBATEK::UPixelData* m_pixelMapData;
-			u32 m_pixelMapDataLength;
+			Span<const GBATEK::UPixelData> m_pixelMapData;
 
 			SpriteAtlus* EditAtlus();
 		public:

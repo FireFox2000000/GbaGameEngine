@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/base/core/stl/List.h"
+#include "engine/base/core/stl/Span.h"
 #include "engine/base/colour/Palette.h"
 
 template<typename T>
@@ -18,8 +19,7 @@ namespace GBA
 		{
 			friend class SpriteGraphicsMemoryManager;
 
-			const GBATEK::ColourRGB16* m_palette;
-			u8 m_paletteLength;
+			Span<const GBATEK::ColourRGB16> m_palette;
 			u32 m_spriteDataCompressionFlags;
 			SpriteNode* m_spritesLLHead;
 

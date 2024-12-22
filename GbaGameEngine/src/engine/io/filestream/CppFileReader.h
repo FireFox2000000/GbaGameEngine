@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/base/Typedefs.h"
+#include "engine/base/core/stl/Span.h"
 #include "engine/io/File.h"
 
 class CppFileReader
@@ -37,5 +38,12 @@ public:
 		m_streamPos.charIndex += sizeof(T) * size;
 
 		return obj;
+	}
+
+	template<typename T>
+	Span<const T> ReadSpan(int size)
+	{
+		const T* data = ReadAddress<T>(size);
+		return { data, static_cast<u32>(size) };
 	}
 };

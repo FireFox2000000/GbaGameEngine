@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/base/core/stl/List.h"
+#include "engine/base/core/stl/Span.h"
 #include "engine/gba/graphics/tilemap/GBATilemap.h"
 #include "engine/base/colour/Palette.h"
 
@@ -23,13 +24,9 @@ namespace GBA
 
 			struct FileDataMap
 			{
-				const GBATEK::ColourRGB16* m_palette = nullptr;
-				u8 m_paletteLength = 0;
+				Span<const GBATEK::ColourRGB16> m_palette;
+				Span<const GBATEK::UPixelData> m_tileset;
 				u8 m_paletteBankIndex = 0;
-
-				const GBATEK::UPixelData* m_tileset = nullptr;
-				u32 m_tilesetLength = 0;
-
 				GBATEK::BackgroundColourMode m_backgroundColourMode;
 			};
 
@@ -48,10 +45,8 @@ namespace GBA
 			TilemapSet();
 			TilemapSet(
 				const u8 paletteBankIndex,
-				const u8 paletteLength,
-				const GBATEK::ColourRGB16* palette,
-				const u32 tilesetLength,
-				const GBATEK::UPixelData* tileset,
+				const Span<const GBATEK::ColourRGB16> palette,
+				const Span<const GBATEK::UPixelData> tileset,
 				const u32 tileSetDataCompressionFlags,
 				const u8 mapCount,
 				const u8 mapIsDynamicMask,

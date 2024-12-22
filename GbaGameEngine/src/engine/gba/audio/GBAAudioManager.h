@@ -4,6 +4,7 @@
 #include "engine/base/core/stl/List.h"
 #include "engine/base/core/stl/Bitmask.h"
 #include "engine/base/core/stl/Pool.h"
+#include "engine/base/core/stl/Span.h"
 
 #include "engine/audio/AudioChannelProperties.h"
 
@@ -39,8 +40,7 @@ namespace GBA
 			struct DirectSoundChannel : SoundProperties
 			{
 				int sampleRate = -1;
-				int sampleCount = -1;
-				const u8* samples = nullptr;
+				Span<const u8> samples;
 
 				// Only set if the channel is active
 				GBA::Audio::DirectSound::Channels soundChannelId = GBA::Audio::DirectSound::Channels::ChannelCount;
@@ -81,7 +81,7 @@ namespace GBA
 			void PlayDirectSound(tChannelHandle handle);
 
 			// Allocates sound channel from the pool
-			tChannelHandle CreateDirectSoundChannel(int sampleRate, int sampleCount, const u8* samples, int flags = 0);
+			tChannelHandle CreateDirectSoundChannel(int sampleRate, Span<const u8> samples, int flags = 0);
 
 			// Internal usage, simply starts playback on the GBA channel. Does not mark the channel as active or change flags etc. 
 			void PlayDirectSound(

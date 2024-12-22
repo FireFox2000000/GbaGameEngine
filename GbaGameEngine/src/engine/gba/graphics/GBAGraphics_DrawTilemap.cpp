@@ -408,7 +408,7 @@ namespace GBA
 
 				// "Optimised" tile transferring.
 				// tl;dr iterate each row and transfer the blocks of tiles that are viewable. At most 2, start to array end, then array end to wrapped end. 
-				const auto* tileMapData = tilemap->GetTileMapData();
+				auto tileMapEntries = tilemap->GetTileMapEntries();
 				auto sbbIndex = tilemap->GetMapScreenBaseBlockIndex();
 
 				auto DrawYRowTiles = [&](int start, int end
@@ -480,12 +480,12 @@ for (; y < end; ++y)\
 
 					if (seg1Size > 0)
 					{
-						LoopColumns(bgTileXStart, tileMapData, tileMapSizeInTilesX, tilemapXStart, seg1Size);
+						LoopColumns(bgTileXStart, tileMapEntries.Data(), tileMapSizeInTilesX, tilemapXStart, seg1Size);
 					}
 
 					if (bgTileXEnd > 0)
 					{
-						LoopColumns(0, tileMapData, tileMapSizeInTilesX, tilemapXStart + seg1Size, bgTileXEnd);
+						LoopColumns(0, tileMapEntries.Data(), tileMapSizeInTilesX, tilemapXStart + seg1Size, bgTileXEnd);
 					}
 				};
 				{

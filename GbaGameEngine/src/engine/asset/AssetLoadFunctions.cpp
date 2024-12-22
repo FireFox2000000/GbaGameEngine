@@ -16,13 +16,13 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	// Read palette
 	u8 paletteBankIndexOffset = reader.Read<u8>();
 	u8 paletteLength = reader.Read<u8>();
-	const GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
+	Span<const GBATEK::ColourRGB16> palette = reader.ReadSpan<GBATEK::ColourRGB16>(paletteLength);
 
 	// Read tileset
 	u32 compressionFlags = reader.Read<u32>();
 
 	u32 tilesetLength = reader.Read<u32>();
-	const GBATEK::UPixelData* tileset = reader.ReadAddress<GBATEK::UPixelData>(tilesetLength);
+	Span<const GBATEK::UPixelData> tileset = reader.ReadSpan<GBATEK::UPixelData>(tilesetLength);
 
 	// Read maps
 	u8 mapCount = reader.Read<u8>();
@@ -37,9 +37,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 
 	return TilemapSet(
 		paletteBankIndexOffset
-		, paletteLength
 		, palette
-		, tilesetLength
 		, tileset
 		, compressionFlags
 		, mapCount

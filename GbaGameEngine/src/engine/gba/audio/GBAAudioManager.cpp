@@ -186,7 +186,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 
 	DirectSoundChannel& channel = *EditDirectSoundChannel(handle);
 	int requestedSampleStartOffset = 0;
-	int sampleStartOffset = MIN(channel.sampleCount, requestedSampleStartOffset);
+	int sampleStartOffset = MIN(static_cast<int>(channel.samples.Count()), requestedSampleStartOffset);
 
 	// Assign the hardware sound channels to our sound channel handle now that it's active
 	channel.soundChannelId = soundChannel;
@@ -204,7 +204,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 	}
 
 	// Calculate EOF system time so that we know when to stop or repeat the sound channel, otherwise we'll end up continuing into playing garbage
-	int totalSamplesToTransfer = channel.sampleCount - sampleStartOffset;
+	int totalSamplesToTransfer = channel.samples.Count() - sampleStartOffset;
 	u32 totalTicksTillEnd = totalSamplesToTransfer * ticksPerSampleTransfer - EndTimeOffset;
 	u32 totalPlaybackTicks = totalTicksTillEnd / Time::ClockFreq;
 	u32 totalSeconds = totalPlaybackTicks / u16(-1);
@@ -220,7 +220,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 
 	RepeatParams repeatParams = { sampleStartOffset = sampleStartOffset, totalSeconds = totalSeconds, remainder = remainder, ticksPerSampleTransfer = ticksPerSampleTransfer };
 	Time::InternalSnapshot endTime;
-	PlayDirectSound(soundChannel, dmaChannel, dmaTimer, channel.samples, repeatParams, &endTime);
+	PlayDirectSound(soundChannel, dmaChannel, dmaTimer, channel.samples.Data(), repeatParams, &endTime);
 
 	// Mark the channel as active for tracking
 	channel.flags.SetBit(AudioChannelProperties::Active);
@@ -304,7 +304,7 @@ void GBA::Audio::AudioManager::Stop(const tChannelHandle & handle)
 	}
 }
 
-GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateDirectSoundChannel(int sampleRate, int sampleCount, const u8* samples, int flags)
+GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateDirectSoundChannel(int sampleRate, Span<const u8> samples, int flags)
 {
 	DirectSoundChannel* newChannel = m_directSoundChannelPool.CreateNew();
 
@@ -322,7 +322,6 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateDirectS
 	newChannel->flags = flags;
 	newChannel->flags.ClearBit(AudioChannelProperties::Active);		// No read-only flags allowed
 
-	newChannel->sampleCount = sampleCount;
 	newChannel->sampleRate = sampleRate;
 	newChannel->samples = samples;
 
@@ -416,7 +415,7 @@ void GBA::Audio::AudioManager::OnActiveChannelReachedEof(int activeChannelIndex)
 			channel.soundChannelId
 			, channel.dmaChannelId
 			, channel.dmaTimerId
-			, channel.samples
+			, channel.samples.Data()
 			, m_activeChannels.repeatParams[activeChannelIndex]
 			, &m_activeChannels.expectedEofTime[activeChannelIndex]);
 
@@ -441,11 +440,11 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateFromFil
 	CppFileReader reader(file);
 	int sampleRate = reader.Read<int>();
 	int sampleCount = reader.Read<int>();
-	const u8* samples = reader.ReadAddress<u8>(sampleCount);
+	Span<const u8> samples = reader.ReadSpan<u8>(sampleCount);
 
 	DEBUG_LOGFORMAT("[AudioManager::CreateFromFile] sample rate %d, sample count %d", sampleRate, sampleCount);
 
-	return CreateDirectSoundChannel(sampleRate, sampleCount, samples);
+	return CreateDirectSoundChannel(sampleRate, samples);
 }
 
 void GBA::Audio::AudioManager::PlayFromFile(const u32 * file, float playrate)
@@ -453,9 +452,9 @@ void GBA::Audio::AudioManager::PlayFromFile(const u32 * file, float playrate)
 	CppFileReader reader(file);
 	int sampleRate = reader.Read<int>();
 	int sampleCount = reader.Read<int>();	// Byte count is the same as sample count
-	const u8* samples = reader.ReadAddress<u8>(sampleCount);
+	Span<const u8> samples = reader.ReadSpan<u8>(sampleCount);
 
-	auto handle = CreateDirectSoundChannel(sampleRate, sampleCount, samples, AudioChannelProperties::DisposeOnCompletion);
+	auto handle = CreateDirectSoundChannel(sampleRate, samples, AudioChannelProperties::DisposeOnCompletion);
 
 	PlayDirectSound(handle);
 }

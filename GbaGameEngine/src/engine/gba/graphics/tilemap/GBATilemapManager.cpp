@@ -51,7 +51,7 @@ TilemapManager::~TilemapManager()
 
 void TilemapManager::LoadStaticMap(Tilemap & out_tilemap)
 {
-	Load(out_tilemap, out_tilemap.m_file.m_tileMapDataLength, GetTilemapSize(out_tilemap), false, true);
+	Load(out_tilemap, out_tilemap.m_file.m_tileMapEntries.Count(), GetTilemapSize(out_tilemap), false, true);
 }
 
 void TilemapManager::LoadDynamicMap(Tilemap & out_tilemap)
@@ -75,7 +75,7 @@ void TilemapManager::LoadPalette(TilemapSet* tilemapSet)
 {
 	tPaletteIndex paletteIndex = tilemapSet->m_file.m_paletteBankIndex;
 	tilemapSet->m_renderData.m_paletteIndex = paletteIndex;
-	GBA::Gfx::PaletteBank::LoadBackgroundPalette(paletteIndex, tilemapSet->m_file.m_palette, tilemapSet->m_file.m_paletteLength);
+	GBA::Gfx::PaletteBank::LoadBackgroundPalette(paletteIndex, tilemapSet->m_file.m_palette.Data(), tilemapSet->m_file.m_palette.Count());
 }
 
 void TilemapManager::LoadTileset(TilemapSet* tilemapSet)
@@ -83,11 +83,11 @@ void TilemapManager::LoadTileset(TilemapSet* tilemapSet)
 	using namespace GBA;
 
 	auto& vram = VramAllocator::GetInstance();
-	tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tilesetLength);
+	tilemapSet->m_renderData.m_tileSetCharacterBaseBlock = vram.AllocBackgroundTileSetMem(tilemapSet->m_file.m_tileset.Count());
 
 	if (tilemapSet->m_renderData.m_tileSetCharacterBaseBlock != TileBlockGroups::BlockGroupCount)	// Check that the alloc was actually successfull
 	{
-		vram.LoadBackgroundTileSetMem(tilemapSet->m_file.m_tileset, tilemapSet->m_file.m_tilesetLength, tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
+		vram.LoadBackgroundTileSetMem(tilemapSet->m_file.m_tileset.Data(), tilemapSet->m_file.m_tileset.Count(), tilemapSet->m_renderData.m_tileSetCharacterBaseBlock);
 	}
 }
 
@@ -133,7 +133,7 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBATEK::Backg
 
 		if (copyMapDirectlyToMemory)
 		{
-			VramAllocator::GetInstance().LoadBackgroundTileMapMem(out_tilemap.m_file.m_tileMapData, out_tilemap.m_file.m_tileMapDataLength, out_tilemap.m_renderData.m_mapSbbIndex);
+			VramAllocator::GetInstance().LoadBackgroundTileMapMem(out_tilemap.m_file.m_tileMapEntries.Data(), out_tilemap.m_file.m_tileMapEntries.Count(), out_tilemap.m_renderData.m_mapSbbIndex);
 		}
 
 		// Assign background slot

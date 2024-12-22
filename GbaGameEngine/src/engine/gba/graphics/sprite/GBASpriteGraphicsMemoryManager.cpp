@@ -44,7 +44,7 @@ namespace GBA
 
 				ColourPalette16 palette(GBATEK::ColourRGB16{ 0, 0, 0 });
 
-				for (u32 i = 0; i < atlus->m_paletteLength; ++i)
+				for (u32 i = 0; i < atlus->m_palette.Count(); ++i)
 				{
 					palette[i] = atlus->m_palette[i];
 				}
@@ -59,7 +59,7 @@ namespace GBA
 			++m_paletteRefTracker[paletteId];
 
 			u32 compressionFlags = out_sprite.m_atlus->GetSpriteDataCompressionFlags();
-			tTileId tileIndex = GBA::VramAllocator::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData, out_sprite.m_pixelMapDataLength, compressionFlags);
+			tTileId tileIndex = GBA::VramAllocator::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData.Data(), out_sprite.m_pixelMapData.Count(), compressionFlags);
 
 			if (tileIndex != INVALID_TILE_ID)
 			{

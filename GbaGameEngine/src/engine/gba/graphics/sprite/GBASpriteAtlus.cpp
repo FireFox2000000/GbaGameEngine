@@ -10,9 +10,7 @@ namespace GBA
 	namespace Gfx
 	{
 		SpriteAtlus::SpriteAtlus()
-			: m_palette(nullptr)
-			, m_paletteLength(0)
-			, m_spriteDataCompressionFlags(0)
+			: m_spriteDataCompressionFlags(0)
 			, m_spritesLLHead(nullptr)
 		{
 		}
@@ -73,11 +71,11 @@ namespace GBA
 			const u8 paletteLength = reader.Read<u8>();
 			const u32 dataLength = reader.Read<u32>();
 			const u32 compressionFlags = reader.Read<u32>();
-			const GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
+			Span<const GBATEK::ColourRGB16> palette = reader.ReadSpan<GBATEK::ColourRGB16>(paletteLength);
 			const u8* widthMap = reader.ReadAddress<u8>(spriteCount);
 			const u8* heightMap = reader.ReadAddress<u8>(spriteCount);
-			const u32* offsets = reader.ReadAddress<u32>(spriteCount);
-			const GBATEK::UPixelData* data = reader.ReadAddress<GBATEK::UPixelData>(dataLength);
+			Span<const u32> offsets = reader.ReadSpan<u32>(spriteCount);
+			Span<const GBATEK::UPixelData> data = reader.ReadSpan<GBATEK::UPixelData>(dataLength);
 
 			DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength * sizeof(u32)));
 
@@ -89,7 +87,6 @@ namespace GBA
 				return nullptr;
 			}
 
-			atlus->m_paletteLength = paletteLength;
 			atlus->m_palette = palette;
 			atlus->m_spriteDataCompressionFlags = compressionFlags;
 
@@ -124,15 +121,14 @@ namespace GBA
 				node->sprite.m_objectSize = sizeMode;
 				node->sprite.m_tileSize = AttributeFunctions::GetTileSize(shape, sizeMode);
 				node->sprite.m_atlus = atlus;
-				node->sprite.m_pixelMapData = data + offsets[i];
 
 				if (i + 1 < spriteCount)
 				{
-					node->sprite.m_pixelMapDataLength = offsets[i + 1] - offsets[i];
+					node->sprite.m_pixelMapData = data.Slice(offsets[i], offsets[i + 1] - offsets[i]);
 				}
 				else
 				{
-					node->sprite.m_pixelMapDataLength = dataLength - offsets[i];
+					node->sprite.m_pixelMapData = data.Slice(offsets[i], dataLength - offsets[i]);
 				}
 
 				lastAddedNode = node;

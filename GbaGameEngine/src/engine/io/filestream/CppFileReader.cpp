@@ -16,5 +16,5 @@ void CppFileReader::AdvanceToAlignment(int alignmentSize)
 
 CppFileReader::CppFileReader(FilePtr file)
 {
-	fileData = (u8*)file;
+	fileData = reinterpret_cast<const u8*>(file);
 }

@@ -41,8 +41,6 @@ namespace GBA
 			, m_objectSize(GBATEK::ObjectSize::Smallest)
 			, m_tileSize(GBAAttrFnVector2())
 			, m_atlus(nullptr)
-			, m_pixelMapData(nullptr)
-			, m_pixelMapDataLength(0)
 		{
 		}
 
@@ -51,8 +49,6 @@ namespace GBA
 			, m_objectSize(sizeMode)
 			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
 			, m_atlus(nullptr)
-			, m_pixelMapData(nullptr)
-			, m_pixelMapDataLength(0)
 		{
 			m_renderData.SetTileIndex(INVALID_TILE_ID);
 		}

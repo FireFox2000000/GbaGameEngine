@@ -1,4 +1,5 @@
 #pragma once
+#include "engine/base/core/stl/Span.h"
 #include "engine/math/Vector2.h"
 #include "engine/gba/graphics/vram/GBAVramAllocator.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
@@ -24,8 +25,7 @@ namespace GBA
 		public:
 			struct FileDataMap
 			{
-				const GBATEK::BackgroundTilemapEntry* m_tileMapData = nullptr;
-				u16 m_tileMapDataLength = 0;
+				Span<const GBATEK::BackgroundTilemapEntry> m_tileMapEntries;
 				bool m_isDynamicallyRendered = false;		// i.e. not GBA nested
 				Vector2<u8> m_sizeInTiles;
 			};
@@ -62,8 +62,7 @@ namespace GBA
 			bool IsDynamicallyRendered() const;
 			const Vector2<u8>& GetSizeInTiles() const;
 			const TilemapSet* GetTilemapSet() const;
-			u16 GetTileMapLength() const;
-			const GBATEK::BackgroundTilemapEntry* GetTileMapData() const;
+			Span<const GBATEK::BackgroundTilemapEntry> GetTileMapEntries() const;
 			GBA::VramAllocator::tScreenBaseBlockIndex GetMapScreenBaseBlockIndex() const;
 			int GetAssignedBackgroundSlot() const;
 			const FileDataMap& GetFile() const { return m_file; }

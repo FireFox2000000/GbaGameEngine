@@ -33,14 +33,9 @@ const TilemapSet* GBA::Gfx::Tilemap::GetTilemapSet() const
 	return m_tilemapSet;
 }
 
-u16 GBA::Gfx::Tilemap::GetTileMapLength() const
+Span<const GBATEK::BackgroundTilemapEntry> GBA::Gfx::Tilemap::GetTileMapEntries() const
 {
-	return m_file.m_tileMapDataLength;
-}
-
-const GBATEK::BackgroundTilemapEntry* GBA::Gfx::Tilemap::GetTileMapData() const
-{
-	return m_file.m_tileMapData;
+	return m_file.m_tileMapEntries;
 }
 
 GBA::VramAllocator::tScreenBaseBlockIndex GBA::Gfx::Tilemap::GetMapScreenBaseBlockIndex() const
