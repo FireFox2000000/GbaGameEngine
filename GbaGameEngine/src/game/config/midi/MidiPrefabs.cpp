@@ -3,7 +3,7 @@
 GBA::DMG::Midi::SoundChannel1Prefab Midi::Prefabs::OverrideSweepMode(GBA::DMG::Midi::SoundChannel1Prefab prefab, GBATEK::SweepFrequencyDirection mode)
 {
 	prefab.sweep.mode = mode;
-	prefab.frequency.reset = 0;
+	prefab.frequency.reset = GBATEK::SoundReset::NoReset;
 	return prefab;
 }
 
@@ -15,7 +15,7 @@ GBA::DMG::Midi::SoundChannel2Prefab Midi::Prefabs::OffNotePrefab()
 	noteOff.squareSound.envelopeInitialVolume = 0;
 
 	noteOff.frequency.sustainMode = GBATEK::SustainMode::Forever;
-	noteOff.frequency.reset = true;
+	noteOff.frequency.reset = GBATEK::SoundReset::Reset;
 
 	return noteOff;
 }
@@ -33,7 +33,7 @@ GBA::DMG::Midi::SoundChannel4Prefab Midi::Prefabs::DrumTomPrefab()
 	note.frequency.counterStep = GBATEK::CounterStep::Step7;
 	note.frequency.shiftClockFreq = 2;
 	note.frequency.sustainMode = GBATEK::SustainMode::SoundLength;
-	note.frequency.reset = true;
+	note.frequency.reset = GBATEK::SoundReset::Reset;
 
 	return note;
 }

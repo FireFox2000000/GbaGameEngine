@@ -43,30 +43,52 @@ namespace GBATEK
 	class WriteOnly
 	{
 	private:
-		T value;
+		T m_value;
 
 	public:
 		constexpr WriteOnly()
 		{
 		}
 
-		constexpr WriteOnly(T v) : value(v)
+		constexpr WriteOnly(T v) : m_value(v)
 		{
 		}
 
-		constexpr WriteOnly& operator=(T v)
+		constexpr inline WriteOnly& operator=(T v)
 		{
-			value = v;
+			m_value = v;
 			return *this;
 		}
 
-		constexpr volatile WriteOnly& operator=(T v) volatile
+		constexpr volatile inline WriteOnly& operator=(T v) volatile
 		{
-			value = v;
+			m_value = v;
 			return *this;
 		}
 
 		WriteOnly(const WriteOnly&) = delete;// { static_assert(false, "Cannot read from write-only value"); };
 		WriteOnly& operator=(const WriteOnly&) = delete;// { static_assert(false, "Cannot read from write-only value"); };
+	};
+
+	template<typename TReadFields, typename TWriteFields = TReadFields>
+	class ReadWriteAccessor
+	{
+	private:
+		union
+		{
+			TReadFields m_readFields;
+			TWriteFields m_writeFields;
+		};
+
+	public:
+		inline TReadFields Read() const
+		{
+			return m_readFields;
+		}
+
+		inline void Write(const TWriteFields& data)
+		{
+			m_writeFields = data;
+		}
 	};
 }

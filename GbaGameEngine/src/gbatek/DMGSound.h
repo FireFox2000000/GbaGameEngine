@@ -48,6 +48,12 @@ namespace GBATEK
 		Step7,
 	};
 
+	enum class SoundReset : unsigned short
+	{
+		NoReset,
+		Reset,
+	};
+
 	struct SweepSound
 	{
 		// (0-7)
@@ -114,7 +120,7 @@ namespace GBATEK
 		SustainMode sustainMode : 1;
 
 		// Write-only. Resets the sound to the initial volume (and sweep) settings, i.e use this to play a new sound.
-		unsigned short reset : 1;
+		SoundReset reset : 1;
 	};
 
 	struct SoundFrequencyRead
@@ -171,7 +177,7 @@ namespace GBATEK
 		SustainMode sustainMode : 1;
 
 		// Write-only. All registers can be modified during playback but sound need to be reinitialized when modifying the envelope initial volume or the clock divider for changes to take effects.
-		unsigned short reset : 1;
+		SoundReset reset : 1;
 	};
 
 	struct NoiseFrequencyRead
@@ -188,69 +194,23 @@ namespace GBATEK
 
 	struct DMGSoundChannel1
 	{
-		inline SquareSoundRead read_controlRegister() const { return controlRegisterRead; }
-		inline void write_controlRegister(SquareSound value) { controlRegisterWrite = value; }
-	
-		inline SoundFrequencyRead read_frequencyRegister() const { return frequencyRegisterRead; }
-		inline void write_frequencyRegister(SoundFrequency value) { frequencyRegisterWrite = value; }
-
 		SweepSound sweep;
-
-	private:
-		union
-		{
-			SquareSoundRead controlRegisterRead;
-			SquareSound controlRegisterWrite;
-		};
-		union
-		{
-			SoundFrequencyRead frequencyRegisterRead;
-			SoundFrequency frequencyRegisterWrite;
-		};
+		ReadWriteAccessor<SquareSoundRead, SquareSound> controlRegister;
+		ReadWriteAccessor<SoundFrequencyRead, SoundFrequency> frequencyRegister;
 	};
 
 	struct DMGSoundChannel2
 	{
-		inline SquareSoundRead read_controlRegister() const { return controlRegisterRead; }
-		inline void write_controlRegister(SquareSound value) { controlRegisterWrite = value; }
-
-		inline SoundFrequencyRead read_frequencyRegister() const { return frequencyRegisterRead; }
-		inline void write_frequencyRegister(SoundFrequency value) { frequencyRegisterWrite = value; }
-
-	private:
-		union
-		{
-			SquareSoundRead controlRegisterRead;
-			SquareSound controlRegisterWrite;
-		};
+		ReadWriteAccessor<SquareSoundRead, SquareSound> controlRegister;
 		unsigned short : sizeof(unsigned short);
-		union
-		{
-			SoundFrequencyRead frequencyRegisterRead;
-			SoundFrequency frequencyRegisterWrite;
-		};
+		ReadWriteAccessor<SoundFrequencyRead, SoundFrequency> frequencyRegister;
 	};
 
 	struct DMGSoundChannel4
 	{
-		inline NoiseControlRead read_controlRegister() const { return controlRegisterRead; }
-		inline void write_controlRegister(NoiseControl value) { controlRegisterWrite = value; }
-
-		inline NoiseFrequencyRead read_frequencyRegister() const { return frequencyRegisterRead; }
-		inline void write_frequencyRegister(NoiseFrequency value) { frequencyRegisterWrite = value; }
-
-	private:
-		union
-		{
-			NoiseControlRead controlRegisterRead;
-			NoiseControl controlRegisterWrite;
-		};
+		ReadWriteAccessor<NoiseControlRead, NoiseControl> controlRegister;
 		unsigned short : sizeof(unsigned short);
-		union
-		{
-			NoiseFrequencyRead frequencyRegisterRead;
-			NoiseFrequency frequencyRegisterWrite;
-		};
+		ReadWriteAccessor<NoiseFrequencyRead, NoiseFrequency> frequencyRegister;
 	};
 
 	struct DMGSoundControlRegister

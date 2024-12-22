@@ -52,12 +52,12 @@ void GBA::DMG::Midi::Player::Tick()
 
 				if (dataMask & BIT(2))
 				{
-					GBATEK::ioRegisterSoundChannel1->write_controlRegister(m_fileStream.Read<GBATEK::SquareSound>());
+					GBATEK::ioRegisterSoundChannel1->controlRegister.Write(m_fileStream.Read<GBATEK::SquareSound>());
 				}
 
 				if (dataMask & BIT(3))
 				{
-					GBATEK::ioRegisterSoundChannel1->write_frequencyRegister(m_fileStream.Read<GBATEK::SoundFrequency>());
+					GBATEK::ioRegisterSoundChannel1->frequencyRegister.Write(m_fileStream.Read<GBATEK::SoundFrequency>());
 				}
 				break;
 			}
@@ -66,12 +66,12 @@ void GBA::DMG::Midi::Player::Tick()
 			{
 				if (dataMask & BIT(1))
 				{
-					GBATEK::ioRegisterSoundChannel2->write_controlRegister(m_fileStream.Read<GBATEK::SquareSound>());
+					GBATEK::ioRegisterSoundChannel2->controlRegister.Write(m_fileStream.Read<GBATEK::SquareSound>());
 				}
 
 				if (dataMask & BIT(2))
 				{
-					GBATEK::ioRegisterSoundChannel2->write_frequencyRegister(m_fileStream.Read<GBATEK::SoundFrequency>());
+					GBATEK::ioRegisterSoundChannel2->frequencyRegister.Write(m_fileStream.Read<GBATEK::SoundFrequency>());
 				}
 				break;
 			}
@@ -103,22 +103,22 @@ void GBA::DMG::Midi::Player::OnNoteEventReached(const NoteEvent& noteEvent)
 	case 1:
 	{
 		GBATEK::ioRegisterSoundChannel1->sweep = noteEvent.channel.channel1.sweep;
-		GBATEK::ioRegisterSoundChannel1->write_controlRegister(noteEvent.channel.channel1.squareSound);
-		GBATEK::ioRegisterSoundChannel1->write_frequencyRegister(noteEvent.channel.channel1.frequency);
+		GBATEK::ioRegisterSoundChannel1->controlRegister.Write(noteEvent.channel.channel1.squareSound);
+		GBATEK::ioRegisterSoundChannel1->frequencyRegister.Write(noteEvent.channel.channel1.frequency);
 		break;
 	}
 
 	case 2:
 	{
-		GBATEK::ioRegisterSoundChannel2->write_controlRegister(noteEvent.channel.channel2.squareSound);
-		GBATEK::ioRegisterSoundChannel2->write_frequencyRegister(noteEvent.channel.channel2.frequency);
+		GBATEK::ioRegisterSoundChannel2->controlRegister.Write(noteEvent.channel.channel2.squareSound);
+		GBATEK::ioRegisterSoundChannel2->frequencyRegister.Write(noteEvent.channel.channel2.frequency);
 		break;
 	}
 
 	case 4:
 	{
-		GBATEK::ioRegisterSoundChannel4->write_controlRegister(noteEvent.channel.channel4.control);
-		GBATEK::ioRegisterSoundChannel4->write_frequencyRegister(noteEvent.channel.channel4.frequency);
+		GBATEK::ioRegisterSoundChannel4->controlRegister.Write(noteEvent.channel.channel4.control);
+		GBATEK::ioRegisterSoundChannel4->frequencyRegister.Write(noteEvent.channel.channel4.frequency);
 		break;
 	}
 

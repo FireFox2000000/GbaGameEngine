@@ -18,7 +18,7 @@ GBA::DMG::Midi::SoundChannel2Prefab HeldNotePrefab2()
 
 	heldNote.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 6);// FrequencyToRate(512);
 	heldNote.frequency.sustainMode = GBATEK::SustainMode::Forever;
-	heldNote.frequency.reset = true;
+	heldNote.frequency.reset = GBATEK::SoundReset::Reset;
 
 	return heldNote;
 }
@@ -170,7 +170,7 @@ GBA::DMG::Midi::SoundChannel1Prefab HeldNotePrefab()
 
 	heldNote.frequency.soundRate = GBA::DMG::NoteToRate(Music::Note::G, 6);// FrequencyToRate(512);
 	heldNote.frequency.sustainMode = GBATEK::SustainMode::Forever;
-	heldNote.frequency.reset = true;
+	heldNote.frequency.reset = GBATEK::SoundReset::Reset;
 
 	return heldNote;
 }

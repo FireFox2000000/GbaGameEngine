@@ -50,11 +50,11 @@ namespace
 			control.envelopeDirection = GBATEK::EnvelopeStepDirection::Increase;
 			control.envelopeInitialVolume = 7;
 		}
-		GBATEK::ioRegisterSoundChannel1->write_controlRegister(control);
+		GBATEK::ioRegisterSoundChannel1->controlRegister.Write(control);
 
 		// NR13_REG = 0x00;
 		// NR14_REG = 0x87;
-		GBATEK::ioRegisterSoundChannel1->write_frequencyRegister(GBATEK::SoundFrequency{ GBA::DMG::FrequencyToRate(512), GBATEK::SustainMode::SoundLength, 1 });
+		GBATEK::ioRegisterSoundChannel1->frequencyRegister.Write(GBATEK::SoundFrequency{ GBA::DMG::FrequencyToRate(512), GBATEK::SustainMode::SoundLength, GBATEK::SoundReset::Reset });
 	}
 }
 
