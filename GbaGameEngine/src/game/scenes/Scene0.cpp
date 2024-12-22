@@ -80,7 +80,7 @@ void Scene0::Enter()
 			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* shantae0 = m_assetManager.GetSprite(SpriteAtlusID::Shantae, 0);
+			Sprite* shantae0 = m_shantaeAtlus->GetSprite(0);
 			testBackgroundRenderer.SetSprite(shantae0);
 
 			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
