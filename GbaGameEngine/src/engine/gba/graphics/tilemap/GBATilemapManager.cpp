@@ -154,12 +154,16 @@ void TilemapManager::Load(Tilemap & out_tilemap, u32 tilesToAlloc, GBATEK::Backg
 	// Finally put our tilemap into the registers
 	{
 		GBATEK::BackgroundColourMode colourMode = tilemapSet->m_file.m_backgroundColourMode;
-		auto& controlRegister = (*GBATEK::ioRegisterBackgroundControls)[out_tilemap.GetAssignedBackgroundSlot()];
-		controlRegister.colourMode = colourMode;
-		controlRegister.vramCharacterBaseBlockIndex = tilemapSet->GetTileSetCharacterBaseBlock();
-		controlRegister.vramScreenBaseBlockIndex = out_tilemap.GetMapScreenBaseBlockIndex();
-		controlRegister.size = size;
-		controlRegister.mosaic = false;
+		GBATEK::BackgroundControl& controlRegister = (*GBATEK::ioRegisterBackgroundControls)[out_tilemap.GetAssignedBackgroundSlot()];
+		
+		GBATEK::BackgroundControl newControlProperties = controlRegister;
+		newControlProperties.colourMode = colourMode;
+		newControlProperties.vramCharacterBaseBlockIndex = tilemapSet->GetTileSetCharacterBaseBlock();
+		newControlProperties.vramScreenBaseBlockIndex = out_tilemap.GetMapScreenBaseBlockIndex();
+		newControlProperties.size = size;
+		newControlProperties.mosaic = false;
+
+		controlRegister = newControlProperties;
 	}
 }
 
