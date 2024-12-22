@@ -98,22 +98,22 @@ void UiRenderer::LoadAtlus(const u32* file)
 		// Read palette
 		u8 paletteBankIndexOffset = reader.Read<u8>();
 		u8 paletteLength = reader.Read<u8>();
-		GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
+		const GBATEK::ColourRGB16* palette = reader.ReadAddress<GBATEK::ColourRGB16>(paletteLength);
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();
 		GBATEK::BackgroundTilemapEntry clearScreenEntry = reader.Read<GBATEK::BackgroundTilemapEntry>();
 
 		u32 tilesetLength = reader.Read<u32>();
-		GBATEK::UPixelData* tileset = reader.ReadAddress<GBATEK::UPixelData>(tilesetLength);
+		const GBATEK::UPixelData* tileset = reader.ReadAddress<GBATEK::UPixelData>(tilesetLength);
 
 		// Read maps
 		u8 mapCount = reader.Read<u8>();
 		int tileMapDataLength = reader.Read<int>();
 		u8 mapIsDynamicMask = 0;
-		u8* widthMap = reader.ReadAddress<u8>(mapCount);
-		u8* heightMap = reader.ReadAddress<u8>(mapCount);
-		GBATEK::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
+		const u8* widthMap = reader.ReadAddress<u8>(mapCount);
+		const u8* heightMap = reader.ReadAddress<u8>(mapCount);
+		const GBATEK::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
 
 		m_tilemapSet = TilemapSet(
 			paletteBankIndexOffset

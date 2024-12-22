@@ -22,18 +22,18 @@ public:
 	{
 		AdvanceToAlignment(sizeof(T));
 
-		T obj = *(T*)(&fileData[m_streamPos.charIndex]);
+		T obj = *reinterpret_cast<const T*>(&fileData[m_streamPos.charIndex]);
 		m_streamPos.charIndex += sizeof(T);
 
 		return obj;
 	}
 
 	template<typename T>
-	T* ReadAddress(int size)
+	const T* ReadAddress(int size)
 	{
 		AdvanceToAlignment(sizeof(T));
 
-		T* obj = (T*)(&fileData[m_streamPos.charIndex]);
+		const T* obj = reinterpret_cast<const T*>(&fileData[m_streamPos.charIndex]);
 		m_streamPos.charIndex += sizeof(T) * size;
 
 		return obj;
