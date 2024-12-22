@@ -8,9 +8,23 @@ class Span
 	T* m_data = nullptr;
 	u32 m_size = 0;
 
-	inline T& Get(u32 index) { return m_data[index]; }
-	inline const T& Get(u32 index) const { return m_data[index]; }
-	inline volatile T& Get(u32 index) volatile { return m_data[index]; }
+	inline T& Get(u32 index) 
+	{
+		DEBUG_ASSERTMSG(index <= Count(), "Index out of bounds of span");
+		return m_data[index]; 
+	}
+
+	inline const T& Get(u32 index) const 
+	{ 
+		DEBUG_ASSERTMSG(index <= Count(), "Index out of bounds of span");
+		return m_data[index]; 
+	}
+
+	inline volatile T& Get(u32 index) volatile 
+	{ 
+		DEBUG_ASSERTMSG(index <= Count(), "Index out of bounds of span");
+		return m_data[index]; 
+	}
 
 public:
 	Span() = default;
