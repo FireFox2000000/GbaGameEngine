@@ -366,8 +366,9 @@ namespace GBA
 		newPosition -= drawParams.screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
 		Vector2<int> finalPos(newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt());
-		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].xOffset = finalPos.x;
-		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()].yOffset = finalPos.y;
+
+		auto& bgScroll = (*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()];
+		bgScroll = GBATEK::BackgroundScroll{ static_cast<unsigned short>(finalPos.x), static_cast<unsigned short>(finalPos.y) };
 
 		if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 		{

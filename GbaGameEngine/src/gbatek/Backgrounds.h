@@ -47,10 +47,12 @@ namespace GBATEK
 
 	struct BackgroundScroll
 	{
-		// Write-only (0-511)
-		WriteOnly<short> xOffset;
-		// Write-only (0-511)
-		WriteOnly<short> yOffset;
+		// Write-only (0-511, bits 9-15 unused)
+		unsigned short xOffset : 9;
+		unsigned short : 7;
+		// Write-only (0-511, bits 9-15 unused)
+		unsigned short yOffset : 9;
+		unsigned short : 7;
 	};
 
 	static_assert(sizeof(BackgroundControl) == 2, "BackgroundControl struct malformed");
@@ -60,5 +62,5 @@ namespace GBATEK
 	BackgroundControl (*const ioRegisterBackgroundControls)[4] = reinterpret_cast<BackgroundControl(*const)[4]>(0x4000008);
 
 	// Write-only
-	BackgroundScroll (*const ioRegisterBackgroundScrolls)[4] = reinterpret_cast<BackgroundScroll(*const)[4]>(0x4000010);
+	WriteOnly<BackgroundScroll>(*const ioRegisterBackgroundScrolls)[4] = reinterpret_cast<WriteOnly<BackgroundScroll>(*const)[4]>(0x4000010);
 }
