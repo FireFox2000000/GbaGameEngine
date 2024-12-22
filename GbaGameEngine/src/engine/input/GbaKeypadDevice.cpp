@@ -3,6 +3,14 @@
 #include "GbaKeypadMap.h"
 #include "gbatek/Keypad.h"
 
+namespace
+{
+	bool TestKey(Input::GbaKeypadDevice::Buttons key, const u32 inputChannel)
+	{
+		return inputChannel & key;
+	}
+}
+
 bool Input::GbaKeypadDevice::IsConnected() const
 {
 	return true;
@@ -14,21 +22,18 @@ void Input::GbaKeypadDevice::Update()
 	auto& current = m_inputState.GetPrimary();
 	current = 0;
 
-	current |= (GBATEK::ioRegisterKeypad->A == GBATEK::ButtonState::Pressed) ? Buttons::A : 0;
-	current |= Buttons::B * (GBATEK::ioRegisterKeypad->B == GBATEK::ButtonState::Pressed);
-	current |= Buttons::Select * (GBATEK::ioRegisterKeypad->Select == GBATEK::ButtonState::Pressed);
-	current |= Buttons::Start * (GBATEK::ioRegisterKeypad->Start == GBATEK::ButtonState::Pressed);
-	current |= (GBATEK::ioRegisterKeypad->Right == GBATEK::ButtonState::Pressed) ? Buttons::Right : 0;
-	current |= (GBATEK::ioRegisterKeypad->Left == GBATEK::ButtonState::Pressed) ? Buttons::Left : 0;
-	current |= (GBATEK::ioRegisterKeypad->Up == GBATEK::ButtonState::Pressed) ? Buttons::Up : 0;
-	current |= (GBATEK::ioRegisterKeypad->Down == GBATEK::ButtonState::Pressed) ? Buttons::Down : 0;
-	current |= Buttons::R * (GBATEK::ioRegisterKeypad->R == GBATEK::ButtonState::Pressed);
-	current |= Buttons::L * (GBATEK::ioRegisterKeypad->L == GBATEK::ButtonState::Pressed);
-}
+	const GBATEK::Keypad keypadState = *GBATEK::ioRegisterKeypad;
 
-bool TestKey(Input::GbaKeypadDevice::Buttons key, const u32 inputChannel)
-{
-	return inputChannel & key;
+	current |= (keypadState.buttons.A == GBATEK::ButtonState::Pressed) ? Buttons::A : 0;
+	current |= (keypadState.buttons.B == GBATEK::ButtonState::Pressed) ? Buttons::B : 0;
+	current |= (keypadState.buttons.Select == GBATEK::ButtonState::Pressed) ? Buttons::Select : 0;
+	current |= (keypadState.buttons.Start == GBATEK::ButtonState::Pressed) ? Buttons::Start : 0;
+	current |= (keypadState.buttons.Right == GBATEK::ButtonState::Pressed) ? Buttons::Right : 0;
+	current |= (keypadState.buttons.Left == GBATEK::ButtonState::Pressed) ? Buttons::Left : 0;
+	current |= (keypadState.buttons.Up == GBATEK::ButtonState::Pressed) ? Buttons::Up : 0;
+	current |= (keypadState.buttons.Down == GBATEK::ButtonState::Pressed) ? Buttons::Down : 0;
+	current |= (keypadState.buttons.R == GBATEK::ButtonState::Pressed) ? Buttons::R : 0;
+	current |= (keypadState.buttons.L == GBATEK::ButtonState::Pressed) ? Buttons::L : 0;
 }
 
 bool Input::GbaKeypadDevice::GetKey(Buttons key) const
@@ -48,17 +53,17 @@ bool Input::GbaKeypadDevice::GetKeyUp(Buttons key) const
 
 bool Input::GbaKeypadDevice::GetInput(const IInputMap& inputMap) const
 {
-	return GetInput((const GbaKeypadMap&)inputMap);
+	return GetInput(static_cast<const GbaKeypadMap&>(inputMap));
 }
 
 bool Input::GbaKeypadDevice::GetInputDown(const IInputMap& inputMap) const
 {
-	return GetInputDown((const GbaKeypadMap&)inputMap);
+	return GetInputDown(static_cast<const GbaKeypadMap&>(inputMap));
 }
 
 bool Input::GbaKeypadDevice::GetInputUp(const IInputMap& inputMap) const
 {
-	return GetInputUp((const GbaKeypadMap&)inputMap);
+	return GetInputUp(static_cast<const GbaKeypadMap&>(inputMap));
 }
 
 bool InputMatches(u32 inputMask, u32 mapMask)
