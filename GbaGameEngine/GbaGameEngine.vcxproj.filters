@@ -302,6 +302,7 @@
     <ClInclude Include="src\external\entt\poly\fwd.hpp" />
     <ClInclude Include="src\external\entt\poly\poly.hpp" />
     <ClInclude Include="src\external\entt\process\fwd.hpp" />
+    <ClInclude Include="src\engine\base\core\stl\Span.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
