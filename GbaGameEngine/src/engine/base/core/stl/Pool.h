@@ -327,8 +327,8 @@ public:
 	protected:
 		List<FixedPool<T, BLOCK_SIZE>*>::iterator m_currentBlock;
 		FixedPool<T, BLOCK_SIZE>::iterator m_current;
-		List<FixedPool<T, BLOCK_SIZE>*>::iterator m_endBlock;
-		FixedPool<T, BLOCK_SIZE>::iterator m_end;
+		const typename List<FixedPool<T, BLOCK_SIZE>*>::iterator m_endBlock;
+		const typename FixedPool<T, BLOCK_SIZE>::iterator m_end;
 
 		void Advance()
 		{
@@ -337,7 +337,11 @@ public:
 			if (m_current == (*m_currentBlock)->end())
 			{
 				++m_currentBlock;
-				m_current = (*m_currentBlock)->begin();
+
+				if (m_current != m_end)
+				{
+					m_current = (*m_currentBlock)->begin();
+				}
 			}
 		}
 
@@ -418,15 +422,15 @@ public:
 	{ 
 		return iterator(
 			m_blocks.begin(), m_blocks.begin() != m_blocks.end() ? (*m_blocks.begin())->begin() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr),
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[BLOCK_SIZE - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr)
+			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr)
 		);
 	}
 
 	iterator end()
 	{
 		return iterator(
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[BLOCK_SIZE - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr),
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[BLOCK_SIZE - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr)
+			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr),
+			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr)
 		);
 	}
 
