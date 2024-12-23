@@ -89,10 +89,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_VisualBoyAdvance"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_GBA -DPlatform_VisualBoyAdvance"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>DEBUG;Platform_VisualBoyAdvance;__GNUC__$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>DEBUG;Platform_GBA;Platform_VisualBoyAdvance;__GNUC__$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>
     </NMakeIncludeSearchPath>
     <NMakeAssemblySearchPath>
@@ -102,46 +102,46 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_Visual
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_VisualBoyAdvance"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DDEBUG -DPlatform_GBA -DPlatform_VisualBoyAdvance"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>DEBUG;Platform_VisualBoyAdvance;__GNUC__$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>DEBUG;Platform_GBA;Platform_VisualBoyAdvance;__GNUC__$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
     <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DRELEASE  -DNDEBUG"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DRELEASE -DPlatform_GBA -DNDEBUG"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>RELEASE;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>RELEASE;Platform_GBA;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
     <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_VisualBoyAdvance -DNDEBUG"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA -DPlatform_VisualBoyAdvance -DNDEBUG"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>PROFILE;Platform_VisualBoyAdvance;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>PROFILE;Platform_GBA;Platform_VisualBoyAdvance;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
     <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DRELEASE  -DNDEBUG"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DRELEASE -DPlatform_GBA -DNDEBUG"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>RELEASE;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>RELEASE;Platform_GBA;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
     <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <NMakeBuildCommandLine>%PATH%
-make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_VisualBoyAdvance -DNDEBUG"</NMakeBuildCommandLine>
+make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA -DPlatform_VisualBoyAdvance -DNDEBUG"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean OUTPUT_DIR=$(Configuration)</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>$(NMakeCleanCommandLine) &amp;&amp; $(NMakeBuildCommandLine)</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>PROFILE;Platform_VisualBoyAdvance;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>PROFILE;Platform_GBA;Platform_VisualBoyAdvance;__GNUC__;NDEBUG$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);src/</IncludePath>
     <AdditionalOptions>/std:c++20</AdditionalOptions>
   </PropertyGroup>
