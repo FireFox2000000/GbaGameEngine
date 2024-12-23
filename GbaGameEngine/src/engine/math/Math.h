@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <bit>
 #include "engine/base/Typedefs.h"
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -39,15 +40,26 @@ namespace Math
 	// theta's range is [0, 0xFFFF] for [0, 2 Pi]
 	s32 Cos(u16 theta);
 
-	float InvSqrt(float x);
+	constexpr float InvSqrt(float x)
+	{
+		// Quake fast inv sqrt - https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/
+		float xhalf = 0.5f * x;
+		int i = std::bit_cast<int>(x);            // store floating-point bits in integer
+		i = 0x5f3759df - (i >> 1);    // initial guess for Newton's method
+		x = std::bit_cast<float>(i);              // convert new bits into float
+		x = x * (1.5f - xhalf * x * x);     // One round of Newton's method
+		return x;
+	}
 
 	template <typename T> 
-	int Sign(T val) {
+	constexpr int Sign(T val) 
+	{
 		return (T(0) < val) - (val < T(0));
 	}
 
 	template <typename T>
-	T Abs(T val) {
+	constexpr T Abs(T val) 
+	{
 		return val > T(0) ? val : val * T(-1);
 	}
 }
