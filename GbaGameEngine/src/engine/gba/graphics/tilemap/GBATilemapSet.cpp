@@ -18,11 +18,13 @@ TilemapSet::TilemapSet(
 	, const u32 tileSetDataCompressionFlags
 	, const u8 mapCount
 	, const u8 mapIsDynamicMask
-	, const u8* mapTileWidths
-	, const u8* mapTileHeights
-	, const GBATEK::BackgroundTilemapEntry* mapData
+	, const Span<const u8> mapTileWidths
+	, const Span<const u8> mapTileHeights
+	, const Span<const GBATEK::BackgroundTilemapEntry> mapData
 )
 {
+	DEBUG_ASSERTMSG(mapTileWidths.Count() == mapTileHeights.Count(), "Map tile widths and height mismatch");
+
 	m_file.m_paletteBankIndex = paletteBankIndex;
 	m_file.m_palette = palette;
 

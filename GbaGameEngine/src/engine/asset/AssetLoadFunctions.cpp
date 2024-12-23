@@ -28,9 +28,9 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 	u8 mapCount = reader.Read<u8>();
 	int tileMapDataLength = reader.Read<int>();
 	u8 mapIsDynamicMask = reader.Read<u8>();
-	const u8* widthMap = reader.ReadAddress<u8>(mapCount);
-	const u8* heightMap = reader.ReadAddress<u8>(mapCount);
-	const GBATEK::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
+	Span<const u8> widthMap = reader.ReadSpan<u8>(mapCount);
+	Span<const u8> heightMap = reader.ReadSpan<u8>(mapCount);
+	Span<const GBATEK::BackgroundTilemapEntry> tilemapEntries = reader.ReadSpan<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
 
 	DEBUG_LOGFORMAT("Loaded tilemap set of size %.2fkb", BYTES_TO_KB(tilesetLength * sizeof(u32)));
 	DEBUG_LOGFORMAT("Loaded tilemap data of size %.2fkb", BYTES_TO_KB(tileMapDataLength * sizeof(u16)));
@@ -44,7 +44,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(const u32* file)
 		, mapIsDynamicMask
 		, widthMap
 		, heightMap
-		, mapData
+		, tilemapEntries
 	);
 }
 

@@ -15,6 +15,17 @@ class CppFileReader
 
 	void AdvanceToAlignment(int alignmentSize);
 
+	template<typename T>
+	const T* ReadAddress(int size)
+	{
+		AdvanceToAlignment(sizeof(T));
+
+		const T* obj = reinterpret_cast<const T*>(&fileData[m_streamPos.charIndex]);
+		m_streamPos.charIndex += sizeof(T) * size;
+
+		return obj;
+	}
+
 public:
 	CppFileReader(FilePtr file);
 
@@ -25,17 +36,6 @@ public:
 
 		T obj = *reinterpret_cast<const T*>(&fileData[m_streamPos.charIndex]);
 		m_streamPos.charIndex += sizeof(T);
-
-		return obj;
-	}
-
-	template<typename T>
-	const T* ReadAddress(int size)
-	{
-		AdvanceToAlignment(sizeof(T));
-
-		const T* obj = reinterpret_cast<const T*>(&fileData[m_streamPos.charIndex]);
-		m_streamPos.charIndex += sizeof(T) * size;
 
 		return obj;
 	}

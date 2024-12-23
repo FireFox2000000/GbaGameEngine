@@ -72,8 +72,8 @@ namespace GBA
 			const u32 dataLength = reader.Read<u32>();
 			const u32 compressionFlags = reader.Read<u32>();
 			Span<const GBATEK::ColourRGB16> palette = reader.ReadSpan<GBATEK::ColourRGB16>(paletteLength);
-			const u8* widthMap = reader.ReadAddress<u8>(spriteCount);
-			const u8* heightMap = reader.ReadAddress<u8>(spriteCount);
+			Span<const u8> widthMap = reader.ReadSpan<u8>(spriteCount);
+			Span<const u8> heightMap = reader.ReadSpan<u8>(spriteCount);
 			Span<const u32> offsets = reader.ReadSpan<u32>(spriteCount);
 			Span<const GBATEK::UPixelData> data = reader.ReadSpan<GBATEK::UPixelData>(dataLength);
 

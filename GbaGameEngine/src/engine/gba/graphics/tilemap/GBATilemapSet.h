@@ -50,9 +50,9 @@ namespace GBA
 				const u32 tileSetDataCompressionFlags,
 				const u8 mapCount,
 				const u8 mapIsDynamicMask,
-				const u8* mapTileWidths,
-				const u8* mapTileHeights,
-				const GBATEK::BackgroundTilemapEntry* mapData
+				const Span<const u8> mapTileWidths,
+				const Span<const u8> mapTileHeights,
+				const Span<const GBATEK::BackgroundTilemapEntry> mapData
 			);
 
 			TilemapSet(const TilemapSet & that);

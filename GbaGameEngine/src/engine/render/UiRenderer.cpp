@@ -112,9 +112,9 @@ void UiRenderer::LoadAtlus(const u32* file)
 		u8 mapCount = reader.Read<u8>();
 		int tileMapDataLength = reader.Read<int>();
 		u8 mapIsDynamicMask = 0;
-		const u8* widthMap = reader.ReadAddress<u8>(mapCount);
-		const u8* heightMap = reader.ReadAddress<u8>(mapCount);
-		const GBATEK::BackgroundTilemapEntry* mapData = reader.ReadAddress<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
+		Span<const u8> widthMap = reader.ReadSpan<u8>(mapCount);
+		Span<const u8> heightMap = reader.ReadSpan<u8>(mapCount);
+		Span<const GBATEK::BackgroundTilemapEntry> mapData = reader.ReadSpan<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
 
 		m_tilemapSet = TilemapSet(
 			paletteBankIndexOffset
