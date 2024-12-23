@@ -11,7 +11,12 @@
 
 DebugRender::DebugRender()
 {
-	spritePrimitives = m_spriteAssetManager.CreateSpriteAtlusFromFile(Debug_Primitives_64x64::data);
+	m_spritePrimitives = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlusFromFile(Debug_Primitives_64x64::data);
+}
+
+DebugRender::~DebugRender()
+{
+	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_spritePrimitives);
 }
 
 void DebugRender::RenderColliders(const GameObject* camera)
@@ -51,7 +56,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 			{
 			case ColliderShapeType::AABB:
 			{
-				sprite = spritePrimitives->GetSprite(0);
+				sprite = m_spritePrimitives->GetSprite(0);
 
 				auto aabb = collider.GetAABB();
 				auto transformScale = transform.GetScale();
@@ -73,7 +78,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 			}
 			case ColliderShapeType::Circle:
 			{
-				sprite = spritePrimitives->GetSprite(1);
+				sprite = m_spritePrimitives->GetSprite(1);
 
 				const auto& circle = collider.GetCircle();
 				scale.x *= tFixedPoint24(circle.radius);

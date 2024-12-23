@@ -20,8 +20,8 @@ namespace GBA
 			friend class SpriteGraphicsMemoryManager;
 
 			Span<const GBATEK::ColourRGB16> m_palette;
-			u32 m_spriteDataCompressionFlags;
-			SpriteNode* m_spritesLLHead;
+			u32 m_spriteDataCompressionFlags = 0;
+			SpriteNode* m_spritesLLHead = nullptr;
 
 			tPaletteIndex m_paletteIndex = INVALID_PALETTE_INDEX;
 

@@ -3,7 +3,6 @@
 #include "engine/asset/FixedAssetManager.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/audio/AudioManager.h"
-#include "engine/asset/SpriteAssetManager.h"
 #include "engine/asset/libraries/FontLibrary.h"
 
 struct Collision;
@@ -20,7 +19,6 @@ class Scene0 : public Scene
 		TilemapSetCount
 	};
 
-	SpriteAssetManager<1, 12> m_spriteAssetManager;
 	FixedAssetManager<
 		SpriteAnimationID,
 		TilemapSetID> 

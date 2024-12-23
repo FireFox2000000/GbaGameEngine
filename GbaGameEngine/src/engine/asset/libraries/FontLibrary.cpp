@@ -1,5 +1,6 @@
 #include "FontLibrary.h"
 #include "engine/math/Math.h"
+#include "engine/engine/engine.h"
 #include "game/data/sprites/debug_font_8x8_bold.h"
 
 FontLibrary::FontLibrary()
@@ -12,13 +13,18 @@ FontLibrary::FontLibrary()
 
 FontLibrary::~FontLibrary()
 {
+	auto& spriteAssetManager = Engine::GetInstance().GetSpriteAssetManager();
+	for (auto& font : m_fontCollection)
+	{
+		spriteAssetManager.UnloadSpriteAtlas(font.m_spriteAtlus);
+	}
 }
 
 void FontLibrary::AddFontFromSpriteSheet(
 	const u32* file
 	, int(*charToSpriteIndexLookupFn)(char))
 {
-	auto* atlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(file);
+	auto* atlus = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlusFromFile(file);
 	m_fontCollection.AddNew(atlus, charToSpriteIndexLookupFn);
 }
 

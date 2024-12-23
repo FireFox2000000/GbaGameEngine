@@ -1,5 +1,4 @@
 #pragma once
-#include "engine/asset/SpriteAssetManager.h"
 
 class Engine;
 class GameObject;
@@ -15,10 +14,10 @@ namespace GBA
 
 class DebugRender
 {
-	SpriteAssetManager<1, 2> m_spriteAssetManager;
-	GBA::Gfx::SpriteAtlus* spritePrimitives;
+	GBA::Gfx::SpriteAtlus* m_spritePrimitives;
 
 public:
 	DebugRender();
+	~DebugRender();
 	void RenderColliders(const GameObject* camera);
 };

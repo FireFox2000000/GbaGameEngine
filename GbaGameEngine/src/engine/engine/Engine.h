@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/base/ecs/EntityComponentManager.h"
+#include "engine/asset/SpriteAssetManager.h"
 
 // Container for game critical systems.
 class Engine
@@ -14,11 +15,14 @@ class Engine
 	// The entity that gets assigned engine-specific components
 	ECS::Entity m_engineComponentsContainer;
 
+	SpriteAssetManager m_spriteAssetManager;
+
 public:
 	Engine();
 	~Engine();
 
 	ECS::EntityComponentManager* GetEntityRegistry() { return &m_entityComponentManager; }
+	SpriteAssetManager& GetSpriteAssetManager() { return m_spriteAssetManager; }
 
 	template<typename Component>
 	inline void AddComponent()

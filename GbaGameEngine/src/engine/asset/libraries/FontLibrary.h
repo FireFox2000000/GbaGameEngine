@@ -2,7 +2,6 @@
 #include "engine/graphics/font/Font.h"
 #include "engine/graphics/font/FontLookupFunctions.h"
 #include "engine/base/core/stl/List.h"
-#include "engine/asset/SpriteAssetManager.h"
 
 namespace FontID
 {
@@ -16,7 +15,6 @@ namespace FontID
 
 class FontLibrary
 {
-	SpriteAssetManager<1, 100> m_spriteAssetManager;
 	FixedList<Font, FontID::Count> m_fontCollection;
 
 protected:

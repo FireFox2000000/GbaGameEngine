@@ -66,7 +66,7 @@ namespace GBA
 				FixedList<RepeatParams, MAX_ACTIVE_CHANNELS> repeatParams;
 			};
 
-			Pool<DirectSoundChannel, MAX_DIRECTSOUND_CHANNELS> m_directSoundChannelPool;
+			FixedPool<DirectSoundChannel, MAX_DIRECTSOUND_CHANNELS> m_directSoundChannelPool;
 			ActiveChannelSOA m_activeChannels;
 			FixedList<DirectSound::Channels, DirectSound::Channels::ChannelCount> m_availableDSoundChannels;
 			FixedList<DMAChannelID, static_cast<int>(DMAChannelID::SoundCount)> m_availableDMAChannels;

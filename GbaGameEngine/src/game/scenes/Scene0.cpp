@@ -47,7 +47,7 @@ void Scene0::Enter()
 	// Load assets
 	DEBUG_LOG("Loading Shantae sprite atlus");
 	FilePtr shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
-	m_shantaeAtlus = m_spriteAssetManager.CreateSpriteAtlusFromFile(shantaeSpriteSheet);
+	m_shantaeAtlus = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlusFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");
 	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(m_shantaeAtlus, 0, 12, 12));
@@ -241,6 +241,8 @@ void Scene0::Exit()
 	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
 	audioManager->Stop(m_backgroundMusic);
 	audioManager->FreeChannel(m_backgroundMusic);
+
+	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_shantaeAtlus);
 
 	m_assetManager.Dispose(&Engine::GetInstance());
 }
