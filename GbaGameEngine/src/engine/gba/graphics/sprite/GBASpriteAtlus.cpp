@@ -94,6 +94,8 @@ namespace GBA
 			using namespace GBA::Gfx;
 			SpriteNode* lastAddedNode = nullptr;
 
+			DEBUG_LOGFORMAT("Loading %d sprites from atlas", spriteCount);
+
 			for (u32 i = 0; i < spriteCount; ++i)
 			{
 				auto* node = spriteNodePool->CreateNew();

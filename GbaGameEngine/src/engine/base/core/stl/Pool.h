@@ -118,6 +118,8 @@ public:
 		m_nextFree = nullptr;
 	}
 
+	constexpr static uint Capacity() { return SIZE; }
+
 	class iterator_base
 	{
 	protected:
@@ -293,6 +295,8 @@ public:
 			delete block;
 		}
 	}
+
+	uint Capacity() const { return m_blocks.Count() * Block::Capacity(); }
 
 	T* CreateNew() override
 	{
