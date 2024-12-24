@@ -21,11 +21,20 @@
 #include "engine/debug/DebugLog.h"
 #endif
 
+#ifdef Platform_GBA
+
 #ifdef Platform_NoCash
 #include "engine/emulator/NoCashEmulator.h"
 #define BREAKPOINT() NoCashEmulator::NativeBreakpoint()
 #else
 #define BREAKPOINT()
+#endif
+
+#elif defined(Platform_Windows)
+
+#include <intrin.h>
+#define BREAKPOINT() { __debugbreak(); }
+
 #endif
 
 #ifdef DEBUG
