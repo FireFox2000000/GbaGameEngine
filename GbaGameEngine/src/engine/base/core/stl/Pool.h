@@ -184,21 +184,18 @@ public:
 		const T& operator * () const { return iterator_base::Get(); }
 		const T* operator -> () const { return &iterator_base::Get(); }
 
-		const_iterator& operator ++ () {
+		const_iterator& operator ++ () 
+		{
 			iterator_base::Advance();
 			return *this;
 		}
 	};
 
 	iterator begin() { return iterator(GetAt(0), GetAt(SIZE)); }
-	const_iterator begin() const {
-		return const_iterator(const_cast<PoolObject*>(GetAt(0)), const_cast<PoolObject*>(GetAt(SIZE)));
-	}
-
 	iterator end() { return iterator(GetAt(SIZE), GetAt(SIZE)); }
-	const_iterator end() const {
-		return const_iterator(const_cast<PoolObject*>(GetAt(SIZE)), const_cast<PoolObject*>(GetAt(SIZE)));
-	}
+
+	const_iterator begin() const { return const_iterator(const_cast<PoolObject*>(GetAt(0)), const_cast<PoolObject*>(GetAt(SIZE)));}
+	const_iterator end() const { return const_iterator(const_cast<PoolObject*>(GetAt(SIZE)), const_cast<PoolObject*>(GetAt(SIZE))); }
 
 	inline bool IsFull() { return !m_nextFree; }
 
@@ -266,10 +263,12 @@ template<class T, int BLOCK_SIZE>
 class Pool : public IPool<T>
 {
 	using PoolObject = IPool<T>::PoolObject;
+	using Block = FixedPool<T, BLOCK_SIZE>;
+	using BlocksList = List<Block*>;
 
-	List<FixedPool<T, BLOCK_SIZE>*> m_blocks;
+	BlocksList m_blocks;
 
-	FixedPool<T, BLOCK_SIZE>* GetOrCreateNextAllocatableBlock()
+	Block* GetOrCreateNextAllocatableBlock()
 	{
 		for (auto* block : m_blocks)
 		{
@@ -280,7 +279,7 @@ class Pool : public IPool<T>
 		}
 
 		// All blocks are full, allocate a new block
-		auto* newBlock = new FixedPool<T, BLOCK_SIZE>;
+		auto* newBlock = new Block;
 		m_blocks.Add(newBlock);
 
 		return newBlock;
@@ -325,10 +324,10 @@ public:
 	class iterator_base
 	{
 	protected:
-		List<FixedPool<T, BLOCK_SIZE>*>::iterator m_currentBlock;
-		FixedPool<T, BLOCK_SIZE>::iterator m_current;
-		const typename List<FixedPool<T, BLOCK_SIZE>*>::iterator m_endBlock;
-		const typename FixedPool<T, BLOCK_SIZE>::iterator m_end;
+		BlocksList::iterator m_currentBlock;
+		Block::iterator m_current;
+		const typename BlocksList::iterator m_endBlock;
+		const typename Block::iterator m_end;
 
 		void Advance()
 		{
@@ -351,16 +350,16 @@ public:
 		}
 
 		const T& Get() const
-		{
-			return *m_current;
+		{	
+			return **const_cast<Block::iterator*>(&m_current);
 		}
 
 	public:
 		iterator_base(
-			List<FixedPool<T, BLOCK_SIZE>*>::iterator currentBlock
-			, FixedPool<T, BLOCK_SIZE>::iterator current
-			, List<FixedPool<T, BLOCK_SIZE>*>::iterator endBlock
-			, FixedPool<T, BLOCK_SIZE>::iterator end)
+			BlocksList::iterator currentBlock
+			, Block::iterator current
+			, BlocksList::iterator endBlock
+			, Block::iterator end)
 			: m_currentBlock(currentBlock)
 			, m_current(current)
 			, m_endBlock(endBlock)
@@ -383,14 +382,14 @@ public:
 	{
 	public:
 		iterator(
-			List<FixedPool<T, BLOCK_SIZE>*>::iterator currentBlock
-			, FixedPool<T, BLOCK_SIZE>::iterator current
-			, List<FixedPool<T, BLOCK_SIZE>*>::iterator endBlock
-			, FixedPool<T, BLOCK_SIZE>::iterator end)
-			: iterator_base(currentBlock, current, endBlock, end) 
+			BlocksList::iterator currentBlock
+			, Block::iterator current
+			, BlocksList::iterator endBlock
+			, Block::iterator end)
+			: iterator_base(currentBlock, current, endBlock, end)
 		{}
 
-		T& operator * () { return iterator_base::Get(); }
+		T& operator * () { return  iterator_base::Get(); }
 		T* operator -> () { return &iterator_base::Get(); }
 
 		iterator& operator ++ () {
@@ -402,17 +401,19 @@ public:
 	class const_iterator : public iterator_base
 	{
 	public:
-		const_iterator(List<FixedPool<T, BLOCK_SIZE>*>::iterator currentBlock
-			, FixedPool<T, BLOCK_SIZE>::iterator current
-			, List<FixedPool<T, BLOCK_SIZE>*>::iterator endBlock
-			, FixedPool<T, BLOCK_SIZE>::iterator end)
+		const_iterator(
+			BlocksList::iterator currentBlock
+			, Block::iterator current
+			, BlocksList::iterator endBlock
+			, Block::iterator end)
 			: iterator_base(currentBlock, current, endBlock, end)
 		{}
 
-		const T& operator * () const { return iterator_base::Get(); }
+		const T& operator * () const { return  iterator_base::Get(); }
 		const T* operator -> () const { return &iterator_base::Get(); }
 
-		const_iterator& operator ++ () {
+		const_iterator& operator ++ () 
+		{
 			iterator_base::Advance();
 			return *this;
 		}
@@ -421,29 +422,34 @@ public:
 	iterator begin() 
 	{ 
 		return iterator(
-			m_blocks.begin(), m_blocks.begin() != m_blocks.end() ? (*m_blocks.begin())->begin() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr),
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr)
+			m_blocks.begin(), m_blocks.begin() != m_blocks.end() ? (*m_blocks.begin())->begin() : typename Block::iterator(nullptr, nullptr),
+			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
 		);
 	}
 
 	iterator end()
 	{
 		return iterator(
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr),
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename FixedPool<T, BLOCK_SIZE>::iterator(nullptr, nullptr)
+			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr),
+			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
+		);
+	}
+	
+	const_iterator begin() const 
+	{
+		BlocksList& mutableBlocks = *const_cast<BlocksList*>(&m_blocks);
+		return const_iterator(
+			mutableBlocks.begin(), mutableBlocks.begin() != mutableBlocks.end() ? (*mutableBlocks.begin())->begin() : typename Block::iterator(nullptr, nullptr),
+			mutableBlocks.end(), mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
 		);
 	}
 
-	/*
-	const_iterator begin() const 
-	{
-		return const_iterator(m_blocks[0], m_blocks[0]->begin(), m_blocks + BLOCK_SIZE, (m_blocks + BLOCK_SIZE - 1)->end());
-	}
-
-	
-
 	const_iterator end() const 
 	{
-		return const_iterator(m_blocks + BLOCK_SIZE, (m_blocks + BLOCK_SIZE - 1)->end(), m_blocks + BLOCK_SIZE, (m_blocks + BLOCK_SIZE - 1)->end());
-	}*/
+		BlocksList& mutableBlocks = *const_cast<BlocksList*>(&m_blocks);
+		return const_iterator(
+			mutableBlocks.end(), mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr),
+			mutableBlocks.end(), mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
+		);
+	}
 };
