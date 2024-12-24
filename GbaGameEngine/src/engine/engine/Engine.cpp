@@ -8,6 +8,7 @@
 #include "engine/time/Time.h"
 
 Engine::Engine()
+	: m_audioManager(new AudioManager())
 {
 	m_engineComponentsContainer = m_engineComponentsRegistry.CreateEntity();
 
@@ -16,7 +17,6 @@ Engine::Engine()
 	AddComponent<Time>();
 	AddComponent<Graphics>();
 	AddComponent<SceneManager>();
-	AddComponent<AudioManager>();
 	AddComponent<IO::FileSystem>();
 	AddComponent<Input::InputManager>();
 }
@@ -24,6 +24,8 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	delete m_audioManager;
+
 	m_engineComponentsRegistry.DestroyEntity(m_engineComponentsContainer);
 
 	ECS::ManagedEntity::ProvideEntityManagerService(nullptr);

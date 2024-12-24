@@ -118,6 +118,10 @@ public:
 		m_nextFree = nullptr;
 	}
 
+	// Non-copyable as any allocated objects would be duplicated with completely different memory addresses
+	FixedPool(const FixedPool&) = delete;
+	FixedPool& operator=(const FixedPool&) = delete;
+
 	constexpr static uint Capacity() { return SIZE; }
 
 	class iterator_base
@@ -288,6 +292,8 @@ class Pool : public IPool<T>
 	}
 
 public:
+	Pool() = default;
+
 	~Pool()
 	{
 		for (auto* block : m_blocks)
@@ -295,6 +301,13 @@ public:
 			delete block;
 		}
 	}
+
+	// Non-copyable as any allocated objects would be duplicated with completely different memory addresses
+	Pool(const Pool&) = delete;
+	Pool& operator=(const Pool&) = delete;
+
+	// TODO move constructor as we can move the pool while keeping the blocks in the same memory locations
+	// and thus preserving memory addresses
 
 	uint Capacity() const { return m_blocks.Count() * Block::Capacity(); }
 

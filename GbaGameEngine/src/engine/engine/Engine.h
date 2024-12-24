@@ -3,6 +3,8 @@
 #include "engine/base/ecs/EntityComponentManager.h"
 #include "engine/asset/SpriteAssetManager.h"
 
+class AudioManager;
+
 // Container for game critical systems.
 class Engine
 {
@@ -16,6 +18,7 @@ class Engine
 	ECS::Entity m_engineComponentsContainer;
 
 	SpriteAssetManager m_spriteAssetManager;
+	AudioManager* m_audioManager = nullptr;
 
 public:
 	Engine();
@@ -54,3 +57,15 @@ public:
 		return engine;
 	}
 };
+
+template<>
+inline const AudioManager* Engine::GetComponent() const
+{
+	return m_audioManager;
+}
+
+template<>
+inline AudioManager* Engine::GetComponent()
+{
+	return m_audioManager;
+}
