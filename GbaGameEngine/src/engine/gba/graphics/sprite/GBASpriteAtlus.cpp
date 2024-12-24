@@ -80,6 +80,7 @@ namespace GBA
 			DEBUG_LOGFORMAT("Loaded sprite atlus of size %.2fkb", BYTES_TO_KB(dataLength * sizeof(u32)));
 
 			SpriteAtlus* atlus = spriteAtlusPool->CreateNew();
+			atlus->m_assetHash = std::bit_cast<int>(file);
 
 			if (!atlus)
 			{

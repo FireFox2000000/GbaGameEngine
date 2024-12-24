@@ -17,7 +17,7 @@ SpriteAssetManager::SpriteAtlus* SpriteAssetManager::CreateSpriteAtlusFromFile(c
 
 void SpriteAssetManager::UnloadSpriteAtlas(SpriteAtlus* atlas)
 {
-	DEBUG_LOG("Unloading sprite atlas");
+	DEBUG_LOGFORMAT("Unloading sprite atlas %d", atlas->GetFileHash());
 
 	auto* node = atlas->GetHead();
 	while (node)

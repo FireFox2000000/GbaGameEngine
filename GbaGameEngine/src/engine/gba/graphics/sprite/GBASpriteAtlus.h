@@ -24,6 +24,7 @@ namespace GBA
 			SpriteNode* m_spritesLLHead = nullptr;
 
 			tPaletteIndex m_paletteIndex = INVALID_PALETTE_INDEX;
+			int m_assetHash = -1;
 
 		public:
 			SpriteAtlus();
@@ -40,6 +41,8 @@ namespace GBA
 
 			// This is slow, cache when possible
 			const Sprite* GetSprite(int index) const;
+
+			const int GetAssetHash() const { return m_assetHash; }
 		};
 	}
 }
