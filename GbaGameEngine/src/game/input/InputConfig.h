@@ -12,6 +12,7 @@ enum GameInputs
 	Jump,
 
 	ExitTilemapTestScene,
+	ReturnToLevelSelector,
 
 	MenuDown,
 	MenuUp,

@@ -12,6 +12,8 @@
 #include "engine/graphics/GraphicsSetup.h"
 #include "engine/physics/Rigidbody.h"
 #include "engine/physics/Collision.h"
+#include "engine/scene/SceneManager.h"
+#include "game/scenes/LevelSelectorScene.h"
 
 #include "engine/gameobject/ui/ScreenTransform.h"
 #include "engine/gameobject/ui/Text.h"
@@ -232,6 +234,12 @@ void Scene0::Update()
 		{
 			audioManager->Play(m_backgroundMusic);
 		}
+	}
+
+	if (Input::GetInputDown(ReturnToLevelSelector, devices))
+	{
+		SceneManager* sceneManager = Engine::GetInstance().GetComponent<SceneManager>();
+		sceneManager->ChangeScene<LevelSelectorScene>();
 	}
 }
 

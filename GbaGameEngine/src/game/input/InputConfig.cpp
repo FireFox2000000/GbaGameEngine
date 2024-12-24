@@ -30,6 +30,7 @@ const SortedInputList GbaKeypadInputList = {
 	{ MoveDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Down) }},
 	{ Jump, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
 	{ ExitTilemapTestScene, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
+	{ ReturnToLevelSelector, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Start) }},
 	{ MenuDown, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Down) }},
 	{ MenuUp, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::Up) }},
 	{ MenuSelect, List<Input::GbaKeypadMap> { Input::GbaKeypadMap(Input::GbaKeypadDevice::Buttons::A) }},
