@@ -1,6 +1,9 @@
 #include <iostream>
+#include "Tests/TestPool.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    TestPool::TestIteration();
+
+    std::cout << "Tests complete" << std::endl;
 }
