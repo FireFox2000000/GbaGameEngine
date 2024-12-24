@@ -63,9 +63,9 @@ public:
 	const_iterator end() const { return &Get(Count()); }
 	volatile_iterator end() volatile { return &Get(Count()); }
 
-	inline T & operator[](u32 index) { return Get(index); }
-	inline const T & operator[](u32 index) const { return Get(index); }
-	inline volatile T & operator[](u32 index) volatile { return Get(index); }
+	inline T & operator[](u32 index) { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return Get(index); }
+	inline const T & operator[](u32 index) const { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return Get(index); }
+	inline volatile T & operator[](u32 index) volatile { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return Get(index); }
 
 	inline T * At(u32 index) { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
 	inline const T * At(u32 index) const { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
