@@ -69,13 +69,18 @@ GBATimerId GetTimerIdForDirectSound(GBA::Audio::DirectSound::DSoundTimer dmaTime
 		return GBATimerId::Sound1;
 	}
 #endif
+	case GBA::Audio::DirectSound::DSoundTimer::SoundTimerCount:
+	{
+		DEBUG_ERROR("Trying to get sound timer id for unassigned sound timer");
+		return GBATimerId::Sound0;
+	}
 	default:
 	{
 		break;
 	}
 	}
 
-	DEBUG_ERROR("Unable to get gba timer for direct sound");
+	DEBUG_ERRORFORMAT("Unable to get gba timer for direct sound %d", static_cast<int>(dmaTimer));
 	return GBATimerId::Sound0;
 }
 
@@ -244,11 +249,14 @@ void GBA::Audio::AudioManager::Update()
 
 void GBA::Audio::AudioManager::Pause(const tChannelHandle & handle)
 {
-	// Stop playback but leave active for easy resume.
-	const auto* stream = GetDirectSoundChannel(handle);
-	auto timerId = GetTimerIdForDirectSound(stream->dmaTimerId);
-	auto& timer = *GBATEK::ioRegisterTimers[timerId];
-	timer.isEnabled = false;
+	if (GetChannelFlag(handle, AudioChannelProperties::Active))
+	{
+		// Stop playback but leave active for easy resume.
+		const auto* stream = GetDirectSoundChannel(handle);
+		auto timerId = GetTimerIdForDirectSound(stream->dmaTimerId);
+		auto& timer = *GBATEK::ioRegisterTimers[timerId];
+		timer.isEnabled = false;
+	}
 }
 
 void GBA::Audio::AudioManager::Resume(const tChannelHandle & handle)
