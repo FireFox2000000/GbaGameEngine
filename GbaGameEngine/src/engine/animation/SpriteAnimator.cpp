@@ -5,13 +5,13 @@
 
 void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 {
-	if (currentAnimation != animation)
+	if (m_currentAnimation != animation)
 	{
-		currentAnimation = animation;
+		m_currentAnimation = animation;
 
-		timeToNextFrameMicroSeconds = 0;
-		frameDtMicroseconds = currentAnimation ? SECONDS_TO_MICROSECONDS(1.0f / currentAnimation->frameRate) : 0;
-		currentFrameIndex = -1;  // New animation
+		m_timeToNextFrameMicroSeconds = 0;
+		m_frameDtMicroseconds = m_currentAnimation ? SECONDS_TO_MICROSECONDS(1.0f / m_currentAnimation->frameRate) : 0;
+		m_currentFrameIndex = -1;  // New animation
 	}
 }
 
@@ -24,50 +24,50 @@ void System::SpriteAnimator::Update()
 
 	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](ECS::Entity entity, Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
 		{
-			if (!animator.currentAnimation || animator.FrameCount() <= 0)
+			if (!animator.m_currentAnimation || animator.FrameCount() <= 0)
 				return;
 
 			// A new animation was set
-			if (animator.currentFrameIndex < 0)
+			if (animator.m_currentFrameIndex < 0)
 			{
-				animator.currentFrameIndex = 0;
+				animator.m_currentFrameIndex = 0;
 
-				Sprite* sprite = animator.currentAnimation->keyFrames[animator.currentFrameIndex].sprite;
+				Sprite* sprite = animator.m_currentAnimation->keyFrames[animator.m_currentFrameIndex].sprite;
 				spriteRenderer.SetSprite(sprite);
 
-				if (animator.currentAnimation->onNewFrameHandler)
+				if (animator.m_currentAnimation->onNewFrameHandler)
 				{
-					animator.currentAnimation->onNewFrameHandler(animator.currentFrameIndex, entity, &animator);
+					animator.m_currentAnimation->onNewFrameHandler(animator.m_currentFrameIndex, entity, &animator);
 				}
 
 				return;
 			}
 
-			animator.timeToNextFrameMicroSeconds += dtMicroSeconds;
+			animator.m_timeToNextFrameMicroSeconds += dtMicroSeconds;
 
-			u8 previousFrameIndex = animator.currentFrameIndex;
+			u8 previousFrameIndex = animator.m_currentFrameIndex;
 
 			// Advance current frame time and increment current frame index as needed
-			while (animator.timeToNextFrameMicroSeconds > (s32)animator.frameDtMicroseconds)
+			while (animator.m_timeToNextFrameMicroSeconds > static_cast<s32>(animator.m_frameDtMicroseconds))
 			{
-				animator.timeToNextFrameMicroSeconds -= animator.frameDtMicroseconds;
-				++animator.currentFrameIndex;
+				animator.m_timeToNextFrameMicroSeconds -= animator.m_frameDtMicroseconds;
+				++animator.m_currentFrameIndex;
 			}
 
 			// Wrap into a valid index
-			while (animator.currentFrameIndex >= (int)animator.FrameCount())
+			while (animator.m_currentFrameIndex >= static_cast<int>(animator.FrameCount()))
 			{
-				animator.currentFrameIndex -= animator.FrameCount();
+				animator.m_currentFrameIndex -= animator.FrameCount();
 			}
 
-			if (previousFrameIndex != animator.currentFrameIndex)
+			if (previousFrameIndex != animator.m_currentFrameIndex)
 			{
-				Sprite* sprite = animator.currentAnimation->keyFrames[animator.currentFrameIndex].sprite;
+				Sprite* sprite = animator.m_currentAnimation->keyFrames[animator.m_currentFrameIndex].sprite;
 				spriteRenderer.SetSprite(sprite);
 
-				if (animator.currentAnimation->onNewFrameHandler)
+				if (animator.m_currentAnimation->onNewFrameHandler)
 				{
-					animator.currentAnimation->onNewFrameHandler(animator.currentFrameIndex, entity, &animator);
+					animator.m_currentAnimation->onNewFrameHandler(animator.m_currentFrameIndex, entity, &animator);
 				}
 			}
 		});

@@ -19,14 +19,14 @@ namespace Component
 	{
 		friend void System::SpriteAnimator::Update();
 
-		const SpriteAnimation* currentAnimation;
+		const SpriteAnimation* m_currentAnimation = nullptr;
 
-		s32 timeToNextFrameMicroSeconds = 0;
-		u32 frameDtMicroseconds = 0;
-		int currentFrameIndex = -1;
+		s32 m_timeToNextFrameMicroSeconds = 0;
+		u32 m_frameDtMicroseconds = 0;
+		int m_currentFrameIndex = -1;
 
 	public:
 		void SetAnimation(const SpriteAnimation* animation);
-		u32 FrameCount() { return currentAnimation ? currentAnimation->keyFrames.Count() : 0; }
+		u32 FrameCount() { return m_currentAnimation ? m_currentAnimation->keyFrames.Count() : 0; }
 	};
 }
