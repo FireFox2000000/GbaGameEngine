@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "engine/base/Macros.h"
+#include "engine/engine/Engine.h"
 #include "Scene.h"
 
 SceneManager::SceneManager()
@@ -22,6 +23,9 @@ bool SceneManager::EnterQueuedScene()
 			delete m_current;
 		}
 
+		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
+		entityManager->InternalFinaliseDestroy();
+
 		m_current = m_queuedSceneFn();
 		m_queuedSceneFn = nullptr;
 
@@ -43,6 +47,9 @@ void SceneManager::Dispose()
 		delete m_current;
 		m_current = nullptr;
 	}
+
+	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
+	entityManager->InternalFinaliseDestroy();
 
 	m_queuedSceneFn = nullptr;
 }

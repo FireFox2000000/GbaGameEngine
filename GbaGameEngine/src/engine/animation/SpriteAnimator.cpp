@@ -55,6 +55,7 @@ void System::SpriteAnimator::Update()
 			}
 
 			// Wrap into a valid index
+			DEBUG_ASSERTMSGFORMAT(static_cast<int>(animator.FrameCount()) >= 0, "Invalid frame count for animation %d", static_cast<int>(animator.FrameCount()));
 			while (animator.m_currentFrameIndex >= static_cast<int>(animator.FrameCount()))
 			{
 				animator.m_currentFrameIndex -= animator.FrameCount();
