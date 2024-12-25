@@ -63,13 +63,13 @@ public:
 	const_iterator end() const { return &Get(Count()); }
 	volatile_iterator end() volatile { return &Get(Count()); }
 
-	inline T & operator[](u32 index) { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return Get(index); }
-	inline const T & operator[](u32 index) const { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return Get(index); }
-	inline volatile T & operator[](u32 index) volatile { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return Get(index); }
+	inline T & operator[](u32 index) { DEBUG_ASSERTMSGFORMAT(index < Count(), "Array index %lu out of range %lu", index, Count()); return Get(index); }
+	inline const T & operator[](u32 index) const { DEBUG_ASSERTMSGFORMAT(index < Count(), "Array index %lu out of range %lu", index, Count()); return Get(index); }
+	inline volatile T & operator[](u32 index) volatile { DEBUG_ASSERTMSGFORMAT(index < Count(), "Array index %lu out of range %lu", index, Count()); return Get(index); }
 
-	inline T * At(u32 index) { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
-	inline const T * At(u32 index) const { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
-	inline volatile T * At(u32 index) volatile { DEBUG_ASSERTMSG(index < Count(), "Array index out of range"); return &Get(index); }
+	inline T * At(u32 index) { DEBUG_ASSERTMSGFORMAT(index < Count(), "Array index %lu out of range %lu", index, Count()); return &Get(index); }
+	inline const T * At(u32 index) const { DEBUG_ASSERTMSGFORMAT(index < Count(), "Array index %lu out of range %lu", index, Count()); return &Get(index); }
+	inline volatile T * At(u32 index) volatile { DEBUG_ASSERTMSGFORMAT(index < Count(), "Array index %lu out of range %lu", index, Count()); return &Get(index); }
 
 	inline void operator = (const Array<T, SIZE>& that) { MemCopy(this, &that, sizeof(T) * Count()); }
 	inline void operator = (const Array<T, SIZE>& that) volatile

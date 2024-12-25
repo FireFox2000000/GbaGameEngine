@@ -47,7 +47,7 @@ namespace GBA
 			Vector2<u8> m_tileSize;
 			RenderData m_renderData;
 
-			SpriteAtlus* m_atlus;
+			SpriteAtlus* m_atlus = nullptr;
 			Span<const GBATEK::UPixelData> m_pixelMapData;
 
 			SpriteAtlus* EditAtlus();

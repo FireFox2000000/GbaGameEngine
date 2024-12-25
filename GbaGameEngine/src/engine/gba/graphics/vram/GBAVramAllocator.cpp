@@ -89,6 +89,8 @@ namespace GBA
 
 	void VramAllocator::FreeSpriteMem(tTileId index)
 	{
+		DEBUG_ASSERTMSG(m_spriteTileMemTracker[index] == Used, "Trying to free sprite memory from a location that was never allocated");
+		
 		m_spriteTileMemTracker[index++] = Free;
 
 		while (index < m_spriteTileMemTracker.Count() && m_spriteTileMemTracker[index] == Continue)

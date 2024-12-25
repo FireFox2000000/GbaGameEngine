@@ -334,8 +334,11 @@ public:
 			if (block->Contains(item))
 			{
 				block->Free(item);
+				return;
 			}
 		}
+
+		DEBUG_ASSERTMSGFORMAT(false, "Failed to free item at %p, not allocated from this pool %p.", item, this);
 	}
 
 	class iterator_base
