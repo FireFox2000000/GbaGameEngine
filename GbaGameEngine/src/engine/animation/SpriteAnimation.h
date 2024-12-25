@@ -22,7 +22,7 @@ struct SpriteAnimation
 {
 	struct KeyFrame
 	{
-		Sprite* sprite;
+		Sprite* sprite = nullptr;
 	};
 
 	using AnimationEvent = std::function<void(int, ECS::Entity, Component::SpriteAnimator*)>;
@@ -31,5 +31,5 @@ struct SpriteAnimation
 
 	KeyFrames keyFrames;
 	AnimationEvent onNewFrameHandler = nullptr;
-	u32 frameRate;
+	u32 frameRate = 0;
 };

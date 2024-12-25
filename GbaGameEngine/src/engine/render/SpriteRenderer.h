@@ -21,7 +21,7 @@ namespace Component
 	class SpriteRenderer : public Renderer
 	{
 		Vector2<int> m_centerToCornerSizeOffset;
-		Sprite* m_sprite;
+		Sprite* m_sprite = nullptr;
 
 	public:
 		void SetSprite(Sprite* sprite);

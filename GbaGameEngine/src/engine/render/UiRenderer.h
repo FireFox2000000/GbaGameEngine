@@ -8,17 +8,17 @@ class UiRenderer
 	struct FontProperties
 	{
 		// Tilemap index of the first ascii character, i.e. '!'
-		int fontAsciiStart;
+		int fontAsciiStart = 0;
 
 		// The start of the supported ascii range. Generally ' ' or '!'
-		char firstAsciiCharacter;
+		char firstAsciiCharacter = 0;
 
 		// Max size in tiles of the font, for line break etc. 
 		Vector2<int> fixedCharacterSize;
 	};
 
 	GBA::Gfx::TilemapSet m_tilemapSet;
-	int m_backgroundId;
+	int m_backgroundId = 0;
 	GBA::VramAllocator::tScreenBaseBlockIndex m_mapSbbIndex = GBA::VramAllocator::INVALID_SBB_ID;
 	GBATEK::BackgroundTilemapEntry m_clearScreenEntry;
 	FontProperties m_fontProperties;

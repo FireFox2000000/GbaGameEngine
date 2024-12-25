@@ -27,11 +27,11 @@ class Scene0 : public Scene
 	FixedList<GameObject, 128> m_gameObjects;
 	FontLibrary m_fontLib;
 	GameObject m_playerObject;
-	GameObject* m_textObject;
-	GameObject* m_textObjectCollision;
-	AudioManager::tChannelHandle m_backgroundMusic;
+	GameObject* m_textObject = nullptr;
+	GameObject* m_textObjectCollision = nullptr;
+	AudioManager::tChannelHandle m_backgroundMusic = 0;
 
-	SpriteAtlus* m_shantaeAtlus;
+	SpriteAtlus* m_shantaeAtlus = nullptr;
 
 public:
 	Scene0();
