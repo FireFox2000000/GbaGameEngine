@@ -44,31 +44,6 @@ class FixedPool : public IPool<T>
 	alignas(PoolObject) u8 m_objects[sizeof(PoolObject) * SIZE];
 	PoolObject* m_nextFree = nullptr;
 
-	T* AllocUninitialisedItem()
-	{
-		// Retrieve the next free item
-		m_nextFree->active = true;
-		T* newItem = &m_nextFree->object;
-
-		// Update the next free item in the list
-		auto* nextFree = m_nextFree->next;
-		m_nextFree = nextFree;
-
-		return newItem;
-	}
-
-	PoolObject* GetAt(int index)
-	{
-		auto* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
-		return objects + index;
-	}
-
-	const PoolObject* GetAt(int index) const
-	{
-		const auto* objects = reinterpret_cast<const PoolObject*>(&m_objects[0]);
-		return objects + index;
-	}
-
 public:
 	FixedPool()
 	{
@@ -122,6 +97,38 @@ public:
 	FixedPool(const FixedPool&) = delete;
 	FixedPool& operator=(const FixedPool&) = delete;
 
+private:
+	T* AllocUninitialisedItem()
+	{
+		// Retrieve the next free item
+		m_nextFree->active = true;
+		T* newItem = &m_nextFree->object;
+
+		// Update the next free item in the list
+		auto* nextFree = m_nextFree->next;
+		m_nextFree = nextFree;
+
+		return newItem;
+	}
+
+	PoolObject* GetAt(int index)
+	{
+		auto* objects = reinterpret_cast<PoolObject*>(&m_objects[0]);
+		return objects + index;
+	}
+
+	const PoolObject* GetAt(int index) const
+	{
+		const auto* objects = reinterpret_cast<const PoolObject*>(&m_objects[0]);
+		return objects + index;
+	}
+
+	PoolObject* ObjectFromItem(T* item) const
+	{
+		return reinterpret_cast<PoolObject*>(reinterpret_cast<u8*>(item) - offsetof(typename IPool<T>::PoolObject, object));
+	}
+
+public:
 	constexpr static uint Capacity() { return SIZE; }
 
 	class iterator_base
@@ -247,7 +254,7 @@ public:
 
 	void Free(T* item) override
 	{
-		auto* poolItem = reinterpret_cast<PoolObject*>(item);
+		PoolObject* poolItem = ObjectFromItem(item);
 		poolItem->object.~T();
 		poolItem->next = m_nextFree;
 		poolItem->active = false;
@@ -256,7 +263,8 @@ public:
 
 	bool Contains(T* item) const
 	{
-		int index = int(item - &(*begin()));
+		const PoolObject* poolItem = ObjectFromItem(item);
+		int index = int(poolItem - GetAt(0));
 		return index >= 0 && index < SIZE;
 	}
 };
