@@ -254,6 +254,8 @@ public:
 
 	void Free(T* item) override
 	{
+		DEBUG_ASSERTMSG(Contains(item), "Incorrectly freeing item that was not originally allocated from the pool");
+
 		PoolObject* poolItem = ObjectFromItem(item);
 		poolItem->object.~T();
 		poolItem->next = m_nextFree;
