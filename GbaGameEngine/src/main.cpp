@@ -121,16 +121,16 @@ int main()
 
 				audioManager->Update();
 
+				// Don't attempt to render dead entities that may be pointing to unloaded assets
+				auto* entityManager = engine.GetEntityRegistry();
+				entityManager->InternalFinaliseDestroy();
+
 #ifdef DEBUG_COLLIDERS
 				m_debugRenderer.RenderColliders(engine.get(), sceneManager->GetCurrentScene()->GetMainCamera());
 #endif
-
 				sceneManager->PreRenderScene();
 
 				audioManager->Update();
-
-				auto* entityManager = engine.GetEntityRegistry();
-				entityManager->InternalFinaliseDestroy();
 			}
 		}
 	}
