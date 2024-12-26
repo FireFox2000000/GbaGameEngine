@@ -123,9 +123,41 @@ private:
 		return objects + index;
 	}
 
-	PoolObject* ObjectFromItem(T* item) const
+	inline PoolObject* ObjectFromItem(T* item) const
 	{
-		return reinterpret_cast<PoolObject*>(reinterpret_cast<u8*>(item) - offsetof(typename IPool<T>::PoolObject, m_object));
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
+#endif
+		static_assert(offsetof(typename IPool<T>::PoolObject, m_object) == 0, "Convertion from Pool item T to PoolObject will fail.");
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+		return reinterpret_cast<PoolObject*>(item);
+	}
+
+	inline const PoolObject* ObjectFromItem(const T* item) const
+	{
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
+#endif
+		static_assert(offsetof(typename IPool<T>::PoolObject, m_object) == 0, "Convertion from Pool item T to PoolObject will fail.");
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+		return reinterpret_cast<const PoolObject*>(item);
+	}
+
+	inline int IndexOf(const PoolObject* item) const
+	{
+		return static_cast<int>(item - GetAt(0));
+	}
+
+	inline int IndexOf(const T* item) const
+	{
+		const PoolObject* poolItem = ObjectFromItem(item);
+		return IndexOf(poolItem);
 	}
 
 public:
