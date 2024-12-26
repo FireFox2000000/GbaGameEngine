@@ -18,12 +18,12 @@ protected:
 		// Have this as the first item in the struct so we can cast T* to PoolObject*
 		union
 		{
-			PoolObject* next;
-			T object;
+			PoolObject* m_next;
+			T m_object;
 		};
 
 		// Basically an "in use" flag to determine if "object" is live or not to figure out whether to call destrutor on object for an auto-free
-		bool active = false;	// This may be better in SOA alignment for iterator speed when pools are mostly empty. 
+		bool m_active = false;	// This may be better in SOA alignment for iterator speed when pools are mostly empty. 
 	};
 
 public:
@@ -59,14 +59,14 @@ public:
 			int next = i + 1;
 			if (next >= SIZE)
 			{
-				current->next = nullptr;
+				current->m_next = nullptr;
 			}
 			else
 			{
-				current->next = objects + next;
+				current->m_next = objects + next;
 			}
 
-			current->active = false;
+			current->m_active = false;
 		}
 
 		m_nextFree = objects;
@@ -81,9 +81,9 @@ public:
 		for (int i = 0; i < SIZE; ++i)
 		{
 			auto* current = objects + i;
-			if (current->active)
+			if (current->m_active)
 			{
-				Free(&current->object);
+				Free(&current->m_object);
 				++freeCount;
 			}
 		}
@@ -101,11 +101,11 @@ private:
 	T* AllocUninitialisedItem()
 	{
 		// Retrieve the next free item
-		m_nextFree->active = true;
-		T* newItem = &m_nextFree->object;
+		m_nextFree->m_active = true;
+		T* newItem = &m_nextFree->m_object;
 
 		// Update the next free item in the list
-		auto* nextFree = m_nextFree->next;
+		auto* nextFree = m_nextFree->m_next;
 		m_nextFree = nextFree;
 
 		return newItem;
@@ -125,7 +125,7 @@ private:
 
 	PoolObject* ObjectFromItem(T* item) const
 	{
-		return reinterpret_cast<PoolObject*>(reinterpret_cast<u8*>(item) - offsetof(typename IPool<T>::PoolObject, object));
+		return reinterpret_cast<PoolObject*>(reinterpret_cast<u8*>(item) - offsetof(typename IPool<T>::PoolObject, m_object));
 	}
 
 public:
@@ -142,23 +142,23 @@ public:
 			do
 			{
 				++m_current;
-			} while (m_current < m_end && !m_current->active);
+			} while (m_current < m_end && !m_current->m_active);
 		}
 
 		T& Get()
 		{
-			return m_current->object;
+			return m_current->m_object;
 		}
 
 		const T& Get() const
 		{
-			return m_current->object;
+			return m_current->m_object;
 		}
 
 	public:
 		iterator_base(PoolObject* current, PoolObject* end) : m_current(current), m_end(end)
 		{
-			if (m_current < m_end && !m_current->active)
+			if (m_current < m_end && !m_current->m_active)
 			{
 				Advance();
 			}
@@ -257,9 +257,9 @@ public:
 		DEBUG_ASSERTMSG(Contains(item), "Incorrectly freeing item that was not originally allocated from the pool");
 
 		PoolObject* poolItem = ObjectFromItem(item);
-		poolItem->object.~T();
-		poolItem->next = m_nextFree;
-		poolItem->active = false;
+		poolItem->m_object.~T();
+		poolItem->m_next = m_nextFree;
+		poolItem->m_active = false;
 		m_nextFree = poolItem;
 	}
 
