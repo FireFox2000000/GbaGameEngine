@@ -20,11 +20,6 @@ class TilemapTestScene : public Scene
 
 	StateMachine<> m_stateMachine;
 
-	enum SpriteAnimationID
-	{
-		AnimationCount
-	};
-
 	enum TilemapSetID {
 		NightSky,
 		Eosd,
@@ -32,10 +27,7 @@ class TilemapTestScene : public Scene
 		TilemapSetCount
 	};
 
-	FixedAssetManager<
-		SpriteAnimationID,
-		TilemapSetID>
-		m_assetManager;
+	FixedAssetManager<TilemapSetID> m_assetManager;
 
 	FixedList<GameObject, 2> m_gameObjects;
 	GameObject* m_background = nullptr;

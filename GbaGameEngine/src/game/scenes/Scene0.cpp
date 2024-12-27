@@ -52,12 +52,12 @@ void Scene0::Enter()
 	m_shantaeAtlas = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");
-	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlasSequencedAnimation(m_shantaeAtlas, 0, 12, 12));
+	m_shantaeIdleAnim = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAnimation(AnimationFactory::CreateSpriteAtlasSequencedAnimation(m_shantaeAtlas, 0, 12, 12));
 
-	defaultIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
+	m_shantaeIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
 	{
 		// Last frame
-		if (frame == (int)defaultIdleAnim->keyFrames.Count() - 1)
+		if (frame == (int)m_shantaeIdleAnim->keyFrames.Count() - 1)
 		{
 			auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 			Component::Transform* transform = entityManager->EditComponent<Component::Transform>(entity);
@@ -86,7 +86,7 @@ void Scene0::Enter()
 			testBackgroundRenderer.SetSprite(shantae0);
 
 			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
-			animator.SetAnimation(defaultIdleAnim);
+			animator.SetAnimation(m_shantaeIdleAnim);
 		}
 		*/
 		{
@@ -142,7 +142,7 @@ void Scene0::Enter()
 		spriteRenderer.SetSprite(shantae0);
 
 		Component::SpriteAnimator& animator = m_playerObject.AddComponent<Component::SpriteAnimator>();
-		animator.SetAnimation(defaultIdleAnim);
+		animator.SetAnimation(m_shantaeIdleAnim);
 
 		Component::Rigidbody& rigidbody = m_playerObject.AddComponent<Component::Rigidbody>();
 		rigidbody.gravity = Vector2<tFixedPoint24>(0, -30);
@@ -184,7 +184,7 @@ void Scene0::Update()
 		testBackgroundRenderer.SetSprite(shantae0);
 	
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
-		animator.SetAnimation(m_assetManager.GetAsset(SpriteAnimationID::Shantae_Idle));
+		animator.SetAnimation(m_shantaeIdleAnim);
 	}
 
 	if (m_textObject && true)
@@ -250,6 +250,7 @@ void Scene0::Exit()
 	audioManager->Stop(m_backgroundMusic);
 	audioManager->FreeChannel(m_backgroundMusic);
 
+	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAnimation(m_shantaeIdleAnim);
 	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_shantaeAtlas);
 
 	m_assetManager.Dispose(&Engine::GetInstance());

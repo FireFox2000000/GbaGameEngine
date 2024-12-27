@@ -1,6 +1,7 @@
 #pragma once
 #include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
+#include "engine/animation/SpriteAnimation.h"
 #include "engine/base/core/stl/Pool.h"
 
 // Manages a collection of sprite atlas' and sprites. 
@@ -14,15 +15,15 @@ class SpriteAssetManager
 
 	Pool<SpriteAtlas, 4> m_spriteAtlasPool;
 	Pool<SpriteNode, 32> m_spriteNodePool;
+	Pool<SpriteAnimation, 8> m_spriteAnimationPool;
 
 public:
 	SpriteAssetManager() = default;
 	~SpriteAssetManager();
 
-	// Non-copyable, must keep linked list intact
-	SpriteAssetManager& operator=(const SpriteAssetManager&) = delete;
-	SpriteAssetManager(const SpriteAssetManager&) = delete;
-
 	SpriteAtlas* CreateSpriteAtlasFromFile(const u32* file);
 	void UnloadSpriteAtlas(SpriteAtlas* atlas);
+
+	SpriteAnimation* CreateSpriteAnimation(const SpriteAnimation& animation);
+	void UnloadSpriteAnimation(SpriteAnimation* animation);
 };

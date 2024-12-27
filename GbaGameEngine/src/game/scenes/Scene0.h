@@ -9,20 +9,11 @@ struct Collision;
 
 class Scene0 : public Scene
 {
-	enum SpriteAnimationID {
-		Shantae_Idle,
-
-		AnimationCount
-	};
-
 	enum TilemapSetID {
 		TilemapSetCount
 	};
 
-	FixedAssetManager<
-		SpriteAnimationID,
-		TilemapSetID> 
-		m_assetManager;
+	FixedAssetManager<TilemapSetID> m_assetManager;
 
 	FixedList<GameObject, 128> m_gameObjects;
 	FontLibrary m_fontLib;
@@ -31,7 +22,9 @@ class Scene0 : public Scene
 	GameObject* m_textObjectCollision = nullptr;
 	AudioManager::tChannelHandle m_backgroundMusic = 0;
 
+	// Asset resources
 	SpriteAtlas* m_shantaeAtlas = nullptr;
+	SpriteAnimation* m_shantaeIdleAnim = nullptr;
 
 public:
 	Scene0();

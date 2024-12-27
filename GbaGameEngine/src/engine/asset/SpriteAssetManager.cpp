@@ -37,3 +37,13 @@ void SpriteAssetManager::UnloadSpriteAtlas(SpriteAtlas* atlas)
 
 	m_spriteAtlasPool.Free(atlas);
 }
+
+SpriteAnimation* SpriteAssetManager::CreateSpriteAnimation(const SpriteAnimation& animation)
+{
+	return m_spriteAnimationPool.Create(animation);
+}
+
+void SpriteAssetManager::UnloadSpriteAnimation(SpriteAnimation* animation)
+{
+	m_spriteAnimationPool.Free(animation);
+}

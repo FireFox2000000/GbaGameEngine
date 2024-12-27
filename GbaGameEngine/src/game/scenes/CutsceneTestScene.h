@@ -19,11 +19,6 @@ class CutsceneTestScene : public Scene
 
 	StateMachine<> m_stateMachine;
 
-	enum SpriteAnimationID
-	{
-		AnimationCount
-	};
-
 	enum TilemapSetID {
 		CutsceneImg1,
 		CutsceneImg2,
@@ -31,11 +26,7 @@ class CutsceneTestScene : public Scene
 		TilemapSetCount
 	};
 
-	FixedAssetManager<
-		SpriteAnimationID,
-		TilemapSetID>
-		m_assetManager;
-
+	FixedAssetManager<TilemapSetID> m_assetManager;
 	GameObject m_cutsceneBg;
 
 	void ChangeBg(Tilemap* newTilemap);
