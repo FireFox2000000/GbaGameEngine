@@ -393,17 +393,16 @@ public:
 		Block::iterator m_current;
 		const typename BlocksList::iterator m_endBlock;
 		const typename Block::iterator m_end;
+		Block::iterator m_currentBlockEnd;
 
 		void Advance()
 		{
-			auto currentBlockEnd = (*m_currentBlock)->end();
-
-			if (m_current != currentBlockEnd)
+			if (m_current != m_currentBlockEnd)
 			{
 				++m_current;
 			}
 
-			if (m_current == currentBlockEnd)
+			if (m_current == m_currentBlockEnd)
 			{
 				DEBUG_ASSERTMSG(m_currentBlock != m_endBlock, "Attempting to advance past block end iterator, this is not allowed.");
 
@@ -413,8 +412,9 @@ public:
 					if (m_currentBlock != m_endBlock)
 					{
 						m_current = (*m_currentBlock)->begin();
+						m_currentBlockEnd = (*m_currentBlock)->end();
 					}
-				} while (m_currentBlock != m_endBlock && m_current == (*m_currentBlock)->end());
+				} while (m_currentBlock != m_endBlock && m_current == m_currentBlockEnd);
 			}
 		}
 
@@ -438,6 +438,7 @@ public:
 			, m_current(current)
 			, m_endBlock(endBlock)
 			, m_end(end)
+			, m_currentBlockEnd(m_currentBlock ? (*m_currentBlock)->end() : end)
 		{
 			if (m_currentBlock && m_current != m_end && m_current == (*m_currentBlock)->end())
 			{
