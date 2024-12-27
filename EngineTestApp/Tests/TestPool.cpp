@@ -46,4 +46,11 @@ void TestPool::TestIteration()
     PrintPoolContents();
 
     PrintConstPoolContents(pool);
+
+    for (int* item : items)
+    {
+        pool.Free(item);
+    }
+
+    PrintPoolContents();
 }

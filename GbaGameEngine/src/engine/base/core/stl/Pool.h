@@ -171,6 +171,8 @@ public:
 
 		void Advance()
 		{
+			DEBUG_ASSERTMSG(m_current < m_end, "Advancing past the end iterator, this will result in infinite loop");
+
 			do
 			{
 				++m_current;
@@ -190,6 +192,7 @@ public:
 	public:
 		iterator_base(PoolObject* current, PoolObject* end) : m_current(current), m_end(end)
 		{
+			DEBUG_ASSERTMSG(m_current <= m_end, "Pool current iterator is greater than end, this will result in infinite loop");
 			if (m_current < m_end && !m_current->m_active)
 			{
 				Advance();
@@ -393,16 +396,25 @@ public:
 
 		void Advance()
 		{
-			++m_current;
+			auto currentBlockEnd = (*m_currentBlock)->end();
 
-			if (m_current == (*m_currentBlock)->end())
+			if (m_current != currentBlockEnd)
 			{
-				++m_currentBlock;
+				++m_current;
+			}
 
-				if (m_current != m_end)
+			if (m_current == currentBlockEnd)
+			{
+				DEBUG_ASSERTMSG(m_currentBlock != m_endBlock, "Attempting to advance past block end iterator, this is not allowed.");
+
+				do
 				{
-					m_current = (*m_currentBlock)->begin();
-				}
+					++m_currentBlock;
+					if (m_currentBlock != m_endBlock)
+					{
+						m_current = (*m_currentBlock)->begin();
+					}
+				} while (m_currentBlock != m_endBlock && m_current == (*m_currentBlock)->end());
 			}
 		}
 
@@ -427,6 +439,10 @@ public:
 			, m_endBlock(endBlock)
 			, m_end(end)
 		{
+			if (m_currentBlock && m_current != m_end && m_current == (*m_currentBlock)->end())
+			{
+				Advance();
+			}
 		}
 
 		bool operator == (const iterator_base& that)
