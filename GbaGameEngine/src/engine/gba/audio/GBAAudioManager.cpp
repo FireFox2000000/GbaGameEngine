@@ -223,7 +223,13 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 		vol,
 		dmaTimer);
 
-	RepeatParams repeatParams = { sampleStartOffset = sampleStartOffset, totalSeconds = totalSeconds, remainder = remainder, ticksPerSampleTransfer = ticksPerSampleTransfer };
+	RepeatParams repeatParams = { 
+		.sampleStartOffset = sampleStartOffset, 
+		.totalSeconds = totalSeconds, 
+		.remainder = remainder, 
+		.ticksPerSampleTransfer = ticksPerSampleTransfer 
+	};
+
 	Time::InternalSnapshot endTime;
 	PlayDirectSound(soundChannel, dmaChannel, dmaTimer, channel.samples.Data(), repeatParams, &endTime);
 

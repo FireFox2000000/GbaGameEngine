@@ -4,12 +4,8 @@
 template <class T>
 struct Vector2
 {
-	T x, y;
+	T x = 0, y = 0;
 
-	// Constructors
-	inline Vector2() : x(0), y(0) {};
-	inline Vector2(T x, T y) : x(x), y(y) {};
-	
 	// Operator overloads
 	inline bool operator == (const Vector2<T>& vec) const
 	{

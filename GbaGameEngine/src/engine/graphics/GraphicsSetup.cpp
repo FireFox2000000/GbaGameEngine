@@ -14,7 +14,7 @@ void GraphicsSetup::InitialiseStandardGraphics()
 
 	{
 		auto& palette = *PaletteBank::EditBackgroundPalette();
-		constexpr GBATEK::ColourRGB16 alpha = { 0, 0, 0 };
+		constexpr GBATEK::ColourRGB16 alpha = { .r = 0, .g = 0, .b = 0 };
 		VramSafeMemSet(&palette[0], alpha, 1);			// When no background are active the gba's default is to render the colour in this slot as the background
 	}
 	//{

@@ -17,7 +17,7 @@ namespace GBA
 		drawParams.screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
 
 		Vector2<int> screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
-		drawParams.renderSize = screenSizeInTiles + Vector2<int>(1, 1);
+		drawParams.renderSize = screenSizeInTiles + Vector2<int>{ .x = 1, .y = 1 };
 
 		return drawParams;
 	}
@@ -51,7 +51,8 @@ namespace GBA
 
 			// The affine matrix maps from screen space to texture space, need to tell where the pixel's colour comes from. Invert to correct for this.
 			// See https://www.coranac.com/tonc/text/affine.htm for details
-			Vector2<tFixedPoint8> gbaInvertedScale(1.0f / scale.x.ToFloat(), 1.0f / scale.y.ToFloat());		// Gross and slow. tFixedPoint24 overflows, tFixedPoint8 not enough precision.
+			// Float usage gross and slow, however tFixedPoint24 overflows, tFixedPoint8 not enough precision.
+			Vector2<tFixedPoint8> gbaInvertedScale{ .x = 1.0f / scale.x.ToFloat(), .y = 1.0f / scale.y.ToFloat() };		
 			u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
 			affineProperties->SetTransformation(gbaInvertedScale, -gbaRotation);
 

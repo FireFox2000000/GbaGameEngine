@@ -48,7 +48,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 			Vector2<tFixedPoint8> position = transform.GetPosition();
 
 			constexpr tFixedPoint24 BaseScale = SpriteScaleTo1x1;
-			Vector2<tFixedPoint24> scale = Vector2<tFixedPoint24>(BaseScale, BaseScale);
+			Vector2<tFixedPoint24> scale{ .x = BaseScale, .y = BaseScale };
 
 			tFixedPoint8 rotation = 0;
 
@@ -72,7 +72,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				scale.x *= tFixedPoint24(halfExtentX);
 				scale.y *= tFixedPoint24(halfExtentY);
 
-				position += aabb.min + Vector2<tFixedPoint8>(halfExtentX, halfExtentY);
+				position += aabb.min + Vector2<tFixedPoint8>{ .x = halfExtentX, .y = halfExtentY };
 
 				break;
 			}

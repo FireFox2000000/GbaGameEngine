@@ -9,7 +9,7 @@ namespace Component
 		struct ScreenTransform
 		{
 			Vector2<tFixedPoint8> position;
-			Vector2<tFixedPoint8> scale = Vector2<tFixedPoint8>(1, 1);
+			Vector2<tFixedPoint8> scale{ .x = 1, .y = 1 };
 		};
 	}
 }

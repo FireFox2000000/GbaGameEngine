@@ -365,10 +365,12 @@ namespace GBA
 		newPosition *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 		newPosition -= drawParams.screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 
-		Vector2<int> finalPos(newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt());
+		Vector2<int> finalPos{ .x = newPosition.x.ToRoundedInt(), .y = newPosition.y.ToRoundedInt() };
 
-		auto& bgScroll = (*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()];
-		bgScroll = GBATEK::BackgroundScroll{ static_cast<unsigned short>(finalPos.x), static_cast<unsigned short>(finalPos.y) };
+		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()] = { 
+			.xOffset = static_cast<unsigned short>(finalPos.x), 
+			.yOffset = static_cast<unsigned short>(finalPos.y) 
+		};
 
 		if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 		{
