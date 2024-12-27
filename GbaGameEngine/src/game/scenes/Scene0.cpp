@@ -37,6 +37,7 @@ void Scene0::Enter()
 	GraphicsSetup::InitialiseStandardGraphics();
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
+	SpriteAssetManager& assetManager = Engine::GetInstance().GetSpriteAssetManager();
 
 	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
 	FilePtr theCrowSongFile = fileSystem->Open("audio/Seliana16");
@@ -49,10 +50,10 @@ void Scene0::Enter()
 	// Load assets
 	DEBUG_LOG("Loading Shantae sprite atlas");
 	FilePtr shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
-	m_shantaeAtlas = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(shantaeSpriteSheet);
+	m_shantaeAtlas = assetManager.CreateSpriteAtlasFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");
-	m_shantaeIdleAnim = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAnimation(AnimationFactory::CreateSpriteAtlasSequencedAnimation(m_shantaeAtlas, 0, 12, 12));
+	m_shantaeIdleAnim = assetManager.CreateSpriteAnimation(AnimationFactory::CreateSpriteAtlasSequencedAnimation(m_shantaeAtlas, 0, 12, 12));
 
 	m_shantaeIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
 	{
@@ -245,13 +246,15 @@ void Scene0::Update()
 
 void Scene0::Exit()
 {
+	SpriteAssetManager& assetManager = Engine::GetInstance().GetSpriteAssetManager();
+
 	// TODO, should add an auto dispose list to handle this kind of thing instead
 	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
 	audioManager->Stop(m_backgroundMusic);
 	audioManager->FreeChannel(m_backgroundMusic);
 
-	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAnimation(m_shantaeIdleAnim);
-	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_shantaeAtlas);
+	assetManager.UnloadSpriteAnimation(m_shantaeIdleAnim);
+	assetManager.UnloadSpriteAtlas(m_shantaeAtlas);
 
 	m_assetManager.Dispose(&Engine::GetInstance());
 }
