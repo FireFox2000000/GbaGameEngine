@@ -7,7 +7,7 @@ namespace GBA
 	namespace Gfx
 	{
 		class Sprite;
-		class SpriteAtlus;
+		class SpriteAtlas;
 	}
 }
 
@@ -15,13 +15,13 @@ class Font
 {
 	friend class FontLibrary;
 
-	GBA::Gfx::SpriteAtlus* m_spriteAtlus;
+	GBA::Gfx::SpriteAtlas* m_spriteAtlas;
 	int (*m_charToSpriteIndexLookupFn)(char);
 	Vector2<u8> m_fixedCharacterSize;
 	List<GBA::Gfx::Sprite*> m_spritesCache;
 
 public:
-	Font(GBA::Gfx::SpriteAtlus* spriteAtlus, int(*charToSpriteIndexLookupFn)(char));
+	Font(GBA::Gfx::SpriteAtlas* spriteAtlas, int(*charToSpriteIndexLookupFn)(char));
 
 	const Vector2<u8> GetFixedCharacterSize() const;
 

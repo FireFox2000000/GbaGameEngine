@@ -11,7 +11,7 @@
 
 DebugRender::DebugRender()
 {
-	m_spritePrimitives = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlusFromFile(Debug_Primitives_64x64::data);
+	m_spritePrimitives = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(Debug_Primitives_64x64::data);
 }
 
 DebugRender::~DebugRender()

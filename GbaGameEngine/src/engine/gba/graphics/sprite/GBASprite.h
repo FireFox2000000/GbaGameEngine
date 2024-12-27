@@ -14,7 +14,7 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		class SpriteAtlus;
+		class SpriteAtlas;
 		class OAMManager;
 
 		// Holds onto the actual sprite pixel data and defines the properties of the sprite.
@@ -38,7 +38,7 @@ namespace GBA
 
 		private:
 			friend class SpriteGraphicsMemoryManager;
-			friend class SpriteAtlus;
+			friend class SpriteAtlas;
 			friend class OAMManager;
 
 			GBATEK::ObjectShape m_objectShape;
@@ -47,10 +47,10 @@ namespace GBA
 			Vector2<u8> m_tileSize;
 			RenderData m_renderData;
 
-			SpriteAtlus* m_atlus = nullptr;
+			SpriteAtlas* m_atlas = nullptr;
 			Span<const GBATEK::UPixelData> m_pixelMapData;
 
-			SpriteAtlus* EditAtlus();
+			SpriteAtlas* EditAtlas();
 		public:
 			Sprite();
 			Sprite(GBATEK::ObjectShape shape, GBATEK::ObjectSize sizeMode);
@@ -60,7 +60,7 @@ namespace GBA
 			GBATEK::ObjectSize GetSizeMode() const;
 			tTileId GetTileIndex() const;
 			tPaletteIndex GetPaletteIndex() const;
-			const SpriteAtlus* GetAtlus() const;
+			const SpriteAtlas* GetAtlas() const;
 			bool IsLoaded() const;
 
 			Vector2<int> GetSize() const;

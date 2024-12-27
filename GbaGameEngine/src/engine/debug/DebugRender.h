@@ -7,14 +7,14 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		class SpriteAtlus;
+		class SpriteAtlas;
 		class Sprite;
 	}
 }
 
 class DebugRender
 {
-	GBA::Gfx::SpriteAtlus* m_spritePrimitives;
+	GBA::Gfx::SpriteAtlas* m_spritePrimitives;
 
 public:
 	DebugRender();

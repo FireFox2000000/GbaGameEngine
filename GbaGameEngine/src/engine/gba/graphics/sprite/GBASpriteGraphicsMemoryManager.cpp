@@ -1,6 +1,6 @@
 #include "GBASpriteGraphicsMemoryManager.h"
 #include "GBASprite.h"
-#include "GBASpriteAtlus.h"
+#include "GBASpriteAtlas.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVramAllocator.h"
 
@@ -25,10 +25,10 @@ namespace GBA
 				return;
 
 			// Load palette
-			SpriteAtlus* atlus = out_sprite.EditAtlus();
+			SpriteAtlas* atlas = out_sprite.EditAtlas();
 			tPaletteIndex paletteId = 0;
 
-			if (!out_sprite.m_atlus->IsPaletteLoaded())
+			if (!out_sprite.m_atlas->IsPaletteLoaded())
 			{
 				// Find the next available palette slot
 				while (paletteId < m_paletteRefTracker.Count() && m_paletteRefTracker[paletteId] > 0)
@@ -44,12 +44,12 @@ namespace GBA
 
 				ColourPalette16 palette(GBATEK::ColourRGB16{ 0, 0, 0 });
 
-				for (u32 i = 0; i < atlus->m_palette.Count(); ++i)
+				for (u32 i = 0; i < atlas->m_palette.Count(); ++i)
 				{
-					palette[i] = atlus->m_palette[i];
+					palette[i] = atlas->m_palette[i];
 				}
 				PaletteBank::LoadSpritePalette(paletteId, palette);
-				atlus->m_paletteIndex = paletteId;
+				atlas->m_paletteIndex = paletteId;
 			}
 			else
 			{
@@ -58,7 +58,7 @@ namespace GBA
 
 			++m_paletteRefTracker[paletteId];
 
-			u32 compressionFlags = out_sprite.m_atlus->GetSpriteDataCompressionFlags();
+			u32 compressionFlags = out_sprite.m_atlas->GetSpriteDataCompressionFlags();
 			tTileId tileIndex = GBA::VramAllocator::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData.Data(), out_sprite.m_pixelMapData.Count(), compressionFlags);
 
 			if (tileIndex != INVALID_TILE_ID)
@@ -90,8 +90,8 @@ namespace GBA
 			if (m_paletteRefTracker[sprite->GetPaletteIndex()] <= 0)
 			{
 				// Free it so it can be reused
-				SpriteAtlus* atlus = sprite->m_atlus;
-				atlus->m_paletteIndex = INVALID_PALETTE_INDEX;
+				SpriteAtlas* atlas = sprite->m_atlas;
+				atlas->m_paletteIndex = INVALID_PALETTE_INDEX;
 			}
 		}
 

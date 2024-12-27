@@ -31,7 +31,7 @@ class Scene0 : public Scene
 	GameObject* m_textObjectCollision = nullptr;
 	AudioManager::tChannelHandle m_backgroundMusic = 0;
 
-	SpriteAtlus* m_shantaeAtlus = nullptr;
+	SpriteAtlas* m_shantaeAtlas = nullptr;
 
 public:
 	Scene0();

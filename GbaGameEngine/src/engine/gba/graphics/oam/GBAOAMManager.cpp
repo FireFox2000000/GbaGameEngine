@@ -2,7 +2,7 @@
 #include "engine/base/Macros.h"
 #include "engine/engine/engine.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlus.h"
+#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
 
 //#define RENDER_PROFILE
 #if defined(RENDER_PROFILE)
@@ -95,7 +95,7 @@ namespace GBA
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
-				oamSpriteHandle.palleteBankIndex = sprite->m_atlus->GetPaletteIndex();
+				oamSpriteHandle.palleteBankIndex = sprite->m_atlas->GetPaletteIndex();
 				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
 				oamSpriteHandle.shape = sprite->GetShape();
 				oamSpriteHandle.size = sprite->GetSizeMode();

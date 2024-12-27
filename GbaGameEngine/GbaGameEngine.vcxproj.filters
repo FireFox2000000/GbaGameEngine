@@ -29,7 +29,7 @@
     <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
@@ -139,7 +139,7 @@
     <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\graphics\Graphics.h" />

@@ -10,18 +10,18 @@ SpriteAssetManager::~SpriteAssetManager()
 #endif
 }
 
-SpriteAssetManager::SpriteAtlus* SpriteAssetManager::CreateSpriteAtlusFromFile(const u32* file)
+SpriteAssetManager::SpriteAtlas* SpriteAssetManager::CreateSpriteAtlasFromFile(const u32* file)
 {
-	auto* atlas = SpriteAtlus::CreateFromFile(file, &m_spriteAtlusPool, &m_spriteNodePool);
+	auto* atlas = SpriteAtlas::CreateFromFile(file, &m_spriteAtlasPool, &m_spriteNodePool);
 	
 	DEBUG_LOGFORMAT("Loaded sprite atlas %d", atlas->GetAssetHash());
-	DEBUG_LOGFORMAT("Sprite atlas pool capacity %d", m_spriteAtlusPool.Capacity());
+	DEBUG_LOGFORMAT("Sprite atlas pool capacity %d", m_spriteAtlasPool.Capacity());
 	DEBUG_LOGFORMAT("Sprite node pool capacity %d", m_spriteNodePool.Capacity());
 
 	return atlas;
 }
 
-void SpriteAssetManager::UnloadSpriteAtlas(SpriteAtlus* atlas)
+void SpriteAssetManager::UnloadSpriteAtlas(SpriteAtlas* atlas)
 {
 	int freedCount = 0;
 	auto* node = atlas->GetHead();
@@ -35,5 +35,5 @@ void SpriteAssetManager::UnloadSpriteAtlas(SpriteAtlus* atlas)
 
 	DEBUG_LOGFORMAT("Unloading sprite atlas %d and %d sprites", atlas->GetAssetHash(), freedCount);
 
-	m_spriteAtlusPool.Free(atlas);
+	m_spriteAtlasPool.Free(atlas);
 }

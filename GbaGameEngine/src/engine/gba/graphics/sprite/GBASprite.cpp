@@ -1,5 +1,5 @@
 #include "GBASprite.h"
-#include "GBASpriteAtlus.h"
+#include "GBASpriteAtlas.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 
 const u8 TILE_INDEX_MAX_BITS = 10;
@@ -31,16 +31,16 @@ namespace GBA
 
 		///////////////////////////////////////////////////////////
 
-		SpriteAtlus* Sprite::EditAtlus()
+		SpriteAtlas* Sprite::EditAtlas()
 		{
-			return m_atlus;
+			return m_atlas;
 		}
 
 		Sprite::Sprite()
 			: m_objectShape(GBATEK::ObjectShape::Square)
 			, m_objectSize(GBATEK::ObjectSize::Smallest)
 			, m_tileSize(GBAAttrFnVector2())
-			, m_atlus(nullptr)
+			, m_atlas(nullptr)
 		{
 		}
 
@@ -48,7 +48,7 @@ namespace GBA
 			: m_objectShape(shape)
 			, m_objectSize(sizeMode)
 			, m_tileSize(AttributeFunctions::GetTileSize(shape, sizeMode))
-			, m_atlus(nullptr)
+			, m_atlas(nullptr)
 		{
 			m_renderData.SetTileIndex(INVALID_TILE_ID);
 		}
@@ -75,17 +75,17 @@ namespace GBA
 
 		tPaletteIndex Sprite::GetPaletteIndex() const
 		{
-			return m_atlus ? m_atlus->GetPaletteIndex() : INVALID_PALETTE_INDEX;
+			return m_atlas ? m_atlas->GetPaletteIndex() : INVALID_PALETTE_INDEX;
 		}
 
-		const SpriteAtlus* Sprite::GetAtlus() const
+		const SpriteAtlas* Sprite::GetAtlas() const
 		{
-			return m_atlus;
+			return m_atlas;
 		}
 
 		bool Sprite::IsLoaded() const
 		{
-			return GetTileIndex() != INVALID_TILE_ID && m_atlus->IsPaletteLoaded();
+			return GetTileIndex() != INVALID_TILE_ID && m_atlas->IsPaletteLoaded();
 		}
 
 		Vector2<int> Sprite::GetSize() const

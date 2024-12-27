@@ -13,9 +13,9 @@ namespace GBA
 		struct SpriteNode;
 		class Sprite;
 
-		// Container for a list of sprites that are on the same atlus. 
-		// Sprites on the same atlus will share a colour palette between them, reducing palette memory usage.
-		class SpriteAtlus
+		// Container for a list of sprites that are on the same atlas. 
+		// Sprites on the same atlas will share a colour palette between them, reducing palette memory usage.
+		class SpriteAtlas
 		{
 			friend class SpriteGraphicsMemoryManager;
 
@@ -27,8 +27,8 @@ namespace GBA
 			int m_assetHash = -1;
 
 		public:
-			SpriteAtlus();
-			static SpriteAtlus* CreateFromFile(const u32* file, IPool<SpriteAtlus>* spriteAtlusPool, IPool<SpriteNode>* spriteNodePool);
+			SpriteAtlas();
+			static SpriteAtlas* CreateFromFile(const u32* file, IPool<SpriteAtlas>* spriteAtlasPool, IPool<SpriteNode>* spriteNodePool);
 
 			bool IsPaletteLoaded();
 			tPaletteIndex GetPaletteIndex();

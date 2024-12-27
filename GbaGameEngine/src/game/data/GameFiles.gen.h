@@ -9,7 +9,7 @@
 #include "game/data/tilemaps/Eosd.h"
 #include "game/data/tilemaps/NightSkySet.h"
 #include "game/data/tilemaps/NightSky_Inverted.h"
-#include "game/data/tilemaps/UiAtlus.h"
+#include "game/data/tilemaps/UiAtlas.h"
 
 #define ALL_FILES()\
 FILE(audio, DmgMidiFallOfFall)\
@@ -20,5 +20,5 @@ FILE(sprites, debug_font_8x8_bold)\
 FILE(tilemaps, Eosd)\
 FILE(tilemaps, NightSkySet)\
 FILE(tilemaps, NightSky_Inverted)\
-FILE(tilemaps, UiAtlus)\
+FILE(tilemaps, UiAtlas)\
 //

@@ -76,9 +76,9 @@ void UiRenderer::UnloadTilemapSet()
 	GBA::VramAllocator::GetInstance().FreeBackgroundTileSetMem(m_tilemapSet.m_renderData.m_tileSetCharacterBaseBlock);
 }
 
-void UiRenderer::LoadAtlus(const u32* file)
+void UiRenderer::LoadAtlas(const u32* file)
 {
-	DEBUG_LOG("Loading UiAtlus into UiRenderer");
+	DEBUG_LOG("Loading UiAtlas into UiRenderer");
 
 	using namespace GBA;
 	using namespace GBA::Gfx;

@@ -7,7 +7,7 @@
 #include "engine/asset/AssetLoadFunctions.h"
 
 using Sprite = GBA::Gfx::Sprite;
-using SpriteAtlus = GBA::Gfx::SpriteAtlus;
+using SpriteAtlas = GBA::Gfx::SpriteAtlas;
 using TilemapSet = GBA::Gfx::TilemapSet;
 using Tilemap = GBA::Gfx::Tilemap;
 

@@ -31,7 +31,7 @@ public:
 	UiRenderer();
 	~UiRenderer();
 
-	void LoadAtlus(const u32* file);
+	void LoadAtlas(const u32* file);
 	void DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const;
 	void ClearRegion(int x, int y, int width, int height) const;
 	void RenderText(const std::string& str, const Vector2<int>& drawPosition) const;

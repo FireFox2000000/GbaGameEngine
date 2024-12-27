@@ -6,21 +6,21 @@ using System.Numerics;
 
 namespace GbaConversionTools.Tools
 {
-    internal class UiAtlusConverter
+    internal class UiAtlasConverter
     {
-        public struct UiAtlusBitmap
+        public struct UiAtlasBitmap
         {
             public string name;
             public Bitmap bitmap;
         }
 
-        public struct UiAtlusUvs
+        public struct UiAtlasUvs
         {
             public string name;
             public Tools.SpriteConverter.UVs uvs;
         }
 
-        public struct UiAtlusConfig
+        public struct UiAtlasConfig
         {
             public struct FontProperties
             {
@@ -35,12 +35,12 @@ namespace GbaConversionTools.Tools
             }
 
             public FontProperties fontProperties;
-            public UiAtlusUvs[] uvs;
+            public UiAtlasUvs[] uvs;
         }
 
-        public void Convert(string inputPath, string outputPath, in UiAtlusConfig uiAtlusConfig, IList<UiAtlusBitmap> atlusBitmaps, byte paletteBankIndexOffset = 0)
+        public void Convert(string inputPath, string outputPath, in UiAtlasConfig uiAtlasConfig, IList<UiAtlasBitmap> atlasBitmaps, byte paletteBankIndexOffset = 0)
         {
-            VerifyUiEnumNames(atlusBitmaps);
+            VerifyUiEnumNames(atlasBitmaps);
 
             CppWriter cppWriter = new CppWriter(Path.GetFileName(Path.GetFileNameWithoutExtension(inputPath)), outputPath);
 
@@ -51,7 +51,7 @@ namespace GbaConversionTools.Tools
             TilemapConverter.TileMap[] tileMapList;
 
             List<Bitmap> bitmaps = new List<Bitmap>();
-            foreach (var bitmap in atlusBitmaps)
+            foreach (var bitmap in atlasBitmaps)
             {
                 bitmaps.Add(bitmap.bitmap);
             }
@@ -100,10 +100,10 @@ namespace GbaConversionTools.Tools
 
             // Write font properties
             {
-                cppWriter.Write(uiAtlusConfig.fontProperties.uvAsciiStart);
-                cppWriter.Write(uiAtlusConfig.fontProperties.firstAsciiCharacter);
-                cppWriter.Write((int)(uiAtlusConfig.fontProperties.fixedCharacterSize.X));
-                cppWriter.Write((int)(uiAtlusConfig.fontProperties.fixedCharacterSize.Y));
+                cppWriter.Write(uiAtlasConfig.fontProperties.uvAsciiStart);
+                cppWriter.Write(uiAtlasConfig.fontProperties.firstAsciiCharacter);
+                cppWriter.Write((int)(uiAtlasConfig.fontProperties.fixedCharacterSize.X));
+                cppWriter.Write((int)(uiAtlasConfig.fontProperties.fixedCharacterSize.Y));
             }
 
             // Write palette
@@ -141,7 +141,7 @@ namespace GbaConversionTools.Tools
                 cppWriter.Write((byte)tileMapList.Length);
                 cppWriter.Write((UInt32)gbaMapData.screenEntries.Length);
 
-                // Don't write this out. We have a crap-ton of maps in the ui atlus and we're not going to render it as static or dynamic anyway
+                // Don't write this out. We have a crap-ton of maps in the ui atlas and we're not going to render it as static or dynamic anyway
                 //cppWriter.Write(gbaMapData.mapIsDynamicBitMask);
 
                 // Width and height arrays
@@ -171,15 +171,15 @@ namespace GbaConversionTools.Tools
                     writer.WriteLine("");
 
                     int indentationLevel = 1;
-                    writer.WriteLine(CppWriter.PrefixIndentation("enum UiAtlusObject", indentationLevel));
+                    writer.WriteLine(CppWriter.PrefixIndentation("enum UiAtlasObject", indentationLevel));
                     writer.WriteLine(CppWriter.PrefixIndentation("{", indentationLevel));
 
                     ++indentationLevel;
                     {
                         // Append the UI enums to the header file
-                        foreach (var atlusBitmap in atlusBitmaps)
+                        foreach (var atlasBitmap in atlasBitmaps)
                         {
-                            string enumName = atlusBitmap.name;
+                            string enumName = atlasBitmap.name;
 
                             writer.WriteLine(CppWriter.PrefixIndentation(String.Format("{0},", enumName), indentationLevel));
                         }
@@ -190,25 +190,25 @@ namespace GbaConversionTools.Tools
                 }
             }
 
-            Console.WriteLine("Ui Atlus \"" + outputPath + "\" successfully converted");
+            Console.WriteLine("Ui Atlas \"" + outputPath + "\" successfully converted");
         }
 
-        bool VerifyUiEnumNames(IList<UiAtlusBitmap> atlusBitmaps)
+        bool VerifyUiEnumNames(IList<UiAtlasBitmap> atlasBitmaps)
         {
-            for (int i = 0; i < atlusBitmaps.Count; ++i)
+            for (int i = 0; i < atlasBitmaps.Count; ++i)
             {
                 // Check for duplicate names
-                for (int j = i + 1; j < atlusBitmaps.Count; ++j)
+                for (int j = i + 1; j < atlasBitmaps.Count; ++j)
                 {
-                    if (atlusBitmaps[i].name == atlusBitmaps[j].name)
+                    if (atlasBitmaps[i].name == atlasBitmaps[j].name)
                     {
-                        throw new Exception(String.Format("Found duplicate name at indexes {0} and {1}. Name was {2}", i, j, atlusBitmaps[i].name));
+                        throw new Exception(String.Format("Found duplicate name at indexes {0} and {1}. Name was {2}", i, j, atlasBitmaps[i].name));
                     }
                 }
 
                 // Check for invalid characters
                 {
-                    string enumName = atlusBitmaps[i].name;
+                    string enumName = atlasBitmaps[i].name;
                     //if (enumName.Contains)
                 }
             }

@@ -10,7 +10,7 @@ using GbaConversionTools.Tools;
 
 namespace GbaConversionTools.States
 {
-    internal class MenuUiAtlusConverter : IMenuState
+    internal class MenuUiAtlasConverter : IMenuState
     {
         public void Enter()
         {
@@ -49,36 +49,36 @@ namespace GbaConversionTools.States
                 string jsonOutputPath = Path.GetDirectoryName(inputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(inputPath) + ".json";
                 bool uvsJsonExists = File.Exists(jsonOutputPath);
 
-                UiAtlusConverter.UiAtlusConfig atlusConfig;
+                UiAtlasConverter.UiAtlasConfig atlasConfig;
                 if (uvsJsonExists)
                 {
                     // Make a list of new bitmaps that are cloned from sections of the original image. 
 
-                    atlusConfig = JsonConvert.DeserializeObject<Tools.UiAtlusConverter.UiAtlusConfig>(File.ReadAllText(jsonOutputPath));
-                    UiAtlusConverter.UiAtlusUvs[] sliceCoordinates = atlusConfig.uvs;
+                    atlasConfig = JsonConvert.DeserializeObject<Tools.UiAtlasConverter.UiAtlasConfig>(File.ReadAllText(jsonOutputPath));
+                    UiAtlasConverter.UiAtlasUvs[] sliceCoordinates = atlasConfig.uvs;
 
-                    var bitmaps = new List<Tools.UiAtlusConverter.UiAtlusBitmap>();
+                    var bitmaps = new List<Tools.UiAtlasConverter.UiAtlasBitmap>();
 
-                    foreach (UiAtlusConverter.UiAtlusUvs atlusSlice in sliceCoordinates)
+                    foreach (UiAtlasConverter.UiAtlasUvs atlasSlice in sliceCoordinates)
                     {
-                        Rectangle rect = new Rectangle(atlusSlice.uvs.x, atlusSlice.uvs.y, atlusSlice.uvs.width, atlusSlice.uvs.height);
-                        bitmaps.Add(new Tools.UiAtlusConverter.UiAtlusBitmap() { name = atlusSlice.name, bitmap = bitmap.Clone(rect, bitmap.PixelFormat) } );
+                        Rectangle rect = new Rectangle(atlasSlice.uvs.x, atlasSlice.uvs.y, atlasSlice.uvs.width, atlasSlice.uvs.height);
+                        bitmaps.Add(new Tools.UiAtlasConverter.UiAtlasBitmap() { name = atlasSlice.name, bitmap = bitmap.Clone(rect, bitmap.PixelFormat) } );
                     }
 
-                    UiAtlusConverter converter = new Tools.UiAtlusConverter();
-                    converter.Convert(inputPath, outputPath, atlusConfig, bitmaps, PaletteBankIndexOffset);
+                    UiAtlasConverter converter = new Tools.UiAtlasConverter();
+                    converter.Convert(inputPath, outputPath, atlasConfig, bitmaps, PaletteBankIndexOffset);
                 }
                 else
                 {
-                    atlusConfig = new UiAtlusConverter.UiAtlusConfig();
-                    UiAtlusConverter.UiAtlusUvs[] sliceCoordinates;
+                    atlasConfig = new UiAtlasConverter.UiAtlasConfig();
+                    UiAtlasConverter.UiAtlasUvs[] sliceCoordinates;
 
-                    Console.WriteLine(string.Format("No uvs defined for UI atlus image at {0}. Creating skeleton json file.", inputPath));
+                    Console.WriteLine(string.Format("No uvs defined for UI atlas image at {0}. Creating skeleton json file.", inputPath));
 
-                    // Make quick ui atlus uvs cause doing this by hand is tedious af. 
+                    // Make quick ui atlas uvs cause doing this by hand is tedious af. 
                     if (false)
                     {
-                        var sliceCoordinatesList = new List<UiAtlusConverter.UiAtlusUvs>();
+                        var sliceCoordinatesList = new List<UiAtlasConverter.UiAtlasUvs>();
                         int rows = 6;
                         int columns = 16;
                         int width = 8;
@@ -90,7 +90,7 @@ namespace GbaConversionTools.States
                             for (int column = 0; column < columns; ++column)
                             {
                                 string name = string.Format("Ascii_{0}", asciiNumber++);
-                                var uvs = new UiAtlusConverter.UiAtlusUvs { name = name, uvs = new Tools.SpriteConverter.UVs { x = column * width, y = row * height, width = width, height = height } };
+                                var uvs = new UiAtlasConverter.UiAtlasUvs { name = name, uvs = new Tools.SpriteConverter.UVs { x = column * width, y = row * height, width = width, height = height } };
                                 sliceCoordinatesList.Add(uvs);
                             }
                         }
@@ -99,15 +99,15 @@ namespace GbaConversionTools.States
                     }
                     else
                     {
-                        sliceCoordinates = new UiAtlusConverter.UiAtlusUvs[1]
+                        sliceCoordinates = new UiAtlasConverter.UiAtlasUvs[1]
                         {
-                            new UiAtlusConverter.UiAtlusUvs { name = "UvName1", uvs = new Tools.SpriteConverter.UVs{ x = 0, y = 0, width = 8, height = 8 } },
+                            new UiAtlasConverter.UiAtlasUvs { name = "UvName1", uvs = new Tools.SpriteConverter.UVs{ x = 0, y = 0, width = 8, height = 8 } },
                         };
                     }
 
-                    atlusConfig.uvs = sliceCoordinates;
+                    atlasConfig.uvs = sliceCoordinates;
 
-                    string uvJsonData = JsonConvert.SerializeObject(atlusConfig, Formatting.Indented);
+                    string uvJsonData = JsonConvert.SerializeObject(atlasConfig, Formatting.Indented);
                     File.WriteAllText(jsonOutputPath, uvJsonData);
                 }
             }

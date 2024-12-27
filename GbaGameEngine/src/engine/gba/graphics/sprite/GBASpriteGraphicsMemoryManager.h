@@ -12,7 +12,7 @@ namespace GBA
 		class Sprite;
 
 		// Use this to load a sprite's palette and load tile information into vram. 
-		// Keeps a reference per sprite atlus of what's loaded, so the atlus/palette will automatically unload once all sprites that reference the same atlus are unloaded.
+		// Keeps a reference per sprite atlas of what's loaded, so the atlas/palette will automatically unload once all sprites that reference the same atlas are unloaded.
 		class SpriteGraphicsMemoryManager
 		{
 			Array<u32, sizeof(ColourPalette16) / sizeof(GBATEK::ColourRGB16)> m_paletteRefTracker;

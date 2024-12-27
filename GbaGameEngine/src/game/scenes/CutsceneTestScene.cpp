@@ -12,17 +12,17 @@
 #include "game/scripts/states/DialogueState.h"
 #include "game/scripts/states/CutsceneState.h"
 
-#include "game/data/Tilemaps/UiAtlus.h"
+#include "game/data/Tilemaps/UiAtlas.h"
 
 const DialogueState::BorderSpriteSlice UiBorderDef = {
-	UiAtlusObject::Border_TopLeft
-	, UiAtlusObject::Border_TopRight
-	, UiAtlusObject::Border_BottomLeft
-	, UiAtlusObject::Border_BottomRight
-	, UiAtlusObject::Border_Left
-	, UiAtlusObject::Border_Right
-	, UiAtlusObject::Border_Top
-	, UiAtlusObject::Border_Bottom
+	UiAtlasObject::Border_TopLeft
+	, UiAtlasObject::Border_TopRight
+	, UiAtlasObject::Border_BottomLeft
+	, UiAtlasObject::Border_BottomRight
+	, UiAtlasObject::Border_Left
+	, UiAtlasObject::Border_Right
+	, UiAtlasObject::Border_Top
+	, UiAtlasObject::Border_Bottom
 };
 
 CutsceneTestScene::CutsceneTestScene()
@@ -49,8 +49,8 @@ void CutsceneTestScene::Enter()
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
-	FilePtr uiAtlusFile = fileSystem->Open("tilemaps/UiAtlus");
-	m_uiRenderer.LoadAtlus(uiAtlusFile);
+	FilePtr uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
+	m_uiRenderer.LoadAtlas(uiAtlasFile);
 
 	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/NightSkySet"));
 	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg2, fileSystem->Open("tilemaps/NightSky_Inverted"));

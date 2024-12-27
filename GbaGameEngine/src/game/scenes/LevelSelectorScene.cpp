@@ -4,7 +4,7 @@
 #include "engine/io/FileSystem.h"
 #include "engine/scene/SceneManager.h"
 #include "engine/graphics/GraphicsSetup.h"
-#include "game/data/tilemaps/UiAtlus.h"
+#include "game/data/tilemaps/UiAtlas.h"
 #include "engine/base/core/Memory.h"
 #include "game/input/Input.h"
 
@@ -18,8 +18,8 @@ int selectedNotchXPosition = 0;
 int columnStartIndex = 1;
 int columnHeight = 1;
 
-UiAtlusObject notchUiElement = UiAtlusObject::Ascii_62;
-UiAtlusObject menuClearBgUiElement = UiAtlusObject::Ascii_32;
+UiAtlasObject notchUiElement = UiAtlasObject::Ascii_62;
+UiAtlasObject menuClearBgUiElement = UiAtlasObject::Ascii_32;
 
 Array<std::string, 3> labels = {
 	"Sprite Stress Test",
@@ -69,9 +69,9 @@ void LevelSelectorScene::Enter()
 	GraphicsSetup::InitialiseStandardGraphics();
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
-	FilePtr file = fileSystem->Open("tilemaps/UiAtlus");
+	FilePtr file = fileSystem->Open("tilemaps/UiAtlas");
 
-	m_uiRenderer.LoadAtlus(file);
+	m_uiRenderer.LoadAtlas(file);
 
 	Vector2<int> drawPosition(labelXPosition, columnStartIndex);
 

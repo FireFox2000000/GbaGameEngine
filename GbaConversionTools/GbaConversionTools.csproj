@@ -82,7 +82,7 @@
     <Compile Include="Tools\SpriteConverter.cs" />
     <Compile Include="Tools\TileConfig.cs" />
     <Compile Include="Tools\TilemapConverter.cs" />
-    <Compile Include="Tools\UiAtlusConverter.cs" />
+    <Compile Include="Tools\UiAtlasConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

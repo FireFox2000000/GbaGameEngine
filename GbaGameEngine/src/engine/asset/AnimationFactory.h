@@ -5,11 +5,11 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		class SpriteAtlus;
+		class SpriteAtlas;
 	}
 }
 
 namespace AnimationFactory
 {
-	SpriteAnimation CreateSpriteAtlusSequencedAnimation(GBA::Gfx::SpriteAtlus* spriteAtlus, u8 spriteIndexStart, u8 spriteIndexEnd, u32 framerate);
+	SpriteAnimation CreateSpriteAtlasSequencedAnimation(GBA::Gfx::SpriteAtlas* spriteAtlas, u8 spriteIndexStart, u8 spriteIndexEnd, u32 framerate);
 }

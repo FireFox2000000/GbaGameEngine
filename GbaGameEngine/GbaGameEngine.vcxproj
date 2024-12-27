@@ -182,7 +182,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVramAllocator.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
@@ -376,7 +376,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\gameobject\ui\Text.h" />
     <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlus.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVramAllocator.h" />

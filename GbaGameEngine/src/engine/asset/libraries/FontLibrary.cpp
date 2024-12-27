@@ -7,7 +7,7 @@ FontLibrary::FontLibrary()
 {
 	DEBUG_LOG("Setting up Font Library...")
 
-	DEBUG_LOG("Loading debug font bold sprite atlus");
+	DEBUG_LOG("Loading debug font bold sprite atlas");
 	AddFontFromSpriteSheet(debug_font_8x8_bold::data, AsciiExclamationOffset);
 }
 
@@ -16,7 +16,7 @@ FontLibrary::~FontLibrary()
 	auto& spriteAssetManager = Engine::GetInstance().GetSpriteAssetManager();
 	for (auto& font : m_fontCollection)
 	{
-		spriteAssetManager.UnloadSpriteAtlas(font.m_spriteAtlus);
+		spriteAssetManager.UnloadSpriteAtlas(font.m_spriteAtlas);
 	}
 }
 
@@ -24,8 +24,8 @@ void FontLibrary::AddFontFromSpriteSheet(
 	const u32* file
 	, int(*charToSpriteIndexLookupFn)(char))
 {
-	auto* atlus = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlusFromFile(file);
-	m_fontCollection.AddNew(atlus, charToSpriteIndexLookupFn);
+	auto* atlas = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(file);
+	m_fontCollection.AddNew(atlas, charToSpriteIndexLookupFn);
 }
 
 Font * FontLibrary::GetFont(FontID::Enum fontId)

@@ -1,12 +1,12 @@
 #pragma once
 
-class UiAtlus
+class UiAtlas
 {
 public:
 	static const unsigned long data[];
 };
 
-	enum UiAtlusObject
+	enum UiAtlasObject
 	{
 		Ascii_32,
 		Ascii_33,

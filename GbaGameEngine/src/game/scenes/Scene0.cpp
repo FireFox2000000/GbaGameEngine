@@ -47,12 +47,12 @@ void Scene0::Enter()
 	//audioManager->Play(m_backgroundMusic);
 
 	// Load assets
-	DEBUG_LOG("Loading Shantae sprite atlus");
+	DEBUG_LOG("Loading Shantae sprite atlas");
 	FilePtr shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
-	m_shantaeAtlus = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlusFromFile(shantaeSpriteSheet);
+	m_shantaeAtlas = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");
-	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlusSequencedAnimation(m_shantaeAtlus, 0, 12, 12));
+	auto* defaultIdleAnim = m_assetManager.AddSpriteAnimation(SpriteAnimationID::Shantae_Idle, AnimationFactory::CreateSpriteAtlasSequencedAnimation(m_shantaeAtlas, 0, 12, 12));
 
 	defaultIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
 	{
@@ -82,7 +82,7 @@ void Scene0::Enter()
 			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-			Sprite* shantae0 = m_shantaeAtlus->GetSprite(0);
+			Sprite* shantae0 = m_shantaeAtlas->GetSprite(0);
 			testBackgroundRenderer.SetSprite(shantae0);
 
 			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
@@ -138,7 +138,7 @@ void Scene0::Enter()
 		//position->y = 0;
 
 		Component::SpriteRenderer& spriteRenderer = m_playerObject.AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = m_shantaeAtlus->GetSprite(1);
+		Sprite* shantae0 = m_shantaeAtlas->GetSprite(1);
 		spriteRenderer.SetSprite(shantae0);
 
 		Component::SpriteAnimator& animator = m_playerObject.AddComponent<Component::SpriteAnimator>();
@@ -180,7 +180,7 @@ void Scene0::Update()
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
-		Sprite* shantae0 = m_shantaeAtlus->GetSprite(0);
+		Sprite* shantae0 = m_shantaeAtlas->GetSprite(0);
 		testBackgroundRenderer.SetSprite(shantae0);
 	
 		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
@@ -250,7 +250,7 @@ void Scene0::Exit()
 	audioManager->Stop(m_backgroundMusic);
 	audioManager->FreeChannel(m_backgroundMusic);
 
-	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_shantaeAtlus);
+	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_shantaeAtlas);
 
 	m_assetManager.Dispose(&Engine::GetInstance());
 }
