@@ -1,5 +1,5 @@
 #pragma once
-#include "File.h"
+#include "MemoryMappedFileView.h"
 
 namespace IO
 {
@@ -12,7 +12,7 @@ namespace IO
 		public:
 			virtual int TotalFiles() const = 0;
 			virtual const char* const* GetPaths() const = 0;
-			virtual const FilePtr* GetFiles() const = 0;
+			virtual const MemoryMappedFileView* GetFiles() const = 0;
 		};
 
 	private:
@@ -26,6 +26,6 @@ namespace IO
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		FilePtr Open(const char* path);
+		MemoryMappedFileView Open(const char* path);
 	};
 }

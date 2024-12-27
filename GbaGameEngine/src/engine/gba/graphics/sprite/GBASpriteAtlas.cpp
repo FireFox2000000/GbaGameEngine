@@ -1,7 +1,7 @@
 #include "GBASpriteAtlas.h"
 #include "engine/gba/graphics/oam/GBAAttributeFunctions.h"
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
-#include "engine/io/filestream/CppFileReader.h"
+#include "engine/io/filestream/MemoryMappedFileStream.h"
 #include "engine/base/core/stl/Pool.h"
 #include "gbatek/Vram.h"
 
@@ -63,24 +63,22 @@ namespace GBA
 			return currentNode ? &currentNode->sprite : nullptr;
 		}
 
-		SpriteAtlas* SpriteAtlas::CreateFromFile(const u32* file, IPool<SpriteAtlas>* spriteAtlasPool, IPool<SpriteNode>* spriteNodePool)
+		SpriteAtlas* SpriteAtlas::CreateFromFile(MemoryMappedFileStream& istream, IPool<SpriteAtlas>* spriteAtlasPool, IPool<SpriteNode>* spriteNodePool)
 		{
-			CppFileReader reader = CppFileReader(file);
-
-			const u32 spriteCount = reader.Read<u32>();
-			const u8 paletteLength = reader.Read<u8>();
-			const u32 dataLength = reader.Read<u32>();
-			const u32 compressionFlags = reader.Read<u32>();
-			Span<const GBATEK::ColourRGB16> palette = reader.ReadSpan<GBATEK::ColourRGB16>(paletteLength);
-			Span<const u8> widthMap = reader.ReadSpan<u8>(spriteCount);
-			Span<const u8> heightMap = reader.ReadSpan<u8>(spriteCount);
-			Span<const u32> offsets = reader.ReadSpan<u32>(spriteCount);
-			Span<const GBATEK::UPixelData> data = reader.ReadSpan<GBATEK::UPixelData>(dataLength);
+			const u32 spriteCount = istream.Read<u32>();
+			const u8 paletteLength = istream.Read<u8>();
+			const u32 dataLength = istream.Read<u32>();
+			const u32 compressionFlags = istream.Read<u32>();
+			Span<const GBATEK::ColourRGB16> palette = istream.Read<GBATEK::ColourRGB16>(paletteLength);
+			Span<const u8> widthMap = istream.Read<u8>(spriteCount);
+			Span<const u8> heightMap = istream.Read<u8>(spriteCount);
+			Span<const u32> offsets = istream.Read<u32>(spriteCount);
+			Span<const GBATEK::UPixelData> data = istream.Read<GBATEK::UPixelData>(dataLength);
 
 			DEBUG_LOGFORMAT("Loaded sprite atlas of size %.2fkb", BYTES_TO_KB(dataLength * sizeof(u32)));
 
 			SpriteAtlas* atlas = spriteAtlasPool->CreateNew();
-			atlas->m_assetHash = std::bit_cast<int>(file);
+			atlas->m_assetHash = std::bit_cast<int>(istream.GetFileLocation());
 
 			if (!atlas)
 			{

@@ -49,7 +49,7 @@ void CutsceneTestScene::Enter()
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
-	FilePtr uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
+	MemoryMappedFileView uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
 	m_uiRenderer.LoadAtlas(uiAtlasFile);
 
 	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/NightSkySet"));

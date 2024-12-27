@@ -40,7 +40,7 @@ void Scene0::Enter()
 	SpriteAssetManager& assetManager = Engine::GetInstance().GetSpriteAssetManager();
 
 	auto* audioManager = Engine::GetInstance().GetComponent<AudioManager>();
-	FilePtr theCrowSongFile = fileSystem->Open("audio/Seliana16");
+	MemoryMappedFileView theCrowSongFile = fileSystem->Open("audio/Seliana16");
 	m_backgroundMusic = audioManager->CreateFromFile(theCrowSongFile);
 	audioManager->SetChannelFlag(m_backgroundMusic, AudioChannelProperties::Loop, true);
 	audioManager->SetChannelAttribute(m_backgroundMusic, AudioChannelProperties::Volume, 1.0f);
@@ -49,7 +49,7 @@ void Scene0::Enter()
 
 	// Load assets
 	DEBUG_LOG("Loading Shantae sprite atlas");
-	FilePtr shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
+	MemoryMappedFileView shantaeSpriteSheet = fileSystem->Open("sprites/Shantae_Idle_bin");
 	m_shantaeAtlas = assetManager.CreateSpriteAtlasFromFile(shantaeSpriteSheet);
 
 	DEBUG_LOG("Loading Shantae idle animations");

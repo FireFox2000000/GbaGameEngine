@@ -68,7 +68,7 @@ void TilemapTestScene::Enter()
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
 
-	FilePtr uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
+	MemoryMappedFileView uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
 	m_uiRenderer.LoadAtlas(uiAtlasFile);
 
 	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1)); });

@@ -1,4 +1,5 @@
 #include "SpriteAssetManager.h"
+#include "engine/io/filestream/MemoryMappedFileStream.h"
 
 SpriteAssetManager::~SpriteAssetManager()
 {
@@ -10,9 +11,10 @@ SpriteAssetManager::~SpriteAssetManager()
 #endif
 }
 
-SpriteAssetManager::SpriteAtlas* SpriteAssetManager::CreateSpriteAtlasFromFile(const u32* file)
+SpriteAssetManager::SpriteAtlas* SpriteAssetManager::CreateSpriteAtlasFromFile(const MemoryMappedFileView file)
 {
-	auto* atlas = SpriteAtlas::CreateFromFile(file, &m_spriteAtlasPool, &m_spriteNodePool);
+	MemoryMappedFileStream istream(file);
+	auto* atlas = SpriteAtlas::CreateFromFile(istream, &m_spriteAtlasPool, &m_spriteNodePool);
 	
 	DEBUG_LOGFORMAT("Loaded sprite atlas %d", atlas->GetAssetHash());
 	DEBUG_LOGFORMAT("Sprite atlas pool capacity %d", m_spriteAtlasPool.Capacity());

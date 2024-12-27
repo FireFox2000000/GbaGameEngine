@@ -1,6 +1,6 @@
 #include "GBAAudioManager.h"
 #include "engine/gba/registers/RegisterMap.h"
-#include "engine/io/filestream/CppFileReader.h"
+#include "engine/io/filestream/MemoryMappedFileStream.h"
 #include "engine/gba/config/GBATimerId.h"
 #include "gbatek/Timers.h"
 #include "gbatek/DirectMemoryAccess.h"
@@ -449,12 +449,12 @@ void GBA::Audio::AudioManager::OnActiveChannelReachedEof(int activeChannelIndex)
 	}
 }
 
-GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateFromFile(const u32 * file)
+GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateFromFile(const MemoryMappedFileView file)
 {
-	CppFileReader reader(file);
+	MemoryMappedFileStream reader(file);
 	int sampleRate = reader.Read<int>();
 	int sampleCount = reader.Read<int>();
-	Span<const u8> samples = reader.ReadSpan<u8>(sampleCount);
+	Span<const u8> samples = reader.Read<u8>(sampleCount);
 
 	DEBUG_LOGFORMAT("[AudioManager::CreateFromFile] sample rate %d, sample count %d", sampleRate, sampleCount);
 
@@ -463,10 +463,10 @@ GBA::Audio::AudioManager::tChannelHandle GBA::Audio::AudioManager::CreateFromFil
 
 void GBA::Audio::AudioManager::PlayFromFile(const u32 * file, float playrate)
 {
-	CppFileReader reader(file);
+	MemoryMappedFileStream reader(file);
 	int sampleRate = reader.Read<int>();
 	int sampleCount = reader.Read<int>();	// Byte count is the same as sample count
-	Span<const u8> samples = reader.ReadSpan<u8>(sampleCount);
+	Span<const u8> samples = reader.Read<u8>(sampleCount);
 
 	auto handle = CreateDirectSoundChannel(sampleRate, samples, AudioChannelProperties::DisposeOnCompletion);
 

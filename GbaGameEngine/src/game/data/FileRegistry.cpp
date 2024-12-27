@@ -1,6 +1,7 @@
 #include "FileRegistry.h"
 #include "GameFiles.gen.h"
 #include "engine/base/core/stl/Array.h"
+#include "engine/io/MemoryMappedFileView.h"
 
 // Provides 2 lists, one for all the filepaths/string keys to each file. 
 // The other a pointer to the start of each file. 
@@ -27,8 +28,8 @@ const Array<const char*, GetFileCount()> paths = {
 
 };
 
-const Array<FilePtr, GetFileCount()> files = {
-#define FILE(directory, filename) filename::data,
+const Array<MemoryMappedFileView, GetFileCount()> files = {
+#define FILE(directory, filename) { filename::data },
 	ALL_FILES()
 #undef FILE
 };
@@ -47,7 +48,7 @@ const char* const* FileRegistry::GetPaths() const
 	return paths.begin();
 }
 
-const FilePtr* FileRegistry::GetFiles() const
+const MemoryMappedFileView* FileRegistry::GetFiles() const
 {
 	return files.begin();
 }

@@ -5,6 +5,7 @@
 
 template<typename T>
 class IPool;
+class MemoryMappedFileStream;
 
 namespace GBA
 {
@@ -28,7 +29,7 @@ namespace GBA
 
 		public:
 			SpriteAtlas();
-			static SpriteAtlas* CreateFromFile(const u32* file, IPool<SpriteAtlas>* spriteAtlasPool, IPool<SpriteNode>* spriteNodePool);
+			static SpriteAtlas* CreateFromFile(MemoryMappedFileStream& istream, IPool<SpriteAtlas>* spriteAtlasPool, IPool<SpriteNode>* spriteNodePool);
 
 			bool IsPaletteLoaded();
 			tPaletteIndex GetPaletteIndex();

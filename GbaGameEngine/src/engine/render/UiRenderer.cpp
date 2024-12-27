@@ -1,6 +1,6 @@
 #include "UiRenderer.h"
 #include "engine/base/core/stl/Span.h"
-#include "engine/io/filestream/CppFileReader.h"
+#include "engine/io/filestream/MemoryMappedFileStream.h"
 #include "engine/gba/registers/display/GBABackgroundAllocator.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVramAllocator.h"
@@ -76,7 +76,7 @@ void UiRenderer::UnloadTilemapSet()
 	GBA::VramAllocator::GetInstance().FreeBackgroundTileSetMem(m_tilemapSet.m_renderData.m_tileSetCharacterBaseBlock);
 }
 
-void UiRenderer::LoadAtlas(const u32* file)
+void UiRenderer::LoadAtlas(const MemoryMappedFileView file)
 {
 	DEBUG_LOG("Loading UiAtlas into UiRenderer");
 
@@ -88,7 +88,7 @@ void UiRenderer::LoadAtlas(const u32* file)
 
 	// Read tilemapset from file
 	{
-		CppFileReader reader = CppFileReader(file);
+		MemoryMappedFileStream reader = MemoryMappedFileStream(file);
 
 		// Read font properties
 		m_fontProperties.fontAsciiStart = reader.Read<int>();
@@ -99,22 +99,22 @@ void UiRenderer::LoadAtlas(const u32* file)
 		// Read palette
 		u8 paletteBankIndexOffset = reader.Read<u8>();
 		u8 paletteLength = reader.Read<u8>();
-		Span<const GBATEK::ColourRGB16> palette = reader.ReadSpan<GBATEK::ColourRGB16>(paletteLength);
+		Span<const GBATEK::ColourRGB16> palette = reader.Read<GBATEK::ColourRGB16>(paletteLength);
 
 		// Read tileset
 		u32 compressionFlags = reader.Read<u32>();
 		GBATEK::BackgroundTilemapEntry clearScreenEntry = reader.Read<GBATEK::BackgroundTilemapEntry>();
 
 		u32 tilesetLength = reader.Read<u32>();
-		Span<const GBATEK::UPixelData> tileset = reader.ReadSpan<GBATEK::UPixelData>(tilesetLength);
+		Span<const GBATEK::UPixelData> tileset = reader.Read<GBATEK::UPixelData>(tilesetLength);
 
 		// Read maps
 		u8 mapCount = reader.Read<u8>();
 		int tileMapDataLength = reader.Read<int>();
 		u8 mapIsDynamicMask = 0;
-		Span<const u8> widthMap = reader.ReadSpan<u8>(mapCount);
-		Span<const u8> heightMap = reader.ReadSpan<u8>(mapCount);
-		Span<const GBATEK::BackgroundTilemapEntry> mapData = reader.ReadSpan<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
+		Span<const u8> widthMap = reader.Read<u8>(mapCount);
+		Span<const u8> heightMap = reader.Read<u8>(mapCount);
+		Span<const GBATEK::BackgroundTilemapEntry> mapData = reader.Read<GBATEK::BackgroundTilemapEntry>(tileMapDataLength);
 
 		m_tilemapSet = TilemapSet(
 			paletteBankIndexOffset

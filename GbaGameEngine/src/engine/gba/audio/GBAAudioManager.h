@@ -5,6 +5,7 @@
 #include "engine/base/core/stl/Bitmask.h"
 #include "engine/base/core/stl/Pool.h"
 #include "engine/base/core/stl/Span.h"
+#include "engine/io/MemoryMappedFileView.h"
 
 #include "engine/audio/AudioChannelProperties.h"
 
@@ -123,7 +124,7 @@ namespace GBA
 			void Stop(const tChannelHandle& handle);
 
 			// Signed 8-bit PCM files only
-			tChannelHandle CreateFromFile(const u32* file);
+			tChannelHandle CreateFromFile(const MemoryMappedFileView file);
 
 			// Plays an Signed 8-bit PCM file, one-shot auto disposed
 			void PlayFromFile(const u32* file, float playrate = 1.0f);

@@ -4,6 +4,8 @@
 
 #include "engine/base/core/stl/List.h"
 #include "engine/asset/AssetLoadFunctions.h"
+#include "engine/io/MemoryMappedFileView.h"
+#include "engine/io/filestream/MemoryMappedFileStream.h"
 
 using Sprite = GBA::Gfx::Sprite;
 using SpriteAtlas = GBA::Gfx::SpriteAtlas;
@@ -37,13 +39,15 @@ public:
 		AssetLoadFunctions::Unload(engine, m_tilemapSets.begin(), m_tilemapSets.end());
 	}
 
-	TilemapSet* AddTilemapSetFromFile(TilemapSetEnums e, const u32* file);
+	TilemapSet* AddTilemapSetFromFile(TilemapSetEnums e, const MemoryMappedFileView file);
 	Tilemap* GetTilemap(TilemapSetEnums tilemapId, u32 tilemapIndex) { return m_tilemapSets[tilemapId].GetTilemap(tilemapIndex); }
 };
 
 template<typename TilemapSetEnums>
-inline TilemapSet* FixedAssetManager<TilemapSetEnums>::AddTilemapSetFromFile(TilemapSetEnums e, const u32 * file)
+inline TilemapSet* FixedAssetManager<TilemapSetEnums>::AddTilemapSetFromFile(TilemapSetEnums e, const MemoryMappedFileView file)
 {
-	auto tilemapSet = AssetLoadFunctions::CreateTilemapSetFromFile(file);
+	MemoryMappedFileStream istream(file);
+
+	auto tilemapSet = AssetLoadFunctions::CreateTilemapSetFromFile(istream);
 	return new(&m_tilemapSets[e]) TilemapSet(tilemapSet);
 }

@@ -41,7 +41,7 @@
     <ClCompile Include="src\external\tonc\memory\toncset.cpp" />
     <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
     <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
-    <ClCompile Include="src\engine\io\filestream\CppFileReader.cpp" />
+    <ClCompile Include="src\engine\io\filestream\MemoryMappedFileStream.cpp" />
     <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
     <ClCompile Include="src\engine\asset\AssetLoadFunctions.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tilemap\GBATilemap.cpp" />
@@ -186,7 +186,7 @@
     <ClInclude Include="src\external\entt\signal\sigh.hpp" />
     <ClInclude Include="src\external\entt\entt.hpp" />
     <ClInclude Include="src\external\entt\fwd.hpp" />
-    <ClInclude Include="src\engine\io\filestream\CppFileReader.h" />
+    <ClInclude Include="src\engine\io\filestream\MemoryMappedFileStream.h" />
     <ClInclude Include="src\engine\math\Matrix2x2.h" />
     <ClInclude Include="src\engine\asset\AnimationFactory.h" />
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
@@ -210,7 +210,7 @@
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
     <ClInclude Include="src\game\data\FileRegistry.h" />
-    <ClInclude Include="src\engine\io\File.h" />
+    <ClInclude Include="src\engine\io\MemoryMappedFileView.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\game\data\GameFiles.gen.h" />
     <ClInclude Include="src\game\scripts\gfx\GfxScreenFadeOut.h" />

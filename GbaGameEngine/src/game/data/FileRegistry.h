@@ -1,6 +1,7 @@
 #pragma once
-#include "engine/io/File.h"
 #include "engine/io/FileSystem.h"
+
+class MemoryMappedFileView;
 
 /// <summary>
 /// Holds a game-specific set of files and directories
@@ -12,5 +13,5 @@ public:
 
 	int TotalFiles() const override;
 	const char* const* GetPaths() const override;
-	const FilePtr* GetFiles() const override;
+	const MemoryMappedFileView* GetFiles() const override;
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "GBATEK/DMGSound.h"
-#include "engine/io/File.h"
-#include "engine/io/filestream/CppFileReader.h"
+#include "engine/io/MemoryMappedFileView.h"
+#include "engine/io/filestream/MemoryMappedFileStream.h"
 
 namespace GBA
 {
@@ -54,15 +54,15 @@ namespace GBA
 				const NoteEvent* m_noteEventsBegin;
 				const NoteEvent* m_noteEventsEnd;
 
-				FilePtr m_file;
-				CppFileReader m_fileStream;
+				MemoryMappedFileView m_file;
+				MemoryMappedFileStream m_fileStream;
 				u32 m_totalEvents = 0;
 
 				void OnNoteEventReached(const NoteEvent& noteEvent);
 
 			public:
 				Player(const NoteEvent* begin, const NoteEvent* end);
-				Player(FilePtr file);
+				Player(MemoryMappedFileView file);
 				void Tick();
 			};
 		}

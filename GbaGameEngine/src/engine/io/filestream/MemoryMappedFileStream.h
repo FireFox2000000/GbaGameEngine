@@ -1,9 +1,9 @@
 #pragma once
 #include "engine/base/Typedefs.h"
 #include "engine/base/core/stl/Span.h"
-#include "engine/io/File.h"
+#include "engine/io/MemoryMappedFileView.h"
 
-class CppFileReader
+class MemoryMappedFileStream
 {
 	struct StreamPos
 	{
@@ -27,7 +27,9 @@ class CppFileReader
 	}
 
 public:
-	CppFileReader(FilePtr file);
+	MemoryMappedFileStream(MemoryMappedFileView file);
+
+	MemoryMappedFileView GetFileLocation() const { return reinterpret_cast<const u32*>(fileData); }
 
 	template<typename T>
 	T Read()
@@ -41,9 +43,15 @@ public:
 	}
 
 	template<typename T>
-	Span<const T> ReadSpan(int size)
+	Span<const T> Read(int size)
 	{
 		const T* data = ReadAddress<T>(size);
 		return { data, static_cast<u32>(size) };
+	}
+
+	template<typename T>
+	void operator >> (T& out_obj)
+	{
+		out_obj = Read<T>();
 	}
 };

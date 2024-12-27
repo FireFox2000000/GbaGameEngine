@@ -3,6 +3,7 @@
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
 #include "engine/animation/SpriteAnimation.h"
 #include "engine/base/core/stl/Pool.h"
+#include "engine/io/MemoryMappedFileView.h"
 
 // Manages a collection of sprite atlas' and sprites. 
 // Sprite atlas' do not own sprites anymore, rather they are stitched together in a linked list. 
@@ -21,7 +22,7 @@ public:
 	SpriteAssetManager() = default;
 	~SpriteAssetManager();
 
-	SpriteAtlas* CreateSpriteAtlasFromFile(const u32* file);
+	SpriteAtlas* CreateSpriteAtlasFromFile(const MemoryMappedFileView file);
 	void UnloadSpriteAtlas(SpriteAtlas* atlas);
 
 	SpriteAnimation* CreateSpriteAnimation(const SpriteAnimation& animation);

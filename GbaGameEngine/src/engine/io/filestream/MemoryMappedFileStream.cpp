@@ -1,8 +1,8 @@
-#include "CppFileReader.h"
+#include "MemoryMappedFileStream.h"
 #include "engine/base/BitTwiddling.h"
 #include "engine/base/Macros.h"
 
-void CppFileReader::AdvanceToAlignment(int alignmentSize)
+void MemoryMappedFileStream::AdvanceToAlignment(int alignmentSize)
 {
 	DEBUG_ASSERTMSG(BitTwiddling::IsPowerOf2(alignmentSize), "alignment must be power of 2");
 
@@ -14,7 +14,7 @@ void CppFileReader::AdvanceToAlignment(int alignmentSize)
 	}
 }
 
-CppFileReader::CppFileReader(FilePtr file)
+MemoryMappedFileStream::MemoryMappedFileStream(MemoryMappedFileView file)
 {
-	fileData = reinterpret_cast<const u8*>(file);
+	fileData = reinterpret_cast<const u8*>(file.GetData());
 }

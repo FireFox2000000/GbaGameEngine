@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/gba/graphics/tilemap/GBATilemapSet.h"
+#include "engine/io/MemoryMappedFileView.h"
 #include "gbatek/Vram.h"
 #include <string>
 
@@ -31,7 +32,7 @@ public:
 	UiRenderer();
 	~UiRenderer();
 
-	void LoadAtlas(const u32* file);
+	void LoadAtlas(const MemoryMappedFileView file);
 	void DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const;
 	void ClearRegion(int x, int y, int width, int height) const;
 	void RenderText(const std::string& str, const Vector2<int>& drawPosition) const;

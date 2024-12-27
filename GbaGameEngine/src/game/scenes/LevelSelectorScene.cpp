@@ -69,7 +69,7 @@ void LevelSelectorScene::Enter()
 	GraphicsSetup::InitialiseStandardGraphics();
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
-	FilePtr file = fileSystem->Open("tilemaps/UiAtlas");
+	MemoryMappedFileView file = fileSystem->Open("tilemaps/UiAtlas");
 
 	m_uiRenderer.LoadAtlas(file);
 

@@ -14,7 +14,7 @@ GBA::DMG::Midi::Player::Player(const NoteEvent* begin, const NoteEvent* end)
 	m_tickUntilNextEvent = begin->deltaTick;
 }
 
-GBA::DMG::Midi::Player::Player(FilePtr file)
+GBA::DMG::Midi::Player::Player(MemoryMappedFileView file)
 	: m_file(file)
 	, m_fileStream(file)
 {

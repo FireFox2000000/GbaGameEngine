@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "engine/base/Macros.h"
 
-FilePtr IO::FileSystem::Open(const char* path)
+MemoryMappedFileView IO::FileSystem::Open(const char* path)
 {
 	// Assume the paths are pre-sorted alphabetically and then binary search for the file. 
 	auto paths = m_fileRegistry->GetPaths();
@@ -24,7 +24,7 @@ FilePtr IO::FileSystem::Open(const char* path)
 
 	DEBUG_ERRORFORMAT("Unable to find file %s", path);
 
-	return nullptr;
+	return MemoryMappedFileView(nullptr);
 }
 
 void IO::FileSystem::SetRegistry(FileRegistry* fileRegistry)
