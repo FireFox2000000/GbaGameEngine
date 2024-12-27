@@ -30,7 +30,7 @@ CutsceneTestScene::CutsceneTestScene()
 {
 }
 
-void CutsceneTestScene::ChangeBg(Tilemap* newTilemap)
+void CutsceneTestScene::ChangeBg(GBA::Gfx::Tilemap* newTilemap)
 {
 	auto* tilemapRenderer = m_cutsceneBg.EditComponent<Component::TilemapRenderer>();
 
@@ -48,14 +48,15 @@ void CutsceneTestScene::Enter()
 	GraphicsSetup::InitialiseStandardGraphics();
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
+	ResourcesManager& resourcesManager = Engine::GetInstance().GetResourcesManager();
 
 	MemoryMappedFileView uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
 	m_uiRenderer.LoadAtlas(uiAtlasFile);
 
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg1, fileSystem->Open("tilemaps/NightSkySet"));
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::CutsceneImg2, fileSystem->Open("tilemaps/NightSky_Inverted"));
+	m_cutsceneImg1 = resourcesManager.LoadTilemapSet(fileSystem->Open("tilemaps/NightSkySet"));
+	m_cutsceneImg2 = resourcesManager.LoadTilemapSet(fileSystem->Open("tilemaps/NightSky_Inverted"));
 
-	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::CutsceneImg1, 0);
+	Tilemap* tilemap = m_cutsceneImg1->GetTilemap(0);
 
 	// Load the tilemap into vram
 	Graphics* graphicsManager = Engine::GetInstance().GetComponent<Graphics>();
@@ -79,7 +80,7 @@ void CutsceneTestScene::Enter()
 		[this](CutsceneState::CutsceneStateMachine* stateMachine, CutsceneState::CommandFinishedFn finished) {
 			// Change background
 			// Need to make sure was have no active gfx tasks before we do this
-			ChangeBg(m_assetManager.GetTilemap(TilemapSetID::CutsceneImg2, 0));
+			ChangeBg(m_cutsceneImg2->GetTilemap(0));
 			stateMachine->ChangeState<BgFadeInState>(finished);
 		},
 
@@ -101,7 +102,9 @@ void CutsceneTestScene::Enter()
 
 void CutsceneTestScene::Exit()
 {
-	m_assetManager.Dispose(&Engine::GetInstance());
+	ResourcesManager& resourcesManager = Engine::GetInstance().GetResourcesManager();
+	resourcesManager.Unload(m_cutsceneImg1);
+	resourcesManager.Unload(m_cutsceneImg2);
 }
 
 void CutsceneTestScene::Update()

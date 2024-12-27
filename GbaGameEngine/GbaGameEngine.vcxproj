@@ -156,7 +156,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\algorithm\Compression.cpp" />
     <ClCompile Include="src\engine\asset\AnimationFactory.cpp" />
     <ClCompile Include="src\engine\asset\libraries\FontLibrary.cpp" />
-    <ClCompile Include="src\engine\asset\SpriteAssetManager.cpp" />
+    <ClCompile Include="src\engine\asset\ResourcesManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="src\engine\audio\AudioChannelProperties.cpp" />
     <ClCompile Include="src\engine\base\ecs\Entity.h" />
@@ -242,9 +242,8 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\algorithm\Compression.h" />
     <ClInclude Include="src\engine\animation\SpriteAnimation.h" />
     <ClInclude Include="src\engine\asset\AnimationFactory.h" />
-    <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
     <ClInclude Include="src\engine\asset\libraries\FontLibrary.h" />
-    <ClInclude Include="src\engine\asset\SpriteAssetManager.h" />
+    <ClInclude Include="src\engine\asset\ResourcesManager.h" />
     <ClInclude Include="src\engine\audio\AudioManager.h" />
     <ClInclude Include="src\engine\audio\AudioChannelProperties.h" />
     <ClInclude Include="src\engine\audio\music\Note.h" />

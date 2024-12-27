@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/base/ecs/EntityComponentManager.h"
-#include "engine/asset/SpriteAssetManager.h"
+#include "engine/asset/ResourcesManager.h"
 
 class AudioManager;
 
@@ -17,7 +17,7 @@ class Engine
 	// The entity that gets assigned engine-specific components
 	ECS::Entity m_engineComponentsContainer;
 
-	SpriteAssetManager m_spriteAssetManager;
+	ResourcesManager m_resourcesManager;
 	AudioManager* m_audioManager = nullptr;
 
 public:
@@ -25,7 +25,7 @@ public:
 	~Engine();
 
 	ECS::EntityComponentManager* GetEntityRegistry() { return &m_entityComponentManager; }
-	SpriteAssetManager& GetSpriteAssetManager() { return m_spriteAssetManager; }
+	ResourcesManager& GetResourcesManager() { return m_resourcesManager; }
 
 	template<typename Component>
 	inline void AddComponent()

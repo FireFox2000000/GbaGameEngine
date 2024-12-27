@@ -55,7 +55,7 @@
     <ClCompile Include="src\engine\physics\Collider.cpp" />
     <ClCompile Include="src\engine\physics\CollisionFunctions.cpp" />
     <ClCompile Include="src\engine\debug\DebugRender.cpp" />
-    <ClCompile Include="src\engine\asset\SpriteAssetManager.cpp" />
+    <ClCompile Include="src\engine\asset\ResourcesManager.cpp" />
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
     <ClCompile Include="src\game\scenes\LevelSelectorScene.cpp" />
@@ -193,7 +193,6 @@
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemap.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tilemap\GBATilemapSet.h" />
-    <ClInclude Include="src\engine\asset\FixedAssetManager.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
     <ClInclude Include="src\engine\gba\config\GBADMAChannelID.h" />
@@ -205,7 +204,7 @@
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
     <ClInclude Include="src\engine\physics\CollisionFunctions.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
-    <ClInclude Include="src\engine\asset\SpriteAssetManager.h" />
+    <ClInclude Include="src\engine\asset\ResourcesManager.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />

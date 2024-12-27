@@ -3,7 +3,6 @@
 #include "engine/scene/Scene.h"
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/FixedPoint.h"
-#include "engine/asset/FixedAssetManager.h"
 #include "engine/render/UiRenderer.h"
 
 #include "game/scripts/gfx/GfxScreenFadeIn.h"
@@ -20,17 +19,10 @@ class TilemapTestScene : public Scene
 
 	StateMachine<> m_stateMachine;
 
-	enum TilemapSetID {
-		NightSky,
-		Eosd,
-
-		TilemapSetCount
-	};
-
-	FixedAssetManager<TilemapSetID> m_assetManager;
-
 	FixedList<GameObject, 2> m_gameObjects;
 	GameObject* m_background = nullptr;
+	GBA::Gfx::TilemapSet* m_nightSkyTilemapSet = nullptr;
+	GBA::Gfx::TilemapSet* m_eosdTilemapSet = nullptr;
 
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeInTask;
 	std::shared_ptr<IPostProcessingGfxTask> m_kickedFadeOutTask;

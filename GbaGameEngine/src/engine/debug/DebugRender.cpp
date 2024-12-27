@@ -6,17 +6,19 @@
 #include "engine/screen/Screen.h"
 #include "engine/gameobject/transformation/Transform.h"
 #include "engine/physics/Collider.h"
+#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
+#include "engine/gba/graphics/sprite/GBASpriteNode.h"
 
 #include "game/data/sprites/debug/Debug_Primitives_64x64.h"
 
 DebugRender::DebugRender()
 {
-	m_spritePrimitives = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(Debug_Primitives_64x64::data);
+	m_spritePrimitives = Engine::GetInstance().GetResourcesManager().LoadSpriteAtlas(Debug_Primitives_64x64::data);
 }
 
 DebugRender::~DebugRender()
 {
-	Engine::GetInstance().GetSpriteAssetManager().UnloadSpriteAtlas(m_spritePrimitives);
+	Engine::GetInstance().GetResourcesManager().Unload(m_spritePrimitives);
 }
 
 void DebugRender::RenderColliders(const GameObject* camera)

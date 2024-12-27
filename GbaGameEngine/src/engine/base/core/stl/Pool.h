@@ -313,7 +313,6 @@ public:
 template<class T, int BLOCK_SIZE>
 class Pool : public IPool<T>
 {
-	using PoolObject = IPool<T>::PoolObject;
 	using Block = FixedPool<T, BLOCK_SIZE>;
 	using BlocksList = List<Block*>;
 

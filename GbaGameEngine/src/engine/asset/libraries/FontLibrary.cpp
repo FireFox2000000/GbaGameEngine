@@ -13,10 +13,10 @@ FontLibrary::FontLibrary()
 
 FontLibrary::~FontLibrary()
 {
-	auto& spriteAssetManager = Engine::GetInstance().GetSpriteAssetManager();
+	auto& resourcesManager = Engine::GetInstance().GetResourcesManager();
 	for (auto& font : m_fontCollection)
 	{
-		spriteAssetManager.UnloadSpriteAtlas(font.m_spriteAtlas);
+		resourcesManager.Unload(font.m_spriteAtlas);
 	}
 }
 
@@ -24,7 +24,7 @@ void FontLibrary::AddFontFromSpriteSheet(
 	const u32* file
 	, int(*charToSpriteIndexLookupFn)(char))
 {
-	auto* atlas = Engine::GetInstance().GetSpriteAssetManager().CreateSpriteAtlasFromFile(file);
+	auto* atlas = Engine::GetInstance().GetResourcesManager().LoadSpriteAtlas(file);
 	m_fontCollection.AddNew(atlas, charToSpriteIndexLookupFn);
 }
 

@@ -1,20 +1,14 @@
 #pragma once
 #include "engine/scene/Scene.h"
-#include "engine/asset/FixedAssetManager.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/audio/AudioManager.h"
 #include "engine/asset/libraries/FontLibrary.h"
+#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
 
 struct Collision;
 
 class Scene0 : public Scene
 {
-	enum TilemapSetID {
-		TilemapSetCount
-	};
-
-	FixedAssetManager<TilemapSetID> m_assetManager;
-
 	FixedList<GameObject, 128> m_gameObjects;
 	FontLibrary m_fontLib;
 	GameObject m_playerObject;
@@ -23,7 +17,7 @@ class Scene0 : public Scene
 	AudioManager::tChannelHandle m_backgroundMusic = 0;
 
 	// Asset resources
-	SpriteAtlas* m_shantaeAtlas = nullptr;
+	GBA::Gfx::SpriteAtlas* m_shantaeAtlas = nullptr;
 	SpriteAnimation* m_shantaeIdleAnim = nullptr;
 
 public:

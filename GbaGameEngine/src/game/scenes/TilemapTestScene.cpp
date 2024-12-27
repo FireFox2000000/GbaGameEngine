@@ -67,6 +67,7 @@ void TilemapTestScene::Enter()
 	GraphicsSetup::InitialiseStandardGraphics();
 
 	IO::FileSystem* fileSystem = Engine::GetInstance().GetComponent<IO::FileSystem>();
+	ResourcesManager& resources = Engine::GetInstance().GetResourcesManager();
 
 	MemoryMappedFileView uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
 	m_uiRenderer.LoadAtlas(uiAtlasFile);
@@ -74,10 +75,10 @@ void TilemapTestScene::Enter()
 	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1)); });
 
 	// Create a tilemap asset
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::NightSky, fileSystem->Open("tilemaps/NightSkySet"));
-	m_assetManager.AddTilemapSetFromFile(TilemapSetID::Eosd, fileSystem->Open("tilemaps/Eosd"));
+	m_nightSkyTilemapSet = resources.LoadTilemapSet(fileSystem->Open("tilemaps/NightSkySet"));
+	m_eosdTilemapSet = resources.LoadTilemapSet(fileSystem->Open("tilemaps/Eosd"));
 
-	Tilemap* tilemap = m_assetManager.GetTilemap(TilemapSetID::NightSky, 0);
+	Tilemap* tilemap = m_nightSkyTilemapSet->GetTilemap(0);
 
 	// Load the tilemap into vram
 	Graphics* graphicsManager = Engine::GetInstance().GetComponent<Graphics>();
@@ -115,7 +116,9 @@ void TilemapTestScene::Enter()
 void TilemapTestScene::Exit()
 {
 	// Ideally all maps should be turned off by now unless we're doing fancy transitions or something. 
-	m_assetManager.Dispose(&Engine::GetInstance());
+	ResourcesManager& resources = Engine::GetInstance().GetResourcesManager();
+	resources.Unload(m_nightSkyTilemapSet);
+	resources.Unload(m_eosdTilemapSet);
 
 	if (m_kickedFadeOutTask && !m_kickedFadeOutTask->IsComplete())
 	{

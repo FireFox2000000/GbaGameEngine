@@ -9,7 +9,7 @@
 
 using namespace GBA::Gfx;
 
-TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(MemoryMappedFileStream& istream)
+TilemapSet* AssetLoadFunctions::CreateTilemapSetFromFile(MemoryMappedFileStream& istream, IPool<TilemapSet>& allocator)
 {
 	// Read palette
 	u8 paletteBankIndexOffset = istream.Read<u8>();
@@ -33,7 +33,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(MemoryMappedFileStream& 
 	DEBUG_LOGFORMAT("Loaded tilemap set of size %.2fkb", BYTES_TO_KB(tilesetLength * sizeof(u32)));
 	DEBUG_LOGFORMAT("Loaded tilemap data of size %.2fkb", BYTES_TO_KB(tileMapDataLength * sizeof(u16)));
 
-	return TilemapSet(
+	return allocator.Create(TilemapSet(
 		paletteBankIndexOffset
 		, palette
 		, tileset
@@ -43,7 +43,7 @@ TilemapSet AssetLoadFunctions::CreateTilemapSetFromFile(MemoryMappedFileStream& 
 		, widthMap
 		, heightMap
 		, tilemapEntries
-	);
+	));
 }
 
 void AssetLoadFunctions::Unload(Engine* engine, TilemapSet * begin, TilemapSet * end)

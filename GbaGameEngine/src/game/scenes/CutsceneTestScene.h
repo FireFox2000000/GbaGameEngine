@@ -3,7 +3,6 @@
 #include "engine/scene/Scene.h"
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/FixedPoint.h"
-#include "engine/asset/FixedAssetManager.h"
 #include "engine/render/UiRenderer.h"
 
 #include "game/scripts/gfx/GfxScreenFadeIn.h"
@@ -19,17 +18,11 @@ class CutsceneTestScene : public Scene
 
 	StateMachine<> m_stateMachine;
 
-	enum TilemapSetID {
-		CutsceneImg1,
-		CutsceneImg2,
-
-		TilemapSetCount
-	};
-
-	FixedAssetManager<TilemapSetID> m_assetManager;
 	GameObject m_cutsceneBg;
+	GBA::Gfx::TilemapSet* m_cutsceneImg1 = nullptr;
+	GBA::Gfx::TilemapSet* m_cutsceneImg2 = nullptr;
 
-	void ChangeBg(Tilemap* newTilemap);
+	void ChangeBg(GBA::Gfx::Tilemap* newTilemap);
 
 public:
 	CutsceneTestScene();
