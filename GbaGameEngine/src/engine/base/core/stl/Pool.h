@@ -391,30 +391,26 @@ public:
 	protected:
 		BlocksList::iterator m_currentBlock;
 		Block::iterator m_current;
-		const typename BlocksList::iterator m_endBlock;
 		const typename Block::iterator m_end;
 		Block::iterator m_currentBlockEnd;
 
+		inline void AdvanceToNextValidBlock()
+		{
+			do
+			{
+				++m_currentBlock;
+				m_current = (*m_currentBlock)->begin();
+				m_currentBlockEnd = (*m_currentBlock)->end();
+			} while (m_current != m_end && m_current == m_currentBlockEnd);
+		}
+
 		void Advance()
 		{
-			if (m_current != m_currentBlockEnd)
-			{
-				++m_current;
-			}
+			++m_current;
 
-			if (m_current == m_currentBlockEnd)
+			if (m_current == m_currentBlockEnd && m_current != m_end)
 			{
-				DEBUG_ASSERTMSG(m_currentBlock != m_endBlock, "Attempting to advance past block end iterator, this is not allowed.");
-
-				do
-				{
-					++m_currentBlock;
-					if (m_currentBlock != m_endBlock)
-					{
-						m_current = (*m_currentBlock)->begin();
-						m_currentBlockEnd = (*m_currentBlock)->end();
-					}
-				} while (m_currentBlock != m_endBlock && m_current == m_currentBlockEnd);
+				AdvanceToNextValidBlock();
 			}
 		}
 
@@ -432,17 +428,15 @@ public:
 		iterator_base(
 			BlocksList::iterator currentBlock
 			, Block::iterator current
-			, BlocksList::iterator endBlock
 			, Block::iterator end)
 			: m_currentBlock(currentBlock)
 			, m_current(current)
-			, m_endBlock(endBlock)
 			, m_end(end)
 			, m_currentBlockEnd(m_currentBlock ? (*m_currentBlock)->end() : end)
 		{
-			if (m_currentBlock && m_current != m_end && m_current == (*m_currentBlock)->end())
+			if (m_currentBlock && m_current != m_end && m_current == m_currentBlockEnd)
 			{
-				Advance();
+				AdvanceToNextValidBlock();
 			}
 		}
 
@@ -463,9 +457,8 @@ public:
 		iterator(
 			BlocksList::iterator currentBlock
 			, Block::iterator current
-			, BlocksList::iterator endBlock
 			, Block::iterator end)
-			: iterator_base(currentBlock, current, endBlock, end)
+			: iterator_base(currentBlock, current, end)
 		{}
 
 		T& operator * () { return  iterator_base::Get(); }
@@ -483,9 +476,8 @@ public:
 		const_iterator(
 			BlocksList::iterator currentBlock
 			, Block::iterator current
-			, BlocksList::iterator endBlock
 			, Block::iterator end)
-			: iterator_base(currentBlock, current, endBlock, end)
+			: iterator_base(currentBlock, current, end)
 		{}
 
 		const T& operator * () const { return  iterator_base::Get(); }
@@ -502,7 +494,7 @@ public:
 	{ 
 		return iterator(
 			m_blocks.begin(), m_blocks.begin() != m_blocks.end() ? (*m_blocks.begin())->begin() : typename Block::iterator(nullptr, nullptr),
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
+			m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
 		);
 	}
 
@@ -510,7 +502,7 @@ public:
 	{
 		return iterator(
 			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr),
-			m_blocks.end(), m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
+			m_blocks.begin() != m_blocks.end() ? (m_blocks[m_blocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
 		);
 	}
 	
@@ -519,7 +511,7 @@ public:
 		BlocksList& mutableBlocks = *const_cast<BlocksList*>(&m_blocks);
 		return const_iterator(
 			mutableBlocks.begin(), mutableBlocks.begin() != mutableBlocks.end() ? (*mutableBlocks.begin())->begin() : typename Block::iterator(nullptr, nullptr),
-			mutableBlocks.end(), mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
+			mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
 		);
 	}
 
@@ -528,7 +520,7 @@ public:
 		BlocksList& mutableBlocks = *const_cast<BlocksList*>(&m_blocks);
 		return const_iterator(
 			mutableBlocks.end(), mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr),
-			mutableBlocks.end(), mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
+			mutableBlocks.begin() != mutableBlocks.end() ? (mutableBlocks[mutableBlocks.Count() - 1])->end() : typename Block::iterator(nullptr, nullptr)
 		);
 	}
 };
