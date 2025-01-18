@@ -34,13 +34,44 @@ namespace GBA
 				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
 			};
 
+			class ShadowOAM
+			{
+				GBATEK::UObjectAttributeMemory m_oam;
+				int m_objectAttributeCount = 0;
+				int m_affineObjectAttributeCount = 0;
+
+			public:
+				int GetObjectAttributeCount() const { return m_objectAttributeCount; }
+				int GetAffineObjectAttributeCount() const { return m_affineObjectAttributeCount; }
+
+				const GBATEK::UObjectAttributeMemory& GetData() const { return m_oam; }
+
+				GBATEK::ObjectAttribute* AllocateObject()
+				{
+					DEBUG_ASSERTMSG(m_objectAttributeCount < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
+					return &m_oam.attributes[m_objectAttributeCount++];
+				}
+
+				GBATEK::ObjectAttributeAffine* AllocateAffineObject()
+				{
+					DEBUG_ASSERTMSG(m_affineObjectAttributeCount < OBJ_AFFINE_COUNT, "OUT OF AFFINE OAM MEMORY");
+					return &m_oam.affineAttributes[m_affineObjectAttributeCount++];
+				}
+
+				void Clear()
+				{
+					m_objectAttributeCount = 0;
+					m_affineObjectAttributeCount = 0;
+				}
+			};
+
 			typedef FixedList<Sprite*, OBJ_ATTR_COUNT> tSpriteBuffer;
 
 			Array<bool, OBJ_ATTR_COUNT> m_objAttrEnabledTracker;
 			u32 m_objAttrEnabledSearchIndex;
 
-			OAMSpriteRenderPropertiesSOA m_masterSpriteRenderList;
-			FixedList<Matrix2x2, OBJ_AFFINE_COUNT> m_affineTransformationList;
+			ShadowOAM m_shadowOam;
+			FixedList<Sprite*, OBJ_ATTR_COUNT> m_masterSpriteRenderList;
 			DoubleBuffer<tSpriteBuffer> m_spriteRenderDoubleBuffer;
 
 			SpriteGraphicsMemoryManager m_spriteGraphicsMemoryManager;
@@ -63,7 +94,7 @@ namespace GBA
 			// Does not perform sprite screen culling, this is a post-culling step.
 			GBATEK::ObjectAttribute* AddToRenderList(Sprite* sprite);
 
-			Matrix2x2* AddToAffineRenderList(u8* out_index);
+			GBATEK::ObjectAttributeAffine* AddToAffineRenderList(u8* out_index);
 		};
 	}
 }

@@ -77,18 +77,18 @@ namespace GBA
 
 		void OAMManager::TransferRenderListIntoMemory()
 		{
-			u32 objectCount = m_masterSpriteRenderList.oamProperties.Count();
+			u32 objectCount = m_masterSpriteRenderList.Count();
 
 			// Fast copy ObjectAttributes into memory
 			{
-				u32 byteCount = sizeof(GBATEK::ObjectAttribute) * objectCount;
-				VramSafeMemCopy(GBATEK::objectAttributeMemory->attributes, m_masterSpriteRenderList.oamProperties.GetContainer(), objectCount);
+				VramSafeMemCopy(GBATEK::objectAttributeMemory, &m_shadowOam.GetData(), 1);
 
 				// Remove the rest of the objects by clearing them
+				u32 byteCount = sizeof(GBATEK::ObjectAttribute) * objectCount;
 				VramSafeMemSet((u8*)&(GBATEK::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBATEK::objectAttributeMemory->attributes) - byteCount);
 			}
 
-			const auto& sprites = m_masterSpriteRenderList.sprite;
+			const auto& sprites = m_masterSpriteRenderList;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
 				GBATEK::ObjectAttribute& oamSpriteHandle = GBATEK::objectAttributeMemory->attributes[i];
@@ -101,19 +101,8 @@ namespace GBA
 				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
 
-			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so. 
-			for (u32 i = 0; i < m_affineTransformationList.Count(); ++i)
-			{
-				GBATEK::ObjectAttributeAffine& oamAffineHandle = GBATEK::objectAttributeMemory->affineAttributes[i];
-				oamAffineHandle.paFixedPoint8 = m_affineTransformationList[i].a.GetStorage();
-				oamAffineHandle.pbFixedPoint8 = m_affineTransformationList[i].b.GetStorage();
-				oamAffineHandle.pcFixedPoint8 = m_affineTransformationList[i].c.GetStorage();
-				oamAffineHandle.pdFixedPoint8 = m_affineTransformationList[i].d.GetStorage();
-			}
-
-			m_masterSpriteRenderList.oamProperties.Clear();
-			m_masterSpriteRenderList.sprite.Clear();
-			m_affineTransformationList.Clear();
+			m_masterSpriteRenderList.Clear();
+			m_shadowOam.Clear();
 		}
 
 		void OAMManager::DoMasterRenderIntoMemory()
@@ -171,22 +160,19 @@ namespace GBA
 				sprite->m_renderData.SetAddedToDrawList(true);
 			}
 
-			DEBUG_ASSERTMSG(m_masterSpriteRenderList.oamProperties.Count() < OBJ_ATTR_COUNT, "OUT OF OAM MEMORY");
-
 			// Can't render more than 128, will currently crash if this is exceeded
-			GBATEK::ObjectAttribute* properties = m_masterSpriteRenderList.oamProperties.AddNew(DEFAULT_ATTR);
-			m_masterSpriteRenderList.sprite.Add(sprite);
+			GBATEK::ObjectAttribute* properties = m_shadowOam.AllocateObject();// m_masterSpriteRenderList.oamProperties.AddNew(DEFAULT_ATTR);
+			*properties = DEFAULT_ATTR;
+
+			m_masterSpriteRenderList.Add(sprite);
 
 			return properties;
 		}
 
-		Matrix2x2* OAMManager::AddToAffineRenderList(u8 * out_index)
+		GBATEK::ObjectAttributeAffine* OAMManager::AddToAffineRenderList(u8 * out_index)
 		{
-			DEBUG_ASSERTMSG(m_affineTransformationList.Count() < OBJ_AFFINE_COUNT, "OUT OF OAM AFFINE MEMORY");
-
-			*out_index = m_affineTransformationList.Count();
-
-			Matrix2x2* affineTransformation = m_affineTransformationList.AddNew();
+			*out_index = m_shadowOam.GetAffineObjectAttributeCount();
+			GBATEK::ObjectAttributeAffine* affineTransformation = m_shadowOam.AllocateAffineObject();
 			return affineTransformation;
 		}
 	}
