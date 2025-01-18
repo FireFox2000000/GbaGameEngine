@@ -79,19 +79,11 @@ namespace GBA
 		{
 			u32 objectCount = m_masterSpriteRenderList.Count();
 
-			// Fast copy ObjectAttributes into memory
-			{
-				VramSafeMemCopy(GBATEK::objectAttributeMemory, &m_shadowOam.GetData(), 1);
-
-				// Remove the rest of the objects by clearing them
-				u32 byteCount = sizeof(GBATEK::ObjectAttribute) * objectCount;
-				VramSafeMemSet((u8*)&(GBATEK::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBATEK::objectAttributeMemory->attributes) - byteCount);
-			}
-
 			const auto& sprites = m_masterSpriteRenderList;
+			GBATEK::ObjectAttribute* attributes = m_shadowOam.GetData().attributes;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
-				GBATEK::ObjectAttribute& oamSpriteHandle = GBATEK::objectAttributeMemory->attributes[i];
+				GBATEK::ObjectAttribute& oamSpriteHandle = attributes[i];
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
@@ -100,6 +92,16 @@ namespace GBA
 				oamSpriteHandle.shape = sprite->GetShape();
 				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
+
+			// Remove lingering objects without trashing interleaved data
+			for (u32 i = objectCount; i < OBJ_ATTR_COUNT; ++i)
+			{
+				GBATEK::ObjectAttribute& oamSpriteHandle = attributes[i];
+				oamSpriteHandle.vramObjectTileIndex = 0;
+			}
+
+			// Fast copy ObjectAttributes into memory
+			VramSafeMemCopy(GBATEK::objectAttributeMemory, &m_shadowOam.GetData(), 1);
 
 			m_masterSpriteRenderList.Clear();
 			m_shadowOam.Clear();

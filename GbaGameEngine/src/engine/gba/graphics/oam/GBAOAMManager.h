@@ -38,6 +38,7 @@ namespace GBA
 				int GetAffineObjectAttributeCount() const { return m_affineObjectAttributeCount; }
 
 				const GBATEK::UObjectAttributeMemory& GetData() const { return m_oam; }
+				GBATEK::UObjectAttributeMemory& GetData() { return m_oam; }
 
 				GBATEK::ObjectAttribute* AllocateObject()
 				{
