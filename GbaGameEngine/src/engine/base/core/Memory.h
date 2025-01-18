@@ -30,10 +30,10 @@ inline static void MemCopy(void* dest, const void* src, u32 size)
 }
 
 template <typename T>
-inline static void VramSafeMemCopy(T* dest, const T* src, u32 size)
+inline static void VramSafeMemCopy(T* dest, const T* src, u32 elementToCopy)
 {
 #ifdef Platform_GBA
-	tonccpy(dest, src, sizeof(T) * size);
+	tonccpy(dest, src, sizeof(T) * elementToCopy);
 #else
 	static_assert(false, "VramSafeMemCopy not available on non-GBA platforms");
 #endif
