@@ -161,7 +161,7 @@ namespace GBA
 			}
 
 			// Can't render more than 128, will currently crash if this is exceeded
-			GBATEK::ObjectAttribute* properties = m_shadowOam.AllocateObject();// m_masterSpriteRenderList.oamProperties.AddNew(DEFAULT_ATTR);
+			GBATEK::ObjectAttribute* properties = m_shadowOam.AllocateObject();
 			*properties = DEFAULT_ATTR;
 
 			m_masterSpriteRenderList.Add(sprite);
