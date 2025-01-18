@@ -70,6 +70,9 @@ namespace GBA
 				VramSafeMemSet(dest + byteCount, static_cast<u8>(0), sizeof(*GBATEK::objectAttributeMemory) - byteCount);
 			}
 
+			// Setting these properties after the vram copy from sprites directly to io appears 
+			// to be faster than applying to shadow oam and copying across with the MemCopy.
+			// Not sure why, maybe io ram is faster to access than ewram? Performance lottery shenanigans?
 			const auto& sprites = m_masterSpriteRenderList;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
