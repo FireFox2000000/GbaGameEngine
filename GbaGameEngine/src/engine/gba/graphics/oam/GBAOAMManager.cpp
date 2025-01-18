@@ -120,25 +120,25 @@ namespace GBA
 		{
 			{
 #ifdef RENDER_PROFILE
-				PROFILE_SCOPED_CLOCK_64("Profile UnloadUnusedSprites");
+				PROFILE_SCOPED_CLOCK_64(Profile_UnloadUnusedSprites);
 #endif
 				UnloadUnusedSprites();
 			}
 			{
 #ifdef RENDER_PROFILE
-				PROFILE_SCOPED_CLOCK_64("Profile LoadNewSprites");
+				PROFILE_SCOPED_CLOCK_64(Profile_LoadNewSprites);
 #endif
 				LoadNewSprites();
 			}
 			{
 #ifdef RENDER_PROFILE
-				PROFILE_SCOPED_CLOCK_64("Profile TransferRenderListIntoMemory");
+				PROFILE_SCOPED_CLOCK_64(Profile_TransferRenderListIntoMemory);
 #endif
 				TransferRenderListIntoMemory();
 			}
 			{
 #ifdef RENDER_PROFILE
-				PROFILE_SCOPED_CLOCK_64("Profile Flip + Clear");
+				PROFILE_SCOPED_CLOCK_64(Profile_Flip_And_Clear);
 #endif		
 				m_spriteRenderDoubleBuffer.Flip();
 				m_spriteRenderDoubleBuffer.GetPrimary().Clear();
