@@ -216,6 +216,8 @@ public:
 		InsertRange(0, l);
 	}
 
+	~ListBase() requires std::is_trivially_destructible_v<T> = default;
+
 	~ListBase()
 	{
 		for (iterator it = begin(); it != end(); ++it)
@@ -360,9 +362,12 @@ public:
 		if (length > 0 && index + length <= Count())
 		{
 			u32 endPosition = index + length;
-			for (u32 i = index; i < endPosition; ++i)
+			if constexpr (!std::is_trivially_destructible_v<T>)
 			{
-				Get(i).~T();
+				for (u32 i = index; i < endPosition; ++i)
+				{
+					Get(i).~T();
+				}
 			}
 
 			MoveMemory(MemoryPolicy::GetContainer() + index, MemoryPolicy::GetContainer() + endPosition, sizeof(T) * (Count() - endPosition));
