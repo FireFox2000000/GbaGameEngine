@@ -52,8 +52,6 @@ namespace GBA
 
 		void OAMManager::TransferRenderListIntoMemory()
 		{
-			u32 objectCount = m_masterSpriteRenderList.Count();
-
 			// Fast copy ObjectAttributes into memory
 			{
 				u32 objByteCount = sizeof(GBATEK::ObjectAttribute) * m_shadowOam.GetObjectAttributeCount();
@@ -74,6 +72,7 @@ namespace GBA
 			// to be faster than applying to shadow oam and copying across with the MemCopy.
 			// Not sure why, maybe io ram is faster to access than ewram? Performance lottery shenanigans?
 			const auto& sprites = m_masterSpriteRenderList;
+			u32 objectCount = m_masterSpriteRenderList.Count();
 			for (u32 i = 0; i < objectCount; ++i)
 			{
 				GBATEK::ObjectAttribute& oamSpriteHandle = GBATEK::objectAttributeMemory->attributes[i];
@@ -82,6 +81,10 @@ namespace GBA
 				// Set just-loaded specific properties
 				oamSpriteHandle.palleteBankIndex = sprite->m_atlas->GetPaletteIndex();
 				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
+
+				// These could be set during AddToRenderList and save cycles in VBlank, however
+				// doing so would increase VDraw by even more cycles, eg save ~4500 cycles in VBlank
+				// but increases VDraw by ~7500 cycles instead
 				oamSpriteHandle.shape = sprite->GetShape();
 				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
@@ -114,6 +117,7 @@ namespace GBA
 #ifdef RENDER_PROFILE
 				PROFILE_SCOPED_CLOCK_64(Profile_Flip_And_Clear);
 #endif		
+
 				m_spriteRenderDoubleBuffer.Flip();
 				m_spriteRenderDoubleBuffer.GetPrimary().Clear();
 			}
