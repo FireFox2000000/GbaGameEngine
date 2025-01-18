@@ -61,10 +61,10 @@ namespace GBA
 
 				constexpr int shift = SIN_LUT_FRACTIONAL_BITS;
 
-				affineProperties->paFixedPoint8 = cosSinResult * scale.x.GetStorage() >> shift;
-				affineProperties->pbFixedPoint8 = sinResult * scale.x.GetStorage() >> shift;
-				affineProperties->pcFixedPoint8 = -sinResult * scale.y.GetStorage() >> shift;
-				affineProperties->pdFixedPoint8 = cosSinResult * scale.y.GetStorage() >> shift;
+				affineProperties->paFixedPoint8 = cosSinResult * gbaInvertedScale.x.GetStorage() >> shift;
+				affineProperties->pbFixedPoint8 = sinResult * gbaInvertedScale.x.GetStorage() >> shift;
+				affineProperties->pcFixedPoint8 = -sinResult * gbaInvertedScale.y.GetStorage() >> shift;
+				affineProperties->pdFixedPoint8 = cosSinResult * gbaInvertedScale.y.GetStorage() >> shift;
 			}
 
 			// Double rendering requires anchorpoint changes as AffineDoubleRendering will 
