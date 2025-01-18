@@ -4,6 +4,7 @@
 #include "engine/asset/ResourcesManager.h"
 
 class AudioManager;
+class Graphics;
 
 // Container for game critical systems.
 class Engine
@@ -19,6 +20,7 @@ class Engine
 
 	ResourcesManager m_resourcesManager;
 	AudioManager* m_audioManager = nullptr;
+	Graphics* m_graphics = nullptr;
 
 public:
 	Engine();
@@ -68,4 +70,10 @@ template<>
 inline AudioManager* Engine::GetComponent()
 {
 	return m_audioManager;
+}
+
+template<>
+inline Graphics* Engine::GetComponent()
+{
+	return m_graphics;
 }

@@ -57,6 +57,9 @@ namespace GBATEK
 
 	struct ObjectAttribute
 	{
+		// Disable direct assignment due to interleaving with affine attributes
+		ObjectAttribute& operator=(const ObjectAttribute&) = delete;
+
 		/*** Attr 0 ***/
 
 		// 0 - 255
@@ -116,6 +119,9 @@ GBATEK_DIAGNOSTIC_POP
 
 	class ObjectAttributeAffine
 	{
+		// Disable direct assignment due to interleaving with object attributes
+		ObjectAttributeAffine& operator=(const ObjectAttributeAffine&) = delete;
+
 	private:
 		// fills map to ObjectAttribute properties.
 		unsigned short fill0[3];

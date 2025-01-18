@@ -9,13 +9,13 @@
 
 Engine::Engine()
 	: m_audioManager(new AudioManager())
+	, m_graphics(new Graphics())
 {
 	m_engineComponentsContainer = m_engineComponentsRegistry.CreateEntity();
 
 	ECS::ManagedEntity::ProvideEntityManagerService(&m_entityComponentManager);
 
 	AddComponent<Time>();
-	AddComponent<Graphics>();
 	AddComponent<SceneManager>();
 	AddComponent<IO::FileSystem>();
 	AddComponent<Input::InputManager>();
@@ -25,6 +25,7 @@ Engine::Engine()
 Engine::~Engine()
 {
 	delete m_audioManager;
+	delete m_graphics;
 
 	m_engineComponentsRegistry.DestroyEntity(m_engineComponentsContainer);
 
