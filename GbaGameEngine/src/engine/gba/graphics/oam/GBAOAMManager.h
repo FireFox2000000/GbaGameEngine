@@ -54,7 +54,7 @@ namespace GBA
 
 				void Clear()
 				{
-					memset(this, 0, sizeof(*this));
+					VramSafeMemSet(reinterpret_cast<u8*>(this), static_cast<u8>(0), sizeof(*this));
 				}
 			};
 
