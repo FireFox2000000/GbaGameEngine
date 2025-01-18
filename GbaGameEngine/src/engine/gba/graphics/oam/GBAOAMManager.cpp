@@ -60,6 +60,8 @@ namespace GBA
 				VramSafeMemCopy(GBATEK::objectAttributeMemory->attributes, m_shadowOam.GetData().attributes, objectCount);
 
 				// Remove the rest of the objects by clearing them
+				// Even though unused shadow OAM is zeroed out from the previous frame, it's faster 
+				// to MemSet 0 than to MemCopy zeroed data
 				VramSafeMemSet((u8*)&(GBATEK::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBATEK::objectAttributeMemory->attributes) - byteCount);
 			}
 
