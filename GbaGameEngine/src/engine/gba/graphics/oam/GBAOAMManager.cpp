@@ -9,31 +9,6 @@
 #include "engine/debug/Profiler.h"
 #endif
 
-constexpr GBATEK::ObjectAttribute MakeDefaultAttribute()
-{
-	GBATEK::ObjectAttribute attr{};
-
-	attr.screenPosY = 0;
-	attr.objectMode = GBATEK::ObjectMode::Normal;
-	attr.gfxMode = GBATEK::GfxMode::Normal;
-	attr.mosaic = GBATEK::MosaicState::Off;
-	attr.colourMode = GBATEK::ColourMode::FourBitsPerPixel;
-	attr.shape = GBATEK::ObjectShape::Square;
-
-	attr.screenPosX = 0;
-	attr.flipHorizontal = GBATEK::ObjectFlippedState::Normal;
-	attr.flipVertical = GBATEK::ObjectFlippedState::Normal;
-	attr.size = GBATEK::ObjectSize::Smallest;
-
-	attr.vramObjectTileIndex = 0;
-	attr.priority = 0;
-	attr.palleteBankIndex = 0;
-
-	return attr;
-}
-
-constexpr GBATEK::ObjectAttribute DEFAULT_ATTR = MakeDefaultAttribute();
-
 namespace GBA
 {
 	namespace Gfx
@@ -173,7 +148,6 @@ namespace GBA
 
 			// Can't render more than 128, will currently crash if this is exceeded
 			GBATEK::ObjectAttribute* properties = m_shadowOam.AllocateObject();
-			*properties = DEFAULT_ATTR;
 
 			m_masterSpriteRenderList.Add(sprite);
 

@@ -54,8 +54,7 @@ namespace GBA
 
 				void Clear()
 				{
-					m_objectAttributeCount = 0;
-					m_affineObjectAttributeCount = 0;
+					memset(this, 0, sizeof(*this));
 				}
 			};
 
