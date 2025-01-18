@@ -30,7 +30,7 @@ inline static void MemCopy(void* dest, const void* src, u32 size)
 }
 
 template <typename T>
-inline static void VramSafeMemCopy(T* dest, const T* src, u32 elementToCopy)
+inline static void VramSafeMemCopy(T* dest, const T* src, u32 elementsToCopyCount)
 {
 #ifdef Platform_GBA
 	tonccpy(dest, src, sizeof(T) * elementToCopy);
@@ -40,22 +40,22 @@ inline static void VramSafeMemCopy(T* dest, const T* src, u32 elementToCopy)
 }
 
 template <typename T>
-inline static void VramSafeMemSet(T* dest, const T val, u32 size)
+inline static void VramSafeMemSet(T* dest, const T val, u32 elementsToCopyCount)
 {
 #ifdef Platform_GBA
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 	if constexpr (sizeof(val) == sizeof(u32))
 	{
-		toncset32(dest, *reinterpret_cast<const u32*>(&val), size);
+		toncset32(dest, *reinterpret_cast<const u32*>(&val), elementsToCopyCount);
 	}
 	else if constexpr (sizeof(val) == sizeof(u16))
 	{
-		toncset16(dest, *reinterpret_cast<const u16*>(&val), size);
+		toncset16(dest, *reinterpret_cast<const u16*>(&val), elementsToCopyCount);
 	}
 	else if constexpr (sizeof(val) == sizeof(u8))
 	{
-		toncset(dest, *reinterpret_cast<const u8*>(&val), size);
+		toncset(dest, *reinterpret_cast<const u8*>(&val), elementsToCopyCount);
 	}
 	else
 	{
