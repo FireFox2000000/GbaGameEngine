@@ -79,11 +79,19 @@ namespace GBA
 		{
 			u32 objectCount = m_masterSpriteRenderList.Count();
 
+			// Fast copy ObjectAttributes into memory
+			{
+				u32 byteCount = sizeof(GBATEK::ObjectAttribute) * objectCount;
+				VramSafeMemCopy(GBATEK::objectAttributeMemory->attributes, m_shadowOam.GetData().attributes, objectCount);
+
+				// Remove the rest of the objects by clearing them
+				VramSafeMemSet((u8*)&(GBATEK::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBATEK::objectAttributeMemory->attributes) - byteCount);
+			}
+
 			const auto& sprites = m_masterSpriteRenderList;
-			GBATEK::ObjectAttribute* attributes = m_shadowOam.GetData().attributes;
 			for (u32 i = 0; i < objectCount; ++i)
 			{
-				GBATEK::ObjectAttribute& oamSpriteHandle = attributes[i];
+				GBATEK::ObjectAttribute& oamSpriteHandle = GBATEK::objectAttributeMemory->attributes[i];
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
@@ -93,15 +101,16 @@ namespace GBA
 				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
 
-			// Remove lingering objects without trashing interleaved data
-			for (u32 i = objectCount; i < OBJ_ATTR_COUNT; ++i)
+			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so.
+			auto& affineAttributes = m_shadowOam.GetData().affineAttributes;
+			for (int i = 0; i < m_shadowOam.GetAffineObjectAttributeCount(); ++i)
 			{
-				GBATEK::ObjectAttribute& oamSpriteHandle = attributes[i];
-				oamSpriteHandle.vramObjectTileIndex = 0;
+				GBATEK::ObjectAttributeAffine& oamAffineHandle = GBATEK::objectAttributeMemory->affineAttributes[i];
+				oamAffineHandle.paFixedPoint8 = affineAttributes[i].paFixedPoint8;
+				oamAffineHandle.pbFixedPoint8 = affineAttributes[i].pbFixedPoint8;
+				oamAffineHandle.pcFixedPoint8 = affineAttributes[i].pcFixedPoint8;
+				oamAffineHandle.pdFixedPoint8 = affineAttributes[i].pdFixedPoint8;
 			}
-
-			// Fast copy ObjectAttributes into memory
-			VramSafeMemCopy(GBATEK::objectAttributeMemory, &m_shadowOam.GetData(), 1);
 
 			m_masterSpriteRenderList.Clear();
 			m_shadowOam.Clear();
