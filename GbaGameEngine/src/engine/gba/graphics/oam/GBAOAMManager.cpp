@@ -52,7 +52,28 @@ namespace GBA
 
 		void OAMManager::TransferRenderListIntoMemory()
 		{
+			const auto& sprites = m_masterSpriteRenderList;
+			u32 objectCount = m_masterSpriteRenderList.Count();
+			for (u32 i = 0; i < objectCount; ++i)
+			{
+				GBATEK::ObjectAttribute& oamSpriteHandle = m_shadowOam.GetData().attributes[i];
+				const Sprite* sprite = sprites[i];
+
+				// Set just-loaded specific properties
+				oamSpriteHandle.palleteBankIndex = sprite->m_atlas->GetPaletteIndex();
+				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
+
+				// These could be set during AddToRenderList and save cycles in VBlank, however
+				// doing so would increase VDraw by even more cycles, eg save ~4500 cycles in VBlank
+				// but increases VDraw by ~7500 cycles instead
+				oamSpriteHandle.shape = sprite->GetShape();
+				oamSpriteHandle.size = sprite->GetSizeMode();
+			}
+
 			// Fast copy ObjectAttributes into memory
+			// This also ensures safe copying into VRAM, as VRAM only allows 16 or 32 bit access. 
+			// Struct copy can be a bit of a roll of the dice as to whether the compiler will choose
+			// single byte access and break or not. 
 			{
 				u32 objByteCount = sizeof(GBATEK::ObjectAttribute) * m_shadowOam.GetObjectAttributeCount();
 				u32 affineByteCount = sizeof(GBATEK::ObjectAttributeAffine) * m_shadowOam.GetAffineObjectAttributeCount();
@@ -66,27 +87,6 @@ namespace GBA
 				// Even though unused shadow OAM is zeroed out from the previous frame, it's faster 
 				// to MemSet 0 than to MemCopy zeroed data
 				VramSafeMemSet(dest + byteCount, static_cast<u8>(0), sizeof(*GBATEK::objectAttributeMemory) - byteCount);
-			}
-
-			// Setting these properties after the vram copy from sprites directly to io appears 
-			// to be faster than applying to shadow oam and copying across with the MemCopy.
-			// Not sure why, maybe io ram is faster to access than ewram? Performance lottery shenanigans?
-			const auto& sprites = m_masterSpriteRenderList;
-			u32 objectCount = m_masterSpriteRenderList.Count();
-			for (u32 i = 0; i < objectCount; ++i)
-			{
-				GBATEK::ObjectAttribute& oamSpriteHandle = GBATEK::objectAttributeMemory->attributes[i];
-				const Sprite* sprite = sprites[i];
-
-				// Set just-loaded specific properties
-				oamSpriteHandle.palleteBankIndex = sprite->m_atlas->GetPaletteIndex();
-				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
-
-				// These could be set during AddToRenderList and save cycles in VBlank, however
-				// doing so would increase VDraw by even more cycles, eg save ~4500 cycles in VBlank
-				// but increases VDraw by ~7500 cycles instead
-				oamSpriteHandle.shape = sprite->GetShape();
-				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
 
 			m_masterSpriteRenderList.Clear();
