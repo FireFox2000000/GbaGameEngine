@@ -56,13 +56,18 @@ namespace GBA
 
 			// Fast copy ObjectAttributes into memory
 			{
-				u32 byteCount = sizeof(GBATEK::ObjectAttribute) * objectCount;
-				VramSafeMemCopy(GBATEK::objectAttributeMemory->attributes, m_shadowOam.GetData().attributes, objectCount);
+				u32 objByteCount = sizeof(GBATEK::ObjectAttribute) * m_shadowOam.GetObjectAttributeCount();
+				u32 affineByteCount = sizeof(GBATEK::ObjectAttributeAffine) * m_shadowOam.GetAffineObjectAttributeCount();
+				u32 byteCount = MAX(objByteCount, affineByteCount);
+				u8* dest = reinterpret_cast<u8*>(GBATEK::objectAttributeMemory);
+				u8* src = reinterpret_cast<u8*>(&m_shadowOam.GetData());
+
+				VramSafeMemCopy(dest, src, byteCount);
 
 				// Remove the rest of the objects by clearing them
 				// Even though unused shadow OAM is zeroed out from the previous frame, it's faster 
 				// to MemSet 0 than to MemCopy zeroed data
-				VramSafeMemSet((u8*)&(GBATEK::objectAttributeMemory->attributes[objectCount]), static_cast<u8>(0), sizeof(GBATEK::objectAttributeMemory->attributes) - byteCount);
+				VramSafeMemSet(dest + byteCount, static_cast<u8>(0), sizeof(*GBATEK::objectAttributeMemory) - byteCount);
 			}
 
 			const auto& sprites = m_masterSpriteRenderList;
@@ -76,17 +81,6 @@ namespace GBA
 				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
 				oamSpriteHandle.shape = sprite->GetShape();
 				oamSpriteHandle.size = sprite->GetSizeMode();
-			}
-
-			// Don't use mem-copies here. Will trash ObjectAttributes memory if done so.
-			auto& affineAttributes = m_shadowOam.GetData().affineAttributes;
-			for (int i = 0; i < m_shadowOam.GetAffineObjectAttributeCount(); ++i)
-			{
-				GBATEK::ObjectAttributeAffine& oamAffineHandle = GBATEK::objectAttributeMemory->affineAttributes[i];
-				oamAffineHandle.paFixedPoint8 = affineAttributes[i].paFixedPoint8;
-				oamAffineHandle.pbFixedPoint8 = affineAttributes[i].pbFixedPoint8;
-				oamAffineHandle.pcFixedPoint8 = affineAttributes[i].pcFixedPoint8;
-				oamAffineHandle.pdFixedPoint8 = affineAttributes[i].pdFixedPoint8;
 			}
 
 			m_masterSpriteRenderList.Clear();
