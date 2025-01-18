@@ -3,7 +3,6 @@
 #include "engine/base/core/stl/DoubleBuffer.h"
 #include "engine/base/core/stl/List.h"
 #include "engine/gba/graphics/sprite/GBASpriteGraphicsMemoryManager.h"
-#include "engine/math/Matrix2x2.h"
 #include "gbatek/ObjectAttributeMemory.h"
 
 namespace GBATEK
@@ -28,12 +27,6 @@ namespace GBA
 			static constexpr int OBJ_AFFINE_COUNT = ARRAY_SIZE(GBATEK::objectAttributeMemory->affineAttributes);
 
 		private:
-			struct OAMSpriteRenderPropertiesSOA
-			{
-				FixedList<GBATEK::ObjectAttribute, OBJ_ATTR_COUNT> oamProperties;
-				FixedList<Sprite*, OBJ_ATTR_COUNT> sprite;
-			};
-
 			class ShadowOAM
 			{
 				GBATEK::UObjectAttributeMemory m_oam;

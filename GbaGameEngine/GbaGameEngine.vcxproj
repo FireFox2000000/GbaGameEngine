@@ -190,7 +190,6 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\io\FileSystem.cpp" />
     <ClCompile Include="src\engine\math\geometry\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="src\engine\math\geometry\Circle.cpp" />
-    <ClCompile Include="src\engine\math\Matrix2x2.cpp" />
     <ClCompile Include="src\engine\physics\Collider.cpp" />
     <ClCompile Include="src\engine\physics\CollisionFunctions.cpp" />
     <ClCompile Include="src\engine\render\UiRenderer.cpp" />
@@ -330,7 +329,6 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\gba\config\GBADMAChannelID.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
-    <ClInclude Include="src\engine\math\Matrix2x2.h" />
     <ClInclude Include="src\engine\physics\Collider.h" />
     <ClInclude Include="src\engine\physics\CollisionFunctions.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
