@@ -55,17 +55,16 @@ namespace GBA
 			Vector2<tFixedPoint8> gbaInvertedScale{ .x = 1.0f / scale.x.ToFloat(), .y = 1.0f / scale.y.ToFloat() };		
 			u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
 
-			{
-				u16 rotationAlpha = -gbaRotation;
-				int sinResult = Math::Sin(rotationAlpha), cosSinResult = Math::Cos(rotationAlpha);
+			u16 rotationAlpha = -gbaRotation;
+			int sinResult = Math::Sin(rotationAlpha), cosSinResult = Math::Cos(rotationAlpha);
 
-				constexpr int shift = SIN_LUT_FRACTIONAL_BITS;
+			constexpr int shift = SIN_LUT_FRACTIONAL_BITS;
 
-				affineProperties->paFixedPoint8 = cosSinResult * gbaInvertedScale.x.GetStorage() >> shift;
-				affineProperties->pbFixedPoint8 = sinResult * gbaInvertedScale.x.GetStorage() >> shift;
-				affineProperties->pcFixedPoint8 = -sinResult * gbaInvertedScale.y.GetStorage() >> shift;
-				affineProperties->pdFixedPoint8 = cosSinResult * gbaInvertedScale.y.GetStorage() >> shift;
-			}
+			// Populate transformation matrix
+			affineProperties->paFixedPoint8 = cosSinResult * gbaInvertedScale.x.GetStorage() >> shift;
+			affineProperties->pbFixedPoint8 = sinResult * gbaInvertedScale.x.GetStorage() >> shift;
+			affineProperties->pcFixedPoint8 = -sinResult * gbaInvertedScale.y.GetStorage() >> shift;
+			affineProperties->pdFixedPoint8 = cosSinResult * gbaInvertedScale.y.GetStorage() >> shift;
 
 			// Double rendering requires anchorpoint changes as AffineDoubleRendering will 
 			// physically double the sprite size
