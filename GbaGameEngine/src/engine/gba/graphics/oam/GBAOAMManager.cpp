@@ -62,12 +62,6 @@ namespace GBA
 				// Set just-loaded specific properties
 				oamSpriteHandle.palleteBankIndex = sprite->m_atlas->GetPaletteIndex();
 				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
-
-				// These could be set during AddToRenderList and save cycles in VBlank, however
-				// doing so would increase VDraw by even more cycles, eg save ~4500 cycles in VBlank
-				// but increases VDraw by ~7500 cycles instead
-				oamSpriteHandle.shape = sprite->GetShape();
-				oamSpriteHandle.size = sprite->GetSizeMode();
 			}
 
 			// Fast copy ObjectAttributes into memory
@@ -151,6 +145,8 @@ namespace GBA
 
 			// Can't render more than 128, will currently crash if this is exceeded
 			GBATEK::ObjectAttribute* properties = m_shadowOam.AllocateObject();
+			properties->shape = sprite->GetShape();
+			properties->size = sprite->GetSizeMode();
 
 			m_masterSpriteRenderList.Add(sprite);
 
