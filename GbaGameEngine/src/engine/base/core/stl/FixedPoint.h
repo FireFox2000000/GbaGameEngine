@@ -21,13 +21,13 @@ class FixedPoint
 
 	// Loses float precision easily
 	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& MulHalfShift(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) {
-		storage = ((int)storage >> (FRACTIONAL_BITS / 2)) * (b.storage >> (FRACTIONAL_BITS / 2));
+		storage = (static_cast<int>(storage) >> (FRACTIONAL_BITS / 2)) * (b.storage >> (FRACTIONAL_BITS / 2));
 		return *this;
 	}
 
 	// High chance of encountering overflow
 	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& Mul(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) {
-		storage = ((int)storage * b.storage) >> FRACTIONAL_BITS;
+		storage = (static_cast<int>(storage) * b.storage) >> FRACTIONAL_BITS;
 		return *this;
 	}
 
@@ -55,7 +55,7 @@ public:
 	FixedPoint(const FixedPoint<T, BITS>& that)
 	{
 		// Todo- Handle signed and unsigned types
-		int shiftDir = int(FRACTIONAL_BITS) - BITS;
+		int shiftDir = static_cast<int>(FRACTIONAL_BITS) - BITS;
 
 		if (shiftDir > 0)
 			storage = that.GetStorage() << shiftDir;
@@ -71,12 +71,12 @@ public:
 
 	static constexpr float FloatDecompress(TIntergral val)
 	{
-		return (1.0f / (float)(1 << FRACTIONAL_BITS)) * ((int)val);
+		return (1.0f / static_cast<float>(1 << FRACTIONAL_BITS)) * static_cast<int>(val);
 	}
 
 	constexpr inline FixedPoint(int val) : storage(val << FRACTIONAL_BITS) {}
 	constexpr inline FixedPoint(float val) : storage(FloatCompress(val)) {}
-	constexpr inline FixedPoint(double val) : storage(TIntergral(val * (1 << FRACTIONAL_BITS) + 0.5)) {}
+	constexpr inline FixedPoint(double val) : storage(static_cast<TIntergral>(val * (1 << FRACTIONAL_BITS) + 0.5)) {}
 
 	inline int ToInt() const
 	{
@@ -95,7 +95,7 @@ public:
 
 	inline double ToDouble() const
 	{
-		return (1.0 / (double)(1 << FRACTIONAL_BITS)) * ((int)storage);
+		return (1.0 / static_cast<double>(1 << FRACTIONAL_BITS)) * (static_cast<int>(storage));
 	}
 
 	static constexpr inline u8 GetFpLevel() { return FRACTIONAL_BITS; }
