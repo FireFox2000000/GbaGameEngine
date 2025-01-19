@@ -4,10 +4,18 @@
 #include "engine/base/Typedefs.h"
 #include "engine/base/Macros.h"
 
-template<std::integral TIntergral, u8 FRACTIONAL_BITS>
+/// <summary>
+/// Fixed point number type. Uses integral types to fake floating point calculations by taking part 
+/// of the bits and repurposing them to represent the decimal value
+/// </summary>
+/// <param name="TIntergral">The underlying base type where integral and decimal numbers are stored</param>
+/// <param name="FRACTIONAL_BITS">The amount of bits used to store the decimal component</param>
+/// <param name="TIntermediate ">The type used during various calculations such as division where overflow and
+/// underflow may be prominant</param>
+template<std::integral TIntergral, u8 FRACTIONAL_BITS, std::integral TIntermediate>
 class FixedPoint
 {
-	TIntergral storage;
+	TIntergral storage = 0;
 
 	inline TIntergral GetIntStorage() const
 	{
@@ -20,13 +28,13 @@ class FixedPoint
 	}
 
 	// Loses float precision easily
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& MulHalfShift(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) {
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& MulHalfShift(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) {
 		storage = (static_cast<int>(storage) >> (FRACTIONAL_BITS / 2)) * (b.storage >> (FRACTIONAL_BITS / 2));
 		return *this;
 	}
 
 	// High chance of encountering overflow
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& Mul(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) {
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& Mul(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) {
 		storage = (static_cast<int>(storage) * b.storage) >> FRACTIONAL_BITS;
 		return *this;
 	}
@@ -36,7 +44,7 @@ public:
 	{
 	}
 
-	inline FixedPoint(const FixedPoint<TIntergral, FRACTIONAL_BITS>& that)
+	inline FixedPoint(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& that)
 	{
 		*this = that;
 	}
@@ -51,16 +59,16 @@ public:
 		storage = val;
 	}
 
-	template<class T, u8 BITS>
-	FixedPoint(const FixedPoint<T, BITS>& that)
+	template<class T, u8 BITS, class V>
+	FixedPoint(const FixedPoint<T, BITS, V>& that)
 	{
 		// Todo- Handle signed and unsigned types
 		int shiftDir = static_cast<int>(FRACTIONAL_BITS) - BITS;
 
 		if (shiftDir > 0)
-			storage = that.GetStorage() << shiftDir;
+			storage = static_cast<TIntergral>(that.GetStorage() << shiftDir);
 		else
-			storage = that.GetStorage() >> -shiftDir;
+			storage = static_cast<TIntergral>(that.GetStorage() >> -shiftDir);
 	}
 
 
@@ -71,10 +79,10 @@ public:
 
 	static constexpr float FloatDecompress(TIntergral val)
 	{
-		return (1.0f / static_cast<float>(1 << FRACTIONAL_BITS)) * static_cast<int>(val);
+		return (1.0f / static_cast<float>(static_cast<TIntergral>(1) << FRACTIONAL_BITS)) * static_cast<int>(val);
 	}
 
-	constexpr inline FixedPoint(int val) : storage(val << FRACTIONAL_BITS) {}
+	constexpr inline FixedPoint(int val) : storage(static_cast<TIntergral>(val) << FRACTIONAL_BITS) {}
 	constexpr inline FixedPoint(float val) : storage(FloatCompress(val)) {}
 	constexpr inline FixedPoint(double val) : storage(static_cast<TIntergral>(val * (1 << FRACTIONAL_BITS) + 0.5)) {}
 
@@ -104,106 +112,114 @@ public:
 	inline operator float() const { return ToFloat(); }
 	inline operator double() const { return ToDouble(); }
 
-	template<class T, u8 BITS>
-	inline operator FixedPoint<T, BITS>() const { return FixedPoint<T, BITS>(*this); }
+	template<class T, u8 BITS, class V>
+	inline operator FixedPoint<T, BITS, V>() const { return FixedPoint<T, BITS, V>(*this); }
 
 	/*******************************************************************************/
 
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& operator += (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b)
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& operator += (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b)
 	{
 		storage += b.storage;
 		return *this;
 	}
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& operator -= (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b)
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& operator -= (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b)
 	{
 		storage -= b.storage;
 		return *this;
 	}
 
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& operator *= (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b)
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& operator *= (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b)
 	{
 		return MulHalfShift(b);
 	}
 
 	// Easy to overflow and underflow. Try not to use this if it can be helped
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS>& operator /= (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b)
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& operator /= (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b)
 	{
-		storage = storage * (1 << FRACTIONAL_BITS) / b.storage;
+		// Intermediate type
+		// 64 bit operations on 32 bit hardware are faster than floating point operations 
+		// but still slower than 32 bit operations
+		TIntermediate fpOne = static_cast<TIntermediate>(1) << FRACTIONAL_BITS;
+		TIntermediate mul = storage * fpOne;
+
+		DEBUG_ASSERTMSG(mul != 0 && mul / storage == fpOne, "Overflow detected during fixed point division");
+
+		storage = static_cast<TIntergral>(mul / b.storage);
 		return *this;
 	}
 
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS> operator+(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS>(*this) += b; }
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS> operator-(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS>(*this) -= b; }
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS> operator*(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS>(*this) *= b; }
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate> operator+(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(*this) += b; }
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate> operator-(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(*this) -= b; }
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate> operator*(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(*this) *= b; }
 
 	// Easy to overflow and underflow. Try not to use this if it can be helped
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS> operator/(const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS>(*this) /= b; }
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate> operator/(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(*this) /= b; }
 
-	inline bool operator > (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const
+	inline bool operator > (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const
 	{
 		return storage > b.storage;
 	}
 
-	inline bool operator < (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const
+	inline bool operator < (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const
 	{
 		return storage < b.storage;
 	}
 
-	inline bool operator <= (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const
+	inline bool operator <= (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const
 	{
 		return !(*this > b);
 	}
 
-	inline bool operator >= (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const
+	inline bool operator >= (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const
 	{
 		return !(*this < b);
 	}
 
-	inline bool operator == (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const
+	inline bool operator == (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const
 	{
 		return storage == b.storage;
 	}
 
-	inline bool operator != (const FixedPoint<TIntergral, FRACTIONAL_BITS>& b) const
+	inline bool operator != (const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& b) const
 	{
 		return !(*this == b);
 	}
 
 	/*******************************************************************************/
 
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS> operator*(const int& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS>(*this) *= FixedPoint<TIntergral, FRACTIONAL_BITS>(b); }
+	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate> operator*(const int& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(*this) *= FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b); }
 
 	inline bool operator > (const int& b) const
 	{
-		return *this > FixedPoint<TIntergral, FRACTIONAL_BITS>(b);
+		return *this > FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
 	}
 
 	inline bool operator < (const int& b) const
 	{
-		return *this < FixedPoint<TIntergral, FRACTIONAL_BITS>(b);
+		return *this < FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
 	}
 
 	inline bool operator <= (const int& b) const
 	{
-		return *this <= FixedPoint<TIntergral, FRACTIONAL_BITS>(b);
+		return *this <= FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
 	}
 
 	inline bool operator >= (const int& b) const
 	{
-		return *this >= FixedPoint<TIntergral, FRACTIONAL_BITS>(b);
+		return *this >= FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
 	}
 
 	inline bool operator == (const int& b) const
 	{
-		return *this == FixedPoint<TIntergral, FRACTIONAL_BITS>(b);
+		return *this == FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
 	}
 
 	inline bool operator != (const int& b) const
 	{
-		return *this != FixedPoint<TIntergral, FRACTIONAL_BITS>(b);
+		return *this != FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
 	}
 };
 
-using tFixedPoint8 = FixedPoint<int, 8>;
-using tFixedPoint16 = FixedPoint<int, 16>;
-using tFixedPoint24 = FixedPoint<int, 24>;
+using tFixedPoint8 = FixedPoint<int, 8, s64>;
+using tFixedPoint16 = FixedPoint<int, 16, s64>;
+using tFixedPoint24 = FixedPoint<int, 24, s64>;

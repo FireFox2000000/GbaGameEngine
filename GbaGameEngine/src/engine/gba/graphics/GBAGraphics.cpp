@@ -51,8 +51,19 @@ namespace GBA
 
 			// The affine matrix maps from screen space to texture space, need to tell where the pixel's colour comes from. Invert to correct for this.
 			// See https://www.coranac.com/tonc/text/affine.htm for details
-			// Float usage gross and slow, however tFixedPoint24 overflows, tFixedPoint8 not enough precision.
-			Vector2<tFixedPoint8> gbaInvertedScale{ .x = 1.0f / scale.x.ToFloat(), .y = 1.0f / scale.y.ToFloat() };		
+
+			// Compress scale down even further and lose decimal precision. This is so that we can 
+			// use 32 bit arithmatic to calculate the reciprocal without risk of overflowing, as both
+			// 64 bit and floating point are slow
+			Vector2<FixedPoint<s16, 8, int>> invertableScale{ .x = { scale.x }, .y = { scale.y } };
+			Vector2<tFixedPoint8> gbaInvertedScale{ 
+				.x = { decltype(invertableScale.x)(1) / invertableScale.x }, 
+				.y = { decltype(invertableScale.y)(1) / invertableScale.y } 
+			};
+
+			// Scale should be limited between (0, 2], otherwise rendering will start to be cut off. 
+			// Unless the sprite is way smaller than the size/shape it is
+
 			u16 gbaRotation = (rotationDegrees * DegreesToRot).ToRoundedInt();
 
 			u16 rotationAlpha = -gbaRotation;
