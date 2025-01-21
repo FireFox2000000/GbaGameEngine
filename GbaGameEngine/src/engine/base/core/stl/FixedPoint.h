@@ -112,9 +112,9 @@ public:
 	}
 	static constexpr inline u8 GetFpLevel() { return FRACTIONAL_BITS; }
 
-	constexpr inline operator int() const { return ToInt(); }
-	constexpr inline operator float() const { return ToFloat(); }
-	constexpr inline operator double() const { return ToDouble(); }
+	constexpr inline explicit operator int() const { return ToInt(); }
+	constexpr inline explicit operator float() const { return ToFloat(); }
+	constexpr inline explicit operator double() const { return ToDouble(); }
 
 	/*******************************************************************************/
 
