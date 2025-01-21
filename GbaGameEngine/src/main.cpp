@@ -61,7 +61,7 @@ int main()
 	sceneManager->ChangeScene<LevelSelectorScene>();
 
 	s32 timeToNextFixedUpdateMicroSeconds = 0;
-	constexpr u32 fixedUpdateDtMicroseconds = SECONDS_TO_MICROSECONDS(PhysicsConfig::c_fixedUpdateRate.ToFloat());
+	constexpr u32 fixedUpdateDtMicroseconds = SECONDS_TO_MICROSECONDS(static_cast<float>(PhysicsConfig::c_fixedUpdateRate));
 
 	// Update loop
 	while (true)

@@ -97,7 +97,7 @@ bool HasCollisionCirclevsCircle(
 		Vector2<tFixedPoint24> normal = VectorMath::Normalised(direction);
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = tFixedPoint24(rad - tFixedPoint8(std::sqrt(lengthSqrd.ToFloat())));	// float heavy, but need accuracy or this doesn't work.
+		out_collisionMaybe->penetrationDepth = tFixedPoint24(rad - tFixedPoint8(std::sqrt(static_cast<float>(lengthSqrd))));	// float heavy, but need accuracy or this doesn't work.
 	}
 
 	return result;
@@ -134,7 +134,7 @@ bool HasCollisionAABBvsCircle(
 		Vector2<tFixedPoint24> normal = VectorMath::Normalised(direction);
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = tFixedPoint24(colB.radius - tFixedPoint8(std::sqrt(direction.MagnitudeSqrd().ToFloat())));	// float heavy, but need accuracy or this doesn't work.		
+		out_collisionMaybe->penetrationDepth = tFixedPoint24(colB.radius - tFixedPoint8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
 	}
 
 	return result;

@@ -12,7 +12,7 @@
 // Accumulates tFixedPoint24 clamped to [-127, 127] range without wrapping around
 Vector2<tFixedPoint24> SafeAddVelocityClamped(const Vector2<tFixedPoint24>& velocity, const Vector2<tFixedPoint24>& delta)
 {
-	Vector2<int> velWholeNum = Vector2<int>(velocity.x.ToInt(), velocity.y.ToInt());
+	Vector2<int> velWholeNum = Vector2<int>(velocity.x, velocity.y);
 	Vector2<tFixedPoint24> velDecimal = Vector2<tFixedPoint24>(
 		velocity.x - tFixedPoint24(velWholeNum.x),
 		velocity.y - tFixedPoint24(velWholeNum.y)
@@ -21,11 +21,11 @@ Vector2<tFixedPoint24> SafeAddVelocityClamped(const Vector2<tFixedPoint24>& velo
 	velDecimal += delta;
 
 	// Remove whole numbers from velDecimal that may have just accumulated
-	velWholeNum.x += velDecimal.x.ToInt();
-	velWholeNum.y += velDecimal.y.ToInt();
+	velWholeNum.x += static_cast<int>(velDecimal.x);
+	velWholeNum.y += static_cast<int>(velDecimal.y);
 
-	velDecimal.x -= tFixedPoint24(velDecimal.x.ToInt());
-	velDecimal.y -= tFixedPoint24(velDecimal.y.ToInt());
+	velDecimal.x -= tFixedPoint24(static_cast<int>(velDecimal.x));
+	velDecimal.y -= tFixedPoint24(static_cast<int>(velDecimal.y));
 
 	velWholeNum.x = Math::Clamp(velWholeNum.x, -127, 127);
 	velWholeNum.y = Math::Clamp(velWholeNum.y, -127, 127);

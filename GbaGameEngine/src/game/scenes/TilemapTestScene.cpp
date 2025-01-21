@@ -143,7 +143,9 @@ void TilemapTestScene::Update()
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 	
 	auto position = transform->GetPosition();
-	const float speed = 1 * dt.ToFloat();
+
+	// TODO - Why are we using float here? Overflow?
+	const float speed = 1.0f * static_cast<float>(dt);
 	//position.x -= speed;
 	//transform->SetPosition(position.x, position.y);
 

@@ -88,14 +88,11 @@ public:
 	constexpr inline FixedPoint(float val) : m_storage(FloatCompress(val)) {}
 	constexpr inline FixedPoint(double val) : m_storage(static_cast<TIntergral>(val * (1 << FRACTIONAL_BITS) + 0.5)) {}
 
-	inline int ToInt() const
+
+private:
+	constexpr inline int ToInt() const
 	{
 		return static_cast<int>(GetIntStorage());
-	}
-
-	inline int ToRoundedInt() const
-	{
-		return static_cast<int>((m_storage + (1 << FRACTIONAL_BITS) / 2) >> FRACTIONAL_BITS);
 	}
 
 	constexpr inline float ToFloat() const
@@ -103,19 +100,21 @@ public:
 		return FloatDecompress(m_storage);
 	}
 
-	inline double ToDouble() const
+	constexpr inline double ToDouble() const
 	{
 		return (1.0 / static_cast<double>(1 << FRACTIONAL_BITS)) * (static_cast<int>(m_storage));
 	}
 
+public:
+	constexpr inline int ToRoundedInt() const
+	{
+		return static_cast<int>((m_storage + (1 << FRACTIONAL_BITS) / 2) >> FRACTIONAL_BITS);
+	}
 	static constexpr inline u8 GetFpLevel() { return FRACTIONAL_BITS; }
 
-	inline operator int() const { return ToInt(); }
-	inline operator float() const { return ToFloat(); }
-	inline operator double() const { return ToDouble(); }
-
-	template<class T, u8 BITS, class V>
-	inline operator FixedPoint<T, BITS, V>() const { return FixedPoint<T, BITS, V>(*this); }
+	constexpr inline operator int() const { return ToInt(); }
+	constexpr inline operator float() const { return ToFloat(); }
+	constexpr inline operator double() const { return ToDouble(); }
 
 	/*******************************************************************************/
 

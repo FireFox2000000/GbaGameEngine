@@ -203,7 +203,7 @@ void Scene0::Update()
 			if (CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider, &collision))
 			{
 				char buff[100];
-				snprintf(buff, sizeof(buff), "(Normal (%.2f, %.2f)", collision.normal.x.ToFloat(), collision.normal.y.ToFloat());
+				snprintf(buff, sizeof(buff), "(Normal (%.2f, %.2f)", static_cast<float>(collision.normal.x), static_cast<float>(collision.normal.y));
 
 				textComponent->m_str = buff;
 			}
@@ -212,7 +212,7 @@ void Scene0::Update()
 				auto position = playerTransform->GetPosition();
 				
 				char buff[100];
-				snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", position.x.ToFloat(), position.y.ToFloat());
+				snprintf(buff, sizeof(buff), "(x = %.2f, y = %.2f)", static_cast<float>(position.x), static_cast<float>(position.y));
 				
 				textComponent->m_str = buff;
 			}

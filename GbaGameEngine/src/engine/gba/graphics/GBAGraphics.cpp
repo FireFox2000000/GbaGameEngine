@@ -55,10 +55,10 @@ namespace GBA
 			// Compress scale down even further and lose decimal precision. This is so that we can 
 			// use 32 bit arithmatic to calculate the reciprocal without risk of overflowing, as both
 			// 64 bit and floating point are slow
-			Vector2<FixedPoint<s16, 8, int>> invertableScale{ .x = { scale.x }, .y = { scale.y } };
-			Vector2<tFixedPoint8> gbaInvertedScale{ 
-				.x = { decltype(invertableScale.x)(1) / invertableScale.x }, 
-				.y = { decltype(invertableScale.y)(1) / invertableScale.y } 
+			Vector2<FixedPoint<s16, 8, int>> invertableScale{ .x = scale.x, .y = scale.y };
+			Vector2<tFixedPoint8> gbaInvertedScale { 
+				.x = decltype(invertableScale.x)(1) / invertableScale.x, 
+				.y = decltype(invertableScale.y)(1) / invertableScale.y 
 			};
 
 			// Scale should be limited between (0, 2], otherwise rendering will start to be cut off. 
