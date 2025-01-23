@@ -65,7 +65,7 @@ void System::SpriteRenderer::Render(GameObject* camera)
 				return;
 
 			Vector2<FPi8> position = transform.GetPosition();
-			Component::Transform::tScale scale = transform.GetScale();
+			Vector2<FPi24> scale = transform.GetScale();
 			FPi8 rotation = transform.GetRotationDegrees();
 			
 			bool hasAffineTransformation = transform.HasAffineTransformation();

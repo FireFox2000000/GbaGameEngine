@@ -12,43 +12,43 @@ void Component::Transform::UpdateHasAffineTransformation()
 	m_hasAffineTrasformation = hasAffineTransformation;
 }
 
-Component::Transform::tPosition Component::Transform::GetLocalPosition() const
+Vector2<FPi8> Component::Transform::GetLocalPosition() const
 {
 	return m_localPosition;
 }
 
-void Component::Transform::SetLocalPosition(tPosition pos)
+void Component::Transform::SetLocalPosition(Vector2<FPi8> pos)
 {
 	m_localPosition = pos;
 }
 
-Component::Transform::tPosition Component::Transform::GetPosition() const
+Vector2<FPi8> Component::Transform::GetPosition() const
 {
 	return m_localPosition;
 }
 
-void Component::Transform::SetPosition(tPosition pos)
+void Component::Transform::SetPosition(Vector2<FPi8> pos)
 {
 	m_localPosition = pos;
 }
 
-Component::Transform::tScale Component::Transform::GetLocalScale() const
+Vector2<FPi24> Component::Transform::GetLocalScale() const
 {
 	return m_localScale;
 }
 
-void Component::Transform::SetLocalScale(tScale scale)
+void Component::Transform::SetLocalScale(Vector2<FPi24> scale)
 {
 	m_localScale = scale; 
 	UpdateHasAffineTransformation();
 }
 
-Component::Transform::tScale Component::Transform::GetScale() const
+Vector2<FPi24> Component::Transform::GetScale() const
 {
 	return GetLocalScale();
 }
 
-void Component::Transform::SetScale(tScale scale)
+void Component::Transform::SetScale(Vector2<FPi24> scale)
 {
 	SetLocalScale(scale);
 }
