@@ -12,7 +12,7 @@
 // Accumulates tFixedPoint24 clamped to [-127, 127] range without wrapping around
 Vector2<tFixedPoint24> SafeAddVelocityClamped(const Vector2<tFixedPoint24>& velocity, const Vector2<tFixedPoint24>& delta)
 {
-	Vector2<int> velWholeNum = Vector2<int>(velocity.x, velocity.y);
+	Vector2<int> velWholeNum = static_cast<Vector2<int>>(velocity);
 	Vector2<tFixedPoint24> velDecimal = Vector2<tFixedPoint24>(
 		velocity.x - tFixedPoint24(velWholeNum.x),
 		velocity.y - tFixedPoint24(velWholeNum.y)
@@ -50,7 +50,7 @@ void System::Physics::UpdateTransforms()
 
 			// Finally update the transform's position
 			auto position = transform.GetPosition();
-			position += rigidbody.velocity * PhysicsConfig::c_fixedUpdateRate;
+			position += static_cast<decltype(position)>(rigidbody.velocity * PhysicsConfig::c_fixedUpdateRate);
 
 			// Hacky ground clamp for testing
 			//if (position.y < -5)
@@ -92,7 +92,7 @@ void System::Physics::ResolveCollisions()
 						{
 							// Push the rigidbody out of the penetrated collider
 							auto position = transformA.GetPosition();
-							position += collision.normal * collision.penetrationDepth;
+							position += static_cast<decltype(position)>(collision.normal * collision.penetrationDepth);
 							transformA.SetPosition(position);
 
 							auto velInv = rigidbodyA.velocity * -1;

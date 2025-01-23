@@ -40,8 +40,7 @@ namespace VectorMath
 	/// <summary>
 	/// Calculate a vector of magnitude 1 in the same direction as the input vector.
 	/// </summary>
-	template<class T>
-	inline Vector2<T> Normalised(const Vector2<T>& a)
+	inline Vector2f Normalised(const Vector2f& a)
 	{
 		return a * Math::InvSqrt(a.MagnitudeSqrd());
 	}

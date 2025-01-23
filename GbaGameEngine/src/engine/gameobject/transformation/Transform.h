@@ -12,7 +12,7 @@ namespace Component
 	private:
 		// Todo, replace with proper transformation matrix maybe
 		tPosition m_localPosition;
-		tScale m_localScale = Vector2<tFixedPoint8>(1, 1);
+		tScale m_localScale = { 1, 1 };
 		tFixedPoint8 m_localRotationDegrees = 0;
 		bool m_hasAffineTrasformation = false;
 

@@ -15,8 +15,8 @@ inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform&
 
 	auto scale = transformA.GetScale();
 
-	Vector2<tFixedPoint24> min = aabb.min;
-	Vector2<tFixedPoint24> max = aabb.max;
+	Vector2<tFixedPoint24> min = static_cast<Vector2<tFixedPoint24>>(aabb.min);
+	Vector2<tFixedPoint24> max = static_cast<Vector2<tFixedPoint24>>(aabb.max);
 
 	min.x *= scale.x;
 	min.y *= scale.y;
@@ -94,7 +94,7 @@ bool HasCollisionCirclevsCircle(
 	if (result && out_collisionMaybe)
 	{
 		Vector2<tFixedPoint8> direction = positionA - positionB;
-		Vector2<tFixedPoint24> normal = VectorMath::Normalised(direction);
+		Vector2<tFixedPoint24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
 		out_collisionMaybe->penetrationDepth = tFixedPoint24(rad - tFixedPoint8(std::sqrt(static_cast<float>(lengthSqrd))));	// float heavy, but need accuracy or this doesn't work.
@@ -131,7 +131,7 @@ bool HasCollisionAABBvsCircle(
 	if (result && out_collisionMaybe)
 	{
 		Vector2<tFixedPoint8> direction = closestPoint - positionB;
-		Vector2<tFixedPoint24> normal = VectorMath::Normalised(direction);
+		Vector2<tFixedPoint24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
 		out_collisionMaybe->penetrationDepth = tFixedPoint24(colB.radius - tFixedPoint8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		

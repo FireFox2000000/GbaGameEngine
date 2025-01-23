@@ -24,7 +24,7 @@ void Component::Camera::SetProjection(Projection::Enum projection)
 
 AxisAlignedBoundingBox2 Component::Camera::GetOrthoBounds() const
 {
-	const Vector2<tFixedPoint8> screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
+	const Vector2<tFixedPoint8> screenSpaceOffset = static_cast<Vector2<tFixedPoint8>>(Screen::GetResolution() / 2);
 	const Vector2<tFixedPoint8> worldSpaceOffset = screenSpaceOffset / GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
 	return AxisAlignedBoundingBox2(worldSpaceOffset * -1, worldSpaceOffset);
 }

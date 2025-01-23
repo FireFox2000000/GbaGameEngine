@@ -90,12 +90,12 @@ namespace GBA
 
 		Vector2<int> Sprite::GetSize() const
 		{
-			return m_tileSize;
+			return static_cast<Vector2<int>>(m_tileSize);
 		}
 
 		Vector2<int> Sprite::GetSizeInPixels() const
 		{
-			return AttributeFunctions::GetPixelSize(m_tileSize);
+			return static_cast<Vector2<int>>(AttributeFunctions::GetPixelSize(m_tileSize));
 		}
 	}
 }

@@ -95,7 +95,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 
 			// Frustum culling
 			{
-				Vector2<tFixedPoint8> worldSpriteSize = sprite->GetSize();
+				Vector2<tFixedPoint8> worldSpriteSize = static_cast<Vector2<tFixedPoint8>>(sprite->GetSize());
 				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
 				{
 					worldSpriteSize *= 2;

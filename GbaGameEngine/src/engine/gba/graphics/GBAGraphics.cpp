@@ -14,7 +14,7 @@ namespace GBA
 		Graphics::DrawParams drawParams;
 
 		drawParams.cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
-		drawParams.screenSpaceOffset = Screen::GetResolution() / tFixedPoint8(2);
+		drawParams.screenSpaceOffset = static_cast<decltype(drawParams.screenSpaceOffset)>(Screen::GetResolution() / 2);
 
 		Vector2<int> screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
 		drawParams.renderSize = screenSizeInTiles + Vector2<int>{ .x = 1, .y = 1 };
@@ -100,7 +100,7 @@ namespace GBA
 		newPosition.y *= -1;														// Correct for screen space starting from the top
 		newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 		newPosition += drawParams.screenSpaceOffset;											// Convert to screen space
-		newPosition += anchorPoint;				// Offset by sprite size to render from the center
+		newPosition += static_cast<decltype(newPosition)>(anchorPoint);				// Offset by sprite size to render from the center
 
 		renderProperties->priority = static_cast<int>(GBA::DrawPriorityID::ObjSprite);
 		renderProperties->screenPosX = newPosition.x.ToRoundedInt();

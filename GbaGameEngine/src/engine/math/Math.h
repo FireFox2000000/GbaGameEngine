@@ -62,4 +62,9 @@ namespace Math
 	{
 		return val > T(0) ? val : val * T(-1);
 	}
+
+	constexpr bool IsOdd(int val)
+	{
+		return (val & 1) != 0;
+	}
 }
