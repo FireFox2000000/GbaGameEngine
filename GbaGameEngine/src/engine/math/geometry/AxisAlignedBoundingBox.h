@@ -5,15 +5,15 @@
 
 struct AxisAlignedBoundingBox2
 {
-	Vector2<tFixedPoint8> min, max;
+	Vector2<FPi8> min, max;
 
 	AxisAlignedBoundingBox2() = default;
-	AxisAlignedBoundingBox2(Vector2<tFixedPoint8> min, Vector2<tFixedPoint8> max);
+	AxisAlignedBoundingBox2(Vector2<FPi8> min, Vector2<FPi8> max);
 
 	bool Intersects(const AxisAlignedBoundingBox2& other) const;
 	bool IntersectsOrTouches(const AxisAlignedBoundingBox2& other) const;
 
-	void Translate(Vector2<tFixedPoint8> translation);
+	void Translate(Vector2<FPi8> translation);
 
 	template<typename T>
 	inline Vector2<T> Clamp(Vector2<T> point) const

@@ -26,6 +26,6 @@ public:
 
 	// Returns time in seconds.
 	float ToFloat() const;
-	tFixedPoint24 ToFp24() const;
+	FPi24 ToFp24() const;
 };
 

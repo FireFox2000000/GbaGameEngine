@@ -348,7 +348,7 @@ namespace GBA
 	void Graphics::DrawTilemap
 	(
 		Tilemap* tilemap
-		, const Vector2<tFixedPoint8>& position
+		, const Vector2<FPi8>& position
 		, const DrawParams& drawParams
 	)
 	{
@@ -356,12 +356,12 @@ namespace GBA
 
 		const auto tileMapSizeInTiles = tilemap->GetSizeInTiles();
 
-		Vector2<tFixedPoint8> newPosition = position;
+		Vector2<FPi8> newPosition = position;
 
 		// Screen corrections. Final position is the position of the screen on the background.
 		newPosition -= drawParams.cameraPosition;											// Convert world space to relative camera space	
 		newPosition.x *= -1;
-		newPosition += static_cast<Vector2<tFixedPoint8>>(tileMapSizeInTiles / 2);								// Offset by map size	
+		newPosition += static_cast<Vector2<FPi8>>(tileMapSizeInTiles / 2);								// Offset by map size	
 		newPosition *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 		newPosition -= drawParams.screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
 

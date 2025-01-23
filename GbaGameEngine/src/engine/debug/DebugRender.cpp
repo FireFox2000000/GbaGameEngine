@@ -47,12 +47,12 @@ void DebugRender::RenderColliders(const GameObject* camera)
 		{
 			GBA::Gfx::Sprite* sprite = nullptr;
 
-			Vector2<tFixedPoint8> position = transform.GetPosition();
+			Vector2<FPi8> position = transform.GetPosition();
 
-			constexpr tFixedPoint24 BaseScale = SpriteScaleTo1x1;
-			Vector2<tFixedPoint24> scale{ .x = BaseScale, .y = BaseScale };
+			constexpr FPi24 BaseScale = SpriteScaleTo1x1;
+			Vector2<FPi24> scale{ .x = BaseScale, .y = BaseScale };
 
-			tFixedPoint8 rotation = 0;
+			FPi8 rotation = 0;
 
 			switch (collider.GetShapeType())
 			{
@@ -63,18 +63,18 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				auto aabb = collider.GetAABB();
 				auto transformScale = transform.GetScale();
 
-				aabb.min.x = tFixedPoint8(tFixedPoint24(aabb.min.x) * transformScale.x);
-				aabb.min.y = tFixedPoint8(tFixedPoint24(aabb.min.y) * transformScale.y);
-				aabb.max.x = tFixedPoint8(tFixedPoint24(aabb.max.x) * transformScale.x);
-				aabb.max.y = tFixedPoint8(tFixedPoint24(aabb.max.y) * transformScale.y);
+				aabb.min.x = FPi8(FPi24(aabb.min.x) * transformScale.x);
+				aabb.min.y = FPi8(FPi24(aabb.min.y) * transformScale.y);
+				aabb.max.x = FPi8(FPi24(aabb.max.x) * transformScale.x);
+				aabb.max.y = FPi8(FPi24(aabb.max.y) * transformScale.y);
 
-				tFixedPoint8 halfExtentX = tFixedPoint8(0.5f) * (aabb.max.x - aabb.min.x);
-				tFixedPoint8 halfExtentY = tFixedPoint8(0.5f) * (aabb.max.y - aabb.min.y);
+				FPi8 halfExtentX = FPi8(0.5f) * (aabb.max.x - aabb.min.x);
+				FPi8 halfExtentY = FPi8(0.5f) * (aabb.max.y - aabb.min.y);
 
-				scale.x *= tFixedPoint24(halfExtentX);
-				scale.y *= tFixedPoint24(halfExtentY);
+				scale.x *= FPi24(halfExtentX);
+				scale.y *= FPi24(halfExtentY);
 
-				position += aabb.min + Vector2<tFixedPoint8>{ .x = halfExtentX, .y = halfExtentY };
+				position += aabb.min + Vector2<FPi8>{ .x = halfExtentX, .y = halfExtentY };
 
 				break;
 			}
@@ -83,8 +83,8 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				sprite = m_spritePrimitives->GetSprite(1);
 
 				const auto& circle = collider.GetCircle();
-				scale.x *= tFixedPoint24(circle.radius);
-				scale.y *= tFixedPoint24(circle.radius);
+				scale.x *= FPi24(circle.radius);
+				scale.y *= FPi24(circle.radius);
 
 				break;
 			}
@@ -95,7 +95,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 
 			// Frustum culling
 			{
-				Vector2<tFixedPoint8> worldSpriteSize = static_cast<Vector2<tFixedPoint8>>(sprite->GetSize());
+				Vector2<FPi8> worldSpriteSize = static_cast<Vector2<FPi8>>(sprite->GetSize());
 				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
 				{
 					worldSpriteSize *= 2;

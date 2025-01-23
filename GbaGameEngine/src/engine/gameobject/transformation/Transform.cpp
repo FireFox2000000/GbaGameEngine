@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-const tFixedPoint8 DegreesToRot = tFixedPoint8(0xFFFF / 360.f);
+const FPi8 DegreesToRot = FPi8(0xFFFF / 360.f);
 
 void Component::Transform::UpdateHasAffineTransformation()
 {
@@ -53,12 +53,12 @@ void Component::Transform::SetScale(tScale scale)
 	SetLocalScale(scale);
 }
 
-tFixedPoint8 Component::Transform::GetRotationDegrees() const
+FPi8 Component::Transform::GetRotationDegrees() const
 {
 	return m_localRotationDegrees;
 }
 
-void Component::Transform::SetRotationDegrees(tFixedPoint8 degrees)
+void Component::Transform::SetRotationDegrees(FPi8 degrees)
 {
 	m_localRotationDegrees = degrees;
 

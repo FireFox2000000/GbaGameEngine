@@ -102,8 +102,8 @@ void Scene0::Enter()
 			Component::Collider& collider = m_textObjectCollision->AddComponent<Component::Collider>();
 			//collider.SetCircle(sprite->GetSize().x);
 			collider.SetAABB(
-				Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * -sprite->GetSize().x, tFixedPoint8(0.5f) * -sprite->GetSize().y)
-				, Vector2<tFixedPoint8>(tFixedPoint8(0.5f) * sprite->GetSize().x, (tFixedPoint8(0.5f) * sprite->GetSize().y))
+				Vector2<FPi8>(FPi8(0.5f) * -sprite->GetSize().x, FPi8(0.5f) * -sprite->GetSize().y)
+				, Vector2<FPi8>(FPi8(0.5f) * sprite->GetSize().x, (FPi8(0.5f) * sprite->GetSize().y))
 			);
 			//collider.SetCollisionMask(BIT(1));
 
@@ -146,7 +146,7 @@ void Scene0::Enter()
 		animator.SetAnimation(m_shantaeIdleAnim);
 
 		Component::Rigidbody& rigidbody = m_playerObject.AddComponent<Component::Rigidbody>();
-		rigidbody.gravity = Vector2<tFixedPoint24>(0, -30);
+		rigidbody.gravity = Vector2<FPi24>(0, -30);
 
 		Component::PlayerMovement& playerMovement = m_playerObject.AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
@@ -158,11 +158,11 @@ void Scene0::Enter()
 		//transform->SetRotationDegrees(180);
 
 		Component::Collider& collider = m_playerObject.AddComponent<Component::Collider>();
-		//collider.SetCircle(tFixedPoint8(0.5f) * shantae0->GetSize().x);
-		tFixedPoint8 colliderWidth = tFixedPoint8(shantae0->GetSize().x) - tFixedPoint8(1);
+		//collider.SetCircle(FPi8(0.5f) * shantae0->GetSize().x);
+		FPi8 colliderWidth = FPi8(shantae0->GetSize().x) - FPi8(1);
 		collider.SetAABB(
-			Vector2<tFixedPoint8>((tFixedPoint8(-0.5f) * colliderWidth) + tFixedPoint8(0.5f), tFixedPoint8(0.5f) * -shantae0->GetSize().y)
-			, Vector2<tFixedPoint8>((tFixedPoint8(0.5f) * colliderWidth), (tFixedPoint8(0.5f) * shantae0->GetSize().y) - tFixedPoint8(4))
+			Vector2<FPi8>((FPi8(-0.5f) * colliderWidth) + FPi8(0.5f), FPi8(0.5f) * -shantae0->GetSize().y)
+			, Vector2<FPi8>((FPi8(0.5f) * colliderWidth), (FPi8(0.5f) * shantae0->GetSize().y) - FPi8(4))
 				);
 		//collider.SetCollisionMask(BIT(0));
 	}

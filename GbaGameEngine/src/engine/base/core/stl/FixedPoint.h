@@ -219,6 +219,6 @@ public:
 	}
 };
 
-using tFixedPoint8 = FixedPoint<int, 8, s64>;
-using tFixedPoint16 = FixedPoint<int, 16, s64>;
-using tFixedPoint24 = FixedPoint<int, 24, s64>;
+using FPi8 = FixedPoint<int, 8, s64>;
+using FPi16 = FixedPoint<int, 16, s64>;
+using FPi24 = FixedPoint<int, 24, s64>;

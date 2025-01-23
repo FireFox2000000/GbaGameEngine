@@ -13,7 +13,7 @@ struct ColourRgb16Decompressed
 class Colour
 {
 public:
-	using tColourLerpT = tFixedPoint24;
+	using tColourLerpT = FPi24;
 
 private:
 	static u8 ScaleToMaxRgb16(u8 colour);

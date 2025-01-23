@@ -9,13 +9,13 @@
 #include "engine/physics/Collision.h"
 #include "engine/physics/CollisionFunctions.h"
 
-// Accumulates tFixedPoint24 clamped to [-127, 127] range without wrapping around
-Vector2<tFixedPoint24> SafeAddVelocityClamped(const Vector2<tFixedPoint24>& velocity, const Vector2<tFixedPoint24>& delta)
+// Accumulates FPi24 clamped to [-127, 127] range without wrapping around
+Vector2<FPi24> SafeAddVelocityClamped(const Vector2<FPi24>& velocity, const Vector2<FPi24>& delta)
 {
 	Vector2<int> velWholeNum = static_cast<Vector2<int>>(velocity);
-	Vector2<tFixedPoint24> velDecimal = Vector2<tFixedPoint24>(
-		velocity.x - tFixedPoint24(velWholeNum.x),
-		velocity.y - tFixedPoint24(velWholeNum.y)
+	Vector2<FPi24> velDecimal = Vector2<FPi24>(
+		velocity.x - FPi24(velWholeNum.x),
+		velocity.y - FPi24(velWholeNum.y)
 		);
 
 	velDecimal += delta;
@@ -24,13 +24,13 @@ Vector2<tFixedPoint24> SafeAddVelocityClamped(const Vector2<tFixedPoint24>& velo
 	velWholeNum.x += static_cast<int>(velDecimal.x);
 	velWholeNum.y += static_cast<int>(velDecimal.y);
 
-	velDecimal.x -= tFixedPoint24(static_cast<int>(velDecimal.x));
-	velDecimal.y -= tFixedPoint24(static_cast<int>(velDecimal.y));
+	velDecimal.x -= FPi24(static_cast<int>(velDecimal.x));
+	velDecimal.y -= FPi24(static_cast<int>(velDecimal.y));
 
 	velWholeNum.x = Math::Clamp(velWholeNum.x, -127, 127);
 	velWholeNum.y = Math::Clamp(velWholeNum.y, -127, 127);
 
-	return Vector2<tFixedPoint24>(velDecimal.x + tFixedPoint24(velWholeNum.x), velDecimal.y + tFixedPoint24(velWholeNum.y));
+	return Vector2<FPi24>(velDecimal.x + FPi24(velWholeNum.x), velDecimal.y + FPi24(velWholeNum.y));
 }
 
 void System::Physics::UpdateTransforms()

@@ -42,7 +42,7 @@ void Time::Advance()
 	m_frameStartTime = currentTime;
 }
 
-tFixedPoint24 Time::GetDt() const
+FPi24 Time::GetDt() const
 {
 	return m_dt24;
 }

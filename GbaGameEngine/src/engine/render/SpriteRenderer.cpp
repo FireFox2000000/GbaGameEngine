@@ -64,15 +64,15 @@ void System::SpriteRenderer::Render(GameObject* camera)
 			if (!sprite)
 				return;
 
-			Vector2<tFixedPoint8> position = transform.GetPosition();
+			Vector2<FPi8> position = transform.GetPosition();
 			Component::Transform::tScale scale = transform.GetScale();
-			tFixedPoint8 rotation = transform.GetRotationDegrees();
+			FPi8 rotation = transform.GetRotationDegrees();
 			
 			bool hasAffineTransformation = transform.HasAffineTransformation();
 
 			// Frustum culling
 			{
-				Vector2<tFixedPoint8> halfWorldSpriteSize = static_cast<Vector2<tFixedPoint8>>(sprite->GetSize() / 2);
+				Vector2<FPi8> halfWorldSpriteSize = static_cast<Vector2<FPi8>>(sprite->GetSize() / 2);
 				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
 				{
 					halfWorldSpriteSize *= 2;

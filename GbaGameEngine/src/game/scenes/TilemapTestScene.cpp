@@ -138,7 +138,7 @@ void TilemapTestScene::Exit()
 void TilemapTestScene::Update()
 {
 	const Time* time = Engine::GetInstance().GetComponent<Time>();
-	tFixedPoint24 dt = time->GetDt();
+	FPi24 dt = time->GetDt();
 
 	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
 	

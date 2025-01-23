@@ -20,7 +20,7 @@ void System::UI::TextRenderer::Render()
 			Font& font = *textRenderer.m_font;
 			const char* c_str = textRenderer.m_str.c_str();
 
-			Vector2<tFixedPoint8> drawPosition = transform.position;
+			Vector2<FPi8> drawPosition = transform.position;
 			const auto characterSize = font.GetFixedCharacterSize();
 
 			char currentChar = *c_str;

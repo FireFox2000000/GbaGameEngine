@@ -49,9 +49,9 @@ void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2<in
 
 #if false		// Transform-based movement
 	const Time* time = engine->GetComponent<Time>();
-	tFixedPoint24 dt = time->GetDt();
+	FPi24 dt = time->GetDt();
 	
-	tFixedPoint8 moveSpeed = (tFixedPoint8)(playerMovement.moveSpeed * dt);
+	FPi8 moveSpeed = (FPi8)(playerMovement.moveSpeed * dt);
 	auto position = transform.GetPosition();
 	
 	position.x += moveSpeed * desiredDirection.x;
@@ -66,19 +66,19 @@ void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2<in
 	const auto& devices = inputManager->GetDevices();
 	if (Input::GetInputDown(Jump, devices))
 	{
-		rigidbody.velocity = Vector2<tFixedPoint24>(rigidbody.velocity.x, playerMovement.jumpInitVel);
+		rigidbody.velocity = Vector2<FPi24>(rigidbody.velocity.x, playerMovement.jumpInitVel);
 	}
 	else if (Input::GetInputUp(Jump, devices) && rigidbody.velocity.y > 0)
 	{
-		rigidbody.velocity = Vector2<tFixedPoint24>(rigidbody.velocity.x, 0);
+		rigidbody.velocity = Vector2<FPi24>(rigidbody.velocity.x, 0);
 	}
-	rigidbody.velocity = Vector2<tFixedPoint24>(playerMovement.moveSpeed * desiredDirection.x, rigidbody.velocity.y);
+	rigidbody.velocity = Vector2<FPi24>(playerMovement.moveSpeed * desiredDirection.x, rigidbody.velocity.y);
 #endif
 	{
 
 
 		//auto rotation = transform.GetRotationDegrees();
-		//rotation += (tFixedPoint8)(dt * -90);
+		//rotation += (FPi8)(dt * -90);
 		//transform.SetRotationDegrees(rotation);
 
 		if (desiredDirection.x != 0)

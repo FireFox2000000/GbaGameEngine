@@ -58,13 +58,13 @@ namespace Component
 		void SetOnHitHandler(std::function<void(const Collision&)> handler);
 		void OnHit(const Collision& collision) const;
 
-		void SetCircle(tFixedPoint8 radius);
+		void SetCircle(FPi8 radius);
 		inline const Circle& GetCircle() const {
 			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::Circle, "Shape is not a circle, it is %d", m_shapeType);
 			return m_shape.circle;
 		}
 
-		void SetAABB(const Vector2<tFixedPoint8>& min, const Vector2<tFixedPoint8>& max);
+		void SetAABB(const Vector2<FPi8>& min, const Vector2<FPi8>& max);
 		inline const AxisAlignedBoundingBox2& GetAABB() const {
 			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::AABB, "Shape is not an AABB, it is %d", m_shapeType);
 			return m_shape.aabb;

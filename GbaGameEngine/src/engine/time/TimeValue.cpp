@@ -76,7 +76,7 @@ float TimeValue::ToFloat() const
 	return m_seconds + microSecondsF;
 }
 
-tFixedPoint24 TimeValue::ToFp24() const
+FPi24 TimeValue::ToFp24() const
 {
-	return tFixedPoint24((int)m_seconds) + tFixedPoint24((float)m_decimalMicroseconds * MICROSECONDS_PER_SECOND_INV);
+	return FPi24((int)m_seconds) + FPi24((float)m_decimalMicroseconds * MICROSECONDS_PER_SECOND_INV);
 }

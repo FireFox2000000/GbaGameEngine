@@ -3,8 +3,8 @@
 
 struct Circle
 {
-	tFixedPoint8 radius;
+	FPi8 radius;
 
 	Circle() = default;
-	Circle(tFixedPoint8 radius);
+	Circle(FPi8 radius);
 };

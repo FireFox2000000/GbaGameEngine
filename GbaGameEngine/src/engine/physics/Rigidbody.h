@@ -6,7 +6,7 @@ namespace Component
 {
 	struct Rigidbody
 	{
-		Vector2<tFixedPoint24> gravity = Vector2<tFixedPoint24>(0, -9.8f);
-		Vector2<tFixedPoint24> velocity = Vector2<tFixedPoint24>::Zero;
+		Vector2<FPi24> gravity = Vector2<FPi24>(0, -9.8f);
+		Vector2<FPi24> velocity = Vector2<FPi24>::Zero;
 	};
 }

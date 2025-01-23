@@ -15,16 +15,16 @@ inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform&
 
 	auto scale = transformA.GetScale();
 
-	Vector2<tFixedPoint24> min = static_cast<Vector2<tFixedPoint24>>(aabb.min);
-	Vector2<tFixedPoint24> max = static_cast<Vector2<tFixedPoint24>>(aabb.max);
+	Vector2<FPi24> min = static_cast<Vector2<FPi24>>(aabb.min);
+	Vector2<FPi24> max = static_cast<Vector2<FPi24>>(aabb.max);
 
 	min.x *= scale.x;
 	min.y *= scale.y;
 	max.x *= scale.x;
 	max.y *= scale.y;
 
-	Vector2<tFixedPoint8> newMinA(tFixedPoint8(MIN(min.x, max.x)), tFixedPoint8(MIN(min.y, max.y)));
-	Vector2<tFixedPoint8> newMaxA(tFixedPoint8(MAX(min.x, max.x)), tFixedPoint8(MAX(min.y, max.y)));
+	Vector2<FPi8> newMinA(FPi8(MIN(min.x, max.x)), FPi8(MIN(min.y, max.y)));
+	Vector2<FPi8> newMaxA(FPi8(MAX(min.x, max.x)), FPi8(MAX(min.y, max.y)));
 
 	aabb = AxisAlignedBoundingBox2(newMinA, newMaxA);
 
@@ -49,29 +49,29 @@ bool HasCollisionAABBvsAABB(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<tFixedPoint8> halfExtentsA = (colA.max - colA.min) * tFixedPoint8(0.5f);
-		Vector2<tFixedPoint8> aabbCenterA = colA.min + halfExtentsA;
+		Vector2<FPi8> halfExtentsA = (colA.max - colA.min) * FPi8(0.5f);
+		Vector2<FPi8> aabbCenterA = colA.min + halfExtentsA;
 
-		Vector2<tFixedPoint8> halfExtentsB = (colB.max - colB.min) * tFixedPoint8(0.5f);
-		Vector2<tFixedPoint8> aabbCenterB = colB.min + halfExtentsB;
+		Vector2<FPi8> halfExtentsB = (colB.max - colB.min) * FPi8(0.5f);
+		Vector2<FPi8> aabbCenterB = colB.min + halfExtentsB;
 
-		tFixedPoint8 dx = aabbCenterB.x - aabbCenterA.x;
-		tFixedPoint8 px = (halfExtentsB.x + halfExtentsA.x) - Math::Abs(dx);
+		FPi8 dx = aabbCenterB.x - aabbCenterA.x;
+		FPi8 px = (halfExtentsB.x + halfExtentsA.x) - Math::Abs(dx);
 
-		tFixedPoint8 dy = aabbCenterB.y - aabbCenterA.y;
-		tFixedPoint8 py = (halfExtentsB.y + halfExtentsA.y) - Math::Abs(dy);
+		FPi8 dy = aabbCenterB.y - aabbCenterA.y;
+		FPi8 py = (halfExtentsB.y + halfExtentsA.y) - Math::Abs(dy);
 
 		if (px < py) 
 		{
-			tFixedPoint8 sx = Math::Sign(dx);
-			out_collisionMaybe->penetrationDepth = Math::Abs(tFixedPoint24(px));
-			out_collisionMaybe->normal = Vector2<tFixedPoint24>(tFixedPoint24(sx) * -1, 0);
+			FPi8 sx = Math::Sign(dx);
+			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(px));
+			out_collisionMaybe->normal = Vector2<FPi24>(FPi24(sx) * -1, 0);
 		}
 		else 
 		{
-			tFixedPoint8 sy = Math::Sign(dy);
-			out_collisionMaybe->penetrationDepth = Math::Abs(tFixedPoint24(py));
-			out_collisionMaybe->normal = Vector2<tFixedPoint24>(0, tFixedPoint24(sy) * -1);
+			FPi8 sy = Math::Sign(dy);
+			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(py));
+			out_collisionMaybe->normal = Vector2<FPi24>(0, FPi24(sy) * -1);
 		}
 	}
 
@@ -79,25 +79,25 @@ bool HasCollisionAABBvsAABB(
 }
 
 bool HasCollisionCirclevsCircle(
-	const Vector2<tFixedPoint8>& positionA
+	const Vector2<FPi8>& positionA
 	, Circle colA
-	, const Vector2<tFixedPoint8>& positionB
+	, const Vector2<FPi8>& positionB
 	, Circle colB
 	, Collision* out_collisionMaybe)
 {
-	tFixedPoint8 lengthSqrd = VectorMath::LengthSqrd(positionA, positionB);
-	tFixedPoint8 rad = colA.radius + colB.radius;
-	tFixedPoint8 radSqrd = rad * rad;
+	FPi8 lengthSqrd = VectorMath::LengthSqrd(positionA, positionB);
+	FPi8 rad = colA.radius + colB.radius;
+	FPi8 radSqrd = rad * rad;
 
 	bool result = radSqrd >= lengthSqrd;
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<tFixedPoint8> direction = positionA - positionB;
-		Vector2<tFixedPoint24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
+		Vector2<FPi8> direction = positionA - positionB;
+		Vector2<FPi24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = tFixedPoint24(rad - tFixedPoint8(std::sqrt(static_cast<float>(lengthSqrd))));	// float heavy, but need accuracy or this doesn't work.
+		out_collisionMaybe->penetrationDepth = FPi24(rad - FPi8(std::sqrt(static_cast<float>(lengthSqrd))));	// float heavy, but need accuracy or this doesn't work.
 	}
 
 	return result;
@@ -106,23 +106,23 @@ bool HasCollisionCirclevsCircle(
 bool HasCollisionAABBvsCircle(
 	const Component::Transform& transformA
 	, AxisAlignedBoundingBox2 colA
-	, const Vector2<tFixedPoint8>& positionB
+	, const Vector2<FPi8>& positionB
 	, Circle colB
 	, Collision* out_collisionMaybe)
 {
 	// https://learnopengl.com/In-Practice/2D-Game/Collisions/Collision-Detection - AABB - Circle collision detection
 
 	colA = AdjustAABBByTransform(transformA, colA);
-	Vector2<tFixedPoint8> halfExtents = (colA.max - colA.min) * tFixedPoint8(0.5f);
-	Vector2<tFixedPoint8> aabbCenter = colA.min + halfExtents;
+	Vector2<FPi8> halfExtents = (colA.max - colA.min) * FPi8(0.5f);
+	Vector2<FPi8> aabbCenter = colA.min + halfExtents;
 
-	Vector2<tFixedPoint8> delta = positionB - aabbCenter;
-	Vector2<tFixedPoint8> clamped(
-		MAX(tFixedPoint8(-1) * halfExtents.x, MIN(halfExtents.x, delta.x)),
-		MAX(tFixedPoint8(-1) * halfExtents.y, MIN(halfExtents.y, delta.y))
+	Vector2<FPi8> delta = positionB - aabbCenter;
+	Vector2<FPi8> clamped(
+		MAX(FPi8(-1) * halfExtents.x, MIN(halfExtents.x, delta.x)),
+		MAX(FPi8(-1) * halfExtents.y, MIN(halfExtents.y, delta.y))
 		);
 
-	Vector2<tFixedPoint8> closestPoint = aabbCenter + clamped;
+	Vector2<FPi8> closestPoint = aabbCenter + clamped;
 
 	delta = closestPoint - positionB;
 
@@ -130,11 +130,11 @@ bool HasCollisionAABBvsCircle(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<tFixedPoint8> direction = closestPoint - positionB;
-		Vector2<tFixedPoint24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
+		Vector2<FPi8> direction = closestPoint - positionB;
+		Vector2<FPi24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = tFixedPoint24(colB.radius - tFixedPoint8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
+		out_collisionMaybe->penetrationDepth = FPi24(colB.radius - FPi8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
 	}
 
 	return result;

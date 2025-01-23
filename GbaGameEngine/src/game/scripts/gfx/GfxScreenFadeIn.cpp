@@ -93,7 +93,7 @@ void GfxScreenFadeIn::Update()
 		// Calculate the new palette
 
 		const Time* time = Engine::GetInstance().GetComponent<Time>();
-		tFixedPoint24 dt = time->GetDt();
+		FPi24 dt = time->GetDt();
 
 		auto& srcPalette = m_originalPalettes.GetPrimary();
 

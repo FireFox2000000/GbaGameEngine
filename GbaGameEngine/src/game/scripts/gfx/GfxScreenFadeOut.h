@@ -27,7 +27,7 @@ class GfxScreenFadeOut : public IPostProcessingGfxTask
 
 	ColourRgb16Decompressed m_destColourDecompressed;
 	Colour::tColourLerpT m_t = 0;
-	tFixedPoint24 m_invSpeed = 1;
+	FPi24 m_invSpeed = 1;
 	FadeState m_currentState = PaletteCapture;
 
 	void CapturePalettes();

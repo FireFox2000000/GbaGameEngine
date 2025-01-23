@@ -24,9 +24,9 @@ namespace GBA
 
 	void Graphics::DrawSprite(
 		GBA::Gfx::Sprite* sprite
-		, const Vector2<tFixedPoint8>& position
-		, const Vector2<tFixedPoint24>& scale
-		, tFixedPoint8 rotationDegrees
+		, const Vector2<FPi8>& position
+		, const Vector2<FPi24>& scale
+		, FPi8 rotationDegrees
 		, Vector2<int> anchorPoint
 		, bool hasAffineTransformation
 		, const DrawParams& drawParams
@@ -37,7 +37,7 @@ namespace GBA
 
 		if (hasAffineTransformation)
 		{
-			constexpr tFixedPoint8 DegreesToRot(0xFFFF / 360.f);
+			constexpr FPi8 DegreesToRot(0xFFFF / 360.f);
 
 			u8 affineIndex = 255;
 			auto* affineProperties = m_oamManager.AddToAffineRenderList(&affineIndex);
@@ -56,7 +56,7 @@ namespace GBA
 			// use 32 bit arithmatic to calculate the reciprocal without risk of overflowing, as both
 			// 64 bit and floating point are slow
 			Vector2<FixedPoint<s16, 8, int>> invertableScale{ .x = scale.x, .y = scale.y };
-			Vector2<tFixedPoint8> gbaInvertedScale { 
+			Vector2<FPi8> gbaInvertedScale { 
 				.x = decltype(invertableScale.x)(1) / invertableScale.x, 
 				.y = decltype(invertableScale.y)(1) / invertableScale.y 
 			};
@@ -95,7 +95,7 @@ namespace GBA
 			}
 		}
 
-		Vector2<tFixedPoint8> newPosition = position;
+		Vector2<FPi8> newPosition = position;
 		newPosition -= drawParams.cameraPosition;											// Convert world space to relative camera space	
 		newPosition.y *= -1;														// Correct for screen space starting from the top
 		newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
@@ -107,7 +107,7 @@ namespace GBA
 		renderProperties->screenPosY = newPosition.y.ToRoundedInt();
 	}
 
-	void Graphics::DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<tFixedPoint8>& position)
+	void Graphics::DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<FPi8>& position)
 	{
 		using namespace GBA::Gfx;
 

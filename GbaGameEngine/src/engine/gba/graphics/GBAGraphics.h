@@ -36,8 +36,8 @@ namespace GBA
 
 		struct DrawParams
 		{
-			Vector2<tFixedPoint8> cameraPosition;
-			Vector2<tFixedPoint8> screenSpaceOffset;
+			Vector2<FPi8> cameraPosition;
+			Vector2<FPi8> screenSpaceOffset;
 			Vector2<int> renderSize;
 		};
 
@@ -48,15 +48,15 @@ namespace GBA
 		void DrawSprite
 		(
 			GBA::Gfx::Sprite* sprite
-			, const Vector2<tFixedPoint8>& position
-			, const Vector2 <tFixedPoint24>& scale
-			, tFixedPoint8 rotationDegrees
+			, const Vector2<FPi8>& position
+			, const Vector2 <FPi24>& scale
+			, FPi8 rotationDegrees
 			, Vector2<int> anchorPoint
 			, bool hasAffineTransformation
 			, const DrawParams& drawParams
 		);
 
-		void DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<tFixedPoint8>& position);
+		void DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<FPi8>& position);
 
 		void LoadTilemap(Tilemap& out_tilemap);
 		void Unload(Tilemap* tilemap);
@@ -64,7 +64,7 @@ namespace GBA
 		void DrawTilemap
 		(
 			Tilemap* tilemap
-			, const Vector2<tFixedPoint8>& position
+			, const Vector2<FPi8>& position
 			, const DrawParams& drawParams
 		);
 
