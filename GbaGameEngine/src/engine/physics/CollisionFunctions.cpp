@@ -49,27 +49,27 @@ bool HasCollisionAABBvsAABB(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<FPi8> halfExtentsA = (colA.max - colA.min) * FPi8(0.5f);
-		Vector2<FPi8> aabbCenterA = colA.min + halfExtentsA;
+		Vector2<FPi16> halfExtentsA = static_cast<Vector2<FPi16>>(colA.max - colA.min) * FPi16(0.5f);
+		Vector2<FPi16> aabbCenterA = static_cast<Vector2<FPi16>>(colA.min) + halfExtentsA;
 
-		Vector2<FPi8> halfExtentsB = (colB.max - colB.min) * FPi8(0.5f);
-		Vector2<FPi8> aabbCenterB = colB.min + halfExtentsB;
+		Vector2<FPi16> halfExtentsB = static_cast<Vector2<FPi16>>(colB.max - colB.min) * FPi16(0.5f);
+		Vector2<FPi16> aabbCenterB = static_cast<Vector2<FPi16>>(colB.min) + halfExtentsB;
 
-		FPi8 dx = aabbCenterB.x - aabbCenterA.x;
-		FPi8 px = (halfExtentsB.x + halfExtentsA.x) - Math::Abs(dx);
+		FPi16 dx = aabbCenterB.x - aabbCenterA.x;
+		FPi16 px = (halfExtentsB.x + halfExtentsA.x) - Math::Abs(dx);
 
-		FPi8 dy = aabbCenterB.y - aabbCenterA.y;
-		FPi8 py = (halfExtentsB.y + halfExtentsA.y) - Math::Abs(dy);
+		FPi16 dy = aabbCenterB.y - aabbCenterA.y;
+		FPi16 py = (halfExtentsB.y + halfExtentsA.y) - Math::Abs(dy);
 
 		if (px < py) 
 		{
-			FPi8 sx = Math::Sign(dx);
+			FPi16 sx = Math::Sign(dx);
 			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(px));
 			out_collisionMaybe->normal = Vector2<FPi24>(FPi24(sx) * -1, 0);
 		}
 		else 
 		{
-			FPi8 sy = Math::Sign(dy);
+			FPi16 sy = Math::Sign(dy);
 			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(py));
 			out_collisionMaybe->normal = Vector2<FPi24>(0, FPi24(sy) * -1);
 		}
