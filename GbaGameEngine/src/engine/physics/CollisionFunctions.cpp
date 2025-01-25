@@ -49,11 +49,11 @@ bool HasCollisionAABBvsAABB(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<FPi16> halfExtentsA = static_cast<Vector2<FPi16>>(colA.max - colA.min) * FPi16(0.5f);
-		Vector2<FPi16> aabbCenterA = static_cast<Vector2<FPi16>>(colA.min) + halfExtentsA;
+		Vector2<FPi16> halfExtentsA = colA.max - colA.min * FPi16(0.5f);
+		Vector2<FPi16> aabbCenterA = colA.min + halfExtentsA;
 
-		Vector2<FPi16> halfExtentsB = static_cast<Vector2<FPi16>>(colB.max - colB.min) * FPi16(0.5f);
-		Vector2<FPi16> aabbCenterB = static_cast<Vector2<FPi16>>(colB.min) + halfExtentsB;
+		Vector2<FPi16> halfExtentsB = colB.max - colB.min * FPi16(0.5f);
+		Vector2<FPi16> aabbCenterB = colB.min + halfExtentsB;
 
 		FPi16 dx = aabbCenterB.x - aabbCenterA.x;
 		FPi16 px = (halfExtentsB.x + halfExtentsA.x) - Math::Abs(dx);
