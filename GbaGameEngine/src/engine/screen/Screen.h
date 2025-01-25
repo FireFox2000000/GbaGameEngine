@@ -4,5 +4,5 @@
 
 namespace Screen
 {
-	Vector2<int> GetResolution();
+	Vector2i GetResolution();
 }

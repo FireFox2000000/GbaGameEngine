@@ -63,19 +63,19 @@ int LoopMod(int x, unsigned int N)
 }
 
 MapWrappingPoints CalculateMapWrappingPoints(
-	const Vector2<int>& tilemapRenderStartPos
-	, const Vector2<int>& renderSize
+	const Vector2i& tilemapRenderStartPos
+	, const Vector2i& renderSize
 	, const Vector2<u8>& tileMapSizeInTiles
-	, const Vector2<int>& lastRenderPos
+	, const Vector2i& lastRenderPos
 	, bool lastRenderPosValid
 )
 {
 	using namespace GBA;
 	using namespace GBA::Gfx;
 
-	Vector2<int> deltaPos = tilemapRenderStartPos - lastRenderPos;
+	Vector2i deltaPos = tilemapRenderStartPos - lastRenderPos;
 
-	Vector2<int> tilemapRenderStartPosMod;
+	Vector2i tilemapRenderStartPosMod;
 	tilemapRenderStartPosMod.x = Math::Mod(tilemapRenderStartPos.x, tileMapSizeInTiles.x);
 	tilemapRenderStartPosMod.y = Math::Mod(tilemapRenderStartPos.y, tileMapSizeInTiles.y);
 
@@ -365,7 +365,7 @@ namespace GBA
 		newPosition *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;					// Camera position units to pixel units, 8 pixels per tile/unit
 		newPosition -= drawParams.screenSpaceOffset;							// Convert to screen space, position of the screen on the background so it need to be inverted
 
-		Vector2<int> finalPos{ newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt() };
+		Vector2i finalPos{ newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt() };
 
 		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()] = { 
 			.xOffset = static_cast<unsigned short>(finalPos.x), 
@@ -374,7 +374,7 @@ namespace GBA
 
 		if (tilemap->IsDynamicallyRendered())	// else all the tilemap data should already be loaded
 		{
-			Vector2<int> tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
+			Vector2i tilemapRenderStartPos = finalPos / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;	// Convert back to tile positions
 
 			// Account for 7 / 8 and -7 / 8 both equalling 0
 			if (finalPos.x < 0)
@@ -389,9 +389,9 @@ namespace GBA
 
 			if (renderData.lastRenderPosValid)
 			{
-				Vector2<int> deltaPos = tilemapRenderStartPos - renderData.lastRenderPos;
+				Vector2i deltaPos = tilemapRenderStartPos - renderData.lastRenderPos;
 
-				if (deltaPos == Vector2<int>::Zero)
+				if (deltaPos == Vector2i::Zero)
 				{
 					skipRender = true;
 				}

@@ -6,8 +6,8 @@
 
 const int CharactersPerRow = 26;
 const char DialogueBoxStepFlag = '`';
-const Vector2<int> DrawPos = Vector2<int>(1, 15);
-const Vector2<int> TextDrawPos = DrawPos + Vector2<int>(1, 1);
+const Vector2i DrawPos = Vector2i(1, 15);
+const Vector2i TextDrawPos = DrawPos + Vector2i(1, 1);
 
 int FindRowEnd(const char* str, int startIndex)
 {
@@ -137,21 +137,21 @@ void DialogueState::Enter()
 {
 	// Draw border
 	m_uiRenderCommandQueue->Enque([this] {
-		m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x, DrawPos.y), m_borderSprites.TopLeft);
-		m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x, DrawPos.y + 3), m_borderSprites.BottomLeft);
-		m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x + CharactersPerRow + 1, DrawPos.y), m_borderSprites.TopRight);
-		m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x + CharactersPerRow + 1, DrawPos.y + 3), m_borderSprites.BottomRight);
+		m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x, DrawPos.y), m_borderSprites.TopLeft);
+		m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x, DrawPos.y + 3), m_borderSprites.BottomLeft);
+		m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x + CharactersPerRow + 1, DrawPos.y), m_borderSprites.TopRight);
+		m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x + CharactersPerRow + 1, DrawPos.y + 3), m_borderSprites.BottomRight);
 
 		for (int i = 0; i < m_totalRows; ++i)
 		{
-			m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x, DrawPos.y + i + 1), m_borderSprites.Left);
-			m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x + CharactersPerRow + 1, DrawPos.y + i + 1), m_borderSprites.Right);
+			m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x, DrawPos.y + i + 1), m_borderSprites.Left);
+			m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x + CharactersPerRow + 1, DrawPos.y + i + 1), m_borderSprites.Right);
 		}
 		
 		for (int i = 0; i < CharactersPerRow; ++i)
 		{
-			m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x + i + 1, DrawPos.y), m_borderSprites.Top);
-			m_uiRenderer->DrawUiElement(Vector2<int>(DrawPos.x + i + 1, DrawPos.y + 3), m_borderSprites.Bottom);
+			m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x + i + 1, DrawPos.y), m_borderSprites.Top);
+			m_uiRenderer->DrawUiElement(Vector2i(DrawPos.x + i + 1, DrawPos.y + 3), m_borderSprites.Bottom);
 		}
 	});
 

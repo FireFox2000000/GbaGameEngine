@@ -12,7 +12,7 @@
 
 constexpr int DynamicBackgroundSize = 32;
 
-void DrawUiTilemap(const Vector2<int>& screenPosition, const GBA::Gfx::Tilemap* tilemap, GBA::VramAllocator::tScreenBaseBlockIndex mapSbbIndex)
+void DrawUiTilemap(const Vector2i& screenPosition, const GBA::Gfx::Tilemap* tilemap, GBA::VramAllocator::tScreenBaseBlockIndex mapSbbIndex)
 {
 	using namespace GBA;
 
@@ -159,7 +159,7 @@ void UiRenderer::LoadAtlas(const MemoryMappedFileView file)
 	ClearRegion(0, 0, DynamicBackgroundSize, DynamicBackgroundSize);
 }
 
-void UiRenderer::DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const
+void UiRenderer::DrawUiElement(const Vector2i& screenPositionInTiles, int uiElementIndex) const
 {
 	using namespace GBA::Gfx;
 
@@ -178,14 +178,14 @@ void UiRenderer::ClearRegion(int x, int y, int width, int height) const
 	}
 }
 
-void UiRenderer::RenderText(const std::string& str, const Vector2<int>& drawPosition) const
+void UiRenderer::RenderText(const std::string& str, const Vector2i& drawPosition) const
 {
 	RenderText(str.c_str(), 0, str.length(), drawPosition);
 }
 
-void UiRenderer::RenderText(const char* str, int start, int length, const Vector2<int>& drawPosition) const
+void UiRenderer::RenderText(const char* str, int start, int length, const Vector2i& drawPosition) const
 {
-	Vector2<int> currentDrawPosition = drawPosition;
+	Vector2i currentDrawPosition = drawPosition;
 
 	for (int i = start; i < (start + length); ++i)
 	{

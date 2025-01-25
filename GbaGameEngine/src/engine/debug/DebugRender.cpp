@@ -107,7 +107,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 					return;
 			}
 
-			Vector2<int> centerToCornerSizeOffset = sprite->GetSizeInPixels() / -2;
+			Vector2i centerToCornerSizeOffset = sprite->GetSizeInPixels() / -2;
 
 			gfx->DrawSprite(
 				sprite,

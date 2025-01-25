@@ -45,7 +45,7 @@ namespace GBA
 				* Used for rendering optimisations to track what's currently already loaded into memory.
 				* Background positions are write-only, so we need to track this manually.
 				*/
-				Vector2<int> lastRenderPos;
+				Vector2i lastRenderPos;
 				bool lastRenderPosValid = false;
 			};
 

@@ -48,7 +48,7 @@ void LevelSelectorScene::ClearNotch()
 {
 	int yPos = GetSelectedLabelYPos(m_currentSelectedIndex);
 	m_uiRenderCommandQueue.Enque([this, yPos] {
-		m_uiRenderer.DrawUiElement(Vector2<int>(selectedNotchXPosition, yPos), menuClearBgUiElement);
+		m_uiRenderer.DrawUiElement(Vector2i(selectedNotchXPosition, yPos), menuClearBgUiElement);
 	});
 }
 
@@ -56,7 +56,7 @@ void LevelSelectorScene::DrawNotch()
 {
 	int yPos = GetSelectedLabelYPos(m_currentSelectedIndex);
 	m_uiRenderCommandQueue.Enque([this, yPos] {
-		m_uiRenderer.DrawUiElement(Vector2<int>(selectedNotchXPosition, yPos), notchUiElement);
+		m_uiRenderer.DrawUiElement(Vector2i(selectedNotchXPosition, yPos), notchUiElement);
 	});
 }
 
@@ -73,7 +73,7 @@ void LevelSelectorScene::Enter()
 
 	m_uiRenderer.LoadAtlas(file);
 
-	Vector2<int> drawPosition(labelXPosition, columnStartIndex);
+	Vector2i drawPosition(labelXPosition, columnStartIndex);
 
 	for (const std::string& label : labels)
 	{

@@ -18,6 +18,6 @@ namespace Component
 namespace PlayerMovement
 {
 	void MoveHumanPlayerObject(GameObject& playerObject);
-	void MovePlayerObject(GameObject& playerObject, const Vector2<int>& desiredDirection);
+	void MovePlayerObject(GameObject& playerObject, const Vector2i& desiredDirection);
 }
 

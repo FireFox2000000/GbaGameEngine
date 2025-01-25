@@ -12,7 +12,7 @@
 // Accumulates FPi24 clamped to [-127, 127] range without wrapping around
 Vector2<FPi16> SafeAddVelocityClamped(const Vector2<FPi16>& velocity, const Vector2<FPi16>& delta)
 {
-	Vector2<int> velWholeNum = Vector2<int>(velocity);
+	Vector2i velWholeNum = Vector2i(velocity);
 	Vector2<FPi16> velDecimal = Vector2<FPi16>(
 		velocity.x - FPi16(velWholeNum.x),
 		velocity.y - FPi16(velWholeNum.y)

@@ -6,31 +6,31 @@
 #include "game/input/Input.h"
 #include "engine/physics/Rigidbody.h"
 
-Vector2<int> GetDesiredDirectionFromDpad()
+Vector2i GetDesiredDirectionFromDpad()
 {
-	Vector2<int> desiredDirection;
+	Vector2i desiredDirection;
 
 	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();
 
 	if (Input::GetInput(MoveLeft, devices))
 	{
-		desiredDirection = Vector2<int>::Left;
+		desiredDirection = Vector2i::Left;
 	}
 	
 	if (Input::GetInput(MoveRight, devices))
 	{
-		desiredDirection = Vector2<int>::Right;
+		desiredDirection = Vector2i::Right;
 	}
 	
 	if (Input::GetInput(MoveUp, devices))
 	{
-		desiredDirection = Vector2<int>::Up;
+		desiredDirection = Vector2i::Up;
 	}
 	
 	if (Input::GetInput(MoveDown, devices))
 	{
-		desiredDirection = Vector2<int>::Down;
+		desiredDirection = Vector2i::Down;
 	}
 
 	return desiredDirection;
@@ -41,7 +41,7 @@ void PlayerMovement::MoveHumanPlayerObject(GameObject& playerObject)
 	MovePlayerObject(playerObject, GetDesiredDirectionFromDpad());
 }
 
-void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2<int>& desiredDirection)
+void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2i& desiredDirection)
 {
 	const auto& playerMovement = *playerObject.GetComponent<Component::PlayerMovement>();
 

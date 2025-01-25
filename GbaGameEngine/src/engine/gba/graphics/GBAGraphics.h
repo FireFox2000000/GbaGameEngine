@@ -38,7 +38,7 @@ namespace GBA
 		{
 			Vector2<FPi16> cameraPosition;
 			Vector2<FPi16> screenSpaceOffset;
-			Vector2<int> renderSize;
+			Vector2i renderSize;
 		};
 
 		DrawParams CreateDrawParams(
@@ -51,7 +51,7 @@ namespace GBA
 			, const Vector2<FPi16>& position
 			, const Vector2 <FPi16>& scale
 			, FPi16 rotationDegrees
-			, Vector2<int> anchorPoint
+			, Vector2i anchorPoint
 			, bool hasAffineTransformation
 			, const DrawParams& drawParams
 		);

@@ -63,8 +63,8 @@ namespace GBA
 			const SpriteAtlas* GetAtlas() const;
 			bool IsLoaded() const;
 
-			Vector2<int> GetSize() const;
-			Vector2<int> GetSizeInPixels() const;
+			Vector2i GetSize() const;
+			Vector2i GetSizeInPixels() const;
 		};
 	}
 }

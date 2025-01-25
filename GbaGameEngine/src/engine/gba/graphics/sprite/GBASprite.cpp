@@ -88,14 +88,14 @@ namespace GBA
 			return GetTileIndex() != INVALID_TILE_ID && m_atlas->IsPaletteLoaded();
 		}
 
-		Vector2<int> Sprite::GetSize() const
+		Vector2i Sprite::GetSize() const
 		{
-			return Vector2<int>(m_tileSize);
+			return Vector2i(m_tileSize);
 		}
 
-		Vector2<int> Sprite::GetSizeInPixels() const
+		Vector2i Sprite::GetSizeInPixels() const
 		{
-			return Vector2<int>(AttributeFunctions::GetPixelSize(m_tileSize));
+			return Vector2i(AttributeFunctions::GetPixelSize(m_tileSize));
 		}
 	}
 }

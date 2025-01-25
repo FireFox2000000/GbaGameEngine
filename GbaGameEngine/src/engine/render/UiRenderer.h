@@ -15,7 +15,7 @@ class UiRenderer
 		char firstAsciiCharacter = 0;
 
 		// Max size in tiles of the font, for line break etc. 
-		Vector2<int> fixedCharacterSize;
+		Vector2i fixedCharacterSize;
 	};
 
 	GBA::Gfx::TilemapSet m_tilemapSet;
@@ -33,8 +33,8 @@ public:
 	~UiRenderer();
 
 	void LoadAtlas(const MemoryMappedFileView file);
-	void DrawUiElement(const Vector2<int>& screenPositionInTiles, int uiElementIndex) const;
+	void DrawUiElement(const Vector2i& screenPositionInTiles, int uiElementIndex) const;
 	void ClearRegion(int x, int y, int width, int height) const;
-	void RenderText(const std::string& str, const Vector2<int>& drawPosition) const;
-	void RenderText(const char* str, int start, int length, const Vector2<int>& drawPosition) const;
+	void RenderText(const std::string& str, const Vector2i& drawPosition) const;
+	void RenderText(const char* str, int start, int length, const Vector2i& drawPosition) const;
 };

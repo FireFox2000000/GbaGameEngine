@@ -72,7 +72,7 @@ void TilemapTestScene::Enter()
 	MemoryMappedFileView uiAtlasFile = fileSystem->Open("tilemaps/UiAtlas");
 	m_uiRenderer.LoadAtlas(uiAtlasFile);
 
-	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2<int>(1, 1)); });
+	m_uiRenderCommandQueue.Enque([this] { m_uiRenderer.RenderText("Hello World!", Vector2i(1, 1)); });
 
 	// Create a tilemap asset
 	m_nightSkyTilemapSet = resources.LoadTilemapSet(fileSystem->Open("tilemaps/NightSkySet"));

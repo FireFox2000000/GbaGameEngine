@@ -16,8 +16,8 @@ namespace GBA
 		drawParams.cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
 		drawParams.screenSpaceOffset = Vector2<FPi16>{ Screen::GetResolution() / 2 };
 
-		Vector2<int> screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
-		drawParams.renderSize = screenSizeInTiles + Vector2<int>{ 1, 1 };
+		Vector2i screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
+		drawParams.renderSize = screenSizeInTiles + Vector2i{ 1, 1 };
 
 		return drawParams;
 	}
@@ -27,7 +27,7 @@ namespace GBA
 		, const Vector2<FPi16>& position
 		, const Vector2<FPi16>& scale
 		, FPi16 rotationDegrees
-		, Vector2<int> anchorPoint
+		, Vector2i anchorPoint
 		, bool hasAffineTransformation
 		, const DrawParams& drawParams
 	)

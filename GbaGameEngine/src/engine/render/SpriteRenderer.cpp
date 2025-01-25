@@ -27,7 +27,7 @@ Sprite* Component::SpriteRenderer::GetSprite() const
 	return m_sprite;
 }
 
-Vector2<int> Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
+Vector2i Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
 {
 	return m_centerToCornerSizeOffset;
 }

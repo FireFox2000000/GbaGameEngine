@@ -20,13 +20,13 @@ namespace Component
 {
 	class SpriteRenderer : public Renderer
 	{
-		Vector2<int> m_centerToCornerSizeOffset;
+		Vector2i m_centerToCornerSizeOffset;
 		Sprite* m_sprite = nullptr;
 
 	public:
 		void SetSprite(Sprite* sprite);
 		Sprite* GetSprite() const;
-		Vector2<int> GetCenterToCornerSizeOffset() const;
+		Vector2i GetCenterToCornerSizeOffset() const;
 	};
 }
 

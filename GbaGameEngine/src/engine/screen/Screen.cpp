@@ -1,7 +1,7 @@
 #include "Screen.h"
 #include "gbatek/DisplayControl.h"
 
-Vector2<int> Screen::GetResolution()
+Vector2i Screen::GetResolution()
 {
 	GBATEK::VideoMode mode = GBATEK::ioRegisterDisplayControl->videoMode;
 
