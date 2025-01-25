@@ -134,7 +134,7 @@ bool HasCollisionAABBvsCircle(
 		Vector2<FPi16> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = FPi16(colB.radius - FPi8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
+		out_collisionMaybe->penetrationDepth = FPi16(colB.radius - FPi16(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
 	}
 
 	return result;

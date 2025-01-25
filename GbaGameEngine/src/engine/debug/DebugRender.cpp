@@ -52,7 +52,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 			constexpr FPi16 BaseScale = SpriteScaleTo1x1;
 			Vector2<FPi16> scale{ .x = BaseScale, .y = BaseScale };
 
-			FPi8 rotation = 0;
+			FPi16 rotation = 0;
 
 			switch (collider.GetShapeType())
 			{

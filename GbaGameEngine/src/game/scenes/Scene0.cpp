@@ -158,7 +158,7 @@ void Scene0::Enter()
 		//transform->SetRotationDegrees(180);
 
 		Component::Collider& collider = m_playerObject.AddComponent<Component::Collider>();
-		//collider.SetCircle(FPi8(0.5f) * shantae0->GetSize().x);
+		//collider.SetCircle(FPi16(0.5f) * shantae0->GetSize().x);
 		FPi16 colliderWidth = FPi16(shantae0->GetSize().x) - FPi16(1);
 		collider.SetAABB(
 			Vector2<FPi16>((FPi16(-0.5f) * colliderWidth) + FPi16(0.5f), FPi16(0.5f) * -shantae0->GetSize().y)

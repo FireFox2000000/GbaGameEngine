@@ -1,7 +1,5 @@
 #include "Transform.h"
 
-const FPi8 DegreesToRot = FPi8(0xFFFF / 360.f);
-
 void Component::Transform::UpdateHasAffineTransformation()
 {
 	bool hasAffineTransformation = false;
@@ -53,12 +51,12 @@ void Component::Transform::SetScale(Vector2<FPi16> scale)
 	SetLocalScale(scale);
 }
 
-FPi8 Component::Transform::GetRotationDegrees() const
+FPi16 Component::Transform::GetRotationDegrees() const
 {
 	return m_localRotationDegrees;
 }
 
-void Component::Transform::SetRotationDegrees(FPi8 degrees)
+void Component::Transform::SetRotationDegrees(FPi16 degrees)
 {
 	m_localRotationDegrees = degrees;
 

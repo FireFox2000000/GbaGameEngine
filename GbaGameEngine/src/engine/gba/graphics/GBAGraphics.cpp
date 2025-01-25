@@ -26,7 +26,7 @@ namespace GBA
 		GBA::Gfx::Sprite* sprite
 		, const Vector2<FPi16>& position
 		, const Vector2<FPi16>& scale
-		, FPi8 rotationDegrees
+		, FPi16 rotationDegrees
 		, Vector2<int> anchorPoint
 		, bool hasAffineTransformation
 		, const DrawParams& drawParams
@@ -37,7 +37,7 @@ namespace GBA
 
 		if (hasAffineTransformation)
 		{
-			constexpr FPi8 DegreesToRot(0xFFFF / 360.f);
+			constexpr FPi16 DegreesToRot(0xFFFF / 360.f);
 
 			u8 affineIndex = 255;
 			auto* affineProperties = m_oamManager.AddToAffineRenderList(&affineIndex);
