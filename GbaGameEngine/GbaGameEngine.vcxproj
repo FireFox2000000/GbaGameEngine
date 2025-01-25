@@ -229,7 +229,6 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\math\Math.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
-    <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\game\scripts\states\BgFadeInState.cpp" />
     <ClCompile Include="src\game\scripts\states\BgFadeOutState.cpp" />
     <ClCompile Include="src\game\scripts\states\CutsceneState.cpp" />

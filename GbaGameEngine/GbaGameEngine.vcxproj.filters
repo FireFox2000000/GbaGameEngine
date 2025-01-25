@@ -26,7 +26,6 @@
     <ClCompile Include="src\engine\math\Math.cpp" />
     <ClCompile Include="src\engine\gba\graphics\tiles\GBAPaletteBank.cpp" />
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
-    <ClCompile Include="src\engine\math\Vector2.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.cpp" />

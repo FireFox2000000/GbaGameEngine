@@ -50,9 +50,4 @@ namespace VectorMath
 	{
 		return u.x * v.y - u.y * v.x;
 	}
-
-	inline float Length(const Vector2f& a, const Vector2f& b)
-	{
-		return sqrt(LengthSqrd(a, b));
-	}
 }
