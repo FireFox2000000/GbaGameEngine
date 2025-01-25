@@ -15,8 +15,8 @@ inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform&
 
 	auto scale = transformA.GetScale();
 
-	Vector2<FPi24> min = static_cast<Vector2<FPi24>>(aabb.min);
-	Vector2<FPi24> max = static_cast<Vector2<FPi24>>(aabb.max);
+	Vector2<FPi16> min = aabb.min;
+	Vector2<FPi16> max = aabb.max;
 
 	min.x *= scale.x;
 	min.y *= scale.y;
@@ -70,7 +70,7 @@ bool HasCollisionAABBvsAABB(
 		else 
 		{
 			FPi16 sy = Math::Sign(dy);
-			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(py));
+			out_collisionMaybe->penetrationDepth = Math::Abs(FPi16(py));
 			out_collisionMaybe->normal = { 0, sy * -1 };
 		}
 	}
