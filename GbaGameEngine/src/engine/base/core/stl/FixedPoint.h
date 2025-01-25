@@ -183,40 +183,6 @@ public:
 	{
 		return !(*this == b);
 	}
-
-	/*******************************************************************************/
-
-	inline FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate> operator*(const int& b) const { return FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(*this) *= FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b); }
-
-	inline bool operator > (const int& b) const
-	{
-		return *this > FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
-	}
-
-	inline bool operator < (const int& b) const
-	{
-		return *this < FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
-	}
-
-	inline bool operator <= (const int& b) const
-	{
-		return *this <= FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
-	}
-
-	inline bool operator >= (const int& b) const
-	{
-		return *this >= FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
-	}
-
-	inline bool operator == (const int& b) const
-	{
-		return *this == FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
-	}
-
-	inline bool operator != (const int& b) const
-	{
-		return *this != FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>(b);
-	}
 };
 
 using FPi8 = FixedPoint<int, 8, s64>;
