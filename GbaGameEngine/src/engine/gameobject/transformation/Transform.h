@@ -8,7 +8,7 @@ namespace Component
 	{
 	private:
 		// Todo, replace with proper transformation matrix maybe
-		Vector2<FPi8> m_localPosition;
+		Vector2<FPi16> m_localPosition;
 		Vector2<FPi24> m_localScale = { 1, 1 };
 		FPi8 m_localRotationDegrees = 0;
 		bool m_hasAffineTrasformation = false;
@@ -16,16 +16,14 @@ namespace Component
 		void UpdateHasAffineTransformation();
 
 	public:
-		Vector2<FPi8> GetLocalPosition() const;
-		void SetLocalPosition(Vector2<FPi8> pos);
-		template<typename T>
-		inline void SetLocalPosition(T x, T y) { SetLocalPosition(Vector2<FPi8>(x, y)); }
+		Vector2<FPi16> GetLocalPosition() const;
+		void SetLocalPosition(Vector2<FPi16> pos);
+		inline void SetLocalPosition(FPi16 x, FPi16 y) { SetLocalPosition(Vector2<FPi16>(x, y)); }
 
 		// World position, todo
-		Vector2<FPi8> GetPosition() const;
-		void SetPosition(Vector2<FPi8> pos);
-		template<typename T>
-		inline void SetPosition(T x, T y) { SetPosition(Vector2<FPi8>(x, y)); }
+		Vector2<FPi16> GetPosition() const;
+		void SetPosition(Vector2<FPi16> pos);
+		inline void SetPosition(FPi16 x, FPi16 y) { SetPosition(Vector2<FPi16>(x, y)); }
 
 		Vector2<FPi24> GetLocalScale() const;
 		void SetLocalScale(Vector2<FPi24> scale);

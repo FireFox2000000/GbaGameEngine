@@ -12,22 +12,22 @@ void Component::Transform::UpdateHasAffineTransformation()
 	m_hasAffineTrasformation = hasAffineTransformation;
 }
 
-Vector2<FPi8> Component::Transform::GetLocalPosition() const
+Vector2<FPi16> Component::Transform::GetLocalPosition() const
 {
 	return m_localPosition;
 }
 
-void Component::Transform::SetLocalPosition(Vector2<FPi8> pos)
+void Component::Transform::SetLocalPosition(Vector2<FPi16> pos)
 {
 	m_localPosition = pos;
 }
 
-Vector2<FPi8> Component::Transform::GetPosition() const
+Vector2<FPi16> Component::Transform::GetPosition() const
 {
 	return m_localPosition;
 }
 
-void Component::Transform::SetPosition(Vector2<FPi8> pos)
+void Component::Transform::SetPosition(Vector2<FPi16> pos)
 {
 	m_localPosition = pos;
 }

@@ -52,7 +52,7 @@ namespace Component
 		m_shapeType = ColliderShapeType::Circle;
 	}
 
-	void Collider::SetAABB(const Vector2<FPi8>& min, const Vector2<FPi8>& max)
+	void Collider::SetAABB(const Vector2<FPi16>& min, const Vector2<FPi16>& max)
 	{
 		m_shape.aabb = AxisAlignedBoundingBox2(min, max);
 		m_shapeType = ColliderShapeType::AABB;

@@ -64,7 +64,7 @@ namespace Component
 			return m_shape.circle;
 		}
 
-		void SetAABB(const Vector2<FPi8>& min, const Vector2<FPi8>& max);
+		void SetAABB(const Vector2<FPi16>& min, const Vector2<FPi16>& max);
 		inline const AxisAlignedBoundingBox2& GetAABB() const {
 			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::AABB, "Shape is not an AABB, it is %d", m_shapeType);
 			return m_shape.aabb;

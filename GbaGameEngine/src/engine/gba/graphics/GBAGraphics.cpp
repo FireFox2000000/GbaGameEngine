@@ -24,7 +24,7 @@ namespace GBA
 
 	void Graphics::DrawSprite(
 		GBA::Gfx::Sprite* sprite
-		, const Vector2<FPi8>& position
+		, const Vector2<FPi16>& position
 		, const Vector2<FPi24>& scale
 		, FPi8 rotationDegrees
 		, Vector2<int> anchorPoint
@@ -95,7 +95,7 @@ namespace GBA
 			}
 		}
 
-		Vector2<FPi8> newPosition = position;
+		Vector2<FPi16> newPosition = position;
 		newPosition -= drawParams.cameraPosition;											// Convert world space to relative camera space	
 		newPosition.y *= -1;														// Correct for screen space starting from the top
 		newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
@@ -107,7 +107,7 @@ namespace GBA
 		renderProperties->screenPosY = newPosition.y.ToRoundedInt();
 	}
 
-	void Graphics::DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<FPi8>& position)
+	void Graphics::DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<FPi16>& position)
 	{
 		using namespace GBA::Gfx;
 

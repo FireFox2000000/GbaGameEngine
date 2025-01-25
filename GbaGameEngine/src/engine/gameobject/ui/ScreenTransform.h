@@ -8,7 +8,7 @@ namespace Component
 	{
 		struct ScreenTransform
 		{
-			Vector2<FPi8> position;
+			Vector2<FPi16> position;
 			Vector2<FPi8> scale{ .x = 1, .y = 1 };
 		};
 	}

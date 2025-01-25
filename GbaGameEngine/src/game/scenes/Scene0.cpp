@@ -102,8 +102,8 @@ void Scene0::Enter()
 			Component::Collider& collider = m_textObjectCollision->AddComponent<Component::Collider>();
 			//collider.SetCircle(sprite->GetSize().x);
 			collider.SetAABB(
-				Vector2<FPi8>(FPi8(0.5f) * -sprite->GetSize().x, FPi8(0.5f) * -sprite->GetSize().y)
-				, Vector2<FPi8>(FPi8(0.5f) * sprite->GetSize().x, (FPi8(0.5f) * sprite->GetSize().y))
+				Vector2<FPi16>(FPi16(0.5f) * -sprite->GetSize().x, FPi16(0.5f) * -sprite->GetSize().y)
+				, Vector2<FPi16>(FPi16(0.5f) * sprite->GetSize().x, (FPi16(0.5f) * sprite->GetSize().y))
 			);
 			//collider.SetCollisionMask(BIT(1));
 
@@ -159,10 +159,10 @@ void Scene0::Enter()
 
 		Component::Collider& collider = m_playerObject.AddComponent<Component::Collider>();
 		//collider.SetCircle(FPi8(0.5f) * shantae0->GetSize().x);
-		FPi8 colliderWidth = FPi8(shantae0->GetSize().x) - FPi8(1);
+		FPi16 colliderWidth = FPi16(shantae0->GetSize().x) - FPi16(1);
 		collider.SetAABB(
-			Vector2<FPi8>((FPi8(-0.5f) * colliderWidth) + FPi8(0.5f), FPi8(0.5f) * -shantae0->GetSize().y)
-			, Vector2<FPi8>((FPi8(0.5f) * colliderWidth), (FPi8(0.5f) * shantae0->GetSize().y) - FPi8(4))
+			Vector2<FPi16>((FPi16(-0.5f) * colliderWidth) + FPi16(0.5f), FPi16(0.5f) * -shantae0->GetSize().y)
+			, Vector2<FPi16>((FPi16(0.5f) * colliderWidth), (FPi16(0.5f) * shantae0->GetSize().y) - FPi16(4))
 				);
 		//collider.SetCollisionMask(BIT(0));
 	}
@@ -200,10 +200,10 @@ void Scene0::Update()
 			const Component::Collider* letterCollider = m_textObjectCollision->GetComponent<Component::Collider>();
 
 			Collision collision;
-			if (CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider, &collision))
+			if (false)//CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider, &collision))
 			{
 				char buff[100];
-				snprintf(buff, sizeof(buff), "(Normal (%.2f, %.2f)", static_cast<float>(collision.normal.x), static_cast<float>(collision.normal.y));
+				snprintf(buff, sizeof(buff), "(Normal (%d, %d), Pen (%d)", collision.normal.x.GetStorage(), collision.normal.y.GetStorage(), collision.penetrationDepth.GetStorage());
 
 				textComponent->m_str = buff;
 			}

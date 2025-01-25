@@ -47,7 +47,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 		{
 			GBA::Gfx::Sprite* sprite = nullptr;
 
-			Vector2<FPi8> position = transform.GetPosition();
+			Vector2<FPi16> position = transform.GetPosition();
 
 			constexpr FPi24 BaseScale = SpriteScaleTo1x1;
 			Vector2<FPi24> scale{ .x = BaseScale, .y = BaseScale };
@@ -74,7 +74,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				scale.x *= FPi24(halfExtentX);
 				scale.y *= FPi24(halfExtentY);
 
-				position += aabb.min + Vector2<FPi8>{ .x = halfExtentX, .y = halfExtentY };
+				position += aabb.min + Vector2<FPi16>{ .x = halfExtentX, .y = halfExtentY };
 
 				break;
 			}
@@ -95,7 +95,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 
 			// Frustum culling
 			{
-				Vector2<FPi8> worldSpriteSize = static_cast<Vector2<FPi8>>(sprite->GetSize());
+				Vector2<FPi16> worldSpriteSize = static_cast<Vector2<FPi16>>(sprite->GetSize());
 				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
 				{
 					worldSpriteSize *= 2;

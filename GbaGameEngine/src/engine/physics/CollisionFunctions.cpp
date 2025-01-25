@@ -23,8 +23,8 @@ inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform&
 	max.x *= scale.x;
 	max.y *= scale.y;
 
-	Vector2<FPi8> newMinA(FPi8(MIN(min.x, max.x)), FPi8(MIN(min.y, max.y)));
-	Vector2<FPi8> newMaxA(FPi8(MAX(min.x, max.x)), FPi8(MAX(min.y, max.y)));
+	Vector2<FPi16> newMinA(FPi16(MIN(min.x, max.x)), FPi16(MIN(min.y, max.y)));
+	Vector2<FPi16> newMaxA(FPi16(MAX(min.x, max.x)), FPi16(MAX(min.y, max.y)));
 
 	aabb = AxisAlignedBoundingBox2(newMinA, newMaxA);
 
@@ -79,13 +79,13 @@ bool HasCollisionAABBvsAABB(
 }
 
 bool HasCollisionCirclevsCircle(
-	const Vector2<FPi8>& positionA
+	const Vector2<FPi16>& positionA
 	, Circle colA
-	, const Vector2<FPi8>& positionB
+	, const Vector2<FPi16>& positionB
 	, Circle colB
 	, Collision* out_collisionMaybe)
 {
-	FPi8 lengthSqrd = VectorMath::LengthSqrd(positionA, positionB);
+	FPi16 lengthSqrd = VectorMath::LengthSqrd(positionA, positionB);
 	FPi8 rad = colA.radius + colB.radius;
 	FPi8 radSqrd = rad * rad;
 
@@ -93,7 +93,7 @@ bool HasCollisionCirclevsCircle(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<FPi8> direction = positionA - positionB;
+		Vector2<FPi16> direction = positionA - positionB;
 		Vector2<FPi24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
@@ -106,23 +106,23 @@ bool HasCollisionCirclevsCircle(
 bool HasCollisionAABBvsCircle(
 	const Component::Transform& transformA
 	, AxisAlignedBoundingBox2 colA
-	, const Vector2<FPi8>& positionB
+	, const Vector2<FPi16>& positionB
 	, Circle colB
 	, Collision* out_collisionMaybe)
 {
 	// https://learnopengl.com/In-Practice/2D-Game/Collisions/Collision-Detection - AABB - Circle collision detection
 
 	colA = AdjustAABBByTransform(transformA, colA);
-	Vector2<FPi8> halfExtents = (colA.max - colA.min) * FPi8(0.5f);
-	Vector2<FPi8> aabbCenter = colA.min + halfExtents;
+	Vector2<FPi16> halfExtents = (colA.max - colA.min) * FPi16(0.5f);
+	Vector2<FPi16> aabbCenter = colA.min + halfExtents;
 
-	Vector2<FPi8> delta = positionB - aabbCenter;
-	Vector2<FPi8> clamped(
-		MAX(FPi8(-1) * halfExtents.x, MIN(halfExtents.x, delta.x)),
-		MAX(FPi8(-1) * halfExtents.y, MIN(halfExtents.y, delta.y))
+	Vector2<FPi16> delta = positionB - aabbCenter;
+	Vector2<FPi16> clamped(
+		MAX(FPi16(-1) * halfExtents.x, MIN(halfExtents.x, delta.x)),
+		MAX(FPi16(-1) * halfExtents.y, MIN(halfExtents.y, delta.y))
 		);
 
-	Vector2<FPi8> closestPoint = aabbCenter + clamped;
+	Vector2<FPi16> closestPoint = aabbCenter + clamped;
 
 	delta = closestPoint - positionB;
 
@@ -130,7 +130,7 @@ bool HasCollisionAABBvsCircle(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<FPi8> direction = closestPoint - positionB;
+		Vector2<FPi16> direction = closestPoint - positionB;
 		Vector2<FPi24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;

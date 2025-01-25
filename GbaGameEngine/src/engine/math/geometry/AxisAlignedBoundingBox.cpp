@@ -1,6 +1,6 @@
 #include "AxisAlignedBoundingBox.h"
 
-AxisAlignedBoundingBox2::AxisAlignedBoundingBox2(Vector2<FPi8> min, Vector2<FPi8> max)
+AxisAlignedBoundingBox2::AxisAlignedBoundingBox2(Vector2<FPi16> min, Vector2<FPi16> max)
 {
 	this->min = min;
 	this->max = max;
@@ -20,7 +20,7 @@ bool AxisAlignedBoundingBox2::IntersectsOrTouches(const AxisAlignedBoundingBox2&
 		(min.y <= other.max.y && max.y >= other.min.y);
 }
 
-void AxisAlignedBoundingBox2::Translate(Vector2<FPi8> translation)
+void AxisAlignedBoundingBox2::Translate(Vector2<FPi16> translation)
 {
 	min += translation;
 	max += translation;

@@ -73,7 +73,7 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 				return;
 			}
 
-			Vector2<FPi8> position = transform.GetPosition();
+			Vector2<FPi16> position = transform.GetPosition();
 			gfx->DrawTilemap(tilemap, position, drawParams);
 
 			// Update extra effects
