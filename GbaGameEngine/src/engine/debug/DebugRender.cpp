@@ -49,8 +49,8 @@ void DebugRender::RenderColliders(const GameObject* camera)
 
 			Vector2<FPi16> position = transform.GetPosition();
 
-			constexpr FPi24 BaseScale = SpriteScaleTo1x1;
-			Vector2<FPi24> scale{ .x = BaseScale, .y = BaseScale };
+			constexpr FPi16 BaseScale = SpriteScaleTo1x1;
+			Vector2<FPi16> scale{ .x = BaseScale, .y = BaseScale };
 
 			FPi8 rotation = 0;
 
@@ -63,16 +63,16 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				auto aabb = collider.GetAABB();
 				auto transformScale = transform.GetScale();
 
-				aabb.min.x = FPi8(FPi24(aabb.min.x) * transformScale.x);
-				aabb.min.y = FPi8(FPi24(aabb.min.y) * transformScale.y);
-				aabb.max.x = FPi8(FPi24(aabb.max.x) * transformScale.x);
-				aabb.max.y = FPi8(FPi24(aabb.max.y) * transformScale.y);
+				aabb.min.x *= transformScale.x;
+				aabb.min.y *= transformScale.y;
+				aabb.max.x *= transformScale.x;
+				aabb.max.y *= transformScale.y;
 
-				FPi8 halfExtentX = FPi8(0.5f) * (aabb.max.x - aabb.min.x);
-				FPi8 halfExtentY = FPi8(0.5f) * (aabb.max.y - aabb.min.y);
+				FPi16 halfExtentX = FPi16(0.5f) * (aabb.max.x - aabb.min.x);
+				FPi16 halfExtentY = FPi16(0.5f) * (aabb.max.y - aabb.min.y);
 
-				scale.x *= FPi24(halfExtentX);
-				scale.y *= FPi24(halfExtentY);
+				scale.x *= FPi16(halfExtentX);
+				scale.y *= FPi16(halfExtentY);
 
 				position += aabb.min + Vector2<FPi16>{ .x = halfExtentX, .y = halfExtentY };
 
@@ -83,8 +83,8 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				sprite = m_spritePrimitives->GetSprite(1);
 
 				const auto& circle = collider.GetCircle();
-				scale.x *= FPi24(circle.radius);
-				scale.y *= FPi24(circle.radius);
+				scale.x *= FPi16(circle.radius);
+				scale.y *= FPi16(circle.radius);
 
 				break;
 			}

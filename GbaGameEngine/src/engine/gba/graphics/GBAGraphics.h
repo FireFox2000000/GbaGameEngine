@@ -49,7 +49,7 @@ namespace GBA
 		(
 			GBA::Gfx::Sprite* sprite
 			, const Vector2<FPi16>& position
-			, const Vector2 <FPi24>& scale
+			, const Vector2 <FPi16>& scale
 			, FPi8 rotationDegrees
 			, Vector2<int> anchorPoint
 			, bool hasAffineTransformation
