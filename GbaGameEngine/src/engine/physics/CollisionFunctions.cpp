@@ -49,10 +49,10 @@ bool HasCollisionAABBvsAABB(
 
 	if (result && out_collisionMaybe)
 	{
-		Vector2<FPi16> halfExtentsA = colA.max - colA.min * FPi16(0.5f);
+		Vector2<FPi16> halfExtentsA = (colA.max - colA.min) * FPi16(0.5f);
 		Vector2<FPi16> aabbCenterA = colA.min + halfExtentsA;
 
-		Vector2<FPi16> halfExtentsB = colB.max - colB.min * FPi16(0.5f);
+		Vector2<FPi16> halfExtentsB = (colB.max - colB.min) * FPi16(0.5f);
 		Vector2<FPi16> aabbCenterB = colB.min + halfExtentsB;
 
 		FPi16 dx = aabbCenterB.x - aabbCenterA.x;
