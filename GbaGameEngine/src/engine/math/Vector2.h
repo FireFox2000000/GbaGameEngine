@@ -6,6 +6,11 @@ struct Vector2
 {
 	T x = 0, y = 0;
 
+	constexpr Vector2() = default;
+	constexpr Vector2(T x, T y) : x(x), y(y) {}
+	template<class U>
+	explicit constexpr Vector2(const Vector2<U> other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)) {}
+
 	// Operator overloads
 	constexpr inline bool operator == (const Vector2<T>& vec) const
 	{
@@ -53,9 +58,6 @@ struct Vector2
 	template <class Scalar> 
 	constexpr inline Vector2 operator/(Scalar scalar) const { return Vector2(*this) /= scalar; }
 
-	template<class U>
-	explicit inline operator Vector2<U>() const { return Vector2<U>(static_cast<U>(this->x), static_cast<U>(this->y)); }
-	
 	// Regular functions
 	float Magnitude() const;
 	Vector2 Normal() const;

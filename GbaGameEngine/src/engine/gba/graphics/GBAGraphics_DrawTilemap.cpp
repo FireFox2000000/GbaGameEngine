@@ -359,13 +359,13 @@ namespace GBA
 		Vector2<FPi16> newPosition = position;
 
 		// Screen corrections. Final position is the position of the screen on the background.
-		newPosition -= drawParams.cameraPosition;											// Convert world space to relative camera space	
+		newPosition -= drawParams.cameraPosition;								// Convert world space to relative camera space	
 		newPosition.x *= -1;
-		newPosition += static_cast<Vector2<FPi16>>(tileMapSizeInTiles / 2);								// Offset by map size	
-		newPosition *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
-		newPosition -= drawParams.screenSpaceOffset;											// Convert to screen space, position of the screen on the background so it need to be inverted
+		newPosition += Vector2<FPi16>(tileMapSizeInTiles / 2);		// Offset by map size	
+		newPosition *= GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;					// Camera position units to pixel units, 8 pixels per tile/unit
+		newPosition -= drawParams.screenSpaceOffset;							// Convert to screen space, position of the screen on the background so it need to be inverted
 
-		Vector2<int> finalPos{ .x = newPosition.x.ToRoundedInt(), .y = newPosition.y.ToRoundedInt() };
+		Vector2<int> finalPos{ newPosition.x.ToRoundedInt(), newPosition.y.ToRoundedInt() };
 
 		(*GBATEK::ioRegisterBackgroundScrolls)[tilemap->GetAssignedBackgroundSlot()] = { 
 			.xOffset = static_cast<unsigned short>(finalPos.x), 

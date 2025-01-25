@@ -39,7 +39,7 @@ namespace GBA
 		Sprite::Sprite()
 			: m_objectShape(GBATEK::ObjectShape::Square)
 			, m_objectSize(GBATEK::ObjectSize::Smallest)
-			, m_tileSize(GBAAttrFnVector2())
+			, m_tileSize(Vector2<u8>())
 			, m_atlas(nullptr)
 		{
 		}
@@ -90,12 +90,12 @@ namespace GBA
 
 		Vector2<int> Sprite::GetSize() const
 		{
-			return static_cast<Vector2<int>>(m_tileSize);
+			return Vector2<int>(m_tileSize);
 		}
 
 		Vector2<int> Sprite::GetSizeInPixels() const
 		{
-			return static_cast<Vector2<int>>(AttributeFunctions::GetPixelSize(m_tileSize));
+			return Vector2<int>(AttributeFunctions::GetPixelSize(m_tileSize));
 		}
 	}
 }

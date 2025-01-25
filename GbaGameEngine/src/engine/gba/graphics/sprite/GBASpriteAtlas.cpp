@@ -116,7 +116,7 @@ namespace GBA
 
 				GBATEK::ObjectShape shape;
 				GBATEK::ObjectSize sizeMode;
-				AttributeFunctions::GetSizeAttributesFromPixelSize(GBAAttrFnVector2(widthMap[i], heightMap[i]), shape, sizeMode);
+				AttributeFunctions::GetSizeAttributesFromPixelSize(Vector2<u8>(widthMap[i], heightMap[i]), shape, sizeMode);
 
 				node->sprite.m_objectShape = shape;
 				node->sprite.m_objectSize = sizeMode;

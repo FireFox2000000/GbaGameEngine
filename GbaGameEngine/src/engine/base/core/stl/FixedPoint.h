@@ -42,11 +42,11 @@ class FixedPoint
 	}
 
 public:
-	inline FixedPoint() : m_storage(0)
+	constexpr inline FixedPoint() : m_storage(0)
 	{
 	}
 
-	inline FixedPoint(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& that)
+	constexpr inline FixedPoint(const FixedPoint<TIntergral, FRACTIONAL_BITS, TIntermediate>& that)
 	{
 		*this = that;
 	}

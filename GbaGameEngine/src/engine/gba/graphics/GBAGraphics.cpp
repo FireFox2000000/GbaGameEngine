@@ -14,10 +14,10 @@ namespace GBA
 		Graphics::DrawParams drawParams;
 
 		drawParams.cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
-		drawParams.screenSpaceOffset = static_cast<decltype(drawParams.screenSpaceOffset)>(Screen::GetResolution() / 2);
+		drawParams.screenSpaceOffset = Vector2<FPi16>{ Screen::GetResolution() / 2 };
 
 		Vector2<int> screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
-		drawParams.renderSize = screenSizeInTiles + Vector2<int>{ .x = 1, .y = 1 };
+		drawParams.renderSize = screenSizeInTiles + Vector2<int>{ 1, 1 };
 
 		return drawParams;
 	}
@@ -55,10 +55,10 @@ namespace GBA
 			// Compress scale down even further and lose decimal precision. This is so that we can 
 			// use 32 bit arithmatic to calculate the reciprocal without risk of overflowing, as both
 			// 64 bit and floating point are slow
-			Vector2<FixedPoint<s16, 8, int>> invertableScale{ .x = scale.x, .y = scale.y };
+			Vector2<FixedPoint<s16, 8, int>> invertableScale{ scale };
 			Vector2<FPi8> gbaInvertedScale { 
-				.x = decltype(invertableScale.x)(1) / invertableScale.x, 
-				.y = decltype(invertableScale.y)(1) / invertableScale.y 
+				decltype(invertableScale.x)(1) / invertableScale.x, 
+				decltype(invertableScale.y)(1) / invertableScale.y 
 			};
 
 			// Scale should be limited between (0, 2], otherwise rendering will start to be cut off. 
@@ -100,7 +100,7 @@ namespace GBA
 		newPosition.y *= -1;														// Correct for screen space starting from the top
 		newPosition *= Tile::PIXELS_SQRROOT_PER_TILE;								// Camera position units to pixel units, 8 pixels per tile/unit
 		newPosition += drawParams.screenSpaceOffset;											// Convert to screen space
-		newPosition += static_cast<decltype(newPosition)>(anchorPoint);				// Offset by sprite size to render from the center
+		newPosition += Vector2<FPi16>(anchorPoint);				// Offset by sprite size to render from the center
 
 		renderProperties->priority = static_cast<int>(GBA::DrawPriorityID::ObjSprite);
 		renderProperties->screenPosX = newPosition.x.ToRoundedInt();

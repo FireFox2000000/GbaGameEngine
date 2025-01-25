@@ -72,7 +72,7 @@ void System::SpriteRenderer::Render(GameObject* camera)
 
 			// Frustum culling
 			{
-				Vector2<FPi16> halfWorldSpriteSize = static_cast<Vector2<FPi16>>(sprite->GetSize() / 2);
+				Vector2<FPi16> halfWorldSpriteSize = Vector2<FPi16>(sprite->GetSize() / 2);
 				if (hasAffineTransformation)	// if we have affine transformation then this will compensate for ObjAffineDoubleRendering/rotation going outside sprite bounds
 				{
 					halfWorldSpriteSize *= 2;
