@@ -146,7 +146,7 @@ void Scene0::Enter()
 		animator.SetAnimation(m_shantaeIdleAnim);
 
 		Component::Rigidbody& rigidbody = m_playerObject.AddComponent<Component::Rigidbody>();
-		rigidbody.gravity = Vector2<FPi24>(0, -30);
+		rigidbody.gravity = { 0, -30 };
 
 		Component::PlayerMovement& playerMovement = m_playerObject.AddComponent<Component::PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;

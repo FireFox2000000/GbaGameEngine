@@ -10,8 +10,8 @@ struct Collision
 	ECS::Entity entityB;
 
 	// Combination of normal vector + length of collision penetration. Actual normal would be quite expensive to calculate.
-	Vector2<FPi24> normal;
-	FPi24 penetrationDepth;
+	Vector2<FPi16> normal;
+	FPi16 penetrationDepth;
 
 	bool InvolvedEntity(ECS::Entity e) const;
 };

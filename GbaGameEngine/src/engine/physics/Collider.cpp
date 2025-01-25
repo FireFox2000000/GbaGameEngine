@@ -46,7 +46,7 @@ namespace Component
 		}
 	}
 
-	void Collider::SetCircle(FPi8 radius)
+	void Collider::SetCircle(FPi16 radius)
 	{
 		m_shape.circle = Circle(radius);
 		m_shapeType = ColliderShapeType::Circle;

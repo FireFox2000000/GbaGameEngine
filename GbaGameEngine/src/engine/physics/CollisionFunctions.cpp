@@ -64,14 +64,14 @@ bool HasCollisionAABBvsAABB(
 		if (px < py) 
 		{
 			FPi16 sx = Math::Sign(dx);
-			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(px));
-			out_collisionMaybe->normal = Vector2<FPi24>(FPi24(sx) * -1, 0);
+			out_collisionMaybe->penetrationDepth = Math::Abs(px);
+			out_collisionMaybe->normal = { sx * -1, 0 };
 		}
 		else 
 		{
 			FPi16 sy = Math::Sign(dy);
 			out_collisionMaybe->penetrationDepth = Math::Abs(FPi24(py));
-			out_collisionMaybe->normal = Vector2<FPi24>(0, FPi24(sy) * -1);
+			out_collisionMaybe->normal = { 0, sy * -1 };
 		}
 	}
 
@@ -86,18 +86,18 @@ bool HasCollisionCirclevsCircle(
 	, Collision* out_collisionMaybe)
 {
 	FPi16 lengthSqrd = VectorMath::LengthSqrd(positionA, positionB);
-	FPi8 rad = colA.radius + colB.radius;
-	FPi8 radSqrd = rad * rad;
+	FPi16 rad = colA.radius + colB.radius;
+	FPi16 radSqrd = rad * rad;
 
 	bool result = radSqrd >= lengthSqrd;
 
 	if (result && out_collisionMaybe)
 	{
 		Vector2<FPi16> direction = positionA - positionB;
-		Vector2<FPi24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
+		Vector2<FPi16> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = FPi24(rad - FPi8(std::sqrt(static_cast<float>(lengthSqrd))));	// float heavy, but need accuracy or this doesn't work.
+		out_collisionMaybe->penetrationDepth = rad - FPi16(std::sqrt(static_cast<float>(lengthSqrd)));	// float heavy, but need accuracy or this doesn't work.
 	}
 
 	return result;
@@ -131,10 +131,10 @@ bool HasCollisionAABBvsCircle(
 	if (result && out_collisionMaybe)
 	{
 		Vector2<FPi16> direction = closestPoint - positionB;
-		Vector2<FPi24> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
+		Vector2<FPi16> normal = static_cast<decltype(normal)>(VectorMath::Normalised(static_cast<Vector2f>(direction)));
 
 		out_collisionMaybe->normal = normal;
-		out_collisionMaybe->penetrationDepth = FPi24(colB.radius - FPi8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
+		out_collisionMaybe->penetrationDepth = FPi16(colB.radius - FPi8(std::sqrt(static_cast<float>(direction.MagnitudeSqrd()))));	// float heavy, but need accuracy or this doesn't work.		
 	}
 
 	return result;

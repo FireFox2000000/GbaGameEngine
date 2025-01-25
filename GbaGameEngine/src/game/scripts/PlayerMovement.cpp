@@ -66,13 +66,13 @@ void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2<in
 	const auto& devices = inputManager->GetDevices();
 	if (Input::GetInputDown(Jump, devices))
 	{
-		rigidbody.velocity = Vector2<FPi24>(rigidbody.velocity.x, playerMovement.jumpInitVel);
+		rigidbody.velocity.y = playerMovement.jumpInitVel;
 	}
 	else if (Input::GetInputUp(Jump, devices) && rigidbody.velocity.y > 0)
 	{
-		rigidbody.velocity = Vector2<FPi24>(rigidbody.velocity.x, 0);
+		rigidbody.velocity.y = 0;
 	}
-	rigidbody.velocity = Vector2<FPi24>(playerMovement.moveSpeed * desiredDirection.x, rigidbody.velocity.y);
+	rigidbody.velocity = { playerMovement.moveSpeed * desiredDirection.x, rigidbody.velocity.y };
 #endif
 	{
 

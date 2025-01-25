@@ -9,8 +9,8 @@ namespace Component
 {
 	struct PlayerMovement
 	{
-		FPi24 moveSpeed = 8.0f;
-		FPi24 jumpInitVel = 15.f;
+		FPi16 moveSpeed = 8.0f;
+		FPi16 jumpInitVel = 15.f;
 	};
 }
 

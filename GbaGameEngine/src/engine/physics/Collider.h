@@ -58,7 +58,7 @@ namespace Component
 		void SetOnHitHandler(std::function<void(const Collision&)> handler);
 		void OnHit(const Collision& collision) const;
 
-		void SetCircle(FPi8 radius);
+		void SetCircle(FPi16 radius);
 		inline const Circle& GetCircle() const {
 			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::Circle, "Shape is not a circle, it is %d", m_shapeType);
 			return m_shape.circle;
