@@ -57,7 +57,7 @@ void System::SpriteRenderer::Render(GameObject* camera)
 
 	entityManager->InvokeEach<Component::Transform, Component::SpriteRenderer>(
 		[&gfx, &drawParams, &orthographicCameraBounds]
-		(Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
+		(const Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
 
@@ -68,7 +68,7 @@ void System::SpriteRenderer::Render(GameObject* camera)
 			Vector2<FPi16> scale = transform.GetScale();
 			FPi16 rotation = transform.GetRotationDegrees();
 			
-			bool hasAffineTransformation = transform.HasAffineTransformation();
+			const bool hasAffineTransformation = rotation != 0 || (scale.x != 1 && scale.x != -1) || (scale.y != 1 && scale.y != -1);
 
 			// Frustum culling
 			{
@@ -90,7 +90,6 @@ void System::SpriteRenderer::Render(GameObject* camera)
 				scale,
 				rotation,
 				spriteRenderer.GetCenterToCornerSizeOffset(), 
-				hasAffineTransformation,
 				drawParams
 			);
 		});

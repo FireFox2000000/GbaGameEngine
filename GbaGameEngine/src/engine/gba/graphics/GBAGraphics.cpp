@@ -28,13 +28,13 @@ namespace GBA
 		, const Vector2<FPi16>& scale
 		, FPi16 rotationDegrees
 		, Vector2i anchorPoint
-		, bool hasAffineTransformation
 		, const DrawParams& drawParams
 	)
 	{
 		using namespace GBA::Gfx;
 		GBATEK::ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
+		const bool hasAffineTransformation = rotationDegrees != 0 || (scale.x != 1 && scale.x != -1) || (scale.y != 1 && scale.y != -1);
 		if (hasAffineTransformation)
 		{
 			constexpr FPi16 DegreesToRot(0xFFFF / 360.f);

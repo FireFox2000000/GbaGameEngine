@@ -51,7 +51,7 @@ public:
 		*this = that;
 	}
 
-	inline TIntergral GetStorage() const
+	constexpr inline TIntergral GetStorage() const
 	{
 		return m_storage;
 	}

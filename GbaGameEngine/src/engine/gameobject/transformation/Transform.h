@@ -7,13 +7,9 @@ namespace Component
 	struct Transform
 	{
 	private:
-		// Todo, replace with proper transformation matrix maybe
 		Vector2<FPi16> m_localPosition;
 		Vector2<FPi16> m_localScale = { 1, 1 };
 		FPi16 m_localRotationDegrees = 0;
-		bool m_hasAffineTrasformation = false;
-
-		void UpdateHasAffineTransformation();
 
 	public:
 		Vector2<FPi16> GetLocalPosition() const;
@@ -35,7 +31,5 @@ namespace Component
 
 		FPi16 GetRotationDegrees() const;
 		void SetRotationDegrees(FPi16 degrees);
-
-		bool HasAffineTransformation() const;
 	};
 }

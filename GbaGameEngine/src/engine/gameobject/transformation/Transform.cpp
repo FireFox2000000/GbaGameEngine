@@ -1,15 +1,5 @@
 #include "Transform.h"
 
-void Component::Transform::UpdateHasAffineTransformation()
-{
-	bool hasAffineTransformation = false;
-	hasAffineTransformation |= m_localRotationDegrees != 0;
-	hasAffineTransformation |= ((m_localScale.x >= 0) ? m_localScale.x : m_localScale.x * -1) != 1;
-	hasAffineTransformation |= ((m_localScale.y >= 0) ? m_localScale.y : m_localScale.y * -1) != 1;
-
-	m_hasAffineTrasformation = hasAffineTransformation;
-}
-
 Vector2<FPi16> Component::Transform::GetLocalPosition() const
 {
 	return m_localPosition;
@@ -38,7 +28,6 @@ Vector2<FPi16> Component::Transform::GetLocalScale() const
 void Component::Transform::SetLocalScale(Vector2<FPi16> scale)
 {
 	m_localScale = scale; 
-	UpdateHasAffineTransformation();
 }
 
 Vector2<FPi16> Component::Transform::GetScale() const
@@ -59,12 +48,4 @@ FPi16 Component::Transform::GetRotationDegrees() const
 void Component::Transform::SetRotationDegrees(FPi16 degrees)
 {
 	m_localRotationDegrees = degrees;
-
-	UpdateHasAffineTransformation();
 }
-
-bool Component::Transform::HasAffineTransformation() const
-{
-	return m_hasAffineTrasformation;
-}
-

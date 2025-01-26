@@ -115,7 +115,6 @@ void DebugRender::RenderColliders(const GameObject* camera)
 				scale,
 				rotation,
 				centerToCornerSizeOffset,
-				hasAffineTransformation,
 				drawParams
 			);
 		});

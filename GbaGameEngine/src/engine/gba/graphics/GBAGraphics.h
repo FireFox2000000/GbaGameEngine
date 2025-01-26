@@ -52,7 +52,6 @@ namespace GBA
 			, const Vector2 <FPi16>& scale
 			, FPi16 rotationDegrees
 			, Vector2i anchorPoint
-			, bool hasAffineTransformation
 			, const DrawParams& drawParams
 		);
 
