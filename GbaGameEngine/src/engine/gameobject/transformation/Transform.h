@@ -4,7 +4,7 @@
 
 namespace Component
 {
-	struct Transform
+	class Transform
 	{
 	private:
 		Vector2<FPi16> m_localPosition;
@@ -31,5 +31,12 @@ namespace Component
 
 		FPi16 GetRotationDegrees() const;
 		void SetRotationDegrees(FPi16 degrees);
+
+		// Math functions
+		template <typename T>
+		constexpr static bool HasAffineTransformation(const Vector2<T>& position, const Vector2<T>& scale, T rotationDegrees)
+		{
+			return rotationDegrees != 0 || (scale.x != 1 && scale.x != -1) || (scale.y != 1 && scale.y != -1);
+		}
 	};
 }

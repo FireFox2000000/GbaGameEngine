@@ -68,7 +68,7 @@ void System::SpriteRenderer::Render(GameObject* camera)
 			Vector2<FPi16> scale = transform.GetScale();
 			FPi16 rotation = transform.GetRotationDegrees();
 			
-			const bool hasAffineTransformation = rotation != 0 || (scale.x != 1 && scale.x != -1) || (scale.y != 1 && scale.y != -1);
+			const bool hasAffineTransformation = Component::Transform::HasAffineTransformation(position, scale, rotation);
 
 			// Frustum culling
 			{

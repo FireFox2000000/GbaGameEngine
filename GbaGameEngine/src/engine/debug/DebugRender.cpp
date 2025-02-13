@@ -91,7 +91,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 			default: return;	// Unhandled
 			}
 
-			bool hasAffineTransformation = true;
+			bool hasAffineTransformation = Component::Transform::HasAffineTransformation(position, scale, rotation);
 
 			// Frustum culling
 			{

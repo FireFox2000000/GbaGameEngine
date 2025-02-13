@@ -34,7 +34,7 @@ namespace GBA
 		using namespace GBA::Gfx;
 		GBATEK::ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
-		const bool hasAffineTransformation = rotationDegrees != 0 || (scale.x != 1 && scale.x != -1) || (scale.y != 1 && scale.y != -1);
+		const bool hasAffineTransformation = Component::Transform::HasAffineTransformation(position, scale, rotationDegrees);
 		if (hasAffineTransformation)
 		{
 			constexpr FPi16 DegreesToRot(0xFFFF / 360.f);
