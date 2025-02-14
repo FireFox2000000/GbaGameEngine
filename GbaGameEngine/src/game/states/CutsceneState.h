@@ -1,7 +1,7 @@
 #pragma once
 #include "engine/util/state/StateMachine.h"
 #include <functional>
-#include "game/scripts/util/CommandQueue.h"
+#include "game/util/CommandQueue.h"
 
 class CutsceneState : public StateMachine<>::IState
 {

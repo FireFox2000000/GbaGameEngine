@@ -5,9 +5,9 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/graphics/ui/UiRenderer.h"
 
-#include "game/scripts/gfx/GfxScreenFadeIn.h"
-#include "game/scripts/gfx/GfxScreenFadeOut.h"
-#include "game/scripts/util/CommandQueue.h"
+#include "game/gfx/GfxScreenFadeIn.h"
+#include "game/gfx/GfxScreenFadeOut.h"
+#include "game/util/CommandQueue.h"
 
 #include "engine/util/state/StateMachine.h"
 

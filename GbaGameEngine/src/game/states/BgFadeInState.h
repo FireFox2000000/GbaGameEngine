@@ -1,9 +1,7 @@
 #pragma once
 #include "engine/util/state/StateMachine.h"
 #include <functional>
-#include "game/scripts/gfx/GfxScreenFadeIn.h"
-
-class Engine;
+#include "game/gfx/GfxScreenFadeIn.h"
 
 class BgFadeInState : public StateMachine<>::IState
 {

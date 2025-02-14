@@ -18,7 +18,7 @@
 #include "engine/transform/ScreenTransform.h"
 #include "engine/graphics/ui/TextRenderer.h"
 
-#include "game/scripts/PlayerMovement.h"
+#include "game/gameplay/PlayerMovement.h"
 #include "game/input/Input.h"
 
 const int totalTestSprites = 1;

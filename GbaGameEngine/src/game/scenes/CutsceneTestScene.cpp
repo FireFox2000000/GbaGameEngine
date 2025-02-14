@@ -7,10 +7,10 @@
 #include "engine/scene/SceneManager.h"
 
 #include "game/scenes/LevelSelectorScene.h"
-#include "game/scripts/states/BgFadeInState.h"
-#include "game/scripts/states/BgFadeOutState.h"
-#include "game/scripts/states/DialogueState.h"
-#include "game/scripts/states/CutsceneState.h"
+#include "game/states/BgFadeInState.h"
+#include "game/states/BgFadeOutState.h"
+#include "game/states/DialogueState.h"
+#include "game/states/CutsceneState.h"
 
 #include "game/data/Tilemaps/UiAtlas.h"
 

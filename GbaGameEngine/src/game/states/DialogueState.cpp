@@ -2,7 +2,7 @@
 #include "game/input/Input.h"
 #include "engine/engine/engine.h"
 #include "engine/graphics/ui/UiRenderer.h"
-#include "game/scripts/util/CommandQueue.h"
+#include "game/util/CommandQueue.h"
 
 const int CharactersPerRow = 26;
 const char DialogueBoxStepFlag = '`';
