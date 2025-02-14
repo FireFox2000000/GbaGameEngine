@@ -41,9 +41,9 @@ Vector2i Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
 
 void System::SpriteRenderer::Render(GameObject* camera)
 {
-	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
+	const Camera* cameraComponent = camera->GetComponent<Camera>();
 
-	if (cameraComponent->GetProjection() != Projection::Orthographic)
+	if (cameraComponent->GetProjection() != Camera::Projection::Orthographic)
 		return;		// Unhandled, todo
 
 

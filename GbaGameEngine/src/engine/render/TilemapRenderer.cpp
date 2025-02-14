@@ -50,9 +50,9 @@ bool Component::TilemapRenderer::GetVisible() const
 
 void System::TilemapRenderer::VBlankRender(GameObject* camera)
 {
-	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
+	const Camera* cameraComponent = camera->GetComponent<Camera>();
 
-	if (cameraComponent->GetProjection() != Projection::Orthographic)
+	if (cameraComponent->GetProjection() != Camera::Projection::Orthographic)
 		return;		// Unhandled, todo
 
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();

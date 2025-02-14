@@ -1,29 +1,25 @@
 #pragma once
 #include "engine/math/geometry/AxisAlignedBoundingBox.h"
 
-namespace Projection
+// Represents what we want to see in our world. 
+// Currently only supports Orthographic display modes.
+class Camera
 {
-	enum Enum
+public:
+	enum class Projection
 	{
 		Orthographic
 	};
-}
 
-namespace Component
-{
-	// Represents what we want to see in our world. 
-	// Currently only supports Orthographic display modes.
-	class Camera
-	{
-		Projection::Enum m_projectionType;
+private:
+	Projection m_projectionType;
 
-	public:
-		Camera();
-		~Camera();
+public:
+	Camera();
+	~Camera();
 
-		Projection::Enum GetProjection() const;
-		void SetProjection(Projection::Enum projection);
+	Projection GetProjection() const;
+	void SetProjection(Projection projection);
 
-		AxisAlignedBoundingBox2 GetOrthoBounds() const;
-	};
-}
+	AxisAlignedBoundingBox2 GetOrthoBounds() const;
+};

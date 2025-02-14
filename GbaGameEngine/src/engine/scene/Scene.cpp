@@ -14,7 +14,7 @@
 Scene::Scene()
 	: m_mainCamera()
 {
-	m_mainCamera.AddComponent<Component::Camera>();
+	m_mainCamera.AddComponent<Camera>();
 }
 
 Scene::~Scene()

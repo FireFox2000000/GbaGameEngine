@@ -27,9 +27,9 @@ void DebugRender::RenderColliders(const GameObject* camera)
 	// CHange this if the size of the debug primitives change as well. 
 	constexpr float SpriteScaleTo1x1 = 1.f / 4.f;
 
-	const Component::Camera* cameraComponent = camera->GetComponent<Component::Camera>();
+	const Camera* cameraComponent = camera->GetComponent<Camera>();
 
-	if (cameraComponent->GetProjection() != Projection::Orthographic)
+	if (cameraComponent->GetProjection() != Camera::Projection::Orthographic)
 		return;		// Unhandled, todo
 
 

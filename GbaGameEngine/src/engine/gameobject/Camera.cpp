@@ -2,27 +2,26 @@
 #include "engine/gba/graphics/tiles/GBATile.h"
 #include "engine/screen/Screen.h"
 
-Component::Camera::Camera()
+Camera::Camera()
 	: m_projectionType(Projection::Orthographic)
 {
 }
 
-
-Component::Camera::~Camera()
+Camera::~Camera()
 {
 }
 
-Projection::Enum Component::Camera::GetProjection() const
+Camera::Projection Camera::GetProjection() const
 {
 	return m_projectionType;
 }
 
-void Component::Camera::SetProjection(Projection::Enum projection)
+void Camera::SetProjection(Projection projection)
 {
 	m_projectionType = projection;
 }
 
-AxisAlignedBoundingBox2 Component::Camera::GetOrthoBounds() const
+AxisAlignedBoundingBox2 Camera::GetOrthoBounds() const
 {
 	const Vector2<FPi16> screenSpaceOffset = Vector2<FPi16>(Screen::GetResolution() / 2);
 	const Vector2<FPi16> worldSpaceOffset = screenSpaceOffset / GBA::Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
