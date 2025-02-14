@@ -2,14 +2,8 @@
 #include "engine/base/core/stl/FixedPoint.h"
 #include "engine/math/Vector2.h"
 
-namespace Component
+struct ScreenTransform
 {
-	namespace UI
-	{
-		struct ScreenTransform
-		{
-			Vector2<FPi16> position;
-			Vector2<FPi16> scale{ 1, 1 };
-		};
-	}
-}
+	Vector2<FPi16> position;
+	Vector2<FPi16> scale{ 1, 1 };
+};

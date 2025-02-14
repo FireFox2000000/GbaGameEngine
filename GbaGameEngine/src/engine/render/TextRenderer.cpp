@@ -10,9 +10,9 @@ void System::UI::TextRenderer::Render()
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 	Graphics* graphics = Engine::GetInstance().GetComponent<Graphics>();
 
-	entityManager->InvokeEach<Component::UI::ScreenTransform, Component::UI::Text>(
+	entityManager->InvokeEach<ScreenTransform, Component::UI::Text>(
 		[&graphics]
-	(Component::UI::ScreenTransform& transform, Component::UI::Text& textRenderer)
+	(ScreenTransform& transform, Component::UI::Text& textRenderer)
 		{
 			if (!textRenderer.m_font)
 				return;

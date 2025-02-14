@@ -119,7 +119,7 @@ void Scene0::Enter()
 			GameObject* testTextObject = m_gameObjects.AddNew();
 			testTextObject->RemoveComponent<Transform2>();
 
-			auto& screenTransform = testTextObject->AddComponent<Component::UI::ScreenTransform>();
+			auto& screenTransform = testTextObject->AddComponent<ScreenTransform>();
 			screenTransform.position.x = 0;
 			screenTransform.position.y = 0;
 
