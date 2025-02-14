@@ -5,9 +5,9 @@ Collider::Shape::Shape(const Shape& that)
 	*this = that;
 };
 
-ColliderShapeType::Enum Collider::GetShapeType() const
+ColliderShapeType Collider::GetShapeType() const
 {
-	return (ColliderShapeType::Enum)m_shapeType;
+	return m_shapeType;
 }
 
 int Collider::GetCollisionMask() const

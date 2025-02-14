@@ -198,7 +198,7 @@ using HasCollisionFn = bool (*)(
 	, const Collider& colB
 	, Collision* out_collisionMaybe);
 
-static const HasCollisionFn hasCollisionFns[ColliderShapeType::Count * ColliderShapeType::Count] =
+static const HasCollisionFn hasCollisionFns[static_cast<int>(ColliderShapeType::Count) * static_cast<int>(ColliderShapeType::Count)] =
 {
 					/* AABB */					/* Circle */
 	/* AABB */		HasCollisionAABBvsAABB,		HasCollisionAABBvsCircle,
@@ -212,6 +212,6 @@ bool CollisionFunctions::HasCollision(
 	, const Collider& colB
 	, Collision* out_collisionMaybe)
 {
-	HasCollisionFn fn = hasCollisionFns[colA.GetShapeType() * ColliderShapeType::Count + colB.GetShapeType()];
+	HasCollisionFn fn = hasCollisionFns[static_cast<int>(colA.GetShapeType()) * static_cast<int>(ColliderShapeType::Count) + static_cast<int>(colB.GetShapeType())];
 	return fn ? fn(transformA, colA, transformB, colB, out_collisionMaybe) : false;
 }

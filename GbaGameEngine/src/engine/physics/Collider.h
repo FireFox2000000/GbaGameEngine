@@ -14,16 +14,13 @@ struct Collision;
 // 3. Add getters and setters
 // 4. Add collision functions or nullptr to CollisionFunctions.cpp hasCollisionFns array
 
-namespace ColliderShapeType
+enum class ColliderShapeType
 {
-	enum Enum
-	{
-		AABB,
-		Circle,
+	AABB,
+	Circle,
 	
-		Count
-	};
-}
+	Count
+};
 
 class Collider
 {
@@ -38,14 +35,14 @@ private:
 	};
 
 	Shape m_shape;
-	ColliderShapeType::Enum m_shapeType = ColliderShapeType::Count;
+	ColliderShapeType m_shapeType = ColliderShapeType::Count;
 
 	bool m_isTrigger = false;		// If set to true, objects will be allowed to pass through this collider. Otherwise a physical object. 
 	int m_collisionMask = ~0;
 	std::function<void(const Collision&)> m_onHitHandler = nullptr;
 
 public:
-	ColliderShapeType::Enum GetShapeType() const;
+	ColliderShapeType GetShapeType() const;
 	int GetCollisionMask() const;
 	void SetCollisionMask(int mask);
 
