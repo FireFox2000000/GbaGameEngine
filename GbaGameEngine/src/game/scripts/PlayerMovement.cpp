@@ -60,7 +60,7 @@ void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2i& 
 	transform.SetPosition(position);
 
 #else			// Physics-based movement
-	auto& rigidbody = *playerObject.EditComponent<Component::Rigidbody>();
+	auto& rigidbody = *playerObject.EditComponent<Rigidbody>();
 
 	Input::InputManager* inputManager = Engine::GetInstance().GetComponent<Input::InputManager>();
 	const auto& devices = inputManager->GetDevices();

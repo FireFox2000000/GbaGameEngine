@@ -145,7 +145,7 @@ void Scene0::Enter()
 		Component::SpriteAnimator& animator = m_playerObject.AddComponent<Component::SpriteAnimator>();
 		animator.SetAnimation(m_shantaeIdleAnim);
 
-		Component::Rigidbody& rigidbody = m_playerObject.AddComponent<Component::Rigidbody>();
+		Rigidbody& rigidbody = m_playerObject.AddComponent<Rigidbody>();
 		rigidbody.gravity = { 0, -30 };
 
 		Component::PlayerMovement& playerMovement = m_playerObject.AddComponent<Component::PlayerMovement>();

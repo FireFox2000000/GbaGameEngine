@@ -37,9 +37,9 @@ void System::Physics::UpdateTransforms()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
-	entityManager->InvokeEach<Transform2, Component::Rigidbody>(
+	entityManager->InvokeEach<Transform2, Rigidbody>(
 		[]
-	(Transform2& transform, Component::Rigidbody& rigidbody)
+	(Transform2& transform, Rigidbody& rigidbody)
 		{			
 			// Add any impulses
 
@@ -67,9 +67,9 @@ void System::Physics::ResolveCollisions()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
-	entityManager->InvokeEach<Transform2, Component::Rigidbody, Collider>(
+	entityManager->InvokeEach<Transform2, Rigidbody, Collider>(
 		[&entityManager]
-	(ECS::Entity entityA, Transform2& transformA, Component::Rigidbody& rigidbodyA, Collider& colliderA)
+	(ECS::Entity entityA, Transform2& transformA, Rigidbody& rigidbodyA, Collider& colliderA)
 		{
 			// Collide against static objects, dynamic objects will be more... todo
 			entityManager->InvokeEach<Transform2, Collider>(
