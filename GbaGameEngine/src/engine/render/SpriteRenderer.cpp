@@ -35,7 +35,7 @@ Vector2i Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "engine/gameobject/Camera.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/engine/engine.h"
 #include "engine/math/geometry/AxisAlignedBoundingBox.h"
 
@@ -55,9 +55,9 @@ void System::SpriteRenderer::Render(GameObject* camera)
 	AxisAlignedBoundingBox2 orthographicCameraBounds = cameraComponent->GetOrthoBounds();
 	orthographicCameraBounds.Translate(drawParams.cameraPosition);
 
-	entityManager->InvokeEach<Component::Transform, Component::SpriteRenderer>(
+	entityManager->InvokeEach<Transform2, Component::SpriteRenderer>(
 		[&gfx, &drawParams, &orthographicCameraBounds]
-		(const Component::Transform& transform, Component::SpriteRenderer& spriteRenderer)
+		(const Transform2& transform, Component::SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
 
@@ -68,7 +68,7 @@ void System::SpriteRenderer::Render(GameObject* camera)
 			Vector2<FPi16> scale = transform.GetScale();
 			FPi16 rotation = transform.GetRotationDegrees();
 			
-			const bool hasAffineTransformation = Component::Transform::HasAffineTransformation(position, scale, rotation);
+			const bool hasAffineTransformation = Transform2::HasAffineTransformation(position, scale, rotation);
 
 			// Frustum culling
 			{

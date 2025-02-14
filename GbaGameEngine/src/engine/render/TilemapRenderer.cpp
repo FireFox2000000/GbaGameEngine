@@ -43,7 +43,7 @@ bool Component::TilemapRenderer::GetVisible() const
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "engine/gameobject/Camera.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
 #include "gbatek/DisplayControl.h"
@@ -61,9 +61,9 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 
-	entityManager->InvokeEach<Component::Transform, Component::TilemapRenderer>(
+	entityManager->InvokeEach<Transform2, Component::TilemapRenderer>(
 		[&drawParams, &gfx]
-	(Component::Transform& transform, Component::TilemapRenderer& tilemapRenderer)
+	(Transform2& transform, Component::TilemapRenderer& tilemapRenderer)
 		{
 			Tilemap* tilemap = tilemapRenderer.GetTilemap();
 

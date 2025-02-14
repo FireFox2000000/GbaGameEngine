@@ -1,7 +1,7 @@
 #include "GBAGraphics.h"
 #include "engine/screen/Screen.h"
 #include "engine/gameobject/GameObject.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/gba/config/GBADrawPriorityID.h"
 #include "gbatek/ObjectAttributeMemory.h"
 
@@ -13,7 +13,7 @@ namespace GBA
 	{
 		Graphics::DrawParams drawParams;
 
-		drawParams.cameraPosition = camera->GetComponent<Component::Transform>()->GetPosition();
+		drawParams.cameraPosition = camera->GetComponent<Transform2>()->GetPosition();
 		drawParams.screenSpaceOffset = Vector2<FPi16>{ Screen::GetResolution() / 2 };
 
 		Vector2i screenSizeInTiles = Screen::GetResolution() / Gfx::Tile::PIXELS_SQRROOT_PER_TILE;
@@ -34,7 +34,7 @@ namespace GBA
 		using namespace GBA::Gfx;
 		GBATEK::ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
-		const bool hasAffineTransformation = Component::Transform::HasAffineTransformation(position, scale, rotationDegrees);
+		const bool hasAffineTransformation = Transform2::HasAffineTransformation(position, scale, rotationDegrees);
 		if (hasAffineTransformation)
 		{
 			constexpr FPi16 DegreesToRot(0xFFFF / 360.f);

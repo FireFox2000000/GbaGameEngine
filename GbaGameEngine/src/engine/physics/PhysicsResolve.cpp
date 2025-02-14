@@ -3,7 +3,7 @@
 #include "engine/math/Math.h"
 #include "engine/math/VectorMath.h"
 #include "engine/engine/engine.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/physics/Rigidbody.h"
 #include "engine/physics/Collider.h"
 #include "engine/physics/Collision.h"
@@ -37,9 +37,9 @@ void System::Physics::UpdateTransforms()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
-	entityManager->InvokeEach<Component::Transform, Component::Rigidbody>(
+	entityManager->InvokeEach<Transform2, Component::Rigidbody>(
 		[]
-	(Component::Transform& transform, Component::Rigidbody& rigidbody)
+	(Transform2& transform, Component::Rigidbody& rigidbody)
 		{			
 			// Add any impulses
 
@@ -67,14 +67,14 @@ void System::Physics::ResolveCollisions()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
-	entityManager->InvokeEach<Component::Transform, Component::Rigidbody, Component::Collider>(
+	entityManager->InvokeEach<Transform2, Component::Rigidbody, Component::Collider>(
 		[&entityManager]
-	(ECS::Entity entityA, Component::Transform& transformA, Component::Rigidbody& rigidbodyA, Component::Collider& colliderA)
+	(ECS::Entity entityA, Transform2& transformA, Component::Rigidbody& rigidbodyA, Component::Collider& colliderA)
 		{
 			// Collide against static objects, dynamic objects will be more... todo
-			entityManager->InvokeEach<Component::Transform, Component::Collider>(
+			entityManager->InvokeEach<Transform2, Component::Collider>(
 				[&]
-			(ECS::Entity entityB, Component::Transform& transformB,  Component::Collider& colliderB)
+			(ECS::Entity entityB, Transform2& transformB,  Component::Collider& colliderB)
 				{
 					if (entityA == entityB) return;
 					if (!(colliderA.GetCollisionMask() & colliderB.GetCollisionMask())) return;

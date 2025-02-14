@@ -1,14 +1,14 @@
 #include "CollisionFunctions.h"
 #include "Collider.h"
 #include "Collision.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/math/VectorMath.h"
 
 // Helpful resources for future self:
 // https://noonat.github.io/intersect/
 // https://www.gamasutra.com/view/feature/3383/simple_intersection_tests_for_games.php?print=1
 
-inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform& transformA, AxisAlignedBoundingBox2 aabb)
+inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Transform2& transformA, AxisAlignedBoundingBox2 aabb)
 {
 	// TODO, maybe AABB should only adjust by position? And use OBB instead when doing these kinds of transforms? Depends on the game I guess. 
 	// AABB with scale transformations applies would be cheaper than full OBB checks
@@ -36,9 +36,9 @@ inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Component::Transform&
 /********************************************************************************************************/
 
 bool HasCollisionAABBvsAABB(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, AxisAlignedBoundingBox2 colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, AxisAlignedBoundingBox2 colB
 	, Collision* out_collisionMaybe)
 {
@@ -104,7 +104,7 @@ bool HasCollisionCirclevsCircle(
 }
 
 bool HasCollisionAABBvsCircle(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, AxisAlignedBoundingBox2 colA
 	, const Vector2<FPi16>& positionB
 	, Circle colB
@@ -141,9 +141,9 @@ bool HasCollisionAABBvsCircle(
 }
 
 bool HasCollisionAABBvsAABB(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, const Component::Collider& colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, const Component::Collider& colB
 	, Collision* out_collisionMaybe)
 {
@@ -153,9 +153,9 @@ bool HasCollisionAABBvsAABB(
 /********************************************************************************************************/
 
 bool HasCollisionCirclevsCircle(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, const Component::Collider& colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, const Component::Collider& colB
 	, Collision* out_collisionMaybe)
 {
@@ -163,9 +163,9 @@ bool HasCollisionCirclevsCircle(
 }
 
 bool HasCollisionAABBvsCircle(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, const Component::Collider& colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, const Component::Collider& colB
 	, Collision* out_collisionMaybe)
 {
@@ -173,9 +173,9 @@ bool HasCollisionAABBvsCircle(
 }
 
 bool HasCollisionCirclevsAABB(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, const Component::Collider& colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, const Component::Collider& colB
 	, Collision* out_collisionMaybe)
 {
@@ -192,9 +192,9 @@ bool HasCollisionCirclevsAABB(
 /********************************************************************************************************/
 
 using HasCollisionFn = bool (*)(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, const Component::Collider& colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, const Component::Collider& colB
 	, Collision* out_collisionMaybe);
 
@@ -206,9 +206,9 @@ static const HasCollisionFn hasCollisionFns[ColliderShapeType::Count * ColliderS
 };
 
 bool CollisionFunctions::HasCollision(
-	const Component::Transform& transformA
+	const Transform2& transformA
 	, const Component::Collider& colA
-	, const Component::Transform& transformB
+	, const Transform2& transformB
 	, const Component::Collider& colB
 	, Collision* out_collisionMaybe)
 {

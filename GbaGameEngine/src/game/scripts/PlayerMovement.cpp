@@ -1,7 +1,7 @@
 #include "PlayerMovement.h"
 #include "engine/engine/engine.h"
 #include "engine/gameobject/GameObject.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/time/Time.h"
 #include "game/input/Input.h"
 #include "engine/physics/Rigidbody.h"
@@ -45,7 +45,7 @@ void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2i& 
 {
 	const auto& playerMovement = *playerObject.GetComponent<Component::PlayerMovement>();
 
-	auto& transform = *playerObject.EditComponent<Component::Transform>();
+	auto& transform = *playerObject.EditComponent<Transform2>();
 
 #if false		// Transform-based movement
 	const Time* time = engine->GetComponent<Time>();

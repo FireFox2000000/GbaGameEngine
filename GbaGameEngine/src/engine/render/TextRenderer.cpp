@@ -1,7 +1,7 @@
 #include "TextRenderer.h"
 #include "engine/engine/engine.h"
-#include "engine/gameobject/ui/Text.h"
-#include "engine/gameobject/ui/ScreenTransform.h"
+#include "engine/transform/ui/Text.h"
+#include "engine/transform/ScreenTransform.h"
 #include "engine/screen/Screen.h"
 #include "engine/graphics/Graphics.h"
 

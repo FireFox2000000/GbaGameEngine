@@ -177,7 +177,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\game\input\Input.cpp" />
     <ClCompile Include="src\engine\input\InputManager.cpp" />
     <ClCompile Include="src\engine\io\filestream\MemoryMappedFileStream.cpp" />
-    <ClCompile Include="src\engine\gameobject\transformation\Transform.cpp" />
+    <ClCompile Include="src\engine\transform\Transform2.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
@@ -369,7 +369,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\external\entt\signal\sigh.hpp" />
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
-    <ClInclude Include="src\engine\gameobject\ui\Text.h" />
+    <ClInclude Include="src\engine\transform\ui\Text.h" />
     <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.h" />
@@ -381,7 +381,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\external\tonc\memory\tonccpy.h" />
     <ClInclude Include="src\external\tonc\include\tonc_asminc.h" />
     <ClInclude Include="src\external\tonc\include\tonc_nocash.h" />
-    <ClInclude Include="src\engine\gameobject\transformation\Transform.h" />
+    <ClInclude Include="src\engine\transform\Transform2.h" />
     <ClInclude Include="src\engine\gba\registers\RegisterMap.h" />
     <ClInclude Include="src\external\tonc\memory\toncset.h" />
     <ClInclude Include="src\engine\graphics\font\FontLookupFunctions.h" />
@@ -395,7 +395,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\render\TextRenderer.h" />
     <ClInclude Include="src\engine\render\TilemapRenderer.h" />
     <ClInclude Include="src\engine\time\Time.h" />
-    <ClInclude Include="src\engine\gameobject\ui\ScreenTransform.h" />
+    <ClInclude Include="src\engine\transform\ScreenTransform.h" />
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\util\state\StateMachine.h" />
     <ClInclude Include="src\game\data\FileRegistry.h" />

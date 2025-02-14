@@ -1,7 +1,7 @@
 #include "TilemapTestScene.h"
 #include "engine/engine/engine.h"
 #include "engine/render/TilemapRenderer.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/gameobject/Camera.h"
 #include "engine/asset/AssetLoadFunctions.h"
 #include "engine/graphics/Graphics.h"
@@ -89,7 +89,7 @@ void TilemapTestScene::Enter()
 	tilemapRenderer.SetTilemap(tilemap);
 	tilemapRenderer.SetVisible(true);
 
-	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
+	Transform2* transform = m_mainCamera.EditComponent<Transform2>();
 	transform->SetPosition(-17 + 20, 6);
 
 	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
@@ -140,7 +140,7 @@ void TilemapTestScene::Update()
 	const Time* time = Engine::GetInstance().GetComponent<Time>();
 	FPi24 dt = time->GetDt();
 
-	Component::Transform* transform = m_mainCamera.EditComponent<Component::Transform>();
+	Transform2* transform = m_mainCamera.EditComponent<Transform2>();
 	
 	auto position = transform->GetPosition();
 

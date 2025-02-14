@@ -4,7 +4,7 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/graphics/Graphics.h"
 #include "engine/screen/Screen.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/physics/Collider.h"
 #include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
 #include "engine/gba/graphics/sprite/GBASpriteNode.h"
@@ -41,9 +41,9 @@ void DebugRender::RenderColliders(const GameObject* camera)
 	AxisAlignedBoundingBox2 orthographicCameraBounds = cameraComponent->GetOrthoBounds();
 	orthographicCameraBounds.Translate(drawParams.cameraPosition);
 
-	entityManager->InvokeEach<Component::Transform, Component::Collider>(
+	entityManager->InvokeEach<Transform2, Component::Collider>(
 		[this, &gfx, &drawParams, &orthographicCameraBounds]
-	(Component::Transform& transform, Component::Collider& collider)
+	(Transform2& transform, Component::Collider& collider)
 		{
 			GBA::Gfx::Sprite* sprite = nullptr;
 
@@ -91,7 +91,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 			default: return;	// Unhandled
 			}
 
-			bool hasAffineTransformation = Component::Transform::HasAffineTransformation(position, scale, rotation);
+			bool hasAffineTransformation = Transform2::HasAffineTransformation(position, scale, rotation);
 
 			// Frustum culling
 			{

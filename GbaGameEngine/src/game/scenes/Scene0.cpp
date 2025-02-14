@@ -5,7 +5,7 @@
 #include "engine/render/SpriteRenderer.h"
 #include "engine/asset/AnimationFactory.h"
 #include "engine/animation/SpriteAnimator.h"
-#include "engine/gameobject/transformation/Transform.h"
+#include "engine/transform/Transform2.h"
 #include "engine/physics/Collider.h"
 #include "engine/physics/CollisionFunctions.h"
 #include "engine/io/FileSystem.h"
@@ -15,8 +15,8 @@
 #include "engine/scene/SceneManager.h"
 #include "game/scenes/LevelSelectorScene.h"
 
-#include "engine/gameobject/ui/ScreenTransform.h"
-#include "engine/gameobject/ui/Text.h"
+#include "engine/transform/ScreenTransform.h"
+#include "engine/transform/ui/Text.h"
 
 #include "game/scripts/PlayerMovement.h"
 #include "game/input/Input.h"
@@ -61,7 +61,7 @@ void Scene0::Enter()
 		if (frame == (int)m_shantaeIdleAnim->keyFrames.Count() - 1)
 		{
 			auto* entityManager = Engine::GetInstance().GetEntityRegistry();
-			Component::Transform* transform = entityManager->EditComponent<Component::Transform>(entity);
+			Transform2* transform = entityManager->EditComponent<Transform2>(entity);
 			auto scale = transform->GetLocalScale();
 			scale.x *= -1;
 			transform->SetLocalScale(scale);
@@ -79,7 +79,7 @@ void Scene0::Enter()
 		{
 			GameObject* testBackgroundObject = m_gameObjects.AddNew();
 
-			Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
+			Transform2* transform = testBackgroundObject->EditComponent<Transform2>();
 			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 
 			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
@@ -92,7 +92,7 @@ void Scene0::Enter()
 		*/
 		{
 			m_textObjectCollision = m_gameObjects.AddNew();
-			Component::Transform* transform = m_textObjectCollision->EditComponent<Component::Transform>();
+			Transform2* transform = m_textObjectCollision->EditComponent<Transform2>();
 			transform->SetPosition(0, -3);
 		
 			Component::SpriteRenderer& testBackgroundRenderer = m_textObjectCollision->AddComponent<Component::SpriteRenderer>();
@@ -117,7 +117,7 @@ void Scene0::Enter()
 
 		{
 			GameObject* testTextObject = m_gameObjects.AddNew();
-			testTextObject->RemoveComponent<Component::Transform>();
+			testTextObject->RemoveComponent<Transform2>();
 
 			auto& screenTransform = testTextObject->AddComponent<Component::UI::ScreenTransform>();
 			screenTransform.position.x = 0;
@@ -152,7 +152,7 @@ void Scene0::Enter()
 		playerMovement.moveSpeed = 8.0f;
 		playerMovement.jumpInitVel = 22.0f;
 
-		Component::Transform* transform = m_playerObject.EditComponent<Component::Transform>();
+		Transform2* transform = m_playerObject.EditComponent<Transform2>();
 		transform->SetPosition(0, 5);
 		//transform->SetScale(1, 1);
 		//transform->SetRotationDegrees(180);
@@ -177,7 +177,7 @@ void Scene0::Update()
 		// Create a new one
 		GameObject* testBackgroundObject = m_gameObjects.AddNew();
 	
-		Component::Transform* transform = testBackgroundObject->EditComponent<Component::Transform>();
+		Transform2* transform = testBackgroundObject->EditComponent<Transform2>();
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
 		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
@@ -190,13 +190,13 @@ void Scene0::Update()
 
 	if (m_textObject && true)
 	{
-		const auto* playerTransform = m_playerObject.GetComponent<Component::Transform>();
+		const auto* playerTransform = m_playerObject.GetComponent<Transform2>();
 		auto* textComponent = m_textObject->EditComponent<Component::UI::Text>();
 
 		{
 			const Component::Collider* playerCollider = m_playerObject.GetComponent<Component::Collider>();
 
-			const auto* letterTransform = m_textObjectCollision->GetComponent<Component::Transform>();
+			const auto* letterTransform = m_textObjectCollision->GetComponent<Transform2>();
 			const Component::Collider* letterCollider = m_textObjectCollision->GetComponent<Component::Collider>();
 
 			Collision collision;
