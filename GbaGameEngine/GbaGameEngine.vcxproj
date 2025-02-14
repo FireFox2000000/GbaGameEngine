@@ -368,7 +368,6 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\external\entt\signal\sigh.hpp" />
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
-    <ClInclude Include="src\engine\transform\ui\Text.h" />
     <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.h" />

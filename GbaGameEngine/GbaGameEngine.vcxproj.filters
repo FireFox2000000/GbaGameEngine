@@ -94,7 +94,6 @@
     <ClInclude Include="src\engine\base\ecs\EntityComponentManager.h" />
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
-    <ClInclude Include="src\engine\transform\ui\Text.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVramAllocator.h" />
     <ClInclude Include="src\engine\gba\config\GBATimerId.h" />
     <ClInclude Include="src\engine\transform\Transform2.h" />

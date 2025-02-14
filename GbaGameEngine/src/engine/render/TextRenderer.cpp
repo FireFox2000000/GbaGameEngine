@@ -1,18 +1,18 @@
 #include "TextRenderer.h"
 #include "engine/engine/engine.h"
-#include "engine/transform/ui/Text.h"
 #include "engine/transform/ScreenTransform.h"
 #include "engine/screen/Screen.h"
 #include "engine/graphics/Graphics.h"
+#include "engine/graphics/font/Font.h"
 
 void System::UI::TextRenderer::Render()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 	Graphics* graphics = Engine::GetInstance().GetComponent<Graphics>();
 
-	entityManager->InvokeEach<ScreenTransform, Component::UI::Text>(
+	entityManager->InvokeEach<ScreenTransform, Component::UI::TextRenderer>(
 		[&graphics]
-	(ScreenTransform& transform, Component::UI::Text& textRenderer)
+	(ScreenTransform& transform, Component::UI::TextRenderer& textRenderer)
 		{
 			if (!textRenderer.m_font)
 				return;

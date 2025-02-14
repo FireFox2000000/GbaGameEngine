@@ -16,7 +16,7 @@
 #include "game/scenes/LevelSelectorScene.h"
 
 #include "engine/transform/ScreenTransform.h"
-#include "engine/transform/ui/Text.h"
+#include "engine/render/TextRenderer.h"
 
 #include "game/scripts/PlayerMovement.h"
 #include "game/input/Input.h"
@@ -123,7 +123,7 @@ void Scene0::Enter()
 			screenTransform.position.x = 0;
 			screenTransform.position.y = 0;
 
-			auto& textComponent = testTextObject->AddComponent<Component::UI::Text>();
+			auto& textComponent = testTextObject->AddComponent<Component::UI::TextRenderer>();
 			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8_bold);
 			textComponent.m_str = std::string("789 ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
 
@@ -191,7 +191,7 @@ void Scene0::Update()
 	if (m_textObject && true)
 	{
 		const auto* playerTransform = m_playerObject.GetComponent<Transform2>();
-		auto* textComponent = m_textObject->EditComponent<Component::UI::Text>();
+		auto* textComponent = m_textObject->EditComponent<Component::UI::TextRenderer>();
 
 		{
 			const Collider* playerCollider = m_playerObject.GetComponent<Collider>();
