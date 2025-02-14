@@ -426,7 +426,6 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\gameobject\GameObject.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h" />
     <ClInclude Include="src\engine\math\Math.h" />
-    <ClInclude Include="src\engine\base\core\Nullptr.h" />
     <ClInclude Include="src\engine\base\core\stl\Array.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBAPaletteBank.h" />
     <ClInclude Include="src\engine\base\colour\Colour.h" />
