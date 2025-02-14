@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "engine/engine/engine.h"
 
-#include "engine/render/SpriteRenderer.h"
+#include "engine/graphics/sprite/SpriteRenderer.h"
 #include "engine/animation/AnimationFactory.h"
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/transform/Transform2.h"
@@ -16,7 +16,7 @@
 #include "game/scenes/LevelSelectorScene.h"
 
 #include "engine/transform/ScreenTransform.h"
-#include "engine/render/TextRenderer.h"
+#include "engine/graphics/ui/TextRenderer.h"
 
 #include "game/scripts/PlayerMovement.h"
 #include "game/input/Input.h"

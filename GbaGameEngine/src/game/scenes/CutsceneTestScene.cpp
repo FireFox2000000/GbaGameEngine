@@ -3,7 +3,7 @@
 #include "engine/graphics/Graphics.h"
 #include "engine/graphics/GraphicsSetup.h"
 #include "engine/io/FileSystem.h"
-#include "engine/render/TilemapRenderer.h"
+#include "engine/graphics/tilemap/TilemapRenderer.h"
 #include "engine/scene/SceneManager.h"
 
 #include "game/scenes/LevelSelectorScene.h"

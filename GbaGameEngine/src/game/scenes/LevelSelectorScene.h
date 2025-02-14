@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/scene/Scene.h"
-#include "engine/render/UiRenderer.h"
+#include "engine/graphics/ui/UiRenderer.h"
 #include "game/scripts/util/CommandQueue.h"
 
 class LevelSelectorScene : public Scene

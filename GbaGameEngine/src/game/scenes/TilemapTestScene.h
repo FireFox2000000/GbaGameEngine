@@ -3,7 +3,7 @@
 #include "engine/scene/Scene.h"
 #include "engine/math/Vector2.h"
 #include "engine/base/core/stl/FixedPoint.h"
-#include "engine/render/UiRenderer.h"
+#include "engine/graphics/ui/UiRenderer.h"
 
 #include "game/scripts/gfx/GfxScreenFadeIn.h"
 #include "game/scripts/gfx/GfxScreenFadeOut.h"

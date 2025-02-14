@@ -82,6 +82,10 @@
     <ClCompile Include="src\game\scripts\states\BgFadeInState.cpp" />
     <ClCompile Include="src\game\scripts\states\CutsceneState.cpp" />
     <ClCompile Include="src\engine\debug\Profiler.cpp" />
+    <ClCompile Include="src\engine\graphics\sprite\SpriteRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\ui\TextRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\tilemap\TilemapRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\ui\UiRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -296,6 +300,10 @@
     <ClInclude Include="src\external\entt\poly\poly.hpp" />
     <ClInclude Include="src\external\entt\process\fwd.hpp" />
     <ClInclude Include="src\engine\base\core\stl\Span.h" />
+    <ClInclude Include="src\engine\graphics\ui\UiRenderer.h" />
+    <ClInclude Include="src\engine\graphics\sprite\SpriteRenderer.h" />
+    <ClInclude Include="src\engine\graphics\ui\TextRenderer.h" />
+    <ClInclude Include="src\engine\graphics\tilemap\TilemapRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

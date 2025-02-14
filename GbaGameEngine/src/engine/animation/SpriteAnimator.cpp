@@ -1,6 +1,6 @@
 #include "SpriteAnimator.h"
 #include "engine/engine/engine.h"
-#include "engine/render/SpriteRenderer.h"
+#include "engine/graphics/sprite/SpriteRenderer.h"
 #include "engine/time/Time.h"
 
 void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)

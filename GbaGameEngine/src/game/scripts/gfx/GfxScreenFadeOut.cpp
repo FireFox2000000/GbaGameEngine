@@ -2,7 +2,7 @@
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/engine/engine.h"
 #include "engine/time/Time.h"
-#include "engine/render/TilemapRenderer.h"
+#include "engine/graphics/tilemap/TilemapRenderer.h"
 
 constexpr int BgPaletteBufferIndex = 0;
 

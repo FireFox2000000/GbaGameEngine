@@ -170,6 +170,10 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
+    <ClCompile Include="src\engine\graphics\sprite\SpriteRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\ui\TextRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\tilemap\TilemapRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\ui\UiRenderer.cpp" />
     <ClCompile Include="src\engine\input\GbaKeypadDevice.cpp" />
     <ClCompile Include="src\engine\physics\Collision.cpp" />
     <ClCompile Include="src\engine\physics\PhysicsResolve.cpp" />
@@ -262,6 +266,10 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
     <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
+    <ClInclude Include="src\engine\graphics\sprite\SpriteRenderer.h" />
+    <ClInclude Include="src\engine\graphics\ui\TextRenderer.h" />
+    <ClInclude Include="src\engine\graphics\tilemap\TilemapRenderer.h" />
+    <ClInclude Include="src\engine\graphics\ui\UiRenderer.h" />
     <ClInclude Include="src\engine\input\GbaKeypadDevice.h" />
     <ClInclude Include="src\engine\input\GbaKeypadMap.h" />
     <ClInclude Include="src\engine\input\IInputDevice.h" />

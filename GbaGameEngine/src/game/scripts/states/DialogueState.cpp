@@ -1,7 +1,7 @@
 #include "DialogueState.h"
 #include "game/input/Input.h"
 #include "engine/engine/engine.h"
-#include "engine/render/UiRenderer.h"
+#include "engine/graphics/ui/UiRenderer.h"
 #include "game/scripts/util/CommandQueue.h"
 
 const int CharactersPerRow = 26;

@@ -1,6 +1,6 @@
 #include "TilemapTestScene.h"
 #include "engine/engine/engine.h"
-#include "engine/render/TilemapRenderer.h"
+#include "engine/graphics/tilemap/TilemapRenderer.h"
 #include "engine/transform/Transform2.h"
 #include "engine/gameobject/Camera.h"
 #include "engine/asset/AssetLoadFunctions.h"
