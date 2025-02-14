@@ -435,7 +435,7 @@ namespace GBA
 						int y = start;
 
 #define LOOP_THROUGH_ALL_ROWS(TransferMethod) \
-for (; y < MIN(end, tilemapYWrappingOffsetPoint + 1); ++y)\
+for (; y < Math::Min(end, tilemapYWrappingOffsetPoint + 1); ++y)\
 {\
 	CopyMapWrappedRowToVram<TransferMethod>(vram, sbbIndex, y, destBgRow, srcMapData, mapWidth, tileMapYPos++, srcMapColOffset, size);\
 }\

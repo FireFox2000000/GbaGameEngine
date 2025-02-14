@@ -23,8 +23,8 @@ inline AxisAlignedBoundingBox2 AdjustAABBByTransform(const Transform2& transform
 	max.x *= scale.x;
 	max.y *= scale.y;
 
-	Vector2<FPi16> newMinA(FPi16(MIN(min.x, max.x)), FPi16(MIN(min.y, max.y)));
-	Vector2<FPi16> newMaxA(FPi16(MAX(min.x, max.x)), FPi16(MAX(min.y, max.y)));
+	Vector2<FPi16> newMinA(FPi16(Math::Min(min.x, max.x)), FPi16(Math::Min(min.y, max.y)));
+	Vector2<FPi16> newMaxA(FPi16(Math::Max(min.x, max.x)), FPi16(Math::Max(min.y, max.y)));
 
 	aabb = AxisAlignedBoundingBox2(newMinA, newMaxA);
 
@@ -118,8 +118,8 @@ bool HasCollisionAABBvsCircle(
 
 	Vector2<FPi16> delta = positionB - aabbCenter;
 	Vector2<FPi16> clamped(
-		MAX(FPi16(-1) * halfExtents.x, MIN(halfExtents.x, delta.x)),
-		MAX(FPi16(-1) * halfExtents.y, MIN(halfExtents.y, delta.y))
+		Math::Max(FPi16(-1) * halfExtents.x, Math::Min(halfExtents.x, delta.x)),
+		Math::Max(FPi16(-1) * halfExtents.y, Math::Min(halfExtents.y, delta.y))
 		);
 
 	Vector2<FPi16> closestPoint = aabbCenter + clamped;

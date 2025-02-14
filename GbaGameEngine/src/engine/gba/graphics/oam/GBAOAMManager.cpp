@@ -71,7 +71,7 @@ namespace GBA
 			{
 				u32 objByteCount = sizeof(GBATEK::ObjectAttribute) * m_shadowOam.GetObjectAttributeCount();
 				u32 affineByteCount = sizeof(GBATEK::ObjectAttributeAffine) * m_shadowOam.GetAffineObjectAttributeCount();
-				u32 byteCount = MAX(objByteCount, affineByteCount);
+				u32 byteCount = Math::Max(objByteCount, affineByteCount);
 				u8* dest = reinterpret_cast<u8*>(GBATEK::objectAttributeMemory);
 				u8* src = reinterpret_cast<u8*>(&m_shadowOam.GetData());
 

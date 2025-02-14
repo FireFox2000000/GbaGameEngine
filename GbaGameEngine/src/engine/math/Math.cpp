@@ -1,8 +1,11 @@
 #include "Math.h"
 #include "engine/base/core/stl/FixedPoint.h"
 
-#define SIN_LUT_SIZE 512
-#define M_PI 3.1415926535f
+namespace
+{
+	constexpr int SIN_LUT_SIZE = 512;
+	constexpr float M_PI = 3.1415926535f;
+}
 
 namespace
 {
@@ -20,11 +23,6 @@ namespace
 	};
 
 	constexpr SinLookupTable sinLut;
-}
-
-int Math::Mod(int x, unsigned int N)
-{
-	return (x % N + N) % N;
 }
 
 s32 Math::Sin(u16 theta)

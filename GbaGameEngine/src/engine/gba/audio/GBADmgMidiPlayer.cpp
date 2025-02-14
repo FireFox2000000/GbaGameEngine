@@ -33,7 +33,7 @@ void GBA::DMG::Midi::Player::Tick()
 {
 	if (m_file)
 	{
-		m_tickUntilNextEvent = MAX(m_tickUntilNextEvent - 1, 0);
+		m_tickUntilNextEvent = Math::Max(m_tickUntilNextEvent - 1, 0);
 
 		while (m_eventIndex < m_totalEvents && m_tickUntilNextEvent <= 0)
 		{
@@ -85,7 +85,7 @@ void GBA::DMG::Midi::Player::Tick()
 	}
 	else
 	{
-		m_tickUntilNextEvent = MAX(m_tickUntilNextEvent - 1, 0);
+		m_tickUntilNextEvent = Math::Max(m_tickUntilNextEvent - 1, 0);
 
 		const NoteEvent* currentEvent = m_noteEventsBegin + m_eventIndex;
 		while (currentEvent != m_noteEventsEnd && m_tickUntilNextEvent <= 0)	// We may need to play multiple note events at the same time

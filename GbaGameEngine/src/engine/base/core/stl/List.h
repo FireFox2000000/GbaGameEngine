@@ -17,7 +17,7 @@ class MAllocMemoryPolicy
 	u32 m_capacity;
 protected:
 	MAllocMemoryPolicy(u32 size)
-		: m_capacity(MAX(size, u32(1)))
+		: m_capacity(Math::Max(size, u32(1)))
 	{
 		m_container = MAllocType<T>(size);
 		m_capacity = size;
@@ -59,7 +59,7 @@ protected:
 		T* newContainer = MAllocType<T>(size);
 		if (newContainer)
 		{
-			MemCopy(newContainer, m_container, sizeof(T) * MIN(count, size));
+			MemCopy(newContainer, m_container, sizeof(T) * Math::Min(count, size));
 			SafeFree(m_container);
 
 			m_container = newContainer;

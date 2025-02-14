@@ -10,7 +10,7 @@ void SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 		m_currentAnimation = animation;
 
 		m_timeToNextFrameMicroSeconds = 0;
-		m_frameDtMicroseconds = m_currentAnimation ? SECONDS_TO_MICROSECONDS(1.0f / m_currentAnimation->frameRate) : 0;
+		m_frameDtMicroseconds = m_currentAnimation ? Math::SecondsToMicroSeconds(1.0f / m_currentAnimation->frameRate) : 0;
 		m_currentFrameIndex = -1;  // New animation
 	}
 }

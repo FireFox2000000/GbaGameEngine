@@ -191,7 +191,7 @@ void GBA::Audio::AudioManager::PlayDirectSound(tChannelHandle handle)
 
 	DirectSoundChannel& channel = *EditDirectSoundChannel(handle);
 	int requestedSampleStartOffset = 0;
-	int sampleStartOffset = MIN(static_cast<int>(channel.samples.Count()), requestedSampleStartOffset);
+	int sampleStartOffset = Math::Min(static_cast<int>(channel.samples.Count()), requestedSampleStartOffset);
 
 	// Assign the hardware sound channels to our sound channel handle now that it's active
 	channel.soundChannelId = soundChannel;

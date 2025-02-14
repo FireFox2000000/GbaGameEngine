@@ -18,11 +18,11 @@ struct AxisAlignedBoundingBox2
 	template<typename T>
 	inline Vector2<T> Clamp(Vector2<T> point) const
 	{
-		point.x = MIN(point.x, max.x);
-		point.x = MAX(point.x, min.x);
+		point.x = Math::Min(point.x, max.x);
+		point.x = Math::Max(point.x, min.x);
 
-		point.y = MIN(point.y, max.y);
-		point.y = MAX(point.y, min.y);
+		point.y = Math::Min(point.y, max.y);
+		point.y = Math::Max(point.y, min.y);
 
 		return point;
 	}

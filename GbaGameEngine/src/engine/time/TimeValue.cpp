@@ -40,7 +40,7 @@ TimeValue & TimeValue::operator-=(const TimeValue & timeValue)
 
 	m_decimalMicroseconds -= timeValue.m_decimalMicroseconds;
 
-	m_seconds -= MIN(m_seconds, timeValue.m_seconds);		// Guard against underflow
+	m_seconds -= Math::Min(m_seconds, timeValue.m_seconds);		// Guard against underflow
 
 	return *this;
 }
