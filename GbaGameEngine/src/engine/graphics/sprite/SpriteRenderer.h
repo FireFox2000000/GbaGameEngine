@@ -15,26 +15,20 @@ using Sprite = GBA::Gfx::Sprite;
 
 class GameObject;
 
-namespace Component
+class SpriteRenderer
 {
-	class SpriteRenderer
-	{
-		Vector2i m_centerToCornerSizeOffset;
-		Sprite* m_sprite = nullptr;
+	Vector2i m_centerToCornerSizeOffset;
+	Sprite* m_sprite = nullptr;
 
-	public:
-		void SetSprite(Sprite* sprite);
-		Sprite* GetSprite() const;
-		Vector2i GetCenterToCornerSizeOffset() const;
-	};
-}
+public:
+	void SetSprite(Sprite* sprite);
+	Sprite* GetSprite() const;
+	Vector2i GetCenterToCornerSizeOffset() const;
+};
 
 namespace System
 {
-	namespace SpriteRenderer
-	{
-		// Performs screen culling across all entities that have a sprite to display and adds them to the draw list if not culled. 
-		// Run this before VBlank occours. 
-		void Render(GameObject* camera);
-	}
+	// Performs screen culling across all entities that have a sprite to display and adds them to the draw list if not culled. 
+	// Run this before VBlank occours. 
+	void RenderSprites(GameObject* camera);
 }

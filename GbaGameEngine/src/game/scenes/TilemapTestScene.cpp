@@ -85,7 +85,7 @@ void TilemapTestScene::Enter()
 	graphicsManager->LoadTilemap(*tilemap);
 
 	m_background = m_gameObjects.AddNew();
-	Component::TilemapRenderer& tilemapRenderer = m_background->AddComponent<Component::TilemapRenderer>();
+	TilemapRenderer& tilemapRenderer = m_background->AddComponent<TilemapRenderer>();
 	tilemapRenderer.SetTilemap(tilemap);
 	tilemapRenderer.SetVisible(true);
 

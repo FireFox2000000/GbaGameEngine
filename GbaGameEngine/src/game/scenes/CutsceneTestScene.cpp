@@ -32,7 +32,7 @@ CutsceneTestScene::CutsceneTestScene()
 
 void CutsceneTestScene::ChangeBg(GBA::Gfx::Tilemap* newTilemap)
 {
-	auto* tilemapRenderer = m_cutsceneBg.EditComponent<Component::TilemapRenderer>();
+	auto* tilemapRenderer = m_cutsceneBg.EditComponent<TilemapRenderer>();
 
 	Tilemap* oldTilemap = tilemapRenderer->GetTilemap();
 
@@ -62,7 +62,7 @@ void CutsceneTestScene::Enter()
 	Graphics* graphicsManager = Engine::GetInstance().GetComponent<Graphics>();
 	graphicsManager->LoadTilemap(*tilemap);
 
-	Component::TilemapRenderer& tilemapRenderer = m_cutsceneBg.AddComponent<Component::TilemapRenderer>();
+	TilemapRenderer& tilemapRenderer = m_cutsceneBg.AddComponent<TilemapRenderer>();
 	tilemapRenderer.SetTilemap(tilemap);
 
 	CutsceneState::CutsceneCommandQueue cutsceneCommands = {

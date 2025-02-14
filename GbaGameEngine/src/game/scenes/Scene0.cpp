@@ -55,7 +55,7 @@ void Scene0::Enter()
 	DEBUG_LOG("Loading Shantae idle animations");
 	m_shantaeIdleAnim = resources.CreateSpriteAnimation(AnimationFactory::CreateSpriteAtlasSequencedAnimation(m_shantaeAtlas, 0, 12, 12));
 
-	m_shantaeIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, Component::SpriteAnimator* anim)
+	m_shantaeIdleAnim->onNewFrameHandler = [&](int frame, ECS::Entity entity, SpriteAnimator* anim)
 	{
 		// Last frame
 		if (frame == (int)m_shantaeIdleAnim->keyFrames.Count() - 1)
@@ -82,11 +82,11 @@ void Scene0::Enter()
 			Transform2* transform = testBackgroundObject->EditComponent<Transform2>();
 			transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 
-			Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
+			SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
 			Sprite* shantae0 = m_shantaeAtlas->GetSprite(0);
 			testBackgroundRenderer.SetSprite(shantae0);
 
-			Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
+			SpriteAnimator& animator = testBackgroundObject->AddComponent<SpriteAnimator>();
 			animator.SetAnimation(m_shantaeIdleAnim);
 		}
 		*/
@@ -95,7 +95,7 @@ void Scene0::Enter()
 			Transform2* transform = m_textObjectCollision->EditComponent<Transform2>();
 			transform->SetPosition(0, -3);
 		
-			Component::SpriteRenderer& testBackgroundRenderer = m_textObjectCollision->AddComponent<Component::SpriteRenderer>();
+			SpriteRenderer& testBackgroundRenderer = m_textObjectCollision->AddComponent<SpriteRenderer>();
 			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
 
@@ -123,7 +123,7 @@ void Scene0::Enter()
 			screenTransform.position.x = 0;
 			screenTransform.position.y = 0;
 
-			auto& textComponent = testTextObject->AddComponent<Component::UI::TextRenderer>();
+			auto& textComponent = testTextObject->AddComponent<UI::TextRenderer>();
 			textComponent.m_font = fontLibrary->GetFont(FontID::debug_font_8x8_bold);
 			textComponent.m_str = std::string("789 ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
 
@@ -138,17 +138,17 @@ void Scene0::Enter()
 		//position->x = -8;
 		//position->y = 0;
 
-		Component::SpriteRenderer& spriteRenderer = m_playerObject.AddComponent<Component::SpriteRenderer>();
+		SpriteRenderer& spriteRenderer = m_playerObject.AddComponent<SpriteRenderer>();
 		Sprite* shantae0 = m_shantaeAtlas->GetSprite(1);
 		spriteRenderer.SetSprite(shantae0);
 
-		Component::SpriteAnimator& animator = m_playerObject.AddComponent<Component::SpriteAnimator>();
+		SpriteAnimator& animator = m_playerObject.AddComponent<SpriteAnimator>();
 		animator.SetAnimation(m_shantaeIdleAnim);
 
 		Rigidbody& rigidbody = m_playerObject.AddComponent<Rigidbody>();
 		rigidbody.gravity = { 0, -30 };
 
-		Component::PlayerMovement& playerMovement = m_playerObject.AddComponent<Component::PlayerMovement>();
+		PlayerMovement& playerMovement = m_playerObject.AddComponent<PlayerMovement>();
 		playerMovement.moveSpeed = 8.0f;
 		playerMovement.jumpInitVel = 22.0f;
 
@@ -180,18 +180,18 @@ void Scene0::Update()
 		Transform2* transform = testBackgroundObject->EditComponent<Transform2>();
 		transform->SetPosition((i * 0.2f) - 5, (i * 0.2f) - 5);
 	
-		Component::SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<Component::SpriteRenderer>();
+		SpriteRenderer& testBackgroundRenderer = testBackgroundObject->AddComponent<SpriteRenderer>();
 		Sprite* shantae0 = m_shantaeAtlas->GetSprite(0);
 		testBackgroundRenderer.SetSprite(shantae0);
 	
-		Component::SpriteAnimator& animator = testBackgroundObject->AddComponent<Component::SpriteAnimator>();
+		SpriteAnimator& animator = testBackgroundObject->AddComponent<SpriteAnimator>();
 		animator.SetAnimation(m_shantaeIdleAnim);
 	}
 
 	if (m_textObject && true)
 	{
 		const auto* playerTransform = m_playerObject.GetComponent<Transform2>();
-		auto* textComponent = m_textObject->EditComponent<Component::UI::TextRenderer>();
+		auto* textComponent = m_textObject->EditComponent<UI::TextRenderer>();
 
 		{
 			const Collider* playerCollider = m_playerObject.GetComponent<Collider>();

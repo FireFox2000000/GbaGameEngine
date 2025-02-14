@@ -9,7 +9,7 @@
 #include "engine/screen/Screen.h"
 #include "engine/gba/graphics/sprite/GBASprite.h"
 
-void Component::SpriteRenderer::SetSprite(Sprite* sprite)
+void SpriteRenderer::SetSprite(Sprite* sprite)
 {
 	if (m_sprite == sprite)
 		return;
@@ -22,12 +22,12 @@ void Component::SpriteRenderer::SetSprite(Sprite* sprite)
 	m_sprite = sprite;
 }
 
-Sprite* Component::SpriteRenderer::GetSprite() const
+Sprite* SpriteRenderer::GetSprite() const
 {
 	return m_sprite;
 }
 
-Vector2i Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
+Vector2i SpriteRenderer::GetCenterToCornerSizeOffset() const
 {
 	return m_centerToCornerSizeOffset;
 }
@@ -39,7 +39,7 @@ Vector2i Component::SpriteRenderer::GetCenterToCornerSizeOffset() const
 #include "engine/engine/engine.h"
 #include "engine/math/geometry/AxisAlignedBoundingBox.h"
 
-void System::SpriteRenderer::Render(GameObject* camera)
+void System::RenderSprites(GameObject* camera)
 {
 	const Camera* cameraComponent = camera->GetComponent<Camera>();
 
@@ -55,9 +55,9 @@ void System::SpriteRenderer::Render(GameObject* camera)
 	AxisAlignedBoundingBox2 orthographicCameraBounds = cameraComponent->GetOrthoBounds();
 	orthographicCameraBounds.Translate(drawParams.cameraPosition);
 
-	entityManager->InvokeEach<Transform2, Component::SpriteRenderer>(
+	entityManager->InvokeEach<Transform2, SpriteRenderer>(
 		[&gfx, &drawParams, &orthographicCameraBounds]
-		(const Transform2& transform, Component::SpriteRenderer& spriteRenderer)
+		(const Transform2& transform, SpriteRenderer& spriteRenderer)
 		{
 			Sprite* sprite = spriteRenderer.GetSprite();
 

@@ -70,8 +70,8 @@ void GfxScreenFadeIn::Update()
 	case EnsureBackgroundsHidden:
 	{
 		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
-		entityManager->InvokeEach<Component::TilemapRenderer>(
-			[](Component::TilemapRenderer& tilemapRenderer)
+		entityManager->InvokeEach<TilemapRenderer>(
+			[](TilemapRenderer& tilemapRenderer)
 			{
 				tilemapRenderer.SetVisible(false);
 			});
@@ -80,8 +80,8 @@ void GfxScreenFadeIn::Update()
 	case EnsureBackgroundsVisible:
 	{
 		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
-		entityManager->InvokeEach<Component::TilemapRenderer>(
-			[](Component::TilemapRenderer& tilemapRenderer)
+		entityManager->InvokeEach<TilemapRenderer>(
+			[](TilemapRenderer& tilemapRenderer)
 			{
 				tilemapRenderer.SetVisible(true);
 			});

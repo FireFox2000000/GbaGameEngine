@@ -11,10 +11,7 @@ namespace GBA
 	}
 }
 
-namespace Component
-{
-	class SpriteAnimator;
-}
+class SpriteAnimator;
 
 using Sprite = GBA::Gfx::Sprite;
 
@@ -25,7 +22,7 @@ struct SpriteAnimation
 		Sprite* sprite = nullptr;
 	};
 
-	using AnimationEvent = std::function<void(int, ECS::Entity, Component::SpriteAnimator*)>;
+	using AnimationEvent = std::function<void(int, ECS::Entity, SpriteAnimator*)>;
 
 	using KeyFrames = List<KeyFrame>;
 

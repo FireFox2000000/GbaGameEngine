@@ -1,28 +1,20 @@
 #pragma once
 #include <string>
 
-class Engine;
+class Graphics;
 class Font;
+class ScreenTransform;
 
-namespace Component
+namespace UI
 {
-	namespace UI
+	struct TextRenderer
 	{
-		struct TextRenderer
-		{
-			Font* m_font = nullptr;
-			std::string m_str;
-		};
-	}
+		Font* m_font = nullptr;
+		std::string m_str;
+	};
 }
 
-namespace System
+namespace System::UI
 {
-	namespace UI
-	{
-		namespace TextRenderer
-		{
-			void Render();
-		}
-	}
+	void RenderTextComponent(Graphics& gfx, const ScreenTransform& transform, const ::UI::TextRenderer& textRenderer);
 }

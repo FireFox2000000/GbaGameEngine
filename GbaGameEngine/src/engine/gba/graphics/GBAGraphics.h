@@ -30,7 +30,6 @@ namespace GBA
 		GBA::Gfx::OAMManager m_oamManager;
 		GBA::Gfx::TilemapManager m_tilemapManager;
 
-
 	public:
 		//namespace Tile = GBA::Gfx::Tile;
 

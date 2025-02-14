@@ -7,26 +7,20 @@ class Engine;
 
 namespace System
 {
-	namespace SpriteAnimator
-	{
-		void Update();
-	}
+	void UpdateSpriteAnimators();
 }
 
-namespace Component
+class SpriteAnimator
 {
-	class SpriteAnimator
-	{
-		friend void System::SpriteAnimator::Update();
+	friend void System::UpdateSpriteAnimators();
 
-		const SpriteAnimation* m_currentAnimation = nullptr;
+	const SpriteAnimation* m_currentAnimation = nullptr;
 
-		s32 m_timeToNextFrameMicroSeconds = 0;
-		u32 m_frameDtMicroseconds = 0;
-		int m_currentFrameIndex = -1;
+	s32 m_timeToNextFrameMicroSeconds = 0;
+	u32 m_frameDtMicroseconds = 0;
+	int m_currentFrameIndex = -1;
 
-	public:
-		void SetAnimation(const SpriteAnimation* animation);
-		u32 FrameCount() const { return m_currentAnimation ? m_currentAnimation->keyFrames.Count() : 0; }
-	};
-}
+public:
+	void SetAnimation(const SpriteAnimation* animation);
+	u32 FrameCount() const { return m_currentAnimation ? m_currentAnimation->keyFrames.Count() : 0; }
+};

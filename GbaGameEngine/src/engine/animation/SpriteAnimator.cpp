@@ -3,7 +3,7 @@
 #include "engine/graphics/sprite/SpriteRenderer.h"
 #include "engine/time/Time.h"
 
-void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
+void SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 {
 	if (m_currentAnimation != animation)
 	{
@@ -15,14 +15,14 @@ void Component::SpriteAnimator::SetAnimation(const SpriteAnimation* animation)
 	}
 }
 
-void System::SpriteAnimator::Update()
+void System::UpdateSpriteAnimators()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
 	const Time* time = Engine::GetInstance().GetComponent<Time>();
 	const u32 dtMicroSeconds = time->GetDtTimeValue().TotalMicroseconds();
 
-	entityManager->InvokeEach<Component::SpriteAnimator, Component::SpriteRenderer>([&dtMicroSeconds](ECS::Entity entity, Component::SpriteAnimator& animator, Component::SpriteRenderer& spriteRenderer)
+	entityManager->InvokeEach<SpriteAnimator, SpriteRenderer>([&dtMicroSeconds](ECS::Entity entity, SpriteAnimator& animator, SpriteRenderer& spriteRenderer)
 		{
 			if (!animator.m_currentAnimation || animator.FrameCount() <= 0)
 				return;

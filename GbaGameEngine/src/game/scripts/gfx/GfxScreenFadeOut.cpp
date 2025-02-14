@@ -90,8 +90,8 @@ void GfxScreenFadeOut::Update()
 	case DisableAndRestoreBgs:
 	{
 		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
-		entityManager->InvokeEach<Component::TilemapRenderer>(
-			[](Component::TilemapRenderer& tilemapRenderer)
+		entityManager->InvokeEach<TilemapRenderer>(
+			[](TilemapRenderer& tilemapRenderer)
 			{
 				tilemapRenderer.SetVisible(false);
 			});

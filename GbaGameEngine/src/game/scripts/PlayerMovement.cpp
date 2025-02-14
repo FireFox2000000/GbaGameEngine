@@ -43,7 +43,7 @@ void PlayerMovement::MoveHumanPlayerObject(GameObject& playerObject)
 
 void PlayerMovement::MovePlayerObject(GameObject& playerObject, const Vector2i& desiredDirection)
 {
-	const auto& playerMovement = *playerObject.GetComponent<Component::PlayerMovement>();
+	const auto& playerMovement = *playerObject.GetComponent<PlayerMovement>();
 
 	auto& transform = *playerObject.EditComponent<Transform2>();
 

@@ -4,7 +4,7 @@
 #include "engine/graphics/Graphics.h"
 #include "gbatek/Backgrounds.h"
 
-void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
+void TilemapRenderer::SetTilemap(Tilemap* tilemap)
 {
 	DEBUG_ASSERTMSG(tilemap->IsLoaded(), "Error: tilemap not loaded");
 
@@ -12,7 +12,7 @@ void Component::TilemapRenderer::SetTilemap(Tilemap* tilemap)
 	SetDirty();
 }
 
-void Component::TilemapRenderer::SetWrappingEnabled(bool enabled)
+void TilemapRenderer::SetWrappingEnabled(bool enabled)
 {
 	if (m_wrapping != enabled)
 	{
@@ -21,12 +21,12 @@ void Component::TilemapRenderer::SetWrappingEnabled(bool enabled)
 	}
 }
 
-bool Component::TilemapRenderer::GetWrappingEnabled() const
+bool TilemapRenderer::GetWrappingEnabled() const
 {
 	return m_wrapping;
 }
 
-void Component::TilemapRenderer::SetVisible(bool enabled)
+void TilemapRenderer::SetVisible(bool enabled)
 {
 	if (m_visible != enabled)
 	{
@@ -35,7 +35,7 @@ void Component::TilemapRenderer::SetVisible(bool enabled)
 	}
 }
 
-bool Component::TilemapRenderer::GetVisible() const
+bool TilemapRenderer::GetVisible() const
 {  
 	return m_visible;
 }
@@ -48,7 +48,7 @@ bool Component::TilemapRenderer::GetVisible() const
 #include "engine/gameobject/GameObject.h"
 #include "gbatek/DisplayControl.h"
 
-void System::TilemapRenderer::VBlankRender(GameObject* camera)
+void System::RenderTilemapsVBlank(GameObject* camera)
 {
 	const Camera* cameraComponent = camera->GetComponent<Camera>();
 
@@ -61,9 +61,9 @@ void System::TilemapRenderer::VBlankRender(GameObject* camera)
 
 	const auto drawParams = gfx->CreateDrawParams(camera);
 
-	entityManager->InvokeEach<Transform2, Component::TilemapRenderer>(
+	entityManager->InvokeEach<Transform2, TilemapRenderer>(
 		[&drawParams, &gfx]
-	(Transform2& transform, Component::TilemapRenderer& tilemapRenderer)
+	(Transform2& transform, TilemapRenderer& tilemapRenderer)
 		{
 			Tilemap* tilemap = tilemapRenderer.GetTilemap();
 

@@ -8,6 +8,7 @@
 #include "engine/graphics/Graphics.h"
 #include "engine/physics/PhysicsResolve.h"
 #include "engine/debug/Profiler.h"
+#include "engine/transform/ScreenTransform.h"
 
 //#define RENDER_PROFILE
 
@@ -25,7 +26,7 @@ void Scene::LateUpdate()
 {
 	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 
-	System::SpriteAnimator::Update();
+	System::UpdateSpriteAnimators();
 	gfx->Update();
 }
 
@@ -41,13 +42,21 @@ void Scene::PreRender()
 #ifdef RENDER_PROFILE
 		PROFILE_SCOPED_CLOCK_64(Prerender_System_SpriteRenderer_Render);
 #endif
-		System::SpriteRenderer::Render(&m_mainCamera);
+		System::RenderSprites(&m_mainCamera);
 	}
 	{
 #ifdef RENDER_PROFILE
 		PROFILE_SCOPED_CLOCK_64(Prerender_System_UI_TextRenderer__Render);
 #endif
-		System::UI::TextRenderer::Render();
+		auto* entityManager = Engine::GetInstance().GetEntityRegistry();
+		Graphics* graphics = Engine::GetInstance().GetComponent<Graphics>();
+
+		entityManager->InvokeEach<ScreenTransform, ::UI::TextRenderer>(
+			[&graphics]
+		(const ScreenTransform& transform, const ::UI::TextRenderer& textRenderer)
+			{
+				System::UI::RenderTextComponent(*graphics, transform, textRenderer);
+			});
 	}
 }
 
@@ -56,7 +65,7 @@ void Scene::Render()
 	Graphics* gfx = Engine::GetInstance().GetComponent<Graphics>();
 	gfx->EndFrame();
 
-	System::TilemapRenderer::VBlankRender(&m_mainCamera);
+	System::RenderTilemapsVBlank(&m_mainCamera);
 
 	// All our main renderer should be done now. Apply post-processing effects.
 	gfx->LateRender();
