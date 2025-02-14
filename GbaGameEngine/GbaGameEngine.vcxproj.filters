@@ -20,7 +20,6 @@
     <ClCompile Include="src\engine\screen\Screen.cpp" />
     <ClCompile Include="src\engine\gameobject\Camera.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.cpp" />
-    <ClCompile Include="src\engine\render\Renderer.cpp" />
     <ClCompile Include="src\engine\gameobject\GameObject.cpp" />
     <ClCompile Include="src\engine\gba\graphics\oam\GBAOAMManager.cpp" />
     <ClCompile Include="src\engine\math\Math.cpp" />
@@ -117,7 +116,6 @@
     <ClInclude Include="src\engine\gameobject\Camera.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAAttributeFunctions.h" />
     <ClInclude Include="src\engine\render\SpriteRenderer.h" />
-    <ClInclude Include="src\engine\render\Renderer.h" />
     <ClInclude Include="src\engine\gameobject\GameObject.h" />
     <ClInclude Include="src\engine\gba\graphics\oam\GBAOAMManager.h" />
     <ClInclude Include="src\engine\math\Math.h" />

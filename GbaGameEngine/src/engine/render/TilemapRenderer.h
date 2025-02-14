@@ -1,5 +1,4 @@
 #pragma once
-#include "Renderer.h"
 
 class GameObject;
 
@@ -24,7 +23,7 @@ namespace System
 
 namespace Component
 {
-	class TilemapRenderer : public Renderer
+	class TilemapRenderer
 	{
 		friend void System::TilemapRenderer::VBlankRender(GameObject* camera);
 

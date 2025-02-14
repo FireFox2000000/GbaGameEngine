@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Renderer.h"
 #include "engine/math/Vector2.h"
 
 // Forward declaration, ideally shouldn't mention GBA
@@ -18,7 +17,7 @@ class GameObject;
 
 namespace Component
 {
-	class SpriteRenderer : public Renderer
+	class SpriteRenderer
 	{
 		Vector2i m_centerToCornerSizeOffset;
 		Sprite* m_sprite = nullptr;
