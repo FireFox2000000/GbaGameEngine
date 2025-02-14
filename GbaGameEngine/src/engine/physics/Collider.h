@@ -25,49 +25,46 @@ namespace ColliderShapeType
 	};
 }
 
-namespace Component
+class Collider
 {
-	class Collider
+private:
+	union Shape
 	{
-	private:
-		union Shape
-		{
-			AxisAlignedBoundingBox2 aabb;
-			Circle circle;
+		AxisAlignedBoundingBox2 aabb;
+		Circle circle;
 
-			Shape() {};
-			Shape(const Shape& that);
-		};
-
-		Shape m_shape;
-		ColliderShapeType::Enum m_shapeType = ColliderShapeType::Count;
-
-		bool m_isTrigger = false;		// If set to true, objects will be allowed to pass through this collider. Otherwise a physical object. 
-		int m_collisionMask = ~0;
-		std::function<void(const Collision&)> m_onHitHandler = nullptr;
-
-	public:
-		ColliderShapeType::Enum GetShapeType() const;
-		int GetCollisionMask() const;
-		void SetCollisionMask(int mask);
-
-		bool GetIsTrigger() const;
-		void SetIsTrigger(bool isTrigger);
-
-		// If you need multiple functions registered, register a function that calls the other functions instead;
-		void SetOnHitHandler(std::function<void(const Collision&)> handler);
-		void OnHit(const Collision& collision) const;
-
-		void SetCircle(FPi16 radius);
-		inline const Circle& GetCircle() const {
-			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::Circle, "Shape is not a circle, it is %d", m_shapeType);
-			return m_shape.circle;
-		}
-
-		void SetAABB(const Vector2<FPi16>& min, const Vector2<FPi16>& max);
-		inline const AxisAlignedBoundingBox2& GetAABB() const {
-			DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::AABB, "Shape is not an AABB, it is %d", m_shapeType);
-			return m_shape.aabb;
-		}
+		Shape() {};
+		Shape(const Shape& that);
 	};
-}
+
+	Shape m_shape;
+	ColliderShapeType::Enum m_shapeType = ColliderShapeType::Count;
+
+	bool m_isTrigger = false;		// If set to true, objects will be allowed to pass through this collider. Otherwise a physical object. 
+	int m_collisionMask = ~0;
+	std::function<void(const Collision&)> m_onHitHandler = nullptr;
+
+public:
+	ColliderShapeType::Enum GetShapeType() const;
+	int GetCollisionMask() const;
+	void SetCollisionMask(int mask);
+
+	bool GetIsTrigger() const;
+	void SetIsTrigger(bool isTrigger);
+
+	// If you need multiple functions registered, register a function that calls the other functions instead;
+	void SetOnHitHandler(std::function<void(const Collision&)> handler);
+	void OnHit(const Collision& collision) const;
+
+	void SetCircle(FPi16 radius);
+	inline const Circle& GetCircle() const {
+		DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::Circle, "Shape is not a circle, it is %d", m_shapeType);
+		return m_shape.circle;
+	}
+
+	void SetAABB(const Vector2<FPi16>& min, const Vector2<FPi16>& max);
+	inline const AxisAlignedBoundingBox2& GetAABB() const {
+		DEBUG_ASSERTMSGFORMAT(m_shapeType == ColliderShapeType::AABB, "Shape is not an AABB, it is %d", m_shapeType);
+		return m_shape.aabb;
+	}
+};

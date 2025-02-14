@@ -41,9 +41,9 @@ void DebugRender::RenderColliders(const GameObject* camera)
 	AxisAlignedBoundingBox2 orthographicCameraBounds = cameraComponent->GetOrthoBounds();
 	orthographicCameraBounds.Translate(drawParams.cameraPosition);
 
-	entityManager->InvokeEach<Transform2, Component::Collider>(
+	entityManager->InvokeEach<Transform2, Collider>(
 		[this, &gfx, &drawParams, &orthographicCameraBounds]
-	(Transform2& transform, Component::Collider& collider)
+	(Transform2& transform, Collider& collider)
 		{
 			GBA::Gfx::Sprite* sprite = nullptr;
 

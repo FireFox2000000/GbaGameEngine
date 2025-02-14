@@ -1,20 +1,15 @@
 #pragma once
 
 class Transform2;
-
-namespace Component
-{
-	class Collider;
-}
-
+class Collider;
 struct Collision;
 
 namespace CollisionFunctions
 {
 	bool HasCollision(
 		const Transform2& transformA
-		, const Component::Collider& colA
+		, const Collider& colA
 		, const Transform2& transformB
-		, const Component::Collider& colB
+		, const Collider& colB
 		, Collision* out_collisionMaybe = nullptr);
 }

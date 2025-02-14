@@ -99,7 +99,7 @@ void Scene0::Enter()
 			Sprite* sprite = fontLibrary->GetFont(FontID::debug_font_8x8_bold)->GetSpriteForCharacter('r');
 			testBackgroundRenderer.SetSprite(sprite);
 
-			Component::Collider& collider = m_textObjectCollision->AddComponent<Component::Collider>();
+			Collider& collider = m_textObjectCollision->AddComponent<Collider>();
 			//collider.SetCircle(sprite->GetSize().x);
 			collider.SetAABB(
 				Vector2<FPi16>(FPi16(0.5f) * -sprite->GetSize().x, FPi16(0.5f) * -sprite->GetSize().y)
@@ -157,7 +157,7 @@ void Scene0::Enter()
 		//transform->SetScale(1, 1);
 		//transform->SetRotationDegrees(180);
 
-		Component::Collider& collider = m_playerObject.AddComponent<Component::Collider>();
+		Collider& collider = m_playerObject.AddComponent<Collider>();
 		//collider.SetCircle(FPi16(0.5f) * shantae0->GetSize().x);
 		FPi16 colliderWidth = FPi16(shantae0->GetSize().x) - FPi16(1);
 		collider.SetAABB(
@@ -194,10 +194,10 @@ void Scene0::Update()
 		auto* textComponent = m_textObject->EditComponent<Component::UI::Text>();
 
 		{
-			const Component::Collider* playerCollider = m_playerObject.GetComponent<Component::Collider>();
+			const Collider* playerCollider = m_playerObject.GetComponent<Collider>();
 
 			const auto* letterTransform = m_textObjectCollision->GetComponent<Transform2>();
-			const Component::Collider* letterCollider = m_textObjectCollision->GetComponent<Component::Collider>();
+			const Collider* letterCollider = m_textObjectCollision->GetComponent<Collider>();
 
 			Collision collision;
 			if (false)//CollisionFunctions::HasCollision(*playerTransform, *playerCollider, *letterTransform, *letterCollider, &collision))

@@ -142,9 +142,9 @@ bool HasCollisionAABBvsCircle(
 
 bool HasCollisionAABBvsAABB(
 	const Transform2& transformA
-	, const Component::Collider& colA
+	, const Collider& colA
 	, const Transform2& transformB
-	, const Component::Collider& colB
+	, const Collider& colB
 	, Collision* out_collisionMaybe)
 {
 	return HasCollisionAABBvsAABB(transformA, colA.GetAABB(), transformB, colB.GetAABB(), out_collisionMaybe);
@@ -154,9 +154,9 @@ bool HasCollisionAABBvsAABB(
 
 bool HasCollisionCirclevsCircle(
 	const Transform2& transformA
-	, const Component::Collider& colA
+	, const Collider& colA
 	, const Transform2& transformB
-	, const Component::Collider& colB
+	, const Collider& colB
 	, Collision* out_collisionMaybe)
 {
 	return HasCollisionCirclevsCircle(transformA.GetPosition(), colA.GetCircle(), transformB.GetPosition(), colB.GetCircle(), out_collisionMaybe);
@@ -164,9 +164,9 @@ bool HasCollisionCirclevsCircle(
 
 bool HasCollisionAABBvsCircle(
 	const Transform2& transformA
-	, const Component::Collider& colA
+	, const Collider& colA
 	, const Transform2& transformB
-	, const Component::Collider& colB
+	, const Collider& colB
 	, Collision* out_collisionMaybe)
 {
 	return HasCollisionAABBvsCircle(transformA, colA.GetAABB(), transformB.GetPosition(), colB.GetCircle(), out_collisionMaybe);
@@ -174,9 +174,9 @@ bool HasCollisionAABBvsCircle(
 
 bool HasCollisionCirclevsAABB(
 	const Transform2& transformA
-	, const Component::Collider& colA
+	, const Collider& colA
 	, const Transform2& transformB
-	, const Component::Collider& colB
+	, const Collider& colB
 	, Collision* out_collisionMaybe)
 {
 	bool result = HasCollisionAABBvsCircle(transformB, colB.GetAABB(), transformA.GetPosition(), colA.GetCircle(), out_collisionMaybe);
@@ -193,9 +193,9 @@ bool HasCollisionCirclevsAABB(
 
 using HasCollisionFn = bool (*)(
 	const Transform2& transformA
-	, const Component::Collider& colA
+	, const Collider& colA
 	, const Transform2& transformB
-	, const Component::Collider& colB
+	, const Collider& colB
 	, Collision* out_collisionMaybe);
 
 static const HasCollisionFn hasCollisionFns[ColliderShapeType::Count * ColliderShapeType::Count] =
@@ -207,9 +207,9 @@ static const HasCollisionFn hasCollisionFns[ColliderShapeType::Count * ColliderS
 
 bool CollisionFunctions::HasCollision(
 	const Transform2& transformA
-	, const Component::Collider& colA
+	, const Collider& colA
 	, const Transform2& transformB
-	, const Component::Collider& colB
+	, const Collider& colB
 	, Collision* out_collisionMaybe)
 {
 	HasCollisionFn fn = hasCollisionFns[colA.GetShapeType() * ColliderShapeType::Count + colB.GetShapeType()];

@@ -67,14 +67,14 @@ void System::Physics::ResolveCollisions()
 {
 	auto* entityManager = Engine::GetInstance().GetEntityRegistry();
 
-	entityManager->InvokeEach<Transform2, Component::Rigidbody, Component::Collider>(
+	entityManager->InvokeEach<Transform2, Component::Rigidbody, Collider>(
 		[&entityManager]
-	(ECS::Entity entityA, Transform2& transformA, Component::Rigidbody& rigidbodyA, Component::Collider& colliderA)
+	(ECS::Entity entityA, Transform2& transformA, Component::Rigidbody& rigidbodyA, Collider& colliderA)
 		{
 			// Collide against static objects, dynamic objects will be more... todo
-			entityManager->InvokeEach<Transform2, Component::Collider>(
+			entityManager->InvokeEach<Transform2, Collider>(
 				[&]
-			(ECS::Entity entityB, Transform2& transformB,  Component::Collider& colliderB)
+			(ECS::Entity entityB, Transform2& transformB,  Collider& colliderB)
 				{
 					if (entityA == entityB) return;
 					if (!(colliderA.GetCollisionMask() & colliderB.GetCollisionMask())) return;
