@@ -24,10 +24,10 @@ ResourcesManager::~ResourcesManager()
 #endif
 }
 
-GBA::Gfx::SpriteAtlas* ResourcesManager::LoadSpriteAtlas(const MemoryMappedFileView file)
+SpriteAtlas* ResourcesManager::LoadSpriteAtlas(const MemoryMappedFileView file)
 {
 	MemoryMappedFileStream istream(file);
-	auto* atlas = GBA::Gfx::SpriteAtlas::CreateFromFile(istream, &m_spriteAtlasPool, &m_spriteNodePool);
+	auto* atlas = SpriteAtlas::CreateFromFile(istream, &m_spriteAtlasPool, &m_spriteNodePool);
 	
 	DEBUG_LOGFORMAT("Loaded sprite atlas %d", atlas->GetAssetHash());
 	DEBUG_LOGFORMAT("Sprite atlas pool capacity %d", m_spriteAtlasPool.Capacity());
@@ -36,7 +36,7 @@ GBA::Gfx::SpriteAtlas* ResourcesManager::LoadSpriteAtlas(const MemoryMappedFileV
 	return atlas;
 }
 
-void ResourcesManager::Unload(GBA::Gfx::SpriteAtlas* atlas)
+void ResourcesManager::Unload(SpriteAtlas* atlas)
 {
 	int freedCount = 0;
 	auto* node = atlas->GetHead();

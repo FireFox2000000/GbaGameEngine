@@ -1,14 +1,14 @@
 #include "Font.h"
-#include "engine/gba/graphics/sprite/GBASprite.h"
-#include "engine/gba/graphics/sprite/GBASpriteNode.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
+#include "engine/graphics/sprite/Sprite.h"
+#include "engine/graphics/sprite/SpriteAtlas.h"
+#include "engine/graphics/sprite/SpriteNode.h"
 
-Font::Font(GBA::Gfx::SpriteAtlas* spriteAtlas, int(*charToSpriteIndexLookupFn)(char))
+Font::Font(SpriteAtlas* spriteAtlas, int(*charToSpriteIndexLookupFn)(char))
 	: m_spriteAtlas(spriteAtlas)
 {
 	m_charToSpriteIndexLookupFn = charToSpriteIndexLookupFn;
 
-	const GBA::Gfx::Sprite* referenceSprite = m_spriteAtlas->GetSprite(0);
+	const Sprite* referenceSprite = m_spriteAtlas->GetSprite(0);
 
 	DEBUG_ASSERTMSG(referenceSprite, "Fonts must contain at least one sprite!");
 
@@ -33,12 +33,12 @@ const Vector2<u8> Font::GetFixedCharacterSize() const
 	return m_fixedCharacterSize;
 }
 
-GBA::Gfx::Sprite* Font::GetSpriteForIndex(int index)
+Sprite* Font::GetSpriteForIndex(int index)
 {
 	return m_spritesCache[index];
 }
 
-GBA::Gfx::Sprite* Font::GetSpriteForCharacter(char c)
+Sprite* Font::GetSpriteForCharacter(char c)
 {
 	return GetSpriteForIndex(m_charToSpriteIndexLookupFn(c));
 }

@@ -1,8 +1,8 @@
 #include "GBAOAMManager.h"
 #include "engine/base/Macros.h"
 #include "engine/engine/engine.h"
-#include "engine/gba/graphics/sprite/GBASprite.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
+#include "engine/graphics/sprite/Sprite.h"
+#include "engine/graphics/sprite/SpriteAtlas.h"
 
 //#define RENDER_PROFILE
 #if defined(RENDER_PROFILE)
@@ -29,7 +29,7 @@ namespace GBA
 
 			for (Sprite* sprite : previousBuffer)
 			{
-				if (sprite->IsLoaded() && !sprite->m_renderData.IsAddedToDrawList())
+				if (sprite->IsLoaded() && !sprite->EditGfxData().m_addedToDrawList)
 				{
 					m_spriteGraphicsMemoryManager.Unload(sprite);
 				}
@@ -46,7 +46,7 @@ namespace GBA
 					m_spriteGraphicsMemoryManager.Load(*sprite);
 				}
 
-				sprite->m_renderData.SetAddedToDrawList(false);
+				sprite->EditGfxData().m_addedToDrawList = false;
 			}
 		}
 
@@ -60,8 +60,8 @@ namespace GBA
 				const Sprite* sprite = sprites[i];
 
 				// Set just-loaded specific properties
-				oamSpriteHandle.palleteBankIndex = sprite->m_atlas->GetPaletteIndex();
-				oamSpriteHandle.vramObjectTileIndex = sprite->GetTileIndex();
+				oamSpriteHandle.palleteBankIndex = sprite->GetAtlas()->GetGfxData().GetPaletteIndex();
+				oamSpriteHandle.vramObjectTileIndex = sprite->GetGfxData().m_tileIndex;
 			}
 
 			// Fast copy ObjectAttributes into memory
@@ -137,16 +137,16 @@ namespace GBA
 		{
 			OAMManager::tSpriteBuffer& buffer = m_spriteRenderDoubleBuffer.GetPrimary();
 
-			if (!sprite->m_renderData.IsAddedToDrawList())
+			if (!sprite->GetGfxData().m_addedToDrawList)
 			{
 				buffer.Add(sprite);
-				sprite->m_renderData.SetAddedToDrawList(true);
+				sprite->EditGfxData().m_addedToDrawList = true;
 			}
 
 			// Can't render more than 128, will currently crash if this is exceeded
 			GBATEK::ObjectAttribute* properties = m_shadowOam.AllocateObject();
-			properties->shape = sprite->GetShape();
-			properties->size = sprite->GetSizeMode();
+			properties->shape = sprite->GetGfxData().m_objectShape;
+			properties->size = sprite->GetGfxData().m_objectSize;
 
 			m_masterSpriteRenderList.Add(sprite);
 

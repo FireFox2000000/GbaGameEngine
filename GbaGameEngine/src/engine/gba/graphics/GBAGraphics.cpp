@@ -23,7 +23,7 @@ namespace GBA
 	}
 
 	void Graphics::DrawSprite(
-		GBA::Gfx::Sprite* sprite
+		Sprite* sprite
 		, const Vector2<FPi16>& position
 		, const Vector2<FPi16>& scale
 		, FPi16 rotationDegrees
@@ -107,10 +107,8 @@ namespace GBA
 		renderProperties->screenPosY = newPosition.y.ToRoundedInt();
 	}
 
-	void Graphics::DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<FPi16>& position)
+	void Graphics::DrawFontSprite(Sprite* sprite, const Vector2<FPi16>& position)
 	{
-		using namespace GBA::Gfx;
-
 		GBATEK::ObjectAttribute* renderProperties = m_oamManager.AddToRenderList(sprite);
 
 		renderProperties->priority = static_cast<int>(GBA::DrawPriorityID::ObjFontSprite);

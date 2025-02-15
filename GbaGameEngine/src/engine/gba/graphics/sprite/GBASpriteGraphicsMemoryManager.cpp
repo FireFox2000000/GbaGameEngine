@@ -1,6 +1,6 @@
 #include "GBASpriteGraphicsMemoryManager.h"
-#include "GBASprite.h"
-#include "GBASpriteAtlas.h"
+#include "engine/graphics/sprite/Sprite.h"
+#include "engine/graphics/sprite/SpriteAtlas.h"
 #include "engine/gba/graphics/tiles/GBAPaletteBank.h"
 #include "engine/gba/graphics/vram/GBAVramAllocator.h"
 
@@ -28,7 +28,7 @@ namespace GBA
 			SpriteAtlas* atlas = out_sprite.EditAtlas();
 			tPaletteIndex paletteId = 0;
 
-			if (!out_sprite.m_atlas->IsPaletteLoaded())
+			if (!out_sprite.GetAtlas()->GetGfxData().IsPaletteLoaded())
 			{
 				// Find the next available palette slot
 				while (paletteId < m_paletteRefTracker.Count() && m_paletteRefTracker[paletteId] > 0)
@@ -44,27 +44,27 @@ namespace GBA
 
 				ColourPalette16 palette(GBATEK::ColourRGB16{ 0, 0, 0 });
 
-				for (u32 i = 0; i < atlas->m_palette.Count(); ++i)
+				for (u32 i = 0; i < atlas->GetGfxData().m_palette.Count(); ++i)
 				{
-					palette[i] = atlas->m_palette[i];
+					palette[i] = atlas->GetGfxData().m_palette[i];
 				}
 				PaletteBank::LoadSpritePalette(paletteId, palette);
-				atlas->m_paletteIndex = paletteId;
+				atlas->EditGfxData().m_paletteIndex = paletteId;
 			}
 			else
 			{
-				paletteId = out_sprite.GetPaletteIndex();
+				paletteId = out_sprite.GetAtlas()->GetGfxData().GetPaletteIndex();
 			}
 
 			++m_paletteRefTracker[paletteId];
 
-			u32 compressionFlags = out_sprite.m_atlas->GetSpriteDataCompressionFlags();
-			tTileId tileIndex = GBA::VramAllocator::GetInstance().AllocSpriteMem(out_sprite.m_pixelMapData.Data(), out_sprite.m_pixelMapData.Count(), compressionFlags);
+			u32 compressionFlags = out_sprite.GetAtlas()->GetGfxData().m_spriteDataCompressionFlags;
+			tTileId tileIndex = GBA::VramAllocator::GetInstance().AllocSpriteMem(out_sprite.GetGfxData().m_pixelMapData.Data(), out_sprite.GetGfxData().m_pixelMapData.Count(), compressionFlags);
 
 			if (tileIndex != INVALID_TILE_ID)
 			{
 				// Set sprite attributes
-				out_sprite.m_renderData.SetTileIndex(tileIndex);
+				out_sprite.EditGfxData().m_tileIndex = tileIndex;
 			}
 			else
 			{
@@ -81,17 +81,18 @@ namespace GBA
 				return;
 
 			// Remove tile references
-			tTileId index = sprite->m_renderData.GetTileIndex();
+			tTileId index = sprite->GetGfxData().m_tileIndex;
 			GBA::VramAllocator::GetInstance().FreeSpriteMem(index);
-			sprite->m_renderData.SetTileIndex(INVALID_TILE_ID);
+			sprite->EditGfxData().m_tileIndex = INVALID_TILE_ID;
 
 			// Decrease palette references
-			--m_paletteRefTracker[sprite->GetPaletteIndex()];
-			if (m_paletteRefTracker[sprite->GetPaletteIndex()] <= 0)
+			auto paletteIndex = sprite->GetAtlas()->GetGfxData().m_paletteIndex;
+			--m_paletteRefTracker[paletteIndex];
+			if (m_paletteRefTracker[paletteIndex] <= 0)
 			{
 				// Free it so it can be reused
-				SpriteAtlas* atlas = sprite->m_atlas;
-				atlas->m_paletteIndex = INVALID_PALETTE_INDEX;
+				SpriteAtlas* atlas = sprite->EditAtlas();
+				atlas->EditGfxData().m_paletteIndex = INVALID_PALETTE_INDEX;
 			}
 		}
 

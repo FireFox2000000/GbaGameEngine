@@ -6,8 +6,7 @@
 #include "engine/screen/Screen.h"
 #include "engine/transform/Transform2.h"
 #include "engine/physics/Collider.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
-#include "engine/gba/graphics/sprite/GBASpriteNode.h"
+#include "engine/graphics/sprite/SpriteAtlas.h"
 
 #include "game/data/sprites/debug/Debug_Primitives_64x64.h"
 
@@ -45,7 +44,7 @@ void DebugRender::RenderColliders(const GameObject* camera)
 		[this, &gfx, &drawParams, &orthographicCameraBounds]
 	(Transform2& transform, Collider& collider)
 		{
-			GBA::Gfx::Sprite* sprite = nullptr;
+			Sprite* sprite = nullptr;
 
 			Vector2<FPi16> position = transform.GetPosition();
 

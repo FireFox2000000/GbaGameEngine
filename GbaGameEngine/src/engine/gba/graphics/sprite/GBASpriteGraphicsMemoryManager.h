@@ -5,12 +5,12 @@
 #include "engine/base/colour/Palette.h"
 #include "engine/gba/graphics/tiles/GBATile.h"
 
+class Sprite;
+
 namespace GBA
 {
 	namespace Gfx
 	{
-		class Sprite;
-
 		// Use this to load a sprite's palette and load tile information into vram. 
 		// Keeps a reference per sprite atlas of what's loaded, so the atlas/palette will automatically unload once all sprites that reference the same atlas are unloaded.
 		class SpriteGraphicsMemoryManager

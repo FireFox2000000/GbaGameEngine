@@ -4,11 +4,12 @@
 #include "engine/gba/graphics/oam/GBAOAMManager.h"
 #include "engine/gba/graphics/tilemap/GBATilemapManager.h"
 
+class Sprite;
+
 namespace GBA
 {
 	namespace Gfx
 	{
-		class Sprite;
 		class TilemapSet;
 		class Tilemap;
 	}
@@ -46,7 +47,7 @@ namespace GBA
 
 		void DrawSprite
 		(
-			GBA::Gfx::Sprite* sprite
+			Sprite* sprite
 			, const Vector2<FPi16>& position
 			, const Vector2 <FPi16>& scale
 			, FPi16 rotationDegrees
@@ -54,7 +55,7 @@ namespace GBA
 			, const DrawParams& drawParams
 		);
 
-		void DrawFontSprite(GBA::Gfx::Sprite* sprite, const Vector2<FPi16>& position);
+		void DrawFontSprite(Sprite* sprite, const Vector2<FPi16>& position);
 
 		void LoadTilemap(Tilemap& out_tilemap);
 		void Unload(Tilemap* tilemap);

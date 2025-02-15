@@ -1,7 +1,7 @@
 #include "AnimationFactory.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
+#include "engine/graphics/sprite/SpriteAtlas.h"
 
-SpriteAnimation AnimationFactory::CreateSpriteAtlasSequencedAnimation(GBA::Gfx::SpriteAtlas * spriteAtlas, u8 spriteIndexStart, u8 spriteIndexEnd, u32 framerate)
+SpriteAnimation AnimationFactory::CreateSpriteAtlasSequencedAnimation(SpriteAtlas * spriteAtlas, u8 spriteIndexStart, u8 spriteIndexEnd, u32 framerate)
 {
 	SpriteAnimation newAnim;
 	const int maxFrameCount = spriteIndexEnd - spriteIndexStart;

@@ -27,8 +27,8 @@
     <ClCompile Include="src\engine\base\colour\Colour.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlasGfxData.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGfxData.cpp" />
     <ClCompile Include="src\engine\render\SpriteRenderer.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics.cpp" />
     <ClCompile Include="src\engine\base\ecs\ManagedEntity.cpp" />
@@ -86,6 +86,8 @@
     <ClCompile Include="src\engine\graphics\ui\TextRenderer.cpp" />
     <ClCompile Include="src\engine\graphics\tilemap\TilemapRenderer.cpp" />
     <ClCompile Include="src\engine\graphics\ui\UiRenderer.cpp" />
+    <ClCompile Include="src\engine\graphics\sprite\Sprite.cpp" />
+    <ClCompile Include="src\engine\graphics\sprite\SpriteAtlas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\algorithm\Compression.h" />
@@ -137,8 +139,8 @@
     <ClInclude Include="src\engine\base\core\stl\DoubleBuffer.h" />
     <ClInclude Include="src\engine\base\BitTwiddling.h" />
     <ClInclude Include="src\engine\base\core\stl\SharedPtrPool.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlasGfxData.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGfxData.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\graphics\Graphics.h" />
     <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
@@ -202,7 +204,7 @@
     <ClInclude Include="src\engine\physics\CollisionFunctions.h" />
     <ClInclude Include="src\engine\debug\DebugRender.h" />
     <ClInclude Include="src\engine\asset\ResourcesManager.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
+    <ClInclude Include="src\engine\graphics\sprite\SpriteNode.h" />
     <ClInclude Include="src\game\scenes\LevelSelectorScene.h" />
     <ClInclude Include="src\engine\render\UiRenderer.h" />
     <ClInclude Include="src\game\data\FileRegistry.h" />
@@ -303,6 +305,8 @@
     <ClInclude Include="src\engine\graphics\sprite\SpriteRenderer.h" />
     <ClInclude Include="src\engine\graphics\ui\TextRenderer.h" />
     <ClInclude Include="src\engine\graphics\tilemap\TilemapRenderer.h" />
+    <ClInclude Include="src\engine\graphics\sprite\Sprite.h" />
+    <ClInclude Include="src\engine\graphics\sprite\SpriteAtlas.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -5,6 +5,8 @@
 #include "engine/gba/graphics/sprite/GBASpriteGraphicsMemoryManager.h"
 #include "gbatek/ObjectAttributeMemory.h"
 
+class Sprite;
+
 namespace GBATEK
 {
 	struct ObjectAttribute;
@@ -14,8 +16,6 @@ namespace GBA
 {
 	namespace Gfx
 	{
-		class Sprite;
-
 		/* Responsible for loading sprites into vram and drawing them.
 		* Tracks which sprites were drawn on the previous frame and the current frame in a double buffer to determine which sprites should be unloaded from vram.
 		* Note that fully unloading sprites may resulting in danging pointers in the previous frame buffer, so it's good to leave a frame or manually clear the buffers if we ever need to do this.

@@ -170,6 +170,8 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.cpp" />
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\graphics\GraphicsSetup.cpp" />
+    <ClCompile Include="src\engine\graphics\sprite\SpriteAtlas.cpp" />
+    <ClCompile Include="src\engine\graphics\sprite\Sprite.cpp" />
     <ClCompile Include="src\engine\graphics\sprite\SpriteRenderer.cpp" />
     <ClCompile Include="src\engine\graphics\ui\TextRenderer.cpp" />
     <ClCompile Include="src\engine\graphics\tilemap\TilemapRenderer.cpp" />
@@ -185,8 +187,8 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClCompile Include="src\engine\gba\audio\GBAAudioManager.cpp" />
     <ClCompile Include="src\engine\gba\audio\GBADirectSound.cpp" />
     <ClCompile Include="src\engine\gba\graphics\GBAGraphics_DrawTilemap.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASprite.cpp" />
-    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGfxData.cpp" />
+    <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteAtlasGfxData.cpp" />
     <ClCompile Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.cpp" />
     <ClCompile Include="src\engine\gba\graphics\vram\GBAVramAllocator.cpp" />
     <ClCompile Include="src\engine\gba\registers\display\GBABackgroundAllocator.cpp" />
@@ -266,6 +268,8 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\gba\interrupts\GBAInterruptSwitchboard.h" />
     <ClInclude Include="src\engine\graphics\GraphicsSetup.h" />
     <ClInclude Include="src\engine\graphics\postprocessing\IPostProcessingGfxTask.h" />
+    <ClInclude Include="src\engine\graphics\sprite\SpriteAtlas.h" />
+    <ClInclude Include="src\engine\graphics\sprite\Sprite.h" />
     <ClInclude Include="src\engine\graphics\sprite\SpriteRenderer.h" />
     <ClInclude Include="src\engine\graphics\ui\TextRenderer.h" />
     <ClInclude Include="src\engine\graphics\tilemap\TilemapRenderer.h" />
@@ -331,7 +335,7 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\asset\AssetLoadFunctions.h" />
     <ClInclude Include="src\engine\gba\audio\GBADirectSound.h" />
     <ClInclude Include="src\engine\gba\audio\GBAAudioManager.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteNode.h" />
+    <ClInclude Include="src\engine\graphics\sprite\SpriteNode.h" />
     <ClInclude Include="src\engine\gba\config\GBADMAChannelID.h" />
     <ClInclude Include="src\engine\io\FileSystem.h" />
     <ClInclude Include="src\engine\math\geometry\Circle.h" />
@@ -377,8 +381,8 @@ make OUTPUT_DIR=$(Configuration) PREPROCESSOR_DEFINES="-DPROFILE -DPlatform_GBA 
     <ClInclude Include="src\engine\base\ecs\ManagedEntity.h" />
     <ClInclude Include="src\engine\debug\DebugLog.h" />
     <ClInclude Include="src\engine\gba\config\GBADrawPriorityID.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASprite.h" />
-    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlas.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGfxData.h" />
+    <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteAtlasGfxData.h" />
     <ClInclude Include="src\engine\gba\graphics\sprite\GBASpriteGraphicsMemoryManager.h" />
     <ClInclude Include="src\engine\gba\graphics\tiles\GBATile.h" />
     <ClInclude Include="src\engine\gba\graphics\vram\GBAVramAllocator.h" />

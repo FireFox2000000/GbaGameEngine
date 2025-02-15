@@ -7,7 +7,6 @@
 #include "engine/gameobject/Camera.h"
 #include "engine/graphics/Graphics.h"
 #include "engine/screen/Screen.h"
-#include "engine/gba/graphics/sprite/GBASprite.h"
 
 void SpriteRenderer::SetSprite(Sprite* sprite)
 {

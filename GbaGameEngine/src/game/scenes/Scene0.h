@@ -3,7 +3,7 @@
 #include "engine/animation/SpriteAnimator.h"
 #include "engine/audio/AudioManager.h"
 #include "engine/asset/libraries/FontLibrary.h"
-#include "engine/gba/graphics/sprite/GBASpriteAtlas.h"
+#include "engine/graphics/sprite/SpriteAtlas.h"
 
 struct Collision;
 
@@ -17,7 +17,7 @@ class Scene0 : public Scene
 	AudioManager::tChannelHandle m_backgroundMusic = 0;
 
 	// Asset resources
-	GBA::Gfx::SpriteAtlas* m_shantaeAtlas = nullptr;
+	SpriteAtlas* m_shantaeAtlas = nullptr;
 	SpriteAnimation* m_shantaeIdleAnim = nullptr;
 
 public:

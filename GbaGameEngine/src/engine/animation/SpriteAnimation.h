@@ -3,17 +3,8 @@
 #include <functional>
 #include "engine/base/ecs/Entity.h"
 
-namespace GBA
-{
-	namespace Gfx
-	{
-		class Sprite;
-	}
-}
-
+class Sprite;
 class SpriteAnimator;
-
-using Sprite = GBA::Gfx::Sprite;
 
 struct SpriteAnimation
 {

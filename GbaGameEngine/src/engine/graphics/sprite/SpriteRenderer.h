@@ -2,17 +2,7 @@
 
 #include "engine/math/Vector2.h"
 
-// Forward declaration, ideally shouldn't mention GBA
-namespace GBA
-{
-	namespace Gfx
-	{
-		class Sprite;
-	}
-}
-
-using Sprite = GBA::Gfx::Sprite;
-
+class Sprite;
 class GameObject;
 
 class SpriteRenderer
