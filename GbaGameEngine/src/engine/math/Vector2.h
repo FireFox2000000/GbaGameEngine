@@ -3,6 +3,15 @@
 #include <concepts>
 
 template <typename T>
+concept VectorNumber = requires(T a)
+{
+	requires Math::Arithmetic<T>;
+
+	// Require convertable from int to support Up, Down, Left, Right
+	a = static_cast<int>(0);
+};
+
+template <VectorNumber T>
 struct Vector2
 {
 	T x = 0, y = 0;

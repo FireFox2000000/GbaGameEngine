@@ -11,25 +11,44 @@
 
 namespace Math
 {
-	template<typename T>
+	template <typename T>
+	concept Arithmetic = std::is_arithmetic_v<T> || requires(T a)
+	{
+		a += a;
+		a -= a;
+		a *= a;
+		a /= a;
+		a == a;
+		a != a;
+		a > a;
+		a < a;
+		a >= a;
+		a <= a;
+
+		// Require all basic operations to also be compatible with int so that these operations
+		// can be performed on hardcoded numbers, e.g. SecondsToMilliseconds
+		a = static_cast<int>(0);
+	};
+
+	template<Arithmetic T>
 	constexpr inline T Min(T a, T b)
 	{
-		return  (a < b) ? a : b;
+		return (a < b) ? a : b;
 	}
 
-	template<typename T>
+	template<Arithmetic T>
 	constexpr inline T Max(T a, T b)
 	{
 		return (a > b) ? a : b;
 	}
 
-	template<typename T>
+	template<Arithmetic T>
 	constexpr inline bool SignCompare(T a, T b)
 	{
 		return a * b > 0;
 	}
 
-	template<typename T, typename U, typename V>
+	template<Arithmetic T, Arithmetic U, Arithmetic V>
 	constexpr inline T Clamp(T v, U min, V max)
 	{
 		return Max(Min(v, max), min);
@@ -56,6 +75,7 @@ namespace Math
 	constexpr float InvSqrt(float x)
 	{
 		// Quake fast inv sqrt - https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/
+		// For platforms that do not have an FPU
 		float xhalf = 0.5f * x;
 		int i = std::bit_cast<int>(x);            // store floating-point bits in integer
 		i = 0x5f3759df - (i >> 1);    // initial guess for Newton's method
@@ -64,13 +84,13 @@ namespace Math
 		return x;
 	}
 
-	template <typename T> 
+	template <Arithmetic T>
 	constexpr int Sign(T val) 
 	{
 		return (T(0) < val) - (val < T(0));
 	}
 
-	template <typename T>
+	template <Arithmetic T>
 	constexpr T Abs(T val) 
 	{
 		return val > T(0) ? val : val * T(-1);
@@ -81,19 +101,19 @@ namespace Math
 		return (val & 1) != 0;
 	}
 
-	template<typename T>
+	template<Arithmetic T>
 	constexpr inline T SecondsToMilliseconds(T numeric)
 	{
 		return numeric * 1000;
 	}
 
-	template<typename T>
+	template<Arithmetic T>
 	constexpr inline T SecondsToMicroSeconds(T numeric)
 	{
 		return numeric * 1000000;
 	}
 
-	template<typename T>
+	template<Arithmetic T>
 	constexpr inline T MillisecondsToSeconds(T numeric)
 	{
 		return numeric / 1000;
